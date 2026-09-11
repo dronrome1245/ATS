@@ -1,0 +1,33 @@
+# Secrets
+.env
+.env.*
+secrets/
+credentials/
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Runtime and logs
+logs/
+runtime/
+artifacts/runtime/
+*.log
+
+# Raw or licensed market data
+data/raw/
+data/cache/
+data/private/
+
+# Python tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

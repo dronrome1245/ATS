@@ -1,0 +1,75 @@
+schema_version: "1.0"
+project:
+  id: ATS
+  name: "ATS — автоматизированная торговая система"
+  lifecycle: RESEARCH
+  initialized_on: "2026-09-11"
+  updated_on: "2026-09-11"
+
+governance:
+  canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
+  gate_model: THIRTEEN_SEQUENTIAL_GATES
+  owner_decision_required_for:
+    - RISK_MANDATE
+    - GATE_PASS
+    - LIVE_TRADING
+    - CAPITAL_ALLOCATION
+    - SCALING
+    - PROFIT_WITHDRAWAL
+
+safety:
+  real_money_trading_allowed: false
+  cent_account_trading_allowed: false
+  demo_trading_allowed: false
+  scaling_allowed: false
+  martingale_allowed: false
+  unlimited_averaging_allowed: false
+  automatic_rescue_funding_allowed: false
+  credit_funding_allowed: false
+  emergency_stop_required: true
+
+current:
+  gate_id: G01
+  gate_code: G01_RISK_MANDATE
+  gate_status: BLOCKED
+  focus: "Утвердить численные пределы финансового эксперимента"
+  next_artifact: "01_Контур_продукта/РИСК_МАНДАТ.md"
+
+progress:
+  gates_total: 13
+  gates_passed: 0
+  gates_in_progress: 0
+  gates_blocked: 1
+  gates_not_started: 12
+
+gates:
+  G01: BLOCKED
+  G02: NOT_STARTED
+  G03: NOT_STARTED
+  G04: NOT_STARTED
+  G05: NOT_STARTED
+  G06: NOT_STARTED
+  G07: NOT_STARTED
+  G08: NOT_STARTED
+  G09: NOT_STARTED
+  G10: NOT_STARTED
+  G11: NOT_STARTED
+  G12: NOT_STARTED
+  G13: NOT_STARTED
+
+unresolved_decisions:
+  - OQ-001
+  - OQ-002
+  - OQ-003
+  - OQ-004
+  - OQ-005
+  - OQ-006
+  - OQ-007
+  - OQ-008
+  - OQ-009
+
+evidence:
+  accepted_gate_decisions: []
+  registered_experiments: []
+  frozen_strategy_versions: []
+  live_runs: []
