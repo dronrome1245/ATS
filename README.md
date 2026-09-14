@@ -10,7 +10,7 @@
 
 ATS проходит `M0_PROGRAM_REBASELINE`.
 
-Canonical machine-readable state:
+Canonical state:
 
 `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`
 
@@ -18,24 +18,21 @@ Canonical execution queue:
 
 `governance/backlog/PROGRAM_BACKLOG_V2.md`
 
-Уже зафиксированы:
+Последний завершённый work package:
 
-- `AI_HANDOFF.md`;
-- `00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md`;
-- `00_Управление_проектом/v2/OPERATING_MODEL_V2.md`;
-- `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md`;
-- `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md`;
-- `00_Управление_проектом/v2/PROGRAM_WBS_V2.md`;
-- `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`;
-- `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+`WBS-0.8 — Research entity templates`
 
-Следующая task:
-
-`ATS2-M0-008 — Research entity templates`
-
-Следующий artifact/index:
+Canonical template index:
 
 `governance/methodology/templates/README.md`
+
+Следующая ready task:
+
+`ATS2-M0-009 — Governance v2 path migration`
+
+Canonical next artifact anchor:
+
+`governance/program/PROGRAM_CHARTER_V2.md`
 
 ## Пять контуров ATS
 
@@ -45,33 +42,31 @@ Canonical execution queue:
 4. **Portfolio & Capital** — portfolio-level allocation, diversification и risk.
 5. **Operations & Governance** — versions, evidence, deployment, monitoring, incidents и change control.
 
-## Program Backlog v2
+## Research entity templates
 
-Backlog деталирует M0, M1 и M2 в executable tasks с stable ID, priority/status, dependencies, role, deliverable и Definition of Done.
+Template package позволяет без повторного проектирования структуры создавать:
 
-M3–M8 пока остаются future epics и будут детализироваться только при появлении фактических входов.
+- Idea;
+- Hypothesis;
+- Candidate;
+- formal Experiment;
+- Strategy Version.
 
-## Главный принцип
-
-Каждая стратегия должна доказать две вещи:
-
-1. существует достаточно убедительный evidence of edge;
-2. edge имеет достаточную экономическую ценность относительно капитала, риска, издержек и сложности.
-
-Risk management является ограничением и механизмом безопасного масштабирования подтверждённого edge, а не самостоятельной целью.
+Шаблоны не содержат выдуманных торговых или финансовых фактов.
 
 ## Быстрый старт
 
-1. Новый AI-чат или незнакомый разработчик: `AI_HANDOFF.md`.
-2. Правила для агентов: `AGENTS.md`.
+1. Новый AI-чат: `AI_HANDOFF.md`.
+2. Agent rules: `AGENTS.md`.
 3. Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
-4. Непосредственное действие: `02_СЛЕДУЮЩИЙ_ШАГ.md`.
-5. Execution queue: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Program WBS: `00_Управление_проектом/v2/PROGRAM_WBS_V2.md`.
-7. Target repository layout: `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`.
-8. Перед research читать `RESEARCH_METHODOLOGY_V1.md`.
-9. Для конкретной Strategy Version использовать `STRATEGY_LIFECYCLE_V2.md`.
-10. Запускать `python tools/validate_repo.py` для структурной проверки репозитория.
+4. Next action: `02_СЛЕДУЮЩИЙ_ШАГ.md`.
+5. Backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+6. WBS: `00_Управление_проектом/v2/PROGRAM_WBS_V2.md`.
+7. Repository target layout: `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`.
+8. Templates: `governance/methodology/templates/README.md`.
+9. Запускать `python tools/validate_repo.py` для структурной проверки.
+
+Текущая governance migration является структурной: содержание принятых baseline documents не меняется, меняются canonical paths и ссылки.
 
 Старая модель G01–G13 сохранена как ATS v1 history/reference и не является current program roadmap.
 
