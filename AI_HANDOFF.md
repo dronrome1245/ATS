@@ -1,8 +1,8 @@
 # ATS AI Handoff
 
-**Назначение:** единая точка восстановления контекста для нового AI-чата, агента или разработчика, который впервые открывает репозиторий или продолжает работу после паузы.
+**Назначение:** единая точка восстановления контекста для нового AI-чата, агента или разработчика.
 
-Если вы AI-агент и получили доступ к этому репозиторию, **не начинайте с выбора стратегии, написания торгового кода, брокера или risk limits**. Сначала восстановите текущее состояние по этому документу и canonical artifacts.
+Если вы AI-агент и впервые получили доступ к этому репозиторию, не начинайте с выбора стратегии, написания торгового кода, брокера или risk limits. Сначала восстановите состояние по этому документу и canonical artifacts.
 
 ## 1. Текущее состояние
 
@@ -12,7 +12,7 @@
 - Program model: ATS v2 / Strategy Factory.
 - Canonical machine-readable state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Реальная торговля, allocation и scaling сейчас не являются текущей задачей.
-- Старые G01–G13 относятся к ATS v1 и не являются текущим roadmap программы.
+- Старые G01–G13 относятся к ATS v1 и не являются current roadmap программы.
 
 ## 2. Что уже принято и зафиксировано
 
@@ -21,47 +21,49 @@
 1. `00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md` — миссия, scope, success criteria и milestones.
 2. `00_Управление_проектом/v2/OPERATING_MODEL_V2.md` — пять контуров ATS, сущности, роли и decision points.
 3. `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md` — Research Funnel и путь Candidate → Validation → Live → Scaling.
-4. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md` — правила evidence, reproducibility и economic usefulness.
-5. `00_Управление_проектом/v2/PROGRAM_WBS_V2.md` — work packages программы M0–M8, dependencies, roles и Definition of Done.
-6. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` — единственный canonical machine-readable state v2.
-7. `tools/validate_repo.py` — structural validator v2.
+4. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md` — evidence, reproducibility и economic usefulness.
+5. `00_Управление_проектом/v2/PROGRAM_WBS_V2.md` — work packages M0–M8.
+6. `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md` — target repository architecture, canonical entity locations, naming rules и migration map.
+7. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` — единственный canonical machine-readable state v2.
+8. `tools/validate_repo.py` — structural validator v2.
 
 ## 3. Последний завершённый содержательный шаг
 
 Последний завершённый artifact:
 
-`00_Управление_проектом/v2/PROGRAM_WBS_V2.md`
+`00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`
 
-Одновременно завершена техническая миграция state/validator:
+Это `WBS-0.6`.
 
-- корневой `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` переведён на schema v2;
-- переходный второй state удалён;
-- validator больше не требует старые G01–G13 как current state;
-- validator проверяет согласованность canonical `next_artifact` с handoff и файлом следующего шага.
+Приняты ключевые структурные решения:
+
+- root содержит только program entrypoints;
+- целевой program governance находится в `governance/`;
+- research entities — в `research/`;
+- отдельные Strategy/Strategy Version — в `strategies/`;
+- shared capabilities — в `platform/`;
+- datasets/manifests, experiments, reports, portfolio и operations разделены;
+- ATS v1 должен быть изолирован в `legacy/v1/` после управляемой миграции;
+- массовые moves не выполняются без backlog task, обновления ссылок и validator.
 
 ## 4. Следующий обязательный артефакт
 
-`00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`
+`governance/backlog/PROGRAM_BACKLOG_V2.md`
 
-Это work package `WBS-0.6`.
+Это `WBS-0.7 — Program Backlog v2`.
 
-Его задача — определить окончательную структуру репозитория и canonical locations для:
+Backlog должен превратить оставшиеся M0 work packages и ближайшие M1/M2 зависимости в упорядоченные исполнимые задачи с priority, status, dependencies, role, deliverable и Definition of Done.
 
-- program governance;
-- research ideas/hypotheses/candidates;
-- strategies и Strategy Versions;
-- data manifests;
-- experiments/evidence/reports;
-- shared platform code;
-- execution/operations artifacts;
-- portfolio artifacts;
-- legacy ATS v1.
+Первая версия Backlog обязана включить:
 
-После Repository Structure v2 в M0 остаются:
+- Research entity templates (`WBS-0.8`);
+- legacy classification/migration index (`WBS-0.12`);
+- migration tasks из Repository Structure v2;
+- M0 exit review;
+- первые задачи M1 Research Factory;
+- только необходимые prerequisites M2 Research Platform MVP.
 
-- `WBS-0.7` Program Backlog v2;
-- `WBS-0.8` Research entity templates;
-- `WBS-0.12` окончательная legacy classification в новой структуре.
+После Program Backlog следующий основной work package — `WBS-0.8 Research entity templates`.
 
 ## 5. Что делать новому AI-агенту
 
@@ -70,27 +72,27 @@
 1. Прочитать `AGENTS.md`.
 2. Прочитать `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. Прочитать `02_СЛЕДУЮЩИЙ_ШАГ.md`.
-4. Прочитать `PROGRAM_WBS_V2.md` и родительские документы, необходимые для следующего work package.
-5. Сверить, не появился ли уже указанный `next_artifact`.
+4. Прочитать `PROGRAM_WBS_V2.md` и `REPOSITORY_STRUCTURE_V2.md`.
+5. Сверить, не появился ли уже canonical `next_artifact`.
 6. Выполнить именно следующий незавершённый шаг, если OWNER не дал другое явное указание.
 7. Не возвращаться к legacy G01 как к current task.
 8. Не выдумывать отсутствующие финансовые, торговые или юридические параметры.
 
 ## 6. Правило завершения любого существенного шага
 
-Работа не считается завершённой, пока контекст для следующего чата не обновлён.
+Работа не считается завершённой, пока контекст следующего чата не синхронизирован.
 
-После каждого принятого program-level шага синхронизировать:
+После program-level шага проверить и при необходимости обновить:
 
 1. основной artifact;
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
 3. `01_СТАТУС_ПРОЕКТА.md`;
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
 5. `AI_HANDOFF.md`;
-6. README/start guide, если изменилась верхнеуровневая модель;
+6. README/start guide, если они содержат изменившуюся точку входа;
 7. validator/tests, если изменилась обязательная структура или invariants.
 
-Нельзя завершать работу сообщением «готово», если state/handoff всё ещё указывают на предыдущую задачу.
+Нельзя сообщать OWNER, что шаг завершён, если state/handoff всё ещё указывают на предыдущую работу.
 
 ## 7. Неподлежащие самовольному изменению решения
 
@@ -112,8 +114,8 @@
 - Что такое ATS? — Strategy Factory / program, а не один робот.
 - Какая текущая фаза? — `M0_PROGRAM_REBASELINE`.
 - Где canonical state? — `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
-- Что уже завершено? — Charter, Operating Model, Strategy Lifecycle, Research Methodology, Program WBS, state/validator v2 migration и AI handoff.
-- Что делать следующим? — `REPOSITORY_STRUCTURE_V2.md` (`WBS-0.6`).
+- Что завершено последним? — `REPOSITORY_STRUCTURE_V2.md` (`WBS-0.6`).
+- Что делать следующим? — `governance/backlog/PROGRAM_BACKLOG_V2.md` (`WBS-0.7`).
 - Можно ли сейчас выбирать real allocation? — нет.
 - Являются ли G01–G13 current roadmap? — нет, это legacy ATS v1.
 
