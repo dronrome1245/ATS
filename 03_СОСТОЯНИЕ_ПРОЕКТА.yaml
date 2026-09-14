@@ -1,75 +1,92 @@
-schema_version: "1.0"
-project:
+schema_version: "2.0"
+program:
   id: ATS
-  name: "ATS — автоматизированная торговая система"
-  lifecycle: RESEARCH
+  name: "ATS — Algorithmic Trading Systems"
+  phase: M0_PROGRAM_REBASELINE
+  status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-11"
+  updated_on: "2026-09-14"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
-  gate_model: THIRTEEN_SEQUENTIAL_GATES
+  ai_handoff: "AI_HANDOFF.md"
+  agent_rules: "AGENTS.md"
+  human_status: "01_СТАТУС_ПРОЕКТА.md"
+  next_action: "02_СЛЕДУЮЩИЙ_ШАГ.md"
   owner_decision_required_for:
-    - RISK_MANDATE
-    - GATE_PASS
-    - LIVE_TRADING
+    - PROGRAM_CAPITAL_POLICY
+    - STRATEGY_RISK_MANDATE
+    - LIVE_ADMISSION
     - CAPITAL_ALLOCATION
     - SCALING
     - PROFIT_WITHDRAWAL
 
+model:
+  program_charter: "00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md"
+  operating_model: "00_Управление_проектом/v2/OPERATING_MODEL_V2.md"
+  strategy_lifecycle: "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md"
+  research_methodology: "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md"
+  program_wbs: "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
+
+current:
+  focus: "Завершить Program Rebaseline v2"
+  last_completed_artifact: "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
+  next_artifact: "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
+
+milestones:
+  M0_PROGRAM_REBASELINE: IN_PROGRESS
+  M1_RESEARCH_METHODOLOGY: NOT_STARTED
+  M2_RESEARCH_PLATFORM_MVP: NOT_STARTED
+  M3_REFERENCE_STRATEGY_1: NOT_STARTED
+  M4_VALIDATION_FRAMEWORK: NOT_STARTED
+  M5_EXECUTION_PLATFORM: NOT_STARTED
+  M6_REFERENCE_STRATEGY_2: NOT_STARTED
+  M7_PORTFOLIO_LAYER: NOT_STARTED
+  M8_CONTROLLED_LIVE_PORTFOLIO: NOT_STARTED
+
+m0:
+  completed_artifacts:
+    - "00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md"
+    - "00_Управление_проектом/v2/OPERATING_MODEL_V2.md"
+    - "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md"
+    - "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md"
+    - "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
+    - "Canonical state migration to v2"
+    - "Validator migration to v2"
+  remaining_artifacts:
+    - "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
+    - "Program Backlog v2"
+    - "Research entity templates"
+
+handoff_policy:
+  update_after_material_step: true
+  required_sync_targets:
+    - "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
+    - "01_СТАТУС_ПРОЕКТА.md"
+    - "02_СЛЕДУЮЩИЙ_ШАГ.md"
+    - "AI_HANDOFF.md"
+
 safety:
   real_money_trading_allowed: false
-  cent_account_trading_allowed: false
+  minimal_live_trading_allowed: false
   demo_trading_allowed: false
   scaling_allowed: false
   martingale_allowed: false
   unlimited_averaging_allowed: false
   automatic_rescue_funding_allowed: false
   credit_funding_allowed: false
-  emergency_stop_required: true
+  emergency_stop_required_before_live: true
 
-current:
-  gate_id: G01
-  gate_code: G01_RISK_MANDATE
-  gate_status: BLOCKED
-  focus: "Утвердить численные пределы финансового эксперимента"
-  next_artifact: "01_Контур_продукта/РИСК_МАНДАТ.md"
+strategy_pipeline:
+  ideas_registered: 0
+  prototypes_active: 0
+  candidates_active: 0
+  validated_strategies: 0
+  active_strategies: 0
 
-progress:
-  gates_total: 13
-  gates_passed: 0
-  gates_in_progress: 0
-  gates_blocked: 1
-  gates_not_started: 12
-
-gates:
-  G01: BLOCKED
-  G02: NOT_STARTED
-  G03: NOT_STARTED
-  G04: NOT_STARTED
-  G05: NOT_STARTED
-  G06: NOT_STARTED
-  G07: NOT_STARTED
-  G08: NOT_STARTED
-  G09: NOT_STARTED
-  G10: NOT_STARTED
-  G11: NOT_STARTED
-  G12: NOT_STARTED
-  G13: NOT_STARTED
-
-unresolved_decisions:
-  - OQ-001
-  - OQ-002
-  - OQ-003
-  - OQ-004
-  - OQ-005
-  - OQ-006
-  - OQ-007
-  - OQ-008
-  - OQ-009
-
-evidence:
-  accepted_gate_decisions: []
-  registered_experiments: []
-  frozen_strategy_versions: []
-  live_runs: []
+legacy:
+  thirteen_gate_model_retained_for_history: true
+  thirteen_gate_model_is_program_roadmap: false
+  gates_passed_before_rebaseline: 0
+  legacy_roadmap: "00_Управление_проектом/ДОРОЖНАЯ_КАРТА.md"
+  legacy_gate_matrix: "00_Управление_проектом/МАТРИЦА_ВОРОТ.md"
