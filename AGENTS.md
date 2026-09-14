@@ -16,10 +16,10 @@
 - текущую фазу программы;
 - какие решения уже приняты;
 - на каком артефакте остановились;
-- какой следующий шаг разрешён;
+- какой следующий task/artifact разрешён;
 - какие legacy-файлы нельзя ошибочно принимать за актуальный roadmap.
 
-Если `AI_HANDOFF.md`, `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` и `02_СЛЕДУЮЩИЙ_ШАГ.md` противоречат друг другу, содержательную работу не продолжать до устранения расхождения.
+Если `AI_HANDOFF.md`, `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `governance/backlog/PROGRAM_BACKLOG_V2.md` и `02_СЛЕДУЮЩИЙ_ШАГ.md` противоречат друг другу, содержательную работу не продолжать до устранения расхождения.
 
 ## 3. Обязательный порядок чтения
 
@@ -28,20 +28,28 @@
 1. `AI_HANDOFF.md`;
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` — canonical machine-readable state;
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
-4. `00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md`;
-5. `00_Управление_проектом/v2/OPERATING_MODEL_V2.md`;
-6. `00_Управление_проектом/v2/PROGRAM_WBS_V2.md` — для program work;
-7. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md` — для research;
-8. `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md` — для конкретной стратегии;
-9. только затем связанные code/data/test/report artifacts.
+4. `governance/backlog/PROGRAM_BACKLOG_V2.md` — canonical execution queue;
+5. `00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md`;
+6. `00_Управление_проектом/v2/OPERATING_MODEL_V2.md`;
+7. `00_Управление_проектом/v2/PROGRAM_WBS_V2.md` — для program work;
+8. `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md` — для structural/migration work;
+9. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md` — для research;
+10. `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md` — для конкретной стратегии;
+11. только затем связанные code/data/test/report artifacts.
 
 Не загружать весь репозиторий без необходимости.
 
-## 4. Canonical state
+## 4. Canonical state и execution queue
 
-Единственный canonical machine-readable state ATS находится в:
+Единственный canonical machine-readable state ATS:
 
 `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
+
+Canonical program backlog:
+
+`governance/backlog/PROGRAM_BACKLOG_V2.md`.
+
+State определяет текущую фазу, last completed artifact, next artifact и next task ID. Backlog содержит executable tasks, dependencies, priority/status и Definition of Done.
 
 Человекочитаемые представления:
 
@@ -63,7 +71,7 @@ ATS — не одна стратегия и не один robot project.
 - Portfolio & Capital;
 - Operations & Governance.
 
-Текущая работа управляется milestones M0–M8 и `PROGRAM_WBS_V2.md`.
+Текущая работа управляется milestones M0–M8, `PROGRAM_WBS_V2.md` и canonical backlog.
 
 ## 6. Research discipline
 
@@ -167,14 +175,15 @@ Demo/shadow не считается доказательством profitability
 Перед завершением работы агент обязан проверить и при необходимости обновить:
 
 1. основной созданный/изменённый artifact;
-2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
-3. `01_СТАТУС_ПРОЕКТА.md`;
-4. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
-5. `AI_HANDOFF.md`;
-6. `README.md` и `00_НАЧАТЬ_ЗДЕСЬ.md`, если изменилась верхнеуровневая модель;
-7. validator/tests, если изменились обязательная структура или invariants.
+2. `governance/backlog/PROGRAM_BACKLOG_V2.md`;
+3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
+4. `01_СТАТУС_ПРОЕКТА.md`;
+5. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
+6. `AI_HANDOFF.md`;
+7. `README.md` и `00_НАЧАТЬ_ЗДЕСЬ.md`, если они содержат изменившуюся next action или модель;
+8. validator/tests, если изменились обязательная структура или invariants.
 
-Нельзя сообщать OWNER, что шаг завершён, если handoff/state всё ещё указывают на предыдущую задачу.
+Нельзя сообщать OWNER, что шаг завершён, если backlog/state/handoff всё ещё указывают на предыдущую задачу.
 
 ## 16. Проверка репозитория
 
@@ -184,7 +193,7 @@ Demo/shadow не считается доказательством profitability
 python tools/validate_repo.py
 ```
 
-Validator должен подтверждать canonical v2 state, обязательные v2 artifacts и согласованность `next_artifact` между state, handoff и `02_СЛЕДУЮЩИЙ_ШАГ.md`.
+Validator должен подтверждать canonical v2 state, обязательные v2 artifacts и согласованность `next_artifact`/`next_task_id` между state, backlog, handoff и `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 
 После появления исполняемого platform/strategy code к structural validation добавляются профильные unit, integration, replay и failure tests.
 
