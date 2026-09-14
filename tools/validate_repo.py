@@ -23,6 +23,17 @@ REQUIRED_FILES = (
     "00_Управление_проектом/v2/PROGRAM_WBS_V2.md",
     "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
+    "governance/methodology/templates/README.md",
+    "governance/methodology/templates/IDEA_TEMPLATE.md",
+    "governance/methodology/templates/HYPOTHESIS_TEMPLATE.md",
+    "governance/methodology/templates/CANDIDATE_TEMPLATE.md",
+    "governance/methodology/templates/experiment/manifest.yaml",
+    "governance/methodology/templates/experiment/result.json",
+    "governance/methodology/templates/experiment/conclusion.md",
+    "governance/methodology/templates/strategy_version/VERSION.yaml",
+    "governance/methodology/templates/strategy_version/SPECIFICATION.md",
+    "governance/methodology/templates/strategy_version/PARAMETERS.yaml",
+    "governance/methodology/templates/strategy_version/EVIDENCE_INDEX.md",
     "data/README.md",
     "experiments/README.md",
     "reports/README.md",
@@ -42,7 +53,7 @@ FORBIDDEN_PLACEHOLDERS = (
     re.compile(r"\bTBD\b", re.IGNORECASE),
 )
 
-TEXT_SUFFIXES = {".md", ".yaml", ".yml", ".csv", ".py", ".txt"}
+TEXT_SUFFIXES = {".md", ".yaml", ".yml", ".csv", ".py", ".txt", ".json"}
 TRANSITIONAL_STATE = Path("00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml")
 
 
@@ -83,6 +94,7 @@ def main() -> int:
         'canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"',
         'repository_structure: "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"',
         'program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"',
+        'research_templates: "governance/methodology/templates/README.md"',
         "real_money_trading_allowed: false",
         "scaling_allowed: false",
         "martingale_allowed: false",
