@@ -29,12 +29,13 @@ model:
   program_wbs: "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
   repository_structure: "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
+  research_templates: "governance/methodology/templates/README.md"
 
 current:
   focus: "Завершить Program Rebaseline v2"
-  last_completed_artifact: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  next_artifact: "governance/methodology/templates/README.md"
-  next_task_id: "ATS2-M0-008"
+  last_completed_artifact: "governance/methodology/templates/README.md"
+  next_artifact: "governance/program/PROGRAM_CHARTER_V2.md"
+  next_task_id: "ATS2-M0-009"
 
 milestones:
   M0_PROGRAM_REBASELINE: IN_PROGRESS
@@ -56,18 +57,19 @@ m0:
     - "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
     - "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
     - "governance/backlog/PROGRAM_BACKLOG_V2.md"
+    - "governance/methodology/templates/README.md"
     - "Canonical state migration to v2"
     - "Validator migration to v2"
     - "AI handoff protocol"
   remaining_artifacts:
-    - "governance/methodology/templates/README.md"
+    - "governance/program/PROGRAM_CHARTER_V2.md"
     - "legacy/v1/README.md"
     - "governance/program/M0_EXIT_REVIEW.md"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M0-008"
-  current_ready_wbs: "WBS-0.8"
+  current_ready_task: "ATS2-M0-009"
+  current_ready_wbs: "WBS-0.6/WBS-0.12"
 
 handoff_policy:
   update_after_material_step: true
