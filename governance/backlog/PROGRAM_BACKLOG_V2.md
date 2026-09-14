@@ -54,10 +54,10 @@ Priority не является обещанием календарного ср�
 
 ## 4. Текущая execution queue
 
-В момент создания backlog разрешён следующий порядок:
+Текущий допустимый порядок:
 
-1. `ATS2-M0-008` — Research entity templates — `READY`.
-2. `ATS2-M0-009` — Governance v2 path migration — после 0.8.
+1. `ATS2-M0-008` — Research entity templates — `DONE`.
+2. `ATS2-M0-009` — Governance v2 path migration — `READY`.
 3. `ATS2-M0-010` — Legacy v1 index/classification — после governance migration.
 4. `ATS2-M0-011` — Legacy physical migration and unresolved-question carryover — после classification.
 5. `ATS2-M0-012` — Final link/validator sweep — после structural migrations.
@@ -78,12 +78,12 @@ Priority не является обещанием календарного ср�
 | `ATS2-M0-005` | `WBS-0.5` | P | P0 | DONE | PROGRAM | M0-001…004 | `PROGRAM_WBS_V2.md` | M0–M8 имеют deliverable-oriented decomposition, roles, dependencies и DoD |
 | `ATS2-M0-006` | `WBS-0.6` | P | P0 | DONE | PROGRAM / DEVELOPMENT | M0-005 | `REPOSITORY_STRUCTURE_V2.md` | Target layout, entity locations, naming и migration rules определены |
 | `ATS2-M0-007` | `WBS-0.7` | P | P0 | DONE | PROGRAM | M0-005, M0-006 | `governance/backlog/PROGRAM_BACKLOG_V2.md` | M0 remainder и ближайшие M1/M2 work packages представлены исполнимыми tasks |
-| `ATS2-M0-008` | `WBS-0.8` | P | P0 | READY | RESEARCH / PROGRAM | M0-004, M0-006, M0-007 | `governance/methodology/templates/README.md` + entity templates | Можно создать Idea, Hypothesis, Candidate, Experiment и Strategy Version без придумывания структуры; templates согласованы с Lifecycle/Methodology |
-| `ATS2-M0-009` | `WBS-0.6`, `WBS-0.12` | P | P0 | BLOCKED | PROGRAM / DEVELOPMENT | M0-008 | V2 governance migration commit | **Блокировка:** сначала нужны templates в target governance tree. После этого Charter/Operating/WBS/Structure → `governance/program/`, Lifecycle/Methodology/templates → `governance/methodology/`; все ссылки и validator обновлены атомарно |
+| `ATS2-M0-008` | `WBS-0.8` | P | P0 | DONE | RESEARCH / PROGRAM | M0-004, M0-006, M0-007 | `governance/methodology/templates/README.md` + entity templates | Idea, Hypothesis, Candidate, Experiment и Strategy Version создаются без повторного проектирования структуры; templates согласованы с Lifecycle/Methodology и не содержат выдуманных фактов |
+| `ATS2-M0-009` | `WBS-0.6`, `WBS-0.12` | P | P0 | READY | PROGRAM / DEVELOPMENT | M0-008 | V2 governance migration commit | Charter/Operating/WBS/Structure переносятся в `governance/program/`, Lifecycle/Methodology/templates — в `governance/methodology/`; все canonical links, handoff, state, backlog references и validator обновляются атомарно; старые current-v2 paths после проверки удаляются |
 | `ATS2-M0-010` | `WBS-0.12` | P | P0 | BLOCKED | PROGRAM | M0-009 | `legacy/v1/README.md` + migration index | **Блокировка:** выполнить после current-v2 path migration, чтобы current и legacy пространства были однозначно разделены. Index классифицирует каждый v1 artifact как history/reference/review-needed |
 | `ATS2-M0-011` | `WBS-0.12` | P | P0 | BLOCKED | PROGRAM / DEVELOPMENT | M0-010 | `legacy/v1/` populated + carryover list | **Блокировка:** нужен утверждённый legacy index. V1 program/product/architecture/regulations/registers переносятся без потери истории; ещё актуальные открытые вопросы переносятся в v2 backlog отдельными tasks |
 | `ATS2-M0-012` | `WBS-0.10`, `WBS-0.12` | P | P0 | BLOCKED | DEVELOPMENT / PROGRAM | M0-009, M0-011 | Final M0 validator/link sweep | **Блокировка:** structural moves ещё не завершены. После них validator проверяет target paths, отсутствие current refs на legacy как source of truth и handoff/state consistency |
-| `ATS2-M0-013` | M0 Exit | P | P0 | BLOCKED | OWNER / PROGRAM | M0-008…012 | `M0_EXIT_REVIEW.md` либо эквивалентное принятое решение | **Блокировка:** остаются 0.8/0.12 и migrations. Exit review подтверждает WBS-0.1…0.12, зелёный CI и способность нового агента определить M1 next action без внешнего контекста |
+| `ATS2-M0-013` | M0 Exit | P | P0 | BLOCKED | OWNER / PROGRAM | M0-008…012 | `M0_EXIT_REVIEW.md` либо эквивалентное принятое решение | **Блокировка:** остаются governance/legacy migrations и final sweep. Exit review подтверждает WBS-0.1…0.12, зелёный CI и способность нового агента определить M1 next action без внешнего контекста |
 
 ### Уже завершённые cross-cutting M0 capabilities
 
@@ -107,8 +107,8 @@ Priority не является обещанием календарного ср�
 | `ATS2-M1-004` | `WBS-1.4` | P | P1 | BLOCKED | RESEARCH | M1-002, M1-003 | Cheap Prototype protocol | **Блокировка:** нужны Hypothesis и Data Feasibility models. Protocol ограничивает prototype одним ранним вопросом и отделяет его от formal validation |
 | `ATS2-M1-005` | `WBS-1.5` | P | P1 | BLOCKED | RESEARCH | M1-004 | Economic Pre-Screen rubric | **Блокировка:** prototype protocol ещё не принят. Rubric оценивает magnitude, likely costs, opportunities, capital usage и complexity до Candidate |
 | `ATS2-M1-006` | `WBS-1.6` | P | P1 | BLOCKED | RESEARCH / VALIDATION | M1-005 | Candidate promotion process | **Блокировка:** Economic Pre-Screen отсутствует. `PROMOTE / PARK / REJECT` привязано к сохранённым preliminary evidence |
-| `ATS2-M1-007` | `WBS-1.7` | P | P1 | BLOCKED | RESEARCH / DEVELOPMENT | M0-008, M1-002 | Experiment registration schema | **Блокировка:** templates и Hypothesis model ещё не operational. Manifest связывает code, data, parameters, costs, predefined question и result |
-| `ATS2-M1-008` | `WBS-1.8` | P | P1 | BLOCKED | PROGRAM / RESEARCH | M1-007 | Experiment registry | **Блокировка:** formal Experiment schema не принят. Положительные и отрицательные experiments находятся по stable ID |
+| `ATS2-M1-007` | `WBS-1.7` | P | P1 | BLOCKED | RESEARCH / DEVELOPMENT | M0-008, M1-002 | Experiment registration schema | **Блокировка:** M0 не закрыт и Hypothesis model ещё не operational. Manifest связывает code, data, parameters, costs, predefined question и result |
+| `ATS2-M1-008` | `WBS-1.8` | P | P1 | BLOCKED | PROGRAM / RESEARCH | M1-007 | Experiment registry | **Блокировка:** formal Experiment schema не operational. Положительные и отрицательные experiments находятся по stable ID |
 | `ATS2-M1-009` | `WBS-1.9` | P | P1 | BLOCKED | VALIDATION | M0-013 | Evidence taxonomy operationalization | **Блокировка:** M0 не закрыт. Taxonomy связывает exploratory, registered, validation, independent, demo/shadow и live evidence с допустимыми решениями |
 | `ATS2-M1-010` | `WBS-1.10` | P | P1 | BLOCKED | OWNER / RESEARCH | M1-001…009 | Research review protocol | **Блокировка:** upstream Research Factory components ещё не operational. Review может повторяемо решать `PROMOTE / PARK / REJECT` |
 | `ATS2-M1-011` | M1 Exit | P | P1 | BLOCKED | OWNER / PROGRAM | M1-001…010 | M1 exit decision | **Блокировка:** M1 tasks не выполнены. Exit подтверждает, что Idea → Prototype → Candidate decision можно провести воспроизводимо |
@@ -200,20 +200,14 @@ Task не добавляется только ради идеи «когда-н�
 
 # 10. Следующий шаг
 
-После фиксации этого backlog следующий work package:
+Текущая ready task:
 
-`WBS-0.8 — Research entity templates`.
+`ATS2-M0-009 — Governance v2 path migration`.
 
-Следующий canonical artifact/index:
+Задача должна атомарно перенести current-v2 governance documents в target tree:
 
-`governance/methodology/templates/README.md`
+- Charter / Operating Model / Program WBS / Repository Structure → `governance/program/`;
+- Strategy Lifecycle / Research Methodology → `governance/methodology/`;
+- templates уже находятся в target `governance/methodology/templates/`.
 
-Минимальный набор templates должен покрыть:
-
-- Idea;
-- Hypothesis;
-- Candidate;
-- formal Experiment manifest/conclusion;
-- Strategy Version.
-
-После 0.8 backlog обновляется: `ATS2-M0-008 → DONE`, а первая допустимая migration task переводится из `BLOCKED` в `READY`.
+В том же логическом изменении обновляются все ссылки, canonical state, handoff, backlog references и validator. Старые current-v2 пути удаляются только после успешной проверки новых canonical путей.
