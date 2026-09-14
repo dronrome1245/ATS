@@ -1,6 +1,6 @@
 # ATS
 
-> **AI / новый чат:** сначала откройте [`AI_HANDOFF.md`](AI_HANDOFF.md), затем `AGENTS.md`. Там зафиксированы текущее состояние, уже принятые решения и следующий обязательный шаг.
+> **AI / новый чат:** сначала откройте [`AI_HANDOFF.md`](AI_HANDOFF.md), затем `AGENTS.md`. Там зафиксированы текущее состояние, canonical backlog и следующий обязательный task.
 
 **ATS — Algorithmic Trading Systems** — программа исследований, разработки, проверки и эксплуатации алгоритмических торговых стратегий.
 
@@ -10,9 +10,13 @@
 
 ATS проходит `M0_PROGRAM_REBASELINE`.
 
-Единственный canonical machine-readable state:
+Canonical machine-readable state:
 
 `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`
+
+Canonical execution queue:
+
+`governance/backlog/PROGRAM_BACKLOG_V2.md`
 
 Уже зафиксированы:
 
@@ -22,11 +26,16 @@ ATS проходит `M0_PROGRAM_REBASELINE`.
 - `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md`;
 - `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md`;
 - `00_Управление_проектом/v2/PROGRAM_WBS_V2.md`;
-- `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`.
+- `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`;
+- `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 
-Следующий артефакт:
+Следующая task:
 
-`governance/backlog/PROGRAM_BACKLOG_V2.md`
+`ATS2-M0-008 — Research entity templates`
+
+Следующий artifact/index:
+
+`governance/methodology/templates/README.md`
 
 ## Пять контуров ATS
 
@@ -36,22 +45,11 @@ ATS проходит `M0_PROGRAM_REBASELINE`.
 4. **Portfolio & Capital** — portfolio-level allocation, diversification и risk.
 5. **Operations & Governance** — versions, evidence, deployment, monitoring, incidents и change control.
 
-## Repository Structure v2
+## Program Backlog v2
 
-Целевая структура разделяет:
+Backlog деталирует M0, M1 и M2 в executable tasks с stable ID, priority/status, dependencies, role, deliverable и Definition of Done.
 
-- program governance;
-- research entities;
-- strategies и Strategy Versions;
-- shared platform;
-- datasets/manifests;
-- formal experiments;
-- reports/evidence;
-- portfolio;
-- operations;
-- legacy ATS v1.
-
-Существующие файлы не перемещаются массово без отдельной backlog task и синхронного обновления ссылок/validator.
+M3–M8 пока остаются future epics и будут детализироваться только при появлении фактических входов.
 
 ## Главный принцип
 
@@ -68,11 +66,12 @@ Risk management является ограничением и механизмо�
 2. Правила для агентов: `AGENTS.md`.
 3. Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. Непосредственное действие: `02_СЛЕДУЮЩИЙ_ШАГ.md`.
-5. Program work packages: `00_Управление_проектом/v2/PROGRAM_WBS_V2.md`.
-6. Target repository layout: `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`.
-7. Перед research читать `RESEARCH_METHODOLOGY_V1.md`.
-8. Для конкретной Strategy Version использовать `STRATEGY_LIFECYCLE_V2.md`.
-9. Запускать `python tools/validate_repo.py` для структурной проверки репозитория.
+5. Execution queue: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+6. Program WBS: `00_Управление_проектом/v2/PROGRAM_WBS_V2.md`.
+7. Target repository layout: `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`.
+8. Перед research читать `RESEARCH_METHODOLOGY_V1.md`.
+9. Для конкретной Strategy Version использовать `STRATEGY_LIFECYCLE_V2.md`.
+10. Запускать `python tools/validate_repo.py` для структурной проверки репозитория.
 
 Старая модель G01–G13 сохранена как ATS v1 history/reference и не является current program roadmap.
 
