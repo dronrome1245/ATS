@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": null,
+  "completed_on": null,
+  "primary_metrics": {},
+  "secondary_metrics": {},
+  "trade_or_event_count": null,
+  "costs": {},
+  "risk_metrics": {},
+  "artifacts": [],
+  "machine_outcome": null
+}
