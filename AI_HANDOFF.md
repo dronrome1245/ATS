@@ -2,7 +2,7 @@
 
 **Назначение:** единая точка восстановления контекста для нового AI-чата, агента или разработчика, который впервые открывает репозиторий или продолжает работу после паузы.
 
-Если вы AI-агент и получили доступ к этому репозиторию, **не начинайте с выбора стратегии, написания торгового кода, брокера или risk limits**. Сначала восстановите текущее состояние по этому документу и указанным canonical artifacts.
+Если вы AI-агент и получили доступ к этому репозиторию, **не начинайте с выбора стратегии, написания торгового кода, брокера или risk limits**. Сначала восстановите текущее состояние по этому документу и canonical artifacts.
 
 ## 1. Текущее состояние
 
@@ -10,96 +10,87 @@
 - Current phase: `M0_PROGRAM_REBASELINE`.
 - Status: `IN_PROGRESS`.
 - Program model: ATS v2 / Strategy Factory.
+- Canonical machine-readable state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Реальная торговля, allocation и scaling сейчас не являются текущей задачей.
-- Старые G01–G13 относятся к ATS v1 и **не являются текущим roadmap программы**.
+- Старые G01–G13 относятся к ATS v1 и не являются текущим roadmap программы.
 
 ## 2. Что уже принято и зафиксировано
 
-Следующие документы являются текущей базой ATS v2:
+Текущая база ATS v2:
 
-1. `00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md`
-   - ATS — программа/Strategy Factory, а не один торговый робот.
-   - Цель — воспроизводимо находить, проверять, запускать и со временем объединять несколько экономически полезных стратегий.
+1. `00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md` — миссия, scope, success criteria и milestones.
+2. `00_Управление_проектом/v2/OPERATING_MODEL_V2.md` — пять контуров ATS, сущности, роли и decision points.
+3. `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md` — Research Funnel и путь Candidate → Validation → Live → Scaling.
+4. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md` — правила evidence, reproducibility и economic usefulness.
+5. `00_Управление_проектом/v2/PROGRAM_WBS_V2.md` — work packages программы M0–M8, dependencies, roles и Definition of Done.
+6. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` — единственный canonical machine-readable state v2.
+7. `tools/validate_repo.py` — structural validator v2.
 
-2. `00_Управление_проектом/v2/OPERATING_MODEL_V2.md`
-   - пять контуров: Research Factory, Shared Trading Platform, Strategy Lifecycle, Portfolio & Capital, Operations & Governance;
-   - разделены Idea, Hypothesis, Strategy, Strategy Version, Experiment, Evidence, Deployment, Portfolio.
+## 3. Последний завершённый содержательный шаг
 
-3. `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md`
-   - дешёвый Research Funnel предшествует дорогой validation;
-   - обязательный `Economic Viability` до глубоких затрат;
-   - Strategy Risk Mandate появляется перед реальным exposure, а не перед безопасным research;
-   - independent examination, stress, demo/shadow, minimal live и controlled scaling сохранены.
-
-4. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md`
-   - exploratory research отделён от formal evidence;
-   - formal experiment должен быть воспроизводим;
-   - стратегия должна отдельно доказать evidence of edge и economic usefulness;
-   - отрицательные результаты сохраняются.
-
-5. `00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml`
-   - machine-readable program state на время M0.
-
-## 3. Где мы остановились
-
-Последний завершённый содержательный шаг:
-
-`ATS Research Methodology v1` создан и записан в репозиторий.
-
-Следующий обязательный артефакт:
+Последний завершённый artifact:
 
 `00_Управление_проектом/v2/PROGRAM_WBS_V2.md`
 
-Его задача — разложить ATS Program на управляемые work packages по milestones M0–M8 с зависимостями, deliverables, ответственными ролями и Definition of Done.
+Одновременно завершена техническая миграция state/validator:
 
-После WBS в M0 остаются как минимум:
+- корневой `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` переведён на schema v2;
+- переходный второй state удалён;
+- validator больше не требует старые G01–G13 как current state;
+- validator проверяет согласованность canonical `next_artifact` с handoff и файлом следующего шага.
 
-- `REPOSITORY_STRUCTURE_V2.md`;
-- Program Backlog v2;
-- Research entity templates;
-- миграция validator/state model с v1 на окончательный v2 canonical state.
+## 4. Следующий обязательный артефакт
 
-## 4. Что делать новому AI-агенту
+`00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`
 
-Порядок действий обязателен:
+Это work package `WBS-0.6`.
+
+Его задача — определить окончательную структуру репозитория и canonical locations для:
+
+- program governance;
+- research ideas/hypotheses/candidates;
+- strategies и Strategy Versions;
+- data manifests;
+- experiments/evidence/reports;
+- shared platform code;
+- execution/operations artifacts;
+- portfolio artifacts;
+- legacy ATS v1.
+
+После Repository Structure v2 в M0 остаются:
+
+- `WBS-0.7` Program Backlog v2;
+- `WBS-0.8` Research entity templates;
+- `WBS-0.12` окончательная legacy classification в новой структуре.
+
+## 5. Что делать новому AI-агенту
+
+Порядок действий:
 
 1. Прочитать `AGENTS.md`.
-2. Прочитать `00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml`.
+2. Прочитать `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. Прочитать `02_СЛЕДУЮЩИЙ_ШАГ.md`.
-4. Прочитать только родительские документы, необходимые для следующего шага.
+4. Прочитать `PROGRAM_WBS_V2.md` и родительские документы, необходимые для следующего work package.
 5. Сверить, не появился ли уже указанный `next_artifact`.
-6. Выполнить именно следующий незавершённый шаг, если пользователь не дал другое явное указание.
-7. Не возвращаться к legacy G01 как к текущей задаче.
+6. Выполнить именно следующий незавершённый шаг, если OWNER не дал другое явное указание.
+7. Не возвращаться к legacy G01 как к current task.
 8. Не выдумывать отсутствующие финансовые, торговые или юридические параметры.
 
-## 5. Правило завершения любого существенного шага
+## 6. Правило завершения любого существенного шага
 
-Работа **не считается завершённой**, пока контекст для следующего чата не обновлён.
+Работа не считается завершённой, пока контекст для следующего чата не обновлён.
 
-После каждого принятого program-level шага агент должен проверить и при необходимости синхронно обновить:
+После каждого принятого program-level шага синхронизировать:
 
-1. созданный/изменённый основной artifact;
-2. `00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml`;
+1. основной artifact;
+2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
 3. `01_СТАТУС_ПРОЕКТА.md`;
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
-5. этот `AI_HANDOFF.md` — секции «Что уже принято», «Где мы остановились» и «Следующий обязательный артефакт»;
-6. `README.md` / `00_НАЧАТЬ_ЗДЕСЬ.md`, если изменилась верхнеуровневая модель или точка входа;
-7. validator/tests, если структура репозитория или обязательные артефакты изменились.
+5. `AI_HANDOFF.md`;
+6. README/start guide, если изменилась верхнеуровневая модель;
+7. validator/tests, если изменилась обязательная структура или invariants.
 
-Нельзя завершать шаг сообщением «готово», если state/handoff всё ещё указывают на предыдущую работу.
-
-## 6. Source of truth во время M0
-
-На период `M0_PROGRAM_REBASELINE`:
-
-- program state v2: `00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml`;
-- human status: `01_СТАТУС_ПРОЕКТА.md`;
-- next action: `02_СЛЕДУЮЩИЙ_ШАГ.md`;
-- AI handoff: `AI_HANDOFF.md`.
-
-Корневой `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` является legacy ATS v1 и временно сохранён для совместимости старого validator. Он не должен использоваться для выбора текущей задачи.
-
-После завершения M0 должен остаться один окончательный canonical machine-readable state, а переходное правило должно быть удалено.
+Нельзя завершать работу сообщением «готово», если state/handoff всё ещё указывают на предыдущую задачу.
 
 ## 7. Неподлежащие самовольному изменению решения
 
@@ -112,17 +103,18 @@
 - выдумывать broker/jurisdiction/instrument/return/risk limits;
 - ослаблять independent evidence rules;
 - вводить martingale, unlimited averaging или rescue funding;
-- объявлять стратегию прибыльной/validated только по привлекательному backtest.
+- объявлять стратегию profitable/validated только по привлекательному backtest.
 
-## 8. Как понять, что контекст восстановлен правильно
+## 8. Проверка восстановления контекста
 
-Новый агент после чтения должен уметь без догадок ответить:
+Новый агент должен без догадок ответить:
 
 - Что такое ATS? — Strategy Factory / program, а не один робот.
 - Какая текущая фаза? — `M0_PROGRAM_REBASELINE`.
-- Что уже завершено? — Charter v2, Operating Model v2, Strategy Lifecycle v2, Research Methodology v1.
-- Что делать следующим? — `PROGRAM_WBS_V2.md`.
-- Можно ли сейчас выбирать реальный allocation? — нет.
-- Являются ли G01–G13 текущим roadmap? — нет, это legacy ATS v1.
+- Где canonical state? — `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
+- Что уже завершено? — Charter, Operating Model, Strategy Lifecycle, Research Methodology, Program WBS, state/validator v2 migration и AI handoff.
+- Что делать следующим? — `REPOSITORY_STRUCTURE_V2.md` (`WBS-0.6`).
+- Можно ли сейчас выбирать real allocation? — нет.
+- Являются ли G01–G13 current roadmap? — нет, это legacy ATS v1.
 
-Если ответы отличаются, остановить содержательную работу и сначала устранить расхождение в state/handoff.
+Если ответы отличаются, сначала устранить расхождение state/handoff/next action.
