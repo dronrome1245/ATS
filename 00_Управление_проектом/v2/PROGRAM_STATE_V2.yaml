@@ -6,6 +6,13 @@ program:
   status: IN_PROGRESS
   updated_on: "2026-09-14"
 
+context:
+  ai_handoff: "AI_HANDOFF.md"
+  agent_rules: "AGENTS.md"
+  human_status: "01_СТАТУС_ПРОЕКТА.md"
+  next_action: "02_СЛЕДУЮЩИЙ_ШАГ.md"
+  legacy_v1_state: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
+
 model:
   program_charter: "00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md"
   operating_model: "00_Управление_проектом/v2/OPERATING_MODEL_V2.md"
@@ -14,6 +21,7 @@ model:
 
 current:
   focus: "Завершить Program Rebaseline v2"
+  last_completed_artifact: "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md"
   next_artifact: "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
 
 milestones:
@@ -28,6 +36,7 @@ milestones:
   M8_CONTROLLED_LIVE_PORTFOLIO: NOT_STARTED
 
 recorded_documents:
+  - "AI_HANDOFF.md"
   - "00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md"
   - "00_Управление_проектом/v2/OPERATING_MODEL_V2.md"
   - "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md"
@@ -38,6 +47,15 @@ remaining_m0_artifacts:
   - "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
   - "Program Backlog v2"
   - "Research entity templates"
+  - "Final v2 canonical state and validator migration"
+
+handoff_policy:
+  update_after_material_step: true
+  required_sync_targets:
+    - "00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml"
+    - "01_СТАТУС_ПРОЕКТА.md"
+    - "02_СЛЕДУЮЩИЙ_ШАГ.md"
+    - "AI_HANDOFF.md"
 
 strategy_pipeline:
   ideas_registered: 0
