@@ -22,6 +22,7 @@ REQUIRED_FILES = (
     "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md",
     "00_Управление_проектом/v2/PROGRAM_WBS_V2.md",
     "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md",
+    "governance/backlog/PROGRAM_BACKLOG_V2.md",
     "data/README.md",
     "experiments/README.md",
     "reports/README.md",
@@ -81,6 +82,7 @@ def main() -> int:
         "status: IN_PROGRESS",
         'canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"',
         'repository_structure: "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"',
+        'program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"',
         "real_money_trading_allowed: false",
         "scaling_allowed: false",
         "martingale_allowed: false",
@@ -93,6 +95,7 @@ def main() -> int:
 
     next_artifact = extract_quoted_scalar(state, "next_artifact")
     last_completed = extract_quoted_scalar(state, "last_completed_artifact")
+    next_task_id = extract_quoted_scalar(state, "next_task_id")
 
     if not next_artifact:
         fail("canonical state must define quoted next_artifact")
@@ -100,11 +103,17 @@ def main() -> int:
     if not last_completed:
         fail("canonical state must define quoted last_completed_artifact")
         blocking += 1
+    if not next_task_id:
+        fail("canonical state must define quoted next_task_id")
+        blocking += 1
 
     handoff_path = repo / "AI_HANDOFF.md"
     next_path = repo / "02_СЛЕДУЮЩИЙ_ШАГ.md"
+    backlog_path = repo / "governance/backlog/PROGRAM_BACKLOG_V2.md"
+
     handoff = handoff_path.read_text(encoding="utf-8") if handoff_path.is_file() else ""
     next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
+    backlog = backlog_path.read_text(encoding="utf-8") if backlog_path.is_file() else ""
 
     if next_artifact:
         if next_artifact not in handoff:
@@ -112,6 +121,17 @@ def main() -> int:
             blocking += 1
         if next_artifact not in next_step:
             fail("02_СЛЕДУЮЩИЙ_ШАГ.md does not mention canonical next_artifact")
+            blocking += 1
+
+    if next_task_id:
+        if next_task_id not in backlog:
+            fail("canonical next_task_id is missing from Program Backlog")
+            blocking += 1
+        if next_task_id not in handoff:
+            fail("AI_HANDOFF.md does not mention canonical next_task_id")
+            blocking += 1
+        if next_task_id not in next_step:
+            fail("02_СЛЕДУЮЩИЙ_ШАГ.md does not mention canonical next_task_id")
             blocking += 1
 
     if last_completed and last_completed not in handoff:
@@ -126,6 +146,9 @@ def main() -> int:
     agents = agents_path.read_text(encoding="utf-8") if agents_path.is_file() else ""
     if "03_СОСТОЯНИЕ_ПРОЕКТА.yaml" not in agents:
         fail("AGENTS.md must point to canonical state")
+        blocking += 1
+    if "governance/backlog/PROGRAM_BACKLOG_V2.md" not in agents:
+        fail("AGENTS.md must point to canonical Program Backlog")
         blocking += 1
     if "PROGRAM_STATE_V2.yaml" in agents:
         fail("AGENTS.md still references removed transitional state")
