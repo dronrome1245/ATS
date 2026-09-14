@@ -11,6 +11,7 @@
 - Status: `IN_PROGRESS`.
 - Program model: ATS v2 / Strategy Factory.
 - Canonical machine-readable state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
+- Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 - Реальная торговля, allocation и scaling сейчас не являются текущей задачей.
 - Старые G01–G13 относятся к ATS v1 и не являются current roadmap программы.
 
@@ -24,46 +25,45 @@
 4. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md` — evidence, reproducibility и economic usefulness.
 5. `00_Управление_проектом/v2/PROGRAM_WBS_V2.md` — work packages M0–M8.
 6. `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md` — target repository architecture, canonical entity locations, naming rules и migration map.
-7. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` — единственный canonical machine-readable state v2.
-8. `tools/validate_repo.py` — structural validator v2.
+7. `governance/backlog/PROGRAM_BACKLOG_V2.md` — executable queue для M0 и ближайших M1/M2 работ.
+8. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` — единственный canonical machine-readable state v2.
+9. `tools/validate_repo.py` — structural validator v2.
 
 ## 3. Последний завершённый содержательный шаг
 
 Последний завершённый artifact:
 
-`00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`
+`governance/backlog/PROGRAM_BACKLOG_V2.md`
 
-Это `WBS-0.6`.
+Это `WBS-0.7`.
 
-Приняты ключевые структурные решения:
+Backlog ввёл:
 
-- root содержит только program entrypoints;
-- целевой program governance находится в `governance/`;
-- research entities — в `research/`;
-- отдельные Strategy/Strategy Version — в `strategies/`;
-- shared capabilities — в `platform/`;
-- datasets/manifests, experiments, reports, portfolio и operations разделены;
-- ATS v1 должен быть изолирован в `legacy/v1/` после управляемой миграции;
-- массовые moves не выполняются без backlog task, обновления ссылок и validator.
+- stable Task ID;
+- priority/status model;
+- explicit dependencies и block reasons;
+- executable M0/M1/M2 tasks;
+- future epics для M3–M8 без преждевременной детализации;
+- текущую execution queue;
+- dependency refinement для M2 через `Reference Consumer Profile`, чтобы не создавать цикл между stack decision и будущим выбором Reference Strategy #1.
 
 ## 4. Следующий обязательный артефакт
 
-`governance/backlog/PROGRAM_BACKLOG_V2.md`
+`governance/methodology/templates/README.md`
 
-Это `WBS-0.7 — Program Backlog v2`.
+Это task `ATS2-M0-008`, связанная с `WBS-0.8 — Research entity templates`.
 
-Backlog должен превратить оставшиеся M0 work packages и ближайшие M1/M2 зависимости в упорядоченные исполнимые задачи с priority, status, dependencies, role, deliverable и Definition of Done.
+Минимальный набор templates должен покрыть:
 
-Первая версия Backlog обязана включить:
+- Idea;
+- Hypothesis;
+- Candidate;
+- formal Experiment manifest/conclusion;
+- Strategy Version.
 
-- Research entity templates (`WBS-0.8`);
-- legacy classification/migration index (`WBS-0.12`);
-- migration tasks из Repository Structure v2;
-- M0 exit review;
-- первые задачи M1 Research Factory;
-- только необходимые prerequisites M2 Research Platform MVP.
+Templates должны соответствовать Operating Model, Strategy Lifecycle, Research Methodology и naming rules. Они не должны содержать выдуманные торговые/финансовые значения.
 
-После Program Backlog следующий основной work package — `WBS-0.8 Research entity templates`.
+После `ATS2-M0-008 = DONE` backlog должен перевести `ATS2-M0-009` Governance v2 path migration из `BLOCKED` в `READY`.
 
 ## 5. Что делать новому AI-агенту
 
@@ -72,11 +72,12 @@ Backlog должен превратить оставшиеся M0 work packages 
 1. Прочитать `AGENTS.md`.
 2. Прочитать `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. Прочитать `02_СЛЕДУЮЩИЙ_ШАГ.md`.
-4. Прочитать `PROGRAM_WBS_V2.md` и `REPOSITORY_STRUCTURE_V2.md`.
-5. Сверить, не появился ли уже canonical `next_artifact`.
-6. Выполнить именно следующий незавершённый шаг, если OWNER не дал другое явное указание.
-7. Не возвращаться к legacy G01 как к current task.
-8. Не выдумывать отсутствующие финансовые, торговые или юридические параметры.
+4. Прочитать `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+5. Для текущей задачи прочитать `OPERATING_MODEL_V2.md`, `STRATEGY_LIFECYCLE_V2.md`, `RESEARCH_METHODOLOGY_V1.md` и `REPOSITORY_STRUCTURE_V2.md`.
+6. Сверить, не появился ли уже canonical `next_artifact`.
+7. Выполнить именно `ATS2-M0-008`, если OWNER не дал другое явное указание.
+8. Не возвращаться к legacy G01 как к current task.
+9. Не выдумывать отсутствующие финансовые, торговые или юридические параметры.
 
 ## 6. Правило завершения любого существенного шага
 
@@ -85,14 +86,15 @@ Backlog должен превратить оставшиеся M0 work packages 
 После program-level шага проверить и при необходимости обновить:
 
 1. основной artifact;
-2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
-3. `01_СТАТУС_ПРОЕКТА.md`;
-4. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
-5. `AI_HANDOFF.md`;
-6. README/start guide, если они содержат изменившуюся точку входа;
-7. validator/tests, если изменилась обязательная структура или invariants.
+2. `governance/backlog/PROGRAM_BACKLOG_V2.md`;
+3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
+4. `01_СТАТУС_ПРОЕКТА.md`;
+5. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
+6. `AI_HANDOFF.md`;
+7. README/start guide, если они содержат изменившуюся точку входа;
+8. validator/tests, если изменилась обязательная структура или invariants.
 
-Нельзя сообщать OWNER, что шаг завершён, если state/handoff всё ещё указывают на предыдущую работу.
+Нельзя сообщать OWNER, что шаг завершён, если backlog/state/handoff всё ещё указывают на предыдущую работу.
 
 ## 7. Неподлежащие самовольному изменению решения
 
@@ -114,9 +116,10 @@ Backlog должен превратить оставшиеся M0 work packages 
 - Что такое ATS? — Strategy Factory / program, а не один робот.
 - Какая текущая фаза? — `M0_PROGRAM_REBASELINE`.
 - Где canonical state? — `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
-- Что завершено последним? — `REPOSITORY_STRUCTURE_V2.md` (`WBS-0.6`).
-- Что делать следующим? — `governance/backlog/PROGRAM_BACKLOG_V2.md` (`WBS-0.7`).
+- Где execution queue? — `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+- Что завершено последним? — Program Backlog v2 (`WBS-0.7`).
+- Что делать следующим? — `governance/methodology/templates/README.md` / `ATS2-M0-008` (`WBS-0.8`).
 - Можно ли сейчас выбирать real allocation? — нет.
 - Являются ли G01–G13 current roadmap? — нет, это legacy ATS v1.
 
-Если ответы отличаются, сначала устранить расхождение state/handoff/next action.
+Если ответы отличаются, сначала устранить расхождение backlog/state/handoff/next action.
