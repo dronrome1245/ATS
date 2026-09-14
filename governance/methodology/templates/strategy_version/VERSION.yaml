@@ -1,0 +1,31 @@
+schema_version: "1.0"
+
+strategy:
+  strategy_id: null
+  strategy_version: null
+  candidate_id: null
+  class: null
+  status: DRAFT
+
+version_identity:
+  created_on: null
+  supersedes: null
+  code_revision: null
+  specification_file: "SPECIFICATION.md"
+  parameters_file: "PARAMETERS.yaml"
+  evidence_index_file: "EVIDENCE_INDEX.md"
+
+research_context:
+  hypothesis_id: null
+  dataset_ids: []
+  research_protocol_id: null
+  cost_model_id: null
+  execution_model_id: null
+
+change_control:
+  change_type: null
+  change_summary: null
+  evidence_revalidation_required: null
+
+# Material change, способное изменить trades, создаёт новую Strategy Version.
+# null означает, что фактическое значение ещё не принято; его нельзя заменять выдуманным значением.
