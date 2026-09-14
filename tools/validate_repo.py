@@ -21,6 +21,7 @@ REQUIRED_FILES = (
     "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md",
     "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md",
     "00_Управление_проектом/v2/PROGRAM_WBS_V2.md",
+    "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md",
     "data/README.md",
     "experiments/README.md",
     "reports/README.md",
@@ -46,10 +47,6 @@ TRANSITIONAL_STATE = Path("00_Управление_проектом/v2/PROGRAM_S
 
 def fail(message: str) -> None:
     print(f"BLOCKING: {message}")
-
-
-def read(repo: Path, relative: str) -> str:
-    return (repo / relative).read_text(encoding="utf-8")
 
 
 def extract_quoted_scalar(text: str, key: str) -> str | None:
@@ -83,6 +80,7 @@ def main() -> int:
         "phase: M0_PROGRAM_REBASELINE",
         "status: IN_PROGRESS",
         'canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"',
+        'repository_structure: "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"',
         "real_money_trading_allowed: false",
         "scaling_allowed: false",
         "martingale_allowed: false",
