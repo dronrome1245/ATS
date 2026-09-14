@@ -1,0 +1,52 @@
+schema_version: "2.0"
+program:
+  id: ATS
+  name: "ATS — Algorithmic Trading Systems"
+  phase: M0_PROGRAM_REBASELINE
+  status: IN_PROGRESS
+  updated_on: "2026-09-14"
+
+model:
+  program_charter: "00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md"
+  operating_model: "00_Управление_проектом/v2/OPERATING_MODEL_V2.md"
+  strategy_lifecycle: "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md"
+  research_methodology: "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md"
+
+current:
+  focus: "Завершить Program Rebaseline v2"
+  next_artifact: "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
+
+milestones:
+  M0_PROGRAM_REBASELINE: IN_PROGRESS
+  M1_RESEARCH_METHODOLOGY: NOT_STARTED
+  M2_RESEARCH_PLATFORM_MVP: NOT_STARTED
+  M3_REFERENCE_STRATEGY_1: NOT_STARTED
+  M4_VALIDATION_FRAMEWORK: NOT_STARTED
+  M5_EXECUTION_PLATFORM: NOT_STARTED
+  M6_REFERENCE_STRATEGY_2: NOT_STARTED
+  M7_PORTFOLIO_LAYER: NOT_STARTED
+  M8_CONTROLLED_LIVE_PORTFOLIO: NOT_STARTED
+
+recorded_documents:
+  - "00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md"
+  - "00_Управление_проектом/v2/OPERATING_MODEL_V2.md"
+  - "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md"
+  - "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md"
+
+remaining_m0_artifacts:
+  - "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
+  - "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
+  - "Program Backlog v2"
+  - "Research entity templates"
+
+strategy_pipeline:
+  ideas_registered: 0
+  prototypes_active: 0
+  candidates_active: 0
+  validated_strategies: 0
+  active_strategies: 0
+
+legacy:
+  thirteen_gate_model_retained_for_history: true
+  thirteen_gate_model_is_program_roadmap: false
+  gates_passed_before_rebaseline: 0
