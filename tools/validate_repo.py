@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Structural validator for the ATS repository."""
+"""Structural validator for the ATS v2 repository."""
 
 from __future__ import annotations
 
@@ -11,30 +11,26 @@ REQUIRED_FILES = (
     "README.md",
     "00_НАЧАТЬ_ЗДЕСЬ.md",
     "AGENTS.md",
+    "AI_HANDOFF.md",
     "01_СТАТУС_ПРОЕКТА.md",
     "02_СЛЕДУЮЩИЙ_ШАГ.md",
     "03_СОСТОЯНИЕ_ПРОЕКТА.yaml",
     "SECURITY.md",
-    "00_Управление_проектом/ДОРОЖНАЯ_КАРТА.md",
-    "00_Управление_проектом/МАТРИЦА_ВОРОТ.md",
-    "00_Управление_проектом/БЭКЛОГ_ЗАДАЧ.md",
-    "00_Управление_проектом/РЕЕСТР_ЭКСПЕРИМЕНТОВ.csv",
-    "01_Контур_продукта/ВИДЕНИЕ_И_ЦЕЛИ.md",
-    "01_Контур_продукта/ФУНКЦИОНАЛЬНЫЕ_ТРЕБОВАНИЯ.md",
-    "02_Архитектура_и_решения/БАЗОВЫЙ_СТЕК.md",
-    "02_Архитектура_и_решения/АРХИТЕКТУРА_РОБОТА.md",
-    "02_Архитектура_и_решения/ADR/ADR-0001-13-ворот.md",
-    "02_Архитектура_и_решения/ADR/ADR-0002-защитный-контур.md",
-    "02_Архитектура_и_решения/ADR/ADR-0003-независимый-период.md",
-    "03_Нормативная_база_и_правила/РЕГЛАМЕНТЫ.md",
-    "03_Нормативная_база_и_правила/ИСТОЧНИКИ.md",
-    "04_Реестры_и_связи/РЕЕСТР_АРТЕФАКТОВ.csv",
-    "05_Коллизии/ОТКРЫТЫЕ_ВОПРОСЫ.md",
+    "00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md",
+    "00_Управление_проектом/v2/OPERATING_MODEL_V2.md",
+    "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md",
+    "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md",
+    "00_Управление_проектом/v2/PROGRAM_WBS_V2.md",
     "data/README.md",
     "experiments/README.md",
     "reports/README.md",
     "src/README.md",
     "tests/README.md",
+)
+
+LEGACY_REFERENCE_FILES = (
+    "00_Управление_проектом/ДОРОЖНАЯ_КАРТА.md",
+    "00_Управление_проектом/МАТРИЦА_ВОРОТ.md",
 )
 
 FORBIDDEN_PLACEHOLDERS = (
@@ -45,10 +41,20 @@ FORBIDDEN_PLACEHOLDERS = (
 )
 
 TEXT_SUFFIXES = {".md", ".yaml", ".yml", ".csv", ".py", ".txt"}
+TRANSITIONAL_STATE = Path("00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml")
 
 
 def fail(message: str) -> None:
     print(f"BLOCKING: {message}")
+
+
+def read(repo: Path, relative: str) -> str:
+    return (repo / relative).read_text(encoding="utf-8")
+
+
+def extract_quoted_scalar(text: str, key: str) -> str | None:
+    match = re.search(rf'(?m)^\s*{re.escape(key)}:\s*"([^"]+)"\s*$', text)
+    return match.group(1) if match else None
 
 
 def main() -> int:
@@ -56,39 +62,76 @@ def main() -> int:
     blocking = 0
 
     for relative in REQUIRED_FILES:
-        path = repo / relative
-        if not path.is_file():
+        if not (repo / relative).is_file():
             fail(f"missing required file: {relative}")
             blocking += 1
 
+    for relative in LEGACY_REFERENCE_FILES:
+        if not (repo / relative).is_file():
+            fail(f"legacy reference file unexpectedly missing: {relative}")
+            blocking += 1
+
+    if (repo / TRANSITIONAL_STATE).exists():
+        fail(f"transitional duplicate state must not exist: {TRANSITIONAL_STATE}")
+        blocking += 1
+
     state_path = repo / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
-    if state_path.is_file():
-        state = state_path.read_text(encoding="utf-8")
-        required_state_markers = (
-            "gates_total: 13",
-            "gate_id: G01",
-            "real_money_trading_allowed: false",
-            "scaling_allowed: false",
-            "martingale_allowed: false",
-        )
-        for marker in required_state_markers:
-            if marker not in state:
-                fail(f"state marker missing or changed: {marker}")
-                blocking += 1
+    state = state_path.read_text(encoding="utf-8") if state_path.is_file() else ""
 
-        gate_rows = re.findall(r"(?m)^  G(\d{2}):\s+([A-Z_]+)\s*$", state)
-        gate_ids = {int(number) for number, _ in gate_rows}
-        if gate_ids != set(range(1, 14)):
-            fail("state must contain exactly G01 through G13")
+    required_state_markers = (
+        'schema_version: "2.0"',
+        "phase: M0_PROGRAM_REBASELINE",
+        "status: IN_PROGRESS",
+        'canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"',
+        "real_money_trading_allowed: false",
+        "scaling_allowed: false",
+        "martingale_allowed: false",
+        "thirteen_gate_model_is_program_roadmap: false",
+    )
+    for marker in required_state_markers:
+        if marker not in state:
+            fail(f"canonical v2 state marker missing or changed: {marker}")
             blocking += 1
 
-    matrix_path = repo / "00_Управление_проектом/МАТРИЦА_ВОРОТ.md"
-    if matrix_path.is_file():
-        matrix = matrix_path.read_text(encoding="utf-8")
-        matrix_gate_ids = {int(value) for value in re.findall(r"\| `G(\d{2})` \|", matrix)}
-        if matrix_gate_ids != set(range(1, 14)):
-            fail("gate matrix must contain exactly G01 through G13")
+    next_artifact = extract_quoted_scalar(state, "next_artifact")
+    last_completed = extract_quoted_scalar(state, "last_completed_artifact")
+
+    if not next_artifact:
+        fail("canonical state must define quoted next_artifact")
+        blocking += 1
+    if not last_completed:
+        fail("canonical state must define quoted last_completed_artifact")
+        blocking += 1
+
+    handoff_path = repo / "AI_HANDOFF.md"
+    next_path = repo / "02_СЛЕДУЮЩИЙ_ШАГ.md"
+    handoff = handoff_path.read_text(encoding="utf-8") if handoff_path.is_file() else ""
+    next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
+
+    if next_artifact:
+        if next_artifact not in handoff:
+            fail("AI_HANDOFF.md does not mention canonical next_artifact")
             blocking += 1
+        if next_artifact not in next_step:
+            fail("02_СЛЕДУЮЩИЙ_ШАГ.md does not mention canonical next_artifact")
+            blocking += 1
+
+    if last_completed and last_completed not in handoff:
+        fail("AI_HANDOFF.md does not mention canonical last_completed_artifact")
+        blocking += 1
+
+    if "PROGRAM_STATE_V2.yaml" in handoff:
+        fail("AI_HANDOFF.md still references removed transitional state")
+        blocking += 1
+
+    agents_path = repo / "AGENTS.md"
+    agents = agents_path.read_text(encoding="utf-8") if agents_path.is_file() else ""
+    if "03_СОСТОЯНИЕ_ПРОЕКТА.yaml" not in agents:
+        fail("AGENTS.md must point to canonical state")
+        blocking += 1
+    if "PROGRAM_STATE_V2.yaml" in agents:
+        fail("AGENTS.md still references removed transitional state")
+        blocking += 1
 
     for path in repo.rglob("*"):
         if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
@@ -100,13 +143,6 @@ def main() -> int:
                 fail(f"forbidden placeholder pattern in {relative}")
                 blocking += 1
                 break
-
-    risk_mandate = repo / "01_Контур_продукта/РИСК_МАНДАТ.md"
-    if risk_mandate.exists():
-        state = state_path.read_text(encoding="utf-8") if state_path.exists() else ""
-        if "G01: PASS" not in state:
-            fail("risk mandate exists, but G01 is not PASS")
-            blocking += 1
 
     if blocking:
         print(f"ATS repository validation: BLOCKING ({blocking})")
