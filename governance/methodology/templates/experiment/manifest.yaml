@@ -1,0 +1,44 @@
+schema_version: "1.0"
+
+experiment:
+  experiment_id: null
+  status: DRAFT
+  created_on: null
+  research_stage: null
+
+links:
+  idea_id: null
+  hypothesis_id: null
+  candidate_id: null
+  strategy_id: null
+  strategy_version: null
+
+reproducibility:
+  code_revision: null
+  environment_id: null
+  dataset_id: null
+  data_period: null
+  parameters: {}
+  random_seed: null
+
+assumptions:
+  cost_model: null
+  execution_model: null
+  applicability_notes: null
+
+question:
+  predefined_question: null
+  predefined_decision_rule: null
+  primary_metrics: []
+  secondary_metrics: []
+
+result:
+  result_file: "result.json"
+  conclusion_file: "conclusion.md"
+  completed_on: null
+  outcome: null
+
+# Правила экземпляра:
+# - null означает отсутствие фактически зафиксированного значения, а не разрешение выдумать его.
+# - неприменимое поле заменяется на строку NOT_APPLICABLE с объяснением в applicability_notes.
+# - manifest фиксируется до использования результата как formal evidence.
