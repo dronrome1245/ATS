@@ -1,0 +1,14 @@
+schema_version: "1.0"
+strategy_id: null
+strategy_version: null
+
+parameters: {}
+
+parameter_notes:
+  source: null
+  tuning_stage: null
+  frozen_for_stage: null
+  applicability_notes: null
+
+# Параметры экземпляра должны быть фактическими значениями конкретной Strategy Version.
+# Неизвестные значения остаются null до принятия решения; неприменимое поле обозначается NOT_APPLICABLE.
