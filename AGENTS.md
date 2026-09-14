@@ -19,30 +19,37 @@
 - какой следующий шаг разрешён;
 - какие legacy-файлы нельзя ошибочно принимать за актуальный roadmap.
 
-Если `AI_HANDOFF.md`, program state и `02_СЛЕДУЮЩИЙ_ШАГ.md` противоречат друг другу, содержательную работу не продолжать до устранения расхождения.
+Если `AI_HANDOFF.md`, `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` и `02_СЛЕДУЮЩИЙ_ШАГ.md` противоречат друг другу, содержательную работу не продолжать до устранения расхождения.
 
 ## 3. Обязательный порядок чтения
 
-Во время `M0_PROGRAM_REBASELINE` перед содержательной работой читать:
+Перед содержательной работой читать:
 
 1. `AI_HANDOFF.md`;
-2. `00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml`;
+2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` — canonical machine-readable state;
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
 4. `00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md`;
 5. `00_Управление_проектом/v2/OPERATING_MODEL_V2.md`;
-6. для research — `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md`;
-7. для конкретной стратегии — `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md`;
-8. только затем связанные code/data/test/report artifacts.
+6. `00_Управление_проектом/v2/PROGRAM_WBS_V2.md` — для program work;
+7. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md` — для research;
+8. `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md` — для конкретной стратегии;
+9. только затем связанные code/data/test/report artifacts.
 
 Не загружать весь репозиторий без необходимости.
 
-## 4. Переходное состояние
+## 4. Canonical state
 
-Корневой `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` содержит state model ATS v1 и временно сохраняется для истории и совместимости существующего `tools/validate_repo.py`.
+Единственный canonical machine-readable state ATS находится в:
 
-Во время rebaseline актуальное program-level состояние v2 находится в `00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml`, человекочитаемые представления — в `01_СТАТУС_ПРОЕКТА.md` и `02_СЛЕДУЮЩИЙ_ШАГ.md`, а краткий handoff для нового контекста — в `AI_HANDOFF.md`.
+`03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 
-После завершения M0 должен остаться один однозначный canonical machine-readable state.
+Человекочитаемые представления:
+
+- `01_СТАТУС_ПРОЕКТА.md`;
+- `02_СЛЕДУЮЩИЙ_ШАГ.md`;
+- `AI_HANDOFF.md`.
+
+Старая модель G01–G13 сохранена в legacy-документах как history/reference, но не является текущим roadmap программы.
 
 ## 5. Модель ATS v2
 
@@ -56,7 +63,7 @@ ATS — не одна стратегия и не один robot project.
 - Portfolio & Capital;
 - Operations & Governance.
 
-Старые G01–G13 не являются текущим roadmap программы. Они сохраняются как legacy и источник требований, перенесённых в `Strategy Lifecycle v2`.
+Текущая работа управляется milestones M0–M8 и `PROGRAM_WBS_V2.md`.
 
 ## 6. Research discipline
 
@@ -160,7 +167,7 @@ Demo/shadow не считается доказательством profitability
 Перед завершением работы агент обязан проверить и при необходимости обновить:
 
 1. основной созданный/изменённый artifact;
-2. `00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml`;
+2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
 3. `01_СТАТУС_ПРОЕКТА.md`;
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
 5. `AI_HANDOFF.md`;
@@ -171,15 +178,15 @@ Demo/shadow не считается доказательством profitability
 
 ## 16. Проверка репозитория
 
-Перед предложением завершённого изменения запускать или проверять применимость:
+Перед предложением завершённого изменения проверить:
 
 ```bash
 python tools/validate_repo.py
 ```
 
-Текущий validator всё ещё содержит часть структурных требований v1. Его миграция входит в M0 и не должна приводить к удалению legacy evidence до утверждения новой структуры.
+Validator должен подтверждать canonical v2 state, обязательные v2 artifacts и согласованность `next_artifact` между state, handoff и `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 
-После появления исполняемого platform/strategy code к structural validation должны добавляться профильные unit, integration, replay и failure tests.
+После появления исполняемого platform/strategy code к structural validation добавляются профильные unit, integration, replay и failure tests.
 
 ## 17. Принцип безопасности
 
