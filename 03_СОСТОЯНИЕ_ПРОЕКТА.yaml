@@ -5,7 +5,7 @@ program:
   phase: M0_PROGRAM_REBASELINE
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-14"
+  updated_on: "2026-09-15"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -27,11 +27,12 @@ model:
   strategy_lifecycle: "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md"
   research_methodology: "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md"
   program_wbs: "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
+  repository_structure: "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
 
 current:
   focus: "Завершить Program Rebaseline v2"
-  last_completed_artifact: "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
-  next_artifact: "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
+  last_completed_artifact: "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
+  next_artifact: "governance/backlog/PROGRAM_BACKLOG_V2.md"
 
 milestones:
   M0_PROGRAM_REBASELINE: IN_PROGRESS
@@ -51,12 +52,14 @@ m0:
     - "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md"
     - "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md"
     - "00_Управление_проектом/v2/PROGRAM_WBS_V2.md"
+    - "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
     - "Canonical state migration to v2"
     - "Validator migration to v2"
+    - "AI handoff protocol"
   remaining_artifacts:
-    - "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"
-    - "Program Backlog v2"
+    - "governance/backlog/PROGRAM_BACKLOG_V2.md"
     - "Research entity templates"
+    - "Legacy classification and migration index"
 
 handoff_policy:
   update_after_material_step: true
