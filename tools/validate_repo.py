@@ -16,12 +16,12 @@ REQUIRED_FILES = (
     "02_СЛЕДУЮЩИЙ_ШАГ.md",
     "03_СОСТОЯНИЕ_ПРОЕКТА.yaml",
     "SECURITY.md",
-    "00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md",
-    "00_Управление_проектом/v2/OPERATING_MODEL_V2.md",
-    "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md",
-    "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md",
-    "00_Управление_проектом/v2/PROGRAM_WBS_V2.md",
-    "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md",
+    "governance/program/PROGRAM_CHARTER_V2.md",
+    "governance/program/OPERATING_MODEL_V2.md",
+    "governance/program/PROGRAM_WBS_V2.md",
+    "governance/program/REPOSITORY_STRUCTURE_V2.md",
+    "governance/methodology/STRATEGY_LIFECYCLE_V2.md",
+    "governance/methodology/RESEARCH_METHODOLOGY_V1.md",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
     "governance/methodology/templates/README.md",
     "governance/methodology/templates/IDEA_TEMPLATE.md",
@@ -92,7 +92,12 @@ def main() -> int:
         "phase: M0_PROGRAM_REBASELINE",
         "status: IN_PROGRESS",
         'canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"',
-        'repository_structure: "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md"',
+        'program_charter: "governance/program/PROGRAM_CHARTER_V2.md"',
+        'operating_model: "governance/program/OPERATING_MODEL_V2.md"',
+        'program_wbs: "governance/program/PROGRAM_WBS_V2.md"',
+        'repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"',
+        'strategy_lifecycle: "governance/methodology/STRATEGY_LIFECYCLE_V2.md"',
+        'research_methodology: "governance/methodology/RESEARCH_METHODOLOGY_V1.md"',
         'program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"',
         'research_templates: "governance/methodology/templates/README.md"',
         "real_money_trading_allowed: false",
@@ -150,10 +155,6 @@ def main() -> int:
         fail("AI_HANDOFF.md does not mention canonical last_completed_artifact")
         blocking += 1
 
-    if "PROGRAM_STATE_V2.yaml" in handoff:
-        fail("AI_HANDOFF.md still references removed transitional state")
-        blocking += 1
-
     agents_path = repo / "AGENTS.md"
     agents = agents_path.read_text(encoding="utf-8") if agents_path.is_file() else ""
     if "03_СОСТОЯНИЕ_ПРОЕКТА.yaml" not in agents:
@@ -162,8 +163,8 @@ def main() -> int:
     if "governance/backlog/PROGRAM_BACKLOG_V2.md" not in agents:
         fail("AGENTS.md must point to canonical Program Backlog")
         blocking += 1
-    if "PROGRAM_STATE_V2.yaml" in agents:
-        fail("AGENTS.md still references removed transitional state")
+    if "governance/program/PROGRAM_WBS_V2.md" not in agents:
+        fail("AGENTS.md must point to canonical Program WBS")
         blocking += 1
 
     for path in repo.rglob("*"):
