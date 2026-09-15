@@ -30,6 +30,7 @@ model:
   hypothesis_model: "governance/methodology/HYPOTHESIS_MODEL.md"
   data_feasibility_review: "governance/methodology/DATA_FEASIBILITY_REVIEW.md"
   cheap_prototype_protocol: "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"
+  economic_pre_screen: "governance/methodology/ECONOMIC_PRE_SCREEN.md"
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
@@ -37,11 +38,11 @@ model:
   m0_exit_review: "governance/program/M0_EXIT_REVIEW.md"
 
 current:
-  focus: "Operationalize Research Factory — Economic Pre-Screen"
-  last_completed_task_id: "ATS2-M1-004"
-  last_completed_artifact: "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"
-  next_artifact: "governance/methodology/ECONOMIC_PRE_SCREEN.md"
-  next_task_id: "ATS2-M1-005"
+  focus: "Operationalize Research Factory — Candidate promotion"
+  last_completed_task_id: "ATS2-M1-005"
+  last_completed_artifact: "governance/methodology/ECONOMIC_PRE_SCREEN.md"
+  next_artifact: "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md"
+  next_task_id: "ATS2-M1-006"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -66,19 +67,21 @@ m1:
     - "ATS2-M1-002"
     - "ATS2-M1-003"
     - "ATS2-M1-004"
+    - "ATS2-M1-005"
   completed_artifacts:
     - "governance/methodology/IDEA_INTAKE_PROCESS.md"
     - "governance/methodology/HYPOTHESIS_MODEL.md"
     - "governance/methodology/DATA_FEASIBILITY_REVIEW.md"
     - "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"
-  current_task: "ATS2-M1-005"
-  current_wbs: "WBS-1.5"
+    - "governance/methodology/ECONOMIC_PRE_SCREEN.md"
+  current_task: "ATS2-M1-006"
+  current_wbs: "WBS-1.6"
   reference_strategy_selection_allowed: false
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M1-005"
-  current_ready_wbs: "WBS-1.5"
+  current_ready_task: "ATS2-M1-006"
+  current_ready_wbs: "WBS-1.6"
 
 handoff_policy:
   update_after_material_step: true
