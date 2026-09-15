@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ATS repository validator after M1-010."""
+"""ATS repository validator after M1 Exit PASS / M2 entry."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ REVIEW_PROTOCOL = "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
 REVIEW_CHECKS = "governance/methodology/RESEARCH_REVIEW_CHECKS.md"
 REVIEW_DECISIONS = "governance/methodology/RESEARCH_REVIEW_DECISIONS.md"
 REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
+M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 HEADER = (
     "experiment_id", "status", "research_stage", "evidence_class",
     "qualified_evidence_class", "idea_id", "hypothesis_id", "candidate_id",
@@ -30,10 +31,10 @@ QUALIFIED = {
 
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
-        TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
+        TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE, M1_EXIT,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
-        "evidence_taxonomy", "research_review_protocol",
+        "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
@@ -57,6 +58,10 @@ def configure() -> None:
     core.CONTENT_MARKERS[REVIEW_TEMPLATE] = (
         "Prior Review ID", "Package completeness", "Lineage / currency",
         "Evidence class sufficiency", "Negative evidence and dissent", "Stop condition",
+    )
+    core.CONTENT_MARKERS[M1_EXIT] = (
+        "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
+        "ATS2-M2-000 — Reference Consumer Profile", "Pipeline counters intentionally remain zero",
     )
     core.CONTENT_MARKERS["governance/methodology/templates/CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md"] = (
         "Source class", "Qualified evidence class", "Negative and discarded evidence",
@@ -92,13 +97,15 @@ def main() -> int:
 
     state = (repo / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml").read_text(encoding="utf-8")
     for marker in (
-        'schema_version: "2.0"', "phase: M1_RESEARCH_METHODOLOGY",
-        "M0_PROGRAM_REBASELINE: COMPLETED", "M1_RESEARCH_METHODOLOGY: IN_PROGRESS",
-        'evidence_taxonomy: "governance/methodology/EVIDENCE_TAXONOMY.md"',
+        'schema_version: "2.0"', "phase: M2_RESEARCH_PLATFORM_MVP",
+        "M0_PROGRAM_REBASELINE: COMPLETED", "M1_RESEARCH_METHODOLOGY: COMPLETED",
+        "M2_RESEARCH_PLATFORM_MVP: IN_PROGRESS", "exit_decision: PASS",
+        'm1_exit_review: "governance/program/M1_EXIT_REVIEW.md"',
         'research_review_protocol: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"',
-        'current_task: "ATS2-M1-011"', 'current_ready_task: "ATS2-M1-011"',
-        "reference_strategy_selection_allowed: false", "experiments_registered: 0",
-        "physical_migration_complete: true", "thirteen_gate_model_is_program_roadmap: false",
+        'current_task: "ATS2-M2-000"', 'current_ready_task: "ATS2-M2-000"',
+        'current_wbs: "WBS-2.0"', "reference_strategy_selection_allowed: false",
+        "experiments_registered: 0", "physical_migration_complete: true",
+        "thirteen_gate_model_is_program_roadmap: false",
     ):
         if marker not in state:
             core.fail(f"canonical state marker missing or changed: {marker}")
@@ -153,11 +160,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M1-010") != "DONE":
-        core.fail("M1-010 must be DONE in Program Backlog")
+    if "ATS2-M1-011` | M1 Exit | P1 | DONE / PASS" not in backlog:
+        core.fail("M1-011 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M1-011") != "READY":
-        core.fail("M1-011 must be READY in Program Backlog")
+    if "ATS2-M2-000` | `WBS-2.0` | P1 | READY" not in backlog:
+        core.fail("M2-000 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
