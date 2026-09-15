@@ -16,36 +16,42 @@
 
 ## 2. Последний завершённый шаг
 
-`ATS2-M1-001 — Idea intake process` — `DONE`.
+`ATS2-M1-002 — Hypothesis model` — `DONE`.
 
 Artifact:
 
-`governance/methodology/IDEA_INTAKE_PROCESS.md`
+`governance/methodology/HYPOTHESIS_MODEL.md`
 
-Idea intake now defines stable `IDEA-xxxx` IDs, provenance, duplicate/overlap review, minimum intake fields, `SCREEN / PARK / REJECT`, status mapping and retention of negative decisions. `IDEA_TEMPLATE.md` is aligned and was structurally tested without registering a fictitious Idea.
+Hypothesis formation now defines stable `HYP-xxxx`, Parent Idea linkage, falsifiable Statement, Mechanism, Conditions, Horizons, expected Direction, decision-time information premise, Falsification, Required data, Known biases, cheap research question and change control. `HYPOTHESIS_TEMPLATE.md` is aligned and structurally tested without registering a fictitious Hypothesis.
+
+Decision `DATA_FEASIBILITY` means readiness for data review only; it is not evidence of edge and does not authorize prototype work.
 
 ## 3. Текущая ready task
 
-`ATS2-M1-002 — Hypothesis model`
+`ATS2-M1-003 — Data Feasibility review`
 
 Canonical next artifact:
 
-`governance/methodology/HYPOTHESIS_MODEL.md`
+`governance/methodology/DATA_FEASIBILITY_REVIEW.md`
 
-Goal: define how a screened Idea becomes a falsifiable Hypothesis and align/test `governance/methodology/templates/HYPOTHESIS_TEMPLATE.md` without inventing a Hypothesis for process testing.
+Goal: define how ATS decides whether available data can honestly test a concrete Hypothesis before Cheap Prototype work.
 
-## 4. Что должно быть определено в M1-002
+## 4. Что должно быть определено в M1-003
 
-- stable `HYP-xxxx` ID;
-- parent Idea linkage;
-- Statement / Mechanism / Market / Condition / Horizon / Direction;
-- explicit Falsification;
-- Required data and Known biases;
-- falsifiability admission rule;
-- allowed unknowns before Data Feasibility;
-- Hypothesis status/decision model;
-- material-reformulation change control;
-- structural template acceptance test.
+- Hypothesis linkage;
+- required data/source types;
+- coverage and granularity;
+- timezone and timestamp semantics;
+- decision-time information availability;
+- revisions/restatements/corporate actions/event corrections;
+- missing/bad data handling;
+- universe/survivorship/selection risks;
+- leakage/overlap risks;
+- transformation trace and dataset identity;
+- cost/execution inputs relevant to the early test;
+- explicit known gaps;
+- feasibility decision/status model;
+- structural acceptance test without invented vendor or dataset.
 
 ## 5. Обязательный порядок чтения
 
@@ -54,12 +60,13 @@ Goal: define how a screened Idea becomes a falsifiable Hypothesis and align/test
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 5. `governance/methodology/IDEA_INTAKE_PROCESS.md`.
-6. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
-7. `governance/methodology/templates/HYPOTHESIS_TEMPLATE.md`.
+6. `governance/methodology/HYPOTHESIS_MODEL.md`.
+7. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
+8. relevant templates.
 
 ## 6. Boundaries
 
-Idea `SCREEN` is not evidence of edge. M1-002 does not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits. Quantitative testing waits for the applicable Data Feasibility/research protocol.
+No fictitious research consumer is created for process testing. Do not choose a universal vendor, Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits. Quantitative prototype work starts only after a Data Feasibility decision.
 
 ## 7. Completion protocol
 
@@ -68,8 +75,8 @@ Material program task is complete only after deliverable, backlog, canonical sta
 ## 8. Проверка восстановления контекста
 
 - Current phase? — `M1_RESEARCH_METHODOLOGY`.
-- Last completed? — `ATS2-M1-001`, `governance/methodology/IDEA_INTAKE_PROCESS.md`.
-- Next task? — `ATS2-M1-002`.
-- Next artifact? — `governance/methodology/HYPOTHESIS_MODEL.md`.
-- Ideas registered by process test? — `0`.
-- Can screening be treated as edge evidence? — no.
+- Last completed? — `ATS2-M1-002`, `governance/methodology/HYPOTHESIS_MODEL.md`.
+- Next task? — `ATS2-M1-003`.
+- Next artifact? — `governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
+- Can a `DATA_FEASIBILITY` Hypothesis be treated as edge evidence? — no.
+- Can Cheap Prototype start before data review? — no.
