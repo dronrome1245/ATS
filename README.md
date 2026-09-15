@@ -13,28 +13,30 @@
 
 Последняя завершённая task:
 
-`ATS2-M1-007 — Experiment registration schema`.
+`ATS2-M1-008 — Experiment registry`.
 
-Artifact:
+Artifacts:
 
-`governance/methodology/EXPERIMENT_REGISTRATION.md`.
+- `experiments/REGISTRY.csv`;
+- registry rules: `experiments/README.md`;
+- search CLI: `tools/search_experiments.py`.
 
-Experiment templates теперь разделяют preregistration (`manifest.yaml`), observed result (`result.json`) и interpretation/decision (`conclusion.md`).
+Registry имеет один durable row на реальный `EXP-...`, сохраняет negative/cancelled/superseded history и индексирует canonical package без дублирования manifest/result/conclusion. Initial registry содержит zero fictitious rows.
 
 Следующая ready task:
 
-`ATS2-M1-008 — Experiment registry`.
+`ATS2-M1-009 — Evidence taxonomy operationalization`.
 
 Следующий artifact:
 
-`experiments/REGISTRY.csv`.
+`governance/methodology/EVIDENCE_TAXONOMY.md`.
 
 ## Canonical ATS v2
 
 - Program governance: `governance/program/`;
 - Methodology: `governance/methodology/`;
 - Research templates: `governance/methodology/templates/`;
-- Formal experiments: `experiments/`;
+- Formal experiments and registry: `experiments/`;
 - Execution queue: `governance/backlog/PROGRAM_BACKLOG_V2.md`;
 - Legacy ATS v1: `legacy/v1/`.
 
@@ -45,9 +47,10 @@ Experiment templates теперь разделяют preregistration (`manifest.
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для текущей работы: `governance/methodology/EXPERIMENT_REGISTRATION.md` и `experiments/README.md`.
-7. Проверка: `python tools/validate_repo.py`.
+6. Для текущей работы: `governance/methodology/RESEARCH_METHODOLOGY_V1.md`, `governance/methodology/EXPERIMENT_REGISTRATION.md`, `experiments/README.md`.
+7. Поиск experiments: `python tools/search_experiments.py --help`.
+8. Проверка repository: `python tools/validate_repo.py`.
 
 ## Boundary
 
-A formal `EXP-...` is registered before result observation and has evidence class `REGISTERED_EXPERIMENT`; this does not by itself mean validated edge. Registry is an index, not an alternative manifest. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
+Searchable Registry is an index, not evidence promotion. A `REGISTERED_EXPERIMENT` is preregistered but not automatically validation evidence. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
