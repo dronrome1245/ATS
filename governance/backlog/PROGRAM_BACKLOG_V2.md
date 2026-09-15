@@ -21,12 +21,12 @@ Backlog превращает Program WBS в исполнимую очередь 
 6. `ATS2-M1-005` — Economic Pre-Screen — `DONE`.
 7. `ATS2-M1-006` — Candidate promotion — `DONE`.
 8. `ATS2-M1-007` — Experiment registration schema — `DONE`.
-9. `ATS2-M1-008` — Experiment registry — `READY`.
-10. `ATS2-M1-009` — Evidence taxonomy operationalization — после M1-008 по WIP discipline.
+9. `ATS2-M1-008` — Experiment registry — `DONE`.
+10. `ATS2-M1-009` — Evidence taxonomy operationalization — `READY`.
 11. `ATS2-M1-010` — Research review protocol — после M1-001…009.
 12. `ATS2-M1-011` — M1 Exit — после M1-001…010.
 
-Program-level current next task — `ATS2-M1-008`.
+Program-level current next task — `ATS2-M1-009`.
 
 ## 3. M0 — Program Rebaseline
 
@@ -45,8 +45,8 @@ Canonical exit evidence: `governance/program/M0_EXIT_REVIEW.md`.
 | `ATS2-M1-005` | `WBS-1.5` | P1 | DONE | M1-004 | `governance/methodology/ECONOMIC_PRE_SCREEN.md` + `ECONOMIC_PRE_SCREEN_TEMPLATE.md` | R4 assesses E1–E9 and produces `ADVANCE_TO_CANDIDATE_REVIEW/RETURN_TO_RESEARCH/PARK/REJECT` without universal return/trade-count thresholds or invented capital |
 | `ATS2-M1-006` | `WBS-1.6` | P1 | DONE | M1-005 | `governance/methodology/CANDIDATE_PROMOTION_PROCESS.md` + Candidate Promotion Review/Candidate/Evidence Index templates | Formal review requires the R0–R4 package and exactly one `PROMOTE/PARK/REJECT`; only `PROMOTE` allocates `CAND-xxxx`, creates `CANDIDATE.md` + `EVIDENCE_INDEX.md`, sets `READY_FOR_S01`, preserves evidence limitations and leaves `Strategy ID = null` until S01 |
 | `ATS2-M1-007` | `WBS-1.7` | P1 | DONE | M1-002 | `governance/methodology/EXPERIMENT_REGISTRATION.md` + aligned experiment templates | Formal experiment uses stable `EXP-YYYYMMDD-nnn`; `REGISTERED` manifest is committed before result observation and freezes question, hypothesis/linkage, code/data/config, costs/execution, primary metrics and decision rule; observed facts live in `result.json`, interpretation in `conclusion.md`, and post-result rewrite cannot masquerade as preregistration |
-| `ATS2-M1-008` | `WBS-1.8` | P1 | READY | M1-007 | `experiments/REGISTRY.csv` + registry rules in `experiments/README.md` | Positive, negative, failed, cancelled and superseded formal experiments are discoverable by stable ID, status/stage/hypothesis and canonical package; registry binds each entry to registered manifest context without becoming a second source of experiment truth |
-| `ATS2-M1-009` | `WBS-1.9` | P1 | NOT_STARTED | M0-013 | Evidence taxonomy operationalization | Dependency выполнена, activation следует после registry по WIP discipline; taxonomy связывает evidence class с допустимыми claims/decisions |
+| `ATS2-M1-008` | `WBS-1.8` | P1 | DONE | M1-007 | `experiments/REGISTRY.csv` + registry rules in `experiments/README.md` + `tools/search_experiments.py` | One canonical CSV index has one durable row per real Experiment ID, retains negative/failed/cancelled/superseded history, indexes status/stage/evidence class/lineage/outcome/decision, links to canonical package/manifest, and is searchable without becoming a second source of experiment truth; initial registry contains zero fictitious rows |
+| `ATS2-M1-009` | `WBS-1.9` | P1 | READY | M0-013 | `governance/methodology/EVIDENCE_TAXONOMY.md` | Operationalize evidence classes and define which claims/decisions each class may and may not support across exploratory, registered, validation, independent, demo/shadow and live evidence |
 | `ATS2-M1-010` | `WBS-1.10` | P1 | BLOCKED | M1-001…009 | Research review protocol | Повторяемая процедура решает `PROMOTE / PARK / REJECT` и фиксирует evidence/decision context |
 | `ATS2-M1-011` | M1 Exit | P1 | BLOCKED | M1-001…010 | M1 exit decision | Idea → Prototype → Candidate decision и formal evidence registration/registry выполняются воспроизводимо |
 
@@ -60,10 +60,10 @@ Reference Strategy #1 выбирается только в M3 после M1 и M
 
 Текущая program-level ready task:
 
-`ATS2-M1-008 — Experiment registry`.
+`ATS2-M1-009 — Evidence taxonomy operationalization`.
 
 Canonical next artifact:
 
-`experiments/REGISTRY.csv`.
+`governance/methodology/EVIDENCE_TAXONOMY.md`.
 
-Задача должна создать один searchable registry для formal Experiments. Registry должен включать stable Experiment ID, lifecycle/status, research stage/evidence class, Hypothesis/Candidate/Strategy linkage при наличии, canonical package path, registration anchor/context и outcome/decision fields when known. Он должен сохранять negative/cancelled/superseded entries и не дублировать полный manifest/result/conclusion как альтернативный source of truth.
+Задача должна определить operational evidence classes, допустимую силу claims для каждого класса, переходы между exploratory/registered/validation/independent/demo/live evidence и запрет автоматически повышать evidence class по привлекательности результата.
