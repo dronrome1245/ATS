@@ -16,64 +16,50 @@
 
 ## 2. Последний завершённый шаг
 
-`ATS2-M1-007 — Experiment registration schema` — `DONE`.
+`ATS2-M1-008 — Experiment registry` — `DONE`.
 
-Artifact:
+Artifacts/capabilities:
 
-`governance/methodology/EXPERIMENT_REGISTRATION.md`
+- `experiments/REGISTRY.csv` — canonical searchable Experiment index;
+- `experiments/README.md` — registry schema/lifecycle/integrity rules;
+- `tools/search_experiments.py` — canonical lightweight search CLI.
 
-Aligned templates:
+Registry rules:
 
-- `governance/methodology/templates/experiment/manifest.yaml`;
-- `governance/methodology/templates/experiment/result.json`;
-- `governance/methodology/templates/experiment/conclusion.md`.
+- one row per real `EXP-YYYYMMDD-nnn`;
+- rows are never deleted because result is negative, failed, cancelled or superseded;
+- indexed fields include status, research stage, evidence class, Idea/Hypothesis/Candidate/Strategy lineage, package/manifest path, registration revision/timestamps, outcome/decision and supersede lineage;
+- Registry is an index only; `manifest.yaml → result.json → conclusion.md` remains authoritative;
+- initial registry has header only and zero fictitious rows.
 
-Formal Experiment rules now require:
-
-- stable `EXP-YYYYMMDD-nnn`;
-- real `HYP-xxxx` linkage;
-- Candidate/Strategy/Strategy Version linkage when those entities exist;
-- code/implementation/environment identity;
-- dataset/source snapshot/period and transformation context;
-- parameters/configuration;
-- random seed/protocol or explicit `NOT_APPLICABLE`;
-- cost/execution assumptions;
-- predefined question;
-- primary/secondary metrics;
-- predefined decision rule;
-- research stage and evidence class `REGISTERED_EXPERIMENT`;
-- `REGISTERED` manifest committed before corresponding result observation.
-
-Material changes after registration require a new Experiment ID. Cheap Prototype remains `EXPLORATORY_PROTOTYPE` and cannot be retroactively upgraded.
-
-Structural testing created no fictitious Experiment ID/result.
-
-`experiments/README.md` was also rebaselined away from ATS v1 registry paths and invented universal deposit/leverage requirements.
+Current `strategy_pipeline.experiments_registered = 0`.
 
 ## 3. Текущая ready task
 
-`ATS2-M1-008 — Experiment registry`
+`ATS2-M1-009 — Evidence taxonomy operationalization`
 
 Canonical next artifact:
 
-`experiments/REGISTRY.csv`
+`governance/methodology/EVIDENCE_TAXONOMY.md`
 
-Goal: make positive, negative, failed, cancelled and superseded formal experiments discoverable by stable ID while keeping each experiment package as the authoritative detailed record.
+Goal: define operational evidence classes and the exact claim strength / forbidden claims associated with each class.
 
-## 4. Что должно быть определено в M1-008
+## 4. Что должно быть определено в M1-009
 
-- one canonical registry path;
-- Experiment ID uniqueness;
-- status/research-stage/evidence-class columns;
-- Hypothesis and optional Candidate/Strategy lineage;
-- canonical experiment package/manifest reference;
-- registration anchor/context reference;
-- result/conclusion presence;
-- outcome/decision fields when known;
-- supersede lineage;
-- retention of negative/cancelled/failed entries;
-- integrity rules preventing registry rows from becoming an alternate manifest;
-- structural test without fictitious experiment rows.
+- exploratory observation/prototype evidence;
+- registered experiment evidence;
+- validation evidence;
+- independent examination evidence;
+- stress evidence;
+- demo/shadow evidence;
+- minimal/live evidence;
+- allowed claims per class;
+- prohibited claims per class;
+- prerequisites for class promotion;
+- no promotion based only on attractive result;
+- negative evidence retention;
+- relationship to Experiment Registry and Candidate/Strategy evidence indexes;
+- structural taxonomy test without fictitious market evidence.
 
 ## 5. Обязательный порядок чтения
 
@@ -81,15 +67,14 @@ Goal: make positive, negative, failed, cancelled and superseded formal experimen
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. `governance/methodology/EXPERIMENT_REGISTRATION.md`.
-6. `experiments/README.md`.
-7. `governance/methodology/templates/experiment/manifest.yaml`.
-8. `governance/methodology/templates/experiment/result.json`.
-9. `governance/methodology/templates/experiment/conclusion.md`.
+5. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
+6. `governance/methodology/EXPERIMENT_REGISTRATION.md`.
+7. `experiments/README.md` and `experiments/REGISTRY.csv`.
+8. relevant Candidate/Strategy evidence index templates.
 
 ## 6. Boundaries
 
-Registry is an index, not the source of experiment truth. `REGISTERED_EXPERIMENT` means preregistered, not validated. Do not create fake rows, fake results or fake Strategy linkage for process testing. Do not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits.
+Registry discoverability does not upgrade evidence quality. `REGISTERED_EXPERIMENT` means preregistered context, not validation. Demo/shadow is not profitability proof; historical backtest is not live-execution proof. Do not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits in M1-009.
 
 ## 7. Completion protocol
 
@@ -98,9 +83,9 @@ Material program task is complete only after deliverable, backlog, canonical sta
 ## 8. Проверка восстановления контекста
 
 - Current phase? — `M1_RESEARCH_METHODOLOGY`.
-- Last completed? — `ATS2-M1-007`, `governance/methodology/EXPERIMENT_REGISTRATION.md`.
-- Next task? — `ATS2-M1-008`.
-- Next artifact? — `experiments/REGISTRY.csv`.
-- Real Experiments created by structural test? — `0`.
-- Can registry replace manifest/result/conclusion? — no.
-- Can a completed prototype be retroactively called preregistered? — no.
+- Last completed? — `ATS2-M1-008`, `experiments/REGISTRY.csv`.
+- Next task? — `ATS2-M1-009`.
+- Next artifact? — `governance/methodology/EVIDENCE_TAXONOMY.md`.
+- Real Experiments currently registered? — `0`.
+- Can Registry replace manifest/result/conclusion? — no.
+- Does searchable mean evidence is stronger? — no.
