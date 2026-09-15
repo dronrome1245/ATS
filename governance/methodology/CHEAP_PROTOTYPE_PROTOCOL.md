@@ -47,6 +47,8 @@ If a second materially different question is needed, create another prototype it
 
 Cheap Prototype is intentionally lighter than a formal `Experiment` and does not receive an `EXP-...` ID merely for existing.
 
+Evidence class: `EXPLORATORY_PROTOTYPE`.
+
 A prototype is identified by:
 
 - parent `Hypothesis ID`;
