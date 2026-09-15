@@ -1,91 +1,55 @@
 # ATS AI Handoff
 
-**Назначение:** единая точка восстановления контекста для нового AI-чата, агента или разработчика.
+**Назначение:** восстановление текущего контекста ATS v2.
 
-## 1. Текущее состояние
+## Current state
 
-- Program: `ATS — Algorithmic Trading Systems`.
-- Program model: ATS v2 / Strategy Factory.
-- Current phase: `M1_RESEARCH_METHODOLOGY` / Research Factory.
-- Status: `IN_PROGRESS`.
+- Phase: `M1_RESEARCH_METHODOLOGY / IN_PROGRESS`.
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-- M0 Program Rebaseline: `COMPLETED / PASS`.
-- G01–G13: `legacy/v1/`, history/reference only.
-- Real trading, demo, allocation and scaling remain disallowed current actions.
+- M0: `COMPLETED / PASS`.
 
-## 2. Последний завершённый шаг
+## Last completed
 
-`ATS2-M1-008 — Experiment registry` — `DONE`.
+`ATS2-M1-009 — Evidence taxonomy operationalization` — `DONE`.
 
-Artifacts/capabilities:
+Artifact: `governance/methodology/EVIDENCE_TAXONOMY.md`.
 
-- `experiments/REGISTRY.csv` — canonical searchable Experiment index;
-- `experiments/README.md` — registry schema/lifecycle/integrity rules;
-- `tools/search_experiments.py` — canonical lightweight search CLI.
+Aligned surfaces:
 
-Registry rules:
+- `experiments/REGISTRY.csv`;
+- `experiments/README.md`;
+- `tools/search_experiments.py`;
+- Candidate Evidence Index template;
+- Strategy Version Evidence Index template.
 
-- one row per real `EXP-YYYYMMDD-nnn`;
-- rows are never deleted because result is negative, failed, cancelled or superseded;
-- indexed fields include status, research stage, evidence class, Idea/Hypothesis/Candidate/Strategy lineage, package/manifest path, registration revision/timestamps, outcome/decision and supersede lineage;
-- Registry is an index only; `manifest.yaml → result.json → conclusion.md` remains authoritative;
-- initial registry has header only and zero fictitious rows.
+Core rule: `source_class` records how evidence was produced; `qualified_evidence_class` records the strongest claim class whose protocol prerequisites were actually satisfied. Result attractiveness does not upgrade class. Negative evidence is retained.
 
-Current `strategy_pipeline.experiments_registered = 0`.
+Registry indexes both evidence-class fields and still contains zero real Experiment rows.
 
-## 3. Текущая ready task
+## Current ready task
 
-`ATS2-M1-009 — Evidence taxonomy operationalization`
+`ATS2-M1-010 — Research review protocol`
 
-Canonical next artifact:
+Next artifact: `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`.
 
-`governance/methodology/EVIDENCE_TAXONOMY.md`
+The protocol must define review triggers, required input package, lineage/current-version checks, data/economic assumptions, formal Experiment completeness, evidence-class/sufficiency checks, reviewer roles, stage-appropriate decisions, bounded return-to-research, negative-evidence/dissent retention, immutable decision records and re-review triggers.
 
-Goal: define operational evidence classes and the exact claim strength / forbidden claims associated with each class.
-
-## 4. Что должно быть определено в M1-009
-
-- exploratory observation/prototype evidence;
-- registered experiment evidence;
-- validation evidence;
-- independent examination evidence;
-- stress evidence;
-- demo/shadow evidence;
-- minimal/live evidence;
-- allowed claims per class;
-- prohibited claims per class;
-- prerequisites for class promotion;
-- no promotion based only on attractive result;
-- negative evidence retention;
-- relationship to Experiment Registry and Candidate/Strategy evidence indexes;
-- structural taxonomy test without fictitious market evidence.
-
-## 5. Обязательный порядок чтения
+## Read order
 
 1. `AGENTS.md`.
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
-6. `governance/methodology/EXPERIMENT_REGISTRATION.md`.
-7. `experiments/README.md` and `experiments/REGISTRY.csv`.
-8. relevant Candidate/Strategy evidence index templates.
+5. `governance/methodology/EVIDENCE_TAXONOMY.md`.
+6. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
+7. `governance/methodology/EXPERIMENT_REGISTRATION.md`.
+8. `experiments/README.md`.
 
-## 6. Boundaries
+## Recovery check
 
-Registry discoverability does not upgrade evidence quality. `REGISTERED_EXPERIMENT` means preregistered context, not validation. Demo/shadow is not profitability proof; historical backtest is not live-execution proof. Do not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits in M1-009.
-
-## 7. Completion protocol
-
-Material program task is complete only after deliverable, backlog, canonical state, human status, next-step, AI handoff and validator/entrypoints where relevant are synchronized.
-
-## 8. Проверка восстановления контекста
-
-- Current phase? — `M1_RESEARCH_METHODOLOGY`.
-- Last completed? — `ATS2-M1-008`, `experiments/REGISTRY.csv`.
-- Next task? — `ATS2-M1-009`.
-- Next artifact? — `governance/methodology/EVIDENCE_TAXONOMY.md`.
-- Real Experiments currently registered? — `0`.
-- Can Registry replace manifest/result/conclusion? — no.
-- Does searchable mean evidence is stronger? — no.
+- Last completed: `ATS2-M1-009`.
+- Next task: `ATS2-M1-010`.
+- Next artifact: `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`.
+- Positive result upgrades evidence class automatically? — no.
+- Can a weaker evidence class substitute for a required one? — no.
