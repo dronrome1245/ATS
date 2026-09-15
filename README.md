@@ -13,19 +13,19 @@
 
 Последняя завершённая task:
 
-`ATS2-M1-001 — Idea intake process`.
+`ATS2-M1-002 — Hypothesis model`.
 
 Artifact:
 
-`governance/methodology/IDEA_INTAKE_PROCESS.md`.
+`governance/methodology/HYPOTHESIS_MODEL.md`.
 
 Следующая ready task:
 
-`ATS2-M1-002 — Hypothesis model`.
+`ATS2-M1-003 — Data Feasibility review`.
 
 Следующий artifact:
 
-`governance/methodology/HYPOTHESIS_MODEL.md`.
+`governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
 
 ## Canonical ATS v2
 
@@ -42,9 +42,9 @@ Artifact:
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для текущей работы: `governance/methodology/IDEA_INTAKE_PROCESS.md`, `governance/methodology/RESEARCH_METHODOLOGY_V1.md`, `governance/methodology/templates/HYPOTHESIS_TEMPLATE.md`.
+6. Для текущей работы: `governance/methodology/HYPOTHESIS_MODEL.md` и `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
 7. Проверка: `python tools/validate_repo.py`.
 
 ## Boundary
 
-M1 operationalizes the Research Factory. Idea screening is not evidence of edge. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
+M1 operationalizes the Research Factory. Hypothesis readiness is not evidence of edge. Cheap Prototype starts only after Data Feasibility. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
