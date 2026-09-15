@@ -13,20 +13,21 @@
 
 Последняя завершённая task:
 
-`ATS2-M1-005 — Economic Pre-Screen`.
+`ATS2-M1-006 — Candidate promotion process`.
 
-Artifacts:
+Artifact:
 
-- `governance/methodology/ECONOMIC_PRE_SCREEN.md`;
-- `governance/methodology/templates/ECONOMIC_PRE_SCREEN_TEMPLATE.md`.
+`governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`.
+
+Candidate создаётся только после explicit `PROMOTE`; `PARK/REJECT` сохраняют review без `CAND-...`. `STRAT-...` появляется только на formal S01.
 
 Следующая ready task:
 
-`ATS2-M1-006 — Candidate promotion process`.
+`ATS2-M1-007 — Experiment registration schema`.
 
 Следующий artifact:
 
-`governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`.
+`governance/methodology/EXPERIMENT_REGISTRATION.md`.
 
 ## Canonical ATS v2
 
@@ -43,9 +44,9 @@ Artifacts:
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для текущей работы: `governance/methodology/ECONOMIC_PRE_SCREEN.md` и `governance/methodology/templates/CANDIDATE_TEMPLATE.md`.
+6. Для текущей работы: `governance/methodology/RESEARCH_METHODOLOGY_V1.md` и `governance/methodology/templates/experiment/manifest.yaml`.
 7. Проверка: `python tools/validate_repo.py`.
 
 ## Boundary
 
-M1 operationalizes the Research Factory. Positive Economic Pre-Screen only permits Candidate review; it does not create a Candidate, validate edge or allocate capital. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
+M1 operationalizes the Research Factory. Candidate promotion is not validation/live admission. Formal Experiment must be registered before result observation; exploratory prototype history cannot become preregistered evidence retroactively. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
