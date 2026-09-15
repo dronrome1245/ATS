@@ -26,6 +26,7 @@ REQUIRED_FILES = (
     "governance/methodology/STRATEGY_LIFECYCLE_V2.md",
     "governance/methodology/RESEARCH_METHODOLOGY_V1.md",
     "governance/methodology/IDEA_INTAKE_PROCESS.md",
+    "governance/methodology/HYPOTHESIS_MODEL.md",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
     "governance/methodology/templates/README.md",
     "governance/methodology/templates/IDEA_TEMPLATE.md",
@@ -123,6 +124,7 @@ CANONICAL_PATH_KEYS = (
     "strategy_lifecycle",
     "research_methodology",
     "idea_intake_process",
+    "hypothesis_model",
     "program_wbs",
     "repository_structure",
     "program_backlog",
@@ -221,8 +223,9 @@ def main() -> int:
         "M1_RESEARCH_METHODOLOGY: IN_PROGRESS",
         "exit_decision: PASS",
         'idea_intake_process: "governance/methodology/IDEA_INTAKE_PROCESS.md"',
-        'current_task: "ATS2-M1-002"',
-        'current_ready_task: "ATS2-M1-002"',
+        'hypothesis_model: "governance/methodology/HYPOTHESIS_MODEL.md"',
+        'current_task: "ATS2-M1-003"',
+        'current_ready_task: "ATS2-M1-003"',
         "reference_strategy_selection_allowed: false",
         "physical_migration_complete: true",
         "real_money_trading_allowed: false",
@@ -258,6 +261,18 @@ def main() -> int:
             fail(f"Idea template marker missing: {marker}")
             blocking += 1
 
+    hypothesis_model = (repo / "governance/methodology/HYPOTHESIS_MODEL.md").read_text(encoding="utf-8")
+    for marker in ("HYP-0001", "Falsifiability admission rule", "DATA_FEASIBILITY", "Decision-time information premise", "Structural acceptance test"):
+        if marker not in hypothesis_model:
+            fail(f"Hypothesis model marker missing: {marker}")
+            blocking += 1
+
+    hypothesis_template = (repo / "governance/methodology/templates/HYPOTHESIS_TEMPLATE.md").read_text(encoding="utf-8")
+    for marker in ("Supersedes Hypothesis ID", "Decision-time information premise", "Falsifiability check", "DATA_FEASIBILITY", "READY_FOR_DATA_FEASIBILITY"):
+        if marker not in hypothesis_template:
+            fail(f"Hypothesis template marker missing: {marker}")
+            blocking += 1
+
     next_artifact = extract_quoted_scalar(state, "next_artifact")
     last_completed = extract_quoted_scalar(state, "last_completed_artifact")
     next_task_id = extract_quoted_scalar(state, "next_task_id")
@@ -282,11 +297,11 @@ def main() -> int:
     next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
     backlog = backlog_path.read_text(encoding="utf-8") if backlog_path.is_file() else ""
 
-    if "ATS2-M1-001" not in backlog or "Idea intake process" not in backlog or "DONE" not in backlog:
-        fail("Program Backlog does not record completed M1-001")
+    if "ATS2-M1-002" not in backlog or "Hypothesis model" not in backlog or "DONE" not in backlog:
+        fail("Program Backlog does not record completed M1-002")
         blocking += 1
-    if "ATS2-M1-002" not in backlog or "Hypothesis model" not in backlog or "READY" not in backlog:
-        fail("Program Backlog does not expose M1-002 as ready work")
+    if "ATS2-M1-003" not in backlog or "Data Feasibility review" not in backlog or "READY" not in backlog:
+        fail("Program Backlog does not expose M1-003 as ready work")
         blocking += 1
 
     if next_artifact:
