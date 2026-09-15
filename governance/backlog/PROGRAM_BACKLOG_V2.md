@@ -18,10 +18,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 3. `ATS2-M1-002` — Hypothesis model — `DONE`.
 4. `ATS2-M1-003` — Data Feasibility review — `DONE`.
 5. `ATS2-M1-004` — Cheap Prototype protocol — `DONE`.
-6. `ATS2-M1-005` — Economic Pre-Screen — `READY`.
-7. `ATS2-M1-006` — Candidate promotion — после M1-005.
+6. `ATS2-M1-005` — Economic Pre-Screen — `DONE`.
+7. `ATS2-M1-006` — Candidate promotion — `READY`.
 
-Program-level current next task — `ATS2-M1-005`.
+Program-level current next task — `ATS2-M1-006`.
 
 ## 3. M0 — Program Rebaseline
 
@@ -37,8 +37,8 @@ Canonical exit evidence: `governance/program/M0_EXIT_REVIEW.md`.
 | `ATS2-M1-002` | `WBS-1.2` | P1 | DONE | M1-001 | `governance/methodology/HYPOTHESIS_MODEL.md` + aligned Hypothesis template | Screened Idea can become a falsifiable `HYP-xxxx` with mechanism, conditions, horizons, information-time premise, falsification, required data and change control |
 | `ATS2-M1-003` | `WBS-1.3` | P1 | DONE | M1-002 | `governance/methodology/DATA_FEASIBILITY_REVIEW.md` + `DATA_FEASIBILITY_TEMPLATE.md` | Review checks source/access, coverage, granularity, timestamp/information-time semantics, revisions, missing/bad data, survivorship/selection, leakage, traceability, relevant costs and known gaps; decision is `FEASIBLE/CONDITIONAL/PARK/REJECT` without invented vendor/dataset |
 | `ATS2-M1-004` | `WBS-1.4` | P1 | DONE | M1-002, M1-003 | `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md` + `CHEAP_PROTOTYPE_TEMPLATE.md` | One prototype answers one pre-written quantitative question with minimum implementation, explicit data/timing/cost assumptions and search accounting; outcome is `ADVANCE_TO_ECONOMIC_SCREEN/ITERATE/PARK/REJECT`; prototype remains `EXPLORATORY_PROTOTYPE` and cannot be retroactively represented as formal Experiment evidence |
-| `ATS2-M1-005` | `WBS-1.5` | P1 | READY | M1-004 | `governance/methodology/ECONOMIC_PRE_SCREEN.md` + rubric/template | До Candidate оцениваются magnitude, likely costs, opportunities, capital use, risk characteristics, capacity and operational complexity; решение однозначно определяет, стоит ли тратить полноценный research budget |
-| `ATS2-M1-006` | `WBS-1.6` | P1 | BLOCKED | M1-005 | Candidate promotion process | `PROMOTE / PARK / REJECT` опирается на сохранённые preliminary evidence |
+| `ATS2-M1-005` | `WBS-1.5` | P1 | DONE | M1-004 | `governance/methodology/ECONOMIC_PRE_SCREEN.md` + `ECONOMIC_PRE_SCREEN_TEMPLATE.md` | R4 assesses E1–E9: magnitude, preliminary net economics/cost sensitivity, opportunity diversity, capital use, risk/path/concentration, capacity, complexity, evidence/search weakness and margin of safety; outcome is `ADVANCE_TO_CANDIDATE_REVIEW/RETURN_TO_RESEARCH/PARK/REJECT` without universal return/trade-count thresholds or invented capital |
+| `ATS2-M1-006` | `WBS-1.6` | P1 | READY | M1-005 | `governance/methodology/CANDIDATE_PROMOTION_PROCESS.md` + aligned Candidate template | Formalize how a successful Research Funnel review becomes `PROMOTE / PARK / REJECT`, creates a Candidate only on `PROMOTE`, preserves lineage/evidence limitations and does not imply validated edge |
 | `ATS2-M1-007` | `WBS-1.7` | P1 | NOT_STARTED | M1-002 | Experiment registration schema | Dependency выполнена, но activation отложена по WIP discipline; formal experiment должен связать code, data, params, costs, predefined question и result |
 | `ATS2-M1-008` | `WBS-1.8` | P1 | BLOCKED | M1-007 | Experiment registry | Положительные и отрицательные formal experiments находятся по stable ID |
 | `ATS2-M1-009` | `WBS-1.9` | P1 | NOT_STARTED | M0-013 | Evidence taxonomy operationalization | Dependency выполнена, но activation отложена по WIP discipline |
@@ -55,10 +55,10 @@ Reference Strategy #1 выбирается только в M3 после M1 и M
 
 Текущая program-level ready task:
 
-`ATS2-M1-005 — Economic Pre-Screen`.
+`ATS2-M1-006 — Candidate promotion process`.
 
 Canonical next artifact:
 
-`governance/methodology/ECONOMIC_PRE_SCREEN.md`.
+`governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`.
 
-Задача должна определить, как после Cheap Prototype оценить экономическую ценность research line до Candidate admission: magnitude, preliminary net economics, opportunity frequency, capital efficiency, risk/path characteristics, capacity/scalability, evidence weakness and operational complexity. Prototype result остаётся preliminary/exploratory и не подменяет formal validation.
+Задача должна определить formal admission после положительного Economic Pre-Screen: stable Candidate identity/lineage, required Research Funnel artifacts, evidence limitations, `PROMOTE/PARK/REJECT` decision, Candidate creation only on `PROMOTE` and handoff into formal Strategy Lifecycle without claiming validated profitability.
