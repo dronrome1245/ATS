@@ -2,7 +2,7 @@ schema_version: "2.0"
 program:
   id: ATS
   name: "ATS — Algorithmic Trading Systems"
-  phase: M0_PROGRAM_REBASELINE
+  phase: M1_RESEARCH_METHODOLOGY
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
   updated_on: "2026-09-15"
@@ -30,17 +30,18 @@ model:
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
   research_templates: "governance/methodology/templates/README.md"
+  m0_exit_review: "governance/program/M0_EXIT_REVIEW.md"
 
 current:
-  focus: "Формально закрыть Program Rebaseline v2"
-  last_completed_task_id: "ATS2-M0-012"
-  last_completed_artifact: "governance/program/M0_FINAL_SWEEP.md"
-  next_artifact: "governance/program/M0_EXIT_REVIEW.md"
-  next_task_id: "ATS2-M0-013"
+  focus: "Operationalize Research Factory — Idea intake"
+  last_completed_task_id: "ATS2-M0-013"
+  last_completed_artifact: "governance/program/M0_EXIT_REVIEW.md"
+  next_artifact: "governance/methodology/IDEA_INTAKE_PROCESS.md"
+  next_task_id: "ATS2-M1-001"
 
 milestones:
-  M0_PROGRAM_REBASELINE: IN_PROGRESS
-  M1_RESEARCH_METHODOLOGY: NOT_STARTED
+  M0_PROGRAM_REBASELINE: COMPLETED
+  M1_RESEARCH_METHODOLOGY: IN_PROGRESS
   M2_RESEARCH_PLATFORM_MVP: NOT_STARTED
   M3_REFERENCE_STRATEGY_1: NOT_STARTED
   M4_VALIDATION_FRAMEWORK: NOT_STARTED
@@ -50,6 +51,8 @@ milestones:
   M8_CONTROLLED_LIVE_PORTFOLIO: NOT_STARTED
 
 m0:
+  exit_decision: PASS
+  exit_review: "governance/program/M0_EXIT_REVIEW.md"
   completed_artifacts:
     - "governance/program/PROGRAM_CHARTER_V2.md"
     - "governance/program/OPERATING_MODEL_V2.md"
@@ -63,19 +66,19 @@ m0:
     - "legacy/v1/MIGRATION_INDEX.md"
     - "legacy/v1/CARRYOVER.md"
     - "governance/program/M0_FINAL_SWEEP.md"
-    - "Canonical state migration to v2"
-    - "Validator migration to v2"
-    - "AI handoff protocol"
-    - "Governance v2 path migration"
-    - "Legacy v1 physical migration"
-    - "Final link/validator sweep"
-  remaining_artifacts:
     - "governance/program/M0_EXIT_REVIEW.md"
+  remaining_artifacts: []
+
+m1:
+  objective: "Operationalize Idea → Prototype → Candidate research decisions"
+  current_task: "ATS2-M1-001"
+  current_wbs: "WBS-1.1"
+  reference_strategy_selection_allowed: false
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M0-013"
-  current_ready_wbs: "M0 Exit"
+  current_ready_task: "ATS2-M1-001"
+  current_ready_wbs: "WBS-1.1"
 
 handoff_policy:
   update_after_material_step: true
