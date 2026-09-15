@@ -4,8 +4,8 @@
 **Версия:** 2.0  
 **Статус:** BASELINE  
 **Дата:** 15 сентября 2026 года  
-**WBS:** `00_Управление_проектом/v2/PROGRAM_WBS_V2.md`  
-**Repository Structure:** `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`
+**WBS:** `governance/program/PROGRAM_WBS_V2.md`  
+**Repository Structure:** `governance/program/REPOSITORY_STRUCTURE_V2.md`
 
 ## 1. Назначение
 
@@ -57,8 +57,8 @@ Priority не является обещанием календарного ср�
 Текущий допустимый порядок:
 
 1. `ATS2-M0-008` — Research entity templates — `DONE`.
-2. `ATS2-M0-009` — Governance v2 path migration — `READY`.
-3. `ATS2-M0-010` — Legacy v1 index/classification — после governance migration.
+2. `ATS2-M0-009` — Governance v2 path migration — `DONE`.
+3. `ATS2-M0-010` — Legacy v1 index/classification — `READY`.
 4. `ATS2-M0-011` — Legacy physical migration and unresolved-question carryover — после classification.
 5. `ATS2-M0-012` — Final link/validator sweep — после structural migrations.
 6. `ATS2-M0-013` — M0 Exit Review — после всех обязательных M0 tasks.
@@ -71,19 +71,19 @@ Priority не является обещанием календарного ср�
 
 | Task ID | WBS | Scope | Priority | Status | Responsible | Dependencies | Deliverable | Definition of Done / block reason |
 |---|---|---:|---:|---|---|---|---|---|
-| `ATS2-M0-001` | `WBS-0.1` | P | P0 | DONE | OWNER | — | `PROGRAM_CHARTER_V2.md` | Mission, scope, success/failure criteria и milestones зафиксированы |
-| `ATS2-M0-002` | `WBS-0.2` | P | P0 | DONE | OWNER / PROGRAM | M0-001 | `OPERATING_MODEL_V2.md` | Entities, contours, states, roles и decision points определены |
-| `ATS2-M0-003` | `WBS-0.3` | P | P0 | DONE | RESEARCH / RISK / VALIDATION | M0-001, M0-002 | `STRATEGY_LIFECYCLE_V2.md` | Research Funnel и lifecycle Strategy Version определены |
-| `ATS2-M0-004` | `WBS-0.4` | P | P0 | DONE | RESEARCH / VALIDATION | M0-002, M0-003 | `RESEARCH_METHODOLOGY_V1.md` | Evidence of edge и economic usefulness разделены и формализованы |
-| `ATS2-M0-005` | `WBS-0.5` | P | P0 | DONE | PROGRAM | M0-001…004 | `PROGRAM_WBS_V2.md` | M0–M8 имеют deliverable-oriented decomposition, roles, dependencies и DoD |
-| `ATS2-M0-006` | `WBS-0.6` | P | P0 | DONE | PROGRAM / DEVELOPMENT | M0-005 | `REPOSITORY_STRUCTURE_V2.md` | Target layout, entity locations, naming и migration rules определены |
+| `ATS2-M0-001` | `WBS-0.1` | P | P0 | DONE | OWNER | — | `governance/program/PROGRAM_CHARTER_V2.md` | Mission, scope, success/failure criteria и milestones зафиксированы |
+| `ATS2-M0-002` | `WBS-0.2` | P | P0 | DONE | OWNER / PROGRAM | M0-001 | `governance/program/OPERATING_MODEL_V2.md` | Entities, contours, states, roles и decision points определены |
+| `ATS2-M0-003` | `WBS-0.3` | P | P0 | DONE | RESEARCH / RISK / VALIDATION | M0-001, M0-002 | `governance/methodology/STRATEGY_LIFECYCLE_V2.md` | Research Funnel и lifecycle Strategy Version определены |
+| `ATS2-M0-004` | `WBS-0.4` | P | P0 | DONE | RESEARCH / VALIDATION | M0-002, M0-003 | `governance/methodology/RESEARCH_METHODOLOGY_V1.md` | Evidence of edge и economic usefulness разделены и формализованы |
+| `ATS2-M0-005` | `WBS-0.5` | P | P0 | DONE | PROGRAM | M0-001…004 | `governance/program/PROGRAM_WBS_V2.md` | M0–M8 имеют deliverable-oriented decomposition, roles, dependencies и DoD |
+| `ATS2-M0-006` | `WBS-0.6` | P | P0 | DONE | PROGRAM / DEVELOPMENT | M0-005 | `governance/program/REPOSITORY_STRUCTURE_V2.md` | Target layout, entity locations, naming и migration rules определены |
 | `ATS2-M0-007` | `WBS-0.7` | P | P0 | DONE | PROGRAM | M0-005, M0-006 | `governance/backlog/PROGRAM_BACKLOG_V2.md` | M0 remainder и ближайшие M1/M2 work packages представлены исполнимыми tasks |
 | `ATS2-M0-008` | `WBS-0.8` | P | P0 | DONE | RESEARCH / PROGRAM | M0-004, M0-006, M0-007 | `governance/methodology/templates/README.md` + entity templates | Idea, Hypothesis, Candidate, Experiment и Strategy Version создаются без повторного проектирования структуры; templates согласованы с Lifecycle/Methodology и не содержат выдуманных фактов |
-| `ATS2-M0-009` | `WBS-0.6`, `WBS-0.12` | P | P0 | READY | PROGRAM / DEVELOPMENT | M0-008 | V2 governance migration commit | Charter/Operating/WBS/Structure переносятся в `governance/program/`, Lifecycle/Methodology/templates — в `governance/methodology/`; все canonical links, handoff, state, backlog references и validator обновляются атомарно; старые current-v2 paths после проверки удаляются |
-| `ATS2-M0-010` | `WBS-0.12` | P | P0 | BLOCKED | PROGRAM | M0-009 | `legacy/v1/README.md` + migration index | **Блокировка:** выполнить после current-v2 path migration, чтобы current и legacy пространства были однозначно разделены. Index классифицирует каждый v1 artifact как history/reference/review-needed |
+| `ATS2-M0-009` | `WBS-0.6`, `WBS-0.12` | P | P0 | DONE | PROGRAM / DEVELOPMENT | M0-008 | Canonical v2 governance tree | Charter/Operating/WBS/Structure находятся в `governance/program/`, Lifecycle/Methodology/templates — в `governance/methodology/`; canonical links/state/handoff/backlog/validator переключены на target tree; старые current-v2 пути удаляются в рамках этой task после проверки |
+| `ATS2-M0-010` | `WBS-0.12` | P | P0 | READY | PROGRAM | M0-009 | `legacy/v1/README.md` + migration index | Классифицировать каждый ATS v1 artifact как history/reference/review-needed и зафиксировать правила переноса; current v2 и legacy namespaces уже разделены |
 | `ATS2-M0-011` | `WBS-0.12` | P | P0 | BLOCKED | PROGRAM / DEVELOPMENT | M0-010 | `legacy/v1/` populated + carryover list | **Блокировка:** нужен утверждённый legacy index. V1 program/product/architecture/regulations/registers переносятся без потери истории; ещё актуальные открытые вопросы переносятся в v2 backlog отдельными tasks |
-| `ATS2-M0-012` | `WBS-0.10`, `WBS-0.12` | P | P0 | BLOCKED | DEVELOPMENT / PROGRAM | M0-009, M0-011 | Final M0 validator/link sweep | **Блокировка:** structural moves ещё не завершены. После них validator проверяет target paths, отсутствие current refs на legacy как source of truth и handoff/state consistency |
-| `ATS2-M0-013` | M0 Exit | P | P0 | BLOCKED | OWNER / PROGRAM | M0-008…012 | `M0_EXIT_REVIEW.md` либо эквивалентное принятое решение | **Блокировка:** остаются governance/legacy migrations и final sweep. Exit review подтверждает WBS-0.1…0.12, зелёный CI и способность нового агента определить M1 next action без внешнего контекста |
+| `ATS2-M0-012` | `WBS-0.10`, `WBS-0.12` | P | P0 | BLOCKED | DEVELOPMENT / PROGRAM | M0-009, M0-011 | Final M0 validator/link sweep | **Блокировка:** legacy structural moves ещё не завершены. После них validator проверяет target paths, отсутствие current refs на legacy как source of truth и handoff/state consistency |
+| `ATS2-M0-013` | M0 Exit | P | P0 | BLOCKED | OWNER / PROGRAM | M0-008…012 | `governance/program/M0_EXIT_REVIEW.md` либо эквивалентное принятое решение | **Блокировка:** остаются legacy classification/migration и final sweep. Exit review подтверждает WBS-0.1…0.12, зелёный CI и способность нового агента определить M1 next action без внешнего контекста |
 
 ### Уже завершённые cross-cutting M0 capabilities
 
@@ -202,12 +202,10 @@ Task не добавляется только ради идеи «когда-н�
 
 Текущая ready task:
 
-`ATS2-M0-009 — Governance v2 path migration`.
+`ATS2-M0-010 — Legacy v1 index/classification`.
 
-Задача должна атомарно перенести current-v2 governance documents в target tree:
+Следующий canonical artifact:
 
-- Charter / Operating Model / Program WBS / Repository Structure → `governance/program/`;
-- Strategy Lifecycle / Research Methodology → `governance/methodology/`;
-- templates уже находятся в target `governance/methodology/templates/`.
+`legacy/v1/README.md`.
 
-В том же логическом изменении обновляются все ссылки, canonical state, handoff, backlog references и validator. Старые current-v2 пути удаляются только после успешной проверки новых canonical путей.
+Задача должна создать явный legacy index, классифицировать v1 artifacts как `history`, `reference` или `review-needed` и подготовить безопасную physical migration без потери истории или актуальных unresolved questions.
