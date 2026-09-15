@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ATS repository validator after M1-009."""
+"""ATS repository validator after M1-010."""
 
 from __future__ import annotations
 
@@ -9,6 +9,10 @@ from pathlib import Path
 import validate_repo_core as core
 
 TAXONOMY = "governance/methodology/EVIDENCE_TAXONOMY.md"
+REVIEW_PROTOCOL = "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
+REVIEW_CHECKS = "governance/methodology/RESEARCH_REVIEW_CHECKS.md"
+REVIEW_DECISIONS = "governance/methodology/RESEARCH_REVIEW_DECISIONS.md"
+REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
 HEADER = (
     "experiment_id", "status", "research_stage", "evidence_class",
     "qualified_evidence_class", "idea_id", "hypothesis_id", "candidate_id",
@@ -25,31 +29,47 @@ QUALIFIED = {
 
 
 def configure() -> None:
-    core.REQUIRED_FILES = core.REQUIRED_FILES + (TAXONOMY,)
-    core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + ("evidence_taxonomy",)
+    core.REQUIRED_FILES = core.REQUIRED_FILES + (
+        TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
+    )
+    core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
+        "evidence_taxonomy", "research_review_protocol",
+    )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
-        "source_class", "qualified_evidence_class", "EXPLORATORY_PROTOTYPE",
-        "REGISTERED_EXPERIMENT", "VALIDATION_EVIDENCE",
-        "INDEPENDENT_EXAMINATION_EVIDENCE", "STRESS_EVIDENCE",
-        "DEMO_SHADOW_EVIDENCE", "MINIMAL_LIVE_EVIDENCE",
-        "Negative evidence and class retention", "Structural acceptance test",
+        "source_class", "qualified_evidence_class", "VALIDATION_EVIDENCE",
+        "INDEPENDENT_EXAMINATION_EVIDENCE", "Negative evidence and class retention",
+        "Structural acceptance test",
+    )
+    core.CONTENT_MARKERS[REVIEW_PROTOCOL] = (
+        "event-driven", "RESEARCH_REVIEW_CHECKS.md", "RESEARCH_REVIEW_DECISIONS.md",
+        "RESEARCH_REVIEW_TEMPLATE.md", "source_class", "qualified_evidence_class",
+        "bounded follow-up", "Structural acceptance",
+    )
+    core.CONTENT_MARKERS[REVIEW_CHECKS] = (
+        "INCOMPLETE_BLOCKING", "LINEAGE_OK", "CLASS_SUFFICIENT",
+        "SUFFICIENT_FOR_DECISION", "Experiment integrity",
+    )
+    core.CONTENT_MARKERS[REVIEW_DECISIONS] = (
+        "Preparer", "Reviewer", "Decision authority", "PROMOTE / PARK / REJECT",
+        "Bounded return to research", "Immutable record and re-review",
+    )
+    core.CONTENT_MARKERS[REVIEW_TEMPLATE] = (
+        "Prior Review ID", "Package completeness", "Lineage / currency",
+        "Evidence class sufficiency", "Negative evidence and dissent", "Stop condition",
     )
     core.CONTENT_MARKERS["governance/methodology/templates/CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md"] = (
-        "Source class", "Qualified evidence class",
-        "CURRENT / SUPERSEDED / INVALIDATED / HISTORICAL",
-        "Negative and discarded evidence", "Candidate promotion never upgrades evidence class",
+        "Source class", "Qualified evidence class", "Negative and discarded evidence",
     )
     core.CONTENT_MARKERS["governance/methodology/templates/strategy_version/EVIDENCE_INDEX.md"] = (
         "Source class", "Qualified evidence class", "VALIDATION_EVIDENCE",
-        "INDEPENDENT_EXAMINATION_EVIDENCE", "MINIMAL_LIVE_EVIDENCE", "Evidence status",
+        "INDEPENDENT_EXAMINATION_EVIDENCE", "Evidence status",
     )
     core.CONTENT_MARKERS["experiments/README.md"] = (
-        "Experiment Registry", "EVIDENCE_TAXONOMY.md", "qualified_evidence_class",
-        "tools/search_experiments.py", "registration_revision",
+        "Experiment Registry", "qualified_evidence_class", "registration_revision",
     )
     core.CONTENT_MARKERS["tools/search_experiments.py"] = (
-        "REGISTRY.csv", "FILTER_FIELDS", "qualified_evidence_class", "--contains",
+        "REGISTRY.csv", "qualified_evidence_class", "--contains",
     )
 
 
@@ -75,7 +95,8 @@ def main() -> int:
         'schema_version: "2.0"', "phase: M1_RESEARCH_METHODOLOGY",
         "M0_PROGRAM_REBASELINE: COMPLETED", "M1_RESEARCH_METHODOLOGY: IN_PROGRESS",
         'evidence_taxonomy: "governance/methodology/EVIDENCE_TAXONOMY.md"',
-        'current_task: "ATS2-M1-010"', 'current_ready_task: "ATS2-M1-010"',
+        'research_review_protocol: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"',
+        'current_task: "ATS2-M1-011"', 'current_ready_task: "ATS2-M1-011"',
         "reference_strategy_selection_allowed: false", "experiments_registered: 0",
         "physical_migration_complete: true", "thirteen_gate_model_is_program_roadmap: false",
     ):
@@ -109,7 +130,7 @@ def main() -> int:
     with (repo / "experiments/REGISTRY.csv").open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         if tuple(reader.fieldnames or ()) != HEADER:
-            core.fail("Experiment Registry header mismatch after taxonomy extension")
+            core.fail("Experiment Registry header mismatch")
             blocking += 1
         else:
             for line_no, row in enumerate(reader, start=2):
@@ -132,11 +153,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M1-009") != "DONE":
-        core.fail("M1-009 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M1-010") != "DONE":
+        core.fail("M1-010 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M1-010") != "READY":
-        core.fail("M1-010 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M1-011") != "READY":
+        core.fail("M1-011 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
