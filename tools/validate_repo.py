@@ -30,6 +30,7 @@ REQUIRED_FILES = (
     "governance/methodology/DATA_FEASIBILITY_REVIEW.md",
     "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md",
     "governance/methodology/ECONOMIC_PRE_SCREEN.md",
+    "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
     "governance/methodology/templates/README.md",
     "governance/methodology/templates/IDEA_TEMPLATE.md",
@@ -37,7 +38,9 @@ REQUIRED_FILES = (
     "governance/methodology/templates/DATA_FEASIBILITY_TEMPLATE.md",
     "governance/methodology/templates/CHEAP_PROTOTYPE_TEMPLATE.md",
     "governance/methodology/templates/ECONOMIC_PRE_SCREEN_TEMPLATE.md",
+    "governance/methodology/templates/CANDIDATE_PROMOTION_REVIEW_TEMPLATE.md",
     "governance/methodology/templates/CANDIDATE_TEMPLATE.md",
+    "governance/methodology/templates/CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md",
     "governance/methodology/templates/experiment/manifest.yaml",
     "governance/methodology/templates/experiment/result.json",
     "governance/methodology/templates/experiment/conclusion.md",
@@ -134,6 +137,7 @@ CANONICAL_PATH_KEYS = (
     "data_feasibility_review",
     "cheap_prototype_protocol",
     "economic_pre_screen",
+    "candidate_promotion_process",
     "program_wbs",
     "repository_structure",
     "program_backlog",
@@ -237,8 +241,9 @@ def main() -> int:
         'data_feasibility_review: "governance/methodology/DATA_FEASIBILITY_REVIEW.md"',
         'cheap_prototype_protocol: "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"',
         'economic_pre_screen: "governance/methodology/ECONOMIC_PRE_SCREEN.md"',
-        'current_task: "ATS2-M1-006"',
-        'current_ready_task: "ATS2-M1-006"',
+        'candidate_promotion_process: "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md"',
+        'current_task: "ATS2-M1-007"',
+        'current_ready_task: "ATS2-M1-007"',
         "reference_strategy_selection_allowed: false",
         "candidates_active: 0",
         "physical_migration_complete: true",
@@ -390,6 +395,62 @@ def main() -> int:
             fail(f"Economic Pre-Screen template marker missing: {marker}")
             blocking += 1
 
+    candidate_process = (repo / "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md").read_text(encoding="utf-8")
+    for marker in (
+        "CAND-0001",
+        "READY_FOR_S01",
+        "PROMOTE",
+        "PARK",
+        "REJECT",
+        "Strategy ID",
+        "Structural acceptance test",
+    ):
+        if marker not in candidate_process:
+            fail(f"Candidate promotion process marker missing: {marker}")
+            blocking += 1
+
+    promotion_template = (repo / "governance/methodology/templates/CANDIDATE_PROMOTION_REVIEW_TEMPLATE.md").read_text(encoding="utf-8")
+    for marker in (
+        "CPR-01",
+        "ADVANCE_TO_CANDIDATE_REVIEW",
+        "Candidate ID created",
+        "PROMOTE",
+        "PARK",
+        "REJECT",
+    ):
+        if marker not in promotion_template:
+            fail(f"Candidate promotion review template marker missing: {marker}")
+            blocking += 1
+
+    candidate_template = (repo / "governance/methodology/templates/CANDIDATE_TEMPLATE.md").read_text(encoding="utf-8")
+    for marker in (
+        "READY_FOR_S01",
+        "Strategy ID: `null`",
+        "EVIDENCE_INDEX.md",
+        "ADVANCE_TO_CANDIDATE_REVIEW",
+        "Decision: `PROMOTE`",
+    ):
+        if marker not in candidate_template:
+            fail(f"Candidate template marker missing: {marker}")
+            blocking += 1
+
+    candidate_evidence_template = (repo / "governance/methodology/templates/CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md").read_text(encoding="utf-8")
+    for marker in (
+        "EXPLORATORY_PROTOTYPE",
+        "Pre-registered",
+        "Formal validation claim eligible",
+        "Negative and discarded evidence",
+    ):
+        if marker not in candidate_evidence_template:
+            fail(f"Candidate evidence index template marker missing: {marker}")
+            blocking += 1
+
+    templates_index = (repo / "governance/methodology/templates/README.md").read_text(encoding="utf-8")
+    for marker in ("Candidate Promotion Review", "CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md", "READY_FOR_S01", "Strategy ID"):
+        if marker not in templates_index:
+            fail(f"Templates index candidate-promotion marker missing: {marker}")
+            blocking += 1
+
     next_artifact = extract_quoted_scalar(state, "next_artifact")
     last_completed = extract_quoted_scalar(state, "last_completed_artifact")
     next_task_id = extract_quoted_scalar(state, "next_task_id")
@@ -414,11 +475,11 @@ def main() -> int:
     next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
     backlog = backlog_path.read_text(encoding="utf-8") if backlog_path.is_file() else ""
 
-    if "ATS2-M1-005" not in backlog or "Economic Pre-Screen" not in backlog or "DONE" not in backlog:
-        fail("Program Backlog does not record completed M1-005")
+    if "ATS2-M1-006" not in backlog or "Candidate promotion" not in backlog or "DONE" not in backlog:
+        fail("Program Backlog does not record completed M1-006")
         blocking += 1
-    if "ATS2-M1-006" not in backlog or "Candidate promotion" not in backlog or "READY" not in backlog:
-        fail("Program Backlog does not expose M1-006 as ready work")
+    if "ATS2-M1-007" not in backlog or "Experiment registration schema" not in backlog or "READY" not in backlog:
+        fail("Program Backlog does not expose M1-007 as ready work")
         blocking += 1
 
     if next_artifact:
