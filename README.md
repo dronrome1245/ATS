@@ -13,20 +13,20 @@
 
 Последняя завершённая task:
 
-`ATS2-M1-003 — Data Feasibility review`.
+`ATS2-M1-004 — Cheap Prototype protocol`.
 
 Artifacts:
 
-- `governance/methodology/DATA_FEASIBILITY_REVIEW.md`;
-- `governance/methodology/templates/DATA_FEASIBILITY_TEMPLATE.md`.
+- `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`;
+- `governance/methodology/templates/CHEAP_PROTOTYPE_TEMPLATE.md`.
 
 Следующая ready task:
 
-`ATS2-M1-004 — Cheap Prototype protocol`.
+`ATS2-M1-005 — Economic Pre-Screen`.
 
 Следующий artifact:
 
-`governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`.
+`governance/methodology/ECONOMIC_PRE_SCREEN.md`.
 
 ## Canonical ATS v2
 
@@ -43,9 +43,9 @@ Artifacts:
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для текущей работы: `governance/methodology/HYPOTHESIS_MODEL.md`, `governance/methodology/DATA_FEASIBILITY_REVIEW.md` и `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
+6. Для текущей работы: `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md` и `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
 7. Проверка: `python tools/validate_repo.py`.
 
 ## Boundary
 
-M1 operationalizes the Research Factory. Data Feasibility is not evidence of edge. Cheap Prototype must obey the recorded data constraints and is not formal validation. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
+M1 operationalizes the Research Factory. Cheap Prototype is preliminary/exploratory and is not formal validation evidence. Economic Pre-Screen must test whether the preliminary effect is worth further research, not manufacture a profitability claim. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
