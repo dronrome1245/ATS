@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from urllib.parse import unquote
 
 
 REQUIRED_FILES = (
@@ -86,6 +87,47 @@ MIGRATED_LEGACY_SOURCE_FILES = (
     "05_Коллизии/ОТКРЫТЫЕ_ВОПРОСЫ.md",
 )
 
+STALE_V1_PREFIXES = (
+    "00_Управление_проектом/",
+    "01_Контур_продукта/",
+    "02_Архитектура_и_решения/",
+    "03_Нормативная_база_и_правила/",
+    "04_Реестры_и_связи/",
+    "05_Коллизии/",
+)
+
+OPERATIONAL_FILES = (
+    "README.md",
+    "00_НАЧАТЬ_ЗДЕСЬ.md",
+    "AGENTS.md",
+    "AI_HANDOFF.md",
+    "01_СТАТУС_ПРОЕКТА.md",
+    "02_СЛЕДУЮЩИЙ_ШАГ.md",
+    "03_СОСТОЯНИЕ_ПРОЕКТА.yaml",
+    "governance/backlog/PROGRAM_BACKLOG_V2.md",
+    ".github/copilot-instructions.md",
+    "CLAUDE.md",
+)
+
+CANONICAL_PATH_KEYS = (
+    "canonical_state_file",
+    "ai_handoff",
+    "agent_rules",
+    "human_status",
+    "next_action",
+    "program_charter",
+    "operating_model",
+    "strategy_lifecycle",
+    "research_methodology",
+    "program_wbs",
+    "repository_structure",
+    "program_backlog",
+    "research_templates",
+    "legacy_readme",
+    "migration_index",
+    "carryover",
+)
+
 FORBIDDEN_PLACEHOLDERS = (
     re.compile(r"\{\{[^{}]+\}\}"),
     re.compile(r"\[(?:Имя|Дата|ФИО|Сумма|XXX|Вставить[^\]]*)\]", re.IGNORECASE),
@@ -93,6 +135,7 @@ FORBIDDEN_PLACEHOLDERS = (
     re.compile(r"\bTBD\b", re.IGNORECASE),
 )
 
+MARKDOWN_LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 TEXT_SUFFIXES = {".md", ".yaml", ".yml", ".csv", ".py", ".txt", ".json"}
 TRANSITIONAL_STATE = Path("00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml")
 
@@ -104,6 +147,44 @@ def fail(message: str) -> None:
 def extract_quoted_scalar(text: str, key: str) -> str | None:
     match = re.search(rf'(?m)^\s*{re.escape(key)}:\s*"([^"]+)"\s*$', text)
     return match.group(1) if match else None
+
+
+def current_text_files(repo: Path):
+    for path in repo.rglob("*"):
+        if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
+            continue
+        relative = path.relative_to(repo)
+        if relative.parts and relative.parts[0] == "legacy":
+            continue
+        yield path, relative
+
+
+def validate_local_markdown_links(repo: Path, path: Path, relative: Path) -> int:
+    if path.suffix.lower() != ".md":
+        return 0
+
+    blocking = 0
+    text = path.read_text(encoding="utf-8")
+    for match in MARKDOWN_LINK.finditer(text):
+        raw = match.group(1).strip()
+        if not raw:
+            continue
+
+        target = raw.split(maxsplit=1)[0].strip("<>")
+        if target.startswith(("#", "http://", "https://", "mailto:")):
+            continue
+
+        target = target.split("#", 1)[0].split("?", 1)[0]
+        if not target:
+            continue
+
+        target = unquote(target)
+        candidate = (repo / target.lstrip("/")) if target.startswith("/") else (path.parent / target)
+        if not candidate.exists():
+            fail(f"broken local Markdown link in {relative}: {raw}")
+            blocking += 1
+
+    return blocking
 
 
 def main() -> int:
@@ -160,6 +241,15 @@ def main() -> int:
             fail(f"canonical v2 state marker missing or changed: {marker}")
             blocking += 1
 
+    for key in CANONICAL_PATH_KEYS:
+        relative = extract_quoted_scalar(state, key)
+        if not relative:
+            fail(f"canonical state must define quoted path: {key}")
+            blocking += 1
+        elif not (repo / relative).exists():
+            fail(f"canonical state path does not exist for {key}: {relative}")
+            blocking += 1
+
     migration_index = (repo / "legacy/v1/MIGRATION_INDEX.md").read_text(encoding="utf-8")
     for marker in ("HISTORY", "REFERENCE", "REVIEW_NEEDED", "всего: 15 artifacts"):
         if marker not in migration_index:
@@ -181,6 +271,9 @@ def main() -> int:
         blocking += 1
     if not last_completed:
         fail("canonical state must define quoted last_completed_artifact")
+        blocking += 1
+    elif not (repo / last_completed).exists():
+        fail(f"canonical last_completed_artifact does not exist: {last_completed}")
         blocking += 1
     if not next_task_id:
         fail("canonical state must define quoted next_task_id")
@@ -229,16 +322,24 @@ def main() -> int:
         fail("AGENTS.md must point to canonical Program WBS")
         blocking += 1
 
-    for path in repo.rglob("*"):
-        if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
+    for relative_name in OPERATIONAL_FILES:
+        path = repo / relative_name
+        if not path.is_file():
             continue
-        relative = path.relative_to(repo)
+        text = path.read_text(encoding="utf-8")
+        for stale_prefix in STALE_V1_PREFIXES:
+            if stale_prefix in text:
+                fail(f"stale pre-migration v1 namespace in operational file {relative_name}: {stale_prefix}")
+                blocking += 1
+
+    for path, relative in current_text_files(repo):
         text = path.read_text(encoding="utf-8")
         for pattern in FORBIDDEN_PLACEHOLDERS:
             if pattern.search(text):
                 fail(f"forbidden placeholder pattern in {relative}")
                 blocking += 1
                 break
+        blocking += validate_local_markdown_links(repo, path, relative)
 
     if blocking:
         print(f"ATS repository validation: BLOCKING ({blocking})")
