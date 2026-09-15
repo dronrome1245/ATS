@@ -1,10 +1,17 @@
-schema_version: "1.0"
+schema_version: "2.0"
 
 experiment:
   experiment_id: null
   status: DRAFT
-  created_on: null
+  evidence_class: REGISTERED_EXPERIMENT
   research_stage: null
+  created_on: null
+
+registration:
+  registered_on: null
+  registered_by_role: null
+  supersedes_experiment_id: null
+  amendments: []
 
 links:
   idea_id: null
@@ -15,30 +22,39 @@ links:
 
 reproducibility:
   code_revision: null
+  implementation_reference: null
   environment_id: null
   dataset_id: null
+  source_snapshot_reference: null
   data_period: null
+  universe_or_sampling_scope: null
+  transformation_reference: null
   parameters: {}
+  configuration: {}
   random_seed: null
 
 assumptions:
   cost_model: null
   execution_model: null
+  known_data_limitations: null
   applicability_notes: null
 
 question:
   predefined_question: null
-  predefined_decision_rule: null
   primary_metrics: []
   secondary_metrics: []
+  metric_definitions: {}
+  predefined_decision_rule: null
 
-result:
+files:
   result_file: "result.json"
   conclusion_file: "conclusion.md"
-  completed_on: null
-  outcome: null
 
-# Правила экземпляра:
-# - null означает отсутствие фактически зафиксированного значения, а не разрешение выдумать его.
-# - неприменимое поле заменяется на строку NOT_APPLICABLE с объяснением в applicability_notes.
-# - manifest фиксируется до использования результата как formal evidence.
+# Instance rules:
+# - null means the factual value has not yet been fixed; never invent a value to fill the form.
+# - a truly inapplicable field uses NOT_APPLICABLE and an explanation in applicability_notes or the relevant record.
+# - status may remain DRAFT only before result observation; formal preregistration requires REGISTERED committed before the corresponding result is observed.
+# - REGISTERED_EXPERIMENT means preregistered context only; it does not imply validation, profitability or independence.
+# - decision-relevant fields are frozen after REGISTERED. A material change requires a new Experiment ID.
+# - amendments after REGISTERED are limited to non-semantic administrative corrections and must record timestamp, actor, reason and change.
+# - observed metrics/outcomes belong in result.json and conclusion.md, not in the preregistration section of this manifest.
