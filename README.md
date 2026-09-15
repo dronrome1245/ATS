@@ -13,27 +13,28 @@
 
 Последняя завершённая task:
 
-`ATS2-M1-006 — Candidate promotion process`.
+`ATS2-M1-007 — Experiment registration schema`.
 
 Artifact:
 
-`governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`.
+`governance/methodology/EXPERIMENT_REGISTRATION.md`.
 
-Candidate создаётся только после explicit `PROMOTE`; `PARK/REJECT` сохраняют review без `CAND-...`. `STRAT-...` появляется только на formal S01.
+Experiment templates теперь разделяют preregistration (`manifest.yaml`), observed result (`result.json`) и interpretation/decision (`conclusion.md`).
 
 Следующая ready task:
 
-`ATS2-M1-007 — Experiment registration schema`.
+`ATS2-M1-008 — Experiment registry`.
 
 Следующий artifact:
 
-`governance/methodology/EXPERIMENT_REGISTRATION.md`.
+`experiments/REGISTRY.csv`.
 
 ## Canonical ATS v2
 
 - Program governance: `governance/program/`;
 - Methodology: `governance/methodology/`;
 - Research templates: `governance/methodology/templates/`;
+- Formal experiments: `experiments/`;
 - Execution queue: `governance/backlog/PROGRAM_BACKLOG_V2.md`;
 - Legacy ATS v1: `legacy/v1/`.
 
@@ -44,9 +45,9 @@ Candidate создаётся только после explicit `PROMOTE`; `PARK/R
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для текущей работы: `governance/methodology/RESEARCH_METHODOLOGY_V1.md` и `governance/methodology/templates/experiment/manifest.yaml`.
+6. Для текущей работы: `governance/methodology/EXPERIMENT_REGISTRATION.md` и `experiments/README.md`.
 7. Проверка: `python tools/validate_repo.py`.
 
 ## Boundary
 
-M1 operationalizes the Research Factory. Candidate promotion is not validation/live admission. Formal Experiment must be registered before result observation; exploratory prototype history cannot become preregistered evidence retroactively. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
+A formal `EXP-...` is registered before result observation and has evidence class `REGISTERED_EXPERIMENT`; this does not by itself mean validated edge. Registry is an index, not an alternative manifest. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
