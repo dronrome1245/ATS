@@ -27,10 +27,12 @@ REQUIRED_FILES = (
     "governance/methodology/RESEARCH_METHODOLOGY_V1.md",
     "governance/methodology/IDEA_INTAKE_PROCESS.md",
     "governance/methodology/HYPOTHESIS_MODEL.md",
+    "governance/methodology/DATA_FEASIBILITY_REVIEW.md",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
     "governance/methodology/templates/README.md",
     "governance/methodology/templates/IDEA_TEMPLATE.md",
     "governance/methodology/templates/HYPOTHESIS_TEMPLATE.md",
+    "governance/methodology/templates/DATA_FEASIBILITY_TEMPLATE.md",
     "governance/methodology/templates/CANDIDATE_TEMPLATE.md",
     "governance/methodology/templates/experiment/manifest.yaml",
     "governance/methodology/templates/experiment/result.json",
@@ -125,6 +127,7 @@ CANONICAL_PATH_KEYS = (
     "research_methodology",
     "idea_intake_process",
     "hypothesis_model",
+    "data_feasibility_review",
     "program_wbs",
     "repository_structure",
     "program_backlog",
@@ -169,6 +172,7 @@ def current_text_files(repo: Path):
 def validate_local_markdown_links(repo: Path, path: Path, relative: Path) -> int:
     if path.suffix.lower() != ".md":
         return 0
+
     blocking = 0
     text = path.read_text(encoding="utf-8")
     for match in MARKDOWN_LINK.finditer(text):
@@ -224,8 +228,9 @@ def main() -> int:
         "exit_decision: PASS",
         'idea_intake_process: "governance/methodology/IDEA_INTAKE_PROCESS.md"',
         'hypothesis_model: "governance/methodology/HYPOTHESIS_MODEL.md"',
-        'current_task: "ATS2-M1-003"',
-        'current_ready_task: "ATS2-M1-003"',
+        'data_feasibility_review: "governance/methodology/DATA_FEASIBILITY_REVIEW.md"',
+        'current_task: "ATS2-M1-004"',
+        'current_ready_task: "ATS2-M1-004"',
         "reference_strategy_selection_allowed: false",
         "physical_migration_complete: true",
         "real_money_trading_allowed: false",
@@ -247,6 +252,24 @@ def main() -> int:
             blocking += 1
         elif not (repo / relative).exists():
             fail(f"canonical state path does not exist for {key}: {relative}")
+            blocking += 1
+
+    exit_review = (repo / "governance/program/M0_EXIT_REVIEW.md").read_text(encoding="utf-8")
+    for marker in ("Decision:** `PASS`", "M0_PROGRAM_REBASELINE = COMPLETED", "ATS2-M1-001"):
+        if marker not in exit_review:
+            fail(f"M0 exit review marker missing: {marker}")
+            blocking += 1
+
+    migration_index = (repo / "legacy/v1/MIGRATION_INDEX.md").read_text(encoding="utf-8")
+    for marker in ("HISTORY", "REFERENCE", "REVIEW_NEEDED", "всего: 15 artifacts"):
+        if marker not in migration_index:
+            fail(f"legacy migration index marker missing: {marker}")
+            blocking += 1
+
+    carryover = (repo / "legacy/v1/CARRYOVER.md").read_text(encoding="utf-8")
+    for marker in ("OQ-001", "OQ-009", "ATS2-M2-001", "does **not** create speculative duplicate future tasks"):
+        if marker not in carryover:
+            fail(f"legacy carryover marker missing: {marker}")
             blocking += 1
 
     idea_process = (repo / "governance/methodology/IDEA_INTAKE_PROCESS.md").read_text(encoding="utf-8")
@@ -273,6 +296,37 @@ def main() -> int:
             fail(f"Hypothesis template marker missing: {marker}")
             blocking += 1
 
+    data_review = (repo / "governance/methodology/DATA_FEASIBILITY_REVIEW.md").read_text(encoding="utf-8")
+    for marker in (
+        "Decision-time information availability",
+        "Universe, survivorship and selection bias",
+        "Transformation trace and dataset identity",
+        "FEASIBLE",
+        "CONDITIONAL",
+        "PARK",
+        "REJECT",
+        "Structural acceptance test",
+    ):
+        if marker not in data_review:
+            fail(f"Data Feasibility process marker missing: {marker}")
+            blocking += 1
+
+    data_template = (repo / "governance/methodology/templates/DATA_FEASIBILITY_TEMPLATE.md").read_text(encoding="utf-8")
+    for marker in (
+        "Hypothesis ID",
+        "Decision-time availability assessment",
+        "Survivorship risk",
+        "Leakage and overlap risks",
+        "Known gaps",
+        "FEASIBLE",
+        "CONDITIONAL",
+        "PARK",
+        "REJECT",
+    ):
+        if marker not in data_template:
+            fail(f"Data Feasibility template marker missing: {marker}")
+            blocking += 1
+
     next_artifact = extract_quoted_scalar(state, "next_artifact")
     last_completed = extract_quoted_scalar(state, "last_completed_artifact")
     next_task_id = extract_quoted_scalar(state, "next_task_id")
@@ -297,11 +351,11 @@ def main() -> int:
     next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
     backlog = backlog_path.read_text(encoding="utf-8") if backlog_path.is_file() else ""
 
-    if "ATS2-M1-002" not in backlog or "Hypothesis model" not in backlog or "DONE" not in backlog:
-        fail("Program Backlog does not record completed M1-002")
+    if "ATS2-M1-003" not in backlog or "Data Feasibility review" not in backlog or "DONE" not in backlog:
+        fail("Program Backlog does not record completed M1-003")
         blocking += 1
-    if "ATS2-M1-003" not in backlog or "Data Feasibility review" not in backlog or "READY" not in backlog:
-        fail("Program Backlog does not expose M1-003 as ready work")
+    if "ATS2-M1-004" not in backlog or "Cheap Prototype protocol" not in backlog or "READY" not in backlog:
+        fail("Program Backlog does not expose M1-004 as ready work")
         blocking += 1
 
     if next_artifact:
