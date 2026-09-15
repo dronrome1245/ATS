@@ -18,7 +18,7 @@
 5. ID после выдачи не переиспользуется.
 6. Формальный Experiment считается complete registered evidence package только после preregistered manifest, результата и conclusion; preregistration должна существовать до result observation.
 7. Material change Strategy Version создаёт новую версию, а не переписывает старую как будто изменения не было.
-8. Structural process tests шаблонов не создают fictitious research entities, datasets, prototype results, economics, Candidates или Experiment results.
+8. Structural process tests шаблонов не создают fictitious research entities, datasets, prototype results, economics, Candidates, Reviews или Experiment results.
 9. Exploratory Cheap Prototype не становится formal Experiment задним числом; если его результат нужен как registered evidence, соответствующий run повторяется после предварительной регистрации `EXP-...`.
 
 ## Templates
@@ -130,6 +130,22 @@ Operational methodology:
 
 Formal registration requires the `REGISTERED` manifest to exist in Git before corresponding result observation. Decision-relevant manifest changes after registration require a new Experiment ID. `result.json` and `conclusion.md` do not rewrite preregistration history.
 
+### Research Review
+
+`RESEARCH_REVIEW_TEMPLATE.md`
+
+Canonical instance:
+
+`research/reviews/RR-YYYYMMDD-nnn.md`
+
+Operational package:
+
+- `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`;
+- `governance/methodology/RESEARCH_REVIEW_CHECKS.md`;
+- `governance/methodology/RESEARCH_REVIEW_DECISIONS.md`.
+
+Research Review is event-driven. It records completeness, lineage/current context, Experiment integrity, evidence class/sufficiency, negative evidence/dissent, the stage-specific decision and bounded follow-up. A reconsideration receives a new Review ID rather than rewriting the old review.
+
 ### Strategy Version
 
 Каталог `strategy_version/` содержит:
@@ -153,6 +169,7 @@ Canonical instance:
 - `Candidate` создаётся только после отдельного Candidate Promotion Review decision `PROMOTE`.
 - Candidate получает `CAND-...`; `STRAT-...` появляется только после formal S01 Candidate Admission.
 - Formal `Experiment` получает `EXP-...` и preregistered manifest до result observation; completed exploratory output не повышается до registered evidence задним числом.
+- Research Review consumes current artifacts/evidence and applies the stage-specific decision model without upgrading evidence class.
 - `Strategy Version` создаётся после Candidate admission, когда правила стратегии становятся versioned research object.
 
 ## Что этот пакет не определяет
