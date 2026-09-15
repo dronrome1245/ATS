@@ -28,11 +28,13 @@ REQUIRED_FILES = (
     "governance/methodology/IDEA_INTAKE_PROCESS.md",
     "governance/methodology/HYPOTHESIS_MODEL.md",
     "governance/methodology/DATA_FEASIBILITY_REVIEW.md",
+    "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
     "governance/methodology/templates/README.md",
     "governance/methodology/templates/IDEA_TEMPLATE.md",
     "governance/methodology/templates/HYPOTHESIS_TEMPLATE.md",
     "governance/methodology/templates/DATA_FEASIBILITY_TEMPLATE.md",
+    "governance/methodology/templates/CHEAP_PROTOTYPE_TEMPLATE.md",
     "governance/methodology/templates/CANDIDATE_TEMPLATE.md",
     "governance/methodology/templates/experiment/manifest.yaml",
     "governance/methodology/templates/experiment/result.json",
@@ -128,6 +130,7 @@ CANONICAL_PATH_KEYS = (
     "idea_intake_process",
     "hypothesis_model",
     "data_feasibility_review",
+    "cheap_prototype_protocol",
     "program_wbs",
     "repository_structure",
     "program_backlog",
@@ -229,8 +232,9 @@ def main() -> int:
         'idea_intake_process: "governance/methodology/IDEA_INTAKE_PROCESS.md"',
         'hypothesis_model: "governance/methodology/HYPOTHESIS_MODEL.md"',
         'data_feasibility_review: "governance/methodology/DATA_FEASIBILITY_REVIEW.md"',
-        'current_task: "ATS2-M1-004"',
-        'current_ready_task: "ATS2-M1-004"',
+        'cheap_prototype_protocol: "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"',
+        'current_task: "ATS2-M1-005"',
+        'current_ready_task: "ATS2-M1-005"',
         "reference_strategy_selection_allowed: false",
         "physical_migration_complete: true",
         "real_money_trading_allowed: false",
@@ -327,6 +331,33 @@ def main() -> int:
             fail(f"Data Feasibility template marker missing: {marker}")
             blocking += 1
 
+    prototype_protocol = (repo / "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md").read_text(encoding="utf-8")
+    for marker in (
+        "one prototype, one question",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "ITERATE",
+        "EXPLORATORY_PROTOTYPE",
+        "Prototype versus formal Experiment",
+        "Structural acceptance test",
+    ):
+        if marker not in prototype_protocol:
+            fail(f"Cheap Prototype protocol marker missing: {marker}")
+            blocking += 1
+
+    prototype_template = (repo / "governance/methodology/templates/CHEAP_PROTOTYPE_TEMPLATE.md").read_text(encoding="utf-8")
+    for marker in (
+        "Prototype sequence",
+        "Prototype question",
+        "Pre-run decision rule",
+        "Search and iteration accounting",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "EXPLORATORY_PROTOTYPE",
+        "Registered Experiment ID: `NOT_APPLICABLE`",
+    ):
+        if marker not in prototype_template:
+            fail(f"Cheap Prototype template marker missing: {marker}")
+            blocking += 1
+
     next_artifact = extract_quoted_scalar(state, "next_artifact")
     last_completed = extract_quoted_scalar(state, "last_completed_artifact")
     next_task_id = extract_quoted_scalar(state, "next_task_id")
@@ -351,11 +382,11 @@ def main() -> int:
     next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
     backlog = backlog_path.read_text(encoding="utf-8") if backlog_path.is_file() else ""
 
-    if "ATS2-M1-003" not in backlog or "Data Feasibility review" not in backlog or "DONE" not in backlog:
-        fail("Program Backlog does not record completed M1-003")
+    if "ATS2-M1-004" not in backlog or "Cheap Prototype protocol" not in backlog or "DONE" not in backlog:
+        fail("Program Backlog does not record completed M1-004")
         blocking += 1
-    if "ATS2-M1-004" not in backlog or "Cheap Prototype protocol" not in backlog or "READY" not in backlog:
-        fail("Program Backlog does not expose M1-004 as ready work")
+    if "ATS2-M1-005" not in backlog or "Economic Pre-Screen" not in backlog or "READY" not in backlog:
+        fail("Program Backlog does not expose M1-005 as ready work")
         blocking += 1
 
     if next_artifact:
