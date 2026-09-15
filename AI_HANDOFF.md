@@ -2,8 +2,6 @@
 
 **Назначение:** единая точка восстановления контекста для нового AI-чата, агента или разработчика.
 
-Если вы впервые получили доступ к репозиторию, не начинайте с выбора стратегии, broker, instrument, risk limits или торгового кода. Сначала восстановите состояние по canonical artifacts.
-
 ## 1. Текущее состояние
 
 - Program: `ATS — Algorithmic Trading Systems`.
@@ -13,75 +11,99 @@
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 - Current governance: `governance/program/` и `governance/methodology/`.
-- Legacy archive: `legacy/v1/`.
-- Реальная торговля, allocation и scaling сейчас не являются текущей задачей.
-- G01–G13 — legacy ATS v1, не current roadmap.
+- ATS v1: `legacy/v1/`, history/reference only.
+- Real trading, allocation and scaling are not permitted current actions.
 
-## 2. Последний завершённый шаг
+## 2. Last completed
 
-`ATS2-M0-011 — Legacy physical migration and unresolved-question carryover` завершена.
+`ATS2-M0-012 — Final link/validator sweep` завершена.
 
-Последний завершённый artifact:
+Last completed artifact:
 
-`legacy/v1/CARRYOVER.md`
+`governance/program/M0_FINAL_SWEEP.md`
 
-Что сделано:
+Sweep hardened `tools/validate_repo.py`, found two stale AI pointers, corrected `.github/copilot-instructions.md` and `CLAUDE.md`, and finished with successful GitHub Actions validation run `105`.
 
-- 15 designated ATS v1 artifacts перенесены byte-for-byte в `legacy/v1/`;
-- old v1 source paths удалены;
-- `MIGRATION_INDEX.md` хранит classification/target mapping;
-- `CARRYOVER.md` remap-ит review-needed requirements и OQ-001…009 на v2 stages;
-- новые speculative tasks не создавались, потому что нужная будущая работа уже представлена WBS/backlog.
+## 3. Next task
 
-## 3. Следующая ready task
+`ATS2-M0-013 — M0 Exit Review`
 
-`ATS2-M0-012 — Final link/validator sweep`
+Next artifact:
 
-Canonical next artifact anchor:
+`governance/program/M0_EXIT_REVIEW.md`
 
-`tools/validate_repo.py`
+The Exit Review decides only whether Program Rebaseline is complete and M1 Research Factory may start.
 
-Нужно просканировать current v2 namespace на stale old paths и ссылки, убедиться, что legacy не используется как source of truth, harden validator и получить зелёный CI.
+It must not select Strategy #1, broker, jurisdiction, capital allocation or live risk limits.
 
-После 0.12:
+## 4. Canonical ATS v2 documents
 
-`ATS2-M0-013 — M0 Exit Review`, artifact `governance/program/M0_EXIT_REVIEW.md`.
+Program:
 
-## 4. Обязательный порядок чтения
+- `governance/program/PROGRAM_CHARTER_V2.md`;
+- `governance/program/OPERATING_MODEL_V2.md`;
+- `governance/program/PROGRAM_WBS_V2.md`;
+- `governance/program/REPOSITORY_STRUCTURE_V2.md`;
+- `governance/program/M0_FINAL_SWEEP.md`.
+
+Methodology:
+
+- `governance/methodology/STRATEGY_LIFECYCLE_V2.md`;
+- `governance/methodology/RESEARCH_METHODOLOGY_V1.md`;
+- `governance/methodology/templates/README.md`.
+
+Execution queue:
+
+- `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+
+Legacy:
+
+- `legacy/v1/README.md`;
+- `legacy/v1/MIGRATION_INDEX.md`;
+- `legacy/v1/CARRYOVER.md`.
+
+## 5. Required read order
 
 1. `AGENTS.md`.
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. Для current program work — `governance/program/`.
-6. Для research — `governance/methodology/`.
-7. Для historical rationale/carryover — `legacy/v1/README.md`, `MIGRATION_INDEX.md`, `CARRYOVER.md`.
+5. relevant current governance/methodology.
+6. legacy only when historical/carryover context is needed.
 
-## 5. Completion protocol
+## 6. M0 Exit Review checklist
 
-Program-level task не считается завершённой, пока синхронизированы deliverable, backlog, canonical state, human status, next-step, AI handoff, entrypoints и validator/tests при structural changes.
+The reviewer must verify:
 
-## 6. Запреты
+- WBS-0.1…0.12 deliverables exist;
+- validator is green on `main`;
+- no old source paths are operational;
+- current AI entrypoints point to current state/backlog;
+- legacy is isolated and marked superseded;
+- state/backlog/handoff/next-step agree;
+- safety invariants remain false for live/scaling permissions;
+- new context can recover current state without chat history.
 
-Без явного решения OWNER нельзя:
+## 7. Non-negotiable safety/governance
 
-- выделять реальный капитал;
-- утверждать Strategy Risk Mandate;
-- разрешать live admission;
-- менять allocation/scaling;
-- выдумывать broker/jurisdiction/instrument/return/risk limits;
-- ослаблять independent evidence rules;
-- вводить martingale, unlimited averaging или rescue funding;
-- объявлять legacy requirement автоматически current v2 policy.
+Without OWNER decision, do not:
 
-## 7. Проверка восстановления контекста
+- allocate real capital;
+- approve Strategy Risk Mandate;
+- permit live admission;
+- change allocation/scaling;
+- invent broker/jurisdiction/instrument/return/risk values;
+- weaken independent evidence rules;
+- introduce martingale, unlimited averaging or rescue funding.
 
-Новый агент должен ответить:
+## 8. Recovery check
+
+A new agent should answer:
 
 - Current phase? — `M0_PROGRAM_REBASELINE`.
-- Last completed? — `ATS2-M0-011`, `legacy/v1/CARRYOVER.md`.
-- Next task? — `ATS2-M0-012`.
-- Next artifact anchor? — `tools/validate_repo.py`.
-- Legacy location? — `legacy/v1/`.
-- Old v1 source paths должны существовать? — нет.
-- Можно ли сейчас выбирать live capital/broker/strategy? — нет.
+- Last completed task? — `ATS2-M0-012`.
+- Last artifact? — `governance/program/M0_FINAL_SWEEP.md`.
+- Next task? — `ATS2-M0-013`.
+- Next artifact? — `governance/program/M0_EXIT_REVIEW.md`.
+- Is live trading permitted? — no.
+- Are G01–G13 current roadmap? — no; they are legacy ATS v1.

@@ -1,29 +1,33 @@
 # ATS
 
-> **AI / новый чат:** сначала откройте [`AI_HANDOFF.md`](AI_HANDOFF.md), затем `AGENTS.md`.
+> **AI / новый чат:** сначала прочитайте `AI_HANDOFF.md`, затем `AGENTS.md`.
 
-**ATS — Algorithmic Trading Systems** — программа исследований, разработки, проверки и эксплуатации алгоритмических торговых стратегий. Цель — воспроизводимая Strategy Factory, а не один робот.
+**ATS — Algorithmic Trading Systems** — программа исследований, разработки, проверки и эксплуатации алгоритмических торговых стратегий. Цель — воспроизводимая Strategy Factory, а не один торговый робот.
 
 ## Текущее состояние
 
 - Phase: `M0_PROGRAM_REBASELINE / IN_PROGRESS`.
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-- Current program governance: `governance/program/`.
+- Current governance: `governance/program/`.
 - Current methodology: `governance/methodology/`.
-- Legacy archive: `legacy/v1/`.
+- Legacy ATS v1: `legacy/v1/`.
 
 Последняя завершённая task:
 
-`ATS2-M0-011 — Legacy physical migration and unresolved-question carryover`.
+`ATS2-M0-012 — Final link/validator sweep`.
+
+Sweep evidence:
+
+`governance/program/M0_FINAL_SWEEP.md`
 
 Следующая ready task:
 
-`ATS2-M0-012 — Final link/validator sweep`.
+`ATS2-M0-013 — M0 Exit Review`.
 
-Canonical next artifact anchor:
+Следующий artifact:
 
-`tools/validate_repo.py`.
+`governance/program/M0_EXIT_REVIEW.md`.
 
 ## Canonical ATS v2
 
@@ -40,12 +44,6 @@ Methodology:
 - `governance/methodology/RESEARCH_METHODOLOGY_V1.md`;
 - `governance/methodology/templates/README.md`.
 
-Legacy:
-
-- `legacy/v1/README.md`;
-- `legacy/v1/MIGRATION_INDEX.md`;
-- `legacy/v1/CARRYOVER.md`.
-
 ## Быстрый старт
 
 1. `AI_HANDOFF.md`.
@@ -55,7 +53,9 @@ Legacy:
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 6. Проверка: `python tools/validate_repo.py`.
 
-ATS v1 G01–G13 является historical/reference layer и не является current roadmap. Legacy content не становится current v2 policy без отдельного review.
+ATS v1 G01–G13 является historical/reference layer и не является current roadmap.
+
+M0 Exit Review не является разрешением на live trading и не выбирает Strategy #1, broker, capital allocation или risk limits.
 
 ## Ограничение ответственности
 
