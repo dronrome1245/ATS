@@ -31,6 +31,7 @@ REQUIRED_FILES = (
     "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md",
     "governance/methodology/ECONOMIC_PRE_SCREEN.md",
     "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md",
+    "governance/methodology/EXPERIMENT_REGISTRATION.md",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
     "governance/methodology/templates/README.md",
     "governance/methodology/templates/IDEA_TEMPLATE.md",
@@ -138,6 +139,7 @@ CANONICAL_PATH_KEYS = (
     "cheap_prototype_protocol",
     "economic_pre_screen",
     "candidate_promotion_process",
+    "experiment_registration",
     "program_wbs",
     "repository_structure",
     "program_backlog",
@@ -242,8 +244,9 @@ def main() -> int:
         'cheap_prototype_protocol: "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"',
         'economic_pre_screen: "governance/methodology/ECONOMIC_PRE_SCREEN.md"',
         'candidate_promotion_process: "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md"',
-        'current_task: "ATS2-M1-007"',
-        'current_ready_task: "ATS2-M1-007"',
+        'experiment_registration: "governance/methodology/EXPERIMENT_REGISTRATION.md"',
+        'current_task: "ATS2-M1-008"',
+        'current_ready_task: "ATS2-M1-008"',
         "reference_strategy_selection_allowed: false",
         "candidates_active: 0",
         "physical_migration_complete: true",
@@ -445,10 +448,79 @@ def main() -> int:
             fail(f"Candidate evidence index template marker missing: {marker}")
             blocking += 1
 
+    experiment_registration = (repo / "governance/methodology/EXPERIMENT_REGISTRATION.md").read_text(encoding="utf-8")
+    for marker in (
+        "EXP-YYYYMMDD-nnn",
+        "REGISTERED_EXPERIMENT",
+        "Registration boundary in Git",
+        "Amendments before result observation",
+        "Post-result changes",
+        "Structural acceptance test",
+    ):
+        if marker not in experiment_registration:
+            fail(f"Experiment registration marker missing: {marker}")
+            blocking += 1
+
+    experiment_manifest = (repo / "governance/methodology/templates/experiment/manifest.yaml").read_text(encoding="utf-8")
+    for marker in (
+        'schema_version: "2.0"',
+        "evidence_class: REGISTERED_EXPERIMENT",
+        "registered_on:",
+        "registered_by_role:",
+        "amendments: []",
+        "implementation_reference:",
+        "source_snapshot_reference:",
+        "predefined_decision_rule:",
+    ):
+        if marker not in experiment_manifest:
+            fail(f"Experiment manifest marker missing: {marker}")
+            blocking += 1
+
+    experiment_result = (repo / "governance/methodology/templates/experiment/result.json").read_text(encoding="utf-8")
+    for marker in (
+        '"schema_version": "2.0"',
+        '"run_context"',
+        '"primary_metrics"',
+        '"machine_outcome"',
+        '"reproducibility_status"',
+    ):
+        if marker not in experiment_result:
+            fail(f"Experiment result schema marker missing: {marker}")
+            blocking += 1
+
+    experiment_conclusion = (repo / "governance/methodology/templates/experiment/conclusion.md").read_text(encoding="utf-8")
+    for marker in (
+        "Evidence class: `REGISTERED_EXPERIMENT`",
+        "Registered primary metrics and decision rule",
+        "Decision-rule evaluation",
+        "Deviations and defects",
+    ):
+        if marker not in experiment_conclusion:
+            fail(f"Experiment conclusion marker missing: {marker}")
+            blocking += 1
+
     templates_index = (repo / "governance/methodology/templates/README.md").read_text(encoding="utf-8")
-    for marker in ("Candidate Promotion Review", "CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md", "READY_FOR_S01", "Strategy ID"):
+    for marker in (
+        "Candidate Promotion Review",
+        "CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md",
+        "READY_FOR_S01",
+        "Experiment",
+        "EXPERIMENT_REGISTRATION.md",
+        "REGISTERED_EXPERIMENT",
+    ):
         if marker not in templates_index:
-            fail(f"Templates index candidate-promotion marker missing: {marker}")
+            fail(f"Templates index marker missing: {marker}")
+            blocking += 1
+
+    experiments_readme = (repo / "experiments/README.md").read_text(encoding="utf-8")
+    for marker in (
+        "EXPERIMENT_REGISTRATION.md",
+        "REGISTERED_EXPERIMENT",
+        "experiments/REGISTRY.csv",
+        "Formal experiment",
+    ):
+        if marker not in experiments_readme:
+            fail(f"Experiments README marker missing: {marker}")
             blocking += 1
 
     next_artifact = extract_quoted_scalar(state, "next_artifact")
@@ -475,11 +547,11 @@ def main() -> int:
     next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
     backlog = backlog_path.read_text(encoding="utf-8") if backlog_path.is_file() else ""
 
-    if "ATS2-M1-006" not in backlog or "Candidate promotion" not in backlog or "DONE" not in backlog:
-        fail("Program Backlog does not record completed M1-006")
+    if "ATS2-M1-007" not in backlog or "Experiment registration schema" not in backlog or "DONE" not in backlog:
+        fail("Program Backlog does not record completed M1-007")
         blocking += 1
-    if "ATS2-M1-007" not in backlog or "Experiment registration schema" not in backlog or "READY" not in backlog:
-        fail("Program Backlog does not expose M1-007 as ready work")
+    if "ATS2-M1-008" not in backlog or "Experiment registry" not in backlog or "READY" not in backlog:
+        fail("Program Backlog does not expose M1-008 as ready work")
         blocking += 1
 
     if next_artifact:
