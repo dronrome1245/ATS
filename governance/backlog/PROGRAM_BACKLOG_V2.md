@@ -16,12 +16,12 @@ Backlog превращает Program WBS в исполнимую очередь 
 1. `ATS2-M0-013` — M0 Exit Review — `DONE`.
 2. `ATS2-M1-001` — Idea intake process — `DONE`.
 3. `ATS2-M1-002` — Hypothesis model — `DONE`.
-4. `ATS2-M1-003` — Data Feasibility review — `READY`.
-5. `ATS2-M1-004` — Cheap Prototype protocol — после M1-003.
+4. `ATS2-M1-003` — Data Feasibility review — `DONE`.
+5. `ATS2-M1-004` — Cheap Prototype protocol — `READY`.
 6. `ATS2-M1-005` — Economic Pre-Screen — после M1-004.
 7. `ATS2-M1-006` — Candidate promotion — после M1-005.
 
-Program-level current next task — `ATS2-M1-003`.
+Program-level current next task — `ATS2-M1-004`.
 
 ## 3. M0 — Program Rebaseline
 
@@ -34,9 +34,9 @@ Canonical exit evidence: `governance/program/M0_EXIT_REVIEW.md`.
 | Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done / activation |
 |---|---|---:|---|---|---|---|
 | `ATS2-M1-001` | `WBS-1.1` | P1 | DONE | M0-013 | `governance/methodology/IDEA_INTAKE_PROCESS.md` + aligned Idea template | Stable `IDEA-xxxx` ID, provenance, duplicate check, minimum intake fields, `SCREEN/PARK/REJECT`, preserved negative decisions and structural template acceptance test are defined without registering a fictitious Idea |
-| `ATS2-M1-002` | `WBS-1.2` | P1 | DONE | M1-001 | `governance/methodology/HYPOTHESIS_MODEL.md` + aligned Hypothesis template | Screened Idea can become a falsifiable `HYP-xxxx` with explicit mechanism, conditions, horizons, information-time premise, falsification rule, required data, change control and `DATA_FEASIBILITY/PARK/REJECT` decision without creating fictitious research content |
-| `ATS2-M1-003` | `WBS-1.3` | P1 | READY | M1-002 | `governance/methodology/DATA_FEASIBILITY_REVIEW.md` + review template/model | Проверяются data availability, coverage, timestamp semantics, information availability, revisions, missing/bad data, survivorship/universe risks, leakage, cost inputs and known gaps before prototype work |
-| `ATS2-M1-004` | `WBS-1.4` | P1 | BLOCKED | M1-002, M1-003 | Cheap Prototype protocol | Prototype отвечает на один ранний вопрос и не считается formal validation |
+| `ATS2-M1-002` | `WBS-1.2` | P1 | DONE | M1-001 | `governance/methodology/HYPOTHESIS_MODEL.md` + aligned Hypothesis template | Screened Idea can become a falsifiable `HYP-xxxx` with mechanism, conditions, horizons, information-time premise, falsification, required data and change control |
+| `ATS2-M1-003` | `WBS-1.3` | P1 | DONE | M1-002 | `governance/methodology/DATA_FEASIBILITY_REVIEW.md` + `DATA_FEASIBILITY_TEMPLATE.md` | Review checks source/access, coverage, granularity, timestamp/information-time semantics, revisions, missing/bad data, survivorship/selection, leakage, traceability, relevant costs and known gaps; decision is `FEASIBLE/CONDITIONAL/PARK/REJECT` without invented vendor/dataset |
+| `ATS2-M1-004` | `WBS-1.4` | P1 | READY | M1-002, M1-003 | `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md` | Prototype answers one early quantitative question at minimum cost, obeys Data Feasibility constraints and cannot be represented as formal validation evidence |
 | `ATS2-M1-005` | `WBS-1.5` | P1 | BLOCKED | M1-004 | Economic Pre-Screen rubric | До Candidate оцениваются magnitude, likely costs, opportunities, capital use и complexity |
 | `ATS2-M1-006` | `WBS-1.6` | P1 | BLOCKED | M1-005 | Candidate promotion process | `PROMOTE / PARK / REJECT` опирается на сохранённые preliminary evidence |
 | `ATS2-M1-007` | `WBS-1.7` | P1 | NOT_STARTED | M1-002 | Experiment registration schema | Dependency выполнена, но activation отложена по WIP discipline; formal experiment должен связать code, data, params, costs, predefined question и result |
@@ -55,10 +55,10 @@ Reference Strategy #1 выбирается только в M3 после M1 и M
 
 Текущая program-level ready task:
 
-`ATS2-M1-003 — Data Feasibility review`.
+`ATS2-M1-004 — Cheap Prototype protocol`.
 
 Canonical next artifact:
 
-`governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
+`governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`.
 
-Задача должна определить, как для конкретной Hypothesis проверять возможность честного исследования данных до prototype work: source/coverage, timestamp semantics, information-time availability, revisions, universe/survivorship, missing/bad data, leakage, transformation trace, relevant cost inputs and explicit feasibility decision. Не выбирать конкретный vendor или dataset без реального consumer.
+Задача должна определить, как выполнить минимально дорогую раннюю quantitative проверку одной Hypothesis после Data Feasibility, сохранить assumptions/result и не перепутать prototype output с registered research или validation evidence.
