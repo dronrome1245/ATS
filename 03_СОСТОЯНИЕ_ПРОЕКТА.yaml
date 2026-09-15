@@ -34,6 +34,7 @@ model:
   candidate_promotion_process: "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md"
   experiment_registration: "governance/methodology/EXPERIMENT_REGISTRATION.md"
   experiment_registry: "experiments/REGISTRY.csv"
+  evidence_taxonomy: "governance/methodology/EVIDENCE_TAXONOMY.md"
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
@@ -41,11 +42,11 @@ model:
   m0_exit_review: "governance/program/M0_EXIT_REVIEW.md"
 
 current:
-  focus: "Operationalize Research Factory — Evidence taxonomy"
-  last_completed_task_id: "ATS2-M1-008"
-  last_completed_artifact: "experiments/REGISTRY.csv"
-  next_artifact: "governance/methodology/EVIDENCE_TAXONOMY.md"
-  next_task_id: "ATS2-M1-009"
+  focus: "Operationalize Research Factory — Research review protocol"
+  last_completed_task_id: "ATS2-M1-009"
+  last_completed_artifact: "governance/methodology/EVIDENCE_TAXONOMY.md"
+  next_artifact: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
+  next_task_id: "ATS2-M1-010"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -74,6 +75,7 @@ m1:
     - "ATS2-M1-006"
     - "ATS2-M1-007"
     - "ATS2-M1-008"
+    - "ATS2-M1-009"
   completed_artifacts:
     - "governance/methodology/IDEA_INTAKE_PROCESS.md"
     - "governance/methodology/HYPOTHESIS_MODEL.md"
@@ -83,14 +85,15 @@ m1:
     - "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md"
     - "governance/methodology/EXPERIMENT_REGISTRATION.md"
     - "experiments/REGISTRY.csv"
-  current_task: "ATS2-M1-009"
-  current_wbs: "WBS-1.9"
+    - "governance/methodology/EVIDENCE_TAXONOMY.md"
+  current_task: "ATS2-M1-010"
+  current_wbs: "WBS-1.10"
   reference_strategy_selection_allowed: false
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M1-009"
-  current_ready_wbs: "WBS-1.9"
+  current_ready_task: "ATS2-M1-010"
+  current_ready_wbs: "WBS-1.10"
 
 handoff_policy:
   update_after_material_step: true
