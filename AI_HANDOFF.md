@@ -16,43 +16,44 @@
 
 ## 2. Последний завершённый шаг
 
-`ATS2-M1-004 — Cheap Prototype protocol` — `DONE`.
+`ATS2-M1-005 — Economic Pre-Screen` — `DONE`.
 
 Artifacts:
 
-- `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`;
-- `governance/methodology/templates/CHEAP_PROTOTYPE_TEMPLATE.md`.
+- `governance/methodology/ECONOMIC_PRE_SCREEN.md`;
+- `governance/methodology/templates/ECONOMIC_PRE_SCREEN_TEMPLATE.md`.
 
-Cheap Prototype now means one pre-written quantitative question, minimum implementation, explicit data/timing/cost assumptions, result/iteration accounting and one outcome among:
+Economic Pre-Screen is the R4 research-budget gate. It assesses E1–E9: magnitude, preliminary net economics/cost sensitivity, opportunity diversity, capital use, risk/path/concentration, capacity, operational burden, evidence/search weakness and economic margin of safety.
 
-`ADVANCE_TO_ECONOMIC_SCREEN / ITERATE / PARK / REJECT`.
+Decision model:
 
-Prototype evidence class is `EXPLORATORY_PROTOTYPE`. It is not a registered Experiment or validation evidence. Formal evidence requires a future pre-registered `EXP-...` rerun.
+`ADVANCE_TO_CANDIDATE_REVIEW / RETURN_TO_RESEARCH / PARK / REJECT`.
+
+There is no universal return target, minimum trade count or capital threshold. A positive Pre-Screen does not create a Candidate and is not validation evidence.
 
 ## 3. Текущая ready task
 
-`ATS2-M1-005 — Economic Pre-Screen`
+`ATS2-M1-006 — Candidate promotion process`
 
 Canonical next artifact:
 
-`governance/methodology/ECONOMIC_PRE_SCREEN.md`
+`governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`
 
-Goal: define whether preliminary effect/economics justify a full research budget and possible later Candidate promotion.
+Goal: formalize how a successful Research Funnel becomes a Strategy Candidate only through an explicit `PROMOTE / PARK / REJECT` decision.
 
-## 4. Что должно быть определено в M1-005
+## 4. Что должно быть определено в M1-006
 
-- admissible prototype inputs/outcomes;
-- preliminary effect magnitude;
-- gross/net economics and cost sensitivity;
-- opportunity frequency/diversity;
-- capital use/efficiency;
-- risk/path/concentration characteristics;
-- capacity/scalability;
-- operational/data/execution complexity;
-- evidence weakness and search degrees of freedom;
-- economic margin of safety;
-- clear `PROMOTE / PARK / REJECT / RETURN_TO_RESEARCH` style decision model;
-- structural rubric test without invented returns/capital.
+- required R0–R4 artifacts;
+- entry condition `ADVANCE_TO_CANDIDATE_REVIEW`;
+- stable Candidate identity and lineage;
+- preservation of exploratory/evidence limitations;
+- known risks/failure modes and unresolved questions;
+- proposed research scope through S05;
+- `PROMOTE / PARK / REJECT` decision model;
+- Candidate creation only on `PROMOTE`;
+- relationship to future Strategy ID / S01;
+- alignment of `CANDIDATE_TEMPLATE.md`;
+- structural test without fictitious strategy content.
 
 ## 5. Обязательный порядок чтения
 
@@ -64,12 +65,12 @@ Goal: define whether preliminary effect/economics justify a full research budget
 6. `governance/methodology/HYPOTHESIS_MODEL.md`.
 7. `governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
 8. `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`.
-9. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
-10. relevant templates.
+9. `governance/methodology/ECONOMIC_PRE_SCREEN.md`.
+10. `governance/methodology/templates/CANDIDATE_TEMPLATE.md`.
 
 ## 6. Boundaries
 
-Cheap Prototype is preliminary/exploratory. Do not infer profitability or validation from an attractive prototype. Do not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits in M1-005.
+Candidate promotion grants permission for deeper research only. It does not establish validated edge, approve live trading or allocate capital. Do not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits in M1-006.
 
 ## 7. Completion protocol
 
@@ -78,8 +79,8 @@ Material program task is complete only after deliverable, backlog, canonical sta
 ## 8. Проверка восстановления контекста
 
 - Current phase? — `M1_RESEARCH_METHODOLOGY`.
-- Last completed? — `ATS2-M1-004`, `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`.
-- Next task? — `ATS2-M1-005`.
-- Next artifact? — `governance/methodology/ECONOMIC_PRE_SCREEN.md`.
-- Active prototypes created by process test? — `0`.
-- Can Cheap Prototype be cited as formal validation evidence? — no.
+- Last completed? — `ATS2-M1-005`, `governance/methodology/ECONOMIC_PRE_SCREEN.md`.
+- Next task? — `ATS2-M1-006`.
+- Next artifact? — `governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`.
+- Candidates created by methodology test? — `0`.
+- Does positive Pre-Screen prove profitability? — no.
