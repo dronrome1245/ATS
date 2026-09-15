@@ -16,9 +16,9 @@
 3. Если поле действительно неприменимо, в экземпляре используется явное значение `NOT_APPLICABLE` и при необходимости объяснение причины.
 4. Нельзя подставлять типовые финансовые, торговые, data-vendor или юридические значения только ради заполнения формы.
 5. ID после выдачи не переиспользуется.
-6. Формальный Experiment считается evidence только после фиксации manifest, результата и conclusion.
+6. Формальный Experiment считается complete registered evidence package только после preregistered manifest, результата и conclusion; preregistration должна существовать до result observation.
 7. Material change Strategy Version создаёт новую версию, а не переписывает старую как будто изменения не было.
-8. Structural process tests шаблонов не создают fictitious research entities, datasets, prototype results, economics или Candidates.
+8. Structural process tests шаблонов не создают fictitious research entities, datasets, prototype results, economics, Candidates или Experiment results.
 9. Exploratory Cheap Prototype не становится formal Experiment задним числом; если его результат нужен как registered evidence, соответствующий run повторяется после предварительной регистрации `EXP-...`.
 
 ## Templates
@@ -116,13 +116,19 @@ Candidate status after creation is `READY_FOR_S01`. `Strategy ID` remains `null`
 
 Каталог `experiment/` содержит:
 
-- `manifest.yaml` — immutable experiment context;
-- `result.json` — machine-readable результат;
-- `conclusion.md` — human-readable interpretation и decision.
+- `manifest.yaml` — preregistered pre-result context with `REGISTERED_EXPERIMENT` evidence class;
+- `result.json` — machine-readable observed result and actual run context;
+- `conclusion.md` — human-readable evaluation against the preregistered question/rule.
 
 Canonical instance:
 
 `experiments/EXP-YYYYMMDD-nnn/`
+
+Operational methodology:
+
+`governance/methodology/EXPERIMENT_REGISTRATION.md`
+
+Formal registration requires the `REGISTERED` manifest to exist in Git before corresponding result observation. Decision-relevant manifest changes after registration require a new Experiment ID. `result.json` and `conclusion.md` do not rewrite preregistration history.
 
 ### Strategy Version
 
@@ -146,7 +152,7 @@ Canonical instance:
 - Economic Pre-Screen R4 решает, заслуживает ли research line формального Candidate review; положительный outcome сам Candidate не создаёт.
 - `Candidate` создаётся только после отдельного Candidate Promotion Review decision `PROMOTE`.
 - Candidate получает `CAND-...`; `STRAT-...` появляется только после formal S01 Candidate Admission.
-- Formal `Experiment` регистрируется до использования соответствующего результата как registered evidence.
+- Formal `Experiment` получает `EXP-...` и preregistered manifest до result observation; completed exploratory output не повышается до registered evidence задним числом.
 - `Strategy Version` создаётся после Candidate admission, когда правила стратегии становятся versioned research object.
 
 ## Что этот пакет не определяет
