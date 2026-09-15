@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import csv
 import re
 from pathlib import Path
 from urllib.parse import unquote
@@ -49,6 +50,9 @@ REQUIRED_FILES = (
     "governance/methodology/templates/strategy_version/SPECIFICATION.md",
     "governance/methodology/templates/strategy_version/PARAMETERS.yaml",
     "governance/methodology/templates/strategy_version/EVIDENCE_INDEX.md",
+    "experiments/README.md",
+    "experiments/REGISTRY.csv",
+    "tools/search_experiments.py",
     "legacy/v1/README.md",
     "legacy/v1/MIGRATION_INDEX.md",
     "legacy/v1/CARRYOVER.md",
@@ -68,7 +72,6 @@ REQUIRED_FILES = (
     "legacy/v1/registers/РЕЕСТР_АРТЕФАКТОВ.csv",
     "legacy/v1/collisions/ОТКРЫТЫЕ_ВОПРОСЫ.md",
     "data/README.md",
-    "experiments/README.md",
     "reports/README.md",
     "src/README.md",
     "tests/README.md",
@@ -119,6 +122,7 @@ OPERATIONAL_FILES = (
     "02_СЛЕДУЮЩИЙ_ШАГ.md",
     "03_СОСТОЯНИЕ_ПРОЕКТА.yaml",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
+    "experiments/README.md",
     ".github/copilot-instructions.md",
     "CLAUDE.md",
 )
@@ -140,6 +144,7 @@ CANONICAL_PATH_KEYS = (
     "economic_pre_screen",
     "candidate_promotion_process",
     "experiment_registration",
+    "experiment_registry",
     "program_wbs",
     "repository_structure",
     "program_backlog",
@@ -149,6 +154,187 @@ CANONICAL_PATH_KEYS = (
     "migration_index",
     "carryover",
 )
+
+CONTENT_MARKERS = {
+    "governance/program/M0_EXIT_REVIEW.md": (
+        "Decision:** `PASS`",
+        "M0_PROGRAM_REBASELINE = COMPLETED",
+        "ATS2-M1-001",
+    ),
+    "legacy/v1/MIGRATION_INDEX.md": (
+        "HISTORY",
+        "REFERENCE",
+        "REVIEW_NEEDED",
+        "всего: 15 artifacts",
+    ),
+    "legacy/v1/CARRYOVER.md": (
+        "OQ-001",
+        "OQ-009",
+        "ATS2-M2-001",
+        "does **not** create speculative duplicate future tasks",
+    ),
+    "governance/methodology/IDEA_INTAKE_PROCESS.md": (
+        "IDEA-0001",
+        "SCREEN",
+        "PARK",
+        "REJECT",
+        "Duplicate / overlap",
+        "Structural acceptance test",
+    ),
+    "governance/methodology/templates/IDEA_TEMPLATE.md": (
+        "Origin / provenance",
+        "Duplicate / overlap check",
+        "SCREEN",
+        "PARK",
+        "REJECT",
+    ),
+    "governance/methodology/HYPOTHESIS_MODEL.md": (
+        "HYP-0001",
+        "Falsifiability admission rule",
+        "DATA_FEASIBILITY",
+        "Decision-time information premise",
+        "Structural acceptance test",
+    ),
+    "governance/methodology/templates/HYPOTHESIS_TEMPLATE.md": (
+        "Supersedes Hypothesis ID",
+        "Decision-time information premise",
+        "Falsifiability check",
+        "DATA_FEASIBILITY",
+        "READY_FOR_DATA_FEASIBILITY",
+    ),
+    "governance/methodology/DATA_FEASIBILITY_REVIEW.md": (
+        "Decision-time information availability",
+        "Universe, survivorship and selection bias",
+        "Transformation trace and dataset identity",
+        "FEASIBLE",
+        "CONDITIONAL",
+        "Structural acceptance test",
+    ),
+    "governance/methodology/templates/DATA_FEASIBILITY_TEMPLATE.md": (
+        "Hypothesis ID",
+        "Decision-time availability assessment",
+        "Survivorship risk",
+        "Leakage and overlap risks",
+        "Known gaps",
+        "FEASIBLE",
+        "CONDITIONAL",
+    ),
+    "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md": (
+        "one prototype, one question",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "ITERATE",
+        "EXPLORATORY_PROTOTYPE",
+        "Prototype versus formal Experiment",
+        "Structural acceptance test",
+    ),
+    "governance/methodology/templates/CHEAP_PROTOTYPE_TEMPLATE.md": (
+        "Prototype sequence",
+        "Prototype question",
+        "Pre-run decision rule",
+        "Search and iteration accounting",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "EXPLORATORY_PROTOTYPE",
+    ),
+    "governance/methodology/ECONOMIC_PRE_SCREEN.md": (
+        "No universal profitability threshold",
+        "E1 — Effect Magnitude",
+        "E9 — Economic Margin of Safety",
+        "ADVANCE_TO_CANDIDATE_REVIEW",
+        "RETURN_TO_RESEARCH",
+        "Relationship to Candidate promotion",
+        "Structural acceptance test",
+    ),
+    "governance/methodology/templates/ECONOMIC_PRE_SCREEN_TEMPLATE.md": (
+        "E1 Effect Magnitude",
+        "E9 Economic Margin of Safety",
+        "ADVANCE_TO_CANDIDATE_REVIEW",
+        "RETURN_TO_RESEARCH",
+        "Capital use / efficiency",
+        "Evidence weakness and research freedom",
+    ),
+    "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md": (
+        "CAND-0001",
+        "READY_FOR_S01",
+        "PROMOTE",
+        "PARK",
+        "REJECT",
+        "Strategy ID",
+        "Structural acceptance test",
+    ),
+    "governance/methodology/templates/CANDIDATE_PROMOTION_REVIEW_TEMPLATE.md": (
+        "CPR-01",
+        "ADVANCE_TO_CANDIDATE_REVIEW",
+        "Candidate ID created",
+        "PROMOTE",
+        "PARK",
+        "REJECT",
+    ),
+    "governance/methodology/templates/CANDIDATE_TEMPLATE.md": (
+        "READY_FOR_S01",
+        "Strategy ID: `null`",
+        "EVIDENCE_INDEX.md",
+        "ADVANCE_TO_CANDIDATE_REVIEW",
+        "Decision: `PROMOTE`",
+    ),
+    "governance/methodology/templates/CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md": (
+        "EXPLORATORY_PROTOTYPE",
+        "Pre-registered",
+        "Formal validation claim eligible",
+        "Negative and discarded evidence",
+    ),
+    "governance/methodology/EXPERIMENT_REGISTRATION.md": (
+        "EXP-YYYYMMDD-nnn",
+        "REGISTERED_EXPERIMENT",
+        "Registration boundary in Git",
+        "Amendments before result observation",
+        "Post-result changes",
+        "Structural acceptance test",
+    ),
+    "governance/methodology/templates/experiment/manifest.yaml": (
+        'schema_version: "2.0"',
+        "evidence_class: REGISTERED_EXPERIMENT",
+        "registered_on:",
+        "registered_by_role:",
+        "amendments: []",
+        "implementation_reference:",
+        "source_snapshot_reference:",
+        "predefined_decision_rule:",
+    ),
+    "governance/methodology/templates/experiment/result.json": (
+        '"schema_version": "2.0"',
+        '"run_context"',
+        '"primary_metrics"',
+        '"machine_outcome"',
+        '"reproducibility_status"',
+    ),
+    "governance/methodology/templates/experiment/conclusion.md": (
+        "Evidence class: `REGISTERED_EXPERIMENT`",
+        "Registered primary metrics and decision rule",
+        "Decision-rule evaluation",
+        "Deviations and defects",
+    ),
+    "governance/methodology/templates/README.md": (
+        "Candidate Promotion Review",
+        "CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md",
+        "READY_FOR_S01",
+        "EXPERIMENT_REGISTRATION.md",
+        "REGISTERED_EXPERIMENT",
+    ),
+    "experiments/README.md": (
+        "Experiment Registry",
+        "experiments/REGISTRY.csv",
+        "tools/search_experiments.py",
+        "registration_revision",
+        "zero fictitious experiment rows",
+    ),
+    "tools/search_experiments.py": (
+        "REGISTRY.csv",
+        "FILTER_FIELDS",
+        "--contains",
+        "evidence_class",
+        "machine_outcome",
+    ),
+}
 
 FORBIDDEN_PLACEHOLDERS = (
     re.compile(r"\{\{[^{}]+\}\}"),
@@ -160,6 +346,36 @@ FORBIDDEN_PLACEHOLDERS = (
 MARKDOWN_LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 TEXT_SUFFIXES = {".md", ".yaml", ".yml", ".csv", ".py", ".txt", ".json"}
 TRANSITIONAL_STATE = Path("00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml")
+EXPERIMENT_ID = re.compile(r"^EXP-\d{8}-\d{3}$")
+REGISTRY_HEADER = (
+    "experiment_id",
+    "status",
+    "research_stage",
+    "evidence_class",
+    "idea_id",
+    "hypothesis_id",
+    "candidate_id",
+    "strategy_id",
+    "strategy_version",
+    "package_path",
+    "manifest_path",
+    "registration_revision",
+    "registered_at",
+    "completed_at",
+    "machine_outcome",
+    "decision",
+    "supersedes_experiment_id",
+    "superseded_by_experiment_id",
+)
+REGISTRY_STATUSES = {
+    "DRAFT",
+    "REGISTERED",
+    "RUNNING",
+    "COMPLETED",
+    "CANCELLED",
+    "SUPERSEDED",
+}
+REGISTERED_OR_LATER = {"REGISTERED", "RUNNING", "COMPLETED", "SUPERSEDED"}
 
 
 def fail(message: str) -> None:
@@ -205,6 +421,112 @@ def validate_local_markdown_links(repo: Path, path: Path, relative: Path) -> int
     return blocking
 
 
+def backlog_status(backlog: str, task_id: str) -> str | None:
+    for line in backlog.splitlines():
+        if line.startswith("|") and f"`{task_id}`" in line:
+            cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+            if len(cells) >= 4:
+                return cells[3]
+    return None
+
+
+def validate_content_markers(repo: Path) -> int:
+    blocking = 0
+    for relative, markers in CONTENT_MARKERS.items():
+        path = repo / relative
+        if not path.is_file():
+            continue
+        text = path.read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in text:
+                fail(f"content marker missing in {relative}: {marker}")
+                blocking += 1
+    return blocking
+
+
+def validate_registry(repo: Path) -> int:
+    blocking = 0
+    path = repo / "experiments/REGISTRY.csv"
+    with path.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        actual_header = tuple(reader.fieldnames or ())
+        if actual_header != REGISTRY_HEADER:
+            fail(f"Experiment Registry header mismatch: {actual_header}")
+            blocking += 1
+            return blocking
+        rows = list(reader)
+
+    seen_ids: set[str] = set()
+    references: list[tuple[str, str, str]] = []
+
+    for line_no, row in enumerate(rows, start=2):
+        experiment_id = row["experiment_id"].strip()
+        status = row["status"].strip()
+
+        if not EXPERIMENT_ID.fullmatch(experiment_id):
+            fail(f"Experiment Registry invalid experiment_id at line {line_no}: {experiment_id}")
+            blocking += 1
+            continue
+        if experiment_id in seen_ids:
+            fail(f"Experiment Registry duplicate experiment_id: {experiment_id}")
+            blocking += 1
+        seen_ids.add(experiment_id)
+
+        if status not in REGISTRY_STATUSES:
+            fail(f"Experiment Registry invalid status for {experiment_id}: {status}")
+            blocking += 1
+
+        expected_package = f"experiments/{experiment_id}/"
+        expected_manifest = f"experiments/{experiment_id}/manifest.yaml"
+        if row["package_path"].strip() != expected_package:
+            fail(f"Experiment Registry package_path mismatch for {experiment_id}")
+            blocking += 1
+        if row["manifest_path"].strip() != expected_manifest:
+            fail(f"Experiment Registry manifest_path mismatch for {experiment_id}")
+            blocking += 1
+
+        if not (repo / expected_package).is_dir():
+            fail(f"Experiment Registry package missing for {experiment_id}: {expected_package}")
+            blocking += 1
+        if not (repo / expected_manifest).is_file():
+            fail(f"Experiment Registry manifest missing for {experiment_id}: {expected_manifest}")
+            blocking += 1
+
+        if status in REGISTERED_OR_LATER:
+            if row["evidence_class"].strip() != "REGISTERED_EXPERIMENT":
+                fail(f"Experiment Registry registered evidence class mismatch for {experiment_id}")
+                blocking += 1
+            if not row["registration_revision"].strip():
+                fail(f"Experiment Registry registration_revision missing for {experiment_id}")
+                blocking += 1
+            if not row["registered_at"].strip():
+                fail(f"Experiment Registry registered_at missing for {experiment_id}")
+                blocking += 1
+
+        if status == "COMPLETED":
+            if not row["completed_at"].strip():
+                fail(f"Experiment Registry completed_at missing for {experiment_id}")
+                blocking += 1
+            if not row["decision"].strip():
+                fail(f"Experiment Registry decision missing for completed {experiment_id}")
+                blocking += 1
+
+        for field in ("supersedes_experiment_id", "superseded_by_experiment_id"):
+            reference = row[field].strip()
+            if reference:
+                if not EXPERIMENT_ID.fullmatch(reference):
+                    fail(f"Experiment Registry invalid {field} for {experiment_id}: {reference}")
+                    blocking += 1
+                references.append((experiment_id, field, reference))
+
+    for experiment_id, field, reference in references:
+        if reference not in seen_ids:
+            fail(f"Experiment Registry {field} for {experiment_id} references missing ID: {reference}")
+            blocking += 1
+
+    return blocking
+
+
 def main() -> int:
     repo = Path(__file__).resolve().parents[1]
     blocking = 0
@@ -230,7 +552,6 @@ def main() -> int:
 
     state_path = repo / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
     state = state_path.read_text(encoding="utf-8") if state_path.is_file() else ""
-
     required_state_markers = (
         'schema_version: "2.0"',
         "phase: M1_RESEARCH_METHODOLOGY",
@@ -245,10 +566,12 @@ def main() -> int:
         'economic_pre_screen: "governance/methodology/ECONOMIC_PRE_SCREEN.md"',
         'candidate_promotion_process: "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md"',
         'experiment_registration: "governance/methodology/EXPERIMENT_REGISTRATION.md"',
-        'current_task: "ATS2-M1-008"',
-        'current_ready_task: "ATS2-M1-008"',
+        'experiment_registry: "experiments/REGISTRY.csv"',
+        'current_task: "ATS2-M1-009"',
+        'current_ready_task: "ATS2-M1-009"',
         "reference_strategy_selection_allowed: false",
         "candidates_active: 0",
+        "experiments_registered: 0",
         "physical_migration_complete: true",
         "real_money_trading_allowed: false",
         "minimal_live_trading_allowed: false",
@@ -271,256 +594,15 @@ def main() -> int:
             fail(f"canonical state path does not exist for {key}: {relative}")
             blocking += 1
 
-    exit_review = (repo / "governance/program/M0_EXIT_REVIEW.md").read_text(encoding="utf-8")
-    for marker in ("Decision:** `PASS`", "M0_PROGRAM_REBASELINE = COMPLETED", "ATS2-M1-001"):
-        if marker not in exit_review:
-            fail(f"M0 exit review marker missing: {marker}")
-            blocking += 1
+    blocking += validate_content_markers(repo)
+    blocking += validate_registry(repo)
 
-    migration_index = (repo / "legacy/v1/MIGRATION_INDEX.md").read_text(encoding="utf-8")
-    for marker in ("HISTORY", "REFERENCE", "REVIEW_NEEDED", "всего: 15 artifacts"):
-        if marker not in migration_index:
-            fail(f"legacy migration index marker missing: {marker}")
-            blocking += 1
-
-    carryover = (repo / "legacy/v1/CARRYOVER.md").read_text(encoding="utf-8")
-    for marker in ("OQ-001", "OQ-009", "ATS2-M2-001", "does **not** create speculative duplicate future tasks"):
-        if marker not in carryover:
-            fail(f"legacy carryover marker missing: {marker}")
-            blocking += 1
-
-    idea_process = (repo / "governance/methodology/IDEA_INTAKE_PROCESS.md").read_text(encoding="utf-8")
-    for marker in ("IDEA-0001", "SCREEN", "PARK", "REJECT", "Duplicate / overlap", "Structural acceptance test"):
-        if marker not in idea_process:
-            fail(f"Idea intake process marker missing: {marker}")
-            blocking += 1
-
-    idea_template = (repo / "governance/methodology/templates/IDEA_TEMPLATE.md").read_text(encoding="utf-8")
-    for marker in ("Origin / provenance", "Duplicate / overlap check", "SCREEN", "PARK", "REJECT"):
-        if marker not in idea_template:
-            fail(f"Idea template marker missing: {marker}")
-            blocking += 1
-
-    hypothesis_model = (repo / "governance/methodology/HYPOTHESIS_MODEL.md").read_text(encoding="utf-8")
-    for marker in ("HYP-0001", "Falsifiability admission rule", "DATA_FEASIBILITY", "Decision-time information premise", "Structural acceptance test"):
-        if marker not in hypothesis_model:
-            fail(f"Hypothesis model marker missing: {marker}")
-            blocking += 1
-
-    hypothesis_template = (repo / "governance/methodology/templates/HYPOTHESIS_TEMPLATE.md").read_text(encoding="utf-8")
-    for marker in ("Supersedes Hypothesis ID", "Decision-time information premise", "Falsifiability check", "DATA_FEASIBILITY", "READY_FOR_DATA_FEASIBILITY"):
-        if marker not in hypothesis_template:
-            fail(f"Hypothesis template marker missing: {marker}")
-            blocking += 1
-
-    data_review = (repo / "governance/methodology/DATA_FEASIBILITY_REVIEW.md").read_text(encoding="utf-8")
-    for marker in (
-        "Decision-time information availability",
-        "Universe, survivorship and selection bias",
-        "Transformation trace and dataset identity",
-        "FEASIBLE",
-        "CONDITIONAL",
-        "PARK",
-        "REJECT",
-        "Structural acceptance test",
-    ):
-        if marker not in data_review:
-            fail(f"Data Feasibility process marker missing: {marker}")
-            blocking += 1
-
-    data_template = (repo / "governance/methodology/templates/DATA_FEASIBILITY_TEMPLATE.md").read_text(encoding="utf-8")
-    for marker in (
-        "Hypothesis ID",
-        "Decision-time availability assessment",
-        "Survivorship risk",
-        "Leakage and overlap risks",
-        "Known gaps",
-        "FEASIBLE",
-        "CONDITIONAL",
-        "PARK",
-        "REJECT",
-    ):
-        if marker not in data_template:
-            fail(f"Data Feasibility template marker missing: {marker}")
-            blocking += 1
-
-    prototype_protocol = (repo / "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md").read_text(encoding="utf-8")
-    for marker in (
-        "one prototype, one question",
-        "ADVANCE_TO_ECONOMIC_SCREEN",
-        "ITERATE",
-        "EXPLORATORY_PROTOTYPE",
-        "Prototype versus formal Experiment",
-        "Structural acceptance test",
-    ):
-        if marker not in prototype_protocol:
-            fail(f"Cheap Prototype protocol marker missing: {marker}")
-            blocking += 1
-
-    prototype_template = (repo / "governance/methodology/templates/CHEAP_PROTOTYPE_TEMPLATE.md").read_text(encoding="utf-8")
-    for marker in (
-        "Prototype sequence",
-        "Prototype question",
-        "Pre-run decision rule",
-        "Search and iteration accounting",
-        "ADVANCE_TO_ECONOMIC_SCREEN",
-        "EXPLORATORY_PROTOTYPE",
-        "Registered Experiment ID: `NOT_APPLICABLE`",
-    ):
-        if marker not in prototype_template:
-            fail(f"Cheap Prototype template marker missing: {marker}")
-            blocking += 1
-
-    economic_screen = (repo / "governance/methodology/ECONOMIC_PRE_SCREEN.md").read_text(encoding="utf-8")
-    for marker in (
-        "No universal profitability threshold",
-        "E1 — Effect Magnitude",
-        "E9 — Economic Margin of Safety",
-        "ADVANCE_TO_CANDIDATE_REVIEW",
-        "RETURN_TO_RESEARCH",
-        "Relationship to Candidate promotion",
-        "Structural acceptance test",
-    ):
-        if marker not in economic_screen:
-            fail(f"Economic Pre-Screen marker missing: {marker}")
-            blocking += 1
-
-    economic_template = (repo / "governance/methodology/templates/ECONOMIC_PRE_SCREEN_TEMPLATE.md").read_text(encoding="utf-8")
-    for marker in (
-        "E1 Effect Magnitude",
-        "E9 Economic Margin of Safety",
-        "ADVANCE_TO_CANDIDATE_REVIEW",
-        "RETURN_TO_RESEARCH",
-        "Capital use / efficiency",
-        "Evidence weakness and research freedom",
-    ):
-        if marker not in economic_template:
-            fail(f"Economic Pre-Screen template marker missing: {marker}")
-            blocking += 1
-
-    candidate_process = (repo / "governance/methodology/CANDIDATE_PROMOTION_PROCESS.md").read_text(encoding="utf-8")
-    for marker in (
-        "CAND-0001",
-        "READY_FOR_S01",
-        "PROMOTE",
-        "PARK",
-        "REJECT",
-        "Strategy ID",
-        "Structural acceptance test",
-    ):
-        if marker not in candidate_process:
-            fail(f"Candidate promotion process marker missing: {marker}")
-            blocking += 1
-
-    promotion_template = (repo / "governance/methodology/templates/CANDIDATE_PROMOTION_REVIEW_TEMPLATE.md").read_text(encoding="utf-8")
-    for marker in (
-        "CPR-01",
-        "ADVANCE_TO_CANDIDATE_REVIEW",
-        "Candidate ID created",
-        "PROMOTE",
-        "PARK",
-        "REJECT",
-    ):
-        if marker not in promotion_template:
-            fail(f"Candidate promotion review template marker missing: {marker}")
-            blocking += 1
-
-    candidate_template = (repo / "governance/methodology/templates/CANDIDATE_TEMPLATE.md").read_text(encoding="utf-8")
-    for marker in (
-        "READY_FOR_S01",
-        "Strategy ID: `null`",
-        "EVIDENCE_INDEX.md",
-        "ADVANCE_TO_CANDIDATE_REVIEW",
-        "Decision: `PROMOTE`",
-    ):
-        if marker not in candidate_template:
-            fail(f"Candidate template marker missing: {marker}")
-            blocking += 1
-
-    candidate_evidence_template = (repo / "governance/methodology/templates/CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md").read_text(encoding="utf-8")
-    for marker in (
-        "EXPLORATORY_PROTOTYPE",
-        "Pre-registered",
-        "Formal validation claim eligible",
-        "Negative and discarded evidence",
-    ):
-        if marker not in candidate_evidence_template:
-            fail(f"Candidate evidence index template marker missing: {marker}")
-            blocking += 1
-
-    experiment_registration = (repo / "governance/methodology/EXPERIMENT_REGISTRATION.md").read_text(encoding="utf-8")
-    for marker in (
-        "EXP-YYYYMMDD-nnn",
-        "REGISTERED_EXPERIMENT",
-        "Registration boundary in Git",
-        "Amendments before result observation",
-        "Post-result changes",
-        "Structural acceptance test",
-    ):
-        if marker not in experiment_registration:
-            fail(f"Experiment registration marker missing: {marker}")
-            blocking += 1
-
-    experiment_manifest = (repo / "governance/methodology/templates/experiment/manifest.yaml").read_text(encoding="utf-8")
-    for marker in (
-        'schema_version: "2.0"',
-        "evidence_class: REGISTERED_EXPERIMENT",
-        "registered_on:",
-        "registered_by_role:",
-        "amendments: []",
-        "implementation_reference:",
-        "source_snapshot_reference:",
-        "predefined_decision_rule:",
-    ):
-        if marker not in experiment_manifest:
-            fail(f"Experiment manifest marker missing: {marker}")
-            blocking += 1
-
-    experiment_result = (repo / "governance/methodology/templates/experiment/result.json").read_text(encoding="utf-8")
-    for marker in (
-        '"schema_version": "2.0"',
-        '"run_context"',
-        '"primary_metrics"',
-        '"machine_outcome"',
-        '"reproducibility_status"',
-    ):
-        if marker not in experiment_result:
-            fail(f"Experiment result schema marker missing: {marker}")
-            blocking += 1
-
-    experiment_conclusion = (repo / "governance/methodology/templates/experiment/conclusion.md").read_text(encoding="utf-8")
-    for marker in (
-        "Evidence class: `REGISTERED_EXPERIMENT`",
-        "Registered primary metrics and decision rule",
-        "Decision-rule evaluation",
-        "Deviations and defects",
-    ):
-        if marker not in experiment_conclusion:
-            fail(f"Experiment conclusion marker missing: {marker}")
-            blocking += 1
-
-    templates_index = (repo / "governance/methodology/templates/README.md").read_text(encoding="utf-8")
-    for marker in (
-        "Candidate Promotion Review",
-        "CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md",
-        "READY_FOR_S01",
-        "Experiment",
-        "EXPERIMENT_REGISTRATION.md",
-        "REGISTERED_EXPERIMENT",
-    ):
-        if marker not in templates_index:
-            fail(f"Templates index marker missing: {marker}")
-            blocking += 1
-
-    experiments_readme = (repo / "experiments/README.md").read_text(encoding="utf-8")
-    for marker in (
-        "EXPERIMENT_REGISTRATION.md",
-        "REGISTERED_EXPERIMENT",
-        "experiments/REGISTRY.csv",
-        "Formal experiment",
-    ):
-        if marker not in experiments_readme:
-            fail(f"Experiments README marker missing: {marker}")
+    search_tool = repo / "tools/search_experiments.py"
+    if search_tool.is_file():
+        try:
+            compile(search_tool.read_text(encoding="utf-8"), str(search_tool), "exec")
+        except SyntaxError as exc:
+            fail(f"search_experiments.py syntax error: {exc}")
             blocking += 1
 
     next_artifact = extract_quoted_scalar(state, "next_artifact")
@@ -547,11 +629,11 @@ def main() -> int:
     next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
     backlog = backlog_path.read_text(encoding="utf-8") if backlog_path.is_file() else ""
 
-    if "ATS2-M1-007" not in backlog or "Experiment registration schema" not in backlog or "DONE" not in backlog:
-        fail("Program Backlog does not record completed M1-007")
+    if backlog_status(backlog, "ATS2-M1-008") != "DONE":
+        fail("Program Backlog does not record M1-008 as DONE")
         blocking += 1
-    if "ATS2-M1-008" not in backlog or "Experiment registry" not in backlog or "READY" not in backlog:
-        fail("Program Backlog does not expose M1-008 as ready work")
+    if backlog_status(backlog, "ATS2-M1-009") != "READY":
+        fail("Program Backlog does not expose M1-009 as READY")
         blocking += 1
 
     if next_artifact:
