@@ -35,6 +35,7 @@ model:
   experiment_registration: "governance/methodology/EXPERIMENT_REGISTRATION.md"
   experiment_registry: "experiments/REGISTRY.csv"
   evidence_taxonomy: "governance/methodology/EVIDENCE_TAXONOMY.md"
+  research_review_protocol: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
@@ -42,11 +43,11 @@ model:
   m0_exit_review: "governance/program/M0_EXIT_REVIEW.md"
 
 current:
-  focus: "Operationalize Research Factory — Research review protocol"
-  last_completed_task_id: "ATS2-M1-009"
-  last_completed_artifact: "governance/methodology/EVIDENCE_TAXONOMY.md"
-  next_artifact: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
-  next_task_id: "ATS2-M1-010"
+  focus: "M1 Exit Review"
+  last_completed_task_id: "ATS2-M1-010"
+  last_completed_artifact: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
+  next_artifact: "governance/program/M1_EXIT_REVIEW.md"
+  next_task_id: "ATS2-M1-011"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -76,6 +77,7 @@ m1:
     - "ATS2-M1-007"
     - "ATS2-M1-008"
     - "ATS2-M1-009"
+    - "ATS2-M1-010"
   completed_artifacts:
     - "governance/methodology/IDEA_INTAKE_PROCESS.md"
     - "governance/methodology/HYPOTHESIS_MODEL.md"
@@ -86,14 +88,15 @@ m1:
     - "governance/methodology/EXPERIMENT_REGISTRATION.md"
     - "experiments/REGISTRY.csv"
     - "governance/methodology/EVIDENCE_TAXONOMY.md"
-  current_task: "ATS2-M1-010"
-  current_wbs: "WBS-1.10"
+    - "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
+  current_task: "ATS2-M1-011"
+  current_wbs: "M1_EXIT"
   reference_strategy_selection_allowed: false
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M1-010"
-  current_ready_wbs: "WBS-1.10"
+  current_ready_task: "ATS2-M1-011"
+  current_ready_wbs: "M1_EXIT"
 
 handoff_policy:
   update_after_material_step: true
