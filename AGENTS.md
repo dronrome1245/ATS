@@ -10,46 +10,35 @@
 
 При первом входе в репозиторий, после потери контекста или перед продолжением незнакомой работы **сначала прочитать `AI_HANDOFF.md`**.
 
-`AI_HANDOFF.md` должен позволять за один проход понять:
-
-- что такое ATS;
-- текущую фазу программы;
-- какие решения уже приняты;
-- на каком артефакте остановились;
-- какой следующий task/artifact разрешён;
-- какие legacy-файлы нельзя ошибочно принимать за актуальный roadmap.
-
 Если `AI_HANDOFF.md`, `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `governance/backlog/PROGRAM_BACKLOG_V2.md` и `02_СЛЕДУЮЩИЙ_ШАГ.md` противоречат друг другу, содержательную работу не продолжать до устранения расхождения.
 
 ## 3. Обязательный порядок чтения
-
-Перед содержательной работой читать:
 
 1. `AI_HANDOFF.md`;
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` — canonical machine-readable state;
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md` — canonical execution queue;
-5. `00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md`;
-6. `00_Управление_проектом/v2/OPERATING_MODEL_V2.md`;
-7. `00_Управление_проектом/v2/PROGRAM_WBS_V2.md` — для program work;
-8. `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md` — для structural/migration work;
-9. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md` — для research;
-10. `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md` — для конкретной стратегии;
+5. `governance/program/PROGRAM_CHARTER_V2.md`;
+6. `governance/program/OPERATING_MODEL_V2.md`;
+7. `governance/program/PROGRAM_WBS_V2.md` — для program work;
+8. `governance/program/REPOSITORY_STRUCTURE_V2.md` — для structural/migration work;
+9. `governance/methodology/RESEARCH_METHODOLOGY_V1.md` — для research;
+10. `governance/methodology/STRATEGY_LIFECYCLE_V2.md` — для конкретной стратегии;
 11. только затем связанные code/data/test/report artifacts.
 
 Не загружать весь репозиторий без необходимости.
 
-## 4. Canonical state и execution queue
+## 4. Canonical state и current governance
 
 Единственный canonical machine-readable state ATS:
 
 `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 
-Canonical program backlog:
+Current ATS v2 governance находится только в:
 
-`governance/backlog/PROGRAM_BACKLOG_V2.md`.
-
-State определяет текущую фазу, last completed artifact, next artifact и next task ID. Backlog содержит executable tasks, dependencies, priority/status и Definition of Done.
+- `governance/program/`;
+- `governance/methodology/`;
+- `governance/backlog/`.
 
 Человекочитаемые представления:
 
@@ -57,7 +46,7 @@ State определяет текущую фазу, last completed artifact, nex
 - `02_СЛЕДУЮЩИЙ_ШАГ.md`;
 - `AI_HANDOFF.md`.
 
-Старая модель G01–G13 сохранена в legacy-документах как history/reference, но не является текущим roadmap программы.
+Старая модель G01–G13 и документы ATS v1 являются history/reference до их migration в `legacy/v1/`; они не являются current roadmap.
 
 ## 5. Модель ATS v2
 
@@ -71,18 +60,11 @@ ATS — не одна стратегия и не один robot project.
 - Portfolio & Capital;
 - Operations & Governance.
 
-Текущая работа управляется milestones M0–M8, `PROGRAM_WBS_V2.md` и canonical backlog.
+Текущая работа управляется milestones M0–M8, `governance/program/PROGRAM_WBS_V2.md` и canonical backlog.
 
 ## 6. Research discipline
 
-Агент обязан различать:
-
-- exploratory observation;
-- registered experiment;
-- validation evidence;
-- independent evidence;
-- demo/shadow evidence;
-- live evidence.
+Агент обязан различать exploratory observation, registered experiment, validation evidence, independent evidence, demo/shadow evidence и live evidence.
 
 Exploratory result нельзя представлять как formal proof без соответствующего experiment manifest.
 
@@ -108,15 +90,7 @@ Exploratory result нельзя представлять как formal proof б�
 
 Material change, способное повлиять на trades, создаёт новую Strategy Version и требует повторной проверки затронутого evidence.
 
-Примеры material change:
-
-- entry/exit;
-- filters;
-- position management;
-- risk logic;
-- material parameters;
-- data source/protocol;
-- cost/execution assumptions.
+К material changes относятся entry/exit, filters, position management, risk logic, material parameters, data source/protocol и cost/execution assumptions.
 
 Minor refactor, не способный изменить торговые решения, может не требовать полного lifecycle, но должен быть документирован.
 
@@ -124,7 +98,7 @@ Minor refactor, не способный изменить торговые реш
 
 Перед independent examination должны быть заморожены version, parameters, data block, cost model и decision criteria.
 
-После раскрытия результата этот evidence block считается известным. Изменение стратегии создаёт новую research iteration; нельзя продолжать называть повторный тест тем же независимым экзаменом без отдельного обоснования.
+После раскрытия результата этот evidence block считается известным. Изменение стратегии создаёт новую research iteration.
 
 ## 10. Platform development
 
@@ -136,19 +110,15 @@ Minor refactor, не способный изменить торговые реш
 
 ## 11. Risk separation
 
-Логический порядок:
-
 `Strategy Intent → Strategy Risk → Portfolio Risk → Execution`.
 
-Отрицательное решение risk layer окончательно для создания нового риска.
-
-Неисправность strategy logic не должна отключать protective controls.
+Отрицательное решение risk layer окончательно для создания нового риска. Неисправность strategy logic не должна отключать protective controls.
 
 ## 12. Live boundary
 
 Research и validation без реального exposure могут выполняться без strategy-level allocation.
 
-Перед minimal live должны существовать соответствующие lifecycle evidence, live protocol и owner-approved Strategy Risk Mandate.
+Перед minimal live должны существовать lifecycle evidence, live protocol и OWNER-approved Strategy Risk Mandate.
 
 Demo/shadow не считается доказательством profitability, а historical backtest не считается доказательством live execution.
 
@@ -168,34 +138,32 @@ Demo/shadow не считается доказательством profitability
 
 Формальные experiments используют уникальный ID вида `EXP-YYYYMMDD-nnn` и содержат manifest с Strategy Version, code revision, dataset, parameters, cost model, result и conclusion.
 
+Canonical templates находятся в `governance/methodology/templates/`.
+
 ## 15. Completion / handoff protocol
 
-Любой существенный program-level шаг считается завершённым только после синхронизации контекста для следующего чата.
+Любой существенный program-level шаг считается завершённым только после синхронизации:
 
-Перед завершением работы агент обязан проверить и при необходимости обновить:
-
-1. основной созданный/изменённый artifact;
+1. основного deliverable;
 2. `governance/backlog/PROGRAM_BACKLOG_V2.md`;
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
 4. `01_СТАТУС_ПРОЕКТА.md`;
 5. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
 6. `AI_HANDOFF.md`;
-7. `README.md` и `00_НАЧАТЬ_ЗДЕСЬ.md`, если они содержат изменившуюся next action или модель;
-8. validator/tests, если изменились обязательная структура или invariants.
+7. README/start guide, если изменилась точка входа;
+8. validator/tests, если изменились paths или invariants.
 
-Нельзя сообщать OWNER, что шаг завершён, если backlog/state/handoff всё ещё указывают на предыдущую задачу.
+Нельзя сообщать OWNER, что шаг завершён, если backlog/state/handoff всё ещё указывают на предыдущую task.
 
 ## 16. Проверка репозитория
 
-Перед предложением завершённого изменения проверить:
+Перед завершением изменения проверить:
 
 ```bash
 python tools/validate_repo.py
 ```
 
-Validator должен подтверждать canonical v2 state, обязательные v2 artifacts и согласованность `next_artifact`/`next_task_id` между state, backlog, handoff и `02_СЛЕДУЮЩИЙ_ШАГ.md`.
-
-После появления исполняемого platform/strategy code к structural validation добавляются профильные unit, integration, replay и failure tests.
+Validator должен подтверждать canonical v2 state, governance paths, обязательные artifacts и согласованность `next_artifact`/`next_task_id` между state, backlog, handoff и next action.
 
 ## 17. Принцип безопасности
 
