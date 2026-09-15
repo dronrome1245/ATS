@@ -29,12 +29,14 @@ REQUIRED_FILES = (
     "governance/methodology/HYPOTHESIS_MODEL.md",
     "governance/methodology/DATA_FEASIBILITY_REVIEW.md",
     "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md",
+    "governance/methodology/ECONOMIC_PRE_SCREEN.md",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
     "governance/methodology/templates/README.md",
     "governance/methodology/templates/IDEA_TEMPLATE.md",
     "governance/methodology/templates/HYPOTHESIS_TEMPLATE.md",
     "governance/methodology/templates/DATA_FEASIBILITY_TEMPLATE.md",
     "governance/methodology/templates/CHEAP_PROTOTYPE_TEMPLATE.md",
+    "governance/methodology/templates/ECONOMIC_PRE_SCREEN_TEMPLATE.md",
     "governance/methodology/templates/CANDIDATE_TEMPLATE.md",
     "governance/methodology/templates/experiment/manifest.yaml",
     "governance/methodology/templates/experiment/result.json",
@@ -131,6 +133,7 @@ CANONICAL_PATH_KEYS = (
     "hypothesis_model",
     "data_feasibility_review",
     "cheap_prototype_protocol",
+    "economic_pre_screen",
     "program_wbs",
     "repository_structure",
     "program_backlog",
@@ -233,9 +236,11 @@ def main() -> int:
         'hypothesis_model: "governance/methodology/HYPOTHESIS_MODEL.md"',
         'data_feasibility_review: "governance/methodology/DATA_FEASIBILITY_REVIEW.md"',
         'cheap_prototype_protocol: "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"',
-        'current_task: "ATS2-M1-005"',
-        'current_ready_task: "ATS2-M1-005"',
+        'economic_pre_screen: "governance/methodology/ECONOMIC_PRE_SCREEN.md"',
+        'current_task: "ATS2-M1-006"',
+        'current_ready_task: "ATS2-M1-006"',
         "reference_strategy_selection_allowed: false",
+        "candidates_active: 0",
         "physical_migration_complete: true",
         "real_money_trading_allowed: false",
         "minimal_live_trading_allowed: false",
@@ -358,6 +363,33 @@ def main() -> int:
             fail(f"Cheap Prototype template marker missing: {marker}")
             blocking += 1
 
+    economic_screen = (repo / "governance/methodology/ECONOMIC_PRE_SCREEN.md").read_text(encoding="utf-8")
+    for marker in (
+        "No universal profitability threshold",
+        "E1 — Effect Magnitude",
+        "E9 — Economic Margin of Safety",
+        "ADVANCE_TO_CANDIDATE_REVIEW",
+        "RETURN_TO_RESEARCH",
+        "Relationship to Candidate promotion",
+        "Structural acceptance test",
+    ):
+        if marker not in economic_screen:
+            fail(f"Economic Pre-Screen marker missing: {marker}")
+            blocking += 1
+
+    economic_template = (repo / "governance/methodology/templates/ECONOMIC_PRE_SCREEN_TEMPLATE.md").read_text(encoding="utf-8")
+    for marker in (
+        "E1 Effect Magnitude",
+        "E9 Economic Margin of Safety",
+        "ADVANCE_TO_CANDIDATE_REVIEW",
+        "RETURN_TO_RESEARCH",
+        "Capital use / efficiency",
+        "Evidence weakness and research freedom",
+    ):
+        if marker not in economic_template:
+            fail(f"Economic Pre-Screen template marker missing: {marker}")
+            blocking += 1
+
     next_artifact = extract_quoted_scalar(state, "next_artifact")
     last_completed = extract_quoted_scalar(state, "last_completed_artifact")
     next_task_id = extract_quoted_scalar(state, "next_task_id")
@@ -382,11 +414,11 @@ def main() -> int:
     next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
     backlog = backlog_path.read_text(encoding="utf-8") if backlog_path.is_file() else ""
 
-    if "ATS2-M1-004" not in backlog or "Cheap Prototype protocol" not in backlog or "DONE" not in backlog:
-        fail("Program Backlog does not record completed M1-004")
+    if "ATS2-M1-005" not in backlog or "Economic Pre-Screen" not in backlog or "DONE" not in backlog:
+        fail("Program Backlog does not record completed M1-005")
         blocking += 1
-    if "ATS2-M1-005" not in backlog or "Economic Pre-Screen" not in backlog or "READY" not in backlog:
-        fail("Program Backlog does not expose M1-005 as ready work")
+    if "ATS2-M1-006" not in backlog or "Candidate promotion" not in backlog or "READY" not in backlog:
+        fail("Program Backlog does not expose M1-006 as ready work")
         blocking += 1
 
     if next_artifact:
