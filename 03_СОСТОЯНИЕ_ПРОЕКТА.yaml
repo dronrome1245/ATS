@@ -27,6 +27,7 @@ model:
   strategy_lifecycle: "governance/methodology/STRATEGY_LIFECYCLE_V2.md"
   research_methodology: "governance/methodology/RESEARCH_METHODOLOGY_V1.md"
   idea_intake_process: "governance/methodology/IDEA_INTAKE_PROCESS.md"
+  hypothesis_model: "governance/methodology/HYPOTHESIS_MODEL.md"
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
@@ -34,11 +35,11 @@ model:
   m0_exit_review: "governance/program/M0_EXIT_REVIEW.md"
 
 current:
-  focus: "Operationalize Research Factory — Hypothesis model"
-  last_completed_task_id: "ATS2-M1-001"
-  last_completed_artifact: "governance/methodology/IDEA_INTAKE_PROCESS.md"
-  next_artifact: "governance/methodology/HYPOTHESIS_MODEL.md"
-  next_task_id: "ATS2-M1-002"
+  focus: "Operationalize Research Factory — Data Feasibility"
+  last_completed_task_id: "ATS2-M1-002"
+  last_completed_artifact: "governance/methodology/HYPOTHESIS_MODEL.md"
+  next_artifact: "governance/methodology/DATA_FEASIBILITY_REVIEW.md"
+  next_task_id: "ATS2-M1-003"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -60,16 +61,18 @@ m1:
   objective: "Operationalize Idea → Prototype → Candidate research decisions"
   completed_tasks:
     - "ATS2-M1-001"
+    - "ATS2-M1-002"
   completed_artifacts:
     - "governance/methodology/IDEA_INTAKE_PROCESS.md"
-  current_task: "ATS2-M1-002"
-  current_wbs: "WBS-1.2"
+    - "governance/methodology/HYPOTHESIS_MODEL.md"
+  current_task: "ATS2-M1-003"
+  current_wbs: "WBS-1.3"
   reference_strategy_selection_allowed: false
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M1-002"
-  current_ready_wbs: "WBS-1.2"
+  current_ready_task: "ATS2-M1-003"
+  current_ready_wbs: "WBS-1.3"
 
 handoff_policy:
   update_after_material_step: true
