@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ATS repository validator after M1 Exit PASS / M2 entry."""
+"""ATS repository validator after M2 Reference Consumer Profile."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ REVIEW_CHECKS = "governance/methodology/RESEARCH_REVIEW_CHECKS.md"
 REVIEW_DECISIONS = "governance/methodology/RESEARCH_REVIEW_DECISIONS.md"
 REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
+CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 HEADER = (
     "experiment_id", "status", "research_stage", "evidence_class",
     "qualified_evidence_class", "idea_id", "hypothesis_id", "candidate_id",
@@ -31,10 +32,12 @@ QUALIFIED = {
 
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
-        TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE, M1_EXIT,
+        TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
+        M1_EXIT, CONSUMER_PROFILE,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
+        "reference_consumer_profile",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
@@ -62,6 +65,25 @@ def configure() -> None:
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
         "ATS2-M2-000 — Reference Consumer Profile", "Pipeline counters intentionally remain zero",
+    )
+    core.CONTENT_MARKERS[CONSUMER_PROFILE] = (
+        "single research logic instance", "Minimum data contract",
+        "Timestamp and ordering semantics", "Minimum research decision interface",
+        "Deterministic replay/backtest contract", "Cost-model consumer contract",
+        "Experiment integration", "M2 acceptance fixture", "ATS2-M2-001",
+    )
+    core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
+        "`WBS-2.0`", "Reference Consumer Profile", "`WBS-2.1`",
+        "Consumer Profile", "Reference Strategy #1 ещё не выбрана",
+    )
+    core.CONTENT_MARKERS["data/README.md"] = (
+        "Dataset Manifests", "M2 boundary", "Reference Strategy #1 remains M3 work",
+    )
+    core.CONTENT_MARKERS["src/README.md"] = (
+        "M2_RESEARCH_PLATFORM_MVP", "ATS2-M2-001", "broker/live execution path",
+    )
+    core.CONTENT_MARKERS["reports/README.md"] = (
+        "source_class", "qualified_evidence_class", "WBS-2.8",
     )
     core.CONTENT_MARKERS["governance/methodology/templates/CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md"] = (
         "Source class", "Qualified evidence class", "Negative and discarded evidence",
@@ -101,9 +123,10 @@ def main() -> int:
         "M0_PROGRAM_REBASELINE: COMPLETED", "M1_RESEARCH_METHODOLOGY: COMPLETED",
         "M2_RESEARCH_PLATFORM_MVP: IN_PROGRESS", "exit_decision: PASS",
         'm1_exit_review: "governance/program/M1_EXIT_REVIEW.md"',
-        'research_review_protocol: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"',
-        'current_task: "ATS2-M2-000"', 'current_ready_task: "ATS2-M2-000"',
-        'current_wbs: "WBS-2.0"', "reference_strategy_selection_allowed: false",
+        'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
+        'current_task: "ATS2-M2-001"', 'current_ready_task: "ATS2-M2-001"',
+        'current_wbs: "WBS-2.1"', "reference_strategy_selection_allowed: false",
+        'last_completed_task_id: "ATS2-M2-000"',
         "experiments_registered: 0", "physical_migration_complete: true",
         "thirteen_gate_model_is_program_roadmap: false",
     ):
@@ -160,11 +183,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if "ATS2-M1-011` | M1 Exit | P1 | DONE / PASS" not in backlog:
-        core.fail("M1-011 must be DONE / PASS in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-000") != "DONE":
+        core.fail("M2-000 must be DONE in Program Backlog")
         blocking += 1
-    if "ATS2-M2-000` | `WBS-2.0` | P1 | READY" not in backlog:
-        core.fail("M2-000 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-001") != "READY":
+        core.fail("M2-001 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
