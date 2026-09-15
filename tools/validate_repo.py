@@ -247,7 +247,7 @@ def main() -> int:
             blocking += 1
 
     idea_process = (repo / "governance/methodology/IDEA_INTAKE_PROCESS.md").read_text(encoding="utf-8")
-    for marker in ("IDEA-0001", "SCREEN", "PARK", "REJECT", "Duplicate / overlap", "structural acceptance test"):
+    for marker in ("IDEA-0001", "SCREEN", "PARK", "REJECT", "Duplicate / overlap", "Structural acceptance test"):
         if marker not in idea_process:
             fail(f"Idea intake process marker missing: {marker}")
             blocking += 1
