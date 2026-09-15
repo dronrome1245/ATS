@@ -1,12 +1,23 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "experiment_id": null,
   "completed_on": null,
+  "run_context": {
+    "code_revision": null,
+    "implementation_reference": null,
+    "dataset_id": null,
+    "source_snapshot_reference": null,
+    "data_period": null,
+    "environment_id": null,
+    "random_seed": null
+  },
   "primary_metrics": {},
   "secondary_metrics": {},
   "trade_or_event_count": null,
   "costs": {},
   "risk_metrics": {},
   "artifacts": [],
-  "machine_outcome": null
+  "anomalies_or_execution_notes": [],
+  "machine_outcome": null,
+  "reproducibility_status": null
 }
