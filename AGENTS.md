@@ -15,22 +15,20 @@
 ## 3. Обязательный порядок чтения
 
 1. `AI_HANDOFF.md`;
-2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` — canonical machine-readable state;
+2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
-4. `governance/backlog/PROGRAM_BACKLOG_V2.md` — canonical execution queue;
-5. `governance/program/PROGRAM_CHARTER_V2.md`;
-6. `governance/program/OPERATING_MODEL_V2.md`;
-7. `governance/program/PROGRAM_WBS_V2.md` — для program work;
-8. `governance/program/REPOSITORY_STRUCTURE_V2.md` — для structural/migration work;
-9. `governance/methodology/RESEARCH_METHODOLOGY_V1.md` — для research;
-10. `governance/methodology/STRATEGY_LIFECYCLE_V2.md` — для конкретной стратегии;
-11. только затем связанные code/data/test/report artifacts.
+4. `governance/backlog/PROGRAM_BACKLOG_V2.md`;
+5. relevant program files in `governance/program/`;
+6. `governance/methodology/RESEARCH_METHODOLOGY_V1.md` для research;
+7. `governance/methodology/STRATEGY_LIFECYCLE_V2.md` для Strategy Version work;
+8. canonical templates;
+9. только затем связанные code/data/test/report artifacts.
 
 Не загружать весь репозиторий без необходимости.
 
-## 4. Canonical state и current governance
+## 4. Canonical state и governance
 
-Единственный canonical machine-readable state ATS:
+Единственный machine-readable source of truth:
 
 `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 
@@ -40,13 +38,13 @@ Current ATS v2 governance находится только в:
 - `governance/methodology/`;
 - `governance/backlog/`.
 
-Человекочитаемые представления:
+Человекочитаемые state views:
 
 - `01_СТАТУС_ПРОЕКТА.md`;
 - `02_СЛЕДУЮЩИЙ_ШАГ.md`;
 - `AI_HANDOFF.md`.
 
-Старая модель G01–G13 и документы ATS v1 являются history/reference до их migration в `legacy/v1/`; они не являются current roadmap.
+ATS v1 физически архивирован в `legacy/v1/`. G01–G13 и другие legacy artifacts являются history/reference и не являются current roadmap, current policy или разрешением на торговлю.
 
 ## 5. Модель ATS v2
 
@@ -60,7 +58,7 @@ ATS — не одна стратегия и не один robot project.
 - Portfolio & Capital;
 - Operations & Governance.
 
-Текущая работа управляется milestones M0–M8, `governance/program/PROGRAM_WBS_V2.md` и canonical backlog.
+Текущая работа управляется milestones M0–M8, Program WBS и canonical backlog.
 
 ## 6. Research discipline
 
@@ -69,6 +67,8 @@ ATS — не одна стратегия и не один robot project.
 Exploratory result нельзя представлять как formal proof без соответствующего experiment manifest.
 
 Каждый formal experiment должен иметь однозначные code/data/config/cost assumptions и conclusion. Negative experiments не удаляются.
+
+Idea, Hypothesis, Candidate, Experiment и Strategy Version являются разными сущностями и не должны сливаться в один неформальный документ.
 
 ## 7. Жёсткие запреты
 
@@ -86,7 +86,7 @@ Exploratory result нельзя представлять как formal proof б�
 - хранить в Git secrets, account credentials, private keys, персональные документы или секретные broker exports;
 - представлять результат ATS как гарантию прибыли или персональную финансовую рекомендацию.
 
-## 8. Работа с Strategy Version
+## 8. Strategy Version и change control
 
 Material change, способное повлиять на trades, создаёт новую Strategy Version и требует повторной проверки затронутого evidence.
 
@@ -98,7 +98,7 @@ Minor refactor, не способный изменить торговые реш
 
 Перед independent examination должны быть заморожены version, parameters, data block, cost model и decision criteria.
 
-После раскрытия результата этот evidence block считается известным. Изменение стратегии создаёт новую research iteration.
+После раскрытия результата evidence block считается известным. Изменение стратегии создаёт новую research iteration.
 
 ## 10. Platform development
 
@@ -106,7 +106,7 @@ Minor refactor, не способный изменить торговые реш
 
 `Strategy need → Minimum capability → Reuse → Shared capability → Hardening`.
 
-Агент не должен создавать крупную универсальную infrastructure без конкретного потребителя и проверяемого deliverable.
+Агент не должен создавать крупную универсальную infrastructure без конкретного consumer и проверяемого deliverable.
 
 ## 11. Risk separation
 
@@ -134,9 +134,11 @@ Demo/shadow не считается доказательством profitability
 - profit withdrawal policy;
 - critical stop rules.
 
-## 14. Experiment naming
+## 14. Naming and templates
 
-Формальные experiments используют уникальный ID вида `EXP-YYYYMMDD-nnn` и содержат manifest с Strategy Version, code revision, dataset, parameters, cost model, result и conclusion.
+Formal experiments используют уникальный ID вида `EXP-YYYYMMDD-nnn`.
+
+Research entities используют stable IDs, определённые methodology/templates. ID не переиспользуются для другого объекта после rejection/retirement.
 
 Canonical templates находятся в `governance/methodology/templates/`.
 
@@ -163,7 +165,7 @@ Canonical templates находятся в `governance/methodology/templates/`.
 python tools/validate_repo.py
 ```
 
-Validator должен подтверждать canonical v2 state, governance paths, обязательные artifacts и согласованность `next_artifact`/`next_task_id` между state, backlog, handoff и next action.
+Validator должен подтверждать canonical v2 state, governance paths, mandatory artifacts, legacy isolation, safety invariants и согласованность `next_artifact`/`next_task_id` между state, backlog, handoff и next action.
 
 ## 17. Принцип безопасности
 

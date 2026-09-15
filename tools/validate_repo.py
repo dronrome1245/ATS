@@ -21,6 +21,8 @@ REQUIRED_FILES = (
     "governance/program/OPERATING_MODEL_V2.md",
     "governance/program/PROGRAM_WBS_V2.md",
     "governance/program/REPOSITORY_STRUCTURE_V2.md",
+    "governance/program/M0_FINAL_SWEEP.md",
+    "governance/program/M0_EXIT_REVIEW.md",
     "governance/methodology/STRATEGY_LIFECYCLE_V2.md",
     "governance/methodology/RESEARCH_METHODOLOGY_V1.md",
     "governance/backlog/PROGRAM_BACKLOG_V2.md",
@@ -123,6 +125,7 @@ CANONICAL_PATH_KEYS = (
     "repository_structure",
     "program_backlog",
     "research_templates",
+    "m0_exit_review",
     "legacy_readme",
     "migration_index",
     "carryover",
@@ -169,21 +172,17 @@ def validate_local_markdown_links(repo: Path, path: Path, relative: Path) -> int
         raw = match.group(1).strip()
         if not raw:
             continue
-
         target = raw.split(maxsplit=1)[0].strip("<>")
         if target.startswith(("#", "http://", "https://", "mailto:")):
             continue
-
         target = target.split("#", 1)[0].split("?", 1)[0]
         if not target:
             continue
-
         target = unquote(target)
         candidate = (repo / target.lstrip("/")) if target.startswith("/") else (path.parent / target)
         if not candidate.exists():
             fail(f"broken local Markdown link in {relative}: {raw}")
             blocking += 1
-
     return blocking
 
 
@@ -215,30 +214,26 @@ def main() -> int:
 
     required_state_markers = (
         'schema_version: "2.0"',
-        "phase: M0_PROGRAM_REBASELINE",
+        "phase: M1_RESEARCH_METHODOLOGY",
         "status: IN_PROGRESS",
+        "M0_PROGRAM_REBASELINE: COMPLETED",
+        "M1_RESEARCH_METHODOLOGY: IN_PROGRESS",
+        "exit_decision: PASS",
         'canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"',
-        'program_charter: "governance/program/PROGRAM_CHARTER_V2.md"',
-        'operating_model: "governance/program/OPERATING_MODEL_V2.md"',
-        'program_wbs: "governance/program/PROGRAM_WBS_V2.md"',
-        'repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"',
-        'strategy_lifecycle: "governance/methodology/STRATEGY_LIFECYCLE_V2.md"',
-        'research_methodology: "governance/methodology/RESEARCH_METHODOLOGY_V1.md"',
         'program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"',
-        'research_templates: "governance/methodology/templates/README.md"',
-        'legacy_readme: "legacy/v1/README.md"',
-        'migration_index: "legacy/v1/MIGRATION_INDEX.md"',
+        'm0_exit_review: "governance/program/M0_EXIT_REVIEW.md"',
         'carryover: "legacy/v1/CARRYOVER.md"',
-        "designated_artifacts: 15",
         "physical_migration_complete: true",
         "real_money_trading_allowed: false",
+        "minimal_live_trading_allowed: false",
+        "demo_trading_allowed: false",
         "scaling_allowed: false",
         "martingale_allowed: false",
         "thirteen_gate_model_is_program_roadmap: false",
     )
     for marker in required_state_markers:
         if marker not in state:
-            fail(f"canonical v2 state marker missing or changed: {marker}")
+            fail(f"canonical state marker missing or changed: {marker}")
             blocking += 1
 
     for key in CANONICAL_PATH_KEYS:
@@ -248,6 +243,12 @@ def main() -> int:
             blocking += 1
         elif not (repo / relative).exists():
             fail(f"canonical state path does not exist for {key}: {relative}")
+            blocking += 1
+
+    exit_review = (repo / "governance/program/M0_EXIT_REVIEW.md").read_text(encoding="utf-8")
+    for marker in ("Decision:** `PASS`", "M0_PROGRAM_REBASELINE = COMPLETED", "ATS2-M1-001"):
+        if marker not in exit_review:
+            fail(f"M0 exit review marker missing: {marker}")
             blocking += 1
 
     migration_index = (repo / "legacy/v1/MIGRATION_INDEX.md").read_text(encoding="utf-8")
@@ -282,10 +283,16 @@ def main() -> int:
     handoff_path = repo / "AI_HANDOFF.md"
     next_path = repo / "02_СЛЕДУЮЩИЙ_ШАГ.md"
     backlog_path = repo / "governance/backlog/PROGRAM_BACKLOG_V2.md"
-
     handoff = handoff_path.read_text(encoding="utf-8") if handoff_path.is_file() else ""
     next_step = next_path.read_text(encoding="utf-8") if next_path.is_file() else ""
     backlog = backlog_path.read_text(encoding="utf-8") if backlog_path.is_file() else ""
+
+    if "ATS2-M0-013" not in backlog or "M0 Exit Review" not in backlog or "DONE" not in backlog:
+        fail("Program Backlog does not record completed M0 Exit Review")
+        blocking += 1
+    if "ATS2-M1-001" not in backlog or "Idea intake process" not in backlog or "READY" not in backlog:
+        fail("Program Backlog does not expose M1-001 as ready work")
+        blocking += 1
 
     if next_artifact:
         if next_artifact not in handoff:
@@ -310,17 +317,11 @@ def main() -> int:
         fail("AI_HANDOFF.md does not mention canonical last_completed_artifact")
         blocking += 1
 
-    agents_path = repo / "AGENTS.md"
-    agents = agents_path.read_text(encoding="utf-8") if agents_path.is_file() else ""
-    if "03_СОСТОЯНИЕ_ПРОЕКТА.yaml" not in agents:
-        fail("AGENTS.md must point to canonical state")
-        blocking += 1
-    if "governance/backlog/PROGRAM_BACKLOG_V2.md" not in agents:
-        fail("AGENTS.md must point to canonical Program Backlog")
-        blocking += 1
-    if "governance/program/PROGRAM_WBS_V2.md" not in agents:
-        fail("AGENTS.md must point to canonical Program WBS")
-        blocking += 1
+    agents = (repo / "AGENTS.md").read_text(encoding="utf-8") if (repo / "AGENTS.md").is_file() else ""
+    for marker in ("03_СОСТОЯНИЕ_ПРОЕКТА.yaml", "governance/backlog/PROGRAM_BACKLOG_V2.md", "legacy/v1/"):
+        if marker not in agents:
+            fail(f"AGENTS.md marker missing: {marker}")
+            blocking += 1
 
     for relative_name in OPERATIONAL_FILES:
         path = repo / relative_name
