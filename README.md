@@ -6,29 +6,27 @@
 
 ## Текущее состояние
 
-- Phase: `M1_RESEARCH_METHODOLOGY / IN_PROGRESS`.
+- Phase: `M2_RESEARCH_PLATFORM_MVP / IN_PROGRESS`.
 - M0 Program Rebaseline: `COMPLETED / PASS`.
+- M1 Research Methodology: `COMPLETED / PASS`.
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 
 Последняя завершённая task:
 
-`ATS2-M1-010 — Research review protocol`.
+`ATS2-M1-011 — M1 Exit Review` (`PASS`).
 
-Canonical package:
+Canonical exit artifact:
 
-- `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`;
-- `governance/methodology/RESEARCH_REVIEW_CHECKS.md`;
-- `governance/methodology/RESEARCH_REVIEW_DECISIONS.md`;
-- `governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md`.
+`governance/program/M1_EXIT_REVIEW.md`.
 
 Следующая ready task:
 
-`ATS2-M1-011 — M1 Exit Review`.
+`ATS2-M2-000 — Reference Consumer Profile`.
 
 Следующий artifact:
 
-`governance/program/M1_EXIT_REVIEW.md`.
+`governance/program/REFERENCE_CONSUMER_PROFILE.md`.
 
 ## Canonical ATS v2
 
@@ -46,9 +44,9 @@ Canonical package:
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для текущей работы: `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`, `governance/methodology/EVIDENCE_TAXONOMY.md`, `experiments/README.md`.
+6. Для текущей работы: `governance/program/M1_EXIT_REVIEW.md`, `governance/program/PROGRAM_WBS_V2.md`, `governance/program/PROGRAM_CHARTER_V2.md`.
 7. Проверка repository: `python tools/validate_repo.py`.
 
 ## Boundary
 
-M1 Research Review is event-driven and stage-aware; it does not upgrade evidence classes or invent missing inputs. M1 Exit Review is the last step before any transition to M2. Reference Strategy #1 is not selected yet.
+M2 builds the minimum reproducible research platform. `M2-000` defines an abstract consumer profile; it does not select a concrete Reference Strategy #1, market, instrument, broker, capital policy or live environment. Concrete Strategy #1 selection remains M3 work.
