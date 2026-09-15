@@ -2,7 +2,7 @@
 
 **Назначение:** единая точка восстановления контекста для нового AI-чата, агента или разработчика.
 
-Если вы AI-агент и впервые получили доступ к этому репозиторию, не начинайте с выбора стратегии, написания торгового кода, брокера или risk limits. Сначала восстановите состояние по этому документу и canonical artifacts.
+Если вы AI-агент и впервые получили доступ к этому репозиторию, не начинайте с выбора стратегии, торгового кода, брокера или risk limits. Сначала восстановите состояние по этому документу и canonical artifacts.
 
 ## 1. Текущее состояние
 
@@ -13,87 +13,76 @@
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 - Реальная торговля, allocation и scaling сейчас не являются текущей задачей.
-- Старые G01–G13 относятся к ATS v1 и не являются current roadmap программы.
+- G01–G13 относятся к ATS v1 и не являются current roadmap.
 
-## 2. Что уже принято и зафиксировано
+## 2. Canonical ATS v2 documents
 
-Текущая база ATS v2 включает:
+Program governance:
 
-1. `00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md`;
-2. `00_Управление_проектом/v2/OPERATING_MODEL_V2.md`;
-3. `00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md`;
-4. `00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md`;
-5. `00_Управление_проектом/v2/PROGRAM_WBS_V2.md`;
-6. `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`;
-7. `governance/backlog/PROGRAM_BACKLOG_V2.md`;
-8. `governance/methodology/templates/README.md` и entity template package;
-9. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
-10. `tools/validate_repo.py`.
+1. `governance/program/PROGRAM_CHARTER_V2.md`
+2. `governance/program/OPERATING_MODEL_V2.md`
+3. `governance/program/PROGRAM_WBS_V2.md`
+4. `governance/program/REPOSITORY_STRUCTURE_V2.md`
 
-Текущие пути `00_Управление_проектом/v2/` для baseline governance documents временные и должны быть мигрированы следующей task.
+Methodology:
+
+5. `governance/methodology/STRATEGY_LIFECYCLE_V2.md`
+6. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`
+7. `governance/methodology/templates/README.md`
+
+Execution queue:
+
+8. `governance/backlog/PROGRAM_BACKLOG_V2.md`
 
 ## 3. Последний завершённый шаг
 
-`ATS2-M0-008 / WBS-0.8 — Research entity templates` завершён.
+`ATS2-M0-009 — Governance v2 path migration` завершена.
 
-Canonical template index:
-
-`governance/methodology/templates/README.md`
-
-Template package покрывает:
-
-- Idea;
-- Hypothesis;
-- Candidate;
-- formal Experiment: manifest/result/conclusion;
-- Strategy Version: version manifest/specification/parameters/evidence index.
-
-Шаблоны не подставляют выдуманные факты: `null` означает ещё не зафиксированное значение, `NOT_APPLICABLE` — действительно неприменимое поле.
+Current-v2 documents перенесены из временного `00_Управление_проектом/v2/` в target `governance/` tree. State/backlog/entrypoints/validator должны ссылаться только на target paths. Старые current-v2 копии не являются source of truth и удаляются после проверки миграции.
 
 ## 4. Следующая ready task
 
-`ATS2-M0-009 — Governance v2 path migration`
+`ATS2-M0-010 — Legacy v1 index/classification`
 
-Canonical next artifact anchor:
+Следующий artifact:
 
-`governance/program/PROGRAM_CHARTER_V2.md`
+`legacy/v1/README.md`
 
-Задача — перенести current-v2 baseline documents из `00_Управление_проектом/v2/` в target tree:
+Цель: создать однозначный legacy index ATS v1, классифицировать старые документы как `history`, `reference` или `review-needed`, задать target paths и отметить актуальные unresolved questions для последующего carryover.
 
-- program documents → `governance/program/`;
-- methodology documents → `governance/methodology/`.
+После 0.10:
 
-Templates уже находятся в target methodology tree.
+- `ATS2-M0-011` physical legacy migration + unresolved-question carryover;
+- `ATS2-M0-012` final link/validator sweep;
+- `ATS2-M0-013` M0 Exit Review.
 
-Migration должна атомарно обновить state, backlog references, README/start guide, AGENTS, AI handoff, cross-links и validator. Старые current-v2 файлы удаляются только после создания и проверки новых копий.
+## 5. Обязательный порядок чтения
 
-После `ATS2-M0-009 = DONE` следующей ready task становится `ATS2-M0-010 — Legacy v1 index/classification`.
+1. `AGENTS.md`.
+2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
+3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
+4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+5. Для program work — relevant files in `governance/program/`.
+6. Для research — `governance/methodology/RESEARCH_METHODOLOGY_V1.md` и templates.
+7. Для конкретной стратегии — `governance/methodology/STRATEGY_LIFECYCLE_V2.md`.
+8. Только затем code/data/test/report artifacts.
 
-## 5. Что делать новому AI-агенту
-
-1. Прочитать `AGENTS.md`.
-2. Прочитать `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
-3. Прочитать `02_СЛЕДУЮЩИЙ_ШАГ.md`.
-4. Прочитать `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. Для текущей migration прочитать `00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md`.
-6. Выполнить именно `ATS2-M0-009`, если OWNER не дал другое явное указание.
-7. Не менять содержание baseline documents в рамках structural migration.
-8. Не возвращаться к legacy G01 как к current task.
+Не загружать весь репозиторий без необходимости.
 
 ## 6. Completion / handoff protocol
 
-После material program-level шага синхронизировать:
+Program-level task не считается завершённой, пока синхронизированы:
 
-1. основной artifact/deliverable;
-2. canonical backlog;
+1. основной deliverable;
+2. `governance/backlog/PROGRAM_BACKLOG_V2.md`;
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
 4. `01_СТАТУС_ПРОЕКТА.md`;
 5. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
 6. `AI_HANDOFF.md`;
-7. README/start guide, если они содержат изменившуюся точку входа;
-8. validator/tests, если изменилась обязательная структура или invariants.
+7. README/start guide, если менялась точка входа;
+8. validator/tests, если менялись paths или invariants.
 
-Нельзя сообщать OWNER, что шаг завершён, если backlog/state/handoff всё ещё указывают на предыдущую работу.
+Нельзя сообщать OWNER, что шаг завершён, если backlog/state/handoff всё ещё указывают на предыдущую task.
 
 ## 7. Неподлежащие самовольному изменению решения
 
@@ -112,13 +101,14 @@ Migration должна атомарно обновить state, backlog referenc
 
 Новый агент должен без догадок ответить:
 
-- Что такое ATS? — Strategy Factory / program, а не один робот.
+- Что такое ATS? — Strategy Factory / program, а не один robot project.
 - Какая текущая фаза? — `M0_PROGRAM_REBASELINE`.
 - Где canonical state? — `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
-- Где backlog? — `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-- Что завершено последним? — Research entity templates (`ATS2-M0-008`).
-- Что делать следующим? — Governance v2 path migration (`ATS2-M0-009`).
-- Какой next artifact anchor? — `governance/program/PROGRAM_CHARTER_V2.md`.
+- Где execution queue? — `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+- Где current governance? — `governance/program/` и `governance/methodology/`.
+- Что завершено последним? — `ATS2-M0-009` governance path migration.
+- Что делать следующим? — `ATS2-M0-010`, создать `legacy/v1/README.md`.
 - Можно ли сейчас выбирать real allocation? — нет.
+- Являются ли G01–G13 current roadmap? — нет.
 
 Если ответы отличаются, сначала устранить расхождение backlog/state/handoff/next action.
