@@ -13,21 +13,22 @@
 
 Последняя завершённая task:
 
-`ATS2-M1-009 — Evidence taxonomy operationalization`.
+`ATS2-M1-010 — Research review protocol`.
 
-Artifact:
+Canonical package:
 
-`governance/methodology/EVIDENCE_TAXONOMY.md`.
-
-Taxonomy разделяет `source_class` и `qualified_evidence_class`; result attractiveness не повышает evidence class автоматически. Registry и Evidence Index templates используют ту же модель.
+- `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`;
+- `governance/methodology/RESEARCH_REVIEW_CHECKS.md`;
+- `governance/methodology/RESEARCH_REVIEW_DECISIONS.md`;
+- `governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md`.
 
 Следующая ready task:
 
-`ATS2-M1-010 — Research review protocol`.
+`ATS2-M1-011 — M1 Exit Review`.
 
 Следующий artifact:
 
-`governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`.
+`governance/program/M1_EXIT_REVIEW.md`.
 
 ## Canonical ATS v2
 
@@ -45,10 +46,9 @@ Taxonomy разделяет `source_class` и `qualified_evidence_class`; result
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для текущей работы: `governance/methodology/EVIDENCE_TAXONOMY.md`, `governance/methodology/RESEARCH_METHODOLOGY_V1.md`, `experiments/README.md`.
-7. Поиск experiments: `python tools/search_experiments.py --help`.
-8. Проверка repository: `python tools/validate_repo.py`.
+6. Для текущей работы: `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`, `governance/methodology/EVIDENCE_TAXONOMY.md`, `experiments/README.md`.
+7. Проверка repository: `python tools/validate_repo.py`.
 
 ## Boundary
 
-Evidence classification ограничивает допустимую силу claim; более слабый class не заменяет class, требуемый конкретным review protocol. Reference Strategy #1 на текущем шаге не выбирается.
+M1 Research Review is event-driven and stage-aware; it does not upgrade evidence classes or invent missing inputs. M1 Exit Review is the last step before any transition to M2. Reference Strategy #1 is not selected yet.
