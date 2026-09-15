@@ -46,6 +46,15 @@ LEGACY_REFERENCE_FILES = (
     "00_Управление_проектом/МАТРИЦА_ВОРОТ.md",
 )
 
+MIGRATED_CURRENT_V2_FILES = (
+    "00_Управление_проектом/v2/PROGRAM_CHARTER_V2.md",
+    "00_Управление_проектом/v2/OPERATING_MODEL_V2.md",
+    "00_Управление_проектом/v2/PROGRAM_WBS_V2.md",
+    "00_Управление_проектом/v2/REPOSITORY_STRUCTURE_V2.md",
+    "00_Управление_проектом/v2/STRATEGY_LIFECYCLE_V2.md",
+    "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md",
+)
+
 FORBIDDEN_PLACEHOLDERS = (
     re.compile(r"\{\{[^{}]+\}\}"),
     re.compile(r"\[(?:Имя|Дата|ФИО|Сумма|XXX|Вставить[^\]]*)\]", re.IGNORECASE),
@@ -83,6 +92,11 @@ def main() -> int:
     if (repo / TRANSITIONAL_STATE).exists():
         fail(f"transitional duplicate state must not exist: {TRANSITIONAL_STATE}")
         blocking += 1
+
+    for relative in MIGRATED_CURRENT_V2_FILES:
+        if (repo / relative).exists():
+            fail(f"migrated current-v2 duplicate must not exist: {relative}")
+            blocking += 1
 
     state_path = repo / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
     state = state_path.read_text(encoding="utf-8") if state_path.is_file() else ""
