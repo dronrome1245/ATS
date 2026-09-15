@@ -29,6 +29,7 @@ model:
   idea_intake_process: "governance/methodology/IDEA_INTAKE_PROCESS.md"
   hypothesis_model: "governance/methodology/HYPOTHESIS_MODEL.md"
   data_feasibility_review: "governance/methodology/DATA_FEASIBILITY_REVIEW.md"
+  cheap_prototype_protocol: "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
@@ -36,11 +37,11 @@ model:
   m0_exit_review: "governance/program/M0_EXIT_REVIEW.md"
 
 current:
-  focus: "Operationalize Research Factory — Cheap Prototype protocol"
-  last_completed_task_id: "ATS2-M1-003"
-  last_completed_artifact: "governance/methodology/DATA_FEASIBILITY_REVIEW.md"
-  next_artifact: "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"
-  next_task_id: "ATS2-M1-004"
+  focus: "Operationalize Research Factory — Economic Pre-Screen"
+  last_completed_task_id: "ATS2-M1-004"
+  last_completed_artifact: "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"
+  next_artifact: "governance/methodology/ECONOMIC_PRE_SCREEN.md"
+  next_task_id: "ATS2-M1-005"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -64,18 +65,20 @@ m1:
     - "ATS2-M1-001"
     - "ATS2-M1-002"
     - "ATS2-M1-003"
+    - "ATS2-M1-004"
   completed_artifacts:
     - "governance/methodology/IDEA_INTAKE_PROCESS.md"
     - "governance/methodology/HYPOTHESIS_MODEL.md"
     - "governance/methodology/DATA_FEASIBILITY_REVIEW.md"
-  current_task: "ATS2-M1-004"
-  current_wbs: "WBS-1.4"
+    - "governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md"
+  current_task: "ATS2-M1-005"
+  current_wbs: "WBS-1.5"
   reference_strategy_selection_allowed: false
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M1-004"
-  current_ready_wbs: "WBS-1.4"
+  current_ready_task: "ATS2-M1-005"
+  current_ready_wbs: "WBS-1.5"
 
 handoff_policy:
   update_after_material_step: true
