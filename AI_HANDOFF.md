@@ -4,59 +4,60 @@
 
 ## Current state
 
-- Phase: `M1_RESEARCH_METHODOLOGY / IN_PROGRESS`.
+- Phase: `M2_RESEARCH_PLATFORM_MVP / IN_PROGRESS`.
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 - M0: `COMPLETED / PASS`.
+- M1: `COMPLETED / PASS`.
 - Real trading, demo, allocation and scaling remain disallowed current actions.
 
 ## Last completed
 
-`ATS2-M1-010 — Research review protocol` — `DONE`.
+`ATS2-M1-011 — M1 Exit Review` — `DONE / PASS`.
 
-Canonical package:
+Canonical exit artifact:
 
-- `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`;
-- `governance/methodology/RESEARCH_REVIEW_CHECKS.md`;
-- `governance/methodology/RESEARCH_REVIEW_DECISIONS.md`;
-- `governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md`.
+`governance/program/M1_EXIT_REVIEW.md`.
 
-Core review rules:
+M1 provides the structural Research Factory path:
 
-- review is event-driven, not tied to an invented calendar cadence;
-- package completeness and lineage/current-context are checked before interpretation;
-- formal Experiment integrity and Registry consistency are checked when formal evidence is used;
-- `source_class` and `qualified_evidence_class` constrain allowed claims;
-- evidence sufficiency is stage-relative and has no universal trade-count threshold;
-- negative/failed/contradictory evidence and reviewer dissent remain visible;
-- positive progression cannot override blocking data/evidence/integrity defects;
-- return-to-research is bounded by an explicit question and stop condition;
-- issued reviews are immutable history; reconsideration creates a new Review ID.
+`Idea → Hypothesis → Data Feasibility → Cheap Prototype → Economic Pre-Screen → Candidate Review → preregistered Experiment → Registry → Evidence Classification → Research Review`.
 
-Structural testing created no fictitious research or evidence objects.
+Important M1 invariants:
+
+- exploratory work is not retroactively formal evidence;
+- Experiment preregistration precedes result observation;
+- negative evidence is retained;
+- `source_class` and `qualified_evidence_class` are distinct;
+- attractive results do not upgrade evidence class;
+- Research Review is event-driven and stage-aware;
+- review history is immutable and bounded return-to-research prevents unlimited rescue tuning.
+
+Structural testing created no fictitious Idea/Hypothesis/Candidate/Experiment/market result. Pipeline counters remain zero intentionally.
 
 ## Current ready task
 
-`ATS2-M1-011 — M1 Exit Review`
+`ATS2-M2-000 — Reference Consumer Profile`
 
 Canonical next artifact:
 
-`governance/program/M1_EXIT_REVIEW.md`
+`governance/program/REFERENCE_CONSUMER_PROFILE.md`
 
-Goal: verify end-to-end integrity of M1 and issue one explicit `PASS / FAIL` decision.
+Goal: define the minimum abstract consumer contract that is sufficient to choose/build the first M2 vertical research stack without selecting a concrete Reference Strategy #1.
 
-## M1 Exit checks
+## What M2-000 must define
 
-- `ATS2-M1-001…010` are DONE;
-- Research Funnel decisions are unambiguous;
-- Experiment preregistration/Registry are coherent;
-- evidence classification and negative-evidence retention are operational;
-- Research Review is repeatable and stage-aware;
-- state/backlog/status/next/handoff/entrypoints agree;
-- validator is green on main;
-- structural tests did not create fake Idea/Candidate/Experiment/market evidence;
-- safety permissions remain unchanged;
-- a new agent can recover the process without conversation history.
+- minimum ordered research/market data contract;
+- timestamp/order semantics needed by the first stack;
+- minimal strategy/research decision interface;
+- deterministic replay/backtest expectations;
+- explicit cost-model inputs;
+- minimum analytics/result outputs;
+- integration with registered Experiment manifest/result/conclusion;
+- reproducibility requirements;
+- required M2 capabilities versus explicit out-of-scope capabilities;
+- enough constraints for `ATS2-M2-001 — Research stack ADR`;
+- alignment of WBS-2.1 so stack choice depends on Consumer Profile rather than an M3 strategy that has not yet been selected.
 
 ## Read order
 
@@ -64,20 +65,23 @@ Goal: verify end-to-end integrity of M1 and issue one explicit `PASS / FAIL` dec
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`.
-6. `governance/methodology/EVIDENCE_TAXONOMY.md`.
-7. `governance/methodology/EXPERIMENT_REGISTRATION.md`.
-8. `experiments/README.md` and `experiments/REGISTRY.csv`.
-9. M1 methodology artifacts as needed for exit verification.
+5. `governance/program/M1_EXIT_REVIEW.md`.
+6. `governance/program/PROGRAM_WBS_V2.md`.
+7. `governance/program/PROGRAM_CHARTER_V2.md`.
+8. M1 Experiment/Data/Evidence methodology as needed.
 
 ## Boundary
 
-M1 Exit does not select Reference Strategy #1, broker, jurisdiction, capital allocation or risk limits. A `PASS` only authorizes program transition to M2 Research Platform MVP, whose first task is `ATS2-M2-000 — Reference Consumer Profile`.
+M2 builds safe research infrastructure only. Do not select a concrete Reference Strategy #1, market, instrument, broker, jurisdiction, capital allocation, risk limits or live environment.
+
+Concrete Reference Strategy #1 selection remains M3 work after M2 Exit.
 
 ## Recovery check
 
-- Last completed: `ATS2-M1-010`.
-- Next task: `ATS2-M1-011`.
-- Next artifact: `governance/program/M1_EXIT_REVIEW.md`.
-- M1 status before exit decision: `IN_PROGRESS`.
-- Real Experiment rows currently registered: `0`.
+- Current milestone: `M2_RESEARCH_PLATFORM_MVP`.
+- Last completed: `ATS2-M1-011`.
+- Next task: `ATS2-M2-000`.
+- Next artifact: `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
+- M1 exit decision: `PASS`.
+- Reference Strategy #1 selection allowed now? — no.
+- Real Experiment rows registered: `0`.
