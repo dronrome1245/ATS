@@ -11,23 +11,19 @@
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 - Current program governance: `governance/program/`.
 - Current methodology: `governance/methodology/`.
+- Legacy archive: `legacy/v1/`.
 
 Последняя завершённая task:
 
-`ATS2-M0-010 — Legacy v1 index/classification`.
-
-Legacy classification:
-
-- `legacy/v1/README.md`;
-- `legacy/v1/MIGRATION_INDEX.md`.
+`ATS2-M0-011 — Legacy physical migration and unresolved-question carryover`.
 
 Следующая ready task:
 
-`ATS2-M0-011 — Legacy physical migration and unresolved-question carryover`.
+`ATS2-M0-012 — Final link/validator sweep`.
 
-Следующий artifact:
+Canonical next artifact anchor:
 
-`legacy/v1/CARRYOVER.md`.
+`tools/validate_repo.py`.
 
 ## Canonical ATS v2
 
@@ -44,6 +40,12 @@ Methodology:
 - `governance/methodology/RESEARCH_METHODOLOGY_V1.md`;
 - `governance/methodology/templates/README.md`.
 
+Legacy:
+
+- `legacy/v1/README.md`;
+- `legacy/v1/MIGRATION_INDEX.md`;
+- `legacy/v1/CARRYOVER.md`.
+
 ## Быстрый старт
 
 1. `AI_HANDOFF.md`.
@@ -51,8 +53,7 @@ Methodology:
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для legacy migration: `legacy/v1/MIGRATION_INDEX.md`.
-7. Проверка: `python tools/validate_repo.py`.
+6. Проверка: `python tools/validate_repo.py`.
 
 ATS v1 G01–G13 является historical/reference layer и не является current roadmap. Legacy content не становится current v2 policy без отдельного review.
 

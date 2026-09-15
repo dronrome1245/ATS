@@ -33,10 +33,10 @@ model:
 
 current:
   focus: "Завершить Program Rebaseline v2"
-  last_completed_task_id: "ATS2-M0-010"
-  last_completed_artifact: "legacy/v1/MIGRATION_INDEX.md"
-  next_artifact: "legacy/v1/CARRYOVER.md"
-  next_task_id: "ATS2-M0-011"
+  last_completed_task_id: "ATS2-M0-011"
+  last_completed_artifact: "legacy/v1/CARRYOVER.md"
+  next_artifact: "tools/validate_repo.py"
+  next_task_id: "ATS2-M0-012"
 
 milestones:
   M0_PROGRAM_REBASELINE: IN_PROGRESS
@@ -61,18 +61,20 @@ m0:
     - "governance/methodology/templates/README.md"
     - "legacy/v1/README.md"
     - "legacy/v1/MIGRATION_INDEX.md"
+    - "legacy/v1/CARRYOVER.md"
     - "Canonical state migration to v2"
     - "Validator migration to v2"
     - "AI handoff protocol"
     - "Governance v2 path migration"
+    - "Legacy v1 physical migration"
   remaining_artifacts:
-    - "legacy/v1/CARRYOVER.md"
+    - "Final link/validator sweep"
     - "governance/program/M0_EXIT_REVIEW.md"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M0-011"
-  current_ready_wbs: "WBS-0.12"
+  current_ready_task: "ATS2-M0-012"
+  current_ready_wbs: "WBS-0.10/WBS-0.12"
 
 handoff_policy:
   update_after_material_step: true
@@ -103,13 +105,14 @@ strategy_pipeline:
 legacy:
   legacy_readme: "legacy/v1/README.md"
   migration_index: "legacy/v1/MIGRATION_INDEX.md"
+  carryover: "legacy/v1/CARRYOVER.md"
   designated_artifacts: 15
   history_artifacts: 4
   reference_artifacts: 5
   review_needed_artifacts: 6
-  physical_migration_complete: false
+  physical_migration_complete: true
   thirteen_gate_model_retained_for_history: true
   thirteen_gate_model_is_program_roadmap: false
   gates_passed_before_rebaseline: 0
-  legacy_roadmap_current_path: "00_Управление_проектом/ДОРОЖНАЯ_КАРТА.md"
-  legacy_gate_matrix_current_path: "00_Управление_проектом/МАТРИЦА_ВОРОТ.md"
+  legacy_roadmap: "legacy/v1/program-management/ДОРОЖНАЯ_КАРТА.md"
+  legacy_gate_matrix: "legacy/v1/program-management/МАТРИЦА_ВОРОТ.md"

@@ -68,6 +68,24 @@ MIGRATED_CURRENT_V2_FILES = (
     "00_Управление_проектом/v2/RESEARCH_METHODOLOGY_V1.md",
 )
 
+MIGRATED_LEGACY_SOURCE_FILES = (
+    "00_Управление_проектом/БЭКЛОГ_ЗАДАЧ.md",
+    "00_Управление_проектом/ДОРОЖНАЯ_КАРТА.md",
+    "00_Управление_проектом/МАТРИЦА_ВОРОТ.md",
+    "00_Управление_проектом/РЕЕСТР_ЭКСПЕРИМЕНТОВ.csv",
+    "01_Контур_продукта/ВИДЕНИЕ_И_ЦЕЛИ.md",
+    "01_Контур_продукта/ФУНКЦИОНАЛЬНЫЕ_ТРЕБОВАНИЯ.md",
+    "02_Архитектура_и_решения/АРХИТЕКТУРА_РОБОТА.md",
+    "02_Архитектура_и_решения/БАЗОВЫЙ_СТЕК.md",
+    "02_Архитектура_и_решения/ADR/ADR-0001-13-ворот.md",
+    "02_Архитектура_и_решения/ADR/ADR-0002-защитный-контур.md",
+    "02_Архитектура_и_решения/ADR/ADR-0003-независимый-период.md",
+    "03_Нормативная_база_и_правила/ИСТОЧНИКИ.md",
+    "03_Нормативная_база_и_правила/РЕГЛАМЕНТЫ.md",
+    "04_Реестры_и_связи/РЕЕСТР_АРТЕФАКТОВ.csv",
+    "05_Коллизии/ОТКРЫТЫЕ_ВОПРОСЫ.md",
+)
+
 FORBIDDEN_PLACEHOLDERS = (
     re.compile(r"\{\{[^{}]+\}\}"),
     re.compile(r"\[(?:Имя|Дата|ФИО|Сумма|XXX|Вставить[^\]]*)\]", re.IGNORECASE),
@@ -106,6 +124,11 @@ def main() -> int:
             fail(f"migrated current-v2 duplicate must not exist: {relative}")
             blocking += 1
 
+    for relative in MIGRATED_LEGACY_SOURCE_FILES:
+        if (repo / relative).exists():
+            fail(f"migrated legacy source path must not exist: {relative}")
+            blocking += 1
+
     state_path = repo / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
     state = state_path.read_text(encoding="utf-8") if state_path.is_file() else ""
 
@@ -124,7 +147,9 @@ def main() -> int:
         'research_templates: "governance/methodology/templates/README.md"',
         'legacy_readme: "legacy/v1/README.md"',
         'migration_index: "legacy/v1/MIGRATION_INDEX.md"',
+        'carryover: "legacy/v1/CARRYOVER.md"',
         "designated_artifacts: 15",
+        "physical_migration_complete: true",
         "real_money_trading_allowed: false",
         "scaling_allowed: false",
         "martingale_allowed: false",
