@@ -23,10 +23,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 8. `ATS2-M1-007` — Experiment registration schema — `DONE`.
 9. `ATS2-M1-008` — Experiment registry — `DONE`.
 10. `ATS2-M1-009` — Evidence taxonomy operationalization — `DONE`.
-11. `ATS2-M1-010` — Research review protocol — `READY`.
-12. `ATS2-M1-011` — M1 Exit — после M1-010.
+11. `ATS2-M1-010` — Research review protocol — `DONE`.
+12. `ATS2-M1-011` — M1 Exit Review — `READY`.
 
-Program-level current next task — `ATS2-M1-010`.
+Program-level current next task — `ATS2-M1-011`.
 
 ## 3. M0 — Program Rebaseline
 
@@ -47,23 +47,23 @@ Canonical exit evidence: `governance/program/M0_EXIT_REVIEW.md`.
 | `ATS2-M1-007` | `WBS-1.7` | P1 | DONE | M1-002 | `governance/methodology/EXPERIMENT_REGISTRATION.md` + aligned experiment templates | Formal experiment uses stable `EXP-YYYYMMDD-nnn`; `REGISTERED` manifest is committed before result observation and freezes question, hypothesis/linkage, code/data/config, costs/execution, primary metrics and decision rule; observed facts live in `result.json`, interpretation in `conclusion.md`, and post-result rewrite cannot masquerade as preregistration |
 | `ATS2-M1-008` | `WBS-1.8` | P1 | DONE | M1-007 | `experiments/REGISTRY.csv` + registry rules in `experiments/README.md` + `tools/search_experiments.py` | One canonical CSV index has one durable row per real Experiment ID, retains negative/failed/cancelled/superseded history, indexes status/stage/evidence class/lineage/outcome/decision, links to canonical package/manifest, and is searchable without becoming a second source of experiment truth; initial registry contains zero fictitious rows |
 | `ATS2-M1-009` | `WBS-1.9` | P1 | DONE | M0-013 | `governance/methodology/EVIDENCE_TAXONOMY.md` + aligned Candidate/Strategy Evidence Indexes | Source class is separated from qualified claim class; exploratory, registered, validation, independent, stress, demo/shadow, minimal/active live, portfolio and scaling evidence have explicit allowed/prohibited claims and protocol prerequisites; negative evidence retains its earned class and attractive results cannot upgrade class |
-| `ATS2-M1-010` | `WBS-1.10` | P1 | READY | M1-001…009 | `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md` | Define repeatable event-driven review inputs, role separation, evidence sufficiency/class checks, decision record, `PROMOTE/PARK/REJECT` or stage-appropriate outcomes, bounded return-to-research behavior, negative-evidence retention and review triggers without invented calendar cadence |
-| `ATS2-M1-011` | M1 Exit | P1 | BLOCKED | M1-001…010 | M1 exit decision | Idea → Prototype → Candidate decisions, formal evidence registration/registry/classification and research review are reproducible end to end |
+| `ATS2-M1-010` | `WBS-1.10` | P1 | DONE | M1-001…009 | `governance/methodology/RESEARCH_REVIEW_PROTOCOL.md` + review checks/decision rules/template | Event-driven review assembles stage inputs, checks completeness/lineage/Experiment integrity/evidence class/sufficiency, records roles and negative evidence/dissent, applies the stage decision model, bounds return-to-research and preserves immutable review history without inventing a calendar cadence |
+| `ATS2-M1-011` | M1 Exit | P1 | READY | M1-001…010 | `governance/program/M1_EXIT_REVIEW.md` | Verify M1 exit criteria structurally: Idea → Prototype → Candidate decisions, formal Experiment registration/registry, evidence classification and Research Review are reproducible end to end without fictitious market evidence; issue explicit `PASS/FAIL` and define M2 handoff if PASS |
 
 ## 5. M2 and later
 
-M2 остаётся `PARKED` до M1 Exit. `ATS2-M2-000 — Reference Consumer Profile` должен предшествовать `ATS2-M2-001 — Research stack ADR`.
+M2 remains parked until `ATS2-M1-011` issues an M1 Exit decision. `ATS2-M2-000 — Reference Consumer Profile` precedes `ATS2-M2-001 — Research stack ADR`.
 
-Reference Strategy #1 выбирается только в M3 после M1 и M2 Exit. Carryover из ATS v1 учитывается через `legacy/v1/CARRYOVER.md`.
+Reference Strategy #1 is selected only in M3 after M1 and M2 Exit. Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 ## 6. Следующий шаг
 
-Текущая program-level ready task:
+Current program-level ready task:
 
-`ATS2-M1-010 — Research review protocol`.
+`ATS2-M1-011 — M1 Exit Review`.
 
 Canonical next artifact:
 
-`governance/methodology/RESEARCH_REVIEW_PROTOCOL.md`.
+`governance/program/M1_EXIT_REVIEW.md`.
 
-Задача должна определить repeatable research review, который потребляет current Idea/Hypothesis/Data Feasibility/Prototype/Economic/Candidate/Experiment/Evidence artifacts, проверяет sufficiency и evidence class до принятия решения, сохраняет dissent/negative evidence, не задаёт фиктивный календарный cadence и не позволяет post-hoc менять claim strength или success criteria.
+The review must verify that all M1 work packages are complete and mutually consistent, the validator is green, a new agent can recover the Research Factory process from canonical artifacts, structural tests did not create fictitious research/evidence objects, and the program is ready or not ready to enter M2.
