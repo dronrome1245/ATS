@@ -13,20 +13,20 @@
 
 Последняя завершённая task:
 
-`ATS2-M1-004 — Cheap Prototype protocol`.
+`ATS2-M1-005 — Economic Pre-Screen`.
 
 Artifacts:
 
-- `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`;
-- `governance/methodology/templates/CHEAP_PROTOTYPE_TEMPLATE.md`.
+- `governance/methodology/ECONOMIC_PRE_SCREEN.md`;
+- `governance/methodology/templates/ECONOMIC_PRE_SCREEN_TEMPLATE.md`.
 
 Следующая ready task:
 
-`ATS2-M1-005 — Economic Pre-Screen`.
+`ATS2-M1-006 — Candidate promotion process`.
 
 Следующий artifact:
 
-`governance/methodology/ECONOMIC_PRE_SCREEN.md`.
+`governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`.
 
 ## Canonical ATS v2
 
@@ -43,9 +43,9 @@ Artifacts:
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для текущей работы: `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md` и `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
+6. Для текущей работы: `governance/methodology/ECONOMIC_PRE_SCREEN.md` и `governance/methodology/templates/CANDIDATE_TEMPLATE.md`.
 7. Проверка: `python tools/validate_repo.py`.
 
 ## Boundary
 
-M1 operationalizes the Research Factory. Cheap Prototype is preliminary/exploratory and is not formal validation evidence. Economic Pre-Screen must test whether the preliminary effect is worth further research, not manufacture a profitability claim. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
+M1 operationalizes the Research Factory. Positive Economic Pre-Screen only permits Candidate review; it does not create a Candidate, validate edge or allocate capital. Reference Strategy #1, broker, capital, live risk limits and production execution are not selected at this stage.
