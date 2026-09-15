@@ -7,6 +7,14 @@
 - Created on: `null`
 - Owner/author role: `RESEARCH`
 
+## Origin / provenance
+
+- Origin type: `null`
+- Source reference: `null`
+- Related Idea IDs: `null`
+
+Record where the observation came from. Source reputation is not evidence of edge.
+
 ## Observation
 
 Кратко описать наблюдаемую рыночную закономерность или потенциальный источник edge.
@@ -39,9 +47,26 @@
 
 Перечислить очевидные риски: look-ahead, survivorship, timestamp ambiguity, multiple testing, transaction costs, sparse observations и другие применимые причины ложного вывода.
 
+## Duplicate / overlap check
+
+- Result: `null`
+- Compared with: `null`
+- Rationale: `null`
+
+Допустимые результаты: `NEW`, `RELATED`, `DUPLICATE`.
+
 ## Initial decision
 
-- Decision: `SCREEN`
+- Decision: `null`
+- Resulting status: `null`
 - Decision reason: `null`
 
-Допустимые решения на этой стадии: `SCREEN`, `PARK`, `REJECT`.
+Допустимые решения: `SCREEN`, `PARK`, `REJECT`.
+
+Соответствие status:
+
+- `SCREEN` → `SCREENING`;
+- `PARK` → `PARKED`;
+- `REJECT` → `REJECTED`.
+
+Неизвестные факты сохраняются как `null`; значения market, instrument, broker, capital или risk limits не придумываются ради заполнения карточки.
