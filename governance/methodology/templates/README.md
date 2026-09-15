@@ -18,7 +18,7 @@
 5. ID после выдачи не переиспользуется.
 6. Формальный Experiment считается evidence только после фиксации manifest, результата и conclusion.
 7. Material change Strategy Version создаёт новую версию, а не переписывает старую как будто изменения не было.
-8. Structural process tests шаблонов не создают fictitious research entities, datasets или prototype results.
+8. Structural process tests шаблонов не создают fictitious research entities, datasets, prototype results или economics.
 9. Exploratory Cheap Prototype не становится formal Experiment задним числом; если его результат нужен как registered evidence, соответствующий run повторяется после предварительной регистрации `EXP-...`.
 
 ## Templates
@@ -65,6 +65,20 @@ Operational protocol:
 
 Prototype identity is parent Hypothesis plus local sequence `PROTO-nn`. Evidence class is `EXPLORATORY_PROTOTYPE`; it is not automatically a registered Experiment.
 
+### Economic Pre-Screen
+
+`ECONOMIC_PRE_SCREEN_TEMPLATE.md`
+
+Canonical review instance:
+
+`research/reviews/HYP-NNNN-ECONOMIC_PRE_SCREEN.md`
+
+Operational methodology:
+
+`governance/methodology/ECONOMIC_PRE_SCREEN.md`
+
+Pre-Screen uses dimensions E1–E9 and one decision among `ADVANCE_TO_CANDIDATE_REVIEW / RETURN_TO_RESEARCH / PARK / REJECT`. It does not create a Candidate by itself.
+
 ### Candidate
 
 `CANDIDATE_TEMPLATE.md`
@@ -106,7 +120,8 @@ Canonical instance:
 - `Hypothesis` создаётся не позднее R1 и должна быть falsifiable до formal quantitative evidence.
 - Data Feasibility Review выполняется после Hypothesis decision `DATA_FEASIBILITY` и до Cheap Prototype.
 - Cheap Prototype R3 отвечает на один ранний quantitative question и не является formal validation evidence.
-- `Candidate` создаётся только после `R4 Economic Pre-Screen = PROMOTE`.
+- Economic Pre-Screen R4 решает, заслуживает ли research line формального Candidate review; положительный outcome сам Candidate не создаёт.
+- `Candidate` создаётся только после отдельного Candidate promotion decision `PROMOTE`.
 - Formal `Experiment` регистрируется до использования соответствующего результата как registered evidence.
 - `Strategy Version` создаётся после Candidate admission, когда правила стратегии становятся versioned research object.
 
