@@ -1,15 +1,18 @@
-# Отчёты
+# Reports
 
-Каталог предназначен для производных отчётов по бэктестам, устойчивости, независимому экзамену, стресс-тестам, демо и реальному исполнению.
+`reports/` stores derived human-readable research, validation, execution and portfolio reports. Reports summarize evidence; they do not become a second source of truth for Experiment inputs/results.
 
-Каждый отчёт должен ссылаться на:
+A formal report should link, as applicable, to:
 
-- experiment ID;
-- версию стратегии;
-- кодовую ревизию;
-- данные и временной период;
-- параметры;
-- модель расходов;
-- ворота, для которых отчёт является доказательством.
+- Experiment ID;
+- Strategy / Strategy Version;
+- code revision and environment;
+- Dataset ID/version and period;
+- configuration/parameters;
+- cost/execution assumptions;
+- `source_class` and `qualified_evidence_class`;
+- applicable lifecycle/review decision.
 
-Отчёт не изменяет статус ворот автоматически. Решение фиксируется отдельно в каноническом состоянии.
+A report never upgrades evidence class or changes a lifecycle/research decision automatically. The underlying Experiment/Evidence artifacts and explicit review decision remain authoritative.
+
+M2 `WBS-2.8` will define the minimum standard analytics/report output for the Research Platform MVP.
