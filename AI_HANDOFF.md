@@ -16,42 +16,42 @@
 
 ## 2. Последний завершённый шаг
 
-`ATS2-M1-002 — Hypothesis model` — `DONE`.
+`ATS2-M1-003 — Data Feasibility review` — `DONE`.
 
-Artifact:
+Artifacts:
 
-`governance/methodology/HYPOTHESIS_MODEL.md`
+- `governance/methodology/DATA_FEASIBILITY_REVIEW.md`;
+- `governance/methodology/templates/DATA_FEASIBILITY_TEMPLATE.md`.
 
-Hypothesis formation now defines stable `HYP-xxxx`, Parent Idea linkage, falsifiable Statement, Mechanism, Conditions, Horizons, expected Direction, decision-time information premise, Falsification, Required data, Known biases, cheap research question and change control. `HYPOTHESIS_TEMPLATE.md` is aligned and structurally tested without registering a fictitious Hypothesis.
+Data Feasibility now evaluates source/access, coverage, granularity, timestamp semantics, decision-time information availability, revisions/corrections, missing/bad data, universe/survivorship/selection bias, leakage, traceability, relevant cost/execution inputs, licensing constraints and known gaps before prototype work.
 
-Decision `DATA_FEASIBILITY` means readiness for data review only; it is not evidence of edge and does not authorize prototype work.
+Decision model: `FEASIBLE / CONDITIONAL / PARK / REJECT`.
+
+`FEASIBLE` permits Cheap Prototype. `CONDITIONAL` permits only a constrained prototype; a condition that materially changes the Hypothesis requires a new Hypothesis.
 
 ## 3. Текущая ready task
 
-`ATS2-M1-003 — Data Feasibility review`
+`ATS2-M1-004 — Cheap Prototype protocol`
 
 Canonical next artifact:
 
-`governance/methodology/DATA_FEASIBILITY_REVIEW.md`
+`governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`
 
-Goal: define how ATS decides whether available data can honestly test a concrete Hypothesis before Cheap Prototype work.
+Goal: define the minimum-cost quantitative check of one early research question without treating prototype output as registered/validation evidence.
 
-## 4. Что должно быть определено в M1-003
+## 4. Что должно быть определено в M1-004
 
-- Hypothesis linkage;
-- required data/source types;
-- coverage and granularity;
-- timezone and timestamp semantics;
-- decision-time information availability;
-- revisions/restatements/corporate actions/event corrections;
-- missing/bad data handling;
-- universe/survivorship/selection risks;
-- leakage/overlap risks;
-- transformation trace and dataset identity;
-- cost/execution inputs relevant to the early test;
-- explicit known gaps;
-- feasibility decision/status model;
-- structural acceptance test without invented vendor or dataset.
+- admissible Data Feasibility outcomes;
+- one limited prototype question;
+- minimum inputs and assumptions;
+- data/source snapshot trace;
+- applicable cost assumptions;
+- exploratory implementation boundaries;
+- minimum run/result record;
+- early decision model;
+- retention of negative results;
+- boundary between prototype and formal Experiment;
+- structural protocol test without fictitious research content.
 
 ## 5. Обязательный порядок чтения
 
@@ -61,12 +61,13 @@ Goal: define how ATS decides whether available data can honestly test a concrete
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 5. `governance/methodology/IDEA_INTAKE_PROCESS.md`.
 6. `governance/methodology/HYPOTHESIS_MODEL.md`.
-7. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
-8. relevant templates.
+7. `governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
+8. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
+9. relevant templates.
 
 ## 6. Boundaries
 
-No fictitious research consumer is created for process testing. Do not choose a universal vendor, Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits. Quantitative prototype work starts only after a Data Feasibility decision.
+Data Feasibility is not evidence of edge. Cheap Prototype is not validation. Do not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits in M1-004.
 
 ## 7. Completion protocol
 
@@ -75,8 +76,8 @@ Material program task is complete only after deliverable, backlog, canonical sta
 ## 8. Проверка восстановления контекста
 
 - Current phase? — `M1_RESEARCH_METHODOLOGY`.
-- Last completed? — `ATS2-M1-002`, `governance/methodology/HYPOTHESIS_MODEL.md`.
-- Next task? — `ATS2-M1-003`.
-- Next artifact? — `governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
-- Can a `DATA_FEASIBILITY` Hypothesis be treated as edge evidence? — no.
-- Can Cheap Prototype start before data review? — no.
+- Last completed? — `ATS2-M1-003`, `governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
+- Next task? — `ATS2-M1-004`.
+- Next artifact? — `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`.
+- Can Data Feasibility be treated as edge evidence? — no.
+- Can a prototype ignore recorded feasibility constraints? — no.
