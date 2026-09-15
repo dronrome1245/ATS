@@ -19,13 +19,19 @@ Provide one repeatable review procedure that consumes current ATS research artif
 7. Return-to-research is bounded by one explicit unresolved question and a stop condition.
 8. Issued review records are historical and are not rewritten after new evidence arrives.
 
-## Canonical review artifact
+## Canonical review package
 
-Template: `governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md`
+Main protocol: this file.
 
-Real review: `research/reviews/RR-YYYYMMDD-nnn.md`
+Detailed checks: `governance/methodology/RESEARCH_REVIEW_CHECKS.md`.
 
-A later reconsideration receives a new Review ID and links the previous review.
+Decision/role rules: `governance/methodology/RESEARCH_REVIEW_DECISIONS.md`.
+
+Reusable template: `governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md`.
+
+Real review: `research/reviews/RR-YYYYMMDD-nnn.md`.
+
+A later reconsideration receives a new Review ID and links the previous review. Review IDs are not reused; structural testing creates no fictitious review.
 
 ## Required checks
 
@@ -46,6 +52,10 @@ Every review records:
 - bounded follow-up when applicable;
 - prior Review ID for reconsideration.
 
+## Structural acceptance
+
+The protocol package is structurally checked without creating a fictitious Idea, Candidate, Strategy, Experiment or market result. A new agent must be able to assemble the correct package, identify blocking gaps, apply the required evidence class, make the stage-specific decision and preserve the review history.
+
 ## Completion
 
-`ATS2-M1-010` is complete when the detailed review procedure and reusable template are synchronized with state/backlog/handoff/validator. Next task: `ATS2-M1-011 — M1 Exit Review`.
+`ATS2-M1-010` is complete when the protocol package and reusable template are synchronized with state/backlog/handoff/validator. Next task: `ATS2-M1-011 — M1 Exit Review`.
