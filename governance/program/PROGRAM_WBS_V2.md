@@ -3,7 +3,7 @@
 **Программа:** ATS — Algorithmic Trading Systems  
 **Версия:** 2.0  
 **Статус:** BASELINE  
-**Дата:** 14 сентября 2026 года  
+**Дата:** 15 сентября 2026 года  
 **Родительские документы:** `PROGRAM_CHARTER_V2.md`, `OPERATING_MODEL_V2.md`, `STRATEGY_LIFECYCLE_V2.md`, `RESEARCH_METHODOLOGY_V1.md`
 
 ## 1. Назначение
@@ -88,7 +88,8 @@ M0 закрывается, когда выполнены `WBS-0.1`–`WBS-0.12`,
 
 | ID | Scope | Milestone | Work package | Deliverable | Dependencies | Responsible role | Definition of Done |
 |---|---|---|---|---|---|---|---|
-| `WBS-2.1` | P | M2 | Technology decision for research MVP | Research stack ADR | M1 | DEVELOPMENT | Выбран минимальный стек исходя из Reference Strategy #1, reproducibility и data requirements |
+| `WBS-2.0` | P | M2 | Reference Consumer Profile | `REFERENCE_CONSUMER_PROFILE.md` | M1 | PROGRAM / DEVELOPMENT / RESEARCH | Определён минимальный абстрактный ordered-data research consumer, достаточный для выбора первого vertical stack без выбора конкретной Strategy #1, рынка, инструмента или live environment |
+| `WBS-2.1` | P | M2 | Technology decision for research MVP | Research stack ADR | 2.0 | DEVELOPMENT | Выбран минимальный стек по Consumer Profile, reproducibility, data/replay, experiment и testing requirements; решение не зависит от ещё не выбранной M3 Strategy #1 |
 | `WBS-2.2` | P | M2 | Project/environment reproducibility | Environment specification | 2.1 | DEVELOPMENT | Новый environment воспроизводимо запускает один и тот же registered experiment |
 | `WBS-2.3` | P | M2 | Dataset manifest support | Data manifest tooling | 1.3, 2.1 | DATA / DEVELOPMENT | Dataset имеет stable ID, source, period и transformation trace |
 | `WBS-2.4` | P | M2 | Base data loader | Data loading capability | 2.3 | DEVELOPMENT / DATA | Reference data читаются детерминированно с явными timezone/ordering rules |
@@ -293,19 +294,15 @@ WBS не устанавливает без evidence и OWNER decision:
 
 # 16. Текущая точка исполнения
 
-На дату baseline уже завершены:
+На дату текущего baseline:
 
-- `WBS-0.1` Program Charter;
-- `WBS-0.2` Operating Model;
-- `WBS-0.3` Strategy Lifecycle;
-- `WBS-0.4` Research Methodology;
-- `WBS-0.5` Program WBS;
-- `WBS-0.9` Canonical state migration v2;
-- `WBS-0.10` Validator migration v2;
-- `WBS-0.11` AI handoff protocol.
+- M0 Program Rebaseline — `COMPLETED / PASS`;
+- M1 Research Methodology — `COMPLETED / PASS`;
+- `WBS-2.0` Reference Consumer Profile — текущий M2 entry bridge;
+- Reference Strategy #1 ещё не выбрана и остаётся M3 work.
 
-Следующий work package:
+После завершения `WBS-2.0` следующий work package:
 
-**`WBS-0.6 — Repository Structure v2`.**
+**`WBS-2.1 — Technology decision for research MVP / Research stack ADR`.**
 
-После него выполняются `WBS-0.7` Program Backlog, `WBS-0.8` Research entity templates и `WBS-0.12` окончательная классификация legacy в рамках новой структуры.
+Стек выбирается из требований `REFERENCE_CONSUMER_PROFILE.md`, а не из выдуманной заранее стратегии.
