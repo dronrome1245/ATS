@@ -1,7 +1,7 @@
 # ATS Research Entity Templates
 
 **Статус:** BASELINE  
-**Work package:** `WBS-0.8` / `ATS2-M0-008`
+**Work package:** `WBS-0.8` / `ATS2-M0-008` with M1 operational extensions
 
 ## Назначение
 
@@ -18,7 +18,8 @@
 5. ID после выдачи не переиспользуется.
 6. Формальный Experiment считается evidence только после фиксации manifest, результата и conclusion.
 7. Material change Strategy Version создаёт новую версию, а не переписывает старую как будто изменения не было.
-8. Structural process tests шаблонов не создают fictitious research entities или datasets.
+8. Structural process tests шаблонов не создают fictitious research entities, datasets или prototype results.
+9. Exploratory Cheap Prototype не становится formal Experiment задним числом; если его результат нужен как registered evidence, соответствующий run повторяется после предварительной регистрации `EXP-...`.
 
 ## Templates
 
@@ -49,6 +50,20 @@ Canonical instance for a real Hypothesis:
 Review process:
 
 `governance/methodology/DATA_FEASIBILITY_REVIEW.md`
+
+### Cheap Prototype
+
+`CHEAP_PROTOTYPE_TEMPLATE.md`
+
+Canonical review instance:
+
+`research/reviews/HYP-NNNN-PROTOTYPE-nn.md`
+
+Operational protocol:
+
+`governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`
+
+Prototype identity is parent Hypothesis plus local sequence `PROTO-nn`. Evidence class is `EXPLORATORY_PROTOTYPE`; it is not automatically a registered Experiment.
 
 ### Candidate
 
@@ -90,8 +105,9 @@ Canonical instance:
 - `Idea` создаётся на R0.
 - `Hypothesis` создаётся не позднее R1 и должна быть falsifiable до formal quantitative evidence.
 - Data Feasibility Review выполняется после Hypothesis decision `DATA_FEASIBILITY` и до Cheap Prototype.
+- Cheap Prototype R3 отвечает на один ранний quantitative question и не является formal validation evidence.
 - `Candidate` создаётся только после `R4 Economic Pre-Screen = PROMOTE`.
-- Formal `Experiment` регистрируется до использования результата как evidence.
+- Formal `Experiment` регистрируется до использования соответствующего результата как registered evidence.
 - `Strategy Version` создаётся после Candidate admission, когда правила стратегии становятся versioned research object.
 
 ## Что этот пакет не определяет
