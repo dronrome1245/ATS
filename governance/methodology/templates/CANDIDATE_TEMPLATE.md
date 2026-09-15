@@ -5,54 +5,117 @@
 - Candidate ID: `null`
 - Parent Idea ID: `null`
 - Parent Hypothesis ID: `null`
-- Status: `DRAFT`
+- Candidate Promotion Review reference: `null`
+- Status: `READY_FOR_S01`
 - Created on: `null`
+- Strategy ID: `null`
+
+This template is instantiated only after a Candidate Promotion Review decision `PROMOTE`. `Strategy ID` remains `null` until formal S01 Candidate Admission.
 
 ## Candidate summary
 
-Кратко описать, что именно предлагается продвигать из Research Funnel в formal Strategy Lifecycle.
+Describe exactly what research line was promoted from the Research Funnel and what formal research budget is being requested.
 
-## Economic rationale
+## Lineage and upstream package
 
-Суммировать механизм edge и объяснить, почему preliminary evidence заслуживает дальнейших ресурсов.
+- Idea reference: `null`
+- Hypothesis reference: `null`
+- Data Feasibility Review reference: `null`
+- Cheap Prototype references: `null`
+- Economic Pre-Screen reference: `null`
+- Candidate Promotion Review reference: `null`
 
-## Preliminary evidence
+## Source of edge / mechanism
 
-Перечислить зарегистрированные либо exploratory артефакты, использованные для pre-screen. Для каждого указать ID/путь и ограничения.
+Summarize the current mechanism and observable claim without expanding or rewriting the promoted Hypothesis.
 
-## Economic Pre-Screen
+## Preliminary economic rationale
 
-Оценить без преждевременной точности:
+Summarize why the preliminary economic case was considered worth deeper research. Do not present preliminary estimates as validated profitability.
 
-- effect magnitude;
-- likely transaction costs;
-- opportunity frequency;
-- capital usage;
-- drawdown/risk characteristics;
-- capacity considerations;
-- operational/data complexity.
+## Preliminary evidence and evidence classes
+
+Candidate Evidence Index:
+
+`EVIDENCE_INDEX.md`
+
+Summarize the material evidence classes available at promotion and their limitations. `EXPLORATORY_PROTOTYPE` remains exploratory.
 
 ## Data feasibility
 
+- Data Feasibility decision: `null`
 - Required Dataset IDs or sources: `null`
 - Known data gaps: `null`
-- Timestamp / revision risks: `null`
+- Timestamp / revision / leakage risks: `null`
+- Transformation / traceability constraints: `null`
 
-## Known failure modes
+## Economic Pre-Screen summary
 
-Перечислить основные способы, которыми observed effect может оказаться ложным, нестабильным или экономически бесполезным.
+- E1 Effect Magnitude: `null`
+- E2 Gross/Net Economics and Cost Sensitivity: `null`
+- E3 Opportunity Frequency and Effective Diversity: `null`
+- E4 Capital Use and Capital Efficiency: `null`
+- E5 Risk, Path and Concentration: `null`
+- E6 Capacity and Scalability: `null`
+- E7 Operational, Data and Execution Burden: `null`
+- E8 Evidence Quality and Research Freedom: `null`
+- E9 Economic Margin of Safety: `null`
 
-## Proposed research scope
+- Pre-Screen decision: `ADVANCE_TO_CANDIDATE_REVIEW`
+- Pre-Screen limitations: `null`
 
-Определить, что должно быть доказано на S02–S05 до инвестирования ресурсов в глубокую validation.
+## Negative and search history
 
-## Promotion decision
+- Prototype iterations: `null`
+- Failed / unattractive variants: `null`
+- Parameter / market / horizon search summary: `null`
+- Known selection-bias concerns: `null`
 
-- Decision: `null`
-- Decision owner/reviewer: `null`
+## Known risks and failure modes
+
+List the main ways the observed effect may be false, unstable, untradeable, capacity-limited or economically useless.
+
+## Unresolved research questions
+
+List the questions that must be answered during formal research. Unknowns remain explicit; do not invent favorable values.
+
+## Proposed S02–S05 research scope
+
+### S02 Research Specification
+
+- Objective: `null`
+
+### S03 Data & Research Protocol
+
+- Objective: `null`
+
+### S04 Baseline Implementation
+
+- Objective: `null`
+
+### S05 Economic Viability
+
+- Objective: `null`
+
+Passing Candidate Promotion does not imply any of these stages will pass.
+
+## Platform / capability needs
+
+- Reusable platform needs: `null`
+- Strategy-specific engineering needs: `null`
+- External data/access needs: `null`
+
+Record needs only. Shared platform implementation remains demand-driven.
+
+## Promotion record
+
+- Decision: `PROMOTE`
+- Decision reviewer/role: `null`
 - Decision date: `null`
-- Reason: `null`
+- Decision reason: `null`
 
-Допустимые решения: `PROMOTE`, `PARK`, `REJECT`.
+`PARK` and `REJECT` are stored in Candidate Promotion Review artifacts and do not create this Candidate object.
 
-При `PROMOTE` Candidate получает Strategy ID только в рамках формального Candidate admission.
+## Admission boundary
+
+Candidate status `READY_FOR_S01` means only that the research line may enter formal Candidate Admission. It is not validated edge, live approval, capital allocation or Strategy Risk approval.
