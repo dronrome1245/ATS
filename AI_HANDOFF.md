@@ -16,44 +16,53 @@
 
 ## 2. Последний завершённый шаг
 
-`ATS2-M1-005 — Economic Pre-Screen` — `DONE`.
+`ATS2-M1-006 — Candidate promotion process` — `DONE`.
 
 Artifacts:
 
-- `governance/methodology/ECONOMIC_PRE_SCREEN.md`;
-- `governance/methodology/templates/ECONOMIC_PRE_SCREEN_TEMPLATE.md`.
+- `governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`;
+- `governance/methodology/templates/CANDIDATE_PROMOTION_REVIEW_TEMPLATE.md`;
+- `governance/methodology/templates/CANDIDATE_TEMPLATE.md`;
+- `governance/methodology/templates/CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md`.
 
-Economic Pre-Screen is the R4 research-budget gate. It assesses E1–E9: magnitude, preliminary net economics/cost sensitivity, opportunity diversity, capital use, risk/path/concentration, capacity, operational burden, evidence/search weakness and economic margin of safety.
+Candidate Promotion review starts only after Economic Pre-Screen `ADVANCE_TO_CANDIDATE_REVIEW` and issues exactly one completed decision:
 
-Decision model:
+`PROMOTE / PARK / REJECT`.
 
-`ADVANCE_TO_CANDIDATE_REVIEW / RETURN_TO_RESEARCH / PARK / REJECT`.
+Only `PROMOTE` allocates a stable `CAND-xxxx` and creates `research/candidates/CAND-xxxx/CANDIDATE.md` + `EVIDENCE_INDEX.md` with status `READY_FOR_S01`.
 
-There is no universal return target, minimum trade count or capital threshold. A positive Pre-Screen does not create a Candidate and is not validation evidence.
+`PARK` and `REJECT` create no Candidate ID. `Strategy ID` remains `null` until formal S01 Candidate Admission. Candidate promotion is permission for deeper research only; it is not validated edge or live permission.
+
+Structural testing created no fictitious Candidate, so `strategy_pipeline.candidates_active = 0`.
 
 ## 3. Текущая ready task
 
-`ATS2-M1-006 — Candidate promotion process`
+`ATS2-M1-007 — Experiment registration schema`
 
 Canonical next artifact:
 
-`governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`
+`governance/methodology/EXPERIMENT_REGISTRATION.md`
 
-Goal: formalize how a successful Research Funnel becomes a Strategy Candidate only through an explicit `PROMOTE / PARK / REJECT` decision.
+Goal: define how a formal `EXP-YYYYMMDD-nnn` is registered before its result is observed so it can later qualify as registered evidence.
 
-## 4. Что должно быть определено в M1-006
+## 4. Что должно быть определено в M1-007
 
-- required R0–R4 artifacts;
-- entry condition `ADVANCE_TO_CANDIDATE_REVIEW`;
-- stable Candidate identity and lineage;
-- preservation of exploratory/evidence limitations;
-- known risks/failure modes and unresolved questions;
-- proposed research scope through S05;
-- `PROMOTE / PARK / REJECT` decision model;
-- Candidate creation only on `PROMOTE`;
-- relationship to future Strategy ID / S01;
-- alignment of `CANDIDATE_TEMPLATE.md`;
-- structural test without fictitious strategy content.
+- stable Experiment ID;
+- Hypothesis linkage and Candidate/Strategy Version linkage when available;
+- code revision / implementation reference;
+- dataset identity/source snapshot/period;
+- parameters/configuration;
+- cost/execution assumptions;
+- predefined research question;
+- primary and secondary metrics;
+- predefined decision rule;
+- research stage/evidence class;
+- random seed or explicit `NOT_APPLICABLE`;
+- immutable preregistration boundary;
+- amendment rules before result observation;
+- prohibition on post-result rewrite as preregistration;
+- manifest → result → conclusion relationship;
+- structural schema test without fictitious result.
 
 ## 5. Обязательный порядок чтения
 
@@ -61,16 +70,15 @@ Goal: formalize how a successful Research Funnel becomes a Strategy Candidate on
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. `governance/methodology/IDEA_INTAKE_PROCESS.md`.
-6. `governance/methodology/HYPOTHESIS_MODEL.md`.
-7. `governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
-8. `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md`.
-9. `governance/methodology/ECONOMIC_PRE_SCREEN.md`.
-10. `governance/methodology/templates/CANDIDATE_TEMPLATE.md`.
+5. `governance/methodology/CANDIDATE_PROMOTION_PROCESS.md` for current upstream boundary.
+6. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
+7. `governance/methodology/templates/experiment/manifest.yaml`.
+8. `governance/methodology/templates/experiment/result.json`.
+9. `governance/methodology/templates/experiment/conclusion.md`.
 
 ## 6. Boundaries
 
-Candidate promotion grants permission for deeper research only. It does not establish validated edge, approve live trading or allocate capital. Do not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits in M1-006.
+Cheap Prototype remains `EXPLORATORY_PROTOTYPE` and cannot be upgraded retroactively into a pre-registered Experiment. Experiment methodology does not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits.
 
 ## 7. Completion protocol
 
@@ -79,8 +87,9 @@ Material program task is complete only after deliverable, backlog, canonical sta
 ## 8. Проверка восстановления контекста
 
 - Current phase? — `M1_RESEARCH_METHODOLOGY`.
-- Last completed? — `ATS2-M1-005`, `governance/methodology/ECONOMIC_PRE_SCREEN.md`.
-- Next task? — `ATS2-M1-006`.
-- Next artifact? — `governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`.
+- Last completed? — `ATS2-M1-006`, `governance/methodology/CANDIDATE_PROMOTION_PROCESS.md`.
+- Next task? — `ATS2-M1-007`.
+- Next artifact? — `governance/methodology/EXPERIMENT_REGISTRATION.md`.
 - Candidates created by methodology test? — `0`.
-- Does positive Pre-Screen prove profitability? — no.
+- Does `PROMOTE` mean validated/live? — no.
+- Can an old prototype be assigned `EXP-...` after seeing the result and called preregistered? — no.
