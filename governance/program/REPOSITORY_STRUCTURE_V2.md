@@ -59,16 +59,13 @@ ATS/
 │   │   └── templates/
 │   ├── decisions/
 │   └── backlog/
-│
 ├── research/
 │   ├── ideas/
 │   ├── hypotheses/
 │   ├── candidates/
 │   └── reviews/
-│
 ├── strategies/
 │   └── STRAT-.../
-│
 ├── platform/
 │   ├── data/
 │   ├── backtest/
@@ -78,37 +75,30 @@ ATS/
 │   ├── execution/
 │   ├── state/
 │   └── monitoring/
-│
 ├── data/
 │   ├── manifests/
 │   ├── raw/
 │   ├── derived/
 │   └── external/
-│
 ├── experiments/
 │   └── EXP-YYYYMMDD-nnn/
-│
 ├── reports/
 │   ├── research/
 │   ├── validation/
 │   ├── execution/
 │   └── portfolio/
-│
 ├── portfolio/
 │   ├── policies/
 │   ├── allocations/
 │   └── reviews/
-│
 ├── operations/
 │   ├── deployments/
 │   ├── runbooks/
 │   ├── incidents/
 │   └── reconciliations/
-│
 ├── src/
 ├── tests/
 ├── tools/
-│
 └── legacy/
     └── v1/
 ```
@@ -138,7 +128,7 @@ governance/
     └── PROGRAM_BACKLOG_V2.md
 ```
 
-`00_Управление_проектом/v2/` больше не является current ATS v2 location. После `ATS2-M0-009` migrated copies в этом старом path запрещены validator-ом.
+`00_Управление_проектом/v2/` больше не является current ATS v2 location. Migrated copies в этом старом path запрещены validator-ом.
 
 ---
 
@@ -157,15 +147,21 @@ research/
 │       ├── CANDIDATE.md
 │       └── EVIDENCE_INDEX.md
 └── reviews/
-    └── research-review-YYYY-MM-DD.md
+    ├── HYP-0001-DATA_FEASIBILITY.md
+    ├── HYP-0001-PROTOTYPE-01.md
+    ├── HYP-0001-ECONOMIC_PRE_SCREEN.md
+    └── HYP-0001-CANDIDATE-PROMOTION-01.md
 ```
 
 Правила:
 
 - Idea должна быть дешёвой в создании;
 - Hypothesis должна быть falsifiable до formal evidence;
-- Candidate создаётся только после `R4 Economic Pre-Screen = PROMOTE`;
-- rejected/parked entities не удаляются;
+- Economic Pre-Screen с `ADVANCE_TO_CANDIDATE_REVIEW` только открывает Candidate Promotion Review;
+- Candidate создаётся только после отдельного Candidate Promotion Review decision `PROMOTE`;
+- `PARK` и `REJECT` promotion review не создают Candidate ID;
+- Candidate получает `CAND-...`, а `STRAT-...` появляется только после formal S01 Candidate Admission;
+- rejected/parked reviews/entities не удаляются;
 - exploratory output не становится formal evidence автоматически.
 
 Canonical templates: `governance/methodology/templates/`.
@@ -246,9 +242,11 @@ experiments/
     └── artifacts/
 ```
 
-Manifest связывает Experiment ID, Hypothesis, Strategy Version при наличии, code revision, Dataset ID, period, parameters, cost/execution model, predefined question и research stage.
+`manifest.yaml` preregisters Experiment ID, Hypothesis, Candidate/Strategy Version when available, code/implementation, data identity/period, parameters/configuration, cost/execution assumptions, primary question/metrics and decision rule before result observation.
 
-Отрицательные experiments сохраняются полностью.
+`result.json` stores observed machine-readable result/run context. `conclusion.md` evaluates that result against the preregistered question and rule.
+
+A completed exploratory run cannot receive an `EXP-...` ID afterward and be represented as preregistered evidence. Negative, failed, cancelled and superseded formal experiments remain in history.
 
 ---
 
@@ -309,21 +307,22 @@ operations/
 
 ## 14. `legacy/v1/`
 
-ATS v1 сохраняется как history/reference, но физически отделяется от current ATS v2.
-
-Target:
+ATS v1 сохраняется как history/reference, но физически отделён от current ATS v2.
 
 ```text
 legacy/v1/
 ├── README.md
+├── MIGRATION_INDEX.md
+├── CARRYOVER.md
 ├── program-management/
 ├── product/
 ├── architecture/
 ├── regulations/
-└── registers/
+├── registers/
+└── collisions/
 ```
 
-`legacy/v1/README.md` является обязательным index: объясняет период действия v1, причину supersede, классификацию artifacts, перенос сильных требований в v2 и список review-needed/carryover items.
+`legacy/v1/README.md` является обязательным index. `MIGRATION_INDEX.md` фиксирует классификацию migrated artifacts, а `CARRYOVER.md` маршрутизирует still-relevant unresolved concerns в ATS v2.
 
 Ни один legacy document не становится current v2 governance без отдельного review/decision.
 
@@ -347,6 +346,7 @@ legacy/v1/
 | Idea | `research/ideas/IDEA-....md` |
 | Hypothesis | `research/hypotheses/HYP-....md` |
 | Candidate | `research/candidates/CAND-..../` |
+| Research review | `research/reviews/` |
 | Strategy | `strategies/STRAT-..../` |
 | Strategy Version | `strategies/STRAT-..../versions/vN.N/` |
 | Dataset Manifest | `data/manifests/DATA-....yaml` |
@@ -408,33 +408,17 @@ Strategy Version использует `vMAJOR.MINOR` как version identity; ma
 
 ## 18. Migration status
 
-### Completed: `ATS2-M0-009`
+Current ATS v2 governance migration and designated ATS v1 physical migration are complete.
 
-Current ATS v2 governance physically migrated:
+Completed milestones include:
 
-- Program Charter → `governance/program/PROGRAM_CHARTER_V2.md`;
-- Operating Model → `governance/program/OPERATING_MODEL_V2.md`;
-- Program WBS → `governance/program/PROGRAM_WBS_V2.md`;
-- Repository Structure → `governance/program/REPOSITORY_STRUCTURE_V2.md`;
-- Strategy Lifecycle → `governance/methodology/STRATEGY_LIFECYCLE_V2.md`;
-- Research Methodology → `governance/methodology/RESEARCH_METHODOLOGY_V1.md`;
-- templates → `governance/methodology/templates/`;
-- Program Backlog → `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+- `ATS2-M0-009` — current ATS v2 governance moved to canonical `governance/` paths;
+- `ATS2-M0-010` — legacy v1 classification/index;
+- `ATS2-M0-011` — 15 designated v1 artifacts moved under `legacy/v1/` and old source paths deleted;
+- `ATS2-M0-012` — final link/validator sweep;
+- `ATS2-M0-013` — M0 Exit Review `PASS`.
 
-Old current-v2 copies under `00_Управление_проектом/v2/` are not allowed to coexist with canonical files.
-
-### Remaining: ATS v1 legacy migration
-
-| Current v1 area | Target |
-|---|---|
-| `00_Управление_проектом/` legacy files | `legacy/v1/program-management/` |
-| `01_Контур_продукта/` | `legacy/v1/product/` |
-| `02_Архитектура_и_решения/` | `legacy/v1/architecture/` unless reviewed/promoted separately |
-| `03_Нормативная_база_и_правила/` | `legacy/v1/regulations/` unless reviewed/promoted separately |
-| `04_Реестры_и_связи/` | `legacy/v1/registers/` |
-| `05_Коллизии/` | legacy plus explicit carryover of still-relevant questions into v2 backlog |
-
-Physical legacy migration happens only after `ATS2-M0-010` creates `legacy/v1/README.md` and migration index.
+Old current-v2 copies under `00_Управление_проектом/v2/` and old pre-migration v1 source paths are forbidden from reappearing as current source-of-truth paths.
 
 ---
 
@@ -459,17 +443,7 @@ Repository Structure считается принятой, когда:
 3. current governance физически находится в `governance/`;
 4. naming/ID rules определены;
 5. Git/external-storage boundary определена;
-6. ATS v1 имеет отдельный target namespace `legacy/v1/`;
+6. ATS v1 имеет отдельный namespace `legacy/v1/`;
 7. migrations управляются через Program Backlog и validator.
 
----
-
-## 21. Текущий следующий шаг
-
-После завершения `ATS2-M0-009` выполняется:
-
-`ATS2-M0-010 — Legacy v1 index/classification`.
-
-Следующий artifact:
-
-`legacy/v1/README.md`.
+WBS-0.6 выполнен. Текущая program-level task не дублируется в этом baseline document; её всегда читать из `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` и `governance/backlog/PROGRAM_BACKLOG_V2.md`.
