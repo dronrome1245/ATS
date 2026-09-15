@@ -34,6 +34,8 @@ REQUIRED_FILES = (
     "governance/methodology/templates/strategy_version/SPECIFICATION.md",
     "governance/methodology/templates/strategy_version/PARAMETERS.yaml",
     "governance/methodology/templates/strategy_version/EVIDENCE_INDEX.md",
+    "legacy/v1/README.md",
+    "legacy/v1/MIGRATION_INDEX.md",
     "data/README.md",
     "experiments/README.md",
     "reports/README.md",
@@ -41,7 +43,8 @@ REQUIRED_FILES = (
     "tests/README.md",
 )
 
-LEGACY_REFERENCE_FILES = (
+# These remain at their historical paths only until ATS2-M0-011.
+LEGACY_SOURCE_FILES_REQUIRED_BEFORE_PHYSICAL_MIGRATION = (
     "00_Управление_проектом/ДОРОЖНАЯ_КАРТА.md",
     "00_Управление_проектом/МАТРИЦА_ВОРОТ.md",
 )
@@ -84,9 +87,9 @@ def main() -> int:
             fail(f"missing required file: {relative}")
             blocking += 1
 
-    for relative in LEGACY_REFERENCE_FILES:
+    for relative in LEGACY_SOURCE_FILES_REQUIRED_BEFORE_PHYSICAL_MIGRATION:
         if not (repo / relative).is_file():
-            fail(f"legacy reference file unexpectedly missing: {relative}")
+            fail(f"legacy source missing before ATS2-M0-011 migration: {relative}")
             blocking += 1
 
     if (repo / TRANSITIONAL_STATE).exists():
@@ -107,13 +110,15 @@ def main() -> int:
         "status: IN_PROGRESS",
         'canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"',
         'program_charter: "governance/program/PROGRAM_CHARTER_V2.md"',
-        'operating_model: "governance/program/OPERATING_MODEL_V2.md"',
         'program_wbs: "governance/program/PROGRAM_WBS_V2.md"',
         'repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"',
         'strategy_lifecycle: "governance/methodology/STRATEGY_LIFECYCLE_V2.md"',
         'research_methodology: "governance/methodology/RESEARCH_METHODOLOGY_V1.md"',
         'program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"',
-        'research_templates: "governance/methodology/templates/README.md"',
+        'legacy_readme: "legacy/v1/README.md"',
+        'migration_index: "legacy/v1/MIGRATION_INDEX.md"',
+        'designated_artifacts: 15',
+        'physical_migration_complete: false',
         "real_money_trading_allowed: false",
         "scaling_allowed: false",
         "martingale_allowed: false",
@@ -169,17 +174,22 @@ def main() -> int:
         fail("AI_HANDOFF.md does not mention canonical last_completed_artifact")
         blocking += 1
 
+    migration_index = (repo / "legacy/v1/MIGRATION_INDEX.md").read_text(encoding="utf-8") if (repo / "legacy/v1/MIGRATION_INDEX.md").is_file() else ""
+    for marker in ("HISTORY", "REFERENCE", "REVIEW_NEEDED", "OQ-001", "OQ-009"):
+        if marker not in migration_index:
+            fail(f"legacy migration index missing required classification marker: {marker}")
+            blocking += 1
+
     agents_path = repo / "AGENTS.md"
     agents = agents_path.read_text(encoding="utf-8") if agents_path.is_file() else ""
-    if "03_СОСТОЯНИЕ_ПРОЕКТА.yaml" not in agents:
-        fail("AGENTS.md must point to canonical state")
-        blocking += 1
-    if "governance/backlog/PROGRAM_BACKLOG_V2.md" not in agents:
-        fail("AGENTS.md must point to canonical Program Backlog")
-        blocking += 1
-    if "governance/program/PROGRAM_WBS_V2.md" not in agents:
-        fail("AGENTS.md must point to canonical Program WBS")
-        blocking += 1
+    for required in (
+        "03_СОСТОЯНИЕ_ПРОЕКТА.yaml",
+        "governance/backlog/PROGRAM_BACKLOG_V2.md",
+        "governance/program/PROGRAM_WBS_V2.md",
+    ):
+        if required not in agents:
+            fail(f"AGENTS.md must point to canonical artifact: {required}")
+            blocking += 1
 
     for path in repo.rglob("*"):
         if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
