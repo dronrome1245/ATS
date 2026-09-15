@@ -6,48 +6,46 @@
 
 - Program: `ATS — Algorithmic Trading Systems`.
 - Program model: ATS v2 / Strategy Factory.
-- Current phase: `M1_RESEARCH_METHODOLOGY`.
-- Human meaning: M1 Research Factory.
+- Current phase: `M1_RESEARCH_METHODOLOGY` / Research Factory.
 - Status: `IN_PROGRESS`.
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-- `M0_PROGRAM_REBASELINE` завершён с `PASS`.
-- G01–G13 находятся в `legacy/v1/` и не являются current roadmap.
-- Реальная торговля, demo, allocation и scaling сейчас не разрешены.
+- M0 Program Rebaseline: `COMPLETED / PASS`.
+- G01–G13: `legacy/v1/`, history/reference only.
+- Real trading, demo, allocation and scaling remain disallowed current actions.
 
 ## 2. Последний завершённый шаг
 
-`ATS2-M0-013 — M0 Exit Review` — `DONE / PASS`.
+`ATS2-M1-001 — Idea intake process` — `DONE`.
 
-Последний завершённый artifact:
-
-`governance/program/M0_EXIT_REVIEW.md`
-
-M0 подтвердил program governance, methodology, WBS/backlog, repository structure, research templates, canonical state, validator, AI handoff и legacy isolation.
-
-## 3. Текущая ready task
-
-`ATS2-M1-001 — Idea intake process`
-
-Canonical next artifact:
+Artifact:
 
 `governance/methodology/IDEA_INTAKE_PROCESS.md`
 
-Цель — operationalize создание и первичный screening Idea на базе существующего `governance/methodology/templates/IDEA_TEMPLATE.md`.
+Idea intake now defines stable `IDEA-xxxx` IDs, provenance, duplicate/overlap review, minimum intake fields, `SCREEN / PARK / REJECT`, status mapping and retention of negative decisions. `IDEA_TEMPLATE.md` is aligned and was structurally tested without registering a fictitious Idea.
 
-Не создавать фиктивную trading idea только ради проверки процесса.
+## 3. Текущая ready task
 
-## 4. Что должно быть определено в M1-001
+`ATS2-M1-002 — Hypothesis model`
 
-- stable Idea ID `IDEA-xxxx`;
-- обязательные поля;
-- граница observation → Idea → Hypothesis;
-- статусы Idea;
-- screening decisions `SCREEN / PARK / REJECT`;
-- сохранение отрицательных решений;
-- критерий перехода к M1-002 Hypothesis model;
-- использование template без invented values;
-- deterministic handoff для следующего агента.
+Canonical next artifact:
+
+`governance/methodology/HYPOTHESIS_MODEL.md`
+
+Goal: define how a screened Idea becomes a falsifiable Hypothesis and align/test `governance/methodology/templates/HYPOTHESIS_TEMPLATE.md` without inventing a Hypothesis for process testing.
+
+## 4. Что должно быть определено в M1-002
+
+- stable `HYP-xxxx` ID;
+- parent Idea linkage;
+- Statement / Mechanism / Market / Condition / Horizon / Direction;
+- explicit Falsification;
+- Required data and Known biases;
+- falsifiability admission rule;
+- allowed unknowns before Data Feasibility;
+- Hypothesis status/decision model;
+- material-reformulation change control;
+- structural template acceptance test.
 
 ## 5. Обязательный порядок чтения
 
@@ -55,73 +53,23 @@ Canonical next artifact:
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. `governance/program/M0_EXIT_REVIEW.md` — при необходимости понять переход M0→M1.
+5. `governance/methodology/IDEA_INTAKE_PROCESS.md`.
 6. `governance/methodology/RESEARCH_METHODOLOGY_V1.md`.
-7. `governance/methodology/STRATEGY_LIFECYCLE_V2.md`.
-8. `governance/methodology/templates/IDEA_TEMPLATE.md`.
-9. Только затем связанные research artifacts.
+7. `governance/methodology/templates/HYPOTHESIS_TEMPLATE.md`.
 
-Не загружать весь репозиторий без необходимости.
+## 6. Boundaries
 
-## 6. Current canonical ATS v2
+Idea `SCREEN` is not evidence of edge. M1-002 does not choose Reference Strategy #1, broker, jurisdiction, live platform, capital allocation or risk limits. Quantitative testing waits for the applicable Data Feasibility/research protocol.
 
-Program governance:
+## 7. Completion protocol
 
-- `governance/program/PROGRAM_CHARTER_V2.md`;
-- `governance/program/OPERATING_MODEL_V2.md`;
-- `governance/program/PROGRAM_WBS_V2.md`;
-- `governance/program/REPOSITORY_STRUCTURE_V2.md`.
+Material program task is complete only after deliverable, backlog, canonical state, human status, next-step, AI handoff and validator/entrypoints where relevant are synchronized.
 
-Methodology:
+## 8. Проверка восстановления контекста
 
-- `governance/methodology/STRATEGY_LIFECYCLE_V2.md`;
-- `governance/methodology/RESEARCH_METHODOLOGY_V1.md`;
-- `governance/methodology/templates/`.
-
-Execution queue:
-
-- `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-
-Legacy/reference:
-
-- `legacy/v1/README.md`;
-- `legacy/v1/MIGRATION_INDEX.md`;
-- `legacy/v1/CARRYOVER.md`.
-
-## 7. Запреты и boundaries
-
-Без явного OWNER decision нельзя:
-
-- выделять real capital;
-- утверждать Strategy Risk Mandate;
-- разрешать demo/live admission;
-- менять allocation/scaling;
-- выдумывать broker/jurisdiction/instrument/return/risk limits;
-- объявлять exploratory result formal evidence;
-- ослаблять independent evidence rules;
-- вводить martingale, unlimited averaging или rescue funding.
-
-Reference Strategy #1 выбирается не в M1-001, а позже после M1/M2 readiness согласно WBS.
-
-## 8. Completion protocol
-
-Material program task не считается завершённой до синхронизации:
-
-1. основного deliverable;
-2. `governance/backlog/PROGRAM_BACKLOG_V2.md`;
-3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`;
-4. `01_СТАТУС_ПРОЕКТА.md`;
-5. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
-6. `AI_HANDOFF.md`;
-7. entrypoints/validator при изменении invariants.
-
-## 9. Проверка восстановления контекста
-
-Новый агент должен ответить без догадок:
-
-- Что такое ATS? — Strategy Factory program.
-- Какой milestone завершён? — M0 Program Rebaseline.
-- Текущая phase? — `M1_RESEARCH_METHODOLOGY` / Research Factory.
-- Что делать следующим? — `ATS2-M1-001`.
-- Какой next artifact? — `governance/methodology/IDEA_INTAKE_PROCESS.md`.
-- Можно ли сейчас выбирать Reference Strategy #1 или real allocation? — нет.
+- Current phase? — `M1_RESEARCH_METHODOLOGY`.
+- Last completed? — `ATS2-M1-001`, `governance/methodology/IDEA_INTAKE_PROCESS.md`.
+- Next task? — `ATS2-M1-002`.
+- Next artifact? — `governance/methodology/HYPOTHESIS_MODEL.md`.
+- Ideas registered by process test? — `0`.
+- Can screening be treated as edge evidence? — no.
