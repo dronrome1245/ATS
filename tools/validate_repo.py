@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ATS repository validator after M2 Reference Consumer Profile."""
+"""ATS repository validator after M2 Research Stack ADR."""
 
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ REVIEW_DECISIONS = "governance/methodology/RESEARCH_REVIEW_DECISIONS.md"
 REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
+RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 HEADER = (
     "experiment_id", "status", "research_stage", "evidence_class",
     "qualified_evidence_class", "idea_id", "hypothesis_id", "candidate_id",
@@ -33,11 +34,11 @@ QUALIFIED = {
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
-        M1_EXIT, CONSUMER_PROFILE,
+        M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
-        "reference_consumer_profile",
+        "reference_consumer_profile", "research_stack_adr",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
@@ -72,6 +73,11 @@ def configure() -> None:
         "Deterministic replay/backtest contract", "Cost-model consumer contract",
         "Experiment integration", "M2 acceptance fixture", "ATS2-M2-001",
     )
+    core.CONTENT_MARKERS[RESEARCH_STACK_ADR] = (
+        "Status:** ACCEPTED", "CPython 3.13 series", "uv.lock",
+        "Pydantic v2", "PyYAML 6.x", "NumPy 2.x", "M2 is **not DataFrame-first**",
+        "Alternatives considered", "ATS2-M2-002 — Reproducible environment",
+    )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
         "`WBS-2.0`", "Reference Consumer Profile", "`WBS-2.1`",
         "Consumer Profile", "Reference Strategy #1 ещё не выбрана",
@@ -80,7 +86,8 @@ def configure() -> None:
         "Dataset Manifests", "M2 boundary", "Reference Strategy #1 remains M3 work",
     )
     core.CONTENT_MARKERS["src/README.md"] = (
-        "M2_RESEARCH_PLATFORM_MVP", "ATS2-M2-001", "broker/live execution path",
+        "ADR-0001-RESEARCH-STACK.md", "CPython 3.13 series", "uv.lock",
+        "src/ats/", "ATS2-M2-002",
     )
     core.CONTENT_MARKERS["reports/README.md"] = (
         "source_class", "qualified_evidence_class", "WBS-2.8",
@@ -124,9 +131,10 @@ def main() -> int:
         "M2_RESEARCH_PLATFORM_MVP: IN_PROGRESS", "exit_decision: PASS",
         'm1_exit_review: "governance/program/M1_EXIT_REVIEW.md"',
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
-        'current_task: "ATS2-M2-001"', 'current_ready_task: "ATS2-M2-001"',
-        'current_wbs: "WBS-2.1"', "reference_strategy_selection_allowed: false",
-        'last_completed_task_id: "ATS2-M2-000"',
+        'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
+        'last_completed_task_id: "ATS2-M2-001"',
+        'current_task: "ATS2-M2-002"', 'current_ready_task: "ATS2-M2-002"',
+        'current_wbs: "WBS-2.2"', "reference_strategy_selection_allowed: false",
         "experiments_registered: 0", "physical_migration_complete: true",
         "thirteen_gate_model_is_program_roadmap: false",
     ):
@@ -183,11 +191,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-000") != "DONE":
-        core.fail("M2-000 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-001") != "DONE":
+        core.fail("M2-001 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-001") != "READY":
-        core.fail("M2-001 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-002") != "READY":
+        core.fail("M2-002 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
