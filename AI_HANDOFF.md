@@ -13,53 +13,56 @@
 
 ## Last completed
 
-`ATS2-M2-000 — Reference Consumer Profile` — `DONE`.
+`ATS2-M2-001 — Research stack ADR` — `DONE`.
 
 Canonical artifact:
 
-`governance/program/REFERENCE_CONSUMER_PROFILE.md`
+`governance/decisions/ADR-0001-RESEARCH-STACK.md`
 
-Reference consumer contract:
+Accepted M2 technology baseline:
 
-- one finite deterministic ordered research/event stream per run;
-- stable Dataset Manifest and explicit timestamp/order semantics;
-- broker-independent Strategy/Research decision interface;
-- deterministic replay/backtest;
-- explicit cost inputs with no invented universal defaults;
-- machine-readable standard results/analytics;
-- integration with registered Experiment manifest/result/conclusion;
-- reproducible binding of code/environment/data/config/costs/result;
-- deterministic synthetic software fixture for platform testing only.
+- CPython 3.13 series;
+- `pyproject.toml` + uv + committed `uv.lock`;
+- Pydantic v2 + PyYAML at machine-contract boundaries;
+- NumPy 2.x for baseline numerical analytics;
+- typed ordered-record/event replay contract, not DataFrame-first core semantics;
+- initial CSV/JSON/YAML formats behind interfaces;
+- pytest + Ruff quality gates;
+- planned package boundary `src/ats/{schemas,data,strategy,replay,costs,analytics,runner}`.
 
-The fixture is not a research entity or evidence.
+Deferred until a real consumer requires them: pandas, Polars, PyArrow, DuckDB, external backtesting frameworks, mandatory Docker, Rust/C++ core, broker/live adapters, news ingestion, portfolio/distributed infrastructure.
 
-WBS now contains `WBS-2.0`; `WBS-2.1` depends on the Consumer Profile rather than an unselected Reference Strategy #1.
-
-M2-facing `data/`, `src/` and `reports/` policies are aligned with ATS v2.
+Reference Strategy #1 is still not selected.
 
 ## Current ready task
 
-`ATS2-M2-001 — Research stack ADR`
+`ATS2-M2-002 — Reproducible environment`
 
 Canonical next artifact:
 
-`governance/decisions/ADR-0001-RESEARCH-STACK.md`
+`governance/program/RESEARCH_ENVIRONMENT_SPEC.md`
 
-Goal: choose the smallest viable research technology stack that satisfies the Reference Consumer Profile.
+Required executable environment artifacts:
 
-## M2-001 must decide
+- `pyproject.toml`;
+- `.python-version`;
+- committed `uv.lock`.
 
-- research language/runtime;
-- environment/package/lock approach;
-- data representation/loading baseline;
-- config/manifest parsing;
-- package/module boundaries;
-- test framework and deterministic fixture approach;
-- only the numerical/data dependencies actually justified;
-- local/CI reproducibility;
-- external dataset storage/manifests policy;
-- rejected heavier alternatives and trade-offs;
-- explicit exclusion of broker/live/portfolio/news/distributed/GUI requirements unless separately justified later.
+Goal: pin the exact runtime/dependency environment and documented `uv sync` / `uv run` workflow before implementing later M2 platform capabilities.
+
+## M2-002 must define/materialize
+
+- exact CPython 3.13 patch;
+- project metadata / `requires-python`;
+- exact runtime/dev dependency resolution;
+- frozen uv lock workflow;
+- clean environment setup command;
+- canonical validator/test/lint/format commands;
+- environment/version fingerprint;
+- CI boundary for governance validator versus platform tests;
+- update policy for Python/dependency/lock changes.
+
+Do not implement Dataset Manifest/loader/Strategy API/replay as part of M2-002 except minimal scaffolding required to prove environment/tool execution.
 
 ## Read order
 
@@ -67,10 +70,10 @@ Goal: choose the smallest viable research technology stack that satisfies the Re
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
-6. `governance/program/PROGRAM_WBS_V2.md`.
-7. `governance/program/OPERATING_MODEL_V2.md`.
-8. current Experiment/Data/Repository structure docs as needed.
+5. `governance/decisions/ADR-0001-RESEARCH-STACK.md`.
+6. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
+7. `governance/program/PROGRAM_WBS_V2.md`.
+8. `.github/workflows/validate.yml` and repository tool/readme files as needed.
 
 ## Boundary
 
@@ -79,8 +82,9 @@ M2 builds research infrastructure only. Do not select Reference Strategy #1, mar
 ## Recovery check
 
 - Current milestone: `M2_RESEARCH_PLATFORM_MVP`.
-- Last completed: `ATS2-M2-000`.
-- Next task: `ATS2-M2-001`.
-- Next artifact: `governance/decisions/ADR-0001-RESEARCH-STACK.md`.
+- Last completed: `ATS2-M2-001`.
+- Next task: `ATS2-M2-002`.
+- Next artifact: `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`.
+- Stack ADR accepted? — yes.
 - Reference Strategy #1 selection allowed now? — no.
 - Pipeline counts remain zero? — yes.
