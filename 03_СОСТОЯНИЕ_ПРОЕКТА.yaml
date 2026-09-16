@@ -5,7 +5,7 @@ program:
   phase: M2_RESEARCH_PLATFORM_MVP
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-15"
+  updated_on: "2026-09-16"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -37,6 +37,7 @@ model:
   evidence_taxonomy: "governance/methodology/EVIDENCE_TAXONOMY.md"
   research_review_protocol: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
+  research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
@@ -45,11 +46,11 @@ model:
   m1_exit_review: "governance/program/M1_EXIT_REVIEW.md"
 
 current:
-  focus: "Choose minimum M2 research technology stack"
-  last_completed_task_id: "ATS2-M2-000"
-  last_completed_artifact: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
-  next_artifact: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
-  next_task_id: "ATS2-M2-001"
+  focus: "Materialize reproducible M2 research environment"
+  last_completed_task_id: "ATS2-M2-001"
+  last_completed_artifact: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
+  next_artifact: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
+  next_task_id: "ATS2-M2-002"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -100,16 +101,18 @@ m2:
   objective: "Build the minimum reproducible Shared Research Platform MVP"
   completed_tasks:
     - "ATS2-M2-000"
+    - "ATS2-M2-001"
   completed_artifacts:
     - "governance/program/REFERENCE_CONSUMER_PROFILE.md"
-  current_task: "ATS2-M2-001"
-  current_wbs: "WBS-2.1"
+    - "governance/decisions/ADR-0001-RESEARCH-STACK.md"
+  current_task: "ATS2-M2-002"
+  current_wbs: "WBS-2.2"
   reference_strategy_selection_allowed: false
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M2-001"
-  current_ready_wbs: "WBS-2.1"
+  current_ready_task: "ATS2-M2-002"
+  current_ready_wbs: "WBS-2.2"
 
 handoff_policy:
   update_after_material_step: true
