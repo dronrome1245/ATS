@@ -14,23 +14,21 @@
 
 Последняя завершённая task:
 
-`ATS2-M2-001 — Research stack ADR`.
-
-Artifact:
-
-`governance/decisions/ADR-0001-RESEARCH-STACK.md`.
-
-M2 baseline: CPython 3.13, uv/pyproject/uv.lock, Pydantic v2 + PyYAML, NumPy 2.x, typed ordered-record replay semantics, pytest + Ruff. DataFrame-first/live/broker/heavy distributed stacks не входят в baseline.
-
-Следующая ready task:
-
 `ATS2-M2-002 — Reproducible environment`.
 
-Следующий artifact:
+Canonical specification:
 
 `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`.
 
-Executable environment artifacts: `pyproject.toml`, `.python-version`, committed `uv.lock`.
+M2 environment baseline: Linux x86_64, CPython `3.13.15`, uv `0.12.13`, exact locked Pydantic/PyYAML/NumPy/pytest/Ruff dependencies, `uv sync --frozen`, environment fingerprint and non-market baseline test.
+
+Следующая ready task:
+
+`ATS2-M2-003 — Dataset manifest support`.
+
+Следующий artifact:
+
+`governance/program/DATASET_MANIFEST_SPEC.md`.
 
 ## Canonical ATS v2
 
@@ -50,9 +48,11 @@ Executable environment artifacts: `pyproject.toml`, `.python-version`, committed
 3. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 4. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-6. Для текущей работы: `governance/decisions/ADR-0001-RESEARCH-STACK.md` и `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
-7. Проверка repository: `python tools/validate_repo.py`.
+6. Environment: `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`, `pyproject.toml`, `.python-version`, `uv.lock`.
+7. Setup: `uv sync --frozen`.
+8. Проверка repository: `uv run --frozen python tools/validate_repo.py`.
+9. Environment test: `uv run --frozen pytest tests/test_environment_baseline.py`.
 
 ## Boundary
 
-M2 materializes safe research infrastructure only. Reference Strategy #1, broker/live environment, capital and risk limits remain outside current scope.
+M2 materializes safe research infrastructure only. Reference Strategy #1, broker/live environment, capital and risk limits remain outside current scope. Dataset Manifest support is next; base loader/replay are not yet implemented.
