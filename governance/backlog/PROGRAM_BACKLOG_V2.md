@@ -17,8 +17,8 @@ Backlog превращает Program WBS в исполнимую очередь 
 2. `ATS2-M1-001…011` — M1 Research Methodology — `DONE / PASS`.
 3. `ATS2-M2-000` — Reference Consumer Profile — `DONE`.
 4. `ATS2-M2-001` — Research stack ADR — `DONE`.
-5. `ATS2-M2-002` — Reproducible environment — `READY`.
-6. `ATS2-M2-003` — Dataset manifest support — `NOT_STARTED`; dependency satisfied, activation deferred by WIP discipline.
+5. `ATS2-M2-002` — Reproducible environment — `DONE`.
+6. `ATS2-M2-003` — Dataset manifest support — `READY`.
 7. `ATS2-M2-004` — Base data loader — `BLOCKED` by M2-003.
 8. `ATS2-M2-005` — Minimal Strategy research interface — `NOT_STARTED`; dependency satisfied, activation deferred by WIP discipline.
 9. `ATS2-M2-006` — Deterministic backtest/replay — `BLOCKED` by M2-004/M2-005.
@@ -28,7 +28,7 @@ Backlog превращает Program WBS в исполнимую очередь 
 13. `ATS2-M2-010` — Research platform tests — `BLOCKED` by M2-004…009.
 14. `ATS2-M2-011` — M2 Exit — `BLOCKED` by M2-000…010.
 
-Program-level current next task — `ATS2-M2-002`.
+Program-level current next task — `ATS2-M2-003`.
 
 ## 3. M0 / M1
 
@@ -47,8 +47,8 @@ Canonical exits:
 |---|---|---:|---|---|---|---|
 | `ATS2-M2-000` | `WBS-2.0` | P1 | DONE | M1 Exit PASS | `governance/program/REFERENCE_CONSUMER_PROFILE.md` | Minimum abstract ordered-data research consumer is defined without choosing a concrete market/instrument/strategy/live environment; WBS-2.0 exists and WBS-2.1 is driven by this profile |
 | `ATS2-M2-001` | `WBS-2.1` | P1 | DONE | M2-000 | `governance/decisions/ADR-0001-RESEARCH-STACK.md` | Accepted stack is CPython 3.13 + uv/pyproject/uv.lock, Pydantic v2 + PyYAML boundary validation, NumPy 2.x analytics, typed ordered-record replay semantics, pytest + Ruff; heavier data/live frameworks are deferred until a real consumer needs them |
-| `ATS2-M2-002` | `WBS-2.2` | P1 | READY | M2-001 | `governance/program/RESEARCH_ENVIRONMENT_SPEC.md` + `pyproject.toml` + `.python-version` + committed `uv.lock` | Exact CPython patch and dependencies are pinned; clean `uv sync --frozen`/equivalent produces a supported environment; documented `uv run` commands execute repository validation/platform test baseline and emit environment/version fingerprint |
-| `ATS2-M2-003` | `WBS-2.3` | P1 | NOT_STARTED | M2-001 | Dataset manifest support | Dependency is satisfied; activation deferred under WIP discipline until M2-002 baseline is complete. Dataset identity/source/period/timestamp/transformation context becomes typed and stable |
+| `ATS2-M2-002` | `WBS-2.2` | P1 | DONE | M2-001 | `governance/program/RESEARCH_ENVIRONMENT_SPEC.md` + `pyproject.toml` + `.python-version` + `uv.lock` + environment fingerprint/test | Canonical environment is Linux x86_64 + CPython 3.13.15 + uv 0.12.13; direct/transitive dependencies and install artifacts are locked; `uv sync --frozen` / `uv run --frozen` workflow, fingerprint and environment test are defined; no later platform capability is implemented prematurely |
+| `ATS2-M2-003` | `WBS-2.3` | P1 | READY | M2-001, M2-002 | `governance/program/DATASET_MANIFEST_SPEC.md` + Dataset Manifest template/schema/tests | Define stable dataset ID/version, source/snapshot identity, schema/reference format, coverage, timezone/timestamp and information-availability semantics, ordering/tie-break rules, duplicate/missing/bad-data policy, transformation lineage, checksum/integrity and known limitations; validate with typed non-market fixtures without inventing a vendor/instrument/dataset |
 | `ATS2-M2-004` | `WBS-2.4` | P1 | BLOCKED | M2-003 | Base data loader | Reference-format data load deterministically with ordering/time semantics |
 | `ATS2-M2-005` | `WBS-2.5` | P1 | NOT_STARTED | M2-001 | Minimal Strategy research interface | Dependency is satisfied; activation deferred under WIP discipline. Research logic consumes ordered observations and emits serializable decisions without broker-specific code |
 | `ATS2-M2-006` | `WBS-2.6` | P1 | BLOCKED | M2-004, M2-005 | Deterministic backtest/replay core | Same frozen input context produces reproducible decisions and result/trade/effect output |
@@ -58,7 +58,7 @@ Canonical exits:
 | `ATS2-M2-010` | `WBS-2.10` | P1 | BLOCKED | M2-004…009 | Research platform tests | Critical calculations have deterministic non-market fixtures/regression checks |
 | `ATS2-M2-011` | M2 Exit | P1 | BLOCKED | M2-000…010 | M2 exit decision | Minimal reusable vertical research stack can reproduce an end-to-end baseline registered experiment workflow |
 
-`M2-000`/`M2-001` still do not select Reference Strategy #1. The profile defines the consumer contract and the ADR selects only the minimum research technology stack.
+`M2-000…002` still do not select Reference Strategy #1. The profile defines the consumer contract, the ADR selects the research stack and M2-002 materializes its reproducible environment only.
 
 ## 5. M3 and later
 
@@ -70,10 +70,10 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 Current program-level ready task:
 
-`ATS2-M2-002 — Reproducible environment`.
+`ATS2-M2-003 — Dataset manifest support`.
 
 Canonical next artifact:
 
-`governance/program/RESEARCH_ENVIRONMENT_SPEC.md`.
+`governance/program/DATASET_MANIFEST_SPEC.md`.
 
-The task must materialize `ADR-0001-RESEARCH-STACK.md` with an exact supported CPython patch, `pyproject.toml`, `.python-version`, committed `uv.lock`, reproducible install/run commands and CI-ready test/tool commands without implementing later loader/replay capabilities prematurely.
+M2-003 must define and implement the typed Dataset Manifest boundary needed by the Consumer Profile before any base loader is built. Structural tests use deterministic non-market fixtures only and do not create research evidence.
