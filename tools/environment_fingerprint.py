@@ -16,6 +16,7 @@ PACKAGES = (
     "pytest",
     "ruff",
 )
+UV_VERSION_COMMAND = "uv --version"
 
 
 def package_version(name: str) -> str:
@@ -28,7 +29,7 @@ def package_version(name: str) -> str:
 def uv_version() -> str:
     try:
         completed = subprocess.run(
-            ["uv", "--version"],
+            UV_VERSION_COMMAND.split(),
             check=True,
             capture_output=True,
             text=True,
