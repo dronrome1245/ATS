@@ -1,0 +1,30 @@
+[project]
+name = "ats-research-platform"
+version = "0.0.0"
+description = "ATS v2 Research Platform MVP"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "numpy==2.5.3",
+  "pydantic==2.13.5",
+  "PyYAML==6.0.3",
+]
+
+[dependency-groups]
+dev = [
+  "pytest==9.1.1",
+  "ruff==0.16.7",
+]
+
+[tool.uv]
+package = false
+required-version = "==0.12.13"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
