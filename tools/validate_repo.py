@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""ATS repository validator for the accepted M2 Research Stack ADR baseline."""
+"""ATS repository validator after M2 reproducible-environment baseline."""
 
 from __future__ import annotations
 
 import csv
+import tomllib
 from pathlib import Path
 
 import validate_repo_core as core
@@ -16,6 +17,14 @@ REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
+ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
+ENVIRONMENT_FILES = (
+    "pyproject.toml",
+    ".python-version",
+    "uv.lock",
+    "tools/environment_fingerprint.py",
+    "tests/test_environment_baseline.py",
+)
 HEADER = (
     "experiment_id", "status", "research_stage", "evidence_class",
     "qualified_evidence_class", "idea_id", "hypothesis_id", "candidate_id",
@@ -29,16 +38,25 @@ QUALIFIED = {
     "DEMO_SHADOW_EVIDENCE", "MINIMAL_LIVE_EVIDENCE", "ACTIVE_LIVE_EVIDENCE",
     "PORTFOLIO_EVIDENCE", "SCALING_EVIDENCE",
 }
+DIRECT_RUNTIME = {
+    "numpy==2.5.3",
+    "pydantic==2.13.5",
+    "PyYAML==6.0.3",
+}
+DIRECT_DEV = {
+    "pytest==9.1.1",
+    "ruff==0.16.7",
+}
 
 
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
-        M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR,
+        M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
-        "reference_consumer_profile", "research_stack_adr",
+        "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
@@ -78,6 +96,11 @@ def configure() -> None:
         "Pydantic v2", "PyYAML 6.x", "NumPy 2.x", "M2 is **not DataFrame-first**",
         "Alternatives considered", "ATS2-M2-002 — Reproducible environment",
     )
+    core.CONTENT_MARKERS[ENVIRONMENT_SPEC] = (
+        "CPython", "3.13.15", "Linux x86_64", "uv == 0.12.13",
+        "uv sync --frozen", "environment_fingerprint.py", "test_environment_baseline.py",
+        "ATS2-M2-003 — Dataset manifest support",
+    )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
         "`WBS-2.0`", "Reference Consumer Profile", "`WBS-2.1`",
         "Consumer Profile", "Reference Strategy #1 ещё не выбрана",
@@ -86,8 +109,12 @@ def configure() -> None:
         "Dataset Manifests", "M2 boundary", "Reference Strategy #1 remains M3 work",
     )
     core.CONTENT_MARKERS["src/README.md"] = (
-        "ADR-0001-RESEARCH-STACK.md", "CPython 3.13 series", "uv.lock",
-        "src/ats/", "ATS2-M2-002",
+        "ADR-0001-RESEARCH-STACK.md", "RESEARCH_ENVIRONMENT_SPEC.md",
+        "CPython `3.13.15`", "uv `0.12.13`", "src/ats/", "ATS2-M2-003",
+    )
+    core.CONTENT_MARKERS["tests/README.md"] = (
+        "test_environment_baseline.py", "uv run --frozen pytest",
+        "Dataset Manifest validation", "synthetic non-market fixtures",
     )
     core.CONTENT_MARKERS["reports/README.md"] = (
         "source_class", "qualified_evidence_class", "WBS-2.8",
@@ -105,6 +132,94 @@ def configure() -> None:
     core.CONTENT_MARKERS["tools/search_experiments.py"] = (
         "REGISTRY.csv", "qualified_evidence_class", "--contains",
     )
+    core.CONTENT_MARKERS["tools/environment_fingerprint.py"] = (
+        "platform.python_implementation", "platform.python_version", "uv --version",
+    )
+    core.CONTENT_MARKERS["tests/test_environment_baseline.py"] = (
+        "3, 13, 15", '"numpy": "2.5.3"', '"pydantic": "2.13.5"',
+        '"PyYAML": "6.0.3"', '"pytest": "9.1.1"', '"ruff": "0.16.7"',
+    )
+
+
+def validate_environment(repo: Path) -> int:
+    blocking = 0
+
+    python_version = (repo / ".python-version").read_text(encoding="utf-8").strip()
+    if python_version != "3.13.15":
+        core.fail(f".python-version must be exactly 3.13.15, found {python_version!r}")
+        blocking += 1
+
+    with (repo / "pyproject.toml").open("rb") as handle:
+        project = tomllib.load(handle)
+
+    project_table = project.get("project", {})
+    if project_table.get("requires-python") != ">=3.13,<3.14":
+        core.fail("pyproject project.requires-python must be >=3.13,<3.14")
+        blocking += 1
+    if set(project_table.get("dependencies", [])) != DIRECT_RUNTIME:
+        core.fail("pyproject runtime dependency pins do not match M2 baseline")
+        blocking += 1
+    if set(project.get("dependency-groups", {}).get("dev", [])) != DIRECT_DEV:
+        core.fail("pyproject dev dependency pins do not match M2 baseline")
+        blocking += 1
+
+    uv_table = project.get("tool", {}).get("uv", {})
+    if uv_table.get("package") is not False:
+        core.fail("tool.uv.package must remain false for current M2 baseline")
+        blocking += 1
+    if uv_table.get("required-version") != "==0.12.13":
+        core.fail("tool.uv.required-version must be ==0.12.13")
+        blocking += 1
+    expected_environment = "sys_platform == 'linux' and platform_machine == 'x86_64'"
+    if uv_table.get("environments") != [expected_environment]:
+        core.fail("tool.uv.environments must define only canonical Linux x86_64 target")
+        blocking += 1
+
+    lock = (repo / "uv.lock").read_text(encoding="utf-8")
+    for marker in (
+        'requires-python = ">=3.13,<3.14"',
+        'name = "numpy"\nversion = "2.5.3"',
+        'name = "pydantic"\nversion = "2.13.5"',
+        'name = "pydantic-core"\nversion = "2.46.5"',
+        'name = "pyyaml"\nversion = "6.0.3"',
+        'name = "pytest"\nversion = "9.1.1"',
+        'name = "ruff"\nversion = "0.16.7"',
+        "numpy-2.5.3-cp313-cp313-manylinux_2_27_x86_64",
+        "pydantic_core-2.46.5-cp313-cp313-manylinux_2_17_x86_64",
+        "pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64",
+        "ruff-0.16.7-py3-none-manylinux_2_17_x86_64",
+        'hash = "sha256:',
+    ):
+        if marker not in lock:
+            core.fail(f"uv.lock environment marker missing: {marker}")
+            blocking += 1
+
+    workflow = (repo / ".github/workflows/validate.yml").read_text(encoding="utf-8")
+    for marker in (
+        "actions/checkout@v7",
+        "actions/setup-python@v7",
+        'python-version-file: ".python-version"',
+        "astral-sh/setup-uv@v10.1.0",
+        'version: "0.12.13"',
+        "uv sync --frozen",
+        "uv run --frozen python tools/validate_repo.py",
+        "uv run --frozen python tools/environment_fingerprint.py",
+        "uv run --frozen pytest tests/test_environment_baseline.py",
+        "uv run --frozen ruff check",
+    ):
+        if marker not in workflow:
+            core.fail(f"M2 frozen CI marker missing: {marker}")
+            blocking += 1
+
+    for relative in ("tools/environment_fingerprint.py", "tests/test_environment_baseline.py"):
+        path = repo / relative
+        try:
+            compile(path.read_text(encoding="utf-8"), str(path), "exec")
+        except SyntaxError as exc:
+            core.fail(f"Python syntax error in {relative}: {exc}")
+            blocking += 1
+
+    return blocking
 
 
 def main() -> int:
@@ -132,9 +247,11 @@ def main() -> int:
         'm1_exit_review: "governance/program/M1_EXIT_REVIEW.md"',
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
         'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
-        'last_completed_task_id: "ATS2-M2-001"',
-        'current_task: "ATS2-M2-002"', 'current_ready_task: "ATS2-M2-002"',
-        'current_wbs: "WBS-2.2"', "reference_strategy_selection_allowed: false",
+        'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
+        'last_completed_task_id: "ATS2-M2-002"',
+        'current_task: "ATS2-M2-003"', 'current_ready_task: "ATS2-M2-003"',
+        'current_wbs: "WBS-2.3"', "reference_strategy_selection_allowed: false",
+        'canonical_host: LINUX_X86_64', 'python: "3.13.15"', 'uv: "0.12.13"',
         "experiments_registered: 0", "physical_migration_complete: true",
         "thirteen_gate_model_is_program_roadmap: false",
     ):
@@ -164,6 +281,7 @@ def main() -> int:
 
     blocking += core.validate_content_markers(repo)
     blocking += core.validate_registry(repo)
+    blocking += validate_environment(repo)
 
     with (repo / "experiments/REGISTRY.csv").open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
@@ -191,11 +309,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-001") != "DONE":
-        core.fail("M2-001 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-002") != "DONE":
+        core.fail("M2-002 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-002") != "READY":
-        core.fail("M2-002 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-003") != "READY":
+        core.fail("M2-003 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
