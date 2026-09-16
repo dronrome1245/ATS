@@ -38,6 +38,7 @@ model:
   research_review_protocol: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
+  research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
@@ -46,11 +47,11 @@ model:
   m1_exit_review: "governance/program/M1_EXIT_REVIEW.md"
 
 current:
-  focus: "Materialize reproducible M2 research environment"
-  last_completed_task_id: "ATS2-M2-001"
-  last_completed_artifact: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
-  next_artifact: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
-  next_task_id: "ATS2-M2-002"
+  focus: "Implement Dataset Manifest support"
+  last_completed_task_id: "ATS2-M2-002"
+  last_completed_artifact: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
+  next_artifact: "governance/program/DATASET_MANIFEST_SPEC.md"
+  next_task_id: "ATS2-M2-003"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -102,17 +103,31 @@ m2:
   completed_tasks:
     - "ATS2-M2-000"
     - "ATS2-M2-001"
+    - "ATS2-M2-002"
   completed_artifacts:
     - "governance/program/REFERENCE_CONSUMER_PROFILE.md"
     - "governance/decisions/ADR-0001-RESEARCH-STACK.md"
-  current_task: "ATS2-M2-002"
-  current_wbs: "WBS-2.2"
+    - "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
+    - "pyproject.toml"
+    - ".python-version"
+    - "uv.lock"
+    - "tools/environment_fingerprint.py"
+    - "tests/test_environment_baseline.py"
+  current_task: "ATS2-M2-003"
+  current_wbs: "WBS-2.3"
   reference_strategy_selection_allowed: false
+  environment:
+    canonical_host: LINUX_X86_64
+    python: "3.13.15"
+    uv: "0.12.13"
+    project_file: "pyproject.toml"
+    python_version_file: ".python-version"
+    lock_file: "uv.lock"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M2-002"
-  current_ready_wbs: "WBS-2.2"
+  current_ready_task: "ATS2-M2-003"
+  current_ready_wbs: "WBS-2.3"
 
 handoff_policy:
   update_after_material_step: true
