@@ -13,16 +13,20 @@ It fixes the runtime/tool/dependency versions and the canonical install/run comm
 
 This is research infrastructure only. It does not select Reference Strategy #1 and does not create a broker/live path.
 
-## 2. Supported runtime
+## 2. Supported runtime and host
 
-The exact M2 baseline runtime is:
+The exact M2 reproducibility baseline is:
 
 - implementation: `CPython`;
 - exact patch: `3.13.15`;
-- operational pin: root `.python-version`;
-- project compatibility range: `>=3.13,<3.14` in `pyproject.toml`.
+- canonical host: `Linux x86_64`;
+- operational Python pin: root `.python-version`;
+- project Python compatibility range: `>=3.13,<3.14` in `pyproject.toml`;
+- uv resolution environment: `sys_platform == 'linux' and platform_machine == 'x86_64'`.
 
-The compatibility range intentionally describes source/package compatibility across the 3.13 line. The supported reproducibility baseline is the exact patch in `.python-version`.
+The compatibility range describes source/package compatibility across the 3.13 line. Reproducibility claims for M2 are made against the exact Python patch and Linux x86_64 host above.
+
+Other desktop operating systems may be used for editing, but they are not declared reproducibility targets by M2-002. Cross-platform support can be added after a concrete need and corresponding test matrix exist.
 
 Free-threaded/experimental Python builds are out of scope for M2.
 
@@ -55,7 +59,7 @@ No dependency is added merely because it is common in data-science projects.
 
 ## 5. Locked transitive baseline
 
-The committed `uv.lock` fixes the full dependency graph used by the current direct pins, including:
+The committed `uv.lock` fixes the dependency graph used by the current direct pins, including:
 
 - `annotated-types == 0.8.0`;
 - `pydantic-core == 2.46.5`;
@@ -64,8 +68,11 @@ The committed `uv.lock` fixes the full dependency graph used by the current dire
 - `iniconfig == 2.3.0`;
 - `packaging == 26.3`;
 - `pluggy == 1.6.0`;
-- `Pygments == 2.21.0`;
-- `colorama == 0.4.6` on Windows through pytest's platform marker.
+- `Pygments == 2.21.0`.
+
+`colorama == 0.4.6` is retained in the lock because pytest declares it under the Windows marker, but it is not installed in the canonical Linux environment.
+
+For packages with platform-specific binaries, the lock includes Linux x86_64-compatible wheel URLs and SHA-256 hashes. Pure-Python dependencies use universal wheels.
 
 The lock is the canonical resolution. Direct/transitive versions must not be upgraded opportunistically during another M2 work package.
 
@@ -73,7 +80,7 @@ The lock is the canonical resolution. Direct/transitive versions must not be upg
 
 Prerequisite: install the project-required uv version using the official uv distribution mechanism.
 
-Then from repository root:
+Then from repository root on the supported host:
 
 ```bash
 uv python install 3.13.15
@@ -120,27 +127,30 @@ The fingerprint is diagnostic/reproducibility metadata. It is not market evidenc
 
 ## 9. CI contract
 
-The repository workflow must be able to perform the same frozen environment steps:
+The repository workflow uses the same supported environment contract:
 
 1. checkout repository;
 2. activate/install CPython `3.13.15`;
 3. install uv `0.12.13`;
-4. `uv sync --frozen`;
-5. run repository validator;
-6. emit environment fingerprint;
-7. run the M2 environment test baseline;
-8. run the configured Ruff check.
+4. run on Linux x86_64;
+5. `uv sync --frozen`;
+6. run repository validator;
+7. emit environment fingerprint;
+8. run the M2 environment test baseline;
+9. run the configured Ruff check.
 
 A CI scheduling/runner failure before steps execute is infrastructure failure, not a passing or failing repository validation result.
 
-## 10. Lock update procedure
+## 10. Lock verification and update procedure
 
-A dependency/runtime change requires an intentional environment update:
+The current lock has been structurally checked as TOML and with uv frozen-sync semantics on Linux x86_64: uv recognizes the selected wheel artifacts; in an offline empty cache the sync stops only because the wheel bytes are unavailable, not because a compatible distribution is missing.
+
+An intentional dependency/runtime change requires:
 
 1. record the reason and affected M2 capability;
 2. update exact direct pins or Python/uv pin;
-3. regenerate `uv.lock` with the approved uv version;
-4. run frozen sync from a clean environment;
+3. regenerate `uv.lock` with the approved uv version and network access;
+4. run frozen sync from a clean supported environment;
 5. run validator, tests, lint and fingerprint;
 6. commit `pyproject.toml`, `.python-version`, `uv.lock` and affected governance together.
 
@@ -164,8 +174,8 @@ Those require a later demonstrated consumer need.
 
 `ATS2-M2-002` is complete when:
 
-- exact CPython and uv versions are fixed;
-- `pyproject.toml`, `.python-version` and `uv.lock` are committed;
+- exact CPython, uv and canonical host platform are fixed;
+- `pyproject.toml`, `.python-version` and an installable-artifact `uv.lock` are committed;
 - direct and transitive environment versions are locked;
 - frozen setup/run commands are documented;
 - an environment fingerprint command exists;
