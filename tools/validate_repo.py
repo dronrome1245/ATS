@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ATS repository validator after M2 Research Stack ADR."""
+"""ATS repository validator for the accepted M2 Research Stack ADR baseline."""
 
 from __future__ import annotations
 
