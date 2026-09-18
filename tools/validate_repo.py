@@ -117,7 +117,7 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS["tools/verify_repo.py"] = (
         "ATS Local CI Gate", "repository validator", "ruff lint", "ruff format",
-        "pytest", "environment fingerprint", "ATS LOCAL CI:", "reports/local_ci",
+        "pytest", "environment fingerprint", "ATS LOCAL CI:", "LATEST.json",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "LATEST.json", "tools/verify_repo.py", "LOCAL_CI_GATE.md",
