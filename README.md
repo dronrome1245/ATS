@@ -62,13 +62,13 @@ Dataset Manifest baseline:
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 6. Dataset contract: `governance/program/DATASET_MANIFEST_SPEC.md`.
 7. Environment: `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`, `pyproject.toml`, `.python-version`, `uv.lock`.
-8. На Windows основной интерфейс проверки: запустить `ATS_CHECK.bat`.
-9. BAT сам обновит `main`, синхронизирует frozen environment, выполнит полный gate и создаст `reports/local_ci/LATEST_REPORT.txt`.
-10. Для диагностики/подтверждения отправлять ChatGPT именно `LATEST_REPORT.txt`.
+8. На Windows для текущей задачи запустить `ATS_TASK_CHECK.bat`.
+9. BAT сам обновит `main`, синхронизирует frozen environment, выполнит task-specific проверки и полный Local CI.
+10. Для диагностики/подтверждения отправлять ChatGPT `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
 ## Quality gate
 
-GitHub Actions не используется как completion gate. Политика: `governance/program/LOCAL_CI_GATE.md`. `ATS_CHECK.bat` должен завершиться PASS; shareable output находится в `reports/local_ci/LATEST_REPORT.txt`.
+GitHub Actions не используется как completion gate. Политика: `governance/program/LOCAL_CI_GATE.md`. `ATS_TASK_CHECK.bat` должен завершиться PASS; shareable output находится в `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
 ## Boundary
 
