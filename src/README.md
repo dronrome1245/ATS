@@ -50,4 +50,22 @@ The environment baseline is complete before platform implementation. The next pr
 - deterministic ordering/tie-break metadata;
 - quality, lineage and integrity metadata.
 
-The next implementation boundary is `ATS2-M2-004 — Base data loader`. The loader must consume this contract rather than inventing dataset semantics in code.
+`ATS2-M2-004 — Base data loader` is now materialized in `ats.data.loader`. It consumes the Dataset Manifest contract rather than inventing dataset semantics in code.
+
+
+## Base loader boundary
+
+Implemented loader behavior:
+
+- immutable `LoadedRecord` / `LoadedDataset`;
+- UTF-8 CSV reference format;
+- RFC3339 timezone-aware event and availability times;
+- deterministic ordering and tie-breaks;
+- explicit duplicate/malformed/out-of-order policies;
+- SHA-256 integrity verification;
+- manifest coverage enforcement;
+- stable manifest storage location in output instead of host-specific absolute paths.
+
+Generic missing-event inference is intentionally absent because the Manifest does not define a universal calendar/frequency.
+
+The next implementation boundary is `ATS2-M2-005 — Minimal Strategy research interface`, expected under `src/ats/strategy/`.
