@@ -22,9 +22,7 @@ It performs repository update, frozen environment sync and the task-specific pac
 
 The agent updates `tools/current_task_check.py` when the active task changes; the BAT remains stable.
 
-For a generic repository-only check, `ATS_CHECK.bat` remains available and writes `reports/local_ci/LATEST_REPORT.txt`.
-
-For normal task completion, OWNER should use `ATS_TASK_CHECK.bat` and send `CURRENT_TASK_REPORT.txt` instead of manually copying console commands/output.
+OWNER should use `ATS_TASK_CHECK.bat` and send `CURRENT_TASK_REPORT.txt` instead of manually copying console commands/output.
 
 ## Canonical commands
 
@@ -77,10 +75,6 @@ The stable task launcher writes the canonical shareable task report:
 
 `reports/local_ci/CURRENT_TASK_REPORT.txt`
 
-The generic repository launcher may also write:
-
-`reports/local_ci/LATEST_REPORT.txt`
-
 The report includes:
 
 - verification mode;
@@ -91,7 +85,7 @@ The report includes:
 - environment fingerprint when available;
 - overall PASS/FAIL.
 
-`LATEST.json`, `LATEST_REPORT.txt` and `CURRENT_TASK_REPORT.txt` are local runtime evidence and are ignored by Git. Canonical governance does not depend on committing machine-specific verification output.
+`LATEST.json` and `CURRENT_TASK_REPORT.txt` are local runtime evidence and are ignored by Git. Canonical governance does not depend on committing machine-specific verification output.
 
 ## Git hooks
 
