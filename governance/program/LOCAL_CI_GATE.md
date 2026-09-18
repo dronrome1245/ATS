@@ -10,9 +10,21 @@ ATS uses a local verification gate because hosted GitHub Actions is no longer pa
 
 GitHub remains the remote source-control repository. Repository correctness is verified on the canonical local environment before push.
 
+## Canonical Windows owner workflow
+
+The normal Windows workflow is one launcher from repository root:
+
+```bat
+ATS_CHECK.bat
+```
+
+The launcher performs `git pull --ff-only`, `uv sync --frozen` and the full Local CI Gate, then writes `reports/local_ci/LATEST_REPORT.txt`.
+
+The OWNER should normally send that TXT report to ChatGPT instead of manually copying console commands/output.
+
 ## Canonical commands
 
-Full completion gate:
+Direct full completion gate, primarily for tooling/hooks:
 
 ```bash
 uv run --frozen python tools/verify_repo.py
@@ -53,9 +65,13 @@ It may run with an uncommitted working tree and therefore is not sufficient to c
 
 ## Local audit report
 
-Each run writes:
+Each full Python gate writes:
 
 `reports/local_ci/LATEST.json`
+
+The Windows launcher writes a shareable combined report:
+
+`reports/local_ci/LATEST_REPORT.txt`
 
 The report includes:
 
@@ -67,7 +83,7 @@ The report includes:
 - environment fingerprint when available;
 - overall PASS/FAIL.
 
-`LATEST.json` is local runtime evidence and is ignored by Git. Canonical governance does not depend on committing machine-specific verification output.
+`LATEST.json` and `LATEST_REPORT.txt` are local runtime evidence and are ignored by Git. Canonical governance does not depend on committing machine-specific verification output.
 
 ## Git hooks
 
