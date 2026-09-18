@@ -275,8 +275,12 @@ def validate_environment(repo: Path) -> int:
     if set(project.get("dependency-groups", {}).get("dev", [])) != DIRECT_DEV:
         core.fail("pyproject dev dependency pins do not match M2 baseline")
         blocking += 1
-    if project.get("tool", {}).get("pytest", {}).get("ini_options", {}).get("pythonpath") != ["src"]:
+    pytest_options = project.get("tool", {}).get("pytest", {}).get("ini_options", {})
+    if pytest_options.get("pythonpath") != ["src"]:
         core.fail("pytest pythonpath must expose src for ATS package tests")
+        blocking += 1
+    if pytest_options.get("addopts") != "-p no:cacheprovider":
+        core.fail("pytest cacheprovider must remain disabled for the local Windows workflow")
         blocking += 1
 
     uv_table = project.get("tool", {}).get("uv", {})
