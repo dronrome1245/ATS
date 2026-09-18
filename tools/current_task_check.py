@@ -8,8 +8,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M2-004"
-TASK_NAME = "Base data loader"
+TASK_ID = "ATS2-M2-005"
+TASK_NAME = "Minimal Strategy research interface"
 
 
 def run(name: str, command: list[str]) -> bool:
@@ -36,8 +36,8 @@ def main() -> int:
 
     checks = [
         (
-            "M2-004 Base Data Loader tests",
-            [sys.executable, "-m", "pytest", "tests/test_data_loader.py", "-q"],
+            "M2-005 Strategy Research Interface tests",
+            [sys.executable, "-m", "pytest", "tests/test_strategy_interface.py", "-q"],
         ),
         (
             "repository validator",
