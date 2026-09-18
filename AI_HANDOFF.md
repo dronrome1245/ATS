@@ -11,71 +11,73 @@
 - M1: `COMPLETED / PASS`.
 - Real trading, demo, allocation and scaling remain disallowed.
 
-## Last completed
+## Last implemented work package
 
-`ATS2-M2-003 — Dataset manifest support` — `DONE`.
+`ATS2-M2-004 — Base data loader`.
 
-Canonical specification:
-
-`governance/program/DATASET_MANIFEST_SPEC.md`
-
-Materialized Dataset Manifest boundary:
-
-- template: `data/manifests/DATASET_TEMPLATE.yaml`;
-- typed immutable model: `src/ats/schemas/dataset_manifest.py`;
-- safe YAML loader: `load_dataset_manifest`;
-- tests: `tests/test_dataset_manifest.py`;
-- pytest source path: `src/`.
-
-Contract covers stable dataset ID/version, source/snapshot, storage/schema reference, timezone-aware coverage, event-time versus information-availability semantics, deterministic ordering/tie-break, explicit quality policy, transformation lineage, integrity metadata and known limitations.
-
-Material source/coverage/schema/time/order/quality/transformation changes require a new `dataset_version`.
-
-The canonical template is synthetic non-market metadata only. It is not an Idea, Hypothesis, Experiment, Strategy or trading evidence.
-
-## Environment / quality gate
-
-Supported hosts:
-
-- Windows x86_64 — primary local host;
-- Linux x86_64 — supported secondary host.
-
-Runtime:
-
-- CPython `3.13.15`;
-- uv `0.12.13`;
-- frozen `uv.lock`.
-
-Canonical Windows OWNER workflow:
-
-`ATS_TASK_CHECK.bat`
-
-The BAT is stable. It performs fast-forward pull and frozen environment sync, then executes task-specific `tools/current_task_check.py` plus the full Local CI Gate. Shareable report: `reports/local_ci/CURRENT_TASK_REPORT.txt`.
-
-For the pending M2-003 closure check, `tools/current_task_check.py` validates Dataset Manifest tests + repository validator + full Local CI. After PASS it should be updated for M2-004 without changing the BAT. GitHub Actions is not used as a completion gate.
-
-## Current ready task
-
-`ATS2-M2-004 — Base data loader`
-
-Canonical next artifact:
+Primary artifact:
 
 `src/ats/data/loader.py`
 
-Goal: consume a validated Dataset Manifest and load the reference-format synthetic records deterministically with explicit timestamp/order/tie-break and declared quality-policy handling.
+Materialized loader boundary:
 
-## M2-004 boundary
+- immutable `LoadedRecord` / `LoadedDataset`;
+- UTF-8 CSV reference format;
+- RFC3339 timezone-aware event/availability parsing;
+- deterministic event-time + declared tie-break ordering;
+- duplicate `REJECT / KEEP_FIRST / KEEP_LAST`;
+- malformed `REJECT / DROP`;
+- out-of-order `REJECT / SORT_BY_ORDERING_CONTRACT`;
+- Manifest coverage enforcement;
+- optional SHA-256 byte verification;
+- generic missing/gap policy preserved without inventing market calendar/frequency semantics.
 
-M2-004 should implement only the data loading layer needed by the Reference Consumer Profile:
+Canonical synthetic fixtures:
 
-- load a supported reference format;
-- preserve/normalize timestamp semantics from the Manifest;
-- deterministic ordering and tie-break;
-- explicit duplicate/missing/malformed/out-of-order handling according to Manifest policy;
-- runtime integrity verification where applicable;
-- deterministic synthetic fixtures/tests.
+- `tests/fixtures/datasets/ordered_events.manifest.yaml`;
+- `tests/fixtures/datasets/ordered_events.csv`;
+- `tests/fixtures/datasets/ordered_events.schema.json`;
+- `tests/test_data_loader.py`.
 
-Do not implement Strategy API, replay, cost model, analytics, broker/live integration or Reference Strategy #1 in M2-004.
+Fixture CSV line endings are pinned to LF through `.gitattributes` for cross-platform SHA-256 reproducibility.
+
+This is software/platform capability only. It is not market data or research evidence.
+
+## M2-004 closure check
+
+Windows OWNER workflow:
+
+`ATS_TASK_CHECK.bat`
+
+The stable BAT updates the repository, runs frozen environment sync, then executes `tools/current_task_check.py`.
+
+Current task checker is configured for:
+
+`ATS2-M2-004 — Base data loader`
+
+It runs:
+
+1. `tests/test_data_loader.py`;
+2. repository validator;
+3. full ATS Local CI.
+
+Shareable report:
+
+`reports/local_ci/CURRENT_TASK_REPORT.txt`
+
+M2-004 is considered finally closed only after this report shows PASS on the exact final HEAD.
+
+## Current ready task after M2-004 PASS
+
+`ATS2-M2-005 — Minimal Strategy research interface`
+
+Canonical next artifact:
+
+`src/ats/strategy/interface.py`
+
+Goal: define the minimum broker-agnostic research interface that consumes immutable ordered observations and emits serializable deterministic decisions.
+
+Do not implement replay/backtest, cost model, analytics, broker/live integration or Reference Strategy #1 in M2-005.
 
 ## Read order
 
@@ -85,15 +87,16 @@ Do not implement Strategy API, replay, cost model, analytics, broker/live integr
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 5. `governance/program/DATASET_MANIFEST_SPEC.md`.
 6. `src/ats/schemas/dataset_manifest.py`.
-7. `data/manifests/DATASET_TEMPLATE.yaml`.
-8. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
-9. `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`.
+7. `src/ats/data/loader.py`.
+8. `tests/test_data_loader.py`.
+9. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
 
 ## Recovery check
 
 - Current milestone: `M2_RESEARCH_PLATFORM_MVP`.
-- Last completed: `ATS2-M2-003`.
-- Next task: `ATS2-M2-004`.
-- Next artifact: `src/ats/data/loader.py`.
+- Last implemented task: `ATS2-M2-004`.
+- Closure checker: `ATS2-M2-004`.
+- Next task after PASS: `ATS2-M2-005`.
+- Next artifact: `src/ats/strategy/interface.py`.
 - Reference Strategy #1 selection allowed now? — no.
 - Pipeline counts remain zero? — yes.
