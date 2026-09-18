@@ -22,8 +22,8 @@ Canonical specification:
 Materialized environment artifacts:
 
 - `.python-version` → CPython `3.13.15`;
-- `pyproject.toml` → Python `>=3.13,<3.14`, uv `0.12.13`, exact direct dependency pins and Linux x86_64 resolution environment;
-- `uv.lock` → exact dependency graph plus install wheel URLs/SHA-256 for the canonical host;
+- `pyproject.toml` → Python `>=3.13,<3.14`, uv `0.12.13`, exact direct dependency pins and Windows x86_64 + Linux x86_64 resolution environments;
+- `uv.lock` → exact dependency graph plus Windows x86_64 and Linux x86_64 wheel URLs/SHA-256;
 - `tools/environment_fingerprint.py`;
 - `tests/test_environment_baseline.py`;
 - `governance/program/LOCAL_CI_GATE.md` → canonical local quality policy;
@@ -32,7 +32,8 @@ Materialized environment artifacts:
 
 Canonical host/runtime baseline:
 
-- Linux x86_64;
+- primary local host: Windows x86_64;
+- supported secondary host: Linux x86_64;
 - CPython `3.13.15`;
 - uv `0.12.13`;
 - Pydantic `2.13.5`;
@@ -50,7 +51,7 @@ uv run --frozen python tools/verify_repo.py --fast
 uv run --frozen python tools/verify_repo.py
 ```
 
-The lock is structurally compatible with uv frozen-sync selection on Linux x86_64. Offline empty-cache verification stops only because locked wheel bytes cannot be downloaded, not because a compatible locked distribution is absent.
+The lock contains compatible wheels for Windows x86_64 and Linux x86_64 for all platform-specific baseline dependencies.
 
 ## Current ready task
 
@@ -109,6 +110,6 @@ M2 builds research infrastructure only. Do not select Reference Strategy #1, mar
 - Last completed: `ATS2-M2-002`.
 - Next task: `ATS2-M2-003`.
 - Next artifact: `governance/program/DATASET_MANIFEST_SPEC.md`.
-- Canonical Python/host? — `CPython 3.13.15 / Linux x86_64`.
+- Canonical Python/hosts? — `CPython 3.13.15 / Windows x86_64 + Linux x86_64`.
 - Reference Strategy #1 selection allowed now? — no.
 - Pipeline counts remain zero? — yes.
