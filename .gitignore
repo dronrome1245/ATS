@@ -34,3 +34,6 @@ venv/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Downloaded one-off task launchers
+ATS_M*_CHECK.bat
