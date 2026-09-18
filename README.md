@@ -20,7 +20,7 @@ Canonical specification:
 
 `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`.
 
-M2 environment baseline: Linux x86_64, CPython `3.13.15`, uv `0.12.13`, exact locked Pydantic/PyYAML/NumPy/pytest/Ruff dependencies, `uv sync --frozen`, environment fingerprint and non-market baseline test.
+M2 environment baseline: Windows x86_64 + Linux x86_64, CPython `3.13.15`, uv `0.12.13`, exact locked Pydantic/PyYAML/NumPy/pytest/Ruff dependencies, `uv sync --frozen`, environment fingerprint and non-market baseline test.
 
 Следующая ready task:
 
