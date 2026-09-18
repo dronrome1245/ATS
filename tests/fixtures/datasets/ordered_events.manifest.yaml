@@ -1,0 +1,53 @@
+schema_version: "2.0"
+
+dataset_id: "DATA-SYNTHETIC-LOADER-001"
+dataset_version: "1.0.0"
+description: "Synthetic non-market ordered event fixture for M2 base-loader tests."
+
+source:
+  source_reference: "synthetic://m2-base-loader-fixture"
+  snapshot_reference: "synthetic-loader-snapshot-v1"
+
+storage:
+  format: "CSV"
+  location: "tests/fixtures/datasets/ordered_events.csv"
+  schema_reference: "tests/fixtures/datasets/ordered_events.schema.json"
+
+coverage:
+  start: "2026-01-01T00:00:00Z"
+  end: "2026-01-01T00:01:00Z"
+  scope: "Synthetic ordered events used only for deterministic loader software tests."
+
+time_semantics:
+  timezone: "UTC"
+  timestamp_representation: "RFC3339"
+  event_time_field: "event_time"
+  availability_time_field: "event_time"
+  availability_mode: "SAME_AS_EVENT_TIME"
+
+ordering:
+  keys:
+    - "event_time"
+  tie_break_keys:
+    - "sequence"
+  direction: "ASCENDING"
+
+quality_policy:
+  duplicates: "REJECT"
+  missing: "ALLOW_DECLARED_GAPS"
+  malformed: "REJECT"
+  out_of_order: "REJECT"
+
+transformation_lineage:
+  parent_datasets: []
+  preparation_reference: "identity://synthetic-loader-fixture"
+  steps: []
+
+integrity:
+  algorithm: "SHA256"
+  digest: "ab8107703361915dde4ba99c6fb03b8d9455afcd2afcbb55a8f63091c53b4172"
+  reason: null
+
+known_limitations:
+  - "Synthetic non-market fixture; not research evidence."
+  - "Sequence is a zero-padded string to make reference tie-break ordering explicit."
