@@ -28,6 +28,15 @@ DATASET_MANIFEST_FILES = (
     "src/ats/schemas/dataset_manifest.py",
     "tests/test_dataset_manifest.py",
 )
+BASE_LOADER_FILES = (
+    ".gitattributes",
+    "src/ats/data/__init__.py",
+    "src/ats/data/loader.py",
+    "tests/fixtures/datasets/ordered_events.csv",
+    "tests/fixtures/datasets/ordered_events.schema.json",
+    "tests/fixtures/datasets/ordered_events.manifest.yaml",
+    "tests/test_data_loader.py",
+)
 LOCAL_CI_FILES = (
     "ATS_CHECK.bat",
     "ATS_TASK_CHECK.bat",
@@ -72,7 +81,8 @@ def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, LOCAL_CI_GATE,
-        DATASET_MANIFEST_SPEC, *DATASET_MANIFEST_FILES, *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
+        DATASET_MANIFEST_SPEC, *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
+        *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
@@ -155,6 +165,37 @@ def configure() -> None:
         "test_invalid_sha256_metadata_is_rejected",
         "test_unsafe_yaml_tag_is_rejected",
     )
+    core.CONTENT_MARKERS[".gitattributes"] = (
+        "tests/fixtures/datasets/*.csv text eol=lf",
+    )
+    core.CONTENT_MARKERS["src/ats/data/loader.py"] = (
+        "class DatasetLoadError",
+        "class MalformedRowError",
+        "class LoadedRecord",
+        "class LoadedDataset",
+        "csv.DictReader",
+        "hashlib.sha256",
+        "SORT_BY_ORDERING_CONTRACT",
+        "dataset SHA256 mismatch",
+        "event time outside manifest coverage",
+        "source_location=manifest.storage.location",
+    )
+    core.CONTENT_MARKERS["tests/fixtures/datasets/ordered_events.manifest.yaml"] = (
+        'dataset_id: "DATA-SYNTHETIC-LOADER-001"',
+        'format: "CSV"',
+        'algorithm: "SHA256"',
+        "ab8107703361915dde4ba99c6fb03b8d9455afcd2afcbb55a8f63091c53b4172",
+        "Synthetic non-market fixture; not research evidence.",
+    )
+    core.CONTENT_MARKERS["tests/test_data_loader.py"] = (
+        "test_reference_fixture_loads_deterministically",
+        "test_sha256_mismatch_is_rejected",
+        "test_out_of_order_sort_policy_is_deterministic",
+        "test_duplicate_keep_policies_are_explicit",
+        "test_malformed_drop_policy_counts_dropped_rows",
+        "test_explicit_availability_field_is_parsed",
+        "test_coverage_violation_is_not_hidden_by_malformed_drop",
+    )
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
@@ -175,8 +216,8 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M2-003"',
-        "tests/test_dataset_manifest.py",
+        'TASK_ID = "ATS2-M2-004"',
+        "tests/test_data_loader.py",
         "tools/validate_repo.py",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
@@ -207,27 +248,28 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS["data/README.md"] = (
         "Dataset Manifests",
-        "M2 boundary",
-        "Reference Strategy #1 remains M3 work",
         "DATASET_MANIFEST_SPEC.md",
-        "DATASET_TEMPLATE.yaml",
-        "ATS2-M2-004 — Base data loader",
+        "Base data loader",
+        "src/ats/data/loader.py",
+        "SORT_BY_ORDERING_CONTRACT",
+        "missing/gap policy",
+        "not research evidence",
     )
     core.CONTENT_MARKERS["src/README.md"] = (
         "ADR-0001-RESEARCH-STACK.md",
-        "RESEARCH_ENVIRONMENT_SPEC.md",
-        "CPython `3.13.15`",
-        "uv `0.12.13`",
-        "src/ats/",
         "ats.schemas.dataset_manifest.DatasetManifest",
-        "ATS2-M2-004 — Base data loader",
+        "ats.data.loader",
+        "LoadedRecord",
+        "LoadedDataset",
+        "ATS2-M2-005 — Minimal Strategy research interface",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
-        "uv run --frozen pytest",
         "test_dataset_manifest.py",
-        "safe YAML loading",
-        "synthetic non-market fixtures",
+        "test_data_loader.py",
+        "SHA-256 mismatch rejection",
+        "duplicate reject/keep-first/keep-last",
+        "synthetic non-market",
     )
     core.CONTENT_MARKERS["reports/README.md"] = (
         "source_class", "qualified_evidence_class", "WBS-2.8",
@@ -352,8 +394,10 @@ def validate_environment(repo: Path) -> int:
         "tools/environment_fingerprint.py",
         "tools/verify_repo.py",
         "src/ats/schemas/dataset_manifest.py",
+        "src/ats/data/loader.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
+        "tests/test_data_loader.py",
     ):
         path = repo / relative
         try:
@@ -393,9 +437,9 @@ def main() -> int:
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
-        'last_completed_task_id: "ATS2-M2-003"',
-        'current_task: "ATS2-M2-004"', 'current_ready_task: "ATS2-M2-004"',
-        'current_wbs: "WBS-2.4"', "reference_strategy_selection_allowed: false",
+        'last_completed_task_id: "ATS2-M2-004"',
+        'current_task: "ATS2-M2-005"', 'current_ready_task: "ATS2-M2-005"',
+        'current_wbs: "WBS-2.5"', "reference_strategy_selection_allowed: false",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -461,11 +505,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-003") != "DONE":
-        core.fail("M2-003 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-004") != "DONE":
+        core.fail("M2-004 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-004") != "READY":
-        core.fail("M2-004 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-005") != "READY":
+        core.fail("M2-005 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
