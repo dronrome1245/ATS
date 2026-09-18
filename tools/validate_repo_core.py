@@ -403,7 +403,7 @@ def current_text_files(repo: Path):
             continue
         if any(part in IGNORED_RUNTIME_DIRS for part in relative.parts):
             continue
-        if relative.as_posix() == "reports/local_ci/LATEST.json":
+        if len(relative.parts) >= 2 and relative.parts[:2] == ("reports", "local_ci"):
             continue
         yield path, relative
 
