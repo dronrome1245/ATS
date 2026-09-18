@@ -294,15 +294,17 @@ WBS не устанавливает без evidence и OWNER decision:
 
 # 16. Текущая точка исполнения
 
-На дату текущего baseline:
+На 18 сентября 2026 года:
 
 - M0 Program Rebaseline — `COMPLETED / PASS`;
 - M1 Research Methodology — `COMPLETED / PASS`;
-- `WBS-2.0` Reference Consumer Profile — текущий M2 entry bridge;
-- Reference Strategy #1 ещё не выбрана и остаётся M3 work.
+- `WBS-2.0`–`WBS-2.3` — completed;
+- `WBS-2.4 — Base data loader` — repository artifacts implemented; exact final Local CI closure uses `ATS_TASK_CHECK.bat`;
+- next work package after PASS: **`WBS-2.5 — Strategy research interface / Minimal Strategy API`**;
+- Reference Strategy #1 remains M3 work and is not selected in M2.
 
-После завершения `WBS-2.0` следующий work package:
+The next canonical implementation artifact after M2-004 PASS is:
 
-**`WBS-2.1 — Technology decision for research MVP / Research stack ADR`.**
+`src/ats/strategy/interface.py`
 
-Стек выбирается из требований `REFERENCE_CONSUMER_PROFILE.md`, а не из выдуманной заранее стратегии.
+Current execution state must still be read from `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` and `governance/backlog/PROGRAM_BACKLOG_V2.md`.
