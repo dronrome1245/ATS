@@ -30,3 +30,17 @@ Development, validation and independent evidence partitions are governed by the 
 M2 may use synthetic non-market fixtures for software tests. Such fixtures are platform-test inputs only: they do not receive research entity/Experiment IDs and are not trading evidence.
 
 No real data source, instrument or period has been selected yet. Reference Strategy #1 remains M3 work.
+
+
+## Dataset Manifest implementation
+
+Canonical M2 Dataset Manifest contract:
+
+- `governance/program/DATASET_MANIFEST_SPEC.md`;
+- template: `data/manifests/DATASET_TEMPLATE.yaml`;
+- typed validator: `src/ats/schemas/dataset_manifest.py`;
+- tests: `tests/test_dataset_manifest.py`.
+
+The Manifest stores dataset identity and semantics, not licensed/raw dataset bytes. Material source/coverage/schema/time/order/quality/transformation changes require a new `dataset_version`.
+
+M2-003 uses only synthetic non-market template data. Actual deterministic record loading and runtime checksum verification belong to `ATS2-M2-004 — Base data loader`.
