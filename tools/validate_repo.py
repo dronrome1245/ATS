@@ -30,7 +30,9 @@ DATASET_MANIFEST_FILES = (
 )
 LOCAL_CI_FILES = (
     "ATS_CHECK.bat",
+    "ATS_TASK_CHECK.bat",
     "tools/verify_repo.py",
+    "tools/current_task_check.py",
     ".githooks/pre-commit",
     ".githooks/pre-push",
     "reports/local_ci/README.md",
@@ -154,6 +156,8 @@ def configure() -> None:
         "test_unsafe_yaml_tag_is_rejected",
     )
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
+        "ATS_TASK_CHECK.bat",
+        "CURRENT_TASK_REPORT.txt",
         "ATS_CHECK.bat",
         "LATEST_REPORT.txt",
         "uv run --frozen python tools/verify_repo.py",
@@ -161,6 +165,21 @@ def configure() -> None:
         ".githooks/pre-commit",
         ".githooks/pre-push",
         "GitHub Actions status is not a completion criterion",
+    )
+    core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
+        "git pull --ff-only",
+        "uv sync --frozen",
+        "tools/current_task_check.py",
+        "CURRENT_TASK_REPORT.txt",
+        "ATS TASK LAUNCHER: PASS",
+        "ATS TASK LAUNCHER: FAIL",
+    )
+    core.CONTENT_MARKERS["tools/current_task_check.py"] = (
+        'TASK_ID = "ATS2-M2-003"',
+        "tests/test_dataset_manifest.py",
+        "tools/validate_repo.py",
+        "tools/verify_repo.py",
+        "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["ATS_CHECK.bat"] = (
         "git pull --ff-only",
@@ -175,6 +194,8 @@ def configure() -> None:
         "pytest", "environment fingerprint", "ATS LOCAL CI:", "LATEST.json",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
+        "ATS_TASK_CHECK.bat",
+        "CURRENT_TASK_REPORT.txt",
         "ATS_CHECK.bat",
         "LATEST_REPORT.txt",
         "LATEST.json",
@@ -307,6 +328,7 @@ def validate_environment(repo: Path) -> int:
     for ignored_report in (
         "reports/local_ci/LATEST.json",
         "reports/local_ci/LATEST_REPORT.txt",
+        "reports/local_ci/CURRENT_TASK_REPORT.txt",
     ):
         if ignored_report not in gitignore:
             core.fail(f"local CI runtime report must remain ignored by Git: {ignored_report}")
@@ -375,7 +397,9 @@ def main() -> int:
         "mode: LOCAL", "github_actions_required: false",
         'full_command: "uv run --frozen python tools/verify_repo.py"',
         'windows_launcher: "ATS_CHECK.bat"',
-        'shareable_report: "reports/local_ci/LATEST_REPORT.txt"',
+        'current_task_launcher: "ATS_TASK_CHECK.bat"',
+        'current_task_checker: "tools/current_task_check.py"',
+        'shareable_report: "reports/local_ci/CURRENT_TASK_REPORT.txt"',
         "experiments_registered: 0", "physical_migration_complete: true",
         "thirteen_gate_model_is_program_roadmap: false",
     ):
