@@ -44,3 +44,34 @@ Canonical M2 Dataset Manifest contract:
 The Manifest stores dataset identity and semantics, not licensed/raw dataset bytes. Material source/coverage/schema/time/order/quality/transformation changes require a new `dataset_version`.
 
 M2-003 uses only synthetic non-market template data. Actual deterministic record loading and runtime checksum verification belong to `ATS2-M2-004 — Base data loader`.
+
+
+## Base data loader
+
+`ATS2-M2-004` implements the minimum deterministic reference-format loader in:
+
+`src/ats/data/loader.py`
+
+Current baseline:
+
+- local UTF-8 CSV only;
+- explicit repository/root resolution, no hidden current-directory dependency;
+- RFC3339 timezone-aware event/availability parsing from Dataset Manifest semantics;
+- event-time first ordering plus declared tie-break keys;
+- non-time ordering/tie-break fields use their exact source strings in the M2 reference format;
+- duplicate policy: `REJECT | KEEP_FIRST | KEEP_LAST`;
+- malformed policy: `REJECT | DROP`;
+- out-of-order policy: `REJECT | SORT_BY_ORDERING_CONTRACT`;
+- optional SHA-256 byte verification;
+- coverage violations always block loading and cannot be hidden by `malformed: DROP`;
+- missing/gap policy is carried into the immutable loader result but generic M2 does not invent a calendar/frequency to infer absent records.
+
+Canonical synthetic fixture:
+
+- `tests/fixtures/datasets/ordered_events.manifest.yaml`;
+- `tests/fixtures/datasets/ordered_events.csv`;
+- `tests/fixtures/datasets/ordered_events.schema.json`.
+
+The CSV fixture is pinned to LF in `.gitattributes` so SHA-256 is stable across Windows and Linux checkouts.
+
+These fixtures are software tests only and are not research evidence.
