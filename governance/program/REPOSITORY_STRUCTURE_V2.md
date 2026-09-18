@@ -35,7 +35,6 @@
 | `02_СЛЕДУЮЩИЙ_ШАГ.md` | Единственная непосредственная program-level next task |
 | `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` | Единственный canonical machine-readable state |
 | `SECURITY.md` | Security/secrets policy |
-| `ATS_CHECK.bat` | Generic Windows repository quality-check launcher |
 | `ATS_TASK_CHECK.bat` | Stable Windows current-task verification launcher |
 
 Другие program documents в root не добавляются.
@@ -54,7 +53,6 @@ ATS/
 ├── 02_СЛЕДУЮЩИЙ_ШАГ.md
 ├── 03_СОСТОЯНИЕ_ПРОЕКТА.yaml
 ├── SECURITY.md
-├── ATS_CHECK.bat
 ├── ATS_TASK_CHECK.bat
 │
 ├── governance/
