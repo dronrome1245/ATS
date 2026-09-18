@@ -119,7 +119,9 @@ governance/
 │   ├── PROGRAM_CHARTER_V2.md
 │   ├── OPERATING_MODEL_V2.md
 │   ├── PROGRAM_WBS_V2.md
-│   └── REPOSITORY_STRUCTURE_V2.md
+│   ├── REPOSITORY_STRUCTURE_V2.md
+│   ├── LOCAL_CI_GATE.md
+│   └── LOCAL_CI_TROUBLESHOOTING.md
 ├── methodology/
 │   ├── STRATEGY_LIFECYCLE_V2.md
 │   ├── RESEARCH_METHODOLOGY_V1.md
@@ -340,6 +342,8 @@ legacy/v1/
 | Operating Model | `governance/program/OPERATING_MODEL_V2.md` |
 | Program WBS | `governance/program/PROGRAM_WBS_V2.md` |
 | Repository Structure | `governance/program/REPOSITORY_STRUCTURE_V2.md` |
+| Local CI Gate | `governance/program/LOCAL_CI_GATE.md` |
+| Local CI Troubleshooting | `governance/program/LOCAL_CI_TROUBLESHOOTING.md` |
 | Strategy Lifecycle | `governance/methodology/STRATEGY_LIFECYCLE_V2.md` |
 | Research Methodology | `governance/methodology/RESEARCH_METHODOLOGY_V1.md` |
 | Research Templates | `governance/methodology/templates/` |
