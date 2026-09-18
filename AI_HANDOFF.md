@@ -46,14 +46,13 @@ Runtime:
 - uv `0.12.13`;
 - frozen `uv.lock`.
 
-Canonical full gate:
+Canonical Windows OWNER workflow:
 
-```bash
-uv sync --frozen
-uv run --frozen python tools/verify_repo.py
-```
+`ATS_CHECK.bat`
 
-GitHub Actions is not used as a completion gate.
+It performs fast-forward pull, frozen environment sync and the full Local CI Gate. Shareable report: `reports/local_ci/LATEST_REPORT.txt`.
+
+Direct tooling command remains `uv run --frozen python tools/verify_repo.py`. GitHub Actions is not used as a completion gate.
 
 ## Current ready task
 
