@@ -14,9 +14,15 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT_PATH = ROOT / "reports" / "local_ci" / "LATEST.json"
-QUALITY_PATHS = (
+LINT_PATHS = (
     "tools/validate_repo.py",
     "tools/validate_repo_core.py",
+    "tools/environment_fingerprint.py",
+    "tools/search_experiments.py",
+    "tools/verify_repo.py",
+    "tests",
+)
+FORMAT_PATHS = (
     "tools/environment_fingerprint.py",
     "tools/search_experiments.py",
     "tools/verify_repo.py",
@@ -165,13 +171,13 @@ def main() -> int:
     steps.append(
         run_step(
             "ruff lint",
-            [ruff, "check", *QUALITY_PATHS],
+            [ruff, "check", *LINT_PATHS],
         )
     )
     steps.append(
         run_step(
             "ruff format",
-            [ruff, "format", "--check", *QUALITY_PATHS],
+            [ruff, "format", "--check", *FORMAT_PATHS],
         )
     )
 
