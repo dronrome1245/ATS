@@ -195,6 +195,7 @@ def configure() -> None:
         "test_malformed_drop_policy_counts_dropped_rows",
         "test_explicit_availability_field_is_parsed",
         "test_coverage_violation_is_not_hidden_by_malformed_drop",
+        "test_non_rfc3339_timestamp_is_rejected",
     )
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
         "ATS_TASK_CHECK.bat",
