@@ -49,11 +49,11 @@ model:
   m1_exit_review: "governance/program/M1_EXIT_REVIEW.md"
 
 current:
-  focus: "Implement minimal Strategy research interface"
-  last_completed_task_id: "ATS2-M2-004"
-  last_completed_artifact: "src/ats/data/loader.py"
-  next_artifact: "src/ats/strategy/interface.py"
-  next_task_id: "ATS2-M2-005"
+  focus: "Implement deterministic backtest/replay core"
+  last_completed_task_id: "ATS2-M2-005"
+  last_completed_artifact: "src/ats/strategy/interface.py"
+  next_artifact: "src/ats/replay/engine.py"
+  next_task_id: "ATS2-M2-006"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -108,6 +108,7 @@ m2:
     - "ATS2-M2-002"
     - "ATS2-M2-003"
     - "ATS2-M2-004"
+    - "ATS2-M2-005"
   completed_artifacts:
     - "governance/program/REFERENCE_CONSUMER_PROFILE.md"
     - "governance/decisions/ADR-0001-RESEARCH-STACK.md"
@@ -126,8 +127,10 @@ m2:
     - "tests/fixtures/datasets/ordered_events.csv"
     - "tests/fixtures/datasets/ordered_events.schema.json"
     - "tests/test_data_loader.py"
-  current_task: "ATS2-M2-005"
-  current_wbs: "WBS-2.5"
+    - "src/ats/strategy/interface.py"
+    - "tests/test_strategy_interface.py"
+  current_task: "ATS2-M2-006"
+  current_wbs: "WBS-2.6"
   reference_strategy_selection_allowed: false
   environment:
     primary_local_host: WINDOWS_X86_64
@@ -142,8 +145,8 @@ m2:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M2-005"
-  current_ready_wbs: "WBS-2.5"
+  current_ready_task: "ATS2-M2-006"
+  current_ready_wbs: "WBS-2.6"
 
 handoff_policy:
   update_after_material_step: true
