@@ -37,6 +37,11 @@ BASE_LOADER_FILES = (
     "tests/fixtures/datasets/ordered_events.manifest.yaml",
     "tests/test_data_loader.py",
 )
+STRATEGY_INTERFACE_FILES = (
+    "src/ats/strategy/__init__.py",
+    "src/ats/strategy/interface.py",
+    "tests/test_strategy_interface.py",
+)
 LOCAL_CI_FILES = (
     "ATS_TASK_CHECK.bat",
     "tools/verify_repo.py",
@@ -81,7 +86,7 @@ def configure() -> None:
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, LOCAL_CI_GATE,
         DATASET_MANIFEST_SPEC, *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
-        *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
+        *STRATEGY_INTERFACE_FILES, *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
@@ -196,6 +201,27 @@ def configure() -> None:
         "test_coverage_violation_is_not_hidden_by_malformed_drop",
         "test_non_rfc3339_timestamp_is_rejected",
     )
+    core.CONTENT_MARKERS["src/ats/strategy/interface.py"] = (
+        "class ResearchRunContext",
+        "class ResearchObservation",
+        "class ResearchDecision",
+        "class ResearchDiagnostic",
+        "class StrategyStep",
+        "class ResearchStrategy",
+        "observation_from_loaded_record",
+        "allow_nan=False",
+        "sort_keys=True",
+        "decision_time must be timezone-aware",
+    )
+    core.CONTENT_MARKERS["tests/test_strategy_interface.py"] = (
+        "DeterministicFixtureStrategy",
+        "test_loaded_record_bridge_preserves_research_times_and_fields",
+        "test_repeated_fixture_transitions_are_exactly_deterministic",
+        "test_decision_serialization_is_canonical_and_broker_neutral",
+        "test_run_context_is_immutable",
+        "test_non_finite_decision_payload_is_rejected",
+        "test_diagnostic_is_serializable_and_immutable",
+    )
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
@@ -214,8 +240,8 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M2-004"',
-        "tests/test_data_loader.py",
+        'TASK_ID = "ATS2-M2-005"',
+        "tests/test_strategy_interface.py",
         "tools/validate_repo.py",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
@@ -244,19 +270,21 @@ def configure() -> None:
         "not research evidence",
     )
     core.CONTENT_MARKERS["src/README.md"] = (
-        "ADR-0001-RESEARCH-STACK.md",
         "ats.schemas.dataset_manifest.DatasetManifest",
         "ats.data.loader",
-        "LoadedRecord",
-        "LoadedDataset",
-        "ATS2-M2-005 — Minimal Strategy research interface",
+        "ats.strategy.interface",
+        "ResearchRunContext",
+        "ResearchDecision",
+        "ResearchStrategy",
+        "ATS2-M2-006 — Deterministic backtest/replay",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
         "test_dataset_manifest.py",
         "test_data_loader.py",
-        "SHA-256 mismatch rejection",
-        "duplicate reject/keep-first/keep-last",
+        "test_strategy_interface.py",
+        "canonical decision JSON serialization",
+        "broker-neutral decision surface",
         "synthetic non-market",
     )
     core.CONTENT_MARKERS["reports/README.md"] = (
@@ -382,9 +410,11 @@ def validate_environment(repo: Path) -> int:
         "tools/verify_repo.py",
         "src/ats/schemas/dataset_manifest.py",
         "src/ats/data/loader.py",
+        "src/ats/strategy/interface.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
+        "tests/test_strategy_interface.py",
     ):
         path = repo / relative
         try:
@@ -424,9 +454,9 @@ def main() -> int:
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
-        'last_completed_task_id: "ATS2-M2-004"',
-        'current_task: "ATS2-M2-005"', 'current_ready_task: "ATS2-M2-005"',
-        'current_wbs: "WBS-2.5"', "reference_strategy_selection_allowed: false",
+        'last_completed_task_id: "ATS2-M2-005"',
+        'current_task: "ATS2-M2-006"', 'current_ready_task: "ATS2-M2-006"',
+        'current_wbs: "WBS-2.6"', "reference_strategy_selection_allowed: false",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -491,11 +521,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-004") != "DONE":
-        core.fail("M2-004 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-005") != "DONE":
+        core.fail("M2-005 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-005") != "READY":
-        core.fail("M2-005 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-006") != "READY":
+        core.fail("M2-006 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
