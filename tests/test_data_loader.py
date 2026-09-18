@@ -232,3 +232,17 @@ def test_unsupported_storage_format_is_rejected(tmp_path: Path) -> None:
 
     with pytest.raises(DatasetLoadError, match="unsupported storage format"):
         load_dataset(manifest, root=tmp_path)
+
+
+def test_coverage_violation_is_not_hidden_by_malformed_drop(tmp_path: Path) -> None:
+    manifest = manifest_for(
+        tmp_path,
+        (
+            "event_time,sequence,value\n"
+            "2026-01-01T00:02:00Z,0001,outside\n"
+        ),
+        malformed="DROP",
+    )
+
+    with pytest.raises(DatasetLoadError, match="outside manifest coverage"):
+        load_dataset(manifest, root=tmp_path)
