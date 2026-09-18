@@ -39,6 +39,7 @@ model:
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
+  local_ci_gate: "governance/program/LOCAL_CI_GATE.md"
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
@@ -136,6 +137,15 @@ handoff_policy:
     - "01_СТАТУС_ПРОЕКТА.md"
     - "02_СЛЕДУЮЩИЙ_ШАГ.md"
     - "AI_HANDOFF.md"
+
+quality_gate:
+  mode: LOCAL
+  canonical_policy: "governance/program/LOCAL_CI_GATE.md"
+  full_command: "uv run --frozen python tools/verify_repo.py"
+  fast_command: "uv run --frozen python tools/verify_repo.py --fast"
+  hooks_path: ".githooks"
+  latest_report: "reports/local_ci/LATEST.json"
+  github_actions_required: false
 
 safety:
   real_money_trading_allowed: false
