@@ -62,14 +62,13 @@ Dataset Manifest baseline:
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 6. Dataset contract: `governance/program/DATASET_MANIFEST_SPEC.md`.
 7. Environment: `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`, `pyproject.toml`, `.python-version`, `uv.lock`.
-8. Setup: `uv sync --frozen`.
-9. Один раз включить hooks: `git config core.hooksPath .githooks`.
-10. Быстрая проверка: `uv run --frozen python tools/verify_repo.py --fast`.
-11. Полный completion gate: `uv run --frozen python tools/verify_repo.py`.
+8. На Windows основной интерфейс проверки: запустить `ATS_CHECK.bat`.
+9. BAT сам обновит `main`, синхронизирует frozen environment, выполнит полный gate и создаст `reports/local_ci/LATEST_REPORT.txt`.
+10. Для диагностики/подтверждения отправлять ChatGPT именно `LATEST_REPORT.txt`.
 
 ## Quality gate
 
-GitHub Actions не используется как completion gate. Политика: `governance/program/LOCAL_CI_GATE.md`. Полный локальный gate должен дать `ATS LOCAL CI: PASS` на exact final commit.
+GitHub Actions не используется как completion gate. Политика: `governance/program/LOCAL_CI_GATE.md`. `ATS_CHECK.bat` должен завершиться PASS; shareable output находится в `reports/local_ci/LATEST_REPORT.txt`.
 
 ## Boundary
 
