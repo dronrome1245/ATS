@@ -345,6 +345,14 @@ FORBIDDEN_PLACEHOLDERS = (
 
 MARKDOWN_LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 TEXT_SUFFIXES = {".md", ".yaml", ".yml", ".csv", ".py", ".txt", ".json"}
+IGNORED_RUNTIME_DIRS = {
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    ".ruff_cache",
+}
 TRANSITIONAL_STATE = Path("00_Управление_проектом/v2/PROGRAM_STATE_V2.yaml")
 EXPERIMENT_ID = re.compile(r"^EXP-\d{8}-\d{3}$")
 REGISTRY_HEADER = (
@@ -393,6 +401,10 @@ def current_text_files(repo: Path):
             continue
         relative = path.relative_to(repo)
         if relative.parts and relative.parts[0] == "legacy":
+            continue
+        if any(part in IGNORED_RUNTIME_DIRS for part in relative.parts):
+            continue
+        if relative.as_posix() == "reports/local_ci/LATEST.json":
             continue
         yield path, relative
 
