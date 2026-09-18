@@ -20,6 +20,7 @@ LINT_PATHS = (
     "tools/environment_fingerprint.py",
     "tools/search_experiments.py",
     "tools/verify_repo.py",
+    "tools/current_task_check.py",
     "src",
     "tests",
 )
@@ -27,6 +28,7 @@ FORMAT_PATHS = (
     "tools/environment_fingerprint.py",
     "tools/search_experiments.py",
     "tools/verify_repo.py",
+    "tools/current_task_check.py",
     "src",
     "tests",
 )
