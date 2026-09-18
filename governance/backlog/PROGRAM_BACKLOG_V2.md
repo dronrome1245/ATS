@@ -9,7 +9,7 @@
 
 ## 1. Назначение
 
-Backlog превращает Program WBS в исполнимую очередь работ. Material program task не считается завершённой до синхронизации state/status/next-step/handoff и полного локального quality gate `uv run --frozen python tools/verify_repo.py` на exact commit. GitHub Actions не является completion gate.
+Backlog превращает Program WBS в исполнимую очередь работ. Material program task не считается завершённой до синхронизации state/status/next-step/handoff и полного локального quality gate. На Windows стандартный OWNER workflow — `ATS_CHECK.bat`, который формирует `reports/local_ci/LATEST_REPORT.txt`. GitHub Actions не является completion gate.
 
 ## 2. Текущая execution queue
 
