@@ -48,11 +48,11 @@ Runtime:
 
 Canonical Windows OWNER workflow:
 
-`ATS_CHECK.bat`
+`ATS_TASK_CHECK.bat`
 
-It performs fast-forward pull, frozen environment sync and the full Local CI Gate. Shareable report: `reports/local_ci/LATEST_REPORT.txt`.
+The BAT is stable. It performs fast-forward pull and frozen environment sync, then executes task-specific `tools/current_task_check.py` plus the full Local CI Gate. Shareable report: `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
-Direct tooling command remains `uv run --frozen python tools/verify_repo.py`. GitHub Actions is not used as a completion gate.
+For the pending M2-003 closure check, `tools/current_task_check.py` validates Dataset Manifest tests + repository validator + full Local CI. After PASS it should be updated for M2-004 without changing the BAT. GitHub Actions is not used as a completion gate.
 
 ## Current ready task
 
