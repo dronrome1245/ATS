@@ -155,7 +155,9 @@ quality_gate:
   hooks_path: ".githooks"
   latest_report: "reports/local_ci/LATEST.json"
   windows_launcher: "ATS_CHECK.bat"
-  shareable_report: "reports/local_ci/LATEST_REPORT.txt"
+  current_task_launcher: "ATS_TASK_CHECK.bat"
+  current_task_checker: "tools/current_task_check.py"
+  shareable_report: "reports/local_ci/CURRENT_TASK_REPORT.txt"
   github_actions_required: false
 
 safety:
