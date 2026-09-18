@@ -14,13 +14,13 @@
 
 Последняя завершённая task:
 
-`ATS2-M2-002 — Reproducible environment`.
+`ATS2-M2-004 — Base data loader`.
 
 Canonical specification:
 
-`governance/program/RESEARCH_ENVIRONMENT_SPEC.md`.
+`src/ats/data/loader.py`.
 
-M2 environment baseline: Windows x86_64 + Linux x86_64, CPython `3.13.15`, uv `0.12.13`, exact locked Pydantic/PyYAML/NumPy/pytest/Ruff dependencies, `uv sync --frozen`, environment fingerprint and non-market baseline test.
+Dataset Manifest baseline: safe YAML + immutable Pydantic model, stable dataset ID/version, explicit time/availability/order/quality/lineage/integrity semantics, validated only with synthetic non-market metadata.
 
 Следующая ready task:
 
@@ -60,4 +60,4 @@ GitHub Actions не используется как completion gate. Полит�
 
 ## Boundary
 
-M2 materializes safe research infrastructure only. Reference Strategy #1, broker/live environment, capital and risk limits remain outside current scope. Dataset Manifest support is next; base loader/replay are not yet implemented.
+M2 materializes safe research infrastructure only. Reference Strategy #1, broker/live environment, capital and risk limits remain outside current scope. Dataset Manifest is implemented; base data loader is next and replay is not yet implemented.
