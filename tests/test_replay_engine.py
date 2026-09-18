@@ -19,11 +19,11 @@ from ats.strategy.interface import (
 )
 
 
-@dataclass(frozen=True, slots=True)
 ROOT = Path(__file__).resolve().parents[1]
 LOADER_MANIFEST = ROOT / "tests" / "fixtures" / "datasets" / "ordered_events.manifest.yaml"
 
 
+@dataclass(frozen=True, slots=True)
 class CounterState:
     count: int = 0
 
