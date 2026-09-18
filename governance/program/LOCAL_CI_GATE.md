@@ -73,7 +73,11 @@ Each full Python gate writes:
 
 `reports/local_ci/LATEST.json`
 
-The Windows launcher writes a shareable combined report:
+The stable task launcher writes the canonical shareable task report:
+
+`reports/local_ci/CURRENT_TASK_REPORT.txt`
+
+The generic repository launcher may also write:
 
 `reports/local_ci/LATEST_REPORT.txt`
 
@@ -87,7 +91,7 @@ The report includes:
 - environment fingerprint when available;
 - overall PASS/FAIL.
 
-`LATEST.json` and `LATEST_REPORT.txt` are local runtime evidence and are ignored by Git. Canonical governance does not depend on committing machine-specific verification output.
+`LATEST.json`, `LATEST_REPORT.txt` and `CURRENT_TASK_REPORT.txt` are local runtime evidence and are ignored by Git. Canonical governance does not depend on committing machine-specific verification output.
 
 ## Git hooks
 
