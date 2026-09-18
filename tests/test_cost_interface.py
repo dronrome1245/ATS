@@ -192,9 +192,7 @@ def test_model_result_must_preserve_input_identity_and_applicability() -> None:
                         name=component.name,
                         applicability=component.applicability,
                         value=(
-                            0.0
-                            if component.applicability is CostApplicability.APPLICABLE
-                            else None
+                            0.0 if component.applicability is CostApplicability.APPLICABLE else None
                         ),
                         unit=(
                             "fixture-units"
