@@ -50,8 +50,13 @@ M2 environment baseline: Linux x86_64, CPython `3.13.15`, uv `0.12.13`, exact lo
 5. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 6. Environment: `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`, `pyproject.toml`, `.python-version`, `uv.lock`.
 7. Setup: `uv sync --frozen`.
-8. Проверка repository: `uv run --frozen python tools/validate_repo.py`.
-9. Environment test: `uv run --frozen pytest tests/test_environment_baseline.py`.
+8. Один раз включить hooks: `git config core.hooksPath .githooks`.
+9. Быстрая проверка: `uv run --frozen python tools/verify_repo.py --fast`.
+10. Полный completion gate: `uv run --frozen python tools/verify_repo.py`.
+
+## Quality gate
+
+GitHub Actions не используется как completion gate. Политика: `governance/program/LOCAL_CI_GATE.md`. Полный локальный gate должен дать `ATS LOCAL CI: PASS` перед push material task.
 
 ## Boundary
 
