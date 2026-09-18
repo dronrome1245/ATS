@@ -19,10 +19,7 @@ from ats.schemas.dataset_manifest import (
     OutOfOrderPolicy,
 )
 
-
-RFC3339_RE = re.compile(
-    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$"
-)
+RFC3339_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$")
 
 
 class DatasetLoadError(ValueError):
@@ -133,9 +130,7 @@ def _parse_row(
         raise MalformedRowError(f"line {source_line}: malformed CSV field count")
 
     typed_row = {
-        name: value
-        for name, value in row.items()
-        if name is not None and value is not None
+        name: value for name, value in row.items() if name is not None and value is not None
     }
 
     for field_name in _required_fields(manifest):
@@ -215,9 +210,7 @@ def load_dataset(manifest: DatasetManifest, *, root: str | Path) -> LoadedDatase
             f"unsupported storage format for M2 base loader: {manifest.storage.format!r}"
         )
     if manifest.time_semantics.timestamp_representation != "RFC3339":
-        raise DatasetLoadError(
-            "M2 base loader supports timestamp_representation='RFC3339' only"
-        )
+        raise DatasetLoadError("M2 base loader supports timestamp_representation='RFC3339' only")
 
     root_path = Path(root).resolve()
     source_path = _resolve_local_path(root_path, manifest.storage.location)
@@ -278,10 +271,7 @@ def load_dataset(manifest: DatasetManifest, *, root: str | Path) -> LoadedDatase
     if out_of_order_detected:
         if manifest.quality_policy.out_of_order is OutOfOrderPolicy.REJECT:
             raise DatasetLoadError("dataset rows violate the declared ordering contract")
-        if (
-            manifest.quality_policy.out_of_order
-            is OutOfOrderPolicy.SORT_BY_ORDERING_CONTRACT
-        ):
+        if manifest.quality_policy.out_of_order is OutOfOrderPolicy.SORT_BY_ORDERING_CONTRACT:
             records = sorted(records, key=lambda record: _record_key(record, manifest))
         else:
             raise DatasetLoadError(
