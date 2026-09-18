@@ -2,12 +2,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 
 import pytest
 
-from ats.data.loader import LoadedDataset, LoadedRecord
+from ats.data.loader import LoadedDataset, LoadedRecord, load_dataset
 from ats.replay.engine import ReplayContractError, ReplayResult, run_replay
-from ats.schemas.dataset_manifest import MissingPolicy
+from ats.schemas.dataset_manifest import MissingPolicy, load_dataset_manifest
 from ats.strategy.interface import (
     ResearchDecision,
     ResearchDiagnostic,
@@ -19,6 +20,10 @@ from ats.strategy.interface import (
 
 
 @dataclass(frozen=True, slots=True)
+ROOT = Path(__file__).resolve().parents[1]
+LOADER_MANIFEST = ROOT / "tests" / "fixtures" / "datasets" / "ordered_events.manifest.yaml"
+
+
 class CounterState:
     count: int = 0
 
@@ -212,3 +217,23 @@ def test_decision_before_observation_availability_is_rejected() -> None:
 
     with pytest.raises(ReplayContractError, match="decision_time cannot be earlier"):
         run_replay(loaded, ResearchRunContext(), EarlyDecisionStrategy())
+
+
+def test_manifest_loader_strategy_replay_vertical_slice() -> None:
+    manifest = load_dataset_manifest(LOADER_MANIFEST)
+    loaded = load_dataset(manifest, root=ROOT)
+    strategy = CountingStrategy()
+
+    result = run_replay(
+        loaded,
+        ResearchRunContext(),
+        strategy,
+    )
+
+    assert result.dataset_id == "DATA-SYNTHETIC-LOADER-001"
+    assert result.observation_count == 3
+    assert [decision.payload for decision in result.decisions] == [
+        (("sequence", 0), ("value", "alpha")),
+        (("sequence", 1), ("value", "beta")),
+        (("sequence", 2), ("value", "gamma")),
+    ]
