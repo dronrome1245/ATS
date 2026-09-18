@@ -25,7 +25,7 @@ Development, validation and independent evidence partitions are governed by the 
 
 ## M2 boundary
 
-`WBS-2.3` will implement Dataset Manifest support and `WBS-2.4` the deterministic base loader.
+`WBS-2.3` Dataset Manifest support and `WBS-2.4` deterministic base loader are implemented at repository-artifact level.
 
 M2 may use synthetic non-market fixtures for software tests. Such fixtures are platform-test inputs only: they do not receive research entity/Experiment IDs and are not trading evidence.
 
@@ -43,7 +43,7 @@ Canonical M2 Dataset Manifest contract:
 
 The Manifest stores dataset identity and semantics, not licensed/raw dataset bytes. Material source/coverage/schema/time/order/quality/transformation changes require a new `dataset_version`.
 
-M2-003 uses only synthetic non-market template data. Actual deterministic record loading and runtime checksum verification belong to `ATS2-M2-004 — Base data loader`.
+M2-003 uses only synthetic non-market template data. M2-004 now provides deterministic record loading and optional runtime SHA-256 verification.
 
 
 ## Base data loader
