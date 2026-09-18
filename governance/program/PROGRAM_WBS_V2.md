@@ -298,13 +298,13 @@ WBS не устанавливает без evidence и OWNER decision:
 
 - M0 Program Rebaseline — `COMPLETED / PASS`;
 - M1 Research Methodology — `COMPLETED / PASS`;
-- `WBS-2.0`–`WBS-2.3` — completed;
-- `WBS-2.4 — Base data loader` — repository artifacts implemented; exact final Local CI closure uses `ATS_TASK_CHECK.bat`;
-- next work package after PASS: **`WBS-2.5 — Strategy research interface / Minimal Strategy API`**;
+- `WBS-2.0`–`WBS-2.4` — completed;
+- `WBS-2.5 — Strategy research interface` — repository artifacts implemented; exact final Local CI closure uses `ATS_TASK_CHECK.bat`;
+- next work package after PASS: **`WBS-2.6 — Deterministic backtest/replay core`**;
 - Reference Strategy #1 remains M3 work and is not selected in M2.
 
-The next canonical implementation artifact after M2-004 PASS is:
+The next canonical implementation artifact after M2-005 PASS is:
 
-`src/ats/strategy/interface.py`
+`src/ats/replay/engine.py`
 
 Current execution state must still be read from `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` and `governance/backlog/PROGRAM_BACKLOG_V2.md`.
