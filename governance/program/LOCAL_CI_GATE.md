@@ -105,6 +105,7 @@ GitHub Actions status is not a completion criterion.
 The gate uses the reproducible M2 environment:
 
 - CPython 3.13.15;
+- supported local hosts: Windows x86_64 and Linux x86_64;
 - uv 0.12.13;
 - committed `uv.lock`;
 - `uv sync --frozen` / `uv run --frozen`.
