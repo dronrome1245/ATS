@@ -21,11 +21,16 @@ uv run --frozen pytest tests/test_environment_baseline.py
 
 This test is infrastructure verification only. It does not create an Idea, Hypothesis, Candidate, Experiment or trading evidence.
 
+## Dataset Manifest tests
+
+`tests/test_dataset_manifest.py` validates the canonical synthetic Manifest, safe YAML loading, immutable typed parsing, timestamp/availability rules, deterministic ordering/tie-break rules, version syntax and integrity metadata.
+
+These remain software/schema tests only and are not research evidence.
+
 ## Later M2 tests
 
 As capabilities are implemented, tests will be added for:
 
-- Dataset Manifest validation;
 - deterministic ordering and tie-breaking;
 - base loader error/missing/duplicate handling;
 - Strategy/Research interface semantics;
