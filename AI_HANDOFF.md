@@ -13,35 +13,32 @@
 
 ## Last implemented work package
 
-`ATS2-M2-006 — Deterministic backtest/replay`.
+`ATS2-M2-007 — Cost model interface`.
 
 Primary artifact:
 
-`src/ats/replay/engine.py`
+`src/ats/costs/interface.py`
 
 Implemented boundary:
 
-- `run_replay` consumes `LoadedDataset + ResearchRunContext + ResearchStrategy`;
-- loader records become ordered `ResearchObservation` values;
-- strategy initialization occurs once per replay;
-- one `on_observation` transition occurs per loaded record;
-- immutable `ReplayFrame` captures observation, state-before/state-after, decisions and diagnostics;
-- immutable `ReplayResult` binds dataset identity/version/hash/context and ordered trace;
-- availability time may not regress in the M2 single-stream replay;
-- a decision may not claim a time before the current observation becomes available;
-- engine injects no wall clock, network, broker, cost model or analytics.
+- `CostModelConfig` declares a complete ordered component set;
+- applicable components require explicit parameters and receive no numeric defaults;
+- a genuinely non-applicable component is represented explicitly with a reason;
+- `CostInput` is deterministic and independent of Strategy logic;
+- `CostComponentResult / CostResult` contain modeled cost contributions only;
+- every applicable result carries an explicit unit;
+- canonical JSON serialization rejects non-finite values;
+- `apply_cost_model` requires exact input identity, configured component order and applicability;
+- the model cannot silently omit a configured component;
+- no analytics, gross/net aggregation, broker or live execution behavior is introduced.
 
 Tests:
 
-`tests/test_replay_engine.py`
+`tests/test_cost_interface.py`
 
-The suite includes a vertical synthetic chain:
+The suite uses synthetic non-market fixture units and explicit fee/spread-proxy assumptions plus an explicit non-applicable slippage proxy. These are software fixtures only and are not research evidence.
 
-`Dataset Manifest → loader → Strategy interface → replay`
-
-These are software fixtures only and are not research evidence.
-
-## M2-006 closure check
+## M2-007 closure check
 
 Windows OWNER workflow:
 
@@ -49,11 +46,11 @@ Windows OWNER workflow:
 
 Current `tools/current_task_check.py` is configured for:
 
-`ATS2-M2-006 — Deterministic backtest/replay`
+`ATS2-M2-007 — Cost model interface`
 
 It runs:
 
-1. `tests/test_replay_engine.py`;
+1. `tests/test_cost_interface.py`;
 2. repository validator;
 3. full ATS Local CI.
 
@@ -61,19 +58,19 @@ Shareable report:
 
 `reports/local_ci/CURRENT_TASK_REPORT.txt`
 
-M2-006 is finally closed only after PASS on the exact final HEAD.
+M2-007 is finally closed only after PASS on the exact final HEAD.
 
-## Current ready task after M2-006 PASS
+## Current ready task after M2-007 PASS
 
-`ATS2-M2-007 — Cost model interface`
+`ATS2-M2-008 — Standard analytics/report`
 
 Canonical next artifact:
 
-`src/ats/costs/interface.py`
+`src/ats/analytics/standard.py`
 
-Goal: define explicit deterministic cost assumptions/components outside Strategy logic and keep modeled costs separate from gross effects/results.
+Goal: define deterministic baseline run analytics/results while preserving separate gross effect, modeled costs and net effect and marking inapplicable metrics explicitly.
 
-M2-007 must not add analytics, broker/live execution or Reference Strategy #1.
+M2-008 must not add broker/live execution, portfolio logic or Reference Strategy #1.
 
 ## Read order
 
@@ -85,14 +82,15 @@ M2-007 must not add analytics, broker/live execution or Reference Strategy #1.
 6. `src/ats/data/loader.py`.
 7. `src/ats/strategy/interface.py`.
 8. `src/ats/replay/engine.py`.
-9. `tests/test_replay_engine.py`.
+9. `src/ats/costs/interface.py`.
+10. `tests/test_cost_interface.py`.
 
 ## Recovery check
 
 - Current milestone: `M2_RESEARCH_PLATFORM_MVP`.
-- Last implemented task: `ATS2-M2-006`.
-- Closure checker: `ATS2-M2-006`.
-- Next task after PASS: `ATS2-M2-007`.
-- Next artifact: `src/ats/costs/interface.py`.
+- Last implemented task: `ATS2-M2-007`.
+- Closure checker: `ATS2-M2-007`.
+- Next task after PASS: `ATS2-M2-008`.
+- Next artifact: `src/ats/analytics/standard.py`.
 - Reference Strategy #1 selection allowed now? — no.
 - Pipeline counts remain zero? — yes.

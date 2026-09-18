@@ -47,6 +47,11 @@ REPLAY_FILES = (
     "src/ats/replay/engine.py",
     "tests/test_replay_engine.py",
 )
+COST_INTERFACE_FILES = (
+    "src/ats/costs/__init__.py",
+    "src/ats/costs/interface.py",
+    "tests/test_cost_interface.py",
+)
 LOCAL_CI_FILES = (
     "ATS_TASK_CHECK.bat",
     "tools/verify_repo.py",
@@ -91,7 +96,8 @@ def configure() -> None:
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, LOCAL_CI_GATE,
         DATASET_MANIFEST_SPEC, *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
-        *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
+        *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
+        *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
@@ -245,6 +251,27 @@ def configure() -> None:
         "test_decision_before_observation_availability_is_rejected",
         "test_manifest_loader_strategy_replay_vertical_slice",
     )
+    core.CONTENT_MARKERS["src/ats/costs/interface.py"] = (
+        "class CostApplicability",
+        "class CostComponentConfig",
+        "class CostModelConfig",
+        "class CostInput",
+        "class CostComponentResult",
+        "class CostResult",
+        "class CostModel",
+        "def apply_cost_model",
+        "applicable cost component must declare explicit parameters",
+        "cost result components must exactly match configured order",
+        "allow_nan=False",
+    )
+    core.CONTENT_MARKERS["tests/test_cost_interface.py"] = (
+        "DeterministicFixtureCostModel",
+        "test_applicable_component_requires_explicit_parameters",
+        "test_not_applicable_component_is_explicit_and_parameter_free",
+        "test_fixture_model_is_exactly_deterministic",
+        "test_cost_result_serialization_is_canonical_and_cost_only",
+        "test_model_cannot_silently_omit_configured_component",
+    )
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
@@ -263,8 +290,8 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M2-006"',
-        "tests/test_replay_engine.py",
+        'TASK_ID = "ATS2-M2-007"',
+        "tests/test_cost_interface.py",
         "tools/validate_repo.py",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
@@ -296,9 +323,12 @@ def configure() -> None:
         "ats.data.loader",
         "ats.strategy.interface",
         "ats.replay.engine",
+        "ats.costs.interface",
         "ReplayFrame",
         "ReplayResult",
-        "ATS2-M2-007 — Cost model interface",
+        "CostModelConfig",
+        "CostResult",
+        "ATS2-M2-008 — Standard analytics/report",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
@@ -306,7 +336,9 @@ def configure() -> None:
         "test_data_loader.py",
         "test_strategy_interface.py",
         "test_replay_engine.py",
+        "test_cost_interface.py",
         "vertical integration from Dataset Manifest",
+        "explicit cost components",
         "synthetic non-market",
     )
     core.CONTENT_MARKERS["reports/README.md"] = (
@@ -434,11 +466,13 @@ def validate_environment(repo: Path) -> int:
         "src/ats/data/loader.py",
         "src/ats/strategy/interface.py",
         "src/ats/replay/engine.py",
+        "src/ats/costs/interface.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
         "tests/test_strategy_interface.py",
         "tests/test_replay_engine.py",
+        "tests/test_cost_interface.py",
     ):
         path = repo / relative
         try:
@@ -478,9 +512,9 @@ def main() -> int:
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
-        'last_completed_task_id: "ATS2-M2-006"',
-        'current_task: "ATS2-M2-007"', 'current_ready_task: "ATS2-M2-007"',
-        'current_wbs: "WBS-2.7"', "reference_strategy_selection_allowed: false",
+        'last_completed_task_id: "ATS2-M2-007"',
+        'current_task: "ATS2-M2-008"', 'current_ready_task: "ATS2-M2-008"',
+        'current_wbs: "WBS-2.8"', "reference_strategy_selection_allowed: false",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -545,11 +579,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-006") != "DONE":
-        core.fail("M2-006 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-007") != "DONE":
+        core.fail("M2-007 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-007") != "READY":
-        core.fail("M2-007 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-008") != "READY":
+        core.fail("M2-008 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

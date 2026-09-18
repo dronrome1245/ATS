@@ -31,7 +31,6 @@ These remain software/schema tests only and are not research evidence.
 
 As capabilities are implemented, tests will be added for:
 
-- explicit cost calculations;
 - analytics/result schemas;
 - manifest-driven runner behavior;
 - repeated-run equality/tolerance using synthetic non-market fixtures.
@@ -107,3 +106,20 @@ The fixture strategy is synthetic non-market software logic and is not research 
 - vertical integration from Dataset Manifest through loader, Strategy interface and replay.
 
 The replay fixture remains synthetic non-market software logic and is not research evidence.
+
+
+## Cost model interface tests
+
+`tests/test_cost_interface.py` verifies:
+
+- applicable cost components require explicit parameters;
+- not-applicable components are explicit, reasoned and parameter-free;
+- component names are unique;
+- non-finite inputs/results are rejected;
+- immutable cost contracts;
+- exact repeated deterministic fixture results;
+- canonical cost-only serialization;
+- configured components cannot be silently omitted or reordered;
+- result identity and applicability must match the declared input/config.
+
+The fixture uses synthetic non-market units and explicit cost components only. It is not research evidence.

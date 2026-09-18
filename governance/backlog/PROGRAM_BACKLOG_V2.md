@@ -22,13 +22,13 @@ Backlog превращает Program WBS в исполнимую очередь 
 7. `ATS2-M2-004` — Base data loader — `DONE`.
 8. `ATS2-M2-005` — Minimal Strategy research interface — `DONE`.
 9. `ATS2-M2-006` — Deterministic backtest/replay — `DONE`.
-10. `ATS2-M2-007` — Cost model interface — `READY`.
-11. `ATS2-M2-008` — Standard analytics/report — `BLOCKED` by M2-006/M2-007.
+10. `ATS2-M2-007` — Cost model interface — `DONE`.
+11. `ATS2-M2-008` — Standard analytics/report — `READY`.
 12. `ATS2-M2-009` — Manifest-driven experiment runner — `BLOCKED` by M2-002…008.
 13. `ATS2-M2-010` — Research platform tests — `BLOCKED` by M2-004…009.
 14. `ATS2-M2-011` — M2 Exit — `BLOCKED` by M2-000…010.
 
-Program-level current next task — `ATS2-M2-007`.
+Program-level current next task — `ATS2-M2-008`.
 
 ## 3. M0 / M1
 
@@ -52,13 +52,13 @@ Canonical exits:
 | `ATS2-M2-004` | `WBS-2.4` | P1 | DONE | M2-003 | `src/ats/data/loader.py` + deterministic loader fixtures/tests | UTF-8 CSV reference data load deterministically from a validated Dataset Manifest with explicit RFC3339 time semantics, ordering/tie-break, duplicate/malformed/out-of-order policies, coverage enforcement and optional SHA-256 verification |
 | `ATS2-M2-005` | `WBS-2.5` | P1 | DONE | M2-001, M2-004 | `src/ats/strategy/interface.py` + `tests/test_strategy_interface.py` | Immutable run/observation inputs, generic deterministic state transition, broker-neutral serializable decisions/diagnostics and loader-record bridge are defined without wall-clock/network/broker dependencies |
 | `ATS2-M2-006` | `WBS-2.6` | P1 | DONE | M2-004, M2-005 | `src/ats/replay/engine.py` + `tests/test_replay_engine.py` | Same frozen loader output + run context + research strategy produces reproducible ordered observation/state/decision/diagnostic trace with availability-time causality checks and no hidden wall-clock/network inputs |
-| `ATS2-M2-007` | `WBS-2.7` | P1 | READY | M2-006 | `src/ats/costs/interface.py` + tests | Costs are explicit deterministic inputs applied outside strategy logic and kept separate from gross effects/results |
-| `ATS2-M2-008` | `WBS-2.8` | P1 | BLOCKED | M2-006, M2-007 | Standard analytics/report | Baseline output exposes effect/P&L, risk/path, events/trades and costs as applicable |
+| `ATS2-M2-007` | `WBS-2.7` | P1 | DONE | M2-006 | `src/ats/costs/interface.py` + tests | Costs are explicit deterministic inputs applied outside strategy logic and kept separate from gross effects/results |
+| `ATS2-M2-008` | `WBS-2.8` | P1 | READY | M2-006, M2-007 | `src/ats/analytics/standard.py` + tests | Baseline output exposes effect/P&L, risk/path, events/trades and costs as applicable |
 | `ATS2-M2-009` | `WBS-2.9` | P1 | BLOCKED | M2-002…008 | Manifest-driven experiment runner | Registered experiment context can be replayed by a documented procedure without rewriting preregistration |
 | `ATS2-M2-010` | `WBS-2.10` | P1 | BLOCKED | M2-004…009 | Research platform tests | Critical calculations have deterministic non-market fixtures/regression checks |
 | `ATS2-M2-011` | M2 Exit | P1 | BLOCKED | M2-000…010 | M2 exit decision | Minimal reusable vertical research stack can reproduce an end-to-end baseline registered experiment workflow |
 
-`M2-000…006` still do not select Reference Strategy #1. M2-006 adds only deterministic synthetic replay over the shared loader/interface contracts; it does not add costs, analytics, a trading strategy or research evidence.
+`M2-000…007` still do not select Reference Strategy #1. M2-007 adds only explicit deterministic cost contracts over synthetic software inputs; it does not add analytics, a trading strategy, broker/live execution or research evidence.
 
 ## 5. M3 and later
 
@@ -70,10 +70,10 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 Current program-level ready task:
 
-`ATS2-M2-007 — Cost model interface`.
+`ATS2-M2-008 — Standard analytics/report`.
 
 Canonical next artifact:
 
-`src/ats/costs/interface.py`.
+`src/ats/analytics/standard.py`.
 
-M2-007 must define explicit deterministic cost assumptions/components outside strategy logic. It must not implement analytics, broker/live execution or Reference Strategy #1.
+M2-008 must define deterministic baseline analytics/results with separate gross effect, modeled costs and net effect and explicit not-applicable metrics. It must not implement broker/live execution, portfolio logic or Reference Strategy #1.

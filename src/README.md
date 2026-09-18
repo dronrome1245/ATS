@@ -36,7 +36,7 @@ M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB,
 
 A concrete Reference Strategy #1 is not selected until M3. Deterministic synthetic software fixtures used for platform tests are not research entities or trading evidence.
 
-The environment baseline, Dataset Manifest boundary, base data loader, Strategy/Research interface and deterministic replay core are complete at repository-artifact level. The next implementation step after M2-006 Local CI PASS is `ATS2-M2-007 — Cost model interface`; analytics remains a later work package.
+The environment baseline, Dataset Manifest boundary, base data loader, Strategy/Research interface, deterministic replay core and explicit cost-model interface are complete at repository-artifact level. The next implementation step after M2-007 Local CI PASS is `ATS2-M2-008 — Standard analytics/report`.
 
 
 ## Implemented M2 boundary
@@ -102,4 +102,19 @@ Implemented M2-006 behavior:
 - a decision may not claim a time earlier than the current observation's availability time;
 - no wall clock, network, broker, costs or analytics are injected by the engine.
 
-The next implementation boundary is `ATS2-M2-007 — Cost model interface`, expected under `src/ats/costs/`.
+`ATS2-M2-007 — Cost model interface` is materialized in `ats.costs.interface`.
+
+## Cost model interface boundary
+
+Implemented M2-007 behavior:
+
+- immutable `CostComponentConfig / CostModelConfig` with ordered unique component names;
+- applicable components require explicit parameters and receive no numeric defaults;
+- `CostApplicability.NOT_APPLICABLE` requires an explicit reason and carries no hidden zero;
+- immutable `CostInput` stays outside Strategy logic and contains only declared JSON-scalar attributes;
+- `CostComponentResult / CostResult` serialize modeled costs separately from gross/net performance;
+- each applicable result has an explicit finite numeric value and unit;
+- `CostModel` is a deterministic protocol over explicit input + config only;
+- `apply_cost_model` rejects mismatched input identity, omitted/reordered components or changed applicability.
+
+The next implementation boundary is `ATS2-M2-008 — Standard analytics/report`, expected under `src/ats/analytics/`.

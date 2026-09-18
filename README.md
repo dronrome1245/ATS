@@ -14,28 +14,29 @@
 
 Последний реализованный work package:
 
-`ATS2-M2-006 — Deterministic backtest/replay`.
+`ATS2-M2-007 — Cost model interface`.
 
 Primary artifact:
 
-`src/ats/replay/engine.py`.
+`src/ats/costs/interface.py`.
 
-Replay baseline:
+Cost baseline:
 
-- consumes deterministic loader output and Strategy/Research interface;
-- preserves record order and state transition trace;
-- binds dataset identity/hash/context;
-- enforces information-availability causality;
-- emits ordered decisions/diagnostics;
-- injects no wall clock, network, broker, costs or analytics.
+- explicit ordered component configuration;
+- no hidden numeric defaults for applicable components;
+- explicit `NOT_APPLICABLE` representation with reason;
+- deterministic cost inputs outside Strategy logic;
+- separate serializable component/result objects;
+- exact component/order/applicability validation;
+- no gross/net analytics or broker/live execution behavior.
 
-Следующая task после M2-006 Local CI PASS:
+Следующая task после M2-007 Local CI PASS:
 
-`ATS2-M2-007 — Cost model interface`.
+`ATS2-M2-008 — Standard analytics/report`.
 
 Следующий artifact:
 
-`src/ats/costs/interface.py`.
+`src/ats/analytics/standard.py`.
 
 ## Windows task check
 

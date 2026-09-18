@@ -8,8 +8,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M2-006"
-TASK_NAME = "Deterministic backtest/replay"
+TASK_ID = "ATS2-M2-007"
+TASK_NAME = "Cost model interface"
 
 
 def run(name: str, command: list[str]) -> bool:
@@ -36,8 +36,8 @@ def main() -> int:
 
     checks = [
         (
-            "M2-006 Deterministic Replay tests",
-            [sys.executable, "-m", "pytest", "tests/test_replay_engine.py", "-q"],
+            "M2-007 Cost Model Interface tests",
+            [sys.executable, "-m", "pytest", "tests/test_cost_interface.py", "-q"],
         ),
         (
             "repository validator",
