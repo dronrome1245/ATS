@@ -174,7 +174,7 @@ uv run --frozen python tools/verify_repo.py --fast
 
 Canonical policy: `governance/program/LOCAL_CI_GATE.md`. Full gate включает repository validator, pytest, Ruff lint/format и environment fingerprint. Результат `ATS LOCAL CI: PASS` обязателен перед обычным push material task.
 
-Для OWNER на Windows стандартный интерфейс проверки — корневой `ATS_CHECK.bat`. Не заставлять OWNER вручную копировать цепочки local-CI команд, если BAT может выполнить их сам. После каждого material step поддерживать BAT/report workflow и просить OWNER прислать `reports/local_ci/LATEST_REPORT.txt` для подтверждения или диагностики.
+Для OWNER на Windows стандартный task-completion interface — стабильный корневой `ATS_TASK_CHECK.bat`. Не менять BAT под каждую задачу; task-specific проверки размещать в `tools/current_task_check.py` и обновлять этот Python-файл при смене текущего work package. Не заставлять OWNER вручную копировать цепочки local-CI команд, если launcher может выполнить их сам. После material step просить OWNER запустить `ATS_TASK_CHECK.bat` и прислать `reports/local_ci/CURRENT_TASK_REPORT.txt` для подтверждения или диагностики.
 
 ## 17. Принцип безопасности
 
