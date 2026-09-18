@@ -129,7 +129,7 @@ def configure() -> None:
         "ATS2-M2-004 — Base data loader",
     )
     core.CONTENT_MARKERS["data/manifests/DATASET_TEMPLATE.yaml"] = (
-        'dataset_id: "DATASET-SYNTHETIC-REFERENCE"',
+        'dataset_id: "DATA-SYNTHETIC-M2-001"',
         'dataset_version: "1.0.0"',
         "availability_mode: \"SAME_AS_EVENT_TIME\"",
         "tie_break_keys:",
