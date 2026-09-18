@@ -190,9 +190,15 @@ def validate_environment(repo: Path) -> int:
     if uv_table.get("required-version") != "==0.12.13":
         core.fail("tool.uv.required-version must be ==0.12.13")
         blocking += 1
-    expected_environment = "sys_platform == 'linux' and platform_machine == 'x86_64'"
-    if uv_table.get("environments") != [expected_environment]:
-        core.fail("tool.uv.environments must define only canonical Linux x86_64 target")
+    expected_environments = {
+        "sys_platform == 'linux' and platform_machine == 'x86_64'",
+        "sys_platform == 'win32' and platform_machine == 'AMD64'",
+    }
+    if set(uv_table.get("environments", [])) != expected_environments:
+        core.fail("tool.uv.environments must define Windows x86_64 and Linux x86_64")
+        blocking += 1
+    if set(uv_table.get("required-environments", [])) != expected_environments:
+        core.fail("tool.uv.required-environments must require Windows x86_64 and Linux x86_64")
         blocking += 1
 
     lock = (repo / "uv.lock").read_text(encoding="utf-8")
@@ -208,6 +214,10 @@ def validate_environment(repo: Path) -> int:
         "pydantic_core-2.46.5-cp313-cp313-manylinux_2_17_x86_64",
         "pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64",
         "ruff-0.16.7-py3-none-manylinux_2_17_x86_64",
+        "numpy-2.5.3-cp313-cp313-win_amd64",
+        "pydantic_core-2.46.5-cp313-cp313-win_amd64",
+        "pyyaml-6.0.3-cp313-cp313-win_amd64",
+        "ruff-0.16.7-py3-none-win_amd64",
         'hash = "sha256:',
     ):
         if marker not in lock:
@@ -278,7 +288,8 @@ def main() -> int:
         'last_completed_task_id: "ATS2-M2-002"',
         'current_task: "ATS2-M2-003"', 'current_ready_task: "ATS2-M2-003"',
         'current_wbs: "WBS-2.3"', "reference_strategy_selection_allowed: false",
-        'canonical_host: LINUX_X86_64', 'python: "3.13.15"', 'uv: "0.12.13"',
+        'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
+        'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
         'full_command: "uv run --frozen python tools/verify_repo.py"',
         "experiments_registered: 0", "physical_migration_complete: true",
