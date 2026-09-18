@@ -278,7 +278,15 @@ def load_dataset(manifest: DatasetManifest, *, root: str | Path) -> LoadedDatase
     if out_of_order_detected:
         if manifest.quality_policy.out_of_order is OutOfOrderPolicy.REJECT:
             raise DatasetLoadError("dataset rows violate the declared ordering contract")
-        records = sorted(records, key=lambda record: _record_key(record, manifest))
+        if (
+            manifest.quality_policy.out_of_order
+            is OutOfOrderPolicy.SORT_BY_ORDERING_CONTRACT
+        ):
+            records = sorted(records, key=lambda record: _record_key(record, manifest))
+        else:
+            raise DatasetLoadError(
+                f"unsupported out-of-order policy: {manifest.quality_policy.out_of_order}"
+            )
 
     return LoadedDataset(
         dataset_id=manifest.dataset_id,
