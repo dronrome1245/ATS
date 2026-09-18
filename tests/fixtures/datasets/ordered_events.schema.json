@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "description": "Synthetic non-market CSV schema for ATS M2 loader tests only.",
+  "fields": [
+    {"name": "event_time", "type": "rfc3339_timestamp"},
+    {"name": "sequence", "type": "string"},
+    {"name": "value", "type": "string"}
+  ]
+}
