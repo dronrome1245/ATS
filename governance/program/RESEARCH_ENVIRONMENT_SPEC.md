@@ -19,14 +19,14 @@ The exact M2 reproducibility baseline is:
 
 - implementation: `CPython`;
 - exact patch: `3.13.15`;
-- canonical host: `Linux x86_64`;
+- supported hosts: `Windows x86_64` and `Linux x86_64`;
 - operational Python pin: root `.python-version`;
 - project Python compatibility range: `>=3.13,<3.14` in `pyproject.toml`;
-- uv resolution environment: `sys_platform == 'linux' and platform_machine == 'x86_64'`.
+- uv resolution environments: `sys_platform == 'win32' and platform_machine == 'AMD64'` and `sys_platform == 'linux' and platform_machine == 'x86_64'`.
 
-The compatibility range describes source/package compatibility across the 3.13 line. Reproducibility claims for M2 are made against the exact Python patch and Linux x86_64 host above.
+The compatibility range describes source/package compatibility across the 3.13 line. Reproducibility claims for M2 are made against the exact Python patch on the supported Windows x86_64 and Linux x86_64 hosts above.
 
-Other desktop operating systems may be used for editing, but they are not declared reproducibility targets by M2-002. Cross-platform support can be added after a concrete need and corresponding test matrix exist.
+Other operating systems/architectures are not declared reproducibility targets by M2-002. Windows x86_64 is the primary local workstation target; Linux x86_64 remains a supported reproducibility target.
 
 Free-threaded/experimental Python builds are out of scope for M2.
 
@@ -72,7 +72,7 @@ The committed `uv.lock` fixes the dependency graph used by the current direct pi
 
 `colorama == 0.4.6` is retained in the lock because pytest declares it under the Windows marker, but it is not installed in the canonical Linux environment.
 
-For packages with platform-specific binaries, the lock includes Linux x86_64-compatible wheel URLs and SHA-256 hashes. Pure-Python dependencies use universal wheels.
+For packages with platform-specific binaries, the lock includes Windows x86_64 and Linux x86_64 wheel URLs and SHA-256 hashes. Pure-Python dependencies use universal wheels.
 
 The lock is the canonical resolution. Direct/transitive versions must not be upgraded opportunistically during another M2 work package.
 
@@ -124,7 +124,7 @@ Canonical policy: `governance/program/LOCAL_CI_GATE.md`.
 
 The supported local verification path is:
 
-1. use CPython `3.13.15` and uv `0.12.13` on Linux x86_64;
+1. use CPython `3.13.15` and uv `0.12.13` on Windows x86_64 or Linux x86_64;
 2. `uv sync --frozen`;
 3. enable hooks once with `git config core.hooksPath .githooks`;
 4. use the fast gate during development;
@@ -135,7 +135,7 @@ GitHub Actions is not a completion criterion.
 
 ## 10. Lock verification and update procedure
 
-The current lock has been structurally checked as TOML and with uv frozen-sync semantics on Linux x86_64: uv recognizes the selected wheel artifacts; in an offline empty cache the sync stops only because the wheel bytes are unavailable, not because a compatible distribution is missing.
+The lock declares compatible binary artifacts for both supported hosts. Windows x86_64 support includes locked wheels for NumPy, Pydantic Core, PyYAML and Ruff in addition to the Linux x86_64 wheels.
 
 An intentional dependency/runtime change requires:
 
@@ -166,7 +166,7 @@ Those require a later demonstrated consumer need.
 
 `ATS2-M2-002` is complete when:
 
-- exact CPython, uv and canonical host platform are fixed;
+- exact CPython, uv and supported host platforms are fixed;
 - `pyproject.toml`, `.python-version` and an installable-artifact `uv.lock` are committed;
 - direct and transitive environment versions are locked;
 - frozen setup/run commands are documented;
