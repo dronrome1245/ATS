@@ -378,7 +378,7 @@ def build_standard_analytics(
     costs: CostResult | NotApplicable,
     trade_or_event_count: ActivityCount | NotApplicable,
 ) -> StandardAnalyticsResult:
-    """Build deterministic baseline analytics without inventing missing semantics."""
+    """Build deterministic analytics; research decisions are never inferred as trades."""
 
     effect_analytics = _build_effect_analytics(effects)
     cost_analytics = _build_cost_analytics(costs)
