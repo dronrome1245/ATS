@@ -29,6 +29,7 @@ DATASET_MANIFEST_FILES = (
     "tests/test_dataset_manifest.py",
 )
 LOCAL_CI_FILES = (
+    "ATS_CHECK.bat",
     "tools/verify_repo.py",
     ".githooks/pre-commit",
     ".githooks/pre-push",
@@ -153,15 +154,31 @@ def configure() -> None:
         "test_unsafe_yaml_tag_is_rejected",
     )
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
-        "uv run --frozen python tools/verify_repo.py", "ATS LOCAL CI: PASS",
-        ".githooks/pre-commit", ".githooks/pre-push", "GitHub Actions status is not a completion criterion",
+        "ATS_CHECK.bat",
+        "LATEST_REPORT.txt",
+        "uv run --frozen python tools/verify_repo.py",
+        "ATS LOCAL CI: PASS",
+        ".githooks/pre-commit",
+        ".githooks/pre-push",
+        "GitHub Actions status is not a completion criterion",
+    )
+    core.CONTENT_MARKERS["ATS_CHECK.bat"] = (
+        "git pull --ff-only",
+        "uv sync --frozen",
+        "uv run --frozen python tools/verify_repo.py",
+        "LATEST_REPORT.txt",
+        "ATS CHECK WRAPPER: PASS",
+        "ATS CHECK WRAPPER: FAIL",
     )
     core.CONTENT_MARKERS["tools/verify_repo.py"] = (
         "ATS Local CI Gate", "repository validator", "ruff lint", "ruff format",
         "pytest", "environment fingerprint", "ATS LOCAL CI:", "LATEST.json",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
-        "LATEST.json", "tools/verify_repo.py", "LOCAL_CI_GATE.md",
+        "ATS_CHECK.bat",
+        "LATEST_REPORT.txt",
+        "LATEST.json",
+        "LOCAL_CI_GATE.md",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
         "`WBS-2.0`", "Reference Consumer Profile", "`WBS-2.1`",
@@ -287,9 +304,13 @@ def validate_environment(repo: Path) -> int:
         blocking += 1
 
     gitignore = (repo / ".gitignore").read_text(encoding="utf-8")
-    if "reports/local_ci/LATEST.json" not in gitignore:
-        core.fail("local CI runtime report must remain ignored by Git")
-        blocking += 1
+    for ignored_report in (
+        "reports/local_ci/LATEST.json",
+        "reports/local_ci/LATEST_REPORT.txt",
+    ):
+        if ignored_report not in gitignore:
+            core.fail(f"local CI runtime report must remain ignored by Git: {ignored_report}")
+            blocking += 1
 
     for hook_name in ("pre-commit", "pre-push"):
         hook = repo / ".githooks" / hook_name
@@ -353,6 +374,8 @@ def main() -> int:
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
         'full_command: "uv run --frozen python tools/verify_repo.py"',
+        'windows_launcher: "ATS_CHECK.bat"',
+        'shareable_report: "reports/local_ci/LATEST_REPORT.txt"',
         "experiments_registered: 0", "physical_migration_complete: true",
         "thirteen_gate_model_is_program_roadmap: false",
     ):
