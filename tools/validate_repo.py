@@ -20,6 +20,14 @@ CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
 LOCAL_CI_GATE = "governance/program/LOCAL_CI_GATE.md"
+DATASET_MANIFEST_SPEC = "governance/program/DATASET_MANIFEST_SPEC.md"
+DATASET_MANIFEST_FILES = (
+    "data/manifests/DATASET_TEMPLATE.yaml",
+    "src/ats/__init__.py",
+    "src/ats/schemas/__init__.py",
+    "src/ats/schemas/dataset_manifest.py",
+    "tests/test_dataset_manifest.py",
+)
 LOCAL_CI_FILES = (
     "tools/verify_repo.py",
     ".githooks/pre-commit",
@@ -61,12 +69,12 @@ def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, LOCAL_CI_GATE,
-        *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
+        DATASET_MANIFEST_SPEC, *DATASET_MANIFEST_FILES, *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
         "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
-        "local_ci_gate",
+        "dataset_manifest_spec", "local_ci_gate",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
@@ -111,6 +119,39 @@ def configure() -> None:
         "uv sync --frozen", "tools/verify_repo.py", "Local CI Gate",
         "ATS2-M2-003 — Dataset manifest support",
     )
+    core.CONTENT_MARKERS[DATASET_MANIFEST_SPEC] = (
+        "dataset_id + dataset_version",
+        "information-availability",
+        "tie_break_keys",
+        "material data change requires a new dataset version",
+        "yaml.safe_load",
+        "Actual byte verification",
+        "ATS2-M2-004 — Base data loader",
+    )
+    core.CONTENT_MARKERS["data/manifests/DATASET_TEMPLATE.yaml"] = (
+        'dataset_id: "DATASET-SYNTHETIC-REFERENCE"',
+        'dataset_version: "1.0.0"',
+        "availability_mode: \"SAME_AS_EVENT_TIME\"",
+        "tie_break_keys:",
+        "algorithm: \"NOT_AVAILABLE\"",
+        "Synthetic non-market template; not research evidence.",
+    )
+    core.CONTENT_MARKERS["src/ats/schemas/dataset_manifest.py"] = (
+        "class DatasetManifest",
+        "yaml.safe_load",
+        "ConfigDict(extra=\"forbid\", frozen=True)",
+        "coverage timestamps must be timezone-aware",
+        "event_time_field must be the first ordering key",
+        "SHA256 integrity requires a lowercase 64-hex digest",
+        "load_dataset_manifest",
+    )
+    core.CONTENT_MARKERS["tests/test_dataset_manifest.py"] = (
+        "test_canonical_template_loads",
+        "test_naive_coverage_timestamp_is_rejected",
+        "test_tie_break_is_required",
+        "test_invalid_sha256_metadata_is_rejected",
+        "test_unsafe_yaml_tag_is_rejected",
+    )
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
         "uv run --frozen python tools/verify_repo.py", "ATS LOCAL CI: PASS",
         ".githooks/pre-commit", ".githooks/pre-push", "GitHub Actions status is not a completion criterion",
@@ -127,15 +168,28 @@ def configure() -> None:
         "Consumer Profile", "Reference Strategy #1 ещё не выбрана",
     )
     core.CONTENT_MARKERS["data/README.md"] = (
-        "Dataset Manifests", "M2 boundary", "Reference Strategy #1 remains M3 work",
+        "Dataset Manifests",
+        "M2 boundary",
+        "Reference Strategy #1 remains M3 work",
+        "DATASET_MANIFEST_SPEC.md",
+        "DATASET_TEMPLATE.yaml",
+        "ATS2-M2-004 — Base data loader",
     )
     core.CONTENT_MARKERS["src/README.md"] = (
-        "ADR-0001-RESEARCH-STACK.md", "RESEARCH_ENVIRONMENT_SPEC.md",
-        "CPython `3.13.15`", "uv `0.12.13`", "src/ats/", "ATS2-M2-003",
+        "ADR-0001-RESEARCH-STACK.md",
+        "RESEARCH_ENVIRONMENT_SPEC.md",
+        "CPython `3.13.15`",
+        "uv `0.12.13`",
+        "src/ats/",
+        "ats.schemas.dataset_manifest.DatasetManifest",
+        "ATS2-M2-004 — Base data loader",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
-        "test_environment_baseline.py", "uv run --frozen pytest",
-        "Dataset Manifest validation", "synthetic non-market fixtures",
+        "test_environment_baseline.py",
+        "uv run --frozen pytest",
+        "test_dataset_manifest.py",
+        "safe YAML loading",
+        "synthetic non-market fixtures",
     )
     core.CONTENT_MARKERS["reports/README.md"] = (
         "source_class", "qualified_evidence_class", "WBS-2.8",
@@ -182,6 +236,9 @@ def validate_environment(repo: Path) -> int:
         blocking += 1
     if set(project.get("dependency-groups", {}).get("dev", [])) != DIRECT_DEV:
         core.fail("pyproject dev dependency pins do not match M2 baseline")
+        blocking += 1
+    if project.get("tool", {}).get("pytest", {}).get("ini_options", {}).get("pythonpath") != ["src"]:
+        core.fail("pytest pythonpath must expose src for ATS package tests")
         blocking += 1
 
     uv_table = project.get("tool", {}).get("uv", {})
@@ -247,7 +304,9 @@ def validate_environment(repo: Path) -> int:
     for relative in (
         "tools/environment_fingerprint.py",
         "tools/verify_repo.py",
+        "src/ats/schemas/dataset_manifest.py",
         "tests/test_environment_baseline.py",
+        "tests/test_dataset_manifest.py",
     ):
         path = repo / relative
         try:
@@ -285,10 +344,11 @@ def main() -> int:
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
         'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
+        'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
-        'last_completed_task_id: "ATS2-M2-002"',
-        'current_task: "ATS2-M2-003"', 'current_ready_task: "ATS2-M2-003"',
-        'current_wbs: "WBS-2.3"', "reference_strategy_selection_allowed: false",
+        'last_completed_task_id: "ATS2-M2-003"',
+        'current_task: "ATS2-M2-004"', 'current_ready_task: "ATS2-M2-004"',
+        'current_wbs: "WBS-2.4"', "reference_strategy_selection_allowed: false",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -350,11 +410,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-002") != "DONE":
-        core.fail("M2-002 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-003") != "DONE":
+        core.fail("M2-003 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-003") != "READY":
-        core.fail("M2-003 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-004") != "READY":
+        core.fail("M2-004 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
