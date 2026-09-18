@@ -132,7 +132,11 @@ def _parse_row(
     if None in row or any(value is None for value in row.values()):
         raise MalformedRowError(f"line {source_line}: malformed CSV field count")
 
-    typed_row = {name: value for name, value in row.items() if name is not None and value is not None}
+    typed_row = {
+        name: value
+        for name, value in row.items()
+        if name is not None and value is not None
+    }
 
     for field_name in _required_fields(manifest):
         if not typed_row.get(field_name, "").strip():
