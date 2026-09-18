@@ -58,6 +58,12 @@ Shareable report:
 
 `reports/local_ci/CURRENT_TASK_REPORT.txt`
 
+Reusable Local CI failure lessons and preventive rules:
+
+`governance/program/LOCAL_CI_TROUBLESHOOTING.md`
+
+Before changing code after a launcher FAIL, classify the first failing stage. Raw runtime reports remain local and are not committed.
+
 M2-007 is finally closed only after PASS on the exact final HEAD.
 
 ## Current ready task after M2-007 PASS
@@ -78,12 +84,13 @@ M2-008 must not add broker/live execution, portfolio logic or Reference Strategy
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
-6. `src/ats/data/loader.py`.
-7. `src/ats/strategy/interface.py`.
-8. `src/ats/replay/engine.py`.
-9. `src/ats/costs/interface.py`.
-10. `tests/test_cost_interface.py`.
+5. `governance/program/LOCAL_CI_TROUBLESHOOTING.md` when diagnosing a launcher/Local CI failure.
+6. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
+7. `src/ats/data/loader.py`.
+8. `src/ats/strategy/interface.py`.
+9. `src/ats/replay/engine.py`.
+10. `src/ats/costs/interface.py`.
+11. `tests/test_cost_interface.py`.
 
 ## Recovery check
 

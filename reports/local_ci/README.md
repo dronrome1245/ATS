@@ -22,6 +22,12 @@ The Python Local CI runner additionally writes:
 
 All runtime reports are intentionally ignored by Git.
 
+Reusable failure lessons are committed separately in:
+
+`governance/program/LOCAL_CI_TROUBLESHOOTING.md`
+
+Do not commit raw `CURRENT_TASK_REPORT.txt` or `LATEST.json`. After a FAIL, the agent should classify the first failing stage and preserve only durable root-cause/prevention knowledge in the troubleshooting registry.
+
 OWNER workflow:
 
 1. double-click `ATS_TASK_CHECK.bat`;

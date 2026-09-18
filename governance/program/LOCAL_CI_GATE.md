@@ -87,6 +87,22 @@ The report includes:
 
 `LATEST.json` and `CURRENT_TASK_REPORT.txt` are local runtime evidence and are ignored by Git. Canonical governance does not depend on committing machine-specific verification output.
 
+## Failure handling and durable lessons
+
+A FAIL must be diagnosed from the first failing stage before source changes are made.
+
+Reusable failure knowledge is stored in:
+
+`governance/program/LOCAL_CI_TROUBLESHOOTING.md`
+
+The troubleshooting registry records failure class, supported root cause, correct response and preventive rule. It does not store raw local reports.
+
+Infrastructure failures such as `git pull --ff-only` connectivity errors must not trigger speculative code changes. Conversely, a formatter-only failure should be fixed as a formatting issue when tests/lint/validator already establish that no separate logic failure is present.
+
+When an agent or tool writes Python directly to the remote repository and therefore bypasses local hooks, Ruff formatting remains part of the authoring responsibility. Passing tests or Ruff lint alone does not imply `ruff format --check` will pass.
+
+After every fix, the authoritative evidence is still a new full launcher run on the new exact HEAD.
+
 ## Git hooks
 
 Repository hooks:

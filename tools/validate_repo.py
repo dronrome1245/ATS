@@ -20,6 +20,7 @@ CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
 LOCAL_CI_GATE = "governance/program/LOCAL_CI_GATE.md"
+LOCAL_CI_TROUBLESHOOTING = "governance/program/LOCAL_CI_TROUBLESHOOTING.md"
 DATASET_MANIFEST_SPEC = "governance/program/DATASET_MANIFEST_SPEC.md"
 DATASET_MANIFEST_FILES = (
     "data/manifests/DATASET_TEMPLATE.yaml",
@@ -95,14 +96,15 @@ def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, LOCAL_CI_GATE,
-        DATASET_MANIFEST_SPEC, *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
+        LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
+        *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
         *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
         "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
-        "dataset_manifest_spec", "local_ci_gate",
+        "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
@@ -277,9 +279,22 @@ def configure() -> None:
         "CURRENT_TASK_REPORT.txt",
         "uv run --frozen python tools/verify_repo.py",
         "ATS LOCAL CI: PASS",
+        "LOCAL_CI_TROUBLESHOOTING.md",
         ".githooks/pre-commit",
         ".githooks/pre-push",
         "GitHub Actions status is not a completion criterion",
+    )
+    core.CONTENT_MARKERS[LOCAL_CI_TROUBLESHOOTING] = (
+        "LCI-001",
+        "SYNC_NETWORK",
+        "Failed to connect to github.com:443",
+        "LCI-002",
+        "FORMAT",
+        "ruff format --check",
+        "b3085c26342c52e6ae852962faefcaf347d43a2a",
+        "fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd",
+        "do not modify source code for infrastructure/network failures",
+        "Raw machine reports are not copied into this file",
     )
     core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
         "git pull --ff-only",
@@ -305,6 +320,7 @@ def configure() -> None:
         "CURRENT_TASK_REPORT.txt",
         "LATEST.json",
         "LOCAL_CI_GATE.md",
+        "LOCAL_CI_TROUBLESHOOTING.md",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
         "`WBS-2.0`", "Reference Consumer Profile", "`WBS-2.1`",
@@ -512,6 +528,7 @@ def main() -> int:
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
+        'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'last_completed_task_id: "ATS2-M2-007"',
         'current_task: "ATS2-M2-008"', 'current_ready_task: "ATS2-M2-008"',
         'current_wbs: "WBS-2.8"', "reference_strategy_selection_allowed: false",
@@ -597,7 +614,12 @@ def main() -> int:
         blocking += 1
 
     agents = (repo / "AGENTS.md").read_text(encoding="utf-8")
-    for marker in ("03_СОСТОЯНИЕ_ПРОЕКТА.yaml", "governance/backlog/PROGRAM_BACKLOG_V2.md", "legacy/v1/"):
+    for marker in (
+        "03_СОСТОЯНИЕ_ПРОЕКТА.yaml",
+        "governance/backlog/PROGRAM_BACKLOG_V2.md",
+        "governance/program/LOCAL_CI_TROUBLESHOOTING.md",
+        "legacy/v1/",
+    ):
         if marker not in agents:
             core.fail(f"AGENTS.md marker missing: {marker}")
             blocking += 1
