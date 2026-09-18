@@ -36,7 +36,7 @@ M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB,
 
 A concrete Reference Strategy #1 is not selected until M3. Deterministic synthetic software fixtures used for platform tests are not research entities or trading evidence.
 
-The environment baseline, Dataset Manifest boundary, base data loader and minimal Strategy/Research interface are complete at repository-artifact level. The next implementation step after M2-005 Local CI PASS is `ATS2-M2-006 — Deterministic backtest/replay`; costs remain a later work package.
+The environment baseline, Dataset Manifest boundary, base data loader, Strategy/Research interface and deterministic replay core are complete at repository-artifact level. The next implementation step after M2-006 Local CI PASS is `ATS2-M2-007 — Cost model interface`; analytics remains a later work package.
 
 
 ## Implemented M2 boundary
@@ -85,4 +85,21 @@ Implemented M2-005 contract:
 
 The interface supplies no wall clock, network, broker, account, portfolio allocation or live-risk object.
 
-The next implementation boundary is `ATS2-M2-006 — Deterministic backtest/replay`, expected under `src/ats/replay/`.
+`ATS2-M2-006 — Deterministic backtest/replay` is materialized in `ats.replay.engine`.
+
+
+## Deterministic replay boundary
+
+Implemented M2-006 behavior:
+
+- `run_replay` consumes `LoadedDataset + ResearchRunContext + ResearchStrategy`;
+- loader records are bridged into `ResearchObservation` in their existing deterministic order;
+- `initial_state` is called once per replay;
+- `on_observation` is called exactly once per record;
+- immutable `ReplayFrame` records observation, state-before/state-after, decisions and diagnostics;
+- `ReplayResult` binds dataset identity/version/hash/context and exposes ordered flattened decisions/diagnostics;
+- availability time may not move backward in the single-stream M2 replay;
+- a decision may not claim a time earlier than the current observation's availability time;
+- no wall clock, network, broker, costs or analytics are injected by the engine.
+
+The next implementation boundary is `ATS2-M2-007 — Cost model interface`, expected under `src/ats/costs/`.
