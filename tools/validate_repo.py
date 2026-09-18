@@ -38,7 +38,6 @@ BASE_LOADER_FILES = (
     "tests/test_data_loader.py",
 )
 LOCAL_CI_FILES = (
-    "ATS_CHECK.bat",
     "ATS_TASK_CHECK.bat",
     "tools/verify_repo.py",
     "tools/current_task_check.py",
@@ -200,8 +199,6 @@ def configure() -> None:
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
-        "ATS_CHECK.bat",
-        "LATEST_REPORT.txt",
         "uv run --frozen python tools/verify_repo.py",
         "ATS LOCAL CI: PASS",
         ".githooks/pre-commit",
@@ -223,14 +220,6 @@ def configure() -> None:
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
-    core.CONTENT_MARKERS["ATS_CHECK.bat"] = (
-        "git pull --ff-only",
-        "uv sync --frozen",
-        "uv run --frozen python tools/verify_repo.py",
-        "LATEST_REPORT.txt",
-        "ATS CHECK WRAPPER: PASS",
-        "ATS CHECK WRAPPER: FAIL",
-    )
     core.CONTENT_MARKERS["tools/verify_repo.py"] = (
         "ATS Local CI Gate", "repository validator", "ruff lint", "ruff format",
         "pytest", "environment fingerprint", "ATS LOCAL CI:", "LATEST.json",
@@ -238,14 +227,12 @@ def configure() -> None:
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
-        "ATS_CHECK.bat",
-        "LATEST_REPORT.txt",
         "LATEST.json",
         "LOCAL_CI_GATE.md",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
         "`WBS-2.0`", "Reference Consumer Profile", "`WBS-2.1`",
-        "Consumer Profile", "Reference Strategy #1 ещё не выбрана",
+        "Consumer Profile", "Reference Strategy #1 remains M3 work and is not selected in M2.",
     )
     core.CONTENT_MARKERS["data/README.md"] = (
         "Dataset Manifests",
@@ -374,7 +361,6 @@ def validate_environment(repo: Path) -> int:
     gitignore = (repo / ".gitignore").read_text(encoding="utf-8")
     for ignored_report in (
         "reports/local_ci/LATEST.json",
-        "reports/local_ci/LATEST_REPORT.txt",
         "reports/local_ci/CURRENT_TASK_REPORT.txt",
     ):
         if ignored_report not in gitignore:
@@ -445,7 +431,6 @@ def main() -> int:
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
         'full_command: "uv run --frozen python tools/verify_repo.py"',
-        'windows_launcher: "ATS_CHECK.bat"',
         'current_task_launcher: "ATS_TASK_CHECK.bat"',
         'current_task_checker: "tools/current_task_check.py"',
         'shareable_report: "reports/local_ci/CURRENT_TASK_REPORT.txt"',
