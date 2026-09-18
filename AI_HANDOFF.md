@@ -26,7 +26,9 @@ Materialized environment artifacts:
 - `uv.lock` → exact dependency graph plus install wheel URLs/SHA-256 for the canonical host;
 - `tools/environment_fingerprint.py`;
 - `tests/test_environment_baseline.py`;
-- `.github/workflows/validate.yml` → frozen uv workflow.
+- `governance/program/LOCAL_CI_GATE.md` → canonical local quality policy;
+- `tools/verify_repo.py` → full/fast Local CI runner;
+- `.githooks/pre-commit` / `.githooks/pre-push` → automatic local gates.
 
 Canonical host/runtime baseline:
 
@@ -44,10 +46,8 @@ Canonical environment commands:
 ```bash
 uv python install 3.13.15
 uv sync --frozen
-uv run --frozen python tools/validate_repo.py
-uv run --frozen pytest tests/test_environment_baseline.py
-uv run --frozen python tools/environment_fingerprint.py
-uv run --frozen ruff check tools/environment_fingerprint.py tests/test_environment_baseline.py
+uv run --frozen python tools/verify_repo.py --fast
+uv run --frozen python tools/verify_repo.py
 ```
 
 The lock is structurally compatible with uv frozen-sync selection on Linux x86_64. Offline empty-cache verification stops only because locked wheel bytes cannot be downloaded, not because a compatible locked distribution is absent.
@@ -84,9 +84,9 @@ Expected implementation boundary:
 
 M2-003 must not implement the base loader beyond the minimum needed to parse/validate a Manifest.
 
-## CI operational note
+## Local quality gate
 
-Recent GitHub-hosted Actions attempts before M2-002 ended before any step ran (`runner_id=0`, `steps=[]`). Treat such a run as infrastructure/scheduling failure, not repository validation evidence. The current workflow is configured for the frozen environment and should be evaluated only when a runner actually executes its steps.
+GitHub Actions is intentionally not used as a completion gate. Enable repository hooks once per clone with `git config core.hooksPath .githooks`. The full canonical gate is `uv run --frozen python tools/verify_repo.py`; material work requires `ATS LOCAL CI: PASS` on the exact commit before push. Local runtime report: `reports/local_ci/LATEST.json` (gitignored).
 
 ## Read order
 
