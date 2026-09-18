@@ -1,6 +1,6 @@
 schema_version: "2.0"
 
-dataset_id: "DATASET-SYNTHETIC-REFERENCE"
+dataset_id: "DATA-SYNTHETIC-M2-001"
 dataset_version: "1.0.0"
 description: "Synthetic non-market manifest template for M2 schema validation only."
 
