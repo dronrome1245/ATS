@@ -7,7 +7,7 @@
 
 ## 1. Purpose
 
-This specification materializes the accepted M2 research-stack ADR into one reproducible local/CI environment baseline.
+This specification materializes the accepted M2 research-stack ADR into one reproducible local environment baseline.
 
 It fixes the runtime/tool/dependency versions and the canonical install/run commands needed before Dataset Manifest, loader, Strategy API or replay implementation begins.
 
@@ -87,32 +87,25 @@ uv python install 3.13.15
 uv sync --frozen
 ```
 
-`--frozen` is mandatory for reproducibility checks and CI. It prevents environment setup from silently changing `uv.lock`.
+`--frozen` is mandatory for reproducibility checks and the Local CI Gate. It prevents environment setup from silently changing `uv.lock`.
 
 The normal environment is repository-local `.venv/`, which remains ignored by Git.
 
 ## 7. Canonical commands
 
-Repository/governance validation:
+Fast developer gate:
 
 ```bash
-uv run --frozen python tools/validate_repo.py
+uv run --frozen python tools/verify_repo.py --fast
 ```
 
-Environment verification:
+Full completion gate:
 
 ```bash
-uv run --frozen pytest tests/test_environment_baseline.py
-uv run --frozen python tools/environment_fingerprint.py
+uv run --frozen python tools/verify_repo.py
 ```
 
-Lint baseline:
-
-```bash
-uv run --frozen ruff check tools/environment_fingerprint.py tests/test_environment_baseline.py
-```
-
-Full platform tests will grow under later M2 work packages. M2-002 does not invent loader/replay tests before those components exist.
+The full gate runs repository/governance validation, the complete pytest suite, Ruff lint/format checks and the environment fingerprint. Individual commands remain available for diagnosis, but the full gate is the completion criterion. Full platform tests will grow under later M2 work packages.
 
 ## 8. Environment fingerprint
 
@@ -125,21 +118,20 @@ Full platform tests will grow under later M2 work packages. M2-002 does not inve
 
 The fingerprint is diagnostic/reproducibility metadata. It is not market evidence and does not receive an Experiment ID.
 
-## 9. CI contract
+## 9. Local quality gate contract
 
-The repository workflow uses the same supported environment contract:
+Canonical policy: `governance/program/LOCAL_CI_GATE.md`.
 
-1. checkout repository;
-2. activate/install CPython `3.13.15`;
-3. install uv `0.12.13`;
-4. run on Linux x86_64;
-5. `uv sync --frozen`;
-6. run repository validator;
-7. emit environment fingerprint;
-8. run the M2 environment test baseline;
-9. run the configured Ruff check.
+The supported local verification path is:
 
-A CI scheduling/runner failure before steps execute is infrastructure failure, not a passing or failing repository validation result.
+1. use CPython `3.13.15` and uv `0.12.13` on Linux x86_64;
+2. `uv sync --frozen`;
+3. enable hooks once with `git config core.hooksPath .githooks`;
+4. use the fast gate during development;
+5. run the full gate on a clean exact commit before push;
+6. require `ATS LOCAL CI: PASS` for material-task completion.
+
+GitHub Actions is not a completion criterion.
 
 ## 10. Lock verification and update procedure
 
@@ -151,7 +143,7 @@ An intentional dependency/runtime change requires:
 2. update exact direct pins or Python/uv pin;
 3. regenerate `uv.lock` with the approved uv version and network access;
 4. run frozen sync from a clean supported environment;
-5. run validator, tests, lint and fingerprint;
+5. run the full Local CI Gate;
 6. commit `pyproject.toml`, `.python-version`, `uv.lock` and affected governance together.
 
 Never edit a completed Experiment's historical environment field to pretend that a later dependency upgrade was used originally.
@@ -180,6 +172,6 @@ Those require a later demonstrated consumer need.
 - frozen setup/run commands are documented;
 - an environment fingerprint command exists;
 - a non-market environment test verifies the pinned baseline;
-- CI is configured to use the frozen environment when a runner is available;
+- Local CI Gate and git hooks use the frozen environment;
 - state/backlog/status/next/handoff/validator are synchronized;
 - `ATS2-M2-003 — Dataset manifest support` becomes the single next ready task.
