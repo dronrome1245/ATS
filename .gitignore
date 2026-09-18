@@ -13,6 +13,7 @@ logs/
 runtime/
 artifacts/runtime/
 *.log
+reports/local_ci/LATEST.json
 
 # Raw or licensed market data
 data/raw/
