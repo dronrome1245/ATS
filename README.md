@@ -14,54 +14,38 @@
 
 Последний реализованный work package:
 
-`ATS2-M2-004 — Base data loader`.
+`ATS2-M2-005 — Minimal Strategy research interface`.
 
 Primary artifact:
 
-`src/ats/data/loader.py`.
+`src/ats/strategy/interface.py`.
 
-Loader baseline:
+Interface baseline:
 
-- validated Dataset Manifest input;
-- deterministic UTF-8 CSV loading;
-- RFC3339 event/availability timestamps;
-- explicit ordering/tie-break;
-- duplicate/malformed/out-of-order policies;
-- coverage enforcement;
-- optional SHA-256 integrity verification;
-- immutable output;
-- synthetic non-market fixtures only.
+- immutable run context and observations;
+- loader-record bridge;
+- deterministic generic state transition contract;
+- broker-neutral canonical-JSON decisions;
+- serializable diagnostics;
+- no injected wall-clock/network/broker/live state.
 
-Следующая task после M2-004 Local CI PASS:
+Следующая task после M2-005 Local CI PASS:
 
-`ATS2-M2-005 — Minimal Strategy research interface`.
+`ATS2-M2-006 — Deterministic backtest/replay`.
 
 Следующий artifact:
 
-`src/ats/strategy/interface.py`.
-
-## Canonical ATS v2
-
-- Program governance: `governance/program/`;
-- Architecture decisions: `governance/decisions/`;
-- Methodology: `governance/methodology/`;
-- Formal experiments and registry: `experiments/`;
-- Data policy/manifests: `data/`;
-- Source/platform code: `src/`;
-- Execution queue: `governance/backlog/PROGRAM_BACKLOG_V2.md`;
-- Legacy ATS v1: `legacy/v1/`.
+`src/ats/replay/engine.py`.
 
 ## Windows task check
 
-Для текущего material step запустить:
+Запустить:
 
 `ATS_TASK_CHECK.bat`
 
-После завершения отправить ChatGPT:
+После завершения отправить:
 
 `reports/local_ci/CURRENT_TASK_REPORT.txt`
-
-BAT сам обновляет repository, синхронизирует frozen environment и выполняет task-specific checks + full Local CI.
 
 ## Boundary
 
