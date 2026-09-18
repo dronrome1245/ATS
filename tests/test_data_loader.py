@@ -246,3 +246,16 @@ def test_coverage_violation_is_not_hidden_by_malformed_drop(tmp_path: Path) -> N
 
     with pytest.raises(DatasetLoadError, match="outside manifest coverage"):
         load_dataset(manifest, root=tmp_path)
+
+
+def test_non_rfc3339_timestamp_is_rejected(tmp_path: Path) -> None:
+    manifest = manifest_for(
+        tmp_path,
+        (
+            "event_time,sequence,value\n"
+            "2026-01-01 00:00:00+00:00,0001,bad-separator\n"
+        ),
+    )
+
+    with pytest.raises(DatasetLoadError, match="invalid RFC3339 timestamp"):
+        load_dataset(manifest, root=tmp_path)
