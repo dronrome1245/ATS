@@ -42,7 +42,7 @@ The YAML file is loaded only with `yaml.safe_load`. The loaded mapping is valida
 
 Each manifest contains:
 
-- `dataset_id` — stable logical dataset identity;
+- `dataset_id` — stable logical dataset identity using canonical `DATA-<SOURCE>-<PURPOSE>-NNN` naming;
 - `dataset_version` — immutable semantic version in `MAJOR.MINOR.PATCH` form;
 - human-readable description.
 
