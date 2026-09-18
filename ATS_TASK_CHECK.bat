@@ -3,8 +3,6 @@ setlocal
 chcp 65001 >nul
 cd /d "%~dp0"
 
-set "TASK_ID=ATS2-M2-003"
-set "TASK_NAME=Dataset manifest support"
 set "REPORT_DIR=reports\local_ci"
 set "REPORT=%REPORT_DIR%\CURRENT_TASK_REPORT.txt"
 set "RC=0"
@@ -13,8 +11,8 @@ if not exist "%REPORT_DIR%" mkdir "%REPORT_DIR%"
 
 > "%REPORT%" echo ATS CURRENT TASK REPORT
 >> "%REPORT%" echo =======================
->> "%REPORT%" echo Task: %TASK_ID% - %TASK_NAME%
 >> "%REPORT%" echo Started: %DATE% %TIME%
+>> "%REPORT%" echo Launcher: ATS_TASK_CHECK.bat
 >> "%REPORT%" echo.
 
 where git >nul 2>&1
@@ -23,40 +21,25 @@ if errorlevel 1 goto :git_missing
 where uv >nul 2>&1
 if errorlevel 1 goto :uv_missing
 
->> "%REPORT%" echo == tool versions ==
-git --version >> "%REPORT%" 2>&1
-uv --version >> "%REPORT%" 2>&1
+echo [1/3] Updating repository...
+>> "%REPORT%" echo == git pull --ff-only ==
+git pull --ff-only >> "%REPORT%" 2>&1
+if errorlevel 1 goto :pull_failed
 >> "%REPORT%" echo.
 
-for /f "delims=" %%H in ('git rev-parse HEAD 2^>nul') do set "HEAD_SHA=%%H"
->> "%REPORT%" echo Commit: %HEAD_SHA%
->> "%REPORT%" echo.
-
-echo [1/4] Syncing frozen environment...
+echo [2/3] Syncing frozen environment...
 >> "%REPORT%" echo == uv sync --frozen ==
 uv sync --frozen >> "%REPORT%" 2>&1
 if errorlevel 1 goto :sync_failed
 >> "%REPORT%" echo.
 
-echo [2/4] Running current task tests...
->> "%REPORT%" echo == M2-003 Dataset Manifest tests ==
-uv run --frozen python -m pytest tests/test_dataset_manifest.py -q >> "%REPORT%" 2>&1
-if errorlevel 1 goto :task_tests_failed
->> "%REPORT%" echo.
-
-echo [3/4] Running repository validator...
->> "%REPORT%" echo == repository validator ==
-uv run --frozen python tools/validate_repo.py >> "%REPORT%" 2>&1
-if errorlevel 1 goto :validator_failed
->> "%REPORT%" echo.
-
-echo [4/4] Running full ATS Local CI...
->> "%REPORT%" echo == full local CI ==
-uv run --frozen python tools/verify_repo.py >> "%REPORT%" 2>&1
-if errorlevel 1 goto :full_gate_failed
+echo [3/3] Running current task check...
+>> "%REPORT%" echo == current task check ==
+uv run --frozen python tools/current_task_check.py >> "%REPORT%" 2>&1
+if errorlevel 1 goto :task_failed
 
 >> "%REPORT%" echo.
->> "%REPORT%" echo ATS CURRENT TASK CHECK: PASS
+>> "%REPORT%" echo ATS TASK LAUNCHER: PASS
 set "RC=0"
 goto :finish
 
@@ -70,32 +53,26 @@ goto :failed
 set "RC=12"
 goto :failed
 
-:sync_failed
+:pull_failed
 >> "%REPORT%" echo.
->> "%REPORT%" echo ERROR: uv sync --frozen failed.
+>> "%REPORT%" echo ERROR: git pull --ff-only failed.
 set "RC=13"
 goto :failed
 
-:task_tests_failed
+:sync_failed
 >> "%REPORT%" echo.
->> "%REPORT%" echo ERROR: current task tests failed.
+>> "%REPORT%" echo ERROR: uv sync --frozen failed.
 set "RC=14"
 goto :failed
 
-:validator_failed
+:task_failed
 >> "%REPORT%" echo.
->> "%REPORT%" echo ERROR: repository validator failed.
+>> "%REPORT%" echo ERROR: current task check failed.
 set "RC=15"
 goto :failed
 
-:full_gate_failed
->> "%REPORT%" echo.
->> "%REPORT%" echo ERROR: full ATS Local CI failed.
-set "RC=16"
-goto :failed
-
 :failed
->> "%REPORT%" echo ATS CURRENT TASK CHECK: FAIL
+>> "%REPORT%" echo ATS TASK LAUNCHER: FAIL
 goto :finish
 
 :finish
@@ -106,7 +83,6 @@ echo.
 type "%REPORT%"
 echo.
 echo ============================================================
-echo Task: %TASK_ID%
 echo Report file: %REPORT%
 if "%RC%"=="0" (
   echo RESULT: PASS
