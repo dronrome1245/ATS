@@ -13,81 +13,70 @@
 
 ## Last completed
 
-`ATS2-M2-002 — Reproducible environment` — `DONE`.
+`ATS2-M2-003 — Dataset manifest support` — `DONE`.
 
 Canonical specification:
 
-`governance/program/RESEARCH_ENVIRONMENT_SPEC.md`
+`governance/program/DATASET_MANIFEST_SPEC.md`
 
-Materialized environment artifacts:
+Materialized Dataset Manifest boundary:
 
-- `.python-version` → CPython `3.13.15`;
-- `pyproject.toml` → Python `>=3.13,<3.14`, uv `0.12.13`, exact direct dependency pins and Windows x86_64 + Linux x86_64 resolution environments;
-- `uv.lock` → exact dependency graph plus Windows x86_64 and Linux x86_64 wheel URLs/SHA-256;
-- `tools/environment_fingerprint.py`;
-- `tests/test_environment_baseline.py`;
-- `governance/program/LOCAL_CI_GATE.md` → canonical local quality policy;
-- `tools/verify_repo.py` → full/fast Local CI runner;
-- `.githooks/pre-commit` / `.githooks/pre-push` → automatic local gates.
+- template: `data/manifests/DATASET_TEMPLATE.yaml`;
+- typed immutable model: `src/ats/schemas/dataset_manifest.py`;
+- safe YAML loader: `load_dataset_manifest`;
+- tests: `tests/test_dataset_manifest.py`;
+- pytest source path: `src/`.
 
-Canonical host/runtime baseline:
+Contract covers stable dataset ID/version, source/snapshot, storage/schema reference, timezone-aware coverage, event-time versus information-availability semantics, deterministic ordering/tie-break, explicit quality policy, transformation lineage, integrity metadata and known limitations.
 
-- primary local host: Windows x86_64;
-- supported secondary host: Linux x86_64;
+Material source/coverage/schema/time/order/quality/transformation changes require a new `dataset_version`.
+
+The canonical template is synthetic non-market metadata only. It is not an Idea, Hypothesis, Experiment, Strategy or trading evidence.
+
+## Environment / quality gate
+
+Supported hosts:
+
+- Windows x86_64 — primary local host;
+- Linux x86_64 — supported secondary host.
+
+Runtime:
+
 - CPython `3.13.15`;
 - uv `0.12.13`;
-- Pydantic `2.13.5`;
-- PyYAML `6.0.3`;
-- NumPy `2.5.3`;
-- pytest `9.1.1`;
-- Ruff `0.16.7`.
+- frozen `uv.lock`.
 
-Canonical environment commands:
+Canonical full gate:
 
 ```bash
-uv python install 3.13.15
 uv sync --frozen
-uv run --frozen python tools/verify_repo.py --fast
 uv run --frozen python tools/verify_repo.py
 ```
 
-The lock contains compatible wheels for Windows x86_64 and Linux x86_64 for all platform-specific baseline dependencies.
+GitHub Actions is not used as a completion gate.
 
 ## Current ready task
 
-`ATS2-M2-003 — Dataset manifest support`
+`ATS2-M2-004 — Base data loader`
 
 Canonical next artifact:
 
-`governance/program/DATASET_MANIFEST_SPEC.md`
+`src/ats/data/loader.py`
 
-Expected implementation boundary:
+Goal: consume a validated Dataset Manifest and load the reference-format synthetic records deterministically with explicit timestamp/order/tie-break and declared quality-policy handling.
 
-- `data/manifests/DATASET_TEMPLATE.yaml`;
-- `src/ats/schemas/dataset_manifest.py`;
-- schema/validation tests using synthetic non-market fixtures.
+## M2-004 boundary
 
-## M2-003 must define
+M2-004 should implement only the data loading layer needed by the Reference Consumer Profile:
 
-- stable Dataset ID/version and material-change rules;
-- source/source-snapshot reference without inventing a vendor;
-- schema/storage reference;
-- coverage/scope metadata;
-- timezone and timestamp representation;
-- observation/event time versus information-availability time;
-- deterministic ordering/tie-break semantics;
-- duplicate/missing/malformed/out-of-order policy;
-- transformation lineage;
-- checksum/integrity metadata;
-- known limitations/research impact;
-- external/raw data reference policy;
-- safe YAML + Pydantic validation.
+- load a supported reference format;
+- preserve/normalize timestamp semantics from the Manifest;
+- deterministic ordering and tie-break;
+- explicit duplicate/missing/malformed/out-of-order handling according to Manifest policy;
+- runtime integrity verification where applicable;
+- deterministic synthetic fixtures/tests.
 
-M2-003 must not implement the base loader beyond the minimum needed to parse/validate a Manifest.
-
-## Local quality gate
-
-GitHub Actions is intentionally not used as a completion gate. Enable repository hooks once per clone with `git config core.hooksPath .githooks`. The full canonical gate is `uv run --frozen python tools/verify_repo.py`; material work requires `ATS LOCAL CI: PASS` on the exact commit before push. Local runtime report: `reports/local_ci/LATEST.json` (gitignored).
+Do not implement Strategy API, replay, cost model, analytics, broker/live integration or Reference Strategy #1 in M2-004.
 
 ## Read order
 
@@ -95,21 +84,17 @@ GitHub Actions is intentionally not used as a completion gate. Enable repository
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`.
-6. `governance/decisions/ADR-0001-RESEARCH-STACK.md`.
-7. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
-8. `data/README.md` and M1 Data Feasibility methodology.
-
-## Boundary
-
-M2 builds research infrastructure only. Do not select Reference Strategy #1, market, instrument, broker, jurisdiction, capital allocation, risk limits or live environment.
+5. `governance/program/DATASET_MANIFEST_SPEC.md`.
+6. `src/ats/schemas/dataset_manifest.py`.
+7. `data/manifests/DATASET_TEMPLATE.yaml`.
+8. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
+9. `governance/program/RESEARCH_ENVIRONMENT_SPEC.md`.
 
 ## Recovery check
 
 - Current milestone: `M2_RESEARCH_PLATFORM_MVP`.
-- Last completed: `ATS2-M2-002`.
-- Next task: `ATS2-M2-003`.
-- Next artifact: `governance/program/DATASET_MANIFEST_SPEC.md`.
-- Canonical Python/hosts? — `CPython 3.13.15 / Windows x86_64 + Linux x86_64`.
+- Last completed: `ATS2-M2-003`.
+- Next task: `ATS2-M2-004`.
+- Next artifact: `src/ats/data/loader.py`.
 - Reference Strategy #1 selection allowed now? — no.
 - Pipeline counts remain zero? — yes.
