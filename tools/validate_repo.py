@@ -42,6 +42,11 @@ STRATEGY_INTERFACE_FILES = (
     "src/ats/strategy/interface.py",
     "tests/test_strategy_interface.py",
 )
+REPLAY_FILES = (
+    "src/ats/replay/__init__.py",
+    "src/ats/replay/engine.py",
+    "tests/test_replay_engine.py",
+)
 LOCAL_CI_FILES = (
     "ATS_TASK_CHECK.bat",
     "tools/verify_repo.py",
@@ -86,7 +91,7 @@ def configure() -> None:
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, LOCAL_CI_GATE,
         DATASET_MANIFEST_SPEC, *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
-        *STRATEGY_INTERFACE_FILES, *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
+        *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
@@ -222,6 +227,24 @@ def configure() -> None:
         "test_non_finite_decision_payload_is_rejected",
         "test_diagnostic_is_serializable_and_immutable",
     )
+    core.CONTENT_MARKERS["src/ats/replay/engine.py"] = (
+        "class ReplayContractError",
+        "class ReplayFrame",
+        "class ReplayResult",
+        "def run_replay",
+        "availability_time must be nondecreasing",
+        "decision_time cannot be earlier",
+        "observation_from_loaded_record",
+        "computed_sha256=dataset.computed_sha256",
+    )
+    core.CONTENT_MARKERS["tests/test_replay_engine.py"] = (
+        "test_replay_preserves_loaded_order_and_calls_strategy_once_per_record",
+        "test_replay_state_trace_is_ordered_and_complete",
+        "test_repeated_replay_is_exactly_equal",
+        "test_availability_time_regression_is_rejected",
+        "test_decision_before_observation_availability_is_rejected",
+        "test_manifest_loader_strategy_replay_vertical_slice",
+    )
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
@@ -240,8 +263,8 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M2-005"',
-        "tests/test_strategy_interface.py",
+        'TASK_ID = "ATS2-M2-006"',
+        "tests/test_replay_engine.py",
         "tools/validate_repo.py",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
@@ -270,21 +293,20 @@ def configure() -> None:
         "not research evidence",
     )
     core.CONTENT_MARKERS["src/README.md"] = (
-        "ats.schemas.dataset_manifest.DatasetManifest",
         "ats.data.loader",
         "ats.strategy.interface",
-        "ResearchRunContext",
-        "ResearchDecision",
-        "ResearchStrategy",
-        "ATS2-M2-006 — Deterministic backtest/replay",
+        "ats.replay.engine",
+        "ReplayFrame",
+        "ReplayResult",
+        "ATS2-M2-007 — Cost model interface",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
         "test_dataset_manifest.py",
         "test_data_loader.py",
         "test_strategy_interface.py",
-        "canonical decision JSON serialization",
-        "broker-neutral decision surface",
+        "test_replay_engine.py",
+        "vertical integration from Dataset Manifest",
         "synthetic non-market",
     )
     core.CONTENT_MARKERS["reports/README.md"] = (
@@ -411,10 +433,12 @@ def validate_environment(repo: Path) -> int:
         "src/ats/schemas/dataset_manifest.py",
         "src/ats/data/loader.py",
         "src/ats/strategy/interface.py",
+        "src/ats/replay/engine.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
         "tests/test_strategy_interface.py",
+        "tests/test_replay_engine.py",
     ):
         path = repo / relative
         try:
@@ -454,9 +478,9 @@ def main() -> int:
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
-        'last_completed_task_id: "ATS2-M2-005"',
-        'current_task: "ATS2-M2-006"', 'current_ready_task: "ATS2-M2-006"',
-        'current_wbs: "WBS-2.6"', "reference_strategy_selection_allowed: false",
+        'last_completed_task_id: "ATS2-M2-006"',
+        'current_task: "ATS2-M2-007"', 'current_ready_task: "ATS2-M2-007"',
+        'current_wbs: "WBS-2.7"', "reference_strategy_selection_allowed: false",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -521,11 +545,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-005") != "DONE":
-        core.fail("M2-005 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-006") != "DONE":
+        core.fail("M2-006 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-006") != "READY":
-        core.fail("M2-006 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-007") != "READY":
+        core.fail("M2-007 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
