@@ -31,8 +31,6 @@ These remain software/schema tests only and are not research evidence.
 
 As capabilities are implemented, tests will be added for:
 
-- deterministic ordering and tie-breaking;
-- base loader error/missing/duplicate handling;
 - Strategy/Research interface semantics;
 - deterministic replay transitions;
 - explicit cost calculations;
