@@ -31,7 +31,6 @@ These remain software/schema tests only and are not research evidence.
 
 As capabilities are implemented, tests will be added for:
 
-- Strategy/Research interface semantics;
 - deterministic replay transitions;
 - explicit cost calculations;
 - analytics/result schemas;
@@ -73,3 +72,21 @@ The full gate runs repository validation, the complete pytest suite, Ruff lint/f
 - coverage violations remaining blocking even when malformed rows may be dropped.
 
 Fixture bytes are deterministic non-market software inputs and do not create research evidence.
+
+
+## Strategy / Research interface tests
+
+`tests/test_strategy_interface.py` verifies:
+
+- loader-record to research-observation bridging;
+- exact repeated deterministic state transitions;
+- canonical decision JSON serialization;
+- broker-neutral decision surface;
+- immutable run context and observations;
+- duplicate context-key rejection;
+- non-finite payload rejection;
+- timezone-aware decision times;
+- unique observation fields;
+- serializable immutable diagnostics.
+
+The fixture strategy is synthetic non-market software logic and is not research evidence.
