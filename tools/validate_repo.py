@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import csv
+import os
 import tomllib
 from pathlib import Path
 
@@ -239,8 +240,8 @@ def validate_environment(repo: Path) -> int:
         if "tools/verify_repo.py" not in hook_text:
             core.fail(f"local CI hook missing verify_repo.py: {hook_name}")
             blocking += 1
-        if hook.stat().st_mode & 0o111 == 0:
-            core.fail(f"local CI hook must be executable: {hook_name}")
+        if os.name != "nt" and hook.stat().st_mode & 0o111 == 0:
+            core.fail(f"local CI hook must be executable on POSIX hosts: {hook_name}")
             blocking += 1
 
     for relative in (
