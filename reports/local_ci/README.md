@@ -16,11 +16,7 @@ The shareable report for the current task is always:
 
 `reports/local_ci/CURRENT_TASK_REPORT.txt`
 
-The generic full-gate launcher `ATS_CHECK.bat` may still produce:
-
-`reports/local_ci/LATEST_REPORT.txt`
-
-The Python Local CI runner writes:
+The Python Local CI runner additionally writes:
 
 `reports/local_ci/LATEST.json`
 
