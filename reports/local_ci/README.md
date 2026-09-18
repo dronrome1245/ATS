@@ -1,25 +1,35 @@
 # Local CI reports
 
-Windows owner workflow uses one launcher:
+Normal Windows owner workflow uses one stable launcher:
 
-`ATS_CHECK.bat`
+`ATS_TASK_CHECK.bat`
 
-It automatically performs:
+The BAT itself is task-agnostic. It automatically performs:
 
 1. `git pull --ff-only`;
 2. `uv sync --frozen`;
-3. full `tools/verify_repo.py`.
+3. `tools/current_task_check.py`.
 
-The shareable human-readable report is:
+`tools/current_task_check.py` is the task-specific verification package and is updated by the agent when the current work package changes.
+
+The shareable report for the current task is always:
+
+`reports/local_ci/CURRENT_TASK_REPORT.txt`
+
+The generic full-gate launcher `ATS_CHECK.bat` may still produce:
 
 `reports/local_ci/LATEST_REPORT.txt`
 
-The machine-readable report remains:
+The Python Local CI runner writes:
 
 `reports/local_ci/LATEST.json`
 
-Both files are intentionally ignored by Git because they contain machine-local runtime verification output.
+All runtime reports are intentionally ignored by Git.
 
-When a local check passes or fails, send `LATEST_REPORT.txt` to ChatGPT. The report is designed to contain enough command output to diagnose the next blocker without manually copying commands or console text.
+OWNER workflow:
+
+1. double-click `ATS_TASK_CHECK.bat`;
+2. wait for PASS or FAIL;
+3. send `CURRENT_TASK_REPORT.txt` to ChatGPT.
 
 Canonical policy: `governance/program/LOCAL_CI_GATE.md`.
