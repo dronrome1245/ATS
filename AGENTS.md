@@ -153,19 +153,26 @@ Canonical templates находятся в `governance/methodology/templates/`.
 5. `02_СЛЕДУЮЩИЙ_ШАГ.md`;
 6. `AI_HANDOFF.md`;
 7. README/start guide, если изменилась точка входа;
-8. validator/tests, если изменились paths или invariants.
+8. validator/tests, если изменились paths или invariants;
+9. полный Local CI Gate на exact commit перед push.
 
 Нельзя сообщать OWNER, что шаг завершён, если backlog/state/handoff всё ещё указывают на предыдущую task.
 
-## 16. Проверка репозитория
+## 16. Локальная проверка репозитория
 
-Перед завершением изменения проверить:
+GitHub Actions не является completion gate. Перед завершением material task на exact commit выполнить:
 
 ```bash
-python tools/validate_repo.py
+uv run --frozen python tools/verify_repo.py
 ```
 
-Validator должен подтверждать canonical v2 state, governance paths, mandatory artifacts, legacy isolation, safety invariants и согласованность `next_artifact`/`next_task_id` между state, backlog, handoff и next action.
+Быстрая developer-проверка:
+
+```bash
+uv run --frozen python tools/verify_repo.py --fast
+```
+
+Canonical policy: `governance/program/LOCAL_CI_GATE.md`. Full gate включает repository validator, pytest, Ruff lint/format и environment fingerprint. Результат `ATS LOCAL CI: PASS` обязателен перед обычным push material task.
 
 ## 17. Принцип безопасности
 
