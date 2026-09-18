@@ -13,32 +13,35 @@
 
 ## Last implemented work package
 
-`ATS2-M2-005 — Minimal Strategy research interface`.
+`ATS2-M2-006 — Deterministic backtest/replay`.
 
 Primary artifact:
 
-`src/ats/strategy/interface.py`
+`src/ats/replay/engine.py`
 
 Implemented boundary:
 
-- immutable `ResearchRunContext`;
-- immutable `ResearchObservation` with event/availability time;
-- `observation_from_loaded_record` bridge from M2-004;
-- broker-neutral `ResearchDecision` with canonical JSON serialization;
-- `ResearchDiagnostic`;
-- generic `StrategyStep[state]`;
-- `ResearchStrategy[state]` protocol with `initial_state` and `on_observation`;
-- finite JSON-scalar payload constraint for the M2 baseline.
+- `run_replay` consumes `LoadedDataset + ResearchRunContext + ResearchStrategy`;
+- loader records become ordered `ResearchObservation` values;
+- strategy initialization occurs once per replay;
+- one `on_observation` transition occurs per loaded record;
+- immutable `ReplayFrame` captures observation, state-before/state-after, decisions and diagnostics;
+- immutable `ReplayResult` binds dataset identity/version/hash/context and ordered trace;
+- availability time may not regress in the M2 single-stream replay;
+- a decision may not claim a time before the current observation becomes available;
+- engine injects no wall clock, network, broker, cost model or analytics.
 
-The interface does not inject wall clock, network, broker, account, allocation or live-risk objects.
+Tests:
 
-Synthetic conformance tests:
+`tests/test_replay_engine.py`
 
-`tests/test_strategy_interface.py`
+The suite includes a vertical synthetic chain:
 
-The fixture strategy is software-only and is not an ATS research entity or evidence.
+`Dataset Manifest → loader → Strategy interface → replay`
 
-## M2-005 closure check
+These are software fixtures only and are not research evidence.
+
+## M2-006 closure check
 
 Windows OWNER workflow:
 
@@ -46,11 +49,11 @@ Windows OWNER workflow:
 
 Current `tools/current_task_check.py` is configured for:
 
-`ATS2-M2-005 — Minimal Strategy research interface`
+`ATS2-M2-006 — Deterministic backtest/replay`
 
 It runs:
 
-1. `tests/test_strategy_interface.py`;
+1. `tests/test_replay_engine.py`;
 2. repository validator;
 3. full ATS Local CI.
 
@@ -58,19 +61,19 @@ Shareable report:
 
 `reports/local_ci/CURRENT_TASK_REPORT.txt`
 
-M2-005 is finally closed only after PASS on the exact final HEAD.
+M2-006 is finally closed only after PASS on the exact final HEAD.
 
-## Current ready task after M2-005 PASS
+## Current ready task after M2-006 PASS
 
-`ATS2-M2-006 — Deterministic backtest/replay`
+`ATS2-M2-007 — Cost model interface`
 
 Canonical next artifact:
 
-`src/ats/replay/engine.py`
+`src/ats/costs/interface.py`
 
-Goal: consume a deterministic `LoadedDataset`, `ResearchRunContext` and `ResearchStrategy`, process observations in declared order, and produce a reproducible state/decision/diagnostic trace.
+Goal: define explicit deterministic cost assumptions/components outside Strategy logic and keep modeled costs separate from gross effects/results.
 
-M2-006 must not add cost modelling, analytics, broker/live execution or Reference Strategy #1.
+M2-007 must not add analytics, broker/live execution or Reference Strategy #1.
 
 ## Read order
 
@@ -81,14 +84,15 @@ M2-006 must not add cost modelling, analytics, broker/live execution or Referenc
 5. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
 6. `src/ats/data/loader.py`.
 7. `src/ats/strategy/interface.py`.
-8. `tests/test_strategy_interface.py`.
+8. `src/ats/replay/engine.py`.
+9. `tests/test_replay_engine.py`.
 
 ## Recovery check
 
 - Current milestone: `M2_RESEARCH_PLATFORM_MVP`.
-- Last implemented task: `ATS2-M2-005`.
-- Closure checker: `ATS2-M2-005`.
-- Next task after PASS: `ATS2-M2-006`.
-- Next artifact: `src/ats/replay/engine.py`.
+- Last implemented task: `ATS2-M2-006`.
+- Closure checker: `ATS2-M2-006`.
+- Next task after PASS: `ATS2-M2-007`.
+- Next artifact: `src/ats/costs/interface.py`.
 - Reference Strategy #1 selection allowed now? — no.
 - Pipeline counts remain zero? — yes.
