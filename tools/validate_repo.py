@@ -18,6 +18,13 @@ M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
+LOCAL_CI_GATE = "governance/program/LOCAL_CI_GATE.md"
+LOCAL_CI_FILES = (
+    "tools/verify_repo.py",
+    ".githooks/pre-commit",
+    ".githooks/pre-push",
+    "reports/local_ci/README.md",
+)
 ENVIRONMENT_FILES = (
     "pyproject.toml",
     ".python-version",
@@ -52,11 +59,13 @@ DIRECT_DEV = {
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
-        M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, *ENVIRONMENT_FILES,
+        M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, LOCAL_CI_GATE,
+        *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
         "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
+        "local_ci_gate",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
@@ -98,8 +107,19 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[ENVIRONMENT_SPEC] = (
         "CPython", "3.13.15", "Linux x86_64", "uv == 0.12.13",
-        "uv sync --frozen", "environment_fingerprint.py", "test_environment_baseline.py",
+        "uv sync --frozen", "tools/verify_repo.py", "Local CI Gate",
         "ATS2-M2-003 — Dataset manifest support",
+    )
+    core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
+        "uv run --frozen python tools/verify_repo.py", "ATS LOCAL CI: PASS",
+        ".githooks/pre-commit", ".githooks/pre-push", "GitHub Actions status is not a completion criterion",
+    )
+    core.CONTENT_MARKERS["tools/verify_repo.py"] = (
+        "ATS Local CI Gate", "repository validator", "ruff lint", "ruff format",
+        "pytest", "environment fingerprint", "ATS LOCAL CI:", "reports/local_ci",
+    )
+    core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
+        "LATEST.json", "tools/verify_repo.py", "LOCAL_CI_GATE.md",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
         "`WBS-2.0`", "Reference Consumer Profile", "`WBS-2.1`",
@@ -194,24 +214,30 @@ def validate_environment(repo: Path) -> int:
             core.fail(f"uv.lock environment marker missing: {marker}")
             blocking += 1
 
-    workflow = (repo / ".github/workflows/validate.yml").read_text(encoding="utf-8")
-    for marker in (
-        "actions/checkout@v7",
-        "actions/setup-python@v7",
-        'python-version-file: ".python-version"',
-        "astral-sh/setup-uv@v10.1.0",
-        'version: "0.12.13"',
-        "uv sync --frozen",
-        "uv run --frozen python tools/validate_repo.py",
-        "uv run --frozen python tools/environment_fingerprint.py",
-        "uv run --frozen pytest tests/test_environment_baseline.py",
-        "uv run --frozen ruff check",
-    ):
-        if marker not in workflow:
-            core.fail(f"M2 frozen CI marker missing: {marker}")
+    if (repo / ".github/workflows/validate.yml").exists():
+        core.fail("GitHub Actions workflow must remain disabled; use the Local CI Gate")
+        blocking += 1
+
+    gitignore = (repo / ".gitignore").read_text(encoding="utf-8")
+    if "reports/local_ci/LATEST.json" not in gitignore:
+        core.fail("local CI runtime report must remain ignored by Git")
+        blocking += 1
+
+    for hook_name in ("pre-commit", "pre-push"):
+        hook = repo / ".githooks" / hook_name
+        hook_text = hook.read_text(encoding="utf-8")
+        if "tools/verify_repo.py" not in hook_text:
+            core.fail(f"local CI hook missing verify_repo.py: {hook_name}")
+            blocking += 1
+        if hook.stat().st_mode & 0o111 == 0:
+            core.fail(f"local CI hook must be executable: {hook_name}")
             blocking += 1
 
-    for relative in ("tools/environment_fingerprint.py", "tests/test_environment_baseline.py"):
+    for relative in (
+        "tools/environment_fingerprint.py",
+        "tools/verify_repo.py",
+        "tests/test_environment_baseline.py",
+    ):
         path = repo / relative
         try:
             compile(path.read_text(encoding="utf-8"), str(path), "exec")
@@ -248,10 +274,13 @@ def main() -> int:
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
         'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
+        'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'last_completed_task_id: "ATS2-M2-002"',
         'current_task: "ATS2-M2-003"', 'current_ready_task: "ATS2-M2-003"',
         'current_wbs: "WBS-2.3"', "reference_strategy_selection_allowed: false",
         'canonical_host: LINUX_X86_64', 'python: "3.13.15"', 'uv: "0.12.13"',
+        "mode: LOCAL", "github_actions_required: false",
+        'full_command: "uv run --frozen python tools/verify_repo.py"',
         "experiments_registered: 0", "physical_migration_complete: true",
         "thirteen_gate_model_is_program_roadmap: false",
     ):
