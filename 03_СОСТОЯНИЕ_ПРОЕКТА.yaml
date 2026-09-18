@@ -160,7 +160,6 @@ quality_gate:
   fast_command: "uv run --frozen python tools/verify_repo.py --fast"
   hooks_path: ".githooks"
   latest_report: "reports/local_ci/LATEST.json"
-  windows_launcher: "ATS_CHECK.bat"
   current_task_launcher: "ATS_TASK_CHECK.bat"
   current_task_checker: "tools/current_task_check.py"
   shareable_report: "reports/local_ci/CURRENT_TASK_REPORT.txt"
