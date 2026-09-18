@@ -35,6 +35,7 @@
 | `02_СЛЕДУЮЩИЙ_ШАГ.md` | Единственная непосредственная program-level next task |
 | `03_СОСТОЯНИЕ_ПРОЕКТА.yaml` | Единственный canonical machine-readable state |
 | `SECURITY.md` | Security/secrets policy |
+| `ATS_CHECK.bat` | One-click Windows update + frozen Local CI + shareable report launcher |
 
 Другие program documents в root не добавляются.
 
@@ -52,6 +53,7 @@ ATS/
 ├── 02_СЛЕДУЮЩИЙ_ШАГ.md
 ├── 03_СОСТОЯНИЕ_ПРОЕКТА.yaml
 ├── SECURITY.md
+├── ATS_CHECK.bat
 │
 ├── governance/
 │   ├── program/
