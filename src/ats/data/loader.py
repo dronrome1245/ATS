@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import re
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -16,6 +17,11 @@ from ats.schemas.dataset_manifest import (
     MalformedPolicy,
     MissingPolicy,
     OutOfOrderPolicy,
+)
+
+
+RFC3339_RE = re.compile(
+    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$"
 )
 
 
@@ -62,6 +68,10 @@ class LoadedDataset:
 
 
 def _parse_timestamp(value: str, *, field_name: str, source_line: int) -> datetime:
+    if RFC3339_RE.fullmatch(value) is None:
+        raise MalformedRowError(
+            f"line {source_line}: invalid RFC3339 timestamp in {field_name}: {value!r}"
+        )
     normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
     try:
         parsed = datetime.fromisoformat(normalized)
