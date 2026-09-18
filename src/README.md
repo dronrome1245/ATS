@@ -36,7 +36,7 @@ M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB,
 
 A concrete Reference Strategy #1 is not selected until M3. Deterministic synthetic software fixtures used for platform tests are not research entities or trading evidence.
 
-The environment baseline, Dataset Manifest boundary and base data loader are complete at repository-artifact level. The next program-level implementation step after M2-004 Local CI PASS is `ATS2-M2-005 — Minimal Strategy research interface`; replay remains a later work package.
+The environment baseline, Dataset Manifest boundary, base data loader and minimal Strategy/Research interface are complete at repository-artifact level. The next implementation step after M2-005 Local CI PASS is `ATS2-M2-006 — Deterministic backtest/replay`; costs remain a later work package.
 
 
 ## Implemented M2 boundary
@@ -68,4 +68,21 @@ Implemented loader behavior:
 
 Generic missing-event inference is intentionally absent because the Manifest does not define a universal calendar/frequency.
 
-The next implementation boundary is `ATS2-M2-005 — Minimal Strategy research interface`, expected under `src/ats/strategy/`.
+`ATS2-M2-005 — Minimal Strategy research interface` is materialized in `ats.strategy.interface`.
+
+
+## Strategy / Research interface boundary
+
+Implemented M2-005 contract:
+
+- immutable `ResearchRunContext`;
+- immutable `ResearchObservation` bridged from `LoadedRecord`;
+- broker-neutral `ResearchDecision` with canonical JSON serialization;
+- serializable `ResearchDiagnostic`;
+- generic immutable `StrategyStep[state]`;
+- `ResearchStrategy[state]` protocol with deterministic `initial_state` and `on_observation` boundaries;
+- decision payload restricted to finite JSON scalar values in the M2 baseline.
+
+The interface supplies no wall clock, network, broker, account, portfolio allocation or live-risk object.
+
+The next implementation boundary is `ATS2-M2-006 — Deterministic backtest/replay`, expected under `src/ats/replay/`.
