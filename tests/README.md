@@ -57,3 +57,21 @@ uv run --frozen python tools/verify_repo.py
 ```
 
 The full gate runs repository validation, the complete pytest suite, Ruff lint/format checks and the environment fingerprint. Policy: `governance/program/LOCAL_CI_GATE.md`.
+
+
+## Base data loader tests
+
+`tests/test_data_loader.py` verifies:
+
+- deterministic repeat loading of the canonical synthetic CSV fixture;
+- SHA-256 mismatch rejection;
+- out-of-order reject/sort behavior;
+- duplicate reject/keep-first/keep-last behavior;
+- malformed reject/drop behavior;
+- explicit information-availability timestamp parsing;
+- coverage enforcement;
+- required ordering/tie-break columns;
+- unsupported format rejection;
+- coverage violations remaining blocking even when malformed rows may be dropped.
+
+Fixture bytes are deterministic non-market software inputs and do not create research evidence.
