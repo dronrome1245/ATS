@@ -33,8 +33,8 @@ The full gate checks:
 1. working tree is clean so the verified code matches the commit being pushed;
 2. `tools/validate_repo.py`;
 3. the complete pytest suite;
-4. Ruff lint for maintained Python surfaces;
-5. Ruff format check for the same surfaces;
+4. Ruff lint for maintained Python surfaces, including governance validators;
+5. Ruff format check for active implementation/test surfaces; legacy-style validator files remain linted but are not reformatted wholesale;
 6. environment fingerprint.
 
 The gate prints one final result:
