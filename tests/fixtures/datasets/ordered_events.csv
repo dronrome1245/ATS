@@ -1,0 +1,4 @@
+event_time,sequence,value
+2026-01-01T00:00:00Z,0001,alpha
+2026-01-01T00:00:00Z,0002,beta
+2026-01-01T00:01:00Z,0001,gamma
