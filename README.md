@@ -14,28 +14,28 @@
 
 Последний реализованный work package:
 
-`ATS2-M2-005 — Minimal Strategy research interface`.
+`ATS2-M2-006 — Deterministic backtest/replay`.
 
 Primary artifact:
 
-`src/ats/strategy/interface.py`.
+`src/ats/replay/engine.py`.
 
-Interface baseline:
+Replay baseline:
 
-- immutable run context and observations;
-- loader-record bridge;
-- deterministic generic state transition contract;
-- broker-neutral canonical-JSON decisions;
-- serializable diagnostics;
-- no injected wall-clock/network/broker/live state.
+- consumes deterministic loader output and Strategy/Research interface;
+- preserves record order and state transition trace;
+- binds dataset identity/hash/context;
+- enforces information-availability causality;
+- emits ordered decisions/diagnostics;
+- injects no wall clock, network, broker, costs or analytics.
 
-Следующая task после M2-005 Local CI PASS:
+Следующая task после M2-006 Local CI PASS:
 
-`ATS2-M2-006 — Deterministic backtest/replay`.
+`ATS2-M2-007 — Cost model interface`.
 
 Следующий artifact:
 
-`src/ats/replay/engine.py`.
+`src/ats/costs/interface.py`.
 
 ## Windows task check
 
