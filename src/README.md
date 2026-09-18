@@ -37,3 +37,17 @@ M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB,
 A concrete Reference Strategy #1 is not selected until M3. Deterministic synthetic software fixtures used for platform tests are not research entities or trading evidence.
 
 The environment baseline is complete before platform implementation. The next program-level implementation step is `ATS2-M2-003 — Dataset manifest support`; loader/replay/Strategy API work remains governed by its own later work packages.
+
+
+## Implemented M2 boundary
+
+`ATS2-M2-003` materializes the first typed platform boundary:
+
+- `ats.schemas.dataset_manifest.DatasetManifest`;
+- `ats.schemas.dataset_manifest.load_dataset_manifest`;
+- safe YAML parsing plus immutable Pydantic validation;
+- explicit event-time / information-availability semantics;
+- deterministic ordering/tie-break metadata;
+- quality, lineage and integrity metadata.
+
+The next implementation boundary is `ATS2-M2-004 — Base data loader`. The loader must consume this contract rather than inventing dataset semantics in code.
