@@ -8,7 +8,6 @@ import csv
 import json
 from pathlib import Path
 
-
 REGISTRY_PATH = Path(__file__).resolve().parents[1] / "experiments" / "REGISTRY.csv"
 FILTER_FIELDS = {
     "id": "experiment_id",
