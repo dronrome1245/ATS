@@ -12,15 +12,19 @@ GitHub remains the remote source-control repository. Repository correctness is v
 
 ## Canonical Windows owner workflow
 
-The normal Windows workflow is one launcher from repository root:
+For task completion, the stable owner launcher is:
 
 ```bat
-ATS_CHECK.bat
+ATS_TASK_CHECK.bat
 ```
 
-The launcher performs `git pull --ff-only`, `uv sync --frozen` and the full Local CI Gate, then writes `reports/local_ci/LATEST_REPORT.txt`.
+It performs repository update, frozen environment sync and the task-specific package in `tools/current_task_check.py`, then writes `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
-The OWNER should normally send that TXT report to ChatGPT instead of manually copying console commands/output.
+The agent updates `tools/current_task_check.py` when the active task changes; the BAT remains stable.
+
+For a generic repository-only check, `ATS_CHECK.bat` remains available and writes `reports/local_ci/LATEST_REPORT.txt`.
+
+For normal task completion, OWNER should use `ATS_TASK_CHECK.bat` and send `CURRENT_TASK_REPORT.txt` instead of manually copying console commands/output.
 
 ## Canonical commands
 
