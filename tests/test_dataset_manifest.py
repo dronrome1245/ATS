@@ -27,7 +27,7 @@ def validate(data: dict) -> DatasetManifest:
 def test_canonical_template_loads() -> None:
     manifest = load_dataset_manifest(TEMPLATE)
 
-    assert manifest.dataset_id == "DATASET-SYNTHETIC-REFERENCE"
+    assert manifest.dataset_id == "DATA-SYNTHETIC-M2-001"
     assert manifest.dataset_version == "1.0.0"
     assert manifest.ordering.keys == ("event_time",)
     assert manifest.ordering.tie_break_keys == ("sequence",)
