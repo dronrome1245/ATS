@@ -13,51 +13,44 @@
 
 ## Last implemented work package
 
-`ATS2-M2-004 — Base data loader`.
+`ATS2-M2-005 — Minimal Strategy research interface`.
 
 Primary artifact:
 
-`src/ats/data/loader.py`
+`src/ats/strategy/interface.py`
 
-Materialized loader boundary:
+Implemented boundary:
 
-- immutable `LoadedRecord` / `LoadedDataset`;
-- UTF-8 CSV reference format;
-- RFC3339 timezone-aware event/availability parsing;
-- deterministic event-time + declared tie-break ordering;
-- duplicate `REJECT / KEEP_FIRST / KEEP_LAST`;
-- malformed `REJECT / DROP`;
-- out-of-order `REJECT / SORT_BY_ORDERING_CONTRACT`;
-- Manifest coverage enforcement;
-- optional SHA-256 byte verification;
-- generic missing/gap policy preserved without inventing market calendar/frequency semantics.
+- immutable `ResearchRunContext`;
+- immutable `ResearchObservation` with event/availability time;
+- `observation_from_loaded_record` bridge from M2-004;
+- broker-neutral `ResearchDecision` with canonical JSON serialization;
+- `ResearchDiagnostic`;
+- generic `StrategyStep[state]`;
+- `ResearchStrategy[state]` protocol with `initial_state` and `on_observation`;
+- finite JSON-scalar payload constraint for the M2 baseline.
 
-Canonical synthetic fixtures:
+The interface does not inject wall clock, network, broker, account, allocation or live-risk objects.
 
-- `tests/fixtures/datasets/ordered_events.manifest.yaml`;
-- `tests/fixtures/datasets/ordered_events.csv`;
-- `tests/fixtures/datasets/ordered_events.schema.json`;
-- `tests/test_data_loader.py`.
+Synthetic conformance tests:
 
-Fixture CSV line endings are pinned to LF through `.gitattributes` for cross-platform SHA-256 reproducibility.
+`tests/test_strategy_interface.py`
 
-This is software/platform capability only. It is not market data or research evidence.
+The fixture strategy is software-only and is not an ATS research entity or evidence.
 
-## M2-004 closure check
+## M2-005 closure check
 
 Windows OWNER workflow:
 
 `ATS_TASK_CHECK.bat`
 
-The stable BAT updates the repository, runs frozen environment sync, then executes `tools/current_task_check.py`.
+Current `tools/current_task_check.py` is configured for:
 
-Current task checker is configured for:
-
-`ATS2-M2-004 — Base data loader`
+`ATS2-M2-005 — Minimal Strategy research interface`
 
 It runs:
 
-1. `tests/test_data_loader.py`;
+1. `tests/test_strategy_interface.py`;
 2. repository validator;
 3. full ATS Local CI.
 
@@ -65,19 +58,19 @@ Shareable report:
 
 `reports/local_ci/CURRENT_TASK_REPORT.txt`
 
-M2-004 is considered finally closed only after this report shows PASS on the exact final HEAD.
+M2-005 is finally closed only after PASS on the exact final HEAD.
 
-## Current ready task after M2-004 PASS
+## Current ready task after M2-005 PASS
 
-`ATS2-M2-005 — Minimal Strategy research interface`
+`ATS2-M2-006 — Deterministic backtest/replay`
 
 Canonical next artifact:
 
-`src/ats/strategy/interface.py`
+`src/ats/replay/engine.py`
 
-Goal: define the minimum broker-agnostic research interface that consumes immutable ordered observations and emits serializable deterministic decisions.
+Goal: consume a deterministic `LoadedDataset`, `ResearchRunContext` and `ResearchStrategy`, process observations in declared order, and produce a reproducible state/decision/diagnostic trace.
 
-Do not implement replay/backtest, cost model, analytics, broker/live integration or Reference Strategy #1 in M2-005.
+M2-006 must not add cost modelling, analytics, broker/live execution or Reference Strategy #1.
 
 ## Read order
 
@@ -85,18 +78,17 @@ Do not implement replay/backtest, cost model, analytics, broker/live integration
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
 4. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
-5. `governance/program/DATASET_MANIFEST_SPEC.md`.
-6. `src/ats/schemas/dataset_manifest.py`.
-7. `src/ats/data/loader.py`.
-8. `tests/test_data_loader.py`.
-9. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
+5. `governance/program/REFERENCE_CONSUMER_PROFILE.md`.
+6. `src/ats/data/loader.py`.
+7. `src/ats/strategy/interface.py`.
+8. `tests/test_strategy_interface.py`.
 
 ## Recovery check
 
 - Current milestone: `M2_RESEARCH_PLATFORM_MVP`.
-- Last implemented task: `ATS2-M2-004`.
-- Closure checker: `ATS2-M2-004`.
-- Next task after PASS: `ATS2-M2-005`.
-- Next artifact: `src/ats/strategy/interface.py`.
+- Last implemented task: `ATS2-M2-005`.
+- Closure checker: `ATS2-M2-005`.
+- Next task after PASS: `ATS2-M2-006`.
+- Next artifact: `src/ats/replay/engine.py`.
 - Reference Strategy #1 selection allowed now? — no.
 - Pipeline counts remain zero? — yes.
