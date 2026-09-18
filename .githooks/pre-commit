@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+set -eu
+
+if ! command -v uv >/dev/null 2>&1; then
+  echo "ATS pre-commit: uv is required. Install uv and run 'uv sync --frozen'." >&2
+  exit 1
+fi
+
+exec uv run --frozen python tools/verify_repo.py --fast
