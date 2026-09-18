@@ -105,9 +105,7 @@ class TimeSemantics(StrictModel):
                 "SAME_AS_EVENT_TIME requires availability_time_field == event_time_field"
             )
         if self.availability_mode is AvailabilityMode.EXPLICIT_FIELD and same_field:
-            raise ValueError(
-                "EXPLICIT_FIELD requires a distinct availability_time_field"
-            )
+            raise ValueError("EXPLICIT_FIELD requires a distinct availability_time_field")
         return self
 
 
