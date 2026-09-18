@@ -31,7 +31,6 @@ These remain software/schema tests only and are not research evidence.
 
 As capabilities are implemented, tests will be added for:
 
-- deterministic replay transitions;
 - explicit cost calculations;
 - analytics/result schemas;
 - manifest-driven runner behavior;
@@ -90,3 +89,21 @@ Fixture bytes are deterministic non-market software inputs and do not create res
 - serializable immutable diagnostics.
 
 The fixture strategy is synthetic non-market software logic and is not research evidence.
+
+
+## Deterministic replay tests
+
+`tests/test_replay_engine.py` verifies:
+
+- one initialization and exactly one strategy step per loaded record;
+- preservation of loaded-record order and stable sequence indices;
+- ordered state-before/state-after trace;
+- exact repeated-run equality;
+- decision/diagnostic flattening in emission order;
+- dataset identity/hash binding;
+- empty-dataset behavior;
+- nondecreasing information-availability enforcement;
+- rejection of decisions timestamped before observation availability;
+- vertical integration from Dataset Manifest through loader, Strategy interface and replay.
+
+The replay fixture remains synthetic non-market software logic and is not research evidence.
