@@ -23,6 +23,10 @@ class DatasetLoadError(ValueError):
     """Raised when dataset bytes violate the validated Dataset Manifest contract."""
 
 
+class MalformedRowError(DatasetLoadError):
+    """Raised for row-local defects governed by malformed-row policy."""
+
+
 @dataclass(frozen=True, slots=True)
 class LoadedRecord:
     """One immutable record with normalized research-time metadata."""
@@ -62,11 +66,11 @@ def _parse_timestamp(value: str, *, field_name: str, source_line: int) -> dateti
     try:
         parsed = datetime.fromisoformat(normalized)
     except ValueError as exc:
-        raise DatasetLoadError(
+        raise MalformedRowError(
             f"line {source_line}: invalid RFC3339 timestamp in {field_name}: {value!r}"
         ) from exc
     if parsed.tzinfo is None or parsed.utcoffset() is None:
-        raise DatasetLoadError(
+        raise MalformedRowError(
             f"line {source_line}: timestamp in {field_name} must be timezone-aware"
         )
     return parsed
@@ -116,13 +120,13 @@ def _parse_row(
     source_line: int,
 ) -> LoadedRecord:
     if None in row or any(value is None for value in row.values()):
-        raise DatasetLoadError(f"line {source_line}: malformed CSV field count")
+        raise MalformedRowError(f"line {source_line}: malformed CSV field count")
 
     typed_row = {name: value for name, value in row.items() if name is not None and value is not None}
 
     for field_name in _required_fields(manifest):
         if not typed_row.get(field_name, "").strip():
-            raise DatasetLoadError(f"line {source_line}: required field is blank: {field_name}")
+            raise MalformedRowError(f"line {source_line}: required field is blank: {field_name}")
 
     event_field = manifest.time_semantics.event_time_field
     event_time = _parse_timestamp(
@@ -245,7 +249,7 @@ def load_dataset(manifest: DatasetManifest, *, root: str | Path) -> LoadedDatase
                         source_line=source_line,
                     )
                 )
-            except DatasetLoadError:
+            except MalformedRowError:
                 if manifest.quality_policy.malformed is MalformedPolicy.DROP:
                     dropped_malformed += 1
                     continue
