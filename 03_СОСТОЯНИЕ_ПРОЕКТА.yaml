@@ -154,6 +154,8 @@ quality_gate:
   fast_command: "uv run --frozen python tools/verify_repo.py --fast"
   hooks_path: ".githooks"
   latest_report: "reports/local_ci/LATEST.json"
+  windows_launcher: "ATS_CHECK.bat"
+  shareable_report: "reports/local_ci/LATEST_REPORT.txt"
   github_actions_required: false
 
 safety:
