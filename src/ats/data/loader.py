@@ -47,7 +47,7 @@ class LoadedDataset:
 
     dataset_id: str
     dataset_version: str
-    source_path: str
+    source_location: str
     computed_sha256: str
     records: tuple[LoadedRecord, ...]
     source_row_count: int
@@ -265,7 +265,7 @@ def load_dataset(manifest: DatasetManifest, *, root: str | Path) -> LoadedDatase
     return LoadedDataset(
         dataset_id=manifest.dataset_id,
         dataset_version=manifest.dataset_version,
-        source_path=str(source_path),
+        source_location=manifest.storage.location,
         computed_sha256=computed_sha256,
         records=tuple(records),
         source_row_count=source_row_count,
