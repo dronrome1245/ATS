@@ -9,10 +9,17 @@ from pathlib import Path
 from typing import Any, Literal
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    ValidationError,
+    field_validator,
+    model_validator,
+)
 
 SEMVER_RE = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+$")
-DATASET_ID_RE = re.compile(r"^DATASET-[A-Z0-9][A-Z0-9_-]*$")
+DATASET_ID_RE = re.compile(r"^DATA-[A-Z0-9][A-Z0-9_-]*-[0-9]{3}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -178,7 +185,7 @@ class DatasetManifest(StrictModel):
     @classmethod
     def validate_dataset_id(cls, value: str) -> str:
         if DATASET_ID_RE.fullmatch(value) is None:
-            raise ValueError("dataset_id must match DATASET-[A-Z0-9_-]+")
+            raise ValueError("dataset_id must match DATA-<SOURCE>-<PURPOSE>-NNN")
         return value
 
     @field_validator("dataset_version")
