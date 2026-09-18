@@ -1,0 +1,53 @@
+schema_version: "2.0"
+
+dataset_id: "DATASET-SYNTHETIC-REFERENCE"
+dataset_version: "1.0.0"
+description: "Synthetic non-market manifest template for M2 schema validation only."
+
+source:
+  source_reference: "synthetic://m2-dataset-manifest-template"
+  snapshot_reference: "synthetic-snapshot-v1"
+
+storage:
+  format: "CSV"
+  location: "tests/fixtures/datasets/ordered_events.csv"
+  schema_reference: "tests/fixtures/datasets/ordered_events.schema.json"
+
+coverage:
+  start: "2026-01-01T00:00:00Z"
+  end: "2026-01-01T00:10:00Z"
+  scope: "Synthetic ordered records used only for software validation."
+
+time_semantics:
+  timezone: "UTC"
+  timestamp_representation: "RFC3339"
+  event_time_field: "event_time"
+  availability_time_field: "event_time"
+  availability_mode: "SAME_AS_EVENT_TIME"
+
+ordering:
+  keys:
+    - "event_time"
+  tie_break_keys:
+    - "sequence"
+  direction: "ASCENDING"
+
+quality_policy:
+  duplicates: "REJECT"
+  missing: "ALLOW_DECLARED_GAPS"
+  malformed: "REJECT"
+  out_of_order: "REJECT"
+
+transformation_lineage:
+  parent_datasets: []
+  preparation_reference: "identity://no-transformation"
+  steps: []
+
+integrity:
+  algorithm: "NOT_AVAILABLE"
+  digest: null
+  reason: "Template is not bound to real dataset bytes."
+
+known_limitations:
+  - "Synthetic non-market template; not research evidence."
+  - "No dataset bytes are committed by this template."
