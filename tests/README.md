@@ -39,20 +39,16 @@ Broker execution, order idempotency, reconciliation, live risk controls and shad
 
 ## Quality commands
 
-Repository validation:
+Fast developer gate:
 
 ```bash
-uv run --frozen python tools/validate_repo.py
+uv run --frozen python tools/verify_repo.py --fast
 ```
 
-Environment fingerprint:
+Full completion gate:
 
 ```bash
-uv run --frozen python tools/environment_fingerprint.py
+uv run --frozen python tools/verify_repo.py
 ```
 
-Current lint baseline:
-
-```bash
-uv run --frozen ruff check tools/environment_fingerprint.py tests/test_environment_baseline.py
-```
+The full gate runs repository validation, the complete pytest suite, Ruff lint/format checks and the environment fingerprint. Policy: `governance/program/LOCAL_CI_GATE.md`.
