@@ -18,7 +18,6 @@ from ats.strategy.interface import (
     StrategyStep,
 )
 
-
 ROOT = Path(__file__).resolve().parents[1]
 LOADER_MANIFEST = ROOT / "tests" / "fixtures" / "datasets" / "ordered_events.manifest.yaml"
 
