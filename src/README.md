@@ -36,7 +36,7 @@ M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB,
 
 A concrete Reference Strategy #1 is not selected until M3. Deterministic synthetic software fixtures used for platform tests are not research entities or trading evidence.
 
-The environment baseline is complete before platform implementation. The next program-level implementation step is `ATS2-M2-003 — Dataset manifest support`; loader/replay/Strategy API work remains governed by its own later work packages.
+The environment baseline, Dataset Manifest boundary and base data loader are complete at repository-artifact level. The next program-level implementation step after M2-004 Local CI PASS is `ATS2-M2-005 — Minimal Strategy research interface`; replay remains a later work package.
 
 
 ## Implemented M2 boundary
