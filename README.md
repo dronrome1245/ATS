@@ -14,29 +14,30 @@
 
 Последний реализованный work package:
 
-`ATS2-M2-007 — Cost model interface`.
+`ATS2-M2-008 — Standard analytics/report`.
 
 Primary artifact:
 
-`src/ats/costs/interface.py`.
+`src/ats/analytics/standard.py`.
 
-Cost baseline:
+Analytics baseline:
 
-- explicit ordered component configuration;
-- no hidden numeric defaults for applicable components;
-- explicit `NOT_APPLICABLE` representation with reason;
-- deterministic cost inputs outside Strategy logic;
-- separate serializable component/result objects;
-- exact component/order/applicability validation;
-- no gross/net analytics or broker/live execution behavior.
+- deterministic replay/run identity and technical counts;
+- explicit effect semantics and units;
+- separate gross effect, modeled costs and net effect;
+- baseline effect distribution and absolute max drawdown when applicable;
+- explicit `NOT_APPLICABLE` instead of invented metrics;
+- explicit trade/event count semantics;
+- canonical JSON plus deterministic Markdown report;
+- no broker/live, portfolio or strategy-specific assumptions.
 
-Следующая task после M2-007 Local CI PASS:
+Следующая task после M2-008 Local CI PASS:
 
-`ATS2-M2-008 — Standard analytics/report`.
+`ATS2-M2-009 — Manifest-driven experiment runner`.
 
 Следующий artifact:
 
-`src/ats/analytics/standard.py`.
+`src/ats/runner/experiment.py`.
 
 ## Windows task check
 

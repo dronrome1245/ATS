@@ -31,7 +31,6 @@ These remain software/schema tests only and are not research evidence.
 
 As capabilities are implemented, tests will be added for:
 
-- analytics/result schemas;
 - manifest-driven runner behavior;
 - repeated-run equality/tolerance using synthetic non-market fixtures.
 
@@ -123,3 +122,21 @@ The replay fixture remains synthetic non-market software logic and is not resear
 - result identity and applicability must match the declared input/config.
 
 The fixture uses synthetic non-market units and explicit cost components only. It is not research evidence.
+
+
+## Standard analytics/report tests
+
+`tests/test_standard_analytics.py` verifies:
+
+- gross effect, modeled costs and net effect remain separate;
+- replay observation/decision/diagnostic counts are preserved;
+- Strategy decisions are not inferred to be trades;
+- deterministic effect count/mean/min/max and absolute max drawdown;
+- empty but explicitly applicable effect series behavior;
+- incompatible cost units keep total/net explicitly not applicable;
+- all-not-applicable cost components do not become a hidden zero;
+- non-finite or semantically undeclared effects are rejected;
+- trade/event count requires explicit non-negative semantics;
+- canonical JSON and deterministic Markdown output.
+
+The analytics fixture uses synthetic non-market units only and is not research evidence.

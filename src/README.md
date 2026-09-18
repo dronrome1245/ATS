@@ -36,7 +36,7 @@ M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB,
 
 A concrete Reference Strategy #1 is not selected until M3. Deterministic synthetic software fixtures used for platform tests are not research entities or trading evidence.
 
-The environment baseline, Dataset Manifest boundary, base data loader, Strategy/Research interface, deterministic replay core and explicit cost-model interface are complete at repository-artifact level. The next implementation step after M2-007 Local CI PASS is `ATS2-M2-008 — Standard analytics/report`.
+The environment baseline, Dataset Manifest boundary, base data loader, Strategy/Research interface, deterministic replay core, explicit cost-model interface and standard analytics/report are complete at repository-artifact level. The next implementation step after M2-008 Local CI PASS is `ATS2-M2-009 — Manifest-driven experiment runner`.
 
 
 ## Implemented M2 boundary
@@ -117,4 +117,23 @@ Implemented M2-007 behavior:
 - `CostModel` is a deterministic protocol over explicit input + config only;
 - `apply_cost_model` rejects mismatched input identity, omitted/reordered components or changed applicability.
 
-The next implementation boundary is `ATS2-M2-008 — Standard analytics/report`, expected under `src/ats/analytics/`.
+`ATS2-M2-008 — Standard analytics/report` is materialized in `ats.analytics.standard`.
+
+## Standard analytics/report boundary
+
+Implemented M2-008 behavior:
+
+- `build_standard_analytics` binds deterministic replay identity/counts to explicitly declared economic semantics;
+- `EffectSeries` requires finite ordered increments, a non-empty semantic definition and an explicit unit;
+- gross effect, modeled costs and net effect remain separate fields;
+- modeled cost totals exist only when at least one applicable component exists and all applicable component units are compatible;
+- net effect exists only when gross effect and modeled cost total use the same unit;
+- effect count/mean/min/max and absolute cumulative max drawdown are deterministic when an effect series is applicable;
+- `NotApplicable` prevents missing economic/trade semantics from becoming invented zeroes or metrics;
+- Strategy decisions remain decisions; trade/event/opportunity count is a separate explicit input;
+- `StandardAnalyticsResult.to_json()` produces canonical machine-readable output using result sections compatible with the Experiment result vocabulary;
+- `StandardAnalyticsResult.to_markdown()` provides a deterministic minimum human-readable report.
+
+No return percentage, Sharpe, win rate, capital utilization, market-specific P&L or trade semantics are invented by this baseline.
+
+The next implementation boundary is `ATS2-M2-009 — Manifest-driven experiment runner`, expected under `src/ats/runner/`.
