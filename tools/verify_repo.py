@@ -123,7 +123,8 @@ def main() -> int:
 
     try:
         commit_sha = git_output("rev-parse", "HEAD")
-        dirty = bool(git_output("status", "--porcelain"))
+        status_porcelain = git_output("status", "--porcelain")
+        dirty = bool(status_porcelain)
     except (OSError, subprocess.CalledProcessError) as exc:
         print(f"Git metadata unavailable: {exc}", file=sys.stderr)
         return 2
@@ -131,6 +132,9 @@ def main() -> int:
     print(f"ATS Local CI Gate — {mode}")
     print(f"commit: {commit_sha}")
     print(f"working tree: {'DIRTY' if dirty else 'CLEAN'}")
+    if dirty:
+        print("working tree changes:")
+        print(status_porcelain)
 
     steps: list[dict[str, Any]] = []
     fingerprint: dict[str, Any] | None = None
@@ -154,6 +158,7 @@ def main() -> int:
             "started_at": started_at,
             "steps": steps,
             "working_tree_dirty": dirty,
+            "working_tree_status": status_porcelain.splitlines(),
         }
         write_report(report)
         print("\n[FAIL] Full gate requires a clean working tree.")
