@@ -20,12 +20,14 @@ LINT_PATHS = (
     "tools/environment_fingerprint.py",
     "tools/search_experiments.py",
     "tools/verify_repo.py",
+    "src",
     "tests",
 )
 FORMAT_PATHS = (
     "tools/environment_fingerprint.py",
     "tools/search_experiments.py",
     "tools/verify_repo.py",
+    "src",
     "tests",
 )
 
