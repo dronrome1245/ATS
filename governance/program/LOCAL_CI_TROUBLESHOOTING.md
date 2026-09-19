@@ -141,7 +141,17 @@ Install the project-pinned `uv 0.12.13` using the official uv installer, open a 
 Canonical Windows bootstrap:
 
 ```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/0.12.13/install.ps1 | iex"
+$installer = Join-Path $env:TEMP "uv-0.12.13-install.ps1"
+Invoke-WebRequest -UseBasicParsing "https://astral.sh/uv/0.12.13/install.ps1" -OutFile $installer
+powershell -ExecutionPolicy ByPass -File $installer
+```
+
+The download-to-file form is the ATS-preferred Windows bootstrap because it avoids shell/pipeline parsing problems observed with nested `irm ... | iex` execution.
+
+Then open a new PowerShell session and run:
+
+```powershell
+where.exe uv
 uv --version
 uv python install 3.13.15
 uv sync --frozen
