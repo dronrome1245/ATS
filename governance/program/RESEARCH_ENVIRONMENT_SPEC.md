@@ -110,6 +110,10 @@ uv sync --frozen
 
 If `ATS_TASK_CHECK.bat` reports `ERROR: uv is not available on PATH.` with exit code `12`, the host bootstrap is incomplete or the new process does not see uv on PATH. Diagnose/install the environment; do not change ATS source code.
 
+If `uv python install 3.13.15` warns that a `python3.13.exe` already exists but is not managed by uv, do not use `--force` automatically. The warning concerns the convenience executable in the user bin directory, not necessarily the project interpreter. Continue with `uv sync --frozen` and confirm the environment fingerprint. uv only overwrites unmanaged Python executables when explicitly forced.
+
+When moving/copying an ATS working directory between computers, an existing repository-local `.venv` may reference a Python interpreter that does not exist on the new host. `uv sync --frozen` may report that the old environment is being ignored and can recreate it. If it cannot, deleting only `.venv` and rerunning frozen sync is permitted because `.venv` is disposable and ignored by Git.
+
 `--frozen` is mandatory for reproducibility checks and the Local CI Gate. It prevents environment setup from silently changing `uv.lock`.
 
 The normal environment is repository-local `.venv/`, which remains ignored by Git.

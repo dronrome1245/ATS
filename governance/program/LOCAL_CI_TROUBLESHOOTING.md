@@ -163,6 +163,18 @@ Expected uv version prefix:
 
 If `uv --version` still fails after installation, diagnose PATH visibility before changing ATS source code.
 
+A later `uv python install 3.13.15` warning such as:
+
+`Executable already exists ... python3.13.exe but is not managed by uv; use --force`
+
+does not by itself mean the ATS project is blocked. uv refuses to overwrite an executable it does not manage unless `--force` is supplied. Do **not** use `--force` merely to silence this warning. First continue with `uv sync --frozen`; uv can use a compatible CPython 3.13.15 discovered on the host or a managed installation without replacing the unrelated launcher executable.
+
+On a migrated/copied working directory, `uv sync --frozen` may also report:
+
+`Ignoring existing virtual environment linked to non-existent Python interpreter`
+
+This means the repository-local `.venv` points to an interpreter path that existed on the previous computer. The environment is disposable. Let `uv sync --frozen` recreate/synchronize it. If sync cannot recover it automatically, remove only the repository-local `.venv` and rerun `uv sync --frozen`; do not edit project code or `uv.lock`.
+
 **Preventive rule**
 
 A newly provisioned ATS host must complete the pinned tool bootstrap before the task launcher is expected to pass. Treat launcher exit code `12` as an environment/bootstrap failure and never as evidence of a code defect.
