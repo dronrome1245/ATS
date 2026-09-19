@@ -323,6 +323,8 @@ def configure() -> None:
         "uv is not available on PATH",
         "exit code `12`",
         "uv 0.12.13",
+        "Invoke-WebRequest -UseBasicParsing",
+        "powershell -ExecutionPolicy ByPass -File",
         "uv python install 3.13.15",
         "do not modify source code for infrastructure/network failures",
         "Raw machine reports are not copied into this file",
