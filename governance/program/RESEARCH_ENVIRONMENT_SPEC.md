@@ -83,12 +83,17 @@ Prerequisite: install the project-required uv version using the official uv dist
 Canonical Windows PowerShell bootstrap for the pinned baseline:
 
 ```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/0.12.13/install.ps1 | iex"
+$installer = Join-Path $env:TEMP "uv-0.12.13-install.ps1"
+Invoke-WebRequest -UseBasicParsing "https://astral.sh/uv/0.12.13/install.ps1" -OutFile $installer
+powershell -ExecutionPolicy ByPass -File $installer
 ```
+
+ATS prefers the download-to-file form on Windows because nested `irm ... | iex` execution can be affected by shell/pipeline parsing on some PowerShell environments.
 
 After installation, open a new terminal/session if necessary and verify:
 
 ```powershell
+where.exe uv
 uv --version
 ```
 
