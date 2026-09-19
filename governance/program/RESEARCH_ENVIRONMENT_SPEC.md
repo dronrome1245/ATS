@@ -80,12 +80,30 @@ The lock is the canonical resolution. Direct/transitive versions must not be upg
 
 Prerequisite: install the project-required uv version using the official uv distribution mechanism.
 
+Canonical Windows PowerShell bootstrap for the pinned baseline:
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/0.12.13/install.ps1 | iex"
+```
+
+After installation, open a new terminal/session if necessary and verify:
+
+```powershell
+uv --version
+```
+
+The version must begin with:
+
+`uv 0.12.13`
+
 Then from repository root on the supported host:
 
 ```bash
 uv python install 3.13.15
 uv sync --frozen
 ```
+
+If `ATS_TASK_CHECK.bat` reports `ERROR: uv is not available on PATH.` with exit code `12`, the host bootstrap is incomplete or the new process does not see uv on PATH. Diagnose/install the environment; do not change ATS source code.
 
 `--frozen` is mandatory for reproducibility checks and the Local CI Gate. It prevents environment setup from silently changing `uv.lock`.
 

@@ -52,6 +52,8 @@ goto :failed
 
 :uv_missing
 >> "%REPORT%" echo ERROR: uv is not available on PATH.
+>> "%REPORT%" echo Required ATS baseline: uv 0.12.13.
+>> "%REPORT%" echo See governance\program\RESEARCH_ENVIRONMENT_SPEC.md and LOCAL_CI_TROUBLESHOOTING.md.
 set "RC=12"
 goto :failed
 

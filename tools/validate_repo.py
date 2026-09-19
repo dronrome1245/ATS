@@ -319,6 +319,11 @@ def configure() -> None:
         "ruff format --check",
         "b3085c26342c52e6ae852962faefcaf347d43a2a",
         "fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd",
+        "LCI-003",
+        "uv is not available on PATH",
+        "exit code `12`",
+        "uv 0.12.13",
+        "uv python install 3.13.15",
         "do not modify source code for infrastructure/network failures",
         "Raw machine reports are not copied into this file",
     )
@@ -327,6 +332,7 @@ def configure() -> None:
         "uv sync --frozen",
         "tools/current_task_check.py",
         "CURRENT_TASK_REPORT.txt",
+        "Required ATS baseline: uv 0.12.13.",
         "ATS TASK LAUNCHER: PASS",
         "ATS TASK LAUNCHER: FAIL",
     )

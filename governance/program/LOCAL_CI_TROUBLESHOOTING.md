@@ -115,6 +115,50 @@ For agent-created or programmatic Python edits that bypass the repository hooks:
 
 **Scope:** agents and any tooling that writes directly to the remote repository.
 
+### LCI-003 — uv missing from PATH on a new Windows host
+
+**First observed:** 2026-09-19  
+**Class:** `ENVIRONMENT`
+
+**Symptom**
+
+`ATS_TASK_CHECK.bat` stops before repository sync/environment sync with:
+
+`ERROR: uv is not available on PATH.`
+
+and returns launcher exit code `12`.
+
+**Root cause**
+
+The Windows host has not completed the ATS environment bootstrap, or `uv` is installed but its executable directory is not visible in the process `PATH`.
+
+This is not a Strategy/replay/cost/analytics code failure. No pytest, validator, Ruff or environment fingerprint stage has run.
+
+**Correct response**
+
+Install the project-pinned `uv 0.12.13` using the official uv installer, open a new terminal/session so the updated PATH is visible, verify `uv --version`, install the pinned Python baseline, then rerun the launcher.
+
+Canonical Windows bootstrap:
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/0.12.13/install.ps1 | iex"
+uv --version
+uv python install 3.13.15
+uv sync --frozen
+```
+
+Expected uv version prefix:
+
+`uv 0.12.13`
+
+If `uv --version` still fails after installation, diagnose PATH visibility before changing ATS source code.
+
+**Preventive rule**
+
+A newly provisioned ATS host must complete the pinned tool bootstrap before the task launcher is expected to pass. Treat launcher exit code `12` as an environment/bootstrap failure and never as evidence of a code defect.
+
+**Scope:** OWNER workflow and agents.
+
 ## 5. Adding future lessons
 
 Add a new entry only when all are true:
