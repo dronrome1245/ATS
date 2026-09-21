@@ -182,6 +182,8 @@ The synthetic slicing fixture is software-only and creates no validation evidenc
 
 ## M4 concentration diagnostics
 
+`ATS2-M4-004 — Observation concentration analysis` materializes this capability.
+
 `ats.validation.concentration` retains every supplied observation and optional group while measuring how much absolute effect is concentrated in predeclared top-count diagnostics.
 
 The result declares `NO_AUTOMATIC_OUTLIER_REMOVAL`. Ranking by absolute magnitude is diagnostic only; it does not delete observations or change the underlying evidence.
