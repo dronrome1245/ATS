@@ -156,3 +156,12 @@ Available exact filters:
 M1-008 created the Registry with its canonical header but zero fictitious experiment rows. M1-009 extends the empty schema with `qualified_evidence_class` before real Experiment rows exist, so no evidence migration is required.
 
 The first data row appears only when ATS registers or persistently allocates its first real `EXP-...` object.
+
+
+## M2 manifest-driven runner integration
+
+`ats.runner.experiment` provides the M2 software boundary that consumes a frozen `REGISTERED` manifest and composes the existing Dataset Manifest loader, deterministic replay, explicit costs and standard analytics.
+
+The runner does not rewrite preregistration and does not dynamically import implementation paths from manifest text. Actual code revision, implementation reference, environment ID, Dataset ID and source snapshot are checked against the registered context. The exact manifest bytes are SHA-256 bound into the machine-readable result context.
+
+Platform tests use transient manifests only. A software fixture is not added to `experiments/REGISTRY.csv` and does not become `REGISTERED_EXPERIMENT` evidence merely because the runner contract is exercised.

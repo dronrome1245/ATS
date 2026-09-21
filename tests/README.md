@@ -31,8 +31,7 @@ These remain software/schema tests only and are not research evidence.
 
 As capabilities are implemented, tests will be added for:
 
-- manifest-driven runner behavior;
-- repeated-run equality/tolerance using synthetic non-market fixtures.
+- end-to-end research-platform regression/acceptance behavior.
 
 Broker execution, order idempotency, reconciliation, live risk controls and shadow/live behavior belong to later milestones and are not M2 test requirements.
 
@@ -140,3 +139,20 @@ The fixture uses synthetic non-market units and explicit cost components only. I
 - canonical JSON and deterministic Markdown output.
 
 The analytics fixture uses synthetic non-market units only and is not research evidence.
+
+
+## Manifest-driven experiment runner tests
+
+`tests/test_experiment_runner.py` verifies:
+
+- registered manifest execution without modifying manifest bytes;
+- exact repeated deterministic result JSON;
+- DRAFT manifest rejection;
+- code/environment/implementation runtime identity matching;
+- Dataset ID and source-snapshot freeze enforcement;
+- registered metric availability enforcement;
+- required runtime cost components for registered costs;
+- explicit NOT_APPLICABLE costs without hidden zero;
+- explicit timezone-aware completion timestamp.
+
+Tests create transient software-only manifest files under pytest temporary directories. They do not commit a fictitious Experiment package or Registry row and are not research evidence.

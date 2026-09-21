@@ -14,30 +14,31 @@
 
 Последний реализованный work package:
 
-`ATS2-M2-008 — Standard analytics/report`.
+`ATS2-M2-009 — Manifest-driven experiment runner`.
 
 Primary artifact:
 
-`src/ats/analytics/standard.py`.
+`src/ats/runner/experiment.py`.
 
-Analytics baseline:
+Runner baseline:
 
-- deterministic replay/run identity and technical counts;
-- explicit effect semantics and units;
-- separate gross effect, modeled costs and net effect;
-- baseline effect distribution and absolute max drawdown when applicable;
-- explicit `NOT_APPLICABLE` instead of invented metrics;
-- explicit trade/event count semantics;
-- canonical JSON plus deterministic Markdown report;
-- no broker/live, portfolio or strategy-specific assumptions.
+- frozen registered manifest is read-only and SHA-256 bound;
+- runtime code/environment/implementation identity must match registration;
+- registered Dataset ID/source snapshot must match the Dataset Manifest;
+- registered params/config/seed feed the Strategy/Replay context;
+- explicit registered costs feed the cost interface;
+- standard analytics/result are produced without changing preregistration;
+- unsupported registered metrics block the run;
+- no dynamic import from untrusted manifest text and no hidden wall clock;
+- tests use transient software-only manifests and create no formal evidence.
 
-Следующая task после M2-008 Local CI PASS:
+Следующая task после M2-009 Local CI PASS:
 
-`ATS2-M2-009 — Manifest-driven experiment runner`.
+`ATS2-M2-010 — Research platform tests`.
 
 Следующий artifact:
 
-`src/ats/runner/experiment.py`.
+`tests/test_research_platform.py`.
 
 ## Windows task check
 

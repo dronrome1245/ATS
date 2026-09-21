@@ -58,6 +58,11 @@ ANALYTICS_FILES = (
     "src/ats/analytics/standard.py",
     "tests/test_standard_analytics.py",
 )
+RUNNER_FILES = (
+    "src/ats/runner/__init__.py",
+    "src/ats/runner/experiment.py",
+    "tests/test_experiment_runner.py",
+)
 LOCAL_CI_FILES = (
     "ATS_TASK_CHECK.bat",
     "tools/verify_repo.py",
@@ -104,7 +109,7 @@ def configure() -> None:
         LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
         *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
-        *ANALYTICS_FILES, *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
+        *ANALYTICS_FILES, *RUNNER_FILES, *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
@@ -300,6 +305,36 @@ def configure() -> None:
         "test_no_applicable_cost_components_do_not_create_hidden_zero_cost",
         "test_json_and_markdown_outputs_are_deterministic",
     )
+    core.CONTENT_MARKERS["src/ats/runner/experiment.py"] = (
+        "class ExperimentRunError",
+        "class RegisteredExperimentContext",
+        "class RuntimeIdentity",
+        "class ExperimentRuntime",
+        "class ExperimentRunResult",
+        "def load_registered_experiment_context",
+        "def run_registered_experiment",
+        "yaml.safe_load",
+        "REGISTERED_CONTEXT_MATCH",
+        "registered_manifest_sha256",
+        "registered metrics are not available from standard analytics",
+        "no dynamic imports from manifest text",
+    )
+    core.CONTENT_MARKERS["tests/test_experiment_runner.py"] = (
+        "test_registered_manifest_runs_end_to_end_without_mutation",
+        "test_repeated_registered_run_is_exactly_deterministic",
+        "test_draft_manifest_is_rejected_before_execution",
+        "test_runtime_identity_must_match_registered_context",
+        "test_dataset_identity_and_snapshot_are_frozen",
+        "test_registered_metric_must_exist_in_standard_analytics",
+        "test_registered_cost_model_requires_runtime_cost_components",
+        "test_registered_not_applicable_costs_remain_explicit",
+    )
+    core.CONTENT_MARKERS["governance/methodology/templates/experiment/result.json"] = (
+        "registered_manifest_sha256",
+        "dataset_version",
+        "computed_sha256",
+        "reproducibility_status",
+    )
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
@@ -344,8 +379,8 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M2-008"',
-        "tests/test_standard_analytics.py",
+        'TASK_ID = "ATS2-M2-009"',
+        "tests/test_experiment_runner.py",
         "tools/validate_repo.py",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
@@ -380,12 +415,15 @@ def configure() -> None:
         "ats.replay.engine",
         "ats.costs.interface",
         "ats.analytics.standard",
+        "ats.runner.experiment",
         "ReplayFrame",
         "ReplayResult",
         "CostModelConfig",
         "CostResult",
         "StandardAnalyticsResult",
-        "ATS2-M2-009 — Manifest-driven experiment runner",
+        "RegisteredExperimentContext",
+        "ExperimentRunResult",
+        "ATS2-M2-010 — Research platform tests",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
@@ -395,6 +433,7 @@ def configure() -> None:
         "test_replay_engine.py",
         "test_cost_interface.py",
         "test_standard_analytics.py",
+        "test_experiment_runner.py",
         "vertical integration from Dataset Manifest",
         "explicit cost components",
         "Strategy decisions are not inferred to be trades",
@@ -413,6 +452,8 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS["experiments/README.md"] = (
         "Experiment Registry", "qualified_evidence_class", "registration_revision",
+        "ats.runner.experiment", "registered_manifest_sha256",
+        "does not become `REGISTERED_EXPERIMENT` evidence",
     )
     core.CONTENT_MARKERS["tools/search_experiments.py"] = (
         "REGISTRY.csv", "qualified_evidence_class", "--contains",
@@ -528,6 +569,7 @@ def validate_environment(repo: Path) -> int:
         "src/ats/replay/engine.py",
         "src/ats/costs/interface.py",
         "src/ats/analytics/standard.py",
+        "src/ats/runner/experiment.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -535,6 +577,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_replay_engine.py",
         "tests/test_cost_interface.py",
         "tests/test_standard_analytics.py",
+        "tests/test_experiment_runner.py",
     ):
         path = repo / relative
         try:
@@ -575,9 +618,9 @@ def main() -> int:
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M2-008"',
-        'current_task: "ATS2-M2-009"', 'current_ready_task: "ATS2-M2-009"',
-        'current_wbs: "WBS-2.9"', "reference_strategy_selection_allowed: false",
+        'last_completed_task_id: "ATS2-M2-009"',
+        'current_task: "ATS2-M2-010"', 'current_ready_task: "ATS2-M2-010"',
+        'current_wbs: "WBS-2.10"', "reference_strategy_selection_allowed: false",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -642,11 +685,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-008") != "DONE":
-        core.fail("M2-008 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-009") != "DONE":
+        core.fail("M2-009 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-009") != "READY":
-        core.fail("M2-009 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-010") != "READY":
+        core.fail("M2-010 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

@@ -24,11 +24,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 9. `ATS2-M2-006` — Deterministic backtest/replay — `DONE`.
 10. `ATS2-M2-007` — Cost model interface — `DONE`.
 11. `ATS2-M2-008` — Standard analytics/report — `DONE`.
-12. `ATS2-M2-009` — Manifest-driven experiment runner — `READY`.
-13. `ATS2-M2-010` — Research platform tests — `BLOCKED` by M2-004…009.
+12. `ATS2-M2-009` — Manifest-driven experiment runner — `DONE`.
+13. `ATS2-M2-010` — Research platform tests — `READY`.
 14. `ATS2-M2-011` — M2 Exit — `BLOCKED` by M2-000…010.
 
-Program-level current next task — `ATS2-M2-009`.
+Program-level current next task — `ATS2-M2-010`.
 
 ## 3. M0 / M1
 
@@ -54,11 +54,11 @@ Canonical exits:
 | `ATS2-M2-006` | `WBS-2.6` | P1 | DONE | M2-004, M2-005 | `src/ats/replay/engine.py` + `tests/test_replay_engine.py` | Same frozen loader output + run context + research strategy produces reproducible ordered observation/state/decision/diagnostic trace with availability-time causality checks and no hidden wall-clock/network inputs |
 | `ATS2-M2-007` | `WBS-2.7` | P1 | DONE | M2-006 | `src/ats/costs/interface.py` + tests | Costs are explicit deterministic inputs applied outside strategy logic and kept separate from gross effects/results |
 | `ATS2-M2-008` | `WBS-2.8` | P1 | DONE | M2-006, M2-007 | `src/ats/analytics/standard.py` + `tests/test_standard_analytics.py` | Baseline output exposes effect/P&L, risk/path, events/trades and costs as applicable |
-| `ATS2-M2-009` | `WBS-2.9` | P1 | READY | M2-002…008 | `src/ats/runner/experiment.py` + tests | Registered experiment context can be replayed by a documented procedure without rewriting preregistration |
-| `ATS2-M2-010` | `WBS-2.10` | P1 | BLOCKED | M2-004…009 | Research platform tests | Critical calculations have deterministic non-market fixtures/regression checks |
+| `ATS2-M2-009` | `WBS-2.9` | P1 | DONE | M2-002…008 | `src/ats/runner/experiment.py` + `tests/test_experiment_runner.py` | Registered experiment context can be replayed by a documented procedure without rewriting preregistration |
+| `ATS2-M2-010` | `WBS-2.10` | P1 | READY | M2-004…009 | `tests/test_research_platform.py` + regression fixtures | Critical calculations have deterministic non-market fixtures/regression checks |
 | `ATS2-M2-011` | M2 Exit | P1 | BLOCKED | M2-000…010 | M2 exit decision | Minimal reusable vertical research stack can reproduce an end-to-end baseline registered experiment workflow |
 
-`M2-000…008` still do not select Reference Strategy #1. M2-008 adds only deterministic baseline analytics/report contracts over replay plus explicit effect/cost inputs; it does not add a trading strategy, broker/live execution or research evidence.
+`M2-000…009` still do not select Reference Strategy #1. M2-009 adds only a deterministic manifest-driven software runner that checks frozen registered context against resolved platform inputs; its synthetic fixtures are not formal Experiment evidence.
 
 ## 5. M3 and later
 
@@ -70,10 +70,10 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 Current program-level ready task:
 
-`ATS2-M2-009 — Manifest-driven experiment runner`.
+`ATS2-M2-010 — Research platform tests`.
 
 Canonical next artifact:
 
-`src/ats/runner/experiment.py`.
+`tests/test_research_platform.py`.
 
-M2-009 must connect frozen Experiment context to the existing deterministic loader/replay/cost/analytics path without rewriting preregistration. It must not implement broker/live execution, portfolio logic or Reference Strategy #1.
+M2-010 must harden the complete deterministic software path with end-to-end/regression fixtures across loader → Strategy interface → replay → costs → analytics → runner. It must not create market evidence, broker/live execution, portfolio logic or Reference Strategy #1.

@@ -50,11 +50,11 @@ model:
   m1_exit_review: "governance/program/M1_EXIT_REVIEW.md"
 
 current:
-  focus: "Implement manifest-driven experiment runner"
-  last_completed_task_id: "ATS2-M2-008"
-  last_completed_artifact: "src/ats/analytics/standard.py"
-  next_artifact: "src/ats/runner/experiment.py"
-  next_task_id: "ATS2-M2-009"
+  focus: "Harden end-to-end research platform regression tests"
+  last_completed_task_id: "ATS2-M2-009"
+  last_completed_artifact: "src/ats/runner/experiment.py"
+  next_artifact: "tests/test_research_platform.py"
+  next_task_id: "ATS2-M2-010"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -113,6 +113,7 @@ m2:
     - "ATS2-M2-006"
     - "ATS2-M2-007"
     - "ATS2-M2-008"
+    - "ATS2-M2-009"
   completed_artifacts:
     - "governance/program/REFERENCE_CONSUMER_PROFILE.md"
     - "governance/decisions/ADR-0001-RESEARCH-STACK.md"
@@ -139,8 +140,10 @@ m2:
     - "tests/test_cost_interface.py"
     - "src/ats/analytics/standard.py"
     - "tests/test_standard_analytics.py"
-  current_task: "ATS2-M2-009"
-  current_wbs: "WBS-2.9"
+    - "src/ats/runner/experiment.py"
+    - "tests/test_experiment_runner.py"
+  current_task: "ATS2-M2-010"
+  current_wbs: "WBS-2.10"
   reference_strategy_selection_allowed: false
   environment:
     primary_local_host: WINDOWS_X86_64
@@ -155,8 +158,8 @@ m2:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M2-009"
-  current_ready_wbs: "WBS-2.9"
+  current_ready_task: "ATS2-M2-010"
+  current_ready_wbs: "WBS-2.10"
 
 handoff_policy:
   update_after_material_step: true

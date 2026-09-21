@@ -6,10 +6,13 @@
     "code_revision": null,
     "implementation_reference": null,
     "dataset_id": null,
+    "dataset_version": null,
     "source_snapshot_reference": null,
     "data_period": null,
     "environment_id": null,
-    "random_seed": null
+    "random_seed": null,
+    "registered_manifest_sha256": null,
+    "computed_sha256": null
   },
   "primary_metrics": {},
   "secondary_metrics": {},

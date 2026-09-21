@@ -136,4 +136,22 @@ Implemented M2-008 behavior:
 
 No return percentage, Sharpe, win rate, capital utilization, market-specific P&L or trade semantics are invented by this baseline.
 
-The next implementation boundary is `ATS2-M2-009 — Manifest-driven experiment runner`, expected under `src/ats/runner/`.
+`ATS2-M2-009 — Manifest-driven experiment runner` is materialized in `ats.runner.experiment`.
+
+## Manifest-driven experiment runner boundary
+
+Implemented M2-009 behavior:
+
+- registered manifest bytes are read using safe YAML and SHA-256 bound without modification;
+- only `REGISTERED / REGISTERED_EXPERIMENT` context is executable by the M2 runner;
+- code revision, implementation reference and environment ID are matched against explicit resolved runtime identity;
+- Dataset ID/source snapshot are matched against the Dataset Manifest before loading;
+- registered parameters/configuration/random seed become `ResearchRunContext`;
+- registered structured cost components become `CostModelConfig`, while `NOT_APPLICABLE` costs remain explicit;
+- the runner composes existing loader → replay → costs → analytics capabilities without duplicating their logic;
+- registered primary/secondary metric names must exist in the standard analytics result surface;
+- completion timestamp is explicit input; no wall clock is injected;
+- result output records registered manifest SHA-256 plus dataset version/hash for reproducibility;
+- implementation references are not dynamically imported or executed from manifest text.
+
+The next implementation boundary is `ATS2-M2-010 — Research platform tests`, centered on `tests/test_research_platform.py`.
