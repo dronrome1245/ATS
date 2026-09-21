@@ -10,33 +10,37 @@
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy/live permission exists.
 
-## M4-003 Declared slicing
+## M4-004 Concentration analysis
 
 Implementation:
 
-`src/ats/validation/slicing.py`
+`src/ats/validation/concentration.py`
 
 Tests:
 
-`tests/test_validation_slicing.py`
+`tests/test_validation_concentration.py`
 
 Contract:
 
-- slices are declared before evaluation;
-- every declared slice is reported in plan order;
-- exhaustive coverage can be required;
-- overlap can be explicitly forbidden or allowed;
-- unassigned and multiply-assigned observations are counted;
-- empty-slice policy is explicit;
-- unknown or duplicate memberships fail closed;
-- evaluator must return exactly the declared finite metric set;
-- output declares `ALL_DECLARED_SLICES_REPORTED`.
+- every supplied observation is retained;
+- observation IDs are unique and values finite;
+- `top_counts` are predeclared positive integers;
+- top-observation concentration uses absolute contribution magnitude;
+- optional groups are all retained in first-seen order;
+- group concentration uses absolute net group effect;
+- zero denominators produce explicit null shares;
+- output declares `ABSOLUTE_MAGNITUDE_DIAGNOSTIC_ONLY`;
+- output declares `NO_AUTOMATIC_OUTLIER_REMOVAL`.
 
-This tooling cannot selectively drop an unfavorable period/regime and creates no evidence by itself.
+This tooling exposes concentration; it does not remove outliers or create evidence by itself.
+
+## Local CI failure control
+
+`LOCAL_CI_FAILURE_REGISTRY.md` records recurring causes. The fast-preflight control for recurrent FORMAT failures was verified on `cac82301...` with fast gate PASS followed by 105 tests and full launcher PASS.
 
 ## Current closure check
 
-`ATS2-M4-003 — Time/regime slicing`
+`ATS2-M4-004 — Observation concentration analysis`
 
 Run:
 
@@ -44,10 +48,8 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-004 — Observation concentration analysis`
+`ATS2-M4-005 — Dependence-preserving resampling framework`
 
 Initial artifact:
 
-`src/ats/validation/concentration.py`
-
-The next tool must expose concentration/outlier dependence without automatically deleting observations.
+`src/ats/validation/resampling.py`

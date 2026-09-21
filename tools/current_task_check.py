@@ -8,22 +8,22 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M4-003"
-TASK_NAME = "Time/regime slicing"
+TASK_ID = "ATS2-M4-004"
+TASK_NAME = "Observation concentration analysis"
 REQUIRED_ARTIFACTS = (
-    Path("src/ats/validation/slicing.py"),
-    Path("tests/test_validation_slicing.py"),
+    Path("src/ats/validation/concentration.py"),
+    Path("tests/test_validation_concentration.py"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M4-003 slicing artifacts ==")
+    print("\n== M4-004 concentration artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M4-003 slicing artifacts")
+    print("[PASS] M4-004 concentration artifacts")
     return True
 
 
@@ -51,7 +51,7 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "M4-003 slicing governance validation",
+            "M4-004 concentration governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

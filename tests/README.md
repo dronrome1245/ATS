@@ -201,3 +201,19 @@ The fixture is synthetic software-only input and is not validation evidence.
 - slicing plan/results are immutable.
 
 The fixture is synthetic software-only input and is not validation evidence.
+
+
+## M4 concentration tests
+
+`tests/test_validation_concentration.py` verifies:
+
+- all observations remain in input order;
+- top-count concentration uses absolute magnitude deterministically;
+- every declared group remains visible in first-seen order;
+- ranking is marked diagnostic-only;
+- no automatic outlier removal is exposed;
+- zero absolute effect produces an explicit null share;
+- duplicate IDs, non-finite values and invalid top-count plans fail closed;
+- plan/results are immutable.
+
+The fixture is synthetic software-only input and is not validation evidence.

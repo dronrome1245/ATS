@@ -30,9 +30,13 @@ Declared time/regime slicing:
 
 `src/ats/validation/slicing.py`
 
+Observation concentration:
+
+`src/ats/validation/concentration.py`
+
 ## Current closure check
 
-`ATS2-M4-003 — Time/regime slicing`
+`ATS2-M4-004 — Observation concentration analysis`
 
 Run:
 
@@ -40,8 +44,8 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-004 — Observation concentration analysis`
+`ATS2-M4-005 — Dependence-preserving resampling framework`
 
 Initial implementation target:
 
-`src/ats/validation/concentration.py`
+`src/ats/validation/resampling.py`

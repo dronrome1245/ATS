@@ -178,3 +178,12 @@ The software fixture is synthetic and creates no Candidate, Strategy Version, Ex
 It reports every declared slice in plan order, exposes unassigned and multiply-assigned observation counts, and requires explicit policies for exhaustiveness, overlap and empty slices. Unknown slice IDs and metric-contract violations fail closed.
 
 The synthetic slicing fixture is software-only and creates no validation evidence.
+
+
+## M4 concentration diagnostics
+
+`ats.validation.concentration` retains every supplied observation and optional group while measuring how much absolute effect is concentrated in predeclared top-count diagnostics.
+
+The result declares `NO_AUTOMATIC_OUTLIER_REMOVAL`. Ranking by absolute magnitude is diagnostic only; it does not delete observations or change the underlying evidence.
+
+The synthetic fixture is software-only and creates no validation evidence.

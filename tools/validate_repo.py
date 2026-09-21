@@ -104,6 +104,10 @@ VALIDATION_SLICING_FILES = (
     "src/ats/validation/slicing.py",
     "tests/test_validation_slicing.py",
 )
+VALIDATION_CONCENTRATION_FILES = (
+    "src/ats/validation/concentration.py",
+    "tests/test_validation_concentration.py",
+)
 HEADER = (
     "experiment_id", "status", "research_stage", "evidence_class",
     "qualified_evidence_class", "idea_id", "hypothesis_id", "candidate_id",
@@ -143,7 +147,7 @@ def configure() -> None:
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
         *ANALYTICS_FILES, *RUNNER_FILES, *PLATFORM_TEST_FILES,
         *LOCAL_CI_FILES, *ENVIRONMENT_FILES, *VALIDATION_SENSITIVITY_FILES,
-        *VALIDATION_SLICING_FILES,
+        *VALIDATION_SLICING_FILES, *VALIDATION_CONCENTRATION_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "validation_framework",
@@ -572,6 +576,29 @@ def configure() -> None:
         "test_plan_and_result_are_immutable",
         "ALL_DECLARED_SLICES_REPORTED",
     )
+    core.CONTENT_MARKERS["src/ats/validation/concentration.py"] = (
+        "class ConcentrationContractError",
+        "class Contribution",
+        "class ConcentrationPlan",
+        "class TopConcentration",
+        "class GroupContribution",
+        "class ConcentrationResult",
+        "ABSOLUTE_MAGNITUDE_DIAGNOSTIC_ONLY",
+        "NO_AUTOMATIC_OUTLIER_REMOVAL",
+        "analyze_concentration",
+        "retaining every input observation",
+    )
+    core.CONTENT_MARKERS["tests/test_validation_concentration.py"] = (
+        "test_all_observations_are_retained_in_input_order",
+        "test_top_observation_concentration_uses_absolute_magnitude",
+        "test_group_aggregation_retains_every_group_in_first_seen_order",
+        "test_top_group_concentration_is_diagnostic_only",
+        "test_zero_absolute_effect_has_explicit_null_share",
+        "test_duplicate_observation_ids_are_rejected",
+        "test_invalid_top_counts_are_rejected",
+        "test_plan_and_result_are_immutable",
+        "NO_AUTOMATIC_OUTLIER_REMOVAL",
+    )
     core.CONTENT_MARKERS["tests/fixtures/platform/reference_consumer_expected.json"] = (
         '"schema_version": "m2-reference-consumer-1"',
         '"dataset_id": "DATA-SYNTHETIC-LOADER-001"',
@@ -650,11 +677,11 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M4-003"',
-        "M4-003 slicing artifacts",
-        "src/ats/validation/slicing.py",
-        "tests/test_validation_slicing.py",
-        "M4-003 slicing governance validation",
+        'TASK_ID = "ATS2-M4-004"',
+        "M4-004 concentration artifacts",
+        "src/ats/validation/concentration.py",
+        "tests/test_validation_concentration.py",
+        "M4-004 concentration governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -708,8 +735,10 @@ def configure() -> None:
         "M3 Reference Strategy #1 is recorded as `COMPLETED / PASS`",
         "ATS2-M4-002 — Parameter sensitivity tooling",
         "ATS2-M4-003 — Time/regime slicing",
+        "ATS2-M4-004 — Observation concentration analysis",
         "ats.validation.sensitivity",
         "ats.validation.slicing",
+        "ats.validation.concentration",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
@@ -723,6 +752,7 @@ def configure() -> None:
         "test_research_platform.py",
         "test_validation_sensitivity.py",
         "test_validation_slicing.py",
+        "test_validation_concentration.py",
         "reference_consumer_expected.json",
         "vertical integration from Dataset Manifest",
         "explicit cost components",
@@ -868,6 +898,7 @@ def validate_environment(repo: Path) -> int:
         "src/ats/runner/experiment.py",
         "src/ats/validation/sensitivity.py",
         "src/ats/validation/slicing.py",
+        "src/ats/validation/concentration.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -879,6 +910,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_research_platform.py",
         "tests/test_validation_sensitivity.py",
         "tests/test_validation_slicing.py",
+        "tests/test_validation_concentration.py",
     ):
         path = repo / relative
         try:
@@ -930,9 +962,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M4-003"',
-        'current_task: "ATS2-M4-004"', 'current_ready_task: "ATS2-M4-004"',
-        'current_wbs: "WBS-4.4"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M4-004"',
+        'current_task: "ATS2-M4-005"', 'current_ready_task: "ATS2-M4-005"',
+        'current_wbs: "WBS-4.5"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -1015,11 +1047,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M4-003") != "DONE":
-        core.fail("M4-003 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-004") != "DONE":
+        core.fail("M4-004 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M4-004") != "READY":
-        core.fail("M4-004 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-005") != "READY":
+        core.fail("M4-005 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

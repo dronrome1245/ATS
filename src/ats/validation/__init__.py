@@ -1,5 +1,14 @@
 """Reusable ATS validation tooling."""
 
+from ats.validation.concentration import (
+    ConcentrationContractError,
+    ConcentrationPlan,
+    ConcentrationResult,
+    Contribution,
+    GroupContribution,
+    TopConcentration,
+    analyze_concentration,
+)
 from ats.validation.sensitivity import (
     Evaluator,
     ParameterVariant,
@@ -11,6 +20,13 @@ from ats.validation.sensitivity import (
 )
 
 __all__ = [
+    "ConcentrationContractError",
+    "ConcentrationPlan",
+    "ConcentrationResult",
+    "Contribution",
+    "GroupContribution",
+    "TopConcentration",
+    "analyze_concentration",
     "Evaluator",
     "ParameterVariant",
     "SensitivityContractError",

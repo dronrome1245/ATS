@@ -63,3 +63,20 @@ Validator-targeted files require complete marker audit, not a selected subset.
 ### DIRTY_TREE / LCI-005
 
 Only `reports/local_ci/*.lnk` is ignored for Windows shell shortcuts; real untracked source files remain blocking.
+
+
+## 6. Verified control run
+
+The fast-preflight control introduced for recurrent `LCI-002` was verified on exact commit:
+
+`cac82301e61a126919d70ffede595bb7cf671f4b`
+
+Observed sequence:
+
+1. fast Local CI preflight PASS;
+2. pinned Ruff format PASS;
+3. full pytest: 105 passed;
+4. full Local CI PASS;
+5. ATS task launcher PASS.
+
+This confirms the control is active and does not replace the final full gate.

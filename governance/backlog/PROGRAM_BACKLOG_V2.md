@@ -35,9 +35,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 20. `ATS2-M4-001` — Validation protocol framework — `DONE`.
 21. `ATS2-M4-002` — Parameter sensitivity tooling — `DONE`.
 22. `ATS2-M4-003` — Time/regime slicing — `DONE`.
-23. `ATS2-M4-004` — Observation concentration analysis — `READY`.
+23. `ATS2-M4-004` — Observation concentration analysis — `DONE`.
+24. `ATS2-M4-005` — Dependence-preserving resampling framework — `READY`.
 
-Program-level current next task — `ATS2-M4-004`.
+Program-level current next task — `ATS2-M4-005`.
 
 ## 3. M0 / M1
 
@@ -92,18 +93,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M4-001` | `WBS-4.1` | P1 | DONE | M3 PASS, M1 methodology | `governance/methodology/VALIDATION_FRAMEWORK.md` | Development/validation/independent boundaries, mandatory validation dimensions, dependence/overlap treatment, decision rules and tooling contracts are defined without inventing a Candidate or reopening HYP-0001 |
 | `ATS2-M4-002` | `WBS-4.2` | P1 | DONE | M4-001, M2 platform | `src/ats/validation/sensitivity.py` + `tests/test_validation_sensitivity.py` | Ordered predefined variants are all evaluated and serialized; missing/extra/non-finite metrics fail closed; the result exposes `NO_AUTOMATIC_SELECTION` and no best/winner ranking |
 | `ATS2-M4-003` | `WBS-4.3` | P1 | DONE | M4-001, M4-002 | `src/ats/validation/slicing.py` + `tests/test_validation_slicing.py` | Every declared slice is reported in plan order; exhaustive/overlap/empty-slice policies are explicit; unknown membership and metric-contract violations fail closed |
-| `ATS2-M4-004` | `WBS-4.4` | P1 | READY | M4-001, M4-003 | `src/ats/validation/concentration.py` + `tests/test_validation_concentration.py` | Deterministic concentration analysis exposes dependence on top observations/groups and never deletes outliers automatically |
+| `ATS2-M4-004` | `WBS-4.4` | P1 | DONE | M4-001, M4-003 | `src/ats/validation/concentration.py` + `tests/test_validation_concentration.py` | Full observation/group set is retained; predeclared top-count diagnostics quantify absolute concentration; zero-denominator cases are explicit; no outlier is removed automatically |
+| `ATS2-M4-005` | `WBS-4.5` | P1 | READY | M4-001, M4-004 | `src/ats/validation/resampling.py` + `tests/test_validation_resampling.py` | Deterministic resampling contracts preserve declared dependence/block structure and never silently fall back to IID assumptions |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M4-004 — Observation concentration analysis`.
+`ATS2-M4-005 — Dependence-preserving resampling framework`.
 
 Canonical first implementation artifact:
 
-`src/ats/validation/concentration.py`.
+`src/ats/validation/resampling.py`.
 
-The tool must expose how much total effect is concentrated in top observations/groups and must never silently delete outliers. Removal/exclusion remains a separate predeclared data/protocol decision.
+The tool must make the resampling assumption explicit and preserve declared block/dependence structure. It must not silently treat dependent observations as IID.
 
 HYP-0001 remains rejected and is not reopened by M4.
