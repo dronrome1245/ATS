@@ -17,6 +17,7 @@ REVIEW_DECISIONS = "governance/methodology/RESEARCH_REVIEW_DECISIONS.md"
 REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
+REFERENCE_STRATEGY_SELECTION = "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -110,7 +111,8 @@ DIRECT_DEV = {
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
-        M1_EXIT, M2_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
+        M1_EXIT, M2_EXIT, REFERENCE_STRATEGY_SELECTION, CONSUMER_PROFILE,
+        RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
         LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
         *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
@@ -120,7 +122,7 @@ def configure() -> None:
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
-        "m2_exit_review",
+        "m2_exit_review", "reference_strategy_1_selection",
         "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
         "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
     )
@@ -161,6 +163,18 @@ def configure() -> None:
         "ATS2-M3-001 — Select Reference Strategy #1",
         "does **not** authorize",
         "Transition-commit closure",
+    )
+    core.CONTENT_MARKERS[REFERENCE_STRATEGY_SELECTION] = (
+        "Decision:** `SELECT`",
+        "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT",
+        "Single-instrument daily long/flat trend-following / breakout",
+        "No numeric lookback, threshold, stop, holding period, position size or cost value",
+        "Binance Public Data",
+        "Alpha Vantage",
+        "Time Series Momentum",
+        "selection was made before running a backtest",
+        "ATS2-M3-002 — Idea & rationale",
+        "research/ideas/IDEA-0001.md",
     )
     core.CONTENT_MARKERS[CONSUMER_PROFILE] = (
         "single research logic instance", "Minimum data contract",
@@ -420,10 +434,8 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M2-011"',
-        "M2 Exit acceptance tests",
-        "tests/test_research_platform.py",
-        "tests/test_experiment_runner.py",
+        'TASK_ID = "ATS2-M3-001"',
+        "M3-001 selection governance validation",
         "tools/validate_repo.py",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
@@ -444,7 +456,9 @@ def configure() -> None:
         "Reference Consumer Profile",
         "`WBS-2.10`",
         "`WBS-3.1`",
+        "`WBS-3.2`",
         "M2 Research Platform MVP — `COMPLETED / PASS`",
+        "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT",
     )
     core.CONTENT_MARKERS["data/README.md"] = (
         "Dataset Manifests",
@@ -470,7 +484,8 @@ def configure() -> None:
         "RegisteredExperimentContext",
         "ExperimentRunResult",
         "M2 Exit is recorded",
-        "ATS2-M3-001 — Select Reference Strategy #1",
+        "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT",
+        "ATS2-M3-002 — Idea & rationale",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
@@ -664,16 +679,17 @@ def main() -> int:
         "exit_decision: PASS",
         'm1_exit_review: "governance/program/M1_EXIT_REVIEW.md"',
         'm2_exit_review: "governance/program/M2_EXIT_REVIEW.md"',
+        'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
         'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M2-011"',
-        'current_task: "ATS2-M3-001"', 'current_ready_task: "ATS2-M3-001"',
-        'current_wbs: "WBS-3.1"', "reference_strategy_selection_allowed: true",
-        "selected_reference_strategy: null",
+        'last_completed_task_id: "ATS2-M3-001"',
+        'current_task: "ATS2-M3-002"', 'current_ready_task: "ATS2-M3-002"',
+        'current_wbs: "WBS-3.2"', "reference_strategy_selection_allowed: true",
+        'selected_reference_strategy: "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT"',
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -749,11 +765,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-011") not in {"DONE", "DONE / PASS"}:
-        core.fail("M2-011 must be DONE / PASS in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-001") != "DONE":
+        core.fail("M3-001 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M3-001") != "READY":
-        core.fail("M3-001 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-002") != "READY":
+        core.fail("M3-002 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

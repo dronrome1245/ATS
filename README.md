@@ -10,36 +10,37 @@
 - M0: `COMPLETED / PASS`.
 - M1: `COMPLETED / PASS`.
 - M2: `COMPLETED / PASS`.
-- Canonical M2 Exit Review: `governance/program/M2_EXIT_REVIEW.md`.
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 
-M2 delivered the minimum reusable research stack: deterministic data loading, Strategy/Research interface, replay, explicit costs, standard analytics/results, manifest-driven runner and end-to-end acceptance/regression tests.
+Reference Strategy #1 class selected at repository-artifact level:
 
-No real strategy, market result or live permission was created to close M2.
+`SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT`
 
-## Current task
-
-`ATS2-M3-001 — Select Reference Strategy #1`
-
-Work package:
-
-`WBS-3.1`
-
-Next artifact:
+Canonical decision:
 
 `governance/program/REFERENCE_STRATEGY_1_SELECTION.md`
 
-The selection should choose a simple strategy class with available data and a clear execution model. It is a research-program selection decision, not a profitability or live-trading decision.
+This selects only the research class: one instrument, daily bars, long/flat trend/breakout. It does not select the instrument, vendor, numeric parameters or claim profitability.
 
-## Windows task check
+## Current closure check
 
-The current closure checker still verifies the M2 Exit transition commit:
+`ATS2-M3-001 — Select Reference Strategy #1`
+
+Run:
 
 `ATS_TASK_CHECK.bat`
 
-After it passes, M3 work proceeds without additional M2 changes.
+## Next task after PASS
+
+`ATS2-M3-002 — Idea & rationale`
+
+Immediate next artifact:
+
+`research/ideas/IDEA-0001.md`
+
+The next research step will create the first real Idea/Hypothesis, not a Candidate or live strategy.
 
 ## Boundary
 
-Broker/live trading, capital allocation, risk mandates and scaling remain outside the current scope.
+Broker/live trading, capital allocation, Strategy Risk Mandate, leverage and scaling remain outside current scope.

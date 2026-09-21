@@ -49,13 +49,14 @@ model:
   m0_exit_review: "governance/program/M0_EXIT_REVIEW.md"
   m1_exit_review: "governance/program/M1_EXIT_REVIEW.md"
   m2_exit_review: "governance/program/M2_EXIT_REVIEW.md"
+  reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
 
 current:
-  focus: "Select Reference Strategy #1"
-  last_completed_task_id: "ATS2-M2-011"
-  last_completed_artifact: "governance/program/M2_EXIT_REVIEW.md"
-  next_artifact: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
-  next_task_id: "ATS2-M3-001"
+  focus: "Create Reference Strategy #1 Idea and Hypothesis"
+  last_completed_task_id: "ATS2-M3-001"
+  last_completed_artifact: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
+  next_artifact: "research/ideas/IDEA-0001.md"
+  next_task_id: "ATS2-M3-002"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -164,15 +165,19 @@ m2:
 
 m3:
   objective: "Validate the vertical research flow on Reference Strategy #1 through S05"
-  current_task: "ATS2-M3-001"
-  current_wbs: "WBS-3.1"
+  completed_tasks:
+    - "ATS2-M3-001"
+  completed_artifacts:
+    - "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
+  current_task: "ATS2-M3-002"
+  current_wbs: "WBS-3.2"
   reference_strategy_selection_allowed: true
-  selected_reference_strategy: null
+  selected_reference_strategy: "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M3-001"
-  current_ready_wbs: "WBS-3.1"
+  current_ready_task: "ATS2-M3-002"
+  current_ready_wbs: "WBS-3.2"
 
 handoff_policy:
   update_after_material_step: true
