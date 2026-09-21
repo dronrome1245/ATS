@@ -12,86 +12,82 @@
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 - Live/demo/allocation/scaling remain disallowed.
 
-## Last implemented task
-
-`ATS2-M3-001 — Select Reference Strategy #1`
-
-Canonical artifact:
-
-`governance/program/REFERENCE_STRATEGY_1_SELECTION.md`
+## Reference Strategy #1
 
 Selected class:
 
 `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`
 
-Meaning:
+Canonical selection:
 
-- one instrument;
-- 1H bars;
-- long/flat first reference implementation;
-- trend/breakout family;
-- decisions only from completed 1H-bar information;
-- no action before the next information-available execution point;
-- position may span multiple 1H bars or calendar days until an explicit exit signal;
-- no shorting, borrow, leverage or portfolio layer required for the first research line.
+`governance/program/REFERENCE_STRATEGY_1_SELECTION.md`
 
-No instrument, venue, data vendor, numeric parameter, cost value or capital/risk limit is selected yet.
+Decision interval is 1H. Holding period is not fixed; a position may remain open across multiple bars or days until a later specified exit signal.
 
-The class was selected for platform fit, data-path feasibility, clear timing semantics and low infrastructure burden. Research literature is provenance only and is not treated as proof of profitability.
+## Current research entity
 
-## M3-001 closure check
+`IDEA-0001 — BTCUSDT 1H Long/Flat Trend-Breakout`
 
-Current `tools/current_task_check.py` is configured for:
-
-`ATS2-M3-001 — Select Reference Strategy #1`
-
-Run:
-
-`ATS_TASK_CHECK.bat`
-
-Shareable report:
-
-`reports/local_ci/CURRENT_TASK_REPORT.txt`
-
-## Current ready task after PASS
-
-`ATS2-M3-002 — Idea & rationale`
-
-Work package:
-
-`WBS-3.2`
-
-Immediate next artifact:
+Artifact:
 
 `research/ideas/IDEA-0001.md`
 
-Expected M3-002 deliverables:
+Status:
+
+`SCREENING`
+
+Idea context:
+
+- `CRYPTO_SPOT`;
+- proposed instrument `BTCUSDT` on Binance spot;
+- completed 1H bars only;
+- earliest action after signal information becomes available;
+- no end-of-day flat requirement;
+- no numeric lookback/threshold/stop/sizing/fixed holding period selected.
+
+Idea proposition: a preregistered upward trend/breakout state on completed BTCUSDT 1H bars may be followed by more positive subsequent movement than a declared baseline. This remains unproven.
+
+Current Binance public information confirms BTCUSDT is a spot-trading symbol and public market-data access exists. Binance Public Data documents 1h kline archives and checksums. These facts support data-path plausibility only.
+
+## Current task
+
+`ATS2-M3-002 — Idea & rationale` — `IN_PROGRESS`.
+
+Immediate next artifact:
+
+`research/hypotheses/HYP-0001.md`
+
+M3-002 is not complete until HYP-0001 is materialized.
+
+## Closure checker
+
+`tools/current_task_check.py` is configured for M3-002 completion and requires both:
 
 - `research/ideas/IDEA-0001.md`;
 - `research/hypotheses/HYP-0001.md`.
 
-The Idea/Hypothesis must be created before Data Feasibility and before any parameter search.
+Until HYP-0001 exists, do not interpret a task-check failure for the missing artifact as a code defect.
 
 ## Read order
 
 1. `AGENTS.md`.
 2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
-4. `governance/program/REFERENCE_STRATEGY_1_SELECTION.md`.
-5. `governance/methodology/IDEA_INTAKE_PROCESS.md`.
-6. `governance/methodology/HYPOTHESIS_MODEL.md`.
+4. `research/ideas/IDEA-0001.md`.
+5. `governance/methodology/HYPOTHESIS_MODEL.md`.
+6. `governance/methodology/templates/HYPOTHESIS_TEMPLATE.md`.
 7. `governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
 8. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 
 ## Recovery check
 
 - Current milestone: `M3_REFERENCE_STRATEGY_1`.
-- Last implemented task: `ATS2-M3-001`.
-- Closure checker: `ATS2-M3-001`.
-- Selected class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`.
-- Current ready task after PASS: `ATS2-M3-002`.
-- Current WBS after PASS: `WBS-3.2`.
-- Next artifact: `research/ideas/IDEA-0001.md`.
-- Ideas registered now? — no.
+- Last completed task: `ATS2-M3-001`.
+- Current task: `ATS2-M3-002`.
+- Current WBS: `WBS-3.2`.
+- Idea registered: `IDEA-0001`.
+- Idea status: `SCREENING`.
+- Ideas registered count: 1.
+- Next artifact: `research/hypotheses/HYP-0001.md`.
 - Candidate/Strategy/Experiment created? — no.
 - Live/demo/allocation/scaling allowed? — no.

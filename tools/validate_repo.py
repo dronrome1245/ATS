@@ -18,6 +18,7 @@ REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 REFERENCE_STRATEGY_SELECTION = "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
+REFERENCE_STRATEGY_IDEA = "research/ideas/IDEA-0001.md"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -111,7 +112,8 @@ DIRECT_DEV = {
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
-        M1_EXIT, M2_EXIT, REFERENCE_STRATEGY_SELECTION, CONSUMER_PROFILE,
+        M1_EXIT, M2_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
+        CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
         LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
@@ -122,7 +124,7 @@ def configure() -> None:
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
-        "m2_exit_review", "reference_strategy_1_selection",
+        "m2_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
         "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
     )
@@ -178,6 +180,17 @@ def configure() -> None:
         "OWNER changed the selected decision interval from daily bars to 1H bars",
         "ATS2-M3-002 — Idea & rationale",
         "research/ideas/IDEA-0001.md",
+    )
+    core.CONTENT_MARKERS[REFERENCE_STRATEGY_IDEA] = (
+        "Idea ID: `IDEA-0001`",
+        "Status: `SCREENING`",
+        "BTCUSDT",
+        "CRYPTO_SPOT",
+        "POSITIVE_CONTINUATION_AFTER_UPWARD_TREND_OR_BREAKOUT_STATE",
+        "same-close execution",
+        "Result: `NEW`",
+        "Decision: `SCREEN`",
+        "research/hypotheses/HYP-0001.md",
     )
     core.CONTENT_MARKERS[CONSUMER_PROFILE] = (
         "single research logic instance", "Minimum data contract",
@@ -437,8 +450,11 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M3-001"',
-        "M3-001 selection governance validation",
+        'TASK_ID = "ATS2-M3-002"',
+        "M3-002 research artifacts",
+        "research/ideas/IDEA-0001.md",
+        "research/hypotheses/HYP-0001.md",
+        "M3-002 research governance validation",
         "tools/validate_repo.py",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
@@ -683,6 +699,7 @@ def main() -> int:
         'm1_exit_review: "governance/program/M1_EXIT_REVIEW.md"',
         'm2_exit_review: "governance/program/M2_EXIT_REVIEW.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
+        'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
         'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
@@ -693,6 +710,8 @@ def main() -> int:
         'current_task: "ATS2-M3-002"', 'current_ready_task: "ATS2-M3-002"',
         'current_wbs: "WBS-3.2"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
+        'idea_id: "IDEA-0001"', 'selected_market_context: "CRYPTO_SPOT"',
+        'selected_instrument: "BTCUSDT"', "ideas_registered: 1",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -771,8 +790,8 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-M3-001") != "DONE":
         core.fail("M3-001 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M3-002") != "READY":
-        core.fail("M3-002 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-002") != "IN_PROGRESS":
+        core.fail("M3-002 must be IN_PROGRESS in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

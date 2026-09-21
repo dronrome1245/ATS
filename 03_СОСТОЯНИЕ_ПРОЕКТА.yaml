@@ -50,12 +50,13 @@ model:
   m1_exit_review: "governance/program/M1_EXIT_REVIEW.md"
   m2_exit_review: "governance/program/M2_EXIT_REVIEW.md"
   reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
+  reference_strategy_1_idea: "research/ideas/IDEA-0001.md"
 
 current:
-  focus: "Create Reference Strategy #1 Idea and Hypothesis"
+  focus: "Formulate HYP-0001 for Reference Strategy #1"
   last_completed_task_id: "ATS2-M3-001"
-  last_completed_artifact: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
-  next_artifact: "research/ideas/IDEA-0001.md"
+  last_completed_artifact: "research/ideas/IDEA-0001.md"
+  next_artifact: "research/hypotheses/HYP-0001.md"
   next_task_id: "ATS2-M3-002"
 
 milestones:
@@ -169,10 +170,14 @@ m3:
     - "ATS2-M3-001"
   completed_artifacts:
     - "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
+    - "research/ideas/IDEA-0001.md"
   current_task: "ATS2-M3-002"
   current_wbs: "WBS-3.2"
   reference_strategy_selection_allowed: true
   selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"
+  idea_id: "IDEA-0001"
+  selected_market_context: "CRYPTO_SPOT"
+  selected_instrument: "BTCUSDT"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
@@ -211,7 +216,7 @@ safety:
   emergency_stop_required_before_live: true
 
 strategy_pipeline:
-  ideas_registered: 0
+  ideas_registered: 1
   prototypes_active: 0
   candidates_active: 0
   experiments_registered: 0

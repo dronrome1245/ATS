@@ -13,33 +13,25 @@
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 
-Reference Strategy #1 class selected at repository-artifact level:
+Reference Strategy #1 class:
 
 `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`
 
-Canonical decision:
-
-`governance/program/REFERENCE_STRATEGY_1_SELECTION.md`
-
-This selects only the research class: one instrument, 1H bars, long/flat trend/breakout; positions may span multiple hours or days until an exit signal. It does not select the instrument, vendor, numeric parameters or claim profitability.
-
-## Current closure check
-
-`ATS2-M3-001 — Select Reference Strategy #1`
-
-Run:
-
-`ATS_TASK_CHECK.bat`
-
-## Next task after PASS
-
-`ATS2-M3-002 — Idea & rationale`
-
-Immediate next artifact:
+First real research object:
 
 `research/ideas/IDEA-0001.md`
 
-The next research step will create the first real Idea/Hypothesis, not a Candidate or live strategy.
+`IDEA-0001` uses BTCUSDT spot as the proposed 1H research instrument and is currently `SCREENING`. It does not claim that trend/breakout has an edge.
+
+## Current task
+
+`ATS2-M3-002 — Idea & rationale` — `IN_PROGRESS`.
+
+Next artifact:
+
+`research/hypotheses/HYP-0001.md`
+
+The Hypothesis must be fixed before any parameter search or prototype result.
 
 ## Boundary
 
