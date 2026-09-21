@@ -50,11 +50,11 @@ model:
   m1_exit_review: "governance/program/M1_EXIT_REVIEW.md"
 
 current:
-  focus: "Harden end-to-end research platform regression tests"
-  last_completed_task_id: "ATS2-M2-009"
-  last_completed_artifact: "src/ats/runner/experiment.py"
-  next_artifact: "tests/test_research_platform.py"
-  next_task_id: "ATS2-M2-010"
+  focus: "Perform M2 Exit Review"
+  last_completed_task_id: "ATS2-M2-010"
+  last_completed_artifact: "tests/test_research_platform.py"
+  next_artifact: "governance/program/M2_EXIT_REVIEW.md"
+  next_task_id: "ATS2-M2-011"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -114,6 +114,7 @@ m2:
     - "ATS2-M2-007"
     - "ATS2-M2-008"
     - "ATS2-M2-009"
+    - "ATS2-M2-010"
   completed_artifacts:
     - "governance/program/REFERENCE_CONSUMER_PROFILE.md"
     - "governance/decisions/ADR-0001-RESEARCH-STACK.md"
@@ -142,8 +143,10 @@ m2:
     - "tests/test_standard_analytics.py"
     - "src/ats/runner/experiment.py"
     - "tests/test_experiment_runner.py"
-  current_task: "ATS2-M2-010"
-  current_wbs: "WBS-2.10"
+    - "tests/test_research_platform.py"
+    - "tests/fixtures/platform/reference_consumer_expected.json"
+  current_task: "ATS2-M2-011"
+  current_wbs: "M2 Exit"
   reference_strategy_selection_allowed: false
   environment:
     primary_local_host: WINDOWS_X86_64
@@ -158,8 +161,8 @@ m2:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M2-010"
-  current_ready_wbs: "WBS-2.10"
+  current_ready_task: "ATS2-M2-011"
+  current_ready_wbs: "M2 Exit"
 
 handoff_policy:
   update_after_material_step: true

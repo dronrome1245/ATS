@@ -8,8 +8,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M2-009"
-TASK_NAME = "Manifest-driven experiment runner"
+TASK_ID = "ATS2-M2-010"
+TASK_NAME = "Research platform tests"
 
 
 def run(name: str, command: list[str]) -> bool:
@@ -36,8 +36,15 @@ def main() -> int:
 
     checks = [
         (
-            "M2-009 Experiment Runner tests",
-            [sys.executable, "-m", "pytest", "tests/test_experiment_runner.py", "-q"],
+            "M2-010 Research Platform acceptance tests",
+            [
+                sys.executable,
+                "-m",
+                "pytest",
+                "tests/test_research_platform.py",
+                "tests/test_experiment_runner.py",
+                "-q",
+            ],
         ),
         (
             "repository validator",

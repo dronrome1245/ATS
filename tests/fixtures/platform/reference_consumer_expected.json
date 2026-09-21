@@ -1,0 +1,168 @@
+{
+  "schema_version": "m2-reference-consumer-1",
+  "dataset": {
+    "dataset_id": "DATA-SYNTHETIC-LOADER-001",
+    "dataset_version": "1.0.0",
+    "source_location": "tests/fixtures/datasets/ordered_events.csv",
+    "computed_sha256": "ab8107703361915dde4ba99c6fb03b8d9455afcd2afcbb55a8f63091c53b4172",
+    "source_row_count": 3,
+    "dropped_malformed_count": 0,
+    "duplicate_discard_count": 0,
+    "out_of_order_detected": false,
+    "missing_policy": "ALLOW_DECLARED_GAPS"
+  },
+  "run_context": {
+    "configuration": {
+      "mode": "acceptance-fixture"
+    },
+    "parameters": {
+      "start": 2
+    },
+    "seed": 17
+  },
+  "replay": {
+    "initial_state": 2,
+    "final_state": 5,
+    "decisions": [
+      {
+        "decision_time": "2026-01-01T00:00:00+00:00",
+        "decision_type": "M2_ACCEPTANCE",
+        "payload": {
+          "sequence": 0,
+          "value": "alpha"
+        }
+      },
+      {
+        "decision_time": "2026-01-01T00:00:00+00:00",
+        "decision_type": "M2_ACCEPTANCE",
+        "payload": {
+          "sequence": 1,
+          "value": "beta"
+        }
+      },
+      {
+        "decision_time": "2026-01-01T00:01:00+00:00",
+        "decision_type": "M2_ACCEPTANCE",
+        "payload": {
+          "sequence": 2,
+          "value": "gamma"
+        }
+      }
+    ],
+    "diagnostics": [
+      {
+        "code": "M2_ACCEPTANCE_STEP",
+        "message": "synthetic acceptance observation processed",
+        "details": {
+          "state_after": 3
+        }
+      },
+      {
+        "code": "M2_ACCEPTANCE_STEP",
+        "message": "synthetic acceptance observation processed",
+        "details": {
+          "state_after": 4
+        }
+      },
+      {
+        "code": "M2_ACCEPTANCE_STEP",
+        "message": "synthetic acceptance observation processed",
+        "details": {
+          "state_after": 5
+        }
+      }
+    ]
+  },
+  "analytics": {
+    "schema_version": "2.0",
+    "run_context": {
+      "dataset_id": "DATA-SYNTHETIC-LOADER-001",
+      "dataset_version": "1.0.0",
+      "source_location": "tests/fixtures/datasets/ordered_events.csv",
+      "computed_sha256": "ab8107703361915dde4ba99c6fb03b8d9455afcd2afcbb55a8f63091c53b4172"
+    },
+    "primary_metrics": {
+      "gross_effect": {
+        "applicability": "APPLICABLE",
+        "reason": null,
+        "unit": "fixture-units",
+        "value": 3.0
+      },
+      "net_effect": {
+        "applicability": "APPLICABLE",
+        "reason": null,
+        "unit": "fixture-units",
+        "value": 2.25
+      }
+    },
+    "secondary_metrics": {
+      "observation_count": 3,
+      "decision_count": 3,
+      "diagnostic_count": 3,
+      "effect_count": {
+        "applicability": "APPLICABLE",
+        "reason": null,
+        "unit": "effect-points",
+        "value": 3
+      },
+      "effect_maximum": {
+        "applicability": "APPLICABLE",
+        "reason": null,
+        "unit": "fixture-units",
+        "value": 1.0
+      },
+      "effect_mean": {
+        "applicability": "APPLICABLE",
+        "reason": null,
+        "unit": "fixture-units",
+        "value": 1.0
+      },
+      "effect_minimum": {
+        "applicability": "APPLICABLE",
+        "reason": null,
+        "unit": "fixture-units",
+        "value": 1.0
+      }
+    },
+    "risk_metrics": {
+      "max_drawdown": {
+        "applicability": "APPLICABLE",
+        "reason": null,
+        "unit": "fixture-units",
+        "value": 0.0
+      }
+    },
+    "trade_or_event_count": {
+      "applicability": "APPLICABLE",
+      "kind": "synthetic_event",
+      "count": 3
+    },
+    "costs": {
+      "applicability": "APPLICABLE",
+      "reference_id": "m2-acceptance-costs",
+      "reason": null,
+      "components": [
+        {
+          "applicability": "APPLICABLE",
+          "details": {},
+          "name": "fee",
+          "unit": "fixture-units",
+          "value": 0.75
+        },
+        {
+          "applicability": "NOT_APPLICABLE",
+          "details": {},
+          "name": "slippage_proxy",
+          "unit": null,
+          "value": null
+        }
+      ],
+      "total": {
+        "applicability": "APPLICABLE",
+        "reason": null,
+        "unit": "fixture-units",
+        "value": 0.75
+      }
+    }
+  }
+}

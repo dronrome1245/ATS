@@ -63,6 +63,10 @@ RUNNER_FILES = (
     "src/ats/runner/experiment.py",
     "tests/test_experiment_runner.py",
 )
+PLATFORM_TEST_FILES = (
+    "tests/test_research_platform.py",
+    "tests/fixtures/platform/reference_consumer_expected.json",
+)
 LOCAL_CI_FILES = (
     "ATS_TASK_CHECK.bat",
     "tools/verify_repo.py",
@@ -109,7 +113,8 @@ def configure() -> None:
         LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
         *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
-        *ANALYTICS_FILES, *RUNNER_FILES, *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
+        *ANALYTICS_FILES, *RUNNER_FILES, *PLATFORM_TEST_FILES,
+        *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
@@ -147,7 +152,10 @@ def configure() -> None:
         "single research logic instance", "Minimum data contract",
         "Timestamp and ordering semantics", "Minimum research decision interface",
         "Deterministic replay/backtest contract", "Cost-model consumer contract",
-        "Experiment integration", "M2 acceptance fixture", "ATS2-M2-001",
+        "Experiment integration", "M2 acceptance fixture",
+        "tests/test_research_platform.py",
+        "tests/fixtures/platform/reference_consumer_expected.json",
+        "ATS2-M2-001",
     )
     core.CONTENT_MARKERS[RESEARCH_STACK_ADR] = (
         "Status:** ACCEPTED", "CPython 3.13 series", "uv.lock",
@@ -329,6 +337,25 @@ def configure() -> None:
         "test_registered_cost_model_requires_runtime_cost_components",
         "test_registered_not_applicable_costs_remain_explicit",
     )
+    core.CONTENT_MARKERS["tests/test_research_platform.py"] = (
+        "class AcceptanceStrategy",
+        "class AcceptanceCostModel",
+        "test_reference_consumer_acceptance_matches_committed_regression",
+        "test_reference_consumer_acceptance_repeats_exactly",
+        "test_reference_consumer_fixture_preserves_cost_applicability",
+        "test_reference_consumer_fixture_has_no_formal_research_identity",
+        "reference_consumer_expected.json",
+        "experiments/REGISTRY.csv",
+    )
+    core.CONTENT_MARKERS["tests/fixtures/platform/reference_consumer_expected.json"] = (
+        '"schema_version": "m2-reference-consumer-1"',
+        '"dataset_id": "DATA-SYNTHETIC-LOADER-001"',
+        '"decision_type": "M2_ACCEPTANCE"',
+        '"gross_effect"',
+        '"net_effect"',
+        '"slippage_proxy"',
+        '"NOT_APPLICABLE"',
+    )
     core.CONTENT_MARKERS["governance/methodology/templates/experiment/result.json"] = (
         "registered_manifest_sha256",
         "dataset_version",
@@ -379,7 +406,8 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M2-009"',
+        'TASK_ID = "ATS2-M2-010"',
+        "tests/test_research_platform.py",
         "tests/test_experiment_runner.py",
         "tools/validate_repo.py",
         "tools/verify_repo.py",
@@ -434,6 +462,8 @@ def configure() -> None:
         "test_cost_interface.py",
         "test_standard_analytics.py",
         "test_experiment_runner.py",
+        "test_research_platform.py",
+        "reference_consumer_expected.json",
         "vertical integration from Dataset Manifest",
         "explicit cost components",
         "Strategy decisions are not inferred to be trades",
@@ -578,6 +608,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_cost_interface.py",
         "tests/test_standard_analytics.py",
         "tests/test_experiment_runner.py",
+        "tests/test_research_platform.py",
     ):
         path = repo / relative
         try:
@@ -618,9 +649,9 @@ def main() -> int:
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M2-009"',
-        'current_task: "ATS2-M2-010"', 'current_ready_task: "ATS2-M2-010"',
-        'current_wbs: "WBS-2.10"', "reference_strategy_selection_allowed: false",
+        'last_completed_task_id: "ATS2-M2-010"',
+        'current_task: "ATS2-M2-011"', 'current_ready_task: "ATS2-M2-011"',
+        'current_wbs: "M2 Exit"', "reference_strategy_selection_allowed: false",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -671,6 +702,17 @@ def main() -> int:
                     core.fail(f"invalid qualified_evidence_class at line {line_no}: {value}")
                     blocking += 1
 
+    acceptance_fixture = (
+        repo / "tests" / "fixtures" / "platform" / "reference_consumer_expected.json"
+    ).read_text(encoding="utf-8")
+    for forbidden_identity in ("EXP-", "HYP-", "CAND-", "STRAT-"):
+        if forbidden_identity in acceptance_fixture:
+            core.fail(
+                "M2 acceptance fixture must not contain formal research identity: "
+                + forbidden_identity
+            )
+            blocking += 1
+
     search_tool = repo / "tools/search_experiments.py"
     try:
         compile(search_tool.read_text(encoding="utf-8"), str(search_tool), "exec")
@@ -685,11 +727,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-009") != "DONE":
-        core.fail("M2-009 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-010") != "DONE":
+        core.fail("M2-010 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-010") != "READY":
-        core.fail("M2-010 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-011") != "READY":
+        core.fail("M2-011 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

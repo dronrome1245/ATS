@@ -25,10 +25,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 10. `ATS2-M2-007` — Cost model interface — `DONE`.
 11. `ATS2-M2-008` — Standard analytics/report — `DONE`.
 12. `ATS2-M2-009` — Manifest-driven experiment runner — `DONE`.
-13. `ATS2-M2-010` — Research platform tests — `READY`.
-14. `ATS2-M2-011` — M2 Exit — `BLOCKED` by M2-000…010.
+13. `ATS2-M2-010` — Research platform tests — `DONE`.
+14. `ATS2-M2-011` — M2 Exit — `READY`.
 
-Program-level current next task — `ATS2-M2-010`.
+Program-level current next task — `ATS2-M2-011`.
 
 ## 3. M0 / M1
 
@@ -55,10 +55,10 @@ Canonical exits:
 | `ATS2-M2-007` | `WBS-2.7` | P1 | DONE | M2-006 | `src/ats/costs/interface.py` + tests | Costs are explicit deterministic inputs applied outside strategy logic and kept separate from gross effects/results |
 | `ATS2-M2-008` | `WBS-2.8` | P1 | DONE | M2-006, M2-007 | `src/ats/analytics/standard.py` + `tests/test_standard_analytics.py` | Baseline output exposes effect/P&L, risk/path, events/trades and costs as applicable |
 | `ATS2-M2-009` | `WBS-2.9` | P1 | DONE | M2-002…008 | `src/ats/runner/experiment.py` + `tests/test_experiment_runner.py` | Registered experiment context can be replayed by a documented procedure without rewriting preregistration |
-| `ATS2-M2-010` | `WBS-2.10` | P1 | READY | M2-004…009 | `tests/test_research_platform.py` + regression fixtures | Critical calculations have deterministic non-market fixtures/regression checks |
-| `ATS2-M2-011` | M2 Exit | P1 | BLOCKED | M2-000…010 | M2 exit decision | Minimal reusable vertical research stack can reproduce an end-to-end baseline registered experiment workflow |
+| `ATS2-M2-010` | `WBS-2.10` | P1 | DONE | M2-004…009 | `tests/test_research_platform.py` + `tests/fixtures/platform/reference_consumer_expected.json` | Critical calculations have deterministic non-market fixtures/regression checks |
+| `ATS2-M2-011` | M2 Exit | P1 | READY | M2-000…010 | `governance/program/M2_EXIT_REVIEW.md` | Minimal reusable vertical research stack can reproduce an end-to-end baseline registered experiment workflow |
 
-`M2-000…009` still do not select Reference Strategy #1. M2-009 adds only a deterministic manifest-driven software runner that checks frozen registered context against resolved platform inputs; its synthetic fixtures are not formal Experiment evidence.
+`M2-000…010` still do not select Reference Strategy #1. M2-010 adds only deterministic synthetic acceptance/regression tests and a committed expected result fixture; it creates no Idea, Hypothesis, Candidate, Strategy or formal Experiment evidence.
 
 ## 5. M3 and later
 
@@ -70,10 +70,10 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 Current program-level ready task:
 
-`ATS2-M2-010 — Research platform tests`.
+`ATS2-M2-011 — M2 Exit`.
 
 Canonical next artifact:
 
-`tests/test_research_platform.py`.
+`governance/program/M2_EXIT_REVIEW.md`.
 
-M2-010 must harden the complete deterministic software path with end-to-end/regression fixtures across loader → Strategy interface → replay → costs → analytics → runner. It must not create market evidence, broker/live execution, portfolio logic or Reference Strategy #1.
+M2-011 must review the completed M2 capabilities and exact Local CI evidence against the Reference Consumer Profile and WBS Exit M2 criteria. It must not select Reference Strategy #1 unless M2 Exit is separately passed and the program transitions to M3.

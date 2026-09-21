@@ -14,31 +14,34 @@
 
 Последний реализованный work package:
 
-`ATS2-M2-009 — Manifest-driven experiment runner`.
+`ATS2-M2-010 — Research platform tests`.
 
 Primary artifact:
 
-`src/ats/runner/experiment.py`.
+`tests/test_research_platform.py`.
 
-Runner baseline:
+Committed acceptance result:
 
-- frozen registered manifest is read-only and SHA-256 bound;
-- runtime code/environment/implementation identity must match registration;
-- registered Dataset ID/source snapshot must match the Dataset Manifest;
-- registered params/config/seed feed the Strategy/Replay context;
-- explicit registered costs feed the cost interface;
-- standard analytics/result are produced without changing preregistration;
-- unsupported registered metrics block the run;
-- no dynamic import from untrusted manifest text and no hidden wall clock;
-- tests use transient software-only manifests and create no formal evidence.
+`tests/fixtures/platform/reference_consumer_expected.json`.
 
-Следующая task после M2-009 Local CI PASS:
+M2 acceptance baseline:
 
-`ATS2-M2-010 — Research platform tests`.
+- deterministic synthetic Dataset Manifest/loader path;
+- deterministic Strategy state/decision/diagnostic trace;
+- explicit applicable and not-applicable cost components;
+- standard gross/cost/net analytics;
+- committed expected regression result;
+- exact repeated-run equality;
+- no formal research IDs or Experiment Registry row for the software fixture;
+- manifest-runner suite remains part of the M2-010 targeted closure package.
+
+Следующая task после M2-010 Local CI PASS:
+
+`ATS2-M2-011 — M2 Exit`.
 
 Следующий artifact:
 
-`tests/test_research_platform.py`.
+`governance/program/M2_EXIT_REVIEW.md`.
 
 ## Windows task check
 

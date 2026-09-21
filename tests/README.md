@@ -27,11 +27,9 @@ This test is infrastructure verification only. It does not create an Idea, Hypot
 
 These remain software/schema tests only and are not research evidence.
 
-## Later M2 tests
+## M2 acceptance baseline
 
-As capabilities are implemented, tests will be added for:
-
-- end-to-end research-platform regression/acceptance behavior.
+The final M2 platform acceptance layer is `tests/test_research_platform.py` with committed expected output in `tests/fixtures/platform/reference_consumer_expected.json`.
 
 Broker execution, order idempotency, reconciliation, live risk controls and shadow/live behavior belong to later milestones and are not M2 test requirements.
 
@@ -156,3 +154,17 @@ The analytics fixture uses synthetic non-market units only and is not research e
 - explicit timezone-aware completion timestamp.
 
 Tests create transient software-only manifest files under pytest temporary directories. They do not commit a fictitious Experiment package or Registry row and are not research evidence.
+
+
+## Research platform acceptance tests
+
+`tests/test_research_platform.py` verifies:
+
+- the Reference Consumer Profile synthetic fixture end to end from Dataset Manifest through loader, Strategy interface, replay, explicit costs and standard analytics/result;
+- exact comparison with a committed expected regression result;
+- exact repeated-run canonical JSON equality;
+- preservation of explicit cost applicability, including a non-applicable component;
+- absence of `EXP-/HYP-/CAND-/STRAT-` identities from the committed acceptance fixture;
+- zero Experiment Registry rows while the fixture remains software-only.
+
+M2-010 targeted closure also reruns `tests/test_experiment_runner.py`, so registered-manifest orchestration remains covered without assigning a formal Experiment identity to the acceptance fixture.

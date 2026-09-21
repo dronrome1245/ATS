@@ -36,7 +36,7 @@ M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB,
 
 A concrete Reference Strategy #1 is not selected until M3. Deterministic synthetic software fixtures used for platform tests are not research entities or trading evidence.
 
-The environment baseline, Dataset Manifest boundary, base data loader, Strategy/Research interface, deterministic replay core, explicit cost-model interface and standard analytics/report are complete at repository-artifact level. The next implementation step after M2-008 Local CI PASS is `ATS2-M2-009 — Manifest-driven experiment runner`.
+The environment baseline, Dataset Manifest boundary, base data loader, Strategy/Research interface, deterministic replay core, explicit cost-model interface, standard analytics/report and manifest-driven runner are complete at repository-artifact level. M2-010 adds end-to-end acceptance/regression tests; the next program step after its Local CI PASS is `ATS2-M2-011 — M2 Exit`.
 
 
 ## Implemented M2 boundary
@@ -156,4 +156,6 @@ Implemented M2-009 behavior:
 - result output records registered manifest SHA-256 plus dataset version/hash for reproducibility;
 - implementation references are not dynamically imported or executed from manifest text.
 
-The next implementation boundary is `ATS2-M2-010 — Research platform tests`, centered on `tests/test_research_platform.py`.
+`ATS2-M2-010 — Research platform tests` materializes the Reference Consumer Profile acceptance fixture in `tests/test_research_platform.py` plus `tests/fixtures/platform/reference_consumer_expected.json`.
+
+The next step is not another source-code capability. It is `ATS2-M2-011 — M2 Exit`, with the canonical review artifact `governance/program/M2_EXIT_REVIEW.md`.

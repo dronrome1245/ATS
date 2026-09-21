@@ -219,6 +219,13 @@ A minimum end-to-end M2 acceptance run must demonstrate:
 
 Two runs from the same frozen inputs must agree within the declared deterministic/numerical tolerance.
 
+Materialized M2-010 acceptance artifacts:
+
+- `tests/test_research_platform.py`;
+- `tests/fixtures/platform/reference_consumer_expected.json`.
+
+The committed acceptance fixture covers Dataset Manifest → loader → Strategy/Research interface → replay → explicit costs → standard analytics/result and exact rerun equality. The separate M2-009 runner suite covers registered-manifest orchestration. The acceptance fixture itself carries no Idea/Hypothesis/Candidate/Strategy/Experiment identity and creates no Registry row.
+
 ## 14. Constraint for Research stack ADR
 
 `ATS2-M2-001 — Research stack ADR` must choose the minimum technology stack against this profile, not against an invented Reference Strategy #1.
