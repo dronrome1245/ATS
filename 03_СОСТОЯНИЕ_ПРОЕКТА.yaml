@@ -51,13 +51,14 @@ model:
   m2_exit_review: "governance/program/M2_EXIT_REVIEW.md"
   reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
   reference_strategy_1_idea: "research/ideas/IDEA-0001.md"
+  reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"
 
 current:
-  focus: "Formulate HYP-0001 for Reference Strategy #1"
-  last_completed_task_id: "ATS2-M3-001"
-  last_completed_artifact: "research/ideas/IDEA-0001.md"
-  next_artifact: "research/hypotheses/HYP-0001.md"
-  next_task_id: "ATS2-M3-002"
+  focus: "Perform Data Feasibility for HYP-0001"
+  last_completed_task_id: "ATS2-M3-002"
+  last_completed_artifact: "research/hypotheses/HYP-0001.md"
+  next_artifact: "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
+  next_task_id: "ATS2-M3-003"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -171,18 +172,23 @@ m3:
   completed_artifacts:
     - "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
     - "research/ideas/IDEA-0001.md"
-  current_task: "ATS2-M3-002"
-  current_wbs: "WBS-3.2"
+    - "research/hypotheses/HYP-0001.md"
+  completed_tasks:
+    - "ATS2-M3-001"
+    - "ATS2-M3-002"
+  current_task: "ATS2-M3-003"
+  current_wbs: "WBS-3.3"
   reference_strategy_selection_allowed: true
   selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"
   idea_id: "IDEA-0001"
+  hypothesis_id: "HYP-0001"
   selected_market_context: "FX_SPOT_OTC"
   selected_instrument: "EURUSD"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M3-002"
-  current_ready_wbs: "WBS-3.2"
+  current_ready_task: "ATS2-M3-003"
+  current_ready_wbs: "WBS-3.3"
 
 handoff_policy:
   update_after_material_step: true

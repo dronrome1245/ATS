@@ -7,32 +7,35 @@
 ## Текущее состояние
 
 - Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- M0: `COMPLETED / PASS`.
-- M1: `COMPLETED / PASS`.
-- M2: `COMPLETED / PASS`.
-- Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
-- Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+- M0/M1/M2: `COMPLETED / PASS`.
+- Reference class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`.
+- Research instrument: `EURUSD` / EUR/USD spot FX.
 
-Reference Strategy #1 class:
+Current research artifacts:
 
-`SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`
+- `research/ideas/IDEA-0001.md` — `SCREENING`;
+- `research/hypotheses/HYP-0001.md` — `READY_FOR_DATA_FEASIBILITY`.
 
-First real research object:
+HYP-0001 fixes a 24-bar upward breakout condition and a 24-bar primary forward measurement before any prototype result.
 
-`research/ideas/IDEA-0001.md`
+## Current closure check
 
-`IDEA-0001` uses EUR/USD spot FX as the proposed 1H research instrument and is currently `SCREENING`. It does not claim that trend/breakout has an edge.
+`ATS2-M3-002 — Idea & rationale`
 
-## Current task
+Run:
 
-`ATS2-M3-002 — Idea & rationale` — `IN_PROGRESS`.
+`ATS_TASK_CHECK.bat`
+
+## Next task after PASS
+
+`ATS2-M3-003 — Data feasibility`
 
 Next artifact:
 
-`research/hypotheses/HYP-0001.md`
+`research/reviews/HYP-0001-DATA_FEASIBILITY.md`
 
-The Hypothesis must be fixed before any parameter search or prototype result.
+No prototype/backtest result should be generated before Data Feasibility.
 
 ## Boundary
 
-Broker/live trading, capital allocation, Strategy Risk Mandate, leverage and scaling remain outside current scope.
+No Candidate, Strategy ID or Experiment exists yet. Broker/live trading, capital allocation, Strategy Risk Mandate, leverage and scaling remain outside current scope.

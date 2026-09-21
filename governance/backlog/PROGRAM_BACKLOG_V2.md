@@ -28,7 +28,8 @@ Backlog превращает Program WBS в исполнимую очередь 
 13. `ATS2-M2-010` — Research platform tests — `DONE`.
 14. `ATS2-M2-011` — M2 Exit — `DONE / PASS`.
 15. `ATS2-M3-001` — Select Reference Strategy #1 — `DONE`.
-16. `ATS2-M3-002` — Idea & rationale — `IN_PROGRESS`.
+16. `ATS2-M3-002` — Idea & rationale — `DONE`.
+17. `ATS2-M3-003` — Data feasibility — `READY`.
 
 Program-level current next task — `ATS2-M3-002`.
 
@@ -67,7 +68,8 @@ M2 Exit decision: `PASS`. The platform milestone is complete; this does not crea
 | Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done |
 |---|---|---:|---|---|---|---|
 | `ATS2-M3-001` | `WBS-3.1` | P1 | DONE | M1 PASS, M2 PASS | `governance/program/REFERENCE_STRATEGY_1_SELECTION.md` | Selected `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class without selecting parameters, instrument, vendor or claiming profitability |
-| `ATS2-M3-002` | `WBS-3.2` | P1 | IN_PROGRESS | M3-001 | `research/ideas/IDEA-0001.md` + `research/hypotheses/HYP-0001.md` | `IDEA-0001` is registered and screened for EUR/USD spot FX 1H; task closes only after `HYP-0001` records a falsifiable statement, information premise, expected effect, falsification path and required data |
+| `ATS2-M3-002` | `WBS-3.2` | P1 | DONE | M3-001 | `research/ideas/IDEA-0001.md` + `research/hypotheses/HYP-0001.md` | `IDEA-0001` is screened and `HYP-0001` fixes a 24-bar breakout condition, 24-bar primary horizon, BID/ASK execution premise and falsification path before prototype results |
+| `ATS2-M3-003` | `WBS-3.3` | P1 | READY | M3-002 | `research/reviews/HYP-0001-DATA_FEASIBILITY.md` | Data source, coverage, BID/ASK alignment, 1H timestamp/bar semantics, session gaps, integrity and cost inputs are reviewed and a FEASIBLE / CONDITIONAL / PARK / REJECT decision is recorded |
 
 Later M3 work remains governed by `WBS-3.3`–`WBS-3.11` in `governance/program/PROGRAM_WBS_V2.md` and is instantiated into executable backlog tasks as dependencies become ready.
 
@@ -79,14 +81,15 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 Current program-level ready task:
 
-`ATS2-M3-002 — Idea & rationale`.
+`ATS2-M3-003 — Data feasibility`.
 
-Current materialized research object:
+Materialized research lineage:
 
-`research/ideas/IDEA-0001.md` — `SCREENING`.
+- `research/ideas/IDEA-0001.md` — `SCREENING`;
+- `research/hypotheses/HYP-0001.md` — `READY_FOR_DATA_FEASIBILITY`.
 
 Canonical next artifact:
 
-`research/hypotheses/HYP-0001.md`.
+`research/reviews/HYP-0001-DATA_FEASIBILITY.md`.
 
-M3-002 remains in progress until the screened EUR/USD 1H FX Idea is converted into a falsifiable Hypothesis. Parameters must not be selected by inspecting a profitable backtest.
+M3-003 must determine whether real EUR/USD 1H BID/ASK data can honestly reproduce the prespecified 24-before / 24-after breakout test without leakage or ambiguous execution semantics.

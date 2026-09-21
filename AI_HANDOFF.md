@@ -5,89 +5,87 @@
 ## Current state
 
 - Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- M0: `COMPLETED / PASS`.
-- M1: `COMPLETED / PASS`.
-- M2: `COMPLETED / PASS`.
-- Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
-- Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+- M0/M1/M2: `COMPLETED / PASS`.
+- Reference class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`.
+- Instrument: `EURUSD` / EUR/USD spot FX.
 - Live/demo/allocation/scaling remain disallowed.
 
-## Reference Strategy #1
+## Research lineage
 
-Selected class:
-
-`SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`
-
-Canonical selection:
-
-`governance/program/REFERENCE_STRATEGY_1_SELECTION.md`
-
-Decision interval is 1H. Holding period is not fixed; a position may remain open across multiple bars or days until a later specified exit signal.
-
-## Current research entity
-
-`IDEA-0001 — EUR/USD 1H Long/Flat Trend-Breakout`
-
-Artifact:
+Idea:
 
 `research/ideas/IDEA-0001.md`
 
-Status:
+- ID: `IDEA-0001`
+- Status: `SCREENING`
+- Context: EUR/USD, 1H, long/flat.
 
-`SCREENING`
-
-Idea context:
-
-- `FX_SPOT_OTC`;
-- proposed instrument `EURUSD` / EUR/USD;
-- completed 1H bars only;
-- earliest action after signal information becomes available;
-- no end-of-day flat requirement;
-- no numeric lookback/threshold/stop/sizing/fixed holding period selected.
-
-Idea proposition: a preregistered upward trend/breakout state on completed EUR/USD 1H bars may be followed by more positive subsequent movement than a declared baseline. This remains unproven.
-
-Dukascopy documentation explicitly supports `Instrument.EURUSD`, `Period.ONE_HOUR` and separate BID/ASK offer sides. Alpha Vantage documents `FX_INTRADAY` with `60min` as a secondary candidate path. Exact source, coverage and bar semantics remain a Data Feasibility decision.
-
-## Current task
-
-`ATS2-M3-002 — Idea & rationale` — `IN_PROGRESS`.
-
-Immediate next artifact:
+Hypothesis:
 
 `research/hypotheses/HYP-0001.md`
 
-M3-002 is not complete until HYP-0001 is materialized.
+- ID: `HYP-0001`
+- Parent: `IDEA-0001`
+- Status: `READY_FOR_DATA_FEASIBILITY`
 
-## Closure checker
+## Frozen HYP-0001 claim
 
-`tools/current_task_check.py` is configured for M3-002 completion and requires both:
+Signal:
 
-- `research/ideas/IDEA-0001.md`;
-- `research/hypotheses/HYP-0001.md`.
+A fully completed EUR/USD 1H bar has BID close strictly above the highest BID high of the preceding 24 fully completed eligible 1H bars.
 
-Until HYP-0001 exists, do not interpret a task-check failure for the missing artifact as a code defect.
+Execution/effect measurement:
 
-## Read order
+- signal uses completed information only;
+- entry measurement begins at the next eligible ASK open;
+- primary horizon is 24 eligible 1H bars;
+- primary exit/valuation is the BID open 24 eligible bars after entry.
 
-1. `AGENTS.md`.
-2. `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
-3. `02_СЛЕДУЮЩИЙ_ШАГ.md`.
-4. `research/ideas/IDEA-0001.md`.
-5. `governance/methodology/HYPOTHESIS_MODEL.md`.
-6. `governance/methodology/templates/HYPOTHESIS_TEMPLATE.md`.
-7. `governance/methodology/DATA_FEASIBILITY_REVIEW.md`.
-8. `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+Expected primary ordering:
+
+`mean(signal executable 24-bar return) > 0`
+
+and:
+
+`mean(signal executable 24-bar return) > mean(unconditional executable 24-bar return)`
+
+The 24-bar horizon is a research measurement horizon, not yet the final strategy holding rule.
+
+No lookback/horizon optimization is allowed after observing the result. A material reformulation after Data Feasibility requires a new Hypothesis ID.
+
+## Closure check
+
+Current checker:
+
+`ATS2-M3-002 — Idea & rationale`
+
+Run:
+
+`ATS_TASK_CHECK.bat`
+
+It requires both Idea and Hypothesis, repository validator and full Local CI.
+
+## Next task after PASS
+
+`ATS2-M3-003 — Data feasibility`
+
+Work package:
+
+`WBS-3.3`
+
+Next artifact:
+
+`research/reviews/HYP-0001-DATA_FEASIBILITY.md`
+
+The review must establish actual BID/ASK source coverage, timestamp/session semantics, source identity, gaps, licensing/access and cost-input limitations before any Cheap Prototype.
 
 ## Recovery check
 
-- Current milestone: `M3_REFERENCE_STRATEGY_1`.
-- Last completed task: `ATS2-M3-001`.
-- Current task: `ATS2-M3-002`.
-- Current WBS: `WBS-3.2`.
-- Idea registered: `IDEA-0001`.
-- Idea status: `SCREENING`.
-- Ideas registered count: 1.
-- Next artifact: `research/hypotheses/HYP-0001.md`.
+- Last implemented task: `ATS2-M3-002`.
+- Current closure checker: `ATS2-M3-002`.
+- Next ready task after PASS: `ATS2-M3-003`.
+- Current WBS after PASS: `WBS-3.3`.
+- Idea ID: `IDEA-0001`.
+- Hypothesis ID: `HYP-0001`.
 - Candidate/Strategy/Experiment created? — no.
 - Live/demo/allocation/scaling allowed? — no.

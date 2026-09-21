@@ -19,6 +19,7 @@ M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 REFERENCE_STRATEGY_SELECTION = "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
 REFERENCE_STRATEGY_IDEA = "research/ideas/IDEA-0001.md"
+REFERENCE_STRATEGY_HYPOTHESIS = "research/hypotheses/HYP-0001.md"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -113,7 +114,7 @@ def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, M2_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
-        CONSUMER_PROFILE,
+        REFERENCE_STRATEGY_HYPOTHESIS, CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
         LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
@@ -125,7 +126,7 @@ def configure() -> None:
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
         "m2_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
-        "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
+        "reference_strategy_1_hypothesis", "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
         "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
     )
     core.REGISTRY_HEADER = HEADER
@@ -191,6 +192,18 @@ def configure() -> None:
         "Result: `NEW`",
         "Decision: `SCREEN`",
         "research/hypotheses/HYP-0001.md",
+    )
+    core.CONTENT_MARKERS[REFERENCE_STRATEGY_HYPOTHESIS] = (
+        "Hypothesis ID: `HYP-0001`",
+        "Parent Idea ID: `IDEA-0001`",
+        "Status: `READY_FOR_DATA_FEASIBILITY`",
+        "highest BID high of the preceding 24",
+        "next eligible 1H bar ASK open",
+        "24 eligible 1H bars",
+        "mean(signal executable 24-bar return) > 0",
+        "same-close execution",
+        "Decision: `DATA_FEASIBILITY`",
+        "research/reviews/HYP-0001-DATA_FEASIBILITY.md",
     )
     core.CONTENT_MARKERS[CONSUMER_PROFILE] = (
         "single research logic instance", "Minimum data contract",
@@ -700,17 +713,19 @@ def main() -> int:
         'm2_exit_review: "governance/program/M2_EXIT_REVIEW.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
+        'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
         'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M3-001"',
-        'current_task: "ATS2-M3-002"', 'current_ready_task: "ATS2-M3-002"',
-        'current_wbs: "WBS-3.2"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M3-002"',
+        'current_task: "ATS2-M3-003"', 'current_ready_task: "ATS2-M3-003"',
+        'current_wbs: "WBS-3.3"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
-        'idea_id: "IDEA-0001"', 'selected_market_context: "FX_SPOT_OTC"',
+        'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
+        'selected_market_context: "FX_SPOT_OTC"',
         'selected_instrument: "EURUSD"', "ideas_registered: 1",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
@@ -787,11 +802,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M3-001") != "DONE":
-        core.fail("M3-001 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-002") != "DONE":
+        core.fail("M3-002 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M3-002") != "IN_PROGRESS":
-        core.fail("M3-002 must be IN_PROGRESS in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-003") != "READY":
+        core.fail("M3-003 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
