@@ -227,7 +227,7 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[REFERENCE_STRATEGY_PROTOTYPE] = (
         "Prototype sequence: `PROTO-01`",
-        "DRAFT — DATA_SNAPSHOT_REQUIRED",
+        "Status: `READY_TO_RUN`",
         "2021-01-01T00:00:00Z",
         "2026-01-01T00:00:00Z",
         "at least 100 valid breakout observations",
