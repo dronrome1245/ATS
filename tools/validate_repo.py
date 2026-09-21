@@ -20,6 +20,7 @@ M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 REFERENCE_STRATEGY_SELECTION = "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
 REFERENCE_STRATEGY_IDEA = "research/ideas/IDEA-0001.md"
 REFERENCE_STRATEGY_HYPOTHESIS = "research/hypotheses/HYP-0001.md"
+REFERENCE_STRATEGY_DATA_FEASIBILITY = "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -114,7 +115,8 @@ def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, M2_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
-        REFERENCE_STRATEGY_HYPOTHESIS, CONSUMER_PROFILE,
+        REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
+        CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
         LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
@@ -126,7 +128,8 @@ def configure() -> None:
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
         "m2_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
-        "reference_strategy_1_hypothesis", "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
+        "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
+        "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
         "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
     )
     core.REGISTRY_HEADER = HEADER
@@ -204,6 +207,18 @@ def configure() -> None:
         "same-close execution",
         "Decision: `DATA_FEASIBILITY`",
         "research/reviews/HYP-0001-DATA_FEASIBILITY.md",
+    )
+    core.CONTENT_MARKERS[REFERENCE_STRATEGY_DATA_FEASIBILITY] = (
+        "Review status: `CONDITIONAL`",
+        "Dukascopy Historical Data / JForex history",
+        "Period.ONE_HOUR",
+        "OfferSide.BID",
+        "OfferSide.ASK",
+        "Canonical research timezone: `UTC`",
+        "GAP-DF-001",
+        "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+        "Decision: `CONDITIONAL`",
+        "research/reviews/HYP-0001-PROTOTYPE-01.md",
     )
     core.CONTENT_MARKERS[CONSUMER_PROFILE] = (
         "single research logic instance", "Minimum data contract",
@@ -463,11 +478,12 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M3-002"',
-        "M3-002 research artifacts",
+        'TASK_ID = "ATS2-M3-003"',
+        "M3-003 data feasibility artifacts",
         "research/ideas/IDEA-0001.md",
         "research/hypotheses/HYP-0001.md",
-        "M3-002 research governance validation",
+        "research/reviews/HYP-0001-DATA_FEASIBILITY.md",
+        "M3-003 data feasibility governance validation",
         "tools/validate_repo.py",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
@@ -714,17 +730,19 @@ def main() -> int:
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
+        'reference_strategy_1_data_feasibility: "research/reviews/HYP-0001-DATA_FEASIBILITY.md"',
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
         'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M3-002"',
-        'current_task: "ATS2-M3-003"', 'current_ready_task: "ATS2-M3-003"',
-        'current_wbs: "WBS-3.3"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M3-003"',
+        'current_task: "ATS2-M3-004"', 'current_ready_task: "ATS2-M3-004"',
+        'current_wbs: "WBS-3.4"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
+        'data_feasibility_decision: "CONDITIONAL"',
         'selected_market_context: "FX_SPOT_OTC"',
         'selected_instrument: "EURUSD"', "ideas_registered: 1",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
@@ -802,11 +820,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M3-002") != "DONE":
-        core.fail("M3-002 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-003") not in {"DONE", "DONE / CONDITIONAL"}:
+        core.fail("M3-003 must be DONE / CONDITIONAL in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M3-003") != "READY":
-        core.fail("M3-003 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-004") != "READY":
+        core.fail("M3-004 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

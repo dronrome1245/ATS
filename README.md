@@ -7,20 +7,21 @@
 ## Текущее состояние
 
 - Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- M0/M1/M2: `COMPLETED / PASS`.
 - Reference class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`.
-- Research instrument: `EURUSD` / EUR/USD spot FX.
+- Research instrument: `EURUSD`.
+- Idea: `IDEA-0001 — SCREENING`.
+- Hypothesis: `HYP-0001 — READY_FOR_DATA_FEASIBILITY`.
+- Data Feasibility: `CONDITIONAL`.
 
-Current research artifacts:
+Canonical review:
 
-- `research/ideas/IDEA-0001.md` — `SCREENING`;
-- `research/hypotheses/HYP-0001.md` — `READY_FOR_DATA_FEASIBILITY`.
+`research/reviews/HYP-0001-DATA_FEASIBILITY.md`
 
-HYP-0001 fixes a 24-bar upward breakout condition and a 24-bar primary forward measurement before any prototype result.
+Dukascopy EUR/USD 1H BID/ASK data is structurally suitable, but the actual source snapshot must be frozen, aligned and hashed before the prototype runs.
 
 ## Current closure check
 
-`ATS2-M3-002 — Idea & rationale`
+`ATS2-M3-003 — Data feasibility`
 
 Run:
 
@@ -28,14 +29,14 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M3-003 — Data feasibility`
+`ATS2-M3-004 — Cheap prototype`
 
 Next artifact:
 
-`research/reviews/HYP-0001-DATA_FEASIBILITY.md`
+`research/reviews/HYP-0001-PROTOTYPE-01.md`
 
-No prototype/backtest result should be generated before Data Feasibility.
+No prototype result, Candidate, Strategy ID or Experiment exists yet.
 
 ## Boundary
 
-No Candidate, Strategy ID or Experiment exists yet. Broker/live trading, capital allocation, Strategy Risk Mandate, leverage and scaling remain outside current scope.
+Broker/live trading, capital allocation, Strategy Risk Mandate, leverage and scaling remain outside current scope.

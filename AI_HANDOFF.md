@@ -5,87 +5,87 @@
 ## Current state
 
 - Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- M0/M1/M2: `COMPLETED / PASS`.
 - Reference class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`.
-- Instrument: `EURUSD` / EUR/USD spot FX.
+- Instrument: `EURUSD`.
+- Idea: `IDEA-0001`.
+- Hypothesis: `HYP-0001`.
+- Data Feasibility decision: `CONDITIONAL`.
 - Live/demo/allocation/scaling remain disallowed.
-
-## Research lineage
-
-Idea:
-
-`research/ideas/IDEA-0001.md`
-
-- ID: `IDEA-0001`
-- Status: `SCREENING`
-- Context: EUR/USD, 1H, long/flat.
-
-Hypothesis:
-
-`research/hypotheses/HYP-0001.md`
-
-- ID: `HYP-0001`
-- Parent: `IDEA-0001`
-- Status: `READY_FOR_DATA_FEASIBILITY`
 
 ## Frozen HYP-0001 claim
 
-Signal:
+- signal: completed EUR/USD BID close > max BID high of prior 24 completed contiguous eligible 1H bars;
+- entry measurement: next eligible ASK open;
+- primary effect horizon: 24 contiguous eligible 1H bars;
+- exit/valuation measurement: BID open 24 bars after entry;
+- expected: signal mean > 0 and > unconditional 24-bar executable baseline;
+- same-close execution prohibited.
 
-A fully completed EUR/USD 1H bar has BID close strictly above the highest BID high of the preceding 24 fully completed eligible 1H bars.
+## Data Feasibility
 
-Execution/effect measurement:
+Canonical review:
 
-- signal uses completed information only;
-- entry measurement begins at the next eligible ASK open;
-- primary horizon is 24 eligible 1H bars;
-- primary exit/valuation is the BID open 24 eligible bars after entry.
+`research/reviews/HYP-0001-DATA_FEASIBILITY.md`
 
-Expected primary ordering:
+Decision:
 
-`mean(signal executable 24-bar return) > 0`
+`CONDITIONAL`
 
-and:
+Primary candidate source: Dukascopy Historical Data Export / JForex history.
 
-`mean(signal executable 24-bar return) > mean(unconditional executable 24-bar return)`
+Structurally supported:
 
-The 24-bar horizon is a research measurement horizon, not yet the final strategy holding rule.
+- `Instrument.EURUSD`;
+- `Period.ONE_HOUR`;
+- separate `OfferSide.BID` / `OfferSide.ASK`;
+- free Historical Data Export in CSV;
+- fully formed bar semantics.
 
-No lookback/horizon optimization is allowed after observing the result. A material reformulation after Data Feasibility requires a new Hypothesis ID.
+Prototype-blocking conditions still unresolved:
 
-## Closure check
+- actual BID/ASK files not yet frozen;
+- exact local coverage/continuity not measured;
+- raw snapshot hashes not yet recorded.
+
+Non-blocking but claim-limiting gaps:
+
+- historical rollover not frozen;
+- broker/account commission not selected;
+- 1H bars do not supply live-fill slippage.
+
+Therefore PROTO-01 may be prepared but cannot execute until the snapshot/coverage conditions are resolved.
+
+Primary prototype economic label, unless additional costs are added:
+
+`QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING`
+
+Raw Dukascopy data remains local/external; Git should store only manifest metadata/hashes unless redistribution rights are confirmed.
+
+## Current closure check
 
 Current checker:
 
-`ATS2-M3-002 — Idea & rationale`
+`ATS2-M3-003 — Data feasibility`
 
 Run:
 
 `ATS_TASK_CHECK.bat`
 
-It requires both Idea and Hypothesis, repository validator and full Local CI.
-
 ## Next task after PASS
 
-`ATS2-M3-003 — Data feasibility`
-
-Work package:
-
-`WBS-3.3`
+`ATS2-M3-004 — Cheap prototype`
 
 Next artifact:
 
-`research/reviews/HYP-0001-DATA_FEASIBILITY.md`
+`research/reviews/HYP-0001-PROTOTYPE-01.md`
 
-The review must establish actual BID/ASK source coverage, timestamp/session semantics, source identity, gaps, licensing/access and cost-input limitations before any Cheap Prototype.
+Cheap Prototype must follow `governance/methodology/CHEAP_PROTOTYPE_PROTOCOL.md` and record one question, frozen data snapshot, cost/execution limitations, planned metrics and pre-run decision rule before result observation.
 
 ## Recovery check
 
-- Last implemented task: `ATS2-M3-002`.
-- Current closure checker: `ATS2-M3-002`.
-- Next ready task after PASS: `ATS2-M3-003`.
-- Current WBS after PASS: `WBS-3.3`.
-- Idea ID: `IDEA-0001`.
-- Hypothesis ID: `HYP-0001`.
+- Last implemented task: `ATS2-M3-003`.
+- Closure checker: `ATS2-M3-003`.
+- Next ready task after PASS: `ATS2-M3-004`.
+- Current WBS after PASS: `WBS-3.4`.
 - Candidate/Strategy/Experiment created? — no.
 - Live/demo/allocation/scaling allowed? — no.

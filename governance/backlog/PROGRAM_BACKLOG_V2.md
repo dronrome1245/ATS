@@ -29,9 +29,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 14. `ATS2-M2-011` — M2 Exit — `DONE / PASS`.
 15. `ATS2-M3-001` — Select Reference Strategy #1 — `DONE`.
 16. `ATS2-M3-002` — Idea & rationale — `DONE`.
-17. `ATS2-M3-003` — Data feasibility — `READY`.
+17. `ATS2-M3-003` — Data feasibility — `DONE / CONDITIONAL`.
+18. `ATS2-M3-004` — Cheap prototype — `READY`.
 
-Program-level current next task — `ATS2-M3-002`.
+Program-level current next task — `ATS2-M3-004`.
 
 ## 3. M0 / M1
 
@@ -69,9 +70,10 @@ M2 Exit decision: `PASS`. The platform milestone is complete; this does not crea
 |---|---|---:|---|---|---|---|
 | `ATS2-M3-001` | `WBS-3.1` | P1 | DONE | M1 PASS, M2 PASS | `governance/program/REFERENCE_STRATEGY_1_SELECTION.md` | Selected `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class without selecting parameters, instrument, vendor or claiming profitability |
 | `ATS2-M3-002` | `WBS-3.2` | P1 | DONE | M3-001 | `research/ideas/IDEA-0001.md` + `research/hypotheses/HYP-0001.md` | `IDEA-0001` is screened and `HYP-0001` fixes a 24-bar breakout condition, 24-bar primary horizon, BID/ASK execution premise and falsification path before prototype results |
-| `ATS2-M3-003` | `WBS-3.3` | P1 | READY | M3-002 | `research/reviews/HYP-0001-DATA_FEASIBILITY.md` | Data source, coverage, BID/ASK alignment, 1H timestamp/bar semantics, session gaps, integrity and cost inputs are reviewed and a FEASIBLE / CONDITIONAL / PARK / REJECT decision is recorded |
+| `ATS2-M3-003` | `WBS-3.3` | P1 | DONE / CONDITIONAL | M3-002 | `research/reviews/HYP-0001-DATA_FEASIBILITY.md` | Dukascopy EUR/USD 1H BID/ASK path is structurally suitable; actual snapshot/coverage must be frozen before prototype execution, and PROTO-01 economic claims remain before-financing unless rollover/commission inputs are added |
+| `ATS2-M3-004` | `WBS-3.4` | P1 | READY | M3-002, M3-003 CONDITIONAL | `research/reviews/HYP-0001-PROTOTYPE-01.md` + minimal implementation/output references | One pre-written prototype question is answered with the frozen HYP-0001 rule after the actual BID/ASK snapshot conditions are resolved; no parameter optimization or formal-validation claim |
 
-Later M3 work remains governed by `WBS-3.4`–`WBS-3.11` in `governance/program/PROGRAM_WBS_V2.md` and is instantiated into executable backlog tasks as dependencies become ready.
+Later M3 work remains governed by `WBS-3.5`–`WBS-3.11` in `governance/program/PROGRAM_WBS_V2.md` and is instantiated into executable backlog tasks as dependencies become ready.
 
 Reference Strategy #1 class and EUR/USD research instrument are selected, and `HYP-0001` fixes the initial 24-bar research parameters; no Candidate, Strategy ID or Experiment has yet been created.
 
@@ -81,15 +83,16 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 Current program-level ready task:
 
-`ATS2-M3-003 — Data feasibility`.
+`ATS2-M3-004 — Cheap prototype`.
 
 Materialized research lineage:
 
 - `research/ideas/IDEA-0001.md` — `SCREENING`;
-- `research/hypotheses/HYP-0001.md` — `READY_FOR_DATA_FEASIBILITY`.
+- `research/hypotheses/HYP-0001.md` — `READY_FOR_DATA_FEASIBILITY`;
+- `research/reviews/HYP-0001-DATA_FEASIBILITY.md` — `CONDITIONAL`.
 
 Canonical next artifact:
 
-`research/reviews/HYP-0001-DATA_FEASIBILITY.md`.
+`research/reviews/HYP-0001-PROTOTYPE-01.md`.
 
-M3-003 must determine whether real EUR/USD 1H BID/ASK data can honestly reproduce the prespecified 24-before / 24-after breakout test without leakage or ambiguous execution semantics.
+M3-004 may prepare PROTO-01 immediately, but it must not execute the quantitative run until the actual Dukascopy BID/ASK snapshot and coverage are frozen and hashed as required by the Data Feasibility conditions.

@@ -305,13 +305,14 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-3.1 — Select Reference Strategy #1` — `DONE`;
 - selected class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`;
 - selected research instrument: `EURUSD` / EUR/USD spot FX;
-- `WBS-3.2 — Idea & rationale` — repository artifacts implemented; exact closure uses `ATS_TASK_CHECK.bat`;
+- `WBS-3.2 — Idea & rationale` — `DONE`;
 - `IDEA-0001` — `SCREENING`;
 - `HYP-0001` — `READY_FOR_DATA_FEASIBILITY`;
-- next work package after PASS: **`WBS-3.3 — Data feasibility`**.
+- `WBS-3.3 — Data feasibility` — repository artifact implemented with decision `CONDITIONAL`; exact closure uses `ATS_TASK_CHECK.bat`;
+- next work package after PASS: **`WBS-3.4 — Cheap prototype`**.
 
-The next canonical research artifact after M3-002 PASS is:
+The next canonical research artifact after M3-003 PASS is:
 
-`research/reviews/HYP-0001-DATA_FEASIBILITY.md`
+`research/reviews/HYP-0001-PROTOTYPE-01.md`
 
 Current execution state must still be read from `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` and `governance/backlog/PROGRAM_BACKLOG_V2.md`.
