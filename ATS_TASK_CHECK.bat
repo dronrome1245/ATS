@@ -23,19 +23,25 @@ if errorlevel 1 goto :git_missing
 where uv >nul 2>&1
 if errorlevel 1 goto :uv_missing
 
-echo [1/3] Updating repository...
+echo [1/4] Updating repository...
 >> "%REPORT%" echo == git pull --ff-only ==
 git pull --ff-only >> "%REPORT%" 2>&1
 if errorlevel 1 goto :pull_failed
 >> "%REPORT%" echo.
 
-echo [2/3] Syncing frozen environment...
+echo [2/4] Syncing frozen environment...
 >> "%REPORT%" echo == uv sync --frozen ==
 uv sync --frozen >> "%REPORT%" 2>&1
 if errorlevel 1 goto :sync_failed
 >> "%REPORT%" echo.
 
-echo [3/3] Running current task check...
+echo [3/4] Running fast Local CI preflight...
+>> "%REPORT%" echo == fast local ci preflight ==
+uv run --frozen python tools/verify_repo.py --fast >> "%REPORT%" 2>&1
+if errorlevel 1 goto :preflight_failed
+>> "%REPORT%" echo.
+
+echo [4/4] Running current task check...
 >> "%REPORT%" echo == current task check ==
 uv run --frozen python tools/current_task_check.py >> "%REPORT%" 2>&1
 if errorlevel 1 goto :task_failed
@@ -67,6 +73,12 @@ goto :failed
 >> "%REPORT%" echo.
 >> "%REPORT%" echo ERROR: uv sync --frozen failed.
 set "RC=14"
+goto :failed
+
+:preflight_failed
+>> "%REPORT%" echo.
+>> "%REPORT%" echo ERROR: fast Local CI preflight failed.
+set "RC=16"
 goto :failed
 
 :task_failed

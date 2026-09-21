@@ -1,0 +1,65 @@
+# ATS Local CI Failure Registry
+
+**Status:** ACTIVE  
+**Purpose:** count repeated Local CI failure causes and convert recurrence into mandatory preventive controls.  
+**Canonical lessons:** `governance/program/LOCAL_CI_TROUBLESHOOTING.md`
+
+## 1. Escalation policy
+
+Every confirmed failure occurrence is assigned to one stable `LCI-###` cause.
+
+- occurrence 1 → `OBSERVED`: record the cause and correct response;
+- occurrence 2 → `RECURRING`: preventive rule becomes mandatory;
+- occurrence 3 → `CONTROL_REQUIRED`: prose is insufficient; add a technical/process control;
+- occurrence 4+ → `REPEAT_AFTER_CONTROL_THRESHOLD`: do not treat the event as isolated; strengthen or verify the control before normal progression.
+
+A new occurrence increments the existing cause. Do not create a new ID merely because the affected file/task changed.
+
+## 2. Cause summary
+
+| Cause | Class | Confirmed occurrences | State | Current control |
+|---|---|---:|---|---|
+| `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
+| `LCI-002` | `FORMAT` | 4 | CONTROL_REQUIRED | fast Local CI preflight before full task check; exact Ruff diff is authoritative |
+| `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
+| `LCI-004` | `VALIDATOR` | 3 | CONTROL_REQUIRED | marker audit rule for every changed validator-targeted file |
+| `LCI-005` | `DIRTY_TREE` | 1 | OBSERVED | narrowly ignore `reports/local_ci/*.lnk` |
+
+## 3. Occurrence log
+
+| Date | Cause | Commit/context | Stage | Short symptom |
+|---|---|---|---|---|
+| 2026-09-18 | `LCI-001` | network context | sync | `git pull --ff-only` could not reach GitHub |
+| 2026-09-18 | `LCI-002` | `b3085c26342c52e6ae852962faefcaf347d43a2a` | format | Ruff wanted canonical Python formatting |
+| 2026-09-19 | `LCI-003` | new Windows host | environment | `uv` missing from PATH |
+| 2026-09-21 | `LCI-004` | `e4f397b4a985be314c75e4385d59030e77fcbfcd` | validator | Markdown/presentation-sensitive marker drift |
+| 2026-09-21 | `LCI-002` | `c8a0225acafba15d59dcd35d5bf3aceee716ced3` | format | remote Python edit not Ruff-formatted |
+| 2026-09-21 | `LCI-004` | `c8a0225acafba15d59dcd35d5bf3aceee716ced3` | validator | selective marker audit missed declared markers |
+| 2026-09-21 | `LCI-004` | `0c9823fe48c1e562d516ac311d956893afdec44f` | validator | transition changed WBS wording but validator expected old marker |
+| 2026-09-21 | `LCI-005` | `01603925a5c3d690e5e6cbfbcbaedc40e42a76e8` | clean tree | Windows `.lnk` appeared under local reports |
+| 2026-09-21 | `LCI-002` | `cd348024bd907225ea15219786ef5ad54ebdea1d` | format | sensitivity/checker needed Ruff canonical layout |
+| 2026-09-21 | `LCI-002` | `9f912b7b5e350d287ed76ce4bffe7a67722faf58` | format | slicing module needed Ruff canonical layout |
+
+## 4. Rule-conversion discipline
+
+When a cause reaches `RECURRING`, update its lesson with a mandatory preventive rule.
+
+When a cause reaches `CONTROL_REQUIRED`, add a concrete control in code, validator, launcher or workflow. A statement such as "be more careful" is not a control.
+
+After a control is added, the next exact-commit PASS is evidence that the control did not break the workflow; future recurrences determine whether the control must be strengthened.
+
+## 5. Current technical controls
+
+### FORMAT / LCI-002
+
+The Windows launcher runs a fast Local CI preflight before the full current-task check. The fast gate includes repository validation, Ruff lint and Ruff format, but skips full pytest/fingerprint. A format failure therefore stops before the expensive full test suite.
+
+This does not replace the final full gate. Task completion still requires `ATS TASK LAUNCHER: PASS`.
+
+### VALIDATOR / LCI-004
+
+Validator-targeted files require complete marker audit, not a selected subset.
+
+### DIRTY_TREE / LCI-005
+
+Only `reports/local_ci/*.lnk` is ignored for Windows shell shortcuts; real untracked source files remain blocking.

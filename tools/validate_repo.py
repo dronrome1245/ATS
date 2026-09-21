@@ -33,6 +33,7 @@ RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
 LOCAL_CI_GATE = "governance/program/LOCAL_CI_GATE.md"
 LOCAL_CI_TROUBLESHOOTING = "governance/program/LOCAL_CI_TROUBLESHOOTING.md"
+LOCAL_CI_FAILURE_REGISTRY = "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"
 DATASET_MANIFEST_SPEC = "governance/program/DATASET_MANIFEST_SPEC.md"
 DATASET_MANIFEST_FILES = (
     "data/manifests/DATASET_TEMPLATE.yaml",
@@ -137,7 +138,7 @@ def configure() -> None:
         CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
-        LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
+        LOCAL_CI_TROUBLESHOOTING, LOCAL_CI_FAILURE_REGISTRY, DATASET_MANIFEST_SPEC,
         *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
         *ANALYTICS_FILES, *RUNNER_FILES, *PLATFORM_TEST_FILES,
@@ -151,6 +152,7 @@ def configure() -> None:
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
         "reference_strategy_1_dataset_manifest", "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
         "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
+        "local_ci_failure_registry",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
@@ -594,6 +596,8 @@ def configure() -> None:
         ".githooks/pre-commit",
         ".githooks/pre-push",
         "GitHub Actions status is not a completion criterion",
+        "fast Local CI preflight",
+        "exit code `16`",
     )
     core.CONTENT_MARKERS[LOCAL_CI_TROUBLESHOOTING] = (
         "LCI-001",
@@ -622,6 +626,16 @@ def configure() -> None:
         "narrowly scoped",
         "do not modify source code for infrastructure/network failures",
         "Raw machine reports are not copied into this file",
+        "technical-control threshold",
+    )
+    core.CONTENT_MARKERS[LOCAL_CI_FAILURE_REGISTRY] = (
+        "Escalation policy",
+        "LCI-002",
+        "Confirmed occurrences",
+        "CONTROL_REQUIRED",
+        "fast Local CI preflight",
+        "9f912b7b5e350d287ed76ce4bffe7a67722faf58",
+        "Rule-conversion discipline",
     )
     core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
         "git pull --ff-only",
@@ -629,6 +643,9 @@ def configure() -> None:
         "tools/current_task_check.py",
         "CURRENT_TASK_REPORT.txt",
         "Required ATS baseline: uv 0.12.13.",
+        "fast local ci preflight",
+        "tools/verify_repo.py --fast",
+        "exit code %RC%",
         "ATS TASK LAUNCHER: PASS",
         "ATS TASK LAUNCHER: FAIL",
     )
@@ -912,6 +929,7 @@ def main() -> int:
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
+        'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
         'last_completed_task_id: "ATS2-M4-003"',
         'current_task: "ATS2-M4-004"', 'current_ready_task: "ATS2-M4-004"',
         'current_wbs: "WBS-4.4"', "reference_strategy_selection_allowed: true",

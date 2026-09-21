@@ -43,6 +43,7 @@ model:
   dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"
   local_ci_gate: "governance/program/LOCAL_CI_GATE.md"
   local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"
+  local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"

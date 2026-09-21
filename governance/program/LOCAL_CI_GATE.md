@@ -145,3 +145,16 @@ The gate uses the reproducible M2 environment:
 - `uv sync --frozen` / `uv run --frozen`.
 
 If the frozen environment cannot be created, verification is blocked rather than silently falling back to another Python or dependency set.
+
+
+## Fast preflight before the completion check
+
+The Windows launcher runs:
+
+`uv run --frozen python tools/verify_repo.py --fast`
+
+after environment sync and before `tools/current_task_check.py`.
+
+Purpose: recurrent validator/lint/format failures are caught before the expensive full pytest/fingerprint stage. This is an early-failure control only; it does not replace the final full Local CI gate.
+
+If the fast preflight fails, the launcher exits with code `16`.

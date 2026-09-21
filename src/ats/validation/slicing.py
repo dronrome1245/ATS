@@ -139,9 +139,7 @@ def evaluate_declared_slices(
         raise TypeError("evaluator must be callable")
 
     declared = {item.slice_id: item for item in plan.slices}
-    buckets: dict[str, list[ObservationT]] = {
-        item.slice_id: [] for item in plan.slices
-    }
+    buckets: dict[str, list[ObservationT]] = {item.slice_id: [] for item in plan.slices}
     unassigned = 0
     multiply_assigned = 0
 
@@ -159,9 +157,7 @@ def evaluate_declared_slices(
         if not memberships:
             unassigned += 1
             if plan.require_exhaustive:
-                raise SlicingContractError(
-                    "require_exhaustive plan has an unassigned observation"
-                )
+                raise SlicingContractError("require_exhaustive plan has an unassigned observation")
         if len(memberships) > 1:
             multiply_assigned += 1
             if not plan.allow_overlap:
@@ -190,8 +186,7 @@ def evaluate_declared_slices(
             missing = sorted(expected_metric_names - actual_metric_names)
             extra = sorted(actual_metric_names - expected_metric_names)
             raise SlicingContractError(
-                f"metric set mismatch for {definition.slice_id!r}: "
-                f"missing={missing}, extra={extra}"
+                f"metric set mismatch for {definition.slice_id!r}: missing={missing}, extra={extra}"
             )
 
         metrics: list[tuple[str, Numeric]] = []
