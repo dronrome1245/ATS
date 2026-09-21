@@ -22,6 +22,7 @@ REFERENCE_STRATEGY_IDEA = "research/ideas/IDEA-0001.md"
 REFERENCE_STRATEGY_HYPOTHESIS = "research/hypotheses/HYP-0001.md"
 REFERENCE_STRATEGY_DATA_FEASIBILITY = "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
 REFERENCE_STRATEGY_PROTOTYPE = "research/reviews/HYP-0001-PROTOTYPE-01.md"
+PROTO01_RESULT = "reports/research/HYP-0001-PROTOTYPE-01-result.json"
 PROTO01_SCHEMA = "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.schema.json"
 PROTO01_MANIFEST = "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
 PROTO01_TOOL = "tools/proto01_eurusd.py"
@@ -120,7 +121,8 @@ def configure() -> None:
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, M2_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
-        REFERENCE_STRATEGY_PROTOTYPE, PROTO01_SCHEMA, PROTO01_MANIFEST, PROTO01_TOOL,
+        REFERENCE_STRATEGY_PROTOTYPE, PROTO01_RESULT, PROTO01_SCHEMA, PROTO01_MANIFEST,
+        PROTO01_TOOL,
         CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
@@ -227,14 +229,24 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[REFERENCE_STRATEGY_PROTOTYPE] = (
         "Prototype sequence: `PROTO-01`",
-        "Status: `READY_TO_RUN`",
+        "Status: `COMPLETED / REJECT`",
         "2021-01-01T00:00:00Z",
         "2026-01-01T00:00:00Z",
         "at least 100 valid breakout observations",
         "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
         "tools/proto01_eurusd.py",
-        "Decision: `NOT_RUN`",
+        "Decision: `REJECT`",
+        "ONE_OR_BOTH_PRIMARY_HYPOTHESIS_INEQUALITIES_FAILED",
         "EXPLORATORY_PROTOTYPE",
+    )
+    core.CONTENT_MARKERS[PROTO01_RESULT] = (
+        '"decision": "REJECT"',
+        '"breakout_signal_count": 1006',
+        '"signal_mean_return": -0.00023015725987422884',
+        '"unconditional_mean_return": -0.00006471364916215143',
+        '"signal_minus_baseline": -0.0001654436107120774',
+        '"prepared_csv_sha256": "aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0"',
+        '"git_commit": "6115b1c7114e942a4f3e76795ce8d25b552cf849"',
     )
     core.CONTENT_MARKERS[PROTO01_SCHEMA] = (
         "HYP-0001 PROTO-01 EURUSD 1H aligned BID/ASK rows",
@@ -785,13 +797,14 @@ def main() -> int:
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M3-003"',
-        'current_task: "ATS2-M3-004"', 'current_ready_task: "ATS2-M3-004"',
-        'current_wbs: "WBS-3.4"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M3-004"',
+        'current_task: "ATS2-M3-005"', 'current_ready_task: "ATS2-M3-005"',
+        'current_wbs: "WBS-3.11"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
-        'prototype_id: "PROTO-01"', 'prototype_status: "READY_TO_RUN"',
+        'prototype_id: "PROTO-01"', 'prototype_status: "REJECTED"',
+        'prototype_outcome: "REJECT"', 'research_line_status: "REJECTED_AT_R3"',
         'selected_market_context: "FX_SPOT_OTC"',
         'selected_instrument: "EURUSD"', "ideas_registered: 1",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
@@ -869,11 +882,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M3-003") not in {"DONE", "DONE / CONDITIONAL"}:
-        core.fail("M3-003 must be DONE / CONDITIONAL in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-004") not in {"DONE", "DONE / REJECT"}:
+        core.fail("M3-004 must be DONE / REJECT in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M3-004") != "IN_PROGRESS":
-        core.fail("M3-004 must be IN_PROGRESS in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-005") != "READY":
+        core.fail("M3-005 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

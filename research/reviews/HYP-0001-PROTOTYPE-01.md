@@ -6,7 +6,7 @@
 - Data Feasibility review: `research/reviews/HYP-0001-DATA_FEASIBILITY.md`
 - Prototype sequence: `PROTO-01`
 - Created on: `2026-09-21`
-- Status: `READY_TO_RUN`
+- Status: `COMPLETED / REJECT`
 
 ## Prototype question
 
@@ -121,17 +121,27 @@ The 100-observation rule is a minimum descriptive sample for this cheap prototyp
 
 ## Result summary
 
-`NOT_RUN`.
+PROTO-01 was run once on the frozen 2021–2025 dataset.
 
-No quantitative result has been viewed while this pre-run record is written.
+Primary results:
+
+- valid breakout signals: `1006`;
+- mean executable 24-bar return after breakout: `-0.0002301573` (about `-0.0230%`);
+- unconditional executable 24-bar mean: `-0.0000647136` (about `-0.0065%`);
+- signal minus baseline: `-0.0001654436` (about `-0.0165%`);
+- median signal return: `-0.0004042483` (about `-0.0404%`);
+- positive-return share: `45.8250%`;
+- overlapping signal windows: `723 / 1006` (`71.87%`).
+
+The sample-count condition was satisfied, but both primary inequalities failed: signal mean was below zero and below the unconditional baseline.
 
 ## Data / implementation anomalies
 
-`NOT_EVALUATED_YET`.
+No blocking data or implementation anomaly was reported by the fixed run. The high overlap between signal forward windows is retained as a dependence limitation.
 
 ## Search and iteration accounting
 
-- Prototype iterations inspected so far: `0`
+- Prototype iterations inspected so far: `1`
 - Parameter / variant count: `1 fixed rule`
 - Markets / instruments: `1 — EURUSD`
 - Material data-source changes: `0`
@@ -142,9 +152,9 @@ No interpretation yet.
 
 ## Outcome
 
-- Decision: `NOT_RUN`
-- Reason: `DATASET_FROZEN_RESULT_NOT_RUN`
-- Resulting action: execute the fixed prototype once with `uv run --frozen python tools/proto01_eurusd.py run`; do not alter parameters or dataset after viewing the result.
+- Decision: `REJECT`
+- Reason: `ONE_OR_BOTH_PRIMARY_HYPOTHESIS_INEQUALITIES_FAILED`
+- Resulting action: stop this HYP-0001 research line before Economic Pre-Screen. Retain the negative result and do not change lookback, horizon, instrument or period inside HYP-0001 to rescue it.
 
 ## Evidence classification
 

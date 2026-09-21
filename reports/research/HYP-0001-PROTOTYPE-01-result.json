@@ -1,0 +1,37 @@
+{
+  "dataset": {
+    "dataset_id": "DATA-DUKASCOPY-EURUSDH1-PROTO01-001",
+    "dataset_version": "1.0.0",
+    "prepared_csv_sha256": "aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0"
+  },
+  "decision": "REJECT",
+  "decision_reason": "ONE_OR_BOTH_PRIMARY_HYPOTHESIS_INEQUALITIES_FAILED",
+  "economic_label": "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+  "evidence_class": "EXPLORATORY_PROTOTYPE",
+  "hypothesis_id": "HYP-0001",
+  "limitations": [
+    "Commission is not modeled.",
+    "Rollover/financing is not modeled.",
+    "1H quote opens are not guaranteed live fills.",
+    "Overlapping forward windows create dependent observations.",
+    "This is exploratory prototype evidence, not validation evidence."
+  ],
+  "metrics": {
+    "aligned_bars": 31296,
+    "breakout_signal_count": 1006,
+    "eligible_baseline_observations": 18485,
+    "overlapping_signal_share": 0.7186878727634195,
+    "overlapping_signal_windows": 723,
+    "signal_mean_return": -0.00023015725987422884,
+    "signal_median_return": -0.0004042483195154656,
+    "signal_minus_baseline": -0.0001654436107120774,
+    "signal_positive_share": 0.45825049701789267,
+    "unconditional_mean_return": -0.00006471364916215143
+  },
+  "prototype_sequence": "PROTO-01",
+  "run_context": {
+    "completed_at": "2026-09-21T16:27:29Z",
+    "git_commit": "6115b1c7114e942a4f3e76795ce8d25b552cf849"
+  },
+  "schema_version": "proto01-result-1"
+}

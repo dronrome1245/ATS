@@ -56,11 +56,11 @@ model:
   reference_strategy_1_dataset_manifest: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
 
 current:
-  focus: "Run frozen HYP-0001 PROTO-01"
-  last_completed_task_id: "ATS2-M3-003"
-  last_completed_artifact: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
-  next_artifact: "reports/research/HYP-0001-PROTOTYPE-01-result.json"
-  next_task_id: "ATS2-M3-004"
+  focus: "Close rejected Reference Strategy #1 and record platform learnings"
+  last_completed_task_id: "ATS2-M3-004"
+  last_completed_artifact: "reports/research/HYP-0001-PROTOTYPE-01-result.json"
+  next_artifact: "governance/program/M3_EXIT_REVIEW.md"
+  next_task_id: "ATS2-M3-005"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -173,31 +173,37 @@ m3:
     - "ATS2-M3-001"
     - "ATS2-M3-002"
     - "ATS2-M3-003"
+    - "ATS2-M3-004"
   completed_artifacts:
     - "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
     - "research/ideas/IDEA-0001.md"
     - "research/hypotheses/HYP-0001.md"
     - "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
-  current_task: "ATS2-M3-004"
-  current_wbs: "WBS-3.4"
+    - "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
+    - "research/reviews/HYP-0001-PROTOTYPE-01.md"
+    - "reports/research/HYP-0001-PROTOTYPE-01-result.json"
+  current_task: "ATS2-M3-005"
+  current_wbs: "WBS-3.11"
   reference_strategy_selection_allowed: true
   selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"
   idea_id: "IDEA-0001"
   hypothesis_id: "HYP-0001"
   data_feasibility_decision: "CONDITIONAL"
   prototype_id: "PROTO-01"
-  prototype_status: "READY_TO_RUN"
+  prototype_status: "REJECTED"
   selected_market_context: "FX_SPOT_OTC"
   selected_instrument: "EURUSD"
   dataset_id: "DATA-DUKASCOPY-EURUSDH1-PROTO01-001"
   dataset_version: "1.0.0"
   dataset_sha256: "aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0"
   source_bundle_sha256: "cf378faaae58424112d289315b2ec076f4100775f2613a5d2d685ec46a02aba4"
+  prototype_outcome: "REJECT"
+  research_line_status: "REJECTED_AT_R3"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M3-004"
-  current_ready_wbs: "WBS-3.4"
+  current_ready_task: "ATS2-M3-005"
+  current_ready_wbs: "WBS-3.11"
 
 handoff_policy:
   update_after_material_step: true
@@ -232,7 +238,7 @@ safety:
 
 strategy_pipeline:
   ideas_registered: 1
-  prototypes_active: 1
+  prototypes_active: 0
   candidates_active: 0
   experiments_registered: 0
   validated_strategies: 0

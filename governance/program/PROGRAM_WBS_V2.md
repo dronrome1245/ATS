@@ -114,13 +114,13 @@ M0 закрывается, когда выполнены `WBS-0.1`–`WBS-0.12`,
 | `WBS-3.2` | S | M3 | Idea & rationale | Idea/Hypothesis artifacts | 3.1 | RESEARCH | Есть falsifiable market hypothesis и rationale |
 | `WBS-3.3` | S | M3 | Data feasibility | Strategy data review | 3.2 | DATA | Данные позволяют честно проверить hypothesis, known gaps сохранены |
 | `WBS-3.4` | S | M3 | Cheap prototype | Prototype result | 3.2–3.3 | RESEARCH | Получен первый quantitative result без production overengineering |
-| `WBS-3.5` | S | M3 | Economic pre-screen | Promotion decision | 3.4 | RESEARCH | Strategy проходит R4 либо закрывается с сохранённым reason/evidence |
+| `WBS-3.5` | S | M3 | Economic pre-screen | Promotion decision | 3.4 `ADVANCE_TO_ECONOMIC_SCREEN` | RESEARCH | Strategy проходит R4 либо закрывается с сохранённым reason/evidence |
 | `WBS-3.6` | S | M3 | Candidate admission | Candidate Manifest | 3.5 PASS | RESEARCH / VALIDATION | Strategy получает ID и formal research budget only after evidence |
 | `WBS-3.7` | S | M3 | Strategy specification | Versioned specification | 3.6 | RESEARCH | Rules реализуемы другим developer без смысловых уточнений |
 | `WBS-3.8` | S | M3 | Research protocol | Data split + evaluation protocol | 3.7 | RESEARCH / DATA / VALIDATION | Development/validation/independent blocks и evaluation rules зафиксированы |
 | `WBS-3.9` | S | M3 | Baseline implementation | Strategy Version + experiment | 3.7–3.8, M2 | DEVELOPMENT | Strategy запускается через shared platform и trades проверены |
 | `WBS-3.10` | S | M3 | Economic Viability S05 | Economic Viability Report | 3.9 | RESEARCH / VALIDATION | Оценены net edge, risk, capital use, evidence, costs, capacity и complexity; принято PASS/REJECT/PARK |
-| `WBS-3.11` | P/S | M3 | Platform learning review | Capability gaps report | 3.9–3.10 | DEVELOPMENT / RESEARCH | Отделены strategy-specific needs от reusable platform improvements |
+| `WBS-3.11` | P/S | M3 | Platform learning review | Capability gaps / M3 closeout report | 3.4 terminal `REJECT` **or** 3.9–3.10 | DEVELOPMENT / RESEARCH | Для раннего rejection сохраняется причина остановки и platform/data learnings; для прошедшей линии отделены strategy-specific needs от reusable platform improvements |
 
 ### Exit M3
 
@@ -309,13 +309,14 @@ WBS не устанавливает без evidence и OWNER decision:
 - `IDEA-0001` — `SCREENING`;
 - `HYP-0001` — `READY_FOR_DATA_FEASIBILITY`;
 - `WBS-3.3 — Data feasibility` — `DONE / CONDITIONAL`;
-- `WBS-3.4 — Cheap prototype` — `IN_PROGRESS`;
-- `PROTO-01` pre-run question, fixed 2021–2025 scope and decision rule are committed before result observation;
-- exact EUR/USD 2021–2025 dataset is prepared, checked and frozen by Dataset Manifest before result observation;
-- next material step: run the already-fixed PROTO-01 calculation once.
+- `WBS-3.4 — Cheap prototype` — `DONE / REJECT`;
+- `PROTO-01` ran once on the frozen 2021–2025 dataset with 1006 breakout signals;
+- mean signal return was negative and below the unconditional baseline, so the preregistered outcome is `REJECT`;
+- `WBS-3.5`–`WBS-3.10` are not entered for HYP-0001;
+- current work package: **`WBS-3.11 — Platform learning review` via early-rejection path**.
 
 Immediate next artifact:
 
-`reports/research/HYP-0001-PROTOTYPE-01-result.json`
+`governance/program/M3_EXIT_REVIEW.md`
 
 Current execution state must still be read from `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` and `governance/backlog/PROGRAM_BACKLOG_V2.md`.

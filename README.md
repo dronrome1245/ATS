@@ -7,22 +7,29 @@ ATS — Strategy Factory для воспроизводимого исследо�
 ## Текущее состояние
 
 - Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- Instrument: EUR/USD 1H.
-- Current task: `ATS2-M3-004 — Cheap prototype`.
-- Prototype: `PROTO-01 — READY_TO_RUN`.
+- Reference Strategy #1: rejected at Cheap Prototype.
+- HYP-0001 / PROTO-01 outcome: `REJECT`.
 
-Rules and 2021–2025 data are frozen before result observation.
+The fixed EUR/USD 1H breakout prototype produced 1006 signals. Mean signal return was negative and below the unconditional baseline.
 
-Dataset Manifest:
+Canonical result:
 
-`data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml`
+`reports/research/HYP-0001-PROTOTYPE-01-result.json`
 
-Prepared CSV SHA-256:
+No parameter rescue/optimization is allowed inside HYP-0001.
 
-`aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0`
+## Current closure check
 
-## Current action
+`ATS2-M3-004 — Cheap prototype`
 
-`uv run --frozen python tools/proto01_eurusd.py run`
+Run:
 
-Then share the local result report and JSON. Do not alter parameters after seeing the result.
+`ATS_TASK_CHECK.bat`
+
+## Next task after PASS
+
+`ATS2-M3-005 — M3 early-rejection closeout / platform learning review`
+
+Next artifact:
+
+`governance/program/M3_EXIT_REVIEW.md`

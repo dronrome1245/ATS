@@ -3,60 +3,73 @@
 ## Current state
 
 - Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- Instrument: EUR/USD 1H.
-- Current task: `ATS2-M3-004 — Cheap prototype`.
+- Reference Strategy #1 research line: `REJECTED_AT_R3`.
+- Idea: `IDEA-0001`.
+- Hypothesis: `HYP-0001`.
 - Prototype: `PROTO-01`.
-- Prototype status: `READY_TO_RUN`.
-- Result has not been viewed.
+- Prototype outcome: `REJECT`.
+- No Candidate/Strategy ID/Experiment/live permission exists.
 
-## Frozen rules
+## Frozen prototype result
 
-Canonical prototype record:
+Canonical machine result:
 
-`research/reviews/HYP-0001-PROTOTYPE-01.md`
+`reports/research/HYP-0001-PROTOTYPE-01-result.json`
 
-Period: full years 2021–2025.
+Run commit:
 
-Rule: existing HYP-0001 24-bar upward breakout, next-hour ASK entry, BID valuation 24 contiguous hours later.
-
-## Frozen data
-
-Manifest:
-
-`data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml`
+`6115b1c7114e942a4f3e76795ce8d25b552cf849`
 
 Dataset:
 
 `DATA-DUKASCOPY-EURUSDH1-PROTO01-001 / 1.0.0`
 
-Prepared CSV SHA-256:
+Metrics:
 
-`aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0`
+- breakout signals: `1006`;
+- mean signal return: `-0.0002301573`;
+- baseline mean: `-0.0000647136`;
+- signal minus baseline: `-0.0001654436`;
+- signal positive share: `0.4582505`;
+- overlapping signal-window share: `0.7186879`.
 
-Source bundle SHA-256:
+Decision rule was fixed before the result. Both primary HYP-0001 inequalities failed, therefore outcome is `REJECT`.
 
-`cf378faaae58424112d289315b2ec076f4100775f2613a5d2d685ec46a02aba4`
+Economic label:
 
-Data checks:
+`QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING`
 
-- 31,296 aligned tradable H1 rows;
-- 0 missing expected tradable hours;
-- 261 declared market/session gaps;
-- 18,485 timestamps with complete 24-before/24-after windows.
+Commission, rollover and live-fill slippage were not modeled. The result is exploratory negative evidence, not validation evidence.
 
-## Next action
+## Methodology consequence
 
-OWNER:
+Cheap Prototype protocol says `REJECT` stops this research line before Economic Pre-Screen.
 
-`git pull --ff-only`
+Therefore:
 
-then:
+- do not run WBS-3.5 Economic Pre-Screen for HYP-0001;
+- do not create Candidate/Strategy ID;
+- do not retune lookback/horizon/instrument inside HYP-0001;
+- retain all negative history.
 
-`uv run --frozen python tools/proto01_eurusd.py run`
+## Current closure check
 
-Share:
+Current checker closes:
 
-- `reports/local_ci/PROTO01_RESULT_REPORT.txt`
-- `reports/local_ci/PROTO01_RESULT.json`
+`ATS2-M3-004 — Cheap prototype`
 
-Do not rerun with altered parameters or another period after seeing the result.
+Run:
+
+`ATS_TASK_CHECK.bat`
+
+## Next task after PASS
+
+`ATS2-M3-005 — M3 early-rejection closeout / platform learning review`
+
+Work package:
+
+`WBS-3.11 (early-rejection path)`
+
+Next artifact:
+
+`governance/program/M3_EXIT_REVIEW.md`
