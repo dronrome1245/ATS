@@ -345,7 +345,7 @@ def configure() -> None:
         "test_reference_consumer_fixture_preserves_cost_applicability",
         "test_reference_consumer_fixture_has_no_formal_research_identity",
         "reference_consumer_expected.json",
-        "experiments/REGISTRY.csv",
+        "REGISTRY.csv",
     )
     core.CONTENT_MARKERS["tests/fixtures/platform/reference_consumer_expected.json"] = (
         '"schema_version": "m2-reference-consumer-1"',
