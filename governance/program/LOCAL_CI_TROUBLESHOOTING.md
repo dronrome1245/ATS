@@ -187,6 +187,7 @@ A newly provisioned ATS host must complete the pinned tool bootstrap before the 
 
 **First observed:** 2026-09-21 on `e4f397b4a985be314c75e4385d59030e77fcbfcd`  
 **Repeat observed:** 2026-09-21 on `c8a0225acafba15d59dcd35d5bf3aceee716ced3` after a selective marker preflight missed three newly declared README markers  
+**Repeat observed:** 2026-09-21 on `0c9823fe48c1e562d516ac311d956893afdec44f` after the M2→M3 transition changed `PROGRAM_WBS_V2.md` while an unchanged validator marker still expected the old M2 wording  
 **Class:** `VALIDATOR`
 
 **Symptom**
@@ -207,7 +208,7 @@ Do not change product/runtime logic. Fix the validator to search for a stable se
 
 Repository content markers should validate durable invariants, identifiers or semantic phrases and should avoid dependence on capitalization, Markdown emphasis or prose punctuation when those details are not themselves governance requirements.
 
-Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added or modified marker against its exact target file**. Checking only a selected subset is not sufficient and must not be reported as a complete marker preflight.
+Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added or modified marker against its exact target file**. In addition, whenever a validator-targeted file is changed, preflight must audit **all existing markers that target that file**, even if `tools/validate_repo.py` itself was not edited. Checking only a selected subset is not sufficient and must not be reported as a complete marker preflight.
 
 **Scope:** agents and repository-maintenance tooling.
 

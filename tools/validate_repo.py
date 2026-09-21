@@ -440,8 +440,11 @@ def configure() -> None:
         "LOCAL_CI_TROUBLESHOOTING.md",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
-        "`WBS-2.0`", "Reference Consumer Profile", "`WBS-2.1`",
-        "Consumer Profile", "Reference Strategy #1 remains M3 work and is not selected in M2.",
+        "`WBS-2.0`",
+        "Reference Consumer Profile",
+        "`WBS-2.10`",
+        "`WBS-3.1`",
+        "M2 Research Platform MVP — `COMPLETED / PASS`",
     )
     core.CONTENT_MARKERS["data/README.md"] = (
         "Dataset Manifests",
