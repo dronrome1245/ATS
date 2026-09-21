@@ -244,8 +244,8 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[PROTO01_TOOL] = (
         "HYP-0001 PROTO-01",
-        "BID_candles_hour_1.bi5",
-        "ASK_candles_hour_1.bi5",
+        "candles_hour_1.bi5",
+        "DOWNLOAD_BASES",
         "PROTO01_DATA_REPORT.txt",
         "DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml",
         "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
