@@ -26,7 +26,7 @@ Decision interval is 1H. Holding period is not fixed; a position may remain open
 
 ## Current research entity
 
-`IDEA-0001 — BTCUSDT 1H Long/Flat Trend-Breakout`
+`IDEA-0001 — EUR/USD 1H Long/Flat Trend-Breakout`
 
 Artifact:
 
@@ -38,16 +38,16 @@ Status:
 
 Idea context:
 
-- `CRYPTO_SPOT`;
-- proposed instrument `BTCUSDT` on Binance spot;
+- `FX_SPOT_OTC`;
+- proposed instrument `EURUSD` / EUR/USD;
 - completed 1H bars only;
 - earliest action after signal information becomes available;
 - no end-of-day flat requirement;
 - no numeric lookback/threshold/stop/sizing/fixed holding period selected.
 
-Idea proposition: a preregistered upward trend/breakout state on completed BTCUSDT 1H bars may be followed by more positive subsequent movement than a declared baseline. This remains unproven.
+Idea proposition: a preregistered upward trend/breakout state on completed EUR/USD 1H bars may be followed by more positive subsequent movement than a declared baseline. This remains unproven.
 
-Current Binance public information confirms BTCUSDT is a spot-trading symbol and public market-data access exists. Binance Public Data documents 1h kline archives and checksums. These facts support data-path plausibility only.
+Dukascopy documentation explicitly supports `Instrument.EURUSD`, `Period.ONE_HOUR` and separate BID/ASK offer sides. Alpha Vantage documents `FX_INTRADAY` with `60min` as a secondary candidate path. Exact source, coverage and bar semantics remain a Data Feasibility decision.
 
 ## Current task
 

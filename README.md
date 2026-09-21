@@ -21,7 +21,7 @@ First real research object:
 
 `research/ideas/IDEA-0001.md`
 
-`IDEA-0001` uses BTCUSDT spot as the proposed 1H research instrument and is currently `SCREENING`. It does not claim that trend/breakout has an edge.
+`IDEA-0001` uses EUR/USD spot FX as the proposed 1H research instrument and is currently `SCREENING`. It does not claim that trend/breakout has an edge.
 
 ## Current task
 

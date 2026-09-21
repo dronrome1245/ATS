@@ -176,8 +176,8 @@ m3:
   reference_strategy_selection_allowed: true
   selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"
   idea_id: "IDEA-0001"
-  selected_market_context: "CRYPTO_SPOT"
-  selected_instrument: "BTCUSDT"
+  selected_market_context: "FX_SPOT_OTC"
+  selected_instrument: "EURUSD"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
