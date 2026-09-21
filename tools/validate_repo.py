@@ -174,13 +174,13 @@ def configure() -> None:
         "Parameter neighbourhood",
         "Observation dependence",
         "effective sample size",
-        "overlapping observations",
+        "overlapping forward windows",
         "block bootstrap",
         "research freedom",
         "`PASS / FAIL / RETURN`",
         "`PASS / FAIL`",
-        "No tuning on validation data",
-        "first future promoted Candidate",
+        "no direct tuning on validation data",
+        "future eligible Candidates",
         "ATS2-M4-002 — Parameter sensitivity tooling",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
