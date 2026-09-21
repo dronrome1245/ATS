@@ -78,9 +78,7 @@ def _parse_seed(value: object) -> tuple[int | None, int | str]:
     if value == "NOT_APPLICABLE":
         return None, "NOT_APPLICABLE"
     if isinstance(value, bool) or not isinstance(value, int):
-        raise ExperimentRunError(
-            "reproducibility.random_seed must be an integer or NOT_APPLICABLE"
-        )
+        raise ExperimentRunError("reproducibility.random_seed must be an integer or NOT_APPLICABLE")
     return value, value
 
 
@@ -108,9 +106,7 @@ def _parse_cost_config(
         try:
             applicability = CostApplicability(component.get("applicability"))
         except ValueError as exc:
-            raise ExperimentRunError(
-                f"cost component {name!r} has invalid applicability"
-            ) from exc
+            raise ExperimentRunError(f"cost component {name!r} has invalid applicability") from exc
         parameters = _scalar_pairs(
             component.get("parameters", {}),
             label=f"cost component {name!r}.parameters",

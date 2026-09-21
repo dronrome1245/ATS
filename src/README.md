@@ -142,6 +142,8 @@ No return percentage, Sharpe, win rate, capital utilization, market-specific P&L
 
 Implemented M2-009 behavior:
 
+- `RegisteredExperimentContext` is the immutable frozen preregistration subset consumed by the runner;
+- `ExperimentRunResult` is the deterministic machine-readable result object emitted after execution;
 - registered manifest bytes are read using safe YAML and SHA-256 bound without modification;
 - only `REGISTERED / REGISTERED_EXPERIMENT` context is executable by the M2 runner;
 - code revision, implementation reference and environment ID are matched against explicit resolved runtime identity;

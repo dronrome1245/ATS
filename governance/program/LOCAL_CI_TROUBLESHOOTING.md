@@ -87,7 +87,8 @@ Always distinguish a pre-verification synchronization failure from a code failur
 ### LCI-002 — Ruff format failure after direct remote Python edit
 
 **First observed:** 2026-09-18 on `b3085c26342c52e6ae852962faefcaf347d43a2a`  
-**Fixed by:** `fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd`  
+**Repeat observed:** 2026-09-21 on `c8a0225acafba15d59dcd35d5bf3aceee716ced3` in `src/ats/runner/experiment.py`  
+**Fixed first occurrence by:** `fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd`  
 **Class:** `FORMAT`
 
 **Symptom**
@@ -109,9 +110,10 @@ Apply only the formatter-prescribed style change when no logic failure is presen
 For agent-created or programmatic Python edits that bypass the repository hooks:
 
 1. treat Ruff-compatible formatting as part of authoring, not as optional cleanup;
-2. when an execution environment with the pinned Ruff version is available, run the formatter/check before presenting a candidate HEAD;
-3. never infer that passing tests + lint means format also passes;
-4. if Local CI supplies an exact formatter diff, apply that canonical layout rather than hand-inventing another equivalent layout.
+2. when an execution environment with the pinned Ruff version is available, run the formatter/check on the exact changed file before presenting a candidate HEAD;
+3. if pinned Ruff was not actually executed, do not describe formatting as preflight-passed; syntax inspection is not a substitute for `ruff format --check`;
+4. never infer that passing tests + lint means format also passes;
+5. if Local CI supplies an exact formatter diff, apply that canonical layout rather than hand-inventing another equivalent layout.
 
 **Scope:** agents and any tooling that writes directly to the remote repository.
 
@@ -184,6 +186,7 @@ A newly provisioned ATS host must complete the pinned tool bootstrap before the 
 ### LCI-004 — Repository validator marker drift from Markdown formatting
 
 **First observed:** 2026-09-21 on `e4f397b4a985be314c75e4385d59030e77fcbfcd`  
+**Repeat observed:** 2026-09-21 on `c8a0225acafba15d59dcd35d5bf3aceee716ced3` after a selective marker preflight missed three newly declared README markers  
 **Class:** `VALIDATOR`
 
 **Symptom**
@@ -203,6 +206,8 @@ Do not change product/runtime logic. Fix the validator to search for a stable se
 **Preventive rule**
 
 Repository content markers should validate durable invariants, identifiers or semantic phrases and should avoid dependence on capitalization, Markdown emphasis or prose punctuation when those details are not themselves governance requirements.
+
+Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added or modified marker against its exact target file**. Checking only a selected subset is not sufficient and must not be reported as a complete marker preflight.
 
 **Scope:** agents and repository-maintenance tooling.
 
