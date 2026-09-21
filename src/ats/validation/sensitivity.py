@@ -82,8 +82,7 @@ class SensitivityPlan:
         for variant in self.variants:
             if len(variant.values) != expected:
                 raise SensitivityContractError(
-                    f"variant {variant.variant_id!r} must provide "
-                    f"{expected} parameter values"
+                    f"variant {variant.variant_id!r} must provide {expected} parameter values"
                 )
 
 
@@ -161,17 +160,14 @@ def evaluate_parameter_sensitivity(
         raw_metrics = evaluator(readonly_parameters)
 
         if not isinstance(raw_metrics, Mapping):
-            raise SensitivityContractError(
-                "evaluator must return a mapping of metrics"
-            )
+            raise SensitivityContractError("evaluator must return a mapping of metrics")
 
         actual_metric_names = set(raw_metrics)
         if actual_metric_names != expected_metric_names:
             missing = sorted(expected_metric_names - actual_metric_names)
             extra = sorted(actual_metric_names - expected_metric_names)
             raise SensitivityContractError(
-                f"metric set mismatch for {variant.variant_id!r}: "
-                f"missing={missing}, extra={extra}"
+                f"metric set mismatch for {variant.variant_id!r}: missing={missing}, extra={extra}"
             )
 
         metrics: list[tuple[str, Numeric]] = []

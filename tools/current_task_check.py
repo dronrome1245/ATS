@@ -19,11 +19,7 @@ REQUIRED_ARTIFACTS = (
 
 def check_required_artifacts() -> bool:
     print("\n== M4-002 parameter sensitivity artifacts ==")
-    missing = [
-        str(path)
-        for path in REQUIRED_ARTIFACTS
-        if not (ROOT / path).is_file()
-    ]
+    missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")

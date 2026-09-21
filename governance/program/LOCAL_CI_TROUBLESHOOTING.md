@@ -88,6 +88,7 @@ Always distinguish a pre-verification synchronization failure from a code failur
 
 **First observed:** 2026-09-18 on `b3085c26342c52e6ae852962faefcaf347d43a2a`  
 **Repeat observed:** 2026-09-21 on `c8a0225acafba15d59dcd35d5bf3aceee716ced3` in `src/ats/runner/experiment.py`  
+**Repeat observed:** 2026-09-21 on `cd348024bd907225ea15219786ef5ad54ebdea1d` in `src/ats/validation/sensitivity.py` and `tools/current_task_check.py` after a manual line-length preflight incorrectly implied formatting readiness  
 **Fixed first occurrence by:** `fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd`  
 **Class:** `FORMAT`
 
@@ -113,7 +114,9 @@ For agent-created or programmatic Python edits that bypass the repository hooks:
 2. when an execution environment with the pinned Ruff version is available, run the formatter/check on the exact changed file before presenting a candidate HEAD;
 3. if pinned Ruff was not actually executed, do not describe formatting as preflight-passed; syntax inspection is not a substitute for `ruff format --check`;
 4. never infer that passing tests + lint means format also passes;
-5. if Local CI supplies an exact formatter diff, apply that canonical layout rather than hand-inventing another equivalent layout.
+5. if Local CI supplies an exact formatter diff, apply that canonical layout rather than hand-inventing another equivalent layout;
+6. manual line-length checks, syntax compilation and visual style inspection are **not** Ruff-format preflight and must never be described as such;
+7. before asking OWNER to run the launcher after remote Python edits, state formatting as either `VERIFIED_BY_PINNED_RUFF` or `NOT_YET_VERIFIED_BY_RUFF`; there is no intermediate "looks formatted" state.
 
 **Scope:** agents and any tooling that writes directly to the remote repository.
 
