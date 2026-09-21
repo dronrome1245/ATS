@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HYP-0001 PROTO-01 EURUSD 1H aligned BID/ASK rows",
+  "type": "object",
+  "required": ["event_time","availability_time","sequence","bid_open","bid_high","bid_low","bid_close","ask_open","ask_high","ask_low","ask_close"],
+  "properties": {
+    "event_time": {"type":"string","format":"date-time"},
+    "availability_time": {"type":"string","format":"date-time"},
+    "sequence": {"type":"integer","minimum":0},
+    "bid_open": {"type":"number","exclusiveMinimum":0},
+    "bid_high": {"type":"number","exclusiveMinimum":0},
+    "bid_low": {"type":"number","exclusiveMinimum":0},
+    "bid_close": {"type":"number","exclusiveMinimum":0},
+    "ask_open": {"type":"number","exclusiveMinimum":0},
+    "ask_high": {"type":"number","exclusiveMinimum":0},
+    "ask_low": {"type":"number","exclusiveMinimum":0},
+    "ask_close": {"type":"number","exclusiveMinimum":0}
+  },
+  "additionalProperties": false
+}

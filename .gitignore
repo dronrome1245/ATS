@@ -16,11 +16,15 @@ artifacts/runtime/
 reports/local_ci/LATEST.json
 reports/local_ci/LATEST_REPORT.txt
 reports/local_ci/CURRENT_TASK_REPORT.txt
+reports/local_ci/PROTO01_DATA_REPORT.txt
+reports/local_ci/PROTO01_RESULT_REPORT.txt
 
 # Raw or licensed market data
 data/raw/
 data/cache/
 data/private/
+data/external/dukascopy/
+data/derived/HYP-0001-PROTO-01-EURUSD-H1.csv
 
 # Python tooling
 __pycache__/

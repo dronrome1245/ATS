@@ -21,6 +21,7 @@ LINT_PATHS = (
     "tools/search_experiments.py",
     "tools/verify_repo.py",
     "tools/current_task_check.py",
+    "tools/proto01_eurusd.py",
     "src",
     "tests",
 )
@@ -29,6 +30,7 @@ FORMAT_PATHS = (
     "tools/search_experiments.py",
     "tools/verify_repo.py",
     "tools/current_task_check.py",
+    "tools/proto01_eurusd.py",
     "src",
     "tests",
 )
