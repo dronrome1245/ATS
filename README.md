@@ -7,24 +7,22 @@ ATS — Strategy Factory для воспроизводимого исследо�
 ## Текущее состояние
 
 - Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- Instrument: EUR/USD.
-- Timeframe: 1H.
+- Instrument: EUR/USD 1H.
 - Current task: `ATS2-M3-004 — Cheap prototype`.
+- Prototype: `PROTO-01 — READY_TO_RUN`.
 
-PROTO-01 записан до просмотра результата:
+Rules and 2021–2025 data are frozen before result observation.
 
-`research/reviews/HYP-0001-PROTOTYPE-01.md`
+Dataset Manifest:
 
-Период заранее зафиксирован: 2021–2025.
+`data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml`
 
-## Сейчас
+Prepared CSV SHA-256:
 
-Подготовить данные:
+`aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0`
 
-`uv run --frozen python tools/proto01_eurusd.py prepare`
+## Current action
 
-Потом передать:
+`uv run --frozen python tools/proto01_eurusd.py run`
 
-`reports/local_ci/PROTO01_DATA_REPORT.txt`
-
-Результат теста пока не запускать.
+Then share the local result report and JSON. Do not alter parameters after seeing the result.

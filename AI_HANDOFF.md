@@ -4,43 +4,59 @@
 
 - Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
 - Instrument: EUR/USD 1H.
-- Idea: `IDEA-0001`.
-- Hypothesis: `HYP-0001`.
-- Data Feasibility: `CONDITIONAL`.
 - Current task: `ATS2-M3-004 — Cheap prototype`.
 - Prototype: `PROTO-01`.
-- Prototype status: `PRE_RUN_DATA_REQUIRED`.
+- Prototype status: `READY_TO_RUN`.
+- Result has not been viewed.
 
-## PROTO-01 is fixed before result
+## Frozen rules
 
-Canonical record:
+Canonical prototype record:
 
 `research/reviews/HYP-0001-PROTOTYPE-01.md`
 
-Fixed period: full years 2021–2025.
+Period: full years 2021–2025.
 
-Fixed decision rule is already written. Result has not been viewed.
+Rule: existing HYP-0001 24-bar upward breakout, next-hour ASK entry, BID valuation 24 contiguous hours later.
 
-## Data preparation
+## Frozen data
 
-Tool:
-
-`tools/proto01_eurusd.py`
-
-Run only:
-
-`uv run --frozen python tools/proto01_eurusd.py prepare`
-
-Share:
-
-`reports/local_ci/PROTO01_DATA_REPORT.txt`
-
-Do not run `tools/proto01_eurusd.py run` until the canonical Dataset Manifest is committed:
+Manifest:
 
 `data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml`
 
-Raw/downloaded data stay outside Git.
+Dataset:
 
-## Safety
+`DATA-DUKASCOPY-EURUSDH1-PROTO01-001 / 1.0.0`
 
-No Candidate, Strategy ID, formal Experiment, demo/live permission or capital allocation exists.
+Prepared CSV SHA-256:
+
+`aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0`
+
+Source bundle SHA-256:
+
+`cf378faaae58424112d289315b2ec076f4100775f2613a5d2d685ec46a02aba4`
+
+Data checks:
+
+- 31,296 aligned tradable H1 rows;
+- 0 missing expected tradable hours;
+- 261 declared market/session gaps;
+- 18,485 timestamps with complete 24-before/24-after windows.
+
+## Next action
+
+OWNER:
+
+`git pull --ff-only`
+
+then:
+
+`uv run --frozen python tools/proto01_eurusd.py run`
+
+Share:
+
+- `reports/local_ci/PROTO01_RESULT_REPORT.txt`
+- `reports/local_ci/PROTO01_RESULT.json`
+
+Do not rerun with altered parameters or another period after seeing the result.

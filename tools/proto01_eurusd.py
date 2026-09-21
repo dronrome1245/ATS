@@ -31,7 +31,7 @@ RAW_DIR = ROOT / "data" / "external" / "dukascopy" / SYMBOL / "H1"
 DERIVED_PATH = ROOT / "data" / "derived" / "HYP-0001-PROTO-01-EURUSD-H1.csv"
 MANIFEST_PATH = ROOT / "data" / "manifests" / "DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
 DATA_REPORT_PATH = ROOT / "reports" / "local_ci" / "PROTO01_DATA_REPORT.txt"
-RESULT_PATH = ROOT / "reports" / "research" / "HYP-0001-PROTOTYPE-01-result.json"
+RESULT_PATH = ROOT / "reports" / "local_ci" / "PROTO01_RESULT.json"
 RESULT_REPORT_PATH = ROOT / "reports" / "local_ci" / "PROTO01_RESULT_REPORT.txt"
 DOWNLOAD_BASES = (
     "https://datafeed.dukascopy.com/datafeed",

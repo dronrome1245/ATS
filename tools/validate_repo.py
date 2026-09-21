@@ -23,6 +23,7 @@ REFERENCE_STRATEGY_HYPOTHESIS = "research/hypotheses/HYP-0001.md"
 REFERENCE_STRATEGY_DATA_FEASIBILITY = "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
 REFERENCE_STRATEGY_PROTOTYPE = "research/reviews/HYP-0001-PROTOTYPE-01.md"
 PROTO01_SCHEMA = "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.schema.json"
+PROTO01_MANIFEST = "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
 PROTO01_TOOL = "tools/proto01_eurusd.py"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
@@ -119,7 +120,8 @@ def configure() -> None:
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, M2_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
-        REFERENCE_STRATEGY_PROTOTYPE, PROTO01_SCHEMA, PROTO01_TOOL, CONSUMER_PROFILE,
+        REFERENCE_STRATEGY_PROTOTYPE, PROTO01_SCHEMA, PROTO01_MANIFEST, PROTO01_TOOL,
+        CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
         LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
@@ -132,7 +134,7 @@ def configure() -> None:
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
         "m2_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
-        "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
+        "reference_strategy_1_dataset_manifest", "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
         "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
     )
     core.REGISTRY_HEADER = HEADER
@@ -242,11 +244,22 @@ def configure() -> None:
         "ask_open",
         "additionalProperties",
     )
+    core.CONTENT_MARKERS[PROTO01_MANIFEST] = (
+        'dataset_id: "DATA-DUKASCOPY-EURUSDH1-PROTO01-001"',
+        'dataset_version: "1.0.0"',
+        "31,296 aligned rows",
+        "cf378faaae58424112d289315b2ec076f4100775f2613a5d2d685ec46a02aba4",
+        "aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0",
+        'availability_mode: "EXPLICIT_FIELD"',
+        'missing: "ALLOW_DECLARED_GAPS"',
+        "tools/proto01_eurusd.py@e3550ae9793416d52c0bc8cca061cf221df2805b",
+    )
     core.CONTENT_MARKERS[PROTO01_TOOL] = (
         "HYP-0001 PROTO-01",
         "candles_hour_1.bi5",
         "DOWNLOAD_BASES",
         "PROTO01_DATA_REPORT.txt",
+        "PROTO01_RESULT.json",
         "DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml",
         "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
         "ADVANCE_TO_ECONOMIC_SCREEN",
@@ -765,6 +778,7 @@ def main() -> int:
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
         'reference_strategy_1_data_feasibility: "research/reviews/HYP-0001-DATA_FEASIBILITY.md"',
+        'reference_strategy_1_dataset_manifest: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"',
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
         'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
@@ -777,7 +791,7 @@ def main() -> int:
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
-        'prototype_id: "PROTO-01"', 'prototype_status: "PRE_RUN_DATA_REQUIRED"',
+        'prototype_id: "PROTO-01"', 'prototype_status: "READY_TO_RUN"',
         'selected_market_context: "FX_SPOT_OTC"',
         'selected_instrument: "EURUSD"', "ideas_registered: 1",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',

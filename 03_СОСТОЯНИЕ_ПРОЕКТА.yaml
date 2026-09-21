@@ -53,12 +53,13 @@ model:
   reference_strategy_1_idea: "research/ideas/IDEA-0001.md"
   reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"
   reference_strategy_1_data_feasibility: "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
+  reference_strategy_1_dataset_manifest: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
 
 current:
-  focus: "Prepare frozen EURUSD data for HYP-0001 PROTO-01"
+  focus: "Run frozen HYP-0001 PROTO-01"
   last_completed_task_id: "ATS2-M3-003"
-  last_completed_artifact: "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
-  next_artifact: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
+  last_completed_artifact: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
+  next_artifact: "reports/research/HYP-0001-PROTOTYPE-01-result.json"
   next_task_id: "ATS2-M3-004"
 
 milestones:
@@ -185,9 +186,13 @@ m3:
   hypothesis_id: "HYP-0001"
   data_feasibility_decision: "CONDITIONAL"
   prototype_id: "PROTO-01"
-  prototype_status: "PRE_RUN_DATA_REQUIRED"
+  prototype_status: "READY_TO_RUN"
   selected_market_context: "FX_SPOT_OTC"
   selected_instrument: "EURUSD"
+  dataset_id: "DATA-DUKASCOPY-EURUSDH1-PROTO01-001"
+  dataset_version: "1.0.0"
+  dataset_sha256: "aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0"
+  source_bundle_sha256: "cf378faaae58424112d289315b2ec076f4100775f2613a5d2d685ec46a02aba4"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"

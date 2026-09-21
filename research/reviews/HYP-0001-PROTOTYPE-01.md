@@ -6,7 +6,7 @@
 - Data Feasibility review: `research/reviews/HYP-0001-DATA_FEASIBILITY.md`
 - Prototype sequence: `PROTO-01`
 - Created on: `2026-09-21`
-- Status: `DRAFT — DATA_SNAPSHOT_REQUIRED`
+- Status: `READY_TO_RUN`
 
 ## Prototype question
 
@@ -31,9 +31,14 @@ The 24-bar lookback and 24-bar forward horizon are fixed before any result is se
 - Data source: Dukascopy EUR/USD historical 1H BID + ASK candle files.
 - Observation period fixed before result: `2021-01-01T00:00:00Z <= bar_open < 2026-01-01T00:00:00Z`.
 - Five complete calendar years are used so the period is not chosen after seeing performance.
-- Data snapshot reference: `PENDING_DATA_PREPARATION`.
+- Data snapshot reference: `data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml`.
 - Preparation command: `uv run --frozen python tools/proto01_eurusd.py prepare`.
 - Shareable preparation report: `reports/local_ci/PROTO01_DATA_REPORT.txt`.
+- Prepared rows: `31,296`.
+- Missing expected tradable hours: `0`.
+- Prepared CSV SHA-256: `aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0`.
+- Source bundle SHA-256: `cf378faaae58424112d289315b2ec076f4100775f2613a5d2d685ec46a02aba4`.
+- Eligible 24-before / 24-after timestamps before signal filtering: `18,485`.
 
 Before calculation may run, all requested BID/ASK files must download, receive SHA-256 fingerprints, align exactly by timestamp, contain no duplicates, and produce a deterministic prepared CSV. Missing hours are not filled. Weekend/session gaps break the required 24-hour window.
 
@@ -138,8 +143,8 @@ No interpretation yet.
 ## Outcome
 
 - Decision: `NOT_RUN`
-- Reason: `DATA_SNAPSHOT_AND_MANIFEST_REQUIRED_BEFORE_RESULT`
-- Resulting action: prepare the data, review the preparation report, commit the exact Dataset Manifest, then execute the fixed prototype.
+- Reason: `DATASET_FROZEN_RESULT_NOT_RUN`
+- Resulting action: execute the fixed prototype once with `uv run --frozen python tools/proto01_eurusd.py run`; do not alter parameters or dataset after viewing the result.
 
 ## Evidence classification
 

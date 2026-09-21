@@ -311,10 +311,11 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-3.3 — Data feasibility` — `DONE / CONDITIONAL`;
 - `WBS-3.4 — Cheap prototype` — `IN_PROGRESS`;
 - `PROTO-01` pre-run question, fixed 2021–2025 scope and decision rule are committed before result observation;
-- next material step: prepare/hash the exact EUR/USD dataset and commit its Dataset Manifest before running the result.
+- exact EUR/USD 2021–2025 dataset is prepared, checked and frozen by Dataset Manifest before result observation;
+- next material step: run the already-fixed PROTO-01 calculation once.
 
 Immediate next artifact:
 
-`data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml`
+`reports/research/HYP-0001-PROTOTYPE-01-result.json`
 
 Current execution state must still be read from `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` and `governance/backlog/PROGRAM_BACKLOG_V2.md`.

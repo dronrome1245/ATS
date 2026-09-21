@@ -1,0 +1,63 @@
+schema_version: "2.0"
+
+dataset_id: "DATA-DUKASCOPY-EURUSDH1-PROTO01-001"
+dataset_version: "1.0.0"
+description: "EUR/USD 1H aligned BID/ASK dataset for HYP-0001 PROTO-01, fixed to full years 2021-2025 before prototype result."
+
+source:
+  source_reference: "Dukascopy monthly EURUSD H1 BID/ASK candle files; 120 source files"
+  snapshot_reference: "source-bundle-sha256:cf378faaae58424112d289315b2ec076f4100775f2613a5d2d685ec46a02aba4"
+
+storage:
+  format: "CSV"
+  location: "data/derived/HYP-0001-PROTO-01-EURUSD-H1.csv"
+  schema_reference: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.schema.json"
+
+coverage:
+  start: "2021-01-01T00:00:00Z"
+  end: "2025-12-31T23:00:00Z"
+  scope: "EURUSD 1H tradable-hour BID/ASK bars for 2021-2025; 31,296 aligned rows; 12,528 closed-market calendar hours excluded; no missing tradable hours."
+
+time_semantics:
+  timezone: "UTC"
+  timestamp_representation: "RFC3339"
+  event_time_field: "event_time"
+  availability_time_field: "availability_time"
+  availability_mode: "EXPLICIT_FIELD"
+
+ordering:
+  keys:
+    - "event_time"
+  tie_break_keys:
+    - "sequence"
+  direction: "ASCENDING"
+
+quality_policy:
+  duplicates: "REJECT"
+  missing: "ALLOW_DECLARED_GAPS"
+  malformed: "REJECT"
+  out_of_order: "REJECT"
+
+transformation_lineage:
+  parent_datasets: []
+  preparation_reference: "tools/proto01_eurusd.py@e3550ae9793416d52c0bc8cca061cf221df2805b"
+  steps:
+    - "Decode monthly Dukascopy EURUSD BID and ASK 1H BI5 candle files."
+    - "Convert bar-open timestamps to UTC and set availability_time to one hour after event_time."
+    - "Remove calendar hours outside documented Dukascopy FX trading hours using US daylight-saving boundaries."
+    - "Require exact BID/ASK timestamp alignment and reject duplicates or impossible OHLC values."
+    - "Keep only 2021-01-01T00:00:00Z through 2025-12-31T23:00:00Z."
+    - "Do not fill session/weekend gaps; prototype windows crossing a gap are ineligible."
+
+integrity:
+  algorithm: "SHA256"
+  digest: "aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0"
+  reason: null
+
+known_limitations:
+  - "Raw Dukascopy source files remain local/external and are not committed to Git."
+  - "Source bundle identity is cf378faaae58424112d289315b2ec076f4100775f2613a5d2d685ec46a02aba4 across 120 monthly BID/ASK files."
+  - "There are 261 declared session/data gaps, maximum 50 hours; no missing hours inside the expected tradable-hour calendar."
+  - "18,485 timestamps have complete contiguous 24-before/24-after windows under the prototype eligibility rule."
+  - "Spread is represented by ASK entry and BID exit; commission, financing/rollover and live-fill slippage are not included."
+  - "This dataset supports exploratory PROTO-01 only and is not validation or live-trading evidence."
