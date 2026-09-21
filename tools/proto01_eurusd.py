@@ -72,6 +72,38 @@ def git_head() -> str:
     return completed.stdout.strip()
 
 
+def nth_weekday_of_month(year: int, month: int, weekday: int, n: int) -> int:
+    first = datetime(year, month, 1, tzinfo=UTC)
+    offset = (weekday - first.weekday()) % 7
+    return 1 + offset + 7 * (n - 1)
+
+
+def us_dst_active_utc(value: datetime) -> bool:
+    """Return US daylight-saving status used by Dukascopy FX trading hours."""
+
+    year = value.year
+    march_sunday = nth_weekday_of_month(year, 3, 6, 2)
+    november_sunday = nth_weekday_of_month(year, 11, 6, 1)
+    start = datetime(year, 3, march_sunday, 7, tzinfo=UTC)
+    end = datetime(year, 11, november_sunday, 6, tzinfo=UTC)
+    return start <= value < end
+
+
+def is_fx_market_hour(value: datetime) -> bool:
+    """Return whether an H1 bar opening at value belongs to Dukascopy FX hours."""
+
+    weekday = value.weekday()
+    if weekday < 4:
+        return True
+    summer = us_dst_active_utc(value)
+    boundary_hour = 21 if summer else 22
+    if weekday == 4:
+        return value.hour < boundary_hour
+    if weekday == 5:
+        return False
+    return value.hour >= boundary_hour
+
+
 def next_month(value: datetime) -> datetime:
     if value.month == 12:
         return datetime(value.year + 1, 1, 1, tzinfo=UTC)
@@ -225,8 +257,16 @@ def build_rows() -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
                 }
             )
 
-    bid_times = {value for value in bid if START <= value < END}
-    ask_times = {value for value in ask if START <= value < END}
+    bid_times = {
+        value
+        for value in bid
+        if START <= value < END and is_fx_market_hour(value)
+    }
+    ask_times = {
+        value
+        for value in ask
+        if START <= value < END and is_fx_market_hour(value)
+    }
     if bid_times != ask_times:
         raise ProtoDataError(
             "BID/ASK timestamps do not match exactly; "
@@ -306,6 +346,11 @@ def stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
             for previous, current in zip(window, window[1:])
         ):
             eligible += 1
+    calendar_hours = int((END - START).total_seconds() // 3600)
+    expected_market_hours = sum(
+        is_fx_market_hour(START + timedelta(hours=offset))
+        for offset in range(calendar_hours)
+    )
     return {
         "aligned_rows": len(rows),
         "coverage_start": iso_z(timestamps[0]),
@@ -313,6 +358,9 @@ def stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "gap_count": len(gaps),
         "max_gap_hours": max(gaps, default=1),
         "eligible_primary_timestamps": eligible,
+        "expected_market_hours": expected_market_hours,
+        "closed_market_hours_excluded": calendar_hours - expected_market_hours,
+        "missing_market_hours": expected_market_hours - len(rows),
     }
 
 
@@ -339,10 +387,13 @@ def write_data_report(
         "Period: 2021-01-01 through 2025-12-31 UTC",
         "",
         "PREPARATION STATUS: PASS",
-        f"Aligned 1H rows: {summary['aligned_rows']}",
+        f"Aligned tradable 1H rows: {summary['aligned_rows']}",
+        f"Expected tradable 1H rows: {summary['expected_market_hours']}",
+        f"Closed-market hours excluded: {summary['closed_market_hours_excluded']}",
+        f"Missing tradable 1H rows: {summary['missing_market_hours']}",
         f"Coverage first bar: {summary['coverage_start']}",
         f"Coverage last bar: {summary['coverage_end']}",
-        f"Detected time gaps: {summary['gap_count']}",
+        f"Detected session/data gaps: {summary['gap_count']}",
         f"Maximum gap hours: {summary['max_gap_hours']}",
         (
             "Eligible 24-before/24-after timestamps: "

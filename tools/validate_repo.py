@@ -251,6 +251,8 @@ def configure() -> None:
         "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
         "ADVANCE_TO_ECONOMIC_SCREEN",
         "FEWER_THAN_100_VALID_BREAKOUT_OBSERVATIONS",
+        "is_fx_market_hour",
+        "Closed-market hours excluded",
     )
     core.CONTENT_MARKERS[CONSUMER_PROFILE] = (
         "single research logic instance", "Minimum data contract",

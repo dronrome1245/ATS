@@ -90,6 +90,10 @@ A prototype may not start until exact first/last usable timestamps and row count
 
 ### Canonical HYP-0001 gap policy
 
+Preparation check on 21 September 2026 found that Dukascopy monthly H1 cache files contain calendar-hour candles during the weekend closure. These are source-cache bars, not eligible tradable hours for HYP-0001. Dukascopy separately documents FX trading hours from Sunday 21:00 GMT in summer / 22:00 GMT in winter until Friday at the same respective hour, and JForex exposes `Filter.WEEKENDS` for historical bars.
+
+Therefore the local preparation tool explicitly removes closed-market hours using that documented schedule before any prototype calculation.
+
 For `PROTO-01`:
 
 1. do not synthesize missing 1H bars;
