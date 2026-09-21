@@ -120,20 +120,12 @@ def months() -> list[datetime]:
 
 
 def raw_path(month: datetime, side: str) -> Path:
-    return (
-        RAW_DIR
-        / str(month.year)
-        / f"{month.month:02d}"
-        / f"{side}_candles_hour_1.bi5"
-    )
+    return RAW_DIR / str(month.year) / f"{month.month:02d}" / f"{side}_candles_hour_1.bi5"
 
 
 def source_url(base: str, month: datetime, side: str) -> str:
     source_month = month.month - 1
-    return (
-        f"{base}/{SYMBOL}/{month.year}/{source_month:02d}/"
-        f"{side}_candles_hour_1.bi5"
-    )
+    return f"{base}/{SYMBOL}/{month.year}/{source_month:02d}/{side}_candles_hour_1.bi5"
 
 
 def fetch_bytes(url: str, timeout: int = 45) -> tuple[bytes, dict[str, str]]:
@@ -182,10 +174,7 @@ def download_month(month: datetime, side: str) -> tuple[Path, dict[str, str]]:
             ) as exc:
                 errors.append(f"{url} attempt {attempt}: {exc}")
                 time.sleep(float(attempt))
-    raise ProtoDataError(
-        f"cannot download {side} {month:%Y-%m}; "
-        + " | ".join(errors[-4:])
-    )
+    raise ProtoDataError(f"cannot download {side} {month:%Y-%m}; " + " | ".join(errors[-4:]))
 
 
 def decode_month(
@@ -202,14 +191,10 @@ def decode_month(
     end = next_month(month)
     rows: dict[datetime, tuple[float, float, float, float]] = {}
     for offset in range(0, len(raw), RECORD.size):
-        seconds, open_raw, close_raw, low_raw, high_raw, _ = RECORD.unpack_from(
-            raw, offset
-        )
+        seconds, open_raw, close_raw, low_raw, high_raw, _ = RECORD.unpack_from(raw, offset)
         timestamp = month + timedelta(seconds=seconds)
         if not month <= timestamp < end:
-            raise ProtoDataError(
-                f"unexpected timestamp {timestamp.isoformat()} in {path}"
-            )
+            raise ProtoDataError(f"unexpected timestamp {timestamp.isoformat()} in {path}")
         if timestamp in rows:
             raise ProtoDataError(f"duplicate timestamp in {path}: {timestamp}")
 
@@ -241,9 +226,7 @@ def build_rows() -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
             decoded = decode_month(path, month)
             duplicates = set(target).intersection(decoded)
             if duplicates:
-                raise ProtoDataError(
-                    f"duplicate timestamp across source files: {min(duplicates)}"
-                )
+                raise ProtoDataError(f"duplicate timestamp across source files: {min(duplicates)}")
             target.update(decoded)
             source_files.append(
                 {
@@ -257,16 +240,8 @@ def build_rows() -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
                 }
             )
 
-    bid_times = {
-        value
-        for value in bid
-        if START <= value < END and is_fx_market_hour(value)
-    }
-    ask_times = {
-        value
-        for value in ask
-        if START <= value < END and is_fx_market_hour(value)
-    }
+    bid_times = {value for value in bid if START <= value < END and is_fx_market_hour(value)}
+    ask_times = {value for value in ask if START <= value < END and is_fx_market_hour(value)}
     if bid_times != ask_times:
         raise ProtoDataError(
             "BID/ASK timestamps do not match exactly; "
@@ -348,8 +323,7 @@ def stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
             eligible += 1
     calendar_hours = int((END - START).total_seconds() // 3600)
     expected_market_hours = sum(
-        is_fx_market_hour(START + timedelta(hours=offset))
-        for offset in range(calendar_hours)
+        is_fx_market_hour(START + timedelta(hours=offset)) for offset in range(calendar_hours)
     )
     return {
         "aligned_rows": len(rows),
@@ -365,10 +339,7 @@ def stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def bundle_hash(source_files: list[dict[str, str]]) -> str:
-    text = "\n".join(
-        f'{item["relative_path"]} {item["sha256"]}'
-        for item in source_files
-    )
+    text = "\n".join(f"{item['relative_path']} {item['sha256']}" for item in source_files)
     return sha256_bytes((text + "\n").encode("utf-8"))
 
 
@@ -395,10 +366,7 @@ def write_data_report(
         f"Coverage last bar: {summary['coverage_end']}",
         f"Detected session/data gaps: {summary['gap_count']}",
         f"Maximum gap hours: {summary['max_gap_hours']}",
-        (
-            "Eligible 24-before/24-after timestamps: "
-            f"{summary['eligible_primary_timestamps']}"
-        ),
+        (f"Eligible 24-before/24-after timestamps: {summary['eligible_primary_timestamps']}"),
         f"Prepared CSV: {DERIVED_PATH.relative_to(ROOT)}",
         f"Prepared CSV SHA256: {sha256_file(DERIVED_PATH)}",
         f"Source bundle SHA256: {bundle_hash(source_files)}",
@@ -440,8 +408,7 @@ def write_data_report(
 def prepare() -> int:
     if MANIFEST_PATH.exists():
         raise ProtoDataError(
-            "canonical Dataset Manifest already exists; "
-            "preparation must precede its commit"
+            "canonical Dataset Manifest already exists; preparation must precede its commit"
         )
     rows, source_files = build_rows()
     write_csv(rows)
@@ -451,9 +418,7 @@ def prepare() -> int:
 
 def load_manifest() -> dict[str, Any]:
     if not MANIFEST_PATH.is_file():
-        raise ProtoDataError(
-            "Dataset Manifest is missing; prepare and review data first"
-        )
+        raise ProtoDataError("Dataset Manifest is missing; prepare and review data first")
     with MANIFEST_PATH.open(encoding="utf-8") as handle:
         data = yaml.safe_load(handle)
     if not isinstance(data, dict):
