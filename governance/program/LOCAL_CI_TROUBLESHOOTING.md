@@ -181,6 +181,31 @@ A newly provisioned ATS host must complete the pinned tool bootstrap before the 
 
 **Scope:** OWNER workflow and agents.
 
+### LCI-004 — Repository validator marker drift from Markdown formatting
+
+**First observed:** 2026-09-21 on `e4f397b4a985be314c75e4385d59030e77fcbfcd`  
+**Class:** `VALIDATOR`
+
+**Symptom**
+
+Targeted tests, full pytest, Ruff lint/format and environment fingerprint pass, but the repository validator reports a missing content marker for text that is visibly present in the target governance file with different capitalization or Markdown emphasis.
+
+Observed example: the troubleshooting file contained `Do **not** use --force ...` while the validator expected the literal lower-case/plain-Markdown wording.
+
+**Root cause**
+
+The validator marker was coupled to presentation details instead of a stable semantic fragment. Markdown emphasis or capitalization changed the raw text while the required rule remained present.
+
+**Correct response**
+
+Do not change product/runtime logic. Fix the validator to search for a stable semantic phrase already present in the canonical document, then rerun the full launcher on the new exact HEAD.
+
+**Preventive rule**
+
+Repository content markers should validate durable invariants, identifiers or semantic phrases and should avoid dependence on capitalization, Markdown emphasis or prose punctuation when those details are not themselves governance requirements.
+
+**Scope:** agents and repository-maintenance tooling.
+
 ## 5. Adding future lessons
 
 Add a new entry only when all are true:
