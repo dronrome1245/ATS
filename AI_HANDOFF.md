@@ -5,62 +5,46 @@
 - M0: `COMPLETED / PASS`.
 - M1: `COMPLETED / PASS`.
 - M2: `COMPLETED / PASS`.
-- M3: `COMPLETED / PASS` at repository-transition level, pending exact-commit M3-005 BAT closure.
-- Current program phase after transition: `M4_VALIDATION_FRAMEWORK / IN_PROGRESS`.
+- M3: `COMPLETED / PASS`.
+- M4: `IN_PROGRESS`.
+- HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy/live permission exists.
 
-## Reference Strategy #1 outcome
+## M4-001 Validation Framework
 
-Research line:
+Canonical artifact:
 
-`IDEA-0001 → HYP-0001 → PROTO-01`
+`governance/methodology/VALIDATION_FRAMEWORK.md`
 
-Terminal research status:
+Core boundary:
 
-`REJECTED_AT_R3`
+`DEVELOPMENT → VALIDATION → INDEPENDENT_EXAMINATION`
 
-Canonical machine result:
+- Development may choose/change the system.
+- Validation evaluates a fixed-enough version under a registered pre-result protocol.
+- Independent Examination is a separate one-shot protected-block `PASS / FAIL` exam.
+- No tuning on validation data.
+- Validation result strength follows `EVIDENCE_TAXONOMY.md`; registration alone is not `VALIDATION_EVIDENCE`.
 
-`reports/research/HYP-0001-PROTOTYPE-01-result.json`
+Mandatory validation dimensions are:
 
-Key result:
+- parameter neighbourhood;
+- time/regime slicing;
+- observation dependence/overlap;
+- concentration/outliers;
+- cost/execution sensitivity;
+- appropriate dependence-preserving resampling;
+- research freedom/multiple-research accounting.
 
-- breakout signals: `1006`;
-- signal mean return: `-0.0002301573`;
-- baseline mean: `-0.0000647136`;
-- signal minus baseline: `-0.0001654436`;
-- positive share: `45.8250%`;
-- overlap share: `71.8688%`;
-- decision: `REJECT`;
-- reason: `ONE_OR_BOTH_PRIMARY_HYPOTHESIS_INEQUALITIES_FAILED`.
+A future strategy-specific Validation Profile must fix applicable axes, data blocks, primary metrics and decision rules before validation results.
 
-Do not retune or reopen HYP-0001 inside M4.
-
-## M3 Exit
-
-Canonical review:
-
-`governance/program/M3_EXIT_REVIEW.md`
-
-Decision:
-
-`M3_REFERENCE_STRATEGY_1 = COMPLETED / PASS`
-
-Meaning: the research process worked and correctly rejected Strategy #1. It does not mean the strategy passed.
-
-M3 platform learnings include:
-
-- explicit FX market-session/DST handling;
-- BID/ASK execution semantics;
-- real Dataset Manifest/hash workflow;
-- overlap/dependence as a validation concern;
-- early rejection prevented unnecessary broker/live engineering.
+M3 PROTO-01 overlap (`71.8688%`) is retained only as the program lesson motivating explicit dependence handling. Rejected HYP-0001 is not validation input.
 
 ## Current closure check
 
 Current checker closes:
 
-`ATS2-M3-005 — M3 early-rejection closeout / platform learning review`
+`ATS2-M4-001 — Validation protocol framework`
 
 Run:
 
@@ -68,14 +52,14 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-001 — Validation protocol framework`
+`ATS2-M4-002 — Parameter sensitivity tooling`
 
 Work package:
 
-`WBS-4.1`
+`WBS-4.2`
 
-Next artifact:
+Initial artifact:
 
-`governance/methodology/VALIDATION_FRAMEWORK.md`
+`src/ats/validation/sensitivity.py`
 
-M4 strategy-specific validation applies only to a future promoted Candidate, not rejected HYP-0001.
+The tool must evaluate predefined neighbourhoods and expose the full region. It must not select only the best result or create research evidence by itself.

@@ -32,9 +32,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 17. `ATS2-M3-003` — Data feasibility — `DONE / CONDITIONAL`.
 18. `ATS2-M3-004` — Cheap prototype — `DONE / REJECT`.
 19. `ATS2-M3-005` — M3 early-rejection closeout / platform learning review — `DONE / PASS`.
-20. `ATS2-M4-001` — Validation protocol framework — `READY`.
+20. `ATS2-M4-001` — Validation protocol framework — `DONE`.
+21. `ATS2-M4-002` — Parameter sensitivity tooling — `READY`.
 
-Program-level current next task — `ATS2-M4-001`.
+Program-level current next task — `ATS2-M4-002`.
 
 ## 3. M0 / M1
 
@@ -86,16 +87,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 | Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done |
 |---|---|---:|---|---|---|---|
-| `ATS2-M4-001` | `WBS-4.1` | P1 | READY | M3 PASS, M1 methodology | `governance/methodology/VALIDATION_FRAMEWORK.md` | Allowed validation forms, evidence boundaries, candidate-specific profile selection, dependence/overlap treatment and independent-exam principles are defined without inventing a Candidate or validating rejected HYP-0001 |
+| `ATS2-M4-001` | `WBS-4.1` | P1 | DONE | M3 PASS, M1 methodology | `governance/methodology/VALIDATION_FRAMEWORK.md` | Development/validation/independent boundaries, mandatory validation dimensions, dependence/overlap treatment, decision rules and tooling contracts are defined without inventing a Candidate or reopening HYP-0001 |
+| `ATS2-M4-002` | `WBS-4.2` | P1 | READY | M4-001, M2 platform | `src/ats/validation/sensitivity.py` + `tests/test_validation_sensitivity.py` | Deterministic predefined parameter-neighbourhood evaluation reports the full region/surface and cannot silently select only the best result |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M4-001 — Validation protocol framework`.
+`ATS2-M4-002 — Parameter sensitivity tooling`.
 
-Canonical next artifact:
+Canonical first implementation artifact:
 
-`governance/methodology/VALIDATION_FRAMEWORK.md`.
+`src/ats/validation/sensitivity.py`.
 
-M4 begins with the reusable validation rules. Strategy-specific validation remains blocked until a future research line earns Candidate/S05 eligibility.
+The tool must evaluate a predefined parameter neighbourhood deterministically and expose the complete tested region. It must not optimize a strategy, choose a winner after results, or create a Candidate/Experiment by itself.
+
+HYP-0001 remains rejected and is not an input to M4 strategy-specific validation.

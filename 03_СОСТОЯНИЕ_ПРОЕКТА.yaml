@@ -36,6 +36,7 @@ model:
   experiment_registry: "experiments/REGISTRY.csv"
   evidence_taxonomy: "governance/methodology/EVIDENCE_TAXONOMY.md"
   research_review_protocol: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
+  validation_framework: "governance/methodology/VALIDATION_FRAMEWORK.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -57,11 +58,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Define reusable Validation Protocol Framework"
-  last_completed_task_id: "ATS2-M3-005"
-  last_completed_artifact: "governance/program/M3_EXIT_REVIEW.md"
-  next_artifact: "governance/methodology/VALIDATION_FRAMEWORK.md"
-  next_task_id: "ATS2-M4-001"
+  focus: "Build parameter sensitivity tooling"
+  last_completed_task_id: "ATS2-M4-001"
+  last_completed_artifact: "governance/methodology/VALIDATION_FRAMEWORK.md"
+  next_artifact: "src/ats/validation/sensitivity.py"
+  next_task_id: "ATS2-M4-002"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -207,15 +208,19 @@ m3:
 
 m4:
   objective: "Build a reusable validation framework for future promoted Candidates"
-  completed_tasks: []
-  current_task: "ATS2-M4-001"
-  current_wbs: "WBS-4.1"
+  completed_tasks:
+    - "ATS2-M4-001"
+  completed_artifacts:
+    - "governance/methodology/VALIDATION_FRAMEWORK.md"
+  current_task: "ATS2-M4-002"
+  current_wbs: "WBS-4.2"
+  framework_status: "BASELINE"
   first_candidate_validation_pending: true
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M4-001"
-  current_ready_wbs: "WBS-4.1"
+  current_ready_task: "ATS2-M4-002"
+  current_ready_wbs: "WBS-4.2"
 
 handoff_policy:
   update_after_material_step: true

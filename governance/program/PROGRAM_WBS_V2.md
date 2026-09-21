@@ -301,15 +301,13 @@ WBS не устанавливает без evidence и OWNER decision:
 - M2 Research Platform MVP — `COMPLETED / PASS`;
 - M3 Reference Strategy #1 — `COMPLETED / PASS`;
 - Reference Strategy #1 research outcome — `REJECTED_AT_R3`;
-- `WBS-3.1`–`WBS-3.4` — completed, with `WBS-3.4 = REJECT` research outcome;
-- `WBS-3.5`–`WBS-3.10` — not entered for HYP-0001;
-- `WBS-3.11` early-rejection platform learning review — completed;
-- M3 Exit Review — `PASS`, canonical artifact `governance/program/M3_EXIT_REVIEW.md`;
 - M4 Validation Framework — `IN_PROGRESS`;
-- current work package: **`WBS-4.1 — Validation protocol framework`**.
+- `WBS-4.1 — Validation protocol framework` — repository artifact implemented; exact closure uses `ATS_TASK_CHECK.bat`;
+- framework artifact: `governance/methodology/VALIDATION_FRAMEWORK.md`;
+- next work package after PASS: **`WBS-4.2 — Parameter sensitivity tooling`**.
 
-The next canonical artifact is:
+The next implementation target is:
 
-`governance/methodology/VALIDATION_FRAMEWORK.md`
+`src/ats/validation/sensitivity.py`
 
-Strategy-specific M4 validation will apply only to a future promoted Candidate. HYP-0001 remains rejected and is not reopened by M4.
+Strategy-specific validation remains blocked until a future research line earns Candidate/S05 eligibility. HYP-0001 remains rejected and is not reopened by M4.

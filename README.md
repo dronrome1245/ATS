@@ -12,19 +12,23 @@ ATS — Strategy Factory для воспроизводимого исследо�
 - M3: `COMPLETED / PASS`
 - M4 Validation Framework: `IN_PROGRESS`
 
-Reference Strategy #1 outcome:
+Reference Strategy #1 remains:
 
 `HYP-0001 / PROTO-01 = REJECT`
 
-M3 PASS means ATS correctly executed the research process and stopped a weak hypothesis. It does not mean the strategy succeeded.
+It is not reopened by M4.
 
-Canonical M3 review:
+## M4-001
 
-`governance/program/M3_EXIT_REVIEW.md`
+Validation rules are now materialized in:
+
+`governance/methodology/VALIDATION_FRAMEWORK.md`
+
+The framework separates development, validation and protected independent examination; requires pre-result criteria; and requires explicit treatment of overlap/dependence and research freedom.
 
 ## Current closure check
 
-`ATS2-M3-005 — M3 early-rejection closeout / platform learning review`
+`ATS2-M4-001 — Validation protocol framework`
 
 Run:
 
@@ -32,10 +36,8 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-001 — Validation protocol framework`
+`ATS2-M4-002 — Parameter sensitivity tooling`
 
-Next artifact:
+Initial implementation target:
 
-`governance/methodology/VALIDATION_FRAMEWORK.md`
-
-Rejected HYP-0001 is retained as negative exploratory evidence and is not reopened by M4.
+`src/ats/validation/sensitivity.py`

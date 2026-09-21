@@ -15,6 +15,7 @@ REVIEW_PROTOCOL = "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
 REVIEW_CHECKS = "governance/methodology/RESEARCH_REVIEW_CHECKS.md"
 REVIEW_DECISIONS = "governance/methodology/RESEARCH_REVIEW_DECISIONS.md"
 REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
+VALIDATION_FRAMEWORK = "governance/methodology/VALIDATION_FRAMEWORK.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 M3_EXIT = "governance/program/M3_EXIT_REVIEW.md"
@@ -120,7 +121,7 @@ DIRECT_DEV = {
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
-        M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
+        VALIDATION_FRAMEWORK, M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
         REFERENCE_STRATEGY_PROTOTYPE, PROTO01_RESULT, PROTO01_SCHEMA, PROTO01_MANIFEST,
         PROTO01_TOOL,
@@ -134,7 +135,8 @@ def configure() -> None:
         *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
-        "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
+        "evidence_taxonomy", "research_review_protocol", "validation_framework",
+        "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
         "reference_strategy_1_dataset_manifest", "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
@@ -162,6 +164,24 @@ def configure() -> None:
     core.CONTENT_MARKERS[REVIEW_TEMPLATE] = (
         "Prior Review ID", "Package completeness", "Lineage / currency",
         "Evidence class sufficiency", "Negative evidence and dissent", "Stop condition",
+    )
+    core.CONTENT_MARKERS[VALIDATION_FRAMEWORK] = (
+        "Validation tests a **fixed-enough system**",
+        "DEVELOPMENT",
+        "VALIDATION",
+        "INDEPENDENT_EXAMINATION",
+        "Validation Profile",
+        "Parameter neighbourhood",
+        "Observation dependence",
+        "effective sample size",
+        "overlapping observations",
+        "block bootstrap",
+        "research freedom",
+        "`PASS / FAIL / RETURN`",
+        "`PASS / FAIL`",
+        "No tuning on validation data",
+        "first future promoted Candidate",
+        "ATS2-M4-002 — Parameter sensitivity tooling",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -552,11 +572,12 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M3-005"',
-        "M3-005 exit artifacts",
-        "governance/program/M3_EXIT_REVIEW.md",
-        "HYP-0001-PROTOTYPE-01-result.json",
-        "M3-005 exit governance validation",
+        'TASK_ID = "ATS2-M4-001"',
+        "M4-001 validation framework artifacts",
+        "governance/methodology/VALIDATION_FRAMEWORK.md",
+        "EVIDENCE_TAXONOMY.md",
+        "EXPERIMENT_REGISTRATION.md",
+        "M4-001 validation framework governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -808,6 +829,7 @@ def main() -> int:
         'm1_exit_review: "governance/program/M1_EXIT_REVIEW.md"',
         'm2_exit_review: "governance/program/M2_EXIT_REVIEW.md"',
         'm3_exit_review: "governance/program/M3_EXIT_REVIEW.md"',
+        'validation_framework: "governance/methodology/VALIDATION_FRAMEWORK.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -819,9 +841,9 @@ def main() -> int:
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M3-005"',
-        'current_task: "ATS2-M4-001"', 'current_ready_task: "ATS2-M4-001"',
-        'current_wbs: "WBS-4.1"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M4-001"',
+        'current_task: "ATS2-M4-002"', 'current_ready_task: "ATS2-M4-002"',
+        'current_wbs: "WBS-4.2"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -904,11 +926,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M3-005") not in {"DONE", "DONE / PASS"}:
-        core.fail("M3-005 must be DONE / PASS in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-001") != "DONE":
+        core.fail("M4-001 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M4-001") != "READY":
-        core.fail("M4-001 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-002") != "READY":
+        core.fail("M4-002 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
