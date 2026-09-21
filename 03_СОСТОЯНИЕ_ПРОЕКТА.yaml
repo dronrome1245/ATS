@@ -169,13 +169,11 @@ m3:
   objective: "Validate the vertical research flow on Reference Strategy #1 through S05"
   completed_tasks:
     - "ATS2-M3-001"
+    - "ATS2-M3-002"
   completed_artifacts:
     - "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
     - "research/ideas/IDEA-0001.md"
     - "research/hypotheses/HYP-0001.md"
-  completed_tasks:
-    - "ATS2-M3-001"
-    - "ATS2-M3-002"
   current_task: "ATS2-M3-003"
   current_wbs: "WBS-3.3"
   reference_strategy_selection_allowed: true

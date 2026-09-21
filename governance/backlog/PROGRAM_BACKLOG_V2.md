@@ -71,9 +71,9 @@ M2 Exit decision: `PASS`. The platform milestone is complete; this does not crea
 | `ATS2-M3-002` | `WBS-3.2` | P1 | DONE | M3-001 | `research/ideas/IDEA-0001.md` + `research/hypotheses/HYP-0001.md` | `IDEA-0001` is screened and `HYP-0001` fixes a 24-bar breakout condition, 24-bar primary horizon, BID/ASK execution premise and falsification path before prototype results |
 | `ATS2-M3-003` | `WBS-3.3` | P1 | READY | M3-002 | `research/reviews/HYP-0001-DATA_FEASIBILITY.md` | Data source, coverage, BID/ASK alignment, 1H timestamp/bar semantics, session gaps, integrity and cost inputs are reviewed and a FEASIBLE / CONDITIONAL / PARK / REJECT decision is recorded |
 
-Later M3 work remains governed by `WBS-3.3`–`WBS-3.11` in `governance/program/PROGRAM_WBS_V2.md` and is instantiated into executable backlog tasks as dependencies become ready.
+Later M3 work remains governed by `WBS-3.4`–`WBS-3.11` in `governance/program/PROGRAM_WBS_V2.md` and is instantiated into executable backlog tasks as dependencies become ready.
 
-Reference Strategy #1 class is selected, but no instrument, parameter set, Candidate, Strategy ID or Experiment has yet been created.
+Reference Strategy #1 class and EUR/USD research instrument are selected, and `HYP-0001` fixes the initial 24-bar research parameters; no Candidate, Strategy ID or Experiment has yet been created.
 
 Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 

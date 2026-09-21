@@ -302,12 +302,16 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-2.0`–`WBS-2.10` — completed;
 - M2 Exit Review — `PASS`, canonical artifact `governance/program/M2_EXIT_REVIEW.md`;
 - M3 Reference Strategy #1 — `IN_PROGRESS`;
-- `WBS-3.1 — Select Reference Strategy #1` — repository artifact implemented; exact closure uses `ATS_TASK_CHECK.bat`;
+- `WBS-3.1 — Select Reference Strategy #1` — `DONE`;
 - selected class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`;
-- next work package after PASS: **`WBS-3.2 — Idea & rationale`**.
+- selected research instrument: `EURUSD` / EUR/USD spot FX;
+- `WBS-3.2 — Idea & rationale` — repository artifacts implemented; exact closure uses `ATS_TASK_CHECK.bat`;
+- `IDEA-0001` — `SCREENING`;
+- `HYP-0001` — `READY_FOR_DATA_FEASIBILITY`;
+- next work package after PASS: **`WBS-3.3 — Data feasibility`**.
 
-The next canonical research artifact after M3-001 PASS is:
+The next canonical research artifact after M3-002 PASS is:
 
-`research/ideas/IDEA-0001.md`
+`research/reviews/HYP-0001-DATA_FEASIBILITY.md`
 
 Current execution state must still be read from `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` and `governance/backlog/PROGRAM_BACKLOG_V2.md`.
