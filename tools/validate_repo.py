@@ -94,6 +94,11 @@ ENVIRONMENT_FILES = (
     "tools/environment_fingerprint.py",
     "tests/test_environment_baseline.py",
 )
+VALIDATION_SENSITIVITY_FILES = (
+    "src/ats/validation/__init__.py",
+    "src/ats/validation/sensitivity.py",
+    "tests/test_validation_sensitivity.py",
+)
 HEADER = (
     "experiment_id", "status", "research_stage", "evidence_class",
     "qualified_evidence_class", "idea_id", "hypothesis_id", "candidate_id",
@@ -132,7 +137,7 @@ def configure() -> None:
         *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
         *ANALYTICS_FILES, *RUNNER_FILES, *PLATFORM_TEST_FILES,
-        *LOCAL_CI_FILES, *ENVIRONMENT_FILES,
+        *LOCAL_CI_FILES, *ENVIRONMENT_FILES, *VALIDATION_SENSITIVITY_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "validation_framework",
@@ -513,6 +518,29 @@ def configure() -> None:
         "reference_consumer_expected.json",
         "REGISTRY.csv",
     )
+    core.CONTENT_MARKERS["src/ats/validation/sensitivity.py"] = (
+        "class SensitivityContractError",
+        "class ParameterVariant",
+        "class SensitivityPlan",
+        "class SensitivityPoint",
+        "class SensitivityResult",
+        "MappingProxyType",
+        "NO_AUTOMATIC_SELECTION",
+        "metric set mismatch",
+        "evaluate_parameter_sensitivity",
+        "without ranking or selection",
+    )
+    core.CONTENT_MARKERS["tests/test_validation_sensitivity.py"] = (
+        "test_full_predeclared_region_is_preserved_in_input_order",
+        "test_serialization_is_deterministic_and_has_no_selected_winner",
+        "test_metric_order_comes_from_plan_not_evaluator_mapping_order",
+        "test_duplicate_variant_ids_are_rejected",
+        "test_missing_or_extra_metrics_are_rejected",
+        "test_non_finite_values_are_rejected",
+        "test_non_scalar_parameter_values_are_rejected",
+        "test_plan_and_results_are_immutable",
+        "NO_AUTOMATIC_SELECTION",
+    )
     core.CONTENT_MARKERS["tests/fixtures/platform/reference_consumer_expected.json"] = (
         '"schema_version": "m2-reference-consumer-1"',
         '"dataset_id": "DATA-SYNTHETIC-LOADER-001"',
@@ -572,12 +600,11 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M4-001"',
-        "M4-001 validation framework artifacts",
-        "governance/methodology/VALIDATION_FRAMEWORK.md",
-        "EVIDENCE_TAXONOMY.md",
-        "EXPERIMENT_REGISTRATION.md",
-        "M4-001 validation framework governance validation",
+        'TASK_ID = "ATS2-M4-002"',
+        "M4-002 parameter sensitivity artifacts",
+        "src/ats/validation/sensitivity.py",
+        "tests/test_validation_sensitivity.py",
+        "M4-002 sensitivity governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -628,7 +655,8 @@ def configure() -> None:
         "M2 Exit is recorded",
         "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT",
         "M3 Reference Strategy #1 is recorded as `COMPLETED / PASS`",
-        "ATS2-M4-001 — Validation protocol framework",
+        "ATS2-M4-002 — Parameter sensitivity tooling",
+        "ats.validation.sensitivity",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
@@ -640,6 +668,7 @@ def configure() -> None:
         "test_standard_analytics.py",
         "test_experiment_runner.py",
         "test_research_platform.py",
+        "test_validation_sensitivity.py",
         "reference_consumer_expected.json",
         "vertical integration from Dataset Manifest",
         "explicit cost components",
@@ -782,6 +811,7 @@ def validate_environment(repo: Path) -> int:
         "src/ats/costs/interface.py",
         "src/ats/analytics/standard.py",
         "src/ats/runner/experiment.py",
+        "src/ats/validation/sensitivity.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -791,6 +821,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_standard_analytics.py",
         "tests/test_experiment_runner.py",
         "tests/test_research_platform.py",
+        "tests/test_validation_sensitivity.py",
     ):
         path = repo / relative
         try:
@@ -841,9 +872,9 @@ def main() -> int:
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M4-001"',
-        'current_task: "ATS2-M4-002"', 'current_ready_task: "ATS2-M4-002"',
-        'current_wbs: "WBS-4.2"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M4-002"',
+        'current_task: "ATS2-M4-003"', 'current_ready_task: "ATS2-M4-003"',
+        'current_wbs: "WBS-4.3"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -926,11 +957,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M4-001") != "DONE":
-        core.fail("M4-001 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-002") != "DONE":
+        core.fail("M4-002 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M4-002") != "READY":
-        core.fail("M4-002 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-003") != "READY":
+        core.fail("M4-003 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

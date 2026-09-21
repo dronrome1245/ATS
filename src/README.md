@@ -29,7 +29,8 @@ src/ats/
 ├── replay/
 ├── costs/
 ├── analytics/
-└── runner/
+├── runner/
+└── validation/
 ```
 
 M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB, an external backtesting framework, Docker, broker adapters or live execution. Such capabilities are added only after a real consumer demonstrates the need.
@@ -158,4 +159,13 @@ Implemented M2-009 behavior:
 
 `ATS2-M2-010 — Research platform tests` materializes the Reference Consumer Profile acceptance fixture in `tests/test_research_platform.py` plus `tests/fixtures/platform/reference_consumer_expected.json`.
 
-M2 Exit is recorded in `governance/program/M2_EXIT_REVIEW.md`. M3-001 selected `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class. M3 Reference Strategy #1 is recorded as `COMPLETED / PASS`, while HYP-0001 itself is `REJECTED_AT_R3`. The next step is `ATS2-M4-001 — Validation protocol framework`; reusable validation capability will be added without reopening the rejected hypothesis.
+M2 Exit is recorded in `governance/program/M2_EXIT_REVIEW.md`. M3-001 selected `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class. M3 Reference Strategy #1 is recorded as `COMPLETED / PASS`, while HYP-0001 itself is `REJECTED_AT_R3`. M4-001 defines the reusable Validation Framework. `ATS2-M4-002 — Parameter sensitivity tooling` materializes `ats.validation.sensitivity`; next is `ATS2-M4-003 — Time/regime slicing`.
+
+
+## M4 validation tooling
+
+`ats.validation.sensitivity` evaluates a caller-declared ordered parameter neighbourhood.
+
+It preserves every declared variant, requires an exact declared metric set, rejects non-finite values, and emits `selection_policy = NO_AUTOMATIC_SELECTION`. It deliberately has no best/winner/ranking API.
+
+The software fixture is synthetic and creates no Candidate, Strategy Version, Experiment or validation evidence by itself.

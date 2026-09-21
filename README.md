@@ -18,17 +18,21 @@ Reference Strategy #1 remains:
 
 It is not reopened by M4.
 
-## M4-001
+## M4
 
-Validation rules are now materialized in:
+Validation Framework:
 
 `governance/methodology/VALIDATION_FRAMEWORK.md`
 
-The framework separates development, validation and protected independent examination; requires pre-result criteria; and requires explicit treatment of overlap/dependence and research freedom.
+Parameter sensitivity tooling:
+
+`src/ats/validation/sensitivity.py`
+
+The tool evaluates the full predefined parameter region and does not choose a winner automatically.
 
 ## Current closure check
 
-`ATS2-M4-001 — Validation protocol framework`
+`ATS2-M4-002 — Parameter sensitivity tooling`
 
 Run:
 
@@ -36,8 +40,8 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-002 — Parameter sensitivity tooling`
+`ATS2-M4-003 — Time/regime slicing`
 
 Initial implementation target:
 
-`src/ats/validation/sensitivity.py`
+`src/ats/validation/slicing.py`

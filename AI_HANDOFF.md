@@ -10,41 +10,33 @@
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy/live permission exists.
 
-## M4-001 Validation Framework
+## M4-002 Parameter Sensitivity
 
-Canonical artifact:
+Implementation:
 
-`governance/methodology/VALIDATION_FRAMEWORK.md`
+`src/ats/validation/sensitivity.py`
 
-Core boundary:
+Tests:
 
-`DEVELOPMENT → VALIDATION → INDEPENDENT_EXAMINATION`
+`tests/test_validation_sensitivity.py`
 
-- Development may choose/change the system.
-- Validation evaluates a fixed-enough version under a registered pre-result protocol.
-- Independent Examination is a separate one-shot protected-block `PASS / FAIL` exam.
-- No tuning on validation data.
-- Validation result strength follows `EVIDENCE_TAXONOMY.md`; registration alone is not `VALIDATION_EVIDENCE`.
+Contract:
 
-Mandatory validation dimensions are:
+- caller predeclares ordered parameter names, metric names and all variants;
+- every variant is evaluated in caller order;
+- evaluator receives read-only parameter mapping;
+- evaluator must return exactly the declared metric set;
+- non-finite/malformed values fail closed;
+- output is deterministic and includes `selection_policy = NO_AUTOMATIC_SELECTION`;
+- there is no best/winner/rank selection API.
 
-- parameter neighbourhood;
-- time/regime slicing;
-- observation dependence/overlap;
-- concentration/outliers;
-- cost/execution sensitivity;
-- appropriate dependence-preserving resampling;
-- research freedom/multiple-research accounting.
-
-A future strategy-specific Validation Profile must fix applicable axes, data blocks, primary metrics and decision rules before validation results.
-
-M3 PROTO-01 overlap (`71.8688%`) is retained only as the program lesson motivating explicit dependence handling. Rejected HYP-0001 is not validation input.
+This tooling is infrastructure only. It creates no Candidate, Experiment or validation evidence by itself.
 
 ## Current closure check
 
 Current checker closes:
 
-`ATS2-M4-001 — Validation protocol framework`
+`ATS2-M4-002 — Parameter sensitivity tooling`
 
 Run:
 
@@ -52,14 +44,14 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-002 — Parameter sensitivity tooling`
+`ATS2-M4-003 — Time/regime slicing`
 
 Work package:
 
-`WBS-4.2`
+`WBS-4.3`
 
 Initial artifact:
 
-`src/ats/validation/sensitivity.py`
+`src/ats/validation/slicing.py`
 
-The tool must evaluate predefined neighbourhoods and expose the full region. It must not select only the best result or create research evidence by itself.
+The next tool must expose all declared slices and must not selectively omit unfavorable periods/regimes.

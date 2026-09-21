@@ -8,23 +8,27 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M4-001"
-TASK_NAME = "Validation protocol framework"
+TASK_ID = "ATS2-M4-002"
+TASK_NAME = "Parameter sensitivity tooling"
 REQUIRED_ARTIFACTS = (
-    Path("governance/methodology/VALIDATION_FRAMEWORK.md"),
-    Path("governance/methodology/EVIDENCE_TAXONOMY.md"),
-    Path("governance/methodology/EXPERIMENT_REGISTRATION.md"),
+    Path("src/ats/validation/__init__.py"),
+    Path("src/ats/validation/sensitivity.py"),
+    Path("tests/test_validation_sensitivity.py"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M4-001 validation framework artifacts ==")
-    missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
+    print("\n== M4-002 parameter sensitivity artifacts ==")
+    missing = [
+        str(path)
+        for path in REQUIRED_ARTIFACTS
+        if not (ROOT / path).is_file()
+    ]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M4-001 validation framework artifacts")
+    print("[PASS] M4-002 parameter sensitivity artifacts")
     return True
 
 
@@ -52,7 +56,7 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "M4-001 validation framework governance validation",
+            "M4-002 sensitivity governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

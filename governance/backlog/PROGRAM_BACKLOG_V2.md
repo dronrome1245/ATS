@@ -33,9 +33,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 18. `ATS2-M3-004` — Cheap prototype — `DONE / REJECT`.
 19. `ATS2-M3-005` — M3 early-rejection closeout / platform learning review — `DONE / PASS`.
 20. `ATS2-M4-001` — Validation protocol framework — `DONE`.
-21. `ATS2-M4-002` — Parameter sensitivity tooling — `READY`.
+21. `ATS2-M4-002` — Parameter sensitivity tooling — `DONE`.
+22. `ATS2-M4-003` — Time/regime slicing — `READY`.
 
-Program-level current next task — `ATS2-M4-002`.
+Program-level current next task — `ATS2-M4-003`.
 
 ## 3. M0 / M1
 
@@ -88,18 +89,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done |
 |---|---|---:|---|---|---|---|
 | `ATS2-M4-001` | `WBS-4.1` | P1 | DONE | M3 PASS, M1 methodology | `governance/methodology/VALIDATION_FRAMEWORK.md` | Development/validation/independent boundaries, mandatory validation dimensions, dependence/overlap treatment, decision rules and tooling contracts are defined without inventing a Candidate or reopening HYP-0001 |
-| `ATS2-M4-002` | `WBS-4.2` | P1 | READY | M4-001, M2 platform | `src/ats/validation/sensitivity.py` + `tests/test_validation_sensitivity.py` | Deterministic predefined parameter-neighbourhood evaluation reports the full region/surface and cannot silently select only the best result |
+| `ATS2-M4-002` | `WBS-4.2` | P1 | DONE | M4-001, M2 platform | `src/ats/validation/sensitivity.py` + `tests/test_validation_sensitivity.py` | Ordered predefined variants are all evaluated and serialized; missing/extra/non-finite metrics fail closed; the result exposes `NO_AUTOMATIC_SELECTION` and no best/winner ranking |
+| `ATS2-M4-003` | `WBS-4.3` | P1 | READY | M4-001, M4-002 | `src/ats/validation/slicing.py` + `tests/test_validation_slicing.py` | Deterministic declared time/regime slices cover the intended observations without selective omission and report every declared slice |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M4-002 — Parameter sensitivity tooling`.
+`ATS2-M4-003 — Time/regime slicing`.
 
 Canonical first implementation artifact:
 
-`src/ats/validation/sensitivity.py`.
+`src/ats/validation/slicing.py`.
 
-The tool must evaluate a predefined parameter neighbourhood deterministically and expose the complete tested region. It must not optimize a strategy, choose a winner after results, or create a Candidate/Experiment by itself.
+The tool must evaluate declared slices deterministically and expose every requested slice, including unfavorable/empty slices according to an explicit policy. It must not omit a period or regime because the result is unattractive.
 
-HYP-0001 remains rejected and is not an input to M4 strategy-specific validation.
+HYP-0001 remains rejected and is not reopened by M4.

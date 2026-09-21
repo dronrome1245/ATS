@@ -1,6 +1,6 @@
 # Tests
 
-ATS is in `M3_REFERENCE_STRATEGY_1`; the M2 platform test baseline remains the shared regression gate.
+ATS is in `M4_VALIDATION_FRAMEWORK`; the M2 platform test baseline remains the shared regression gate.
 
 Canonical environment baseline:
 
@@ -168,3 +168,19 @@ Tests create transient software-only manifest files under pytest temporary direc
 - zero Experiment Registry rows while the fixture remains software-only.
 
 M2-010 targeted closure also reruns `tests/test_experiment_runner.py`, so registered-manifest orchestration remains covered without assigning a formal Experiment identity to the acceptance fixture.
+
+
+## M4 parameter sensitivity tests
+
+`tests/test_validation_sensitivity.py` verifies:
+
+- every predefined variant is preserved in caller order;
+- repeated evaluation serializes identically;
+- metric output order follows the predeclared plan;
+- duplicate variant IDs and malformed parameter shapes are rejected;
+- missing or extra metrics fail closed;
+- non-scalar/non-finite parameters and non-finite metrics are rejected;
+- plan/results are immutable;
+- output declares `NO_AUTOMATIC_SELECTION` and contains no automatic rank/selected winner.
+
+The fixture is synthetic software-only input and is not validation evidence.
