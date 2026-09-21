@@ -33,7 +33,7 @@ Metrics:
 - signal positive share: `0.4582505`;
 - overlapping signal-window share: `0.7186879`.
 
-Decision rule was fixed before the result. Both primary HYP-0001 inequalities failed, therefore outcome is `REJECT`.
+Decision rule was fixed before the result. Both primary HYP-0001 inequalities failed, therefore outcome is `REJECT` with reason `ONE_OR_BOTH_PRIMARY_HYPOTHESIS_INEQUALITIES_FAILED`.
 
 Economic label:
 
