@@ -294,17 +294,19 @@ WBS не устанавливает без evidence и OWNER decision:
 
 # 16. Текущая точка исполнения
 
-На 18 сентября 2026 года:
+На 21 сентября 2026 года:
 
 - M0 Program Rebaseline — `COMPLETED / PASS`;
 - M1 Research Methodology — `COMPLETED / PASS`;
-- `WBS-2.0`–`WBS-2.9` — completed;
-- `WBS-2.10 — Research platform tests` — repository artifacts implemented; exact final Local CI closure uses `ATS_TASK_CHECK.bat`;
-- next work package after PASS: **`ATS2-M2-011 — M2 Exit`**;
-- Reference Strategy #1 remains M3 work and is not selected in M2.
+- M2 Research Platform MVP — `COMPLETED / PASS`;
+- `WBS-2.0`–`WBS-2.10` — completed;
+- M2 Exit Review — `PASS`, canonical artifact `governance/program/M2_EXIT_REVIEW.md`;
+- M3 Reference Strategy #1 — `IN_PROGRESS`;
+- current work package: **`WBS-3.1 — Select Reference Strategy #1`**;
+- no Reference Strategy has been selected yet.
 
-The next canonical program artifact after M2-010 PASS is:
+The next canonical program artifact is:
 
-`governance/program/M2_EXIT_REVIEW.md`
+`governance/program/REFERENCE_STRATEGY_1_SELECTION.md`
 
 Current execution state must still be read from `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` and `governance/backlog/PROGRAM_BACKLOG_V2.md`.

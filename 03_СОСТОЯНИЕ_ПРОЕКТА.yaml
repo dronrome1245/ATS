@@ -2,10 +2,10 @@ schema_version: "2.0"
 program:
   id: ATS
   name: "ATS — Algorithmic Trading Systems"
-  phase: M2_RESEARCH_PLATFORM_MVP
+  phase: M3_REFERENCE_STRATEGY_1
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-18"
+  updated_on: "2026-09-21"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -48,19 +48,20 @@ model:
   research_templates: "governance/methodology/templates/README.md"
   m0_exit_review: "governance/program/M0_EXIT_REVIEW.md"
   m1_exit_review: "governance/program/M1_EXIT_REVIEW.md"
+  m2_exit_review: "governance/program/M2_EXIT_REVIEW.md"
 
 current:
-  focus: "Perform M2 Exit Review"
-  last_completed_task_id: "ATS2-M2-010"
-  last_completed_artifact: "tests/test_research_platform.py"
-  next_artifact: "governance/program/M2_EXIT_REVIEW.md"
-  next_task_id: "ATS2-M2-011"
+  focus: "Select Reference Strategy #1"
+  last_completed_task_id: "ATS2-M2-011"
+  last_completed_artifact: "governance/program/M2_EXIT_REVIEW.md"
+  next_artifact: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
+  next_task_id: "ATS2-M3-001"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
   M1_RESEARCH_METHODOLOGY: COMPLETED
-  M2_RESEARCH_PLATFORM_MVP: IN_PROGRESS
-  M3_REFERENCE_STRATEGY_1: NOT_STARTED
+  M2_RESEARCH_PLATFORM_MVP: COMPLETED
+  M3_REFERENCE_STRATEGY_1: IN_PROGRESS
   M4_VALIDATION_FRAMEWORK: NOT_STARTED
   M5_EXECUTION_PLATFORM: NOT_STARTED
   M6_REFERENCE_STRATEGY_2: NOT_STARTED
@@ -115,6 +116,9 @@ m2:
     - "ATS2-M2-008"
     - "ATS2-M2-009"
     - "ATS2-M2-010"
+    - "ATS2-M2-011"
+  exit_decision: PASS
+  exit_review: "governance/program/M2_EXIT_REVIEW.md"
   completed_artifacts:
     - "governance/program/REFERENCE_CONSUMER_PROFILE.md"
     - "governance/decisions/ADR-0001-RESEARCH-STACK.md"
@@ -145,8 +149,7 @@ m2:
     - "tests/test_experiment_runner.py"
     - "tests/test_research_platform.py"
     - "tests/fixtures/platform/reference_consumer_expected.json"
-  current_task: "ATS2-M2-011"
-  current_wbs: "M2 Exit"
+    - "governance/program/M2_EXIT_REVIEW.md"
   reference_strategy_selection_allowed: false
   environment:
     primary_local_host: WINDOWS_X86_64
@@ -159,10 +162,17 @@ m2:
     python_version_file: ".python-version"
     lock_file: "uv.lock"
 
+m3:
+  objective: "Validate the vertical research flow on Reference Strategy #1 through S05"
+  current_task: "ATS2-M3-001"
+  current_wbs: "WBS-3.1"
+  reference_strategy_selection_allowed: true
+  selected_reference_strategy: null
+
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M2-011"
-  current_ready_wbs: "M2 Exit"
+  current_ready_task: "ATS2-M3-001"
+  current_ready_wbs: "WBS-3.1"
 
 handoff_policy:
   update_after_material_step: true

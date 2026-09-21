@@ -6,53 +6,40 @@
 
 ## Текущее состояние
 
-- Phase: `M2_RESEARCH_PLATFORM_MVP / IN_PROGRESS`.
+- Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
 - M0: `COMPLETED / PASS`.
 - M1: `COMPLETED / PASS`.
+- M2: `COMPLETED / PASS`.
+- Canonical M2 Exit Review: `governance/program/M2_EXIT_REVIEW.md`.
 - Canonical state: `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`.
 - Canonical backlog: `governance/backlog/PROGRAM_BACKLOG_V2.md`.
 
-Последний реализованный work package:
+M2 delivered the minimum reusable research stack: deterministic data loading, Strategy/Research interface, replay, explicit costs, standard analytics/results, manifest-driven runner and end-to-end acceptance/regression tests.
 
-`ATS2-M2-010 — Research platform tests`.
+No real strategy, market result or live permission was created to close M2.
 
-Primary artifact:
+## Current task
 
-`tests/test_research_platform.py`.
+`ATS2-M3-001 — Select Reference Strategy #1`
 
-Committed acceptance result:
+Work package:
 
-`tests/fixtures/platform/reference_consumer_expected.json`.
+`WBS-3.1`
 
-M2 acceptance baseline:
+Next artifact:
 
-- deterministic synthetic Dataset Manifest/loader path;
-- deterministic Strategy state/decision/diagnostic trace;
-- explicit applicable and not-applicable cost components;
-- standard gross/cost/net analytics;
-- committed expected regression result;
-- exact repeated-run equality;
-- no formal research IDs or Experiment Registry row for the software fixture;
-- manifest-runner suite remains part of the M2-010 targeted closure package.
+`governance/program/REFERENCE_STRATEGY_1_SELECTION.md`
 
-Следующая task после M2-010 Local CI PASS:
-
-`ATS2-M2-011 — M2 Exit`.
-
-Следующий artifact:
-
-`governance/program/M2_EXIT_REVIEW.md`.
+The selection should choose a simple strategy class with available data and a clear execution model. It is a research-program selection decision, not a profitability or live-trading decision.
 
 ## Windows task check
 
-Запустить:
+The current closure checker still verifies the M2 Exit transition commit:
 
 `ATS_TASK_CHECK.bat`
 
-После завершения отправить:
-
-`reports/local_ci/CURRENT_TASK_REPORT.txt`
+After it passes, M3 work proceeds without additional M2 changes.
 
 ## Boundary
 
-M2 builds safe research infrastructure only. Reference Strategy #1, broker/live environment, capital and risk limits remain outside current scope.
+Broker/live trading, capital allocation, risk mandates and scaling remain outside the current scope.

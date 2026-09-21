@@ -8,8 +8,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M2-010"
-TASK_NAME = "Research platform tests"
+TASK_ID = "ATS2-M2-011"
+TASK_NAME = "M2 Exit"
 
 
 def run(name: str, command: list[str]) -> bool:
@@ -36,7 +36,7 @@ def main() -> int:
 
     checks = [
         (
-            "M2-010 Research Platform acceptance tests",
+            "M2 Exit acceptance tests",
             [
                 sys.executable,
                 "-m",

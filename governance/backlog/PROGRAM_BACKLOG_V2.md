@@ -26,9 +26,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 11. `ATS2-M2-008` — Standard analytics/report — `DONE`.
 12. `ATS2-M2-009` — Manifest-driven experiment runner — `DONE`.
 13. `ATS2-M2-010` — Research platform tests — `DONE`.
-14. `ATS2-M2-011` — M2 Exit — `READY`.
+14. `ATS2-M2-011` — M2 Exit — `DONE / PASS`.
+15. `ATS2-M3-001` — Select Reference Strategy #1 — `READY`.
 
-Program-level current next task — `ATS2-M2-011`.
+Program-level current next task — `ATS2-M3-001`.
 
 ## 3. M0 / M1
 
@@ -56,13 +57,19 @@ Canonical exits:
 | `ATS2-M2-008` | `WBS-2.8` | P1 | DONE | M2-006, M2-007 | `src/ats/analytics/standard.py` + `tests/test_standard_analytics.py` | Baseline output exposes effect/P&L, risk/path, events/trades and costs as applicable |
 | `ATS2-M2-009` | `WBS-2.9` | P1 | DONE | M2-002…008 | `src/ats/runner/experiment.py` + `tests/test_experiment_runner.py` | Registered experiment context can be replayed by a documented procedure without rewriting preregistration |
 | `ATS2-M2-010` | `WBS-2.10` | P1 | DONE | M2-004…009 | `tests/test_research_platform.py` + `tests/fixtures/platform/reference_consumer_expected.json` | Critical calculations have deterministic non-market fixtures/regression checks |
-| `ATS2-M2-011` | M2 Exit | P1 | READY | M2-000…010 | `governance/program/M2_EXIT_REVIEW.md` | Minimal reusable vertical research stack can reproduce an end-to-end baseline registered experiment workflow |
+| `ATS2-M2-011` | M2 Exit | P1 | DONE / PASS | M2-000…010 | `governance/program/M2_EXIT_REVIEW.md` | Minimal reusable vertical research stack can reproduce an end-to-end baseline registered experiment workflow |
 
-`M2-000…010` still do not select Reference Strategy #1. M2-010 adds only deterministic synthetic acceptance/regression tests and a committed expected result fixture; it creates no Idea, Hypothesis, Candidate, Strategy or formal Experiment evidence.
+M2 Exit decision: `PASS`. The platform milestone is complete; this does not create research evidence for a trading strategy.
 
-## 5. M3 and later
+## 5. M3 — Reference Strategy #1
 
-Reference Strategy #1 selection remains in M3 after M2 Exit. M2 must not invent a market, instrument, trading hypothesis, return target or live execution environment just to drive platform design.
+| Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done |
+|---|---|---:|---|---|---|---|
+| `ATS2-M3-001` | `WBS-3.1` | P1 | READY | M1 PASS, M2 PASS | `governance/program/REFERENCE_STRATEGY_1_SELECTION.md` | One simple strategy class is selected with available data and a sufficiently clear execution model; the decision does not itself claim profitability or create live permission |
+
+Later M3 work remains governed by `WBS-3.2`–`WBS-3.11` in `governance/program/PROGRAM_WBS_V2.md` and is instantiated into executable backlog tasks as dependencies become ready.
+
+Reference Strategy #1 is still **not selected** at M2 Exit. Selection is the explicit next task.
 
 Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
@@ -70,10 +77,10 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 Current program-level ready task:
 
-`ATS2-M2-011 — M2 Exit`.
+`ATS2-M3-001 — Select Reference Strategy #1`.
 
 Canonical next artifact:
 
-`governance/program/M2_EXIT_REVIEW.md`.
+`governance/program/REFERENCE_STRATEGY_1_SELECTION.md`.
 
-M2-011 must review the completed M2 capabilities and exact Local CI evidence against the Reference Consumer Profile and WBS Exit M2 criteria. It must not select Reference Strategy #1 unless M2 Exit is separately passed and the program transitions to M3.
+M3-001 must make an explicit selection decision using available-data and execution-clarity criteria. It must not treat selection as evidence of profitability, validation or live readiness.

@@ -1,6 +1,6 @@
 # Tests
 
-ATS is in `M2_RESEARCH_PLATFORM_MVP`.
+ATS is in `M3_REFERENCE_STRATEGY_1`; the M2 platform test baseline remains the shared regression gate.
 
 Canonical environment baseline:
 

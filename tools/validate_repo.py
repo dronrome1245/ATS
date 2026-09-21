@@ -16,6 +16,7 @@ REVIEW_CHECKS = "governance/methodology/RESEARCH_REVIEW_CHECKS.md"
 REVIEW_DECISIONS = "governance/methodology/RESEARCH_REVIEW_DECISIONS.md"
 REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
+M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -109,7 +110,8 @@ DIRECT_DEV = {
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
-        M1_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC, LOCAL_CI_GATE,
+        M1_EXIT, M2_EXIT, CONSUMER_PROFILE, RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
+        LOCAL_CI_GATE,
         LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
         *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
@@ -118,6 +120,7 @@ def configure() -> None:
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "m1_exit_review",
+        "m2_exit_review",
         "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
         "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
     )
@@ -147,6 +150,17 @@ def configure() -> None:
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
         "ATS2-M2-000 — Reference Consumer Profile", "Pipeline counters intentionally remain zero",
+    )
+    core.CONTENT_MARKERS[M2_EXIT] = (
+        "Decision:** `PASS`",
+        "M2_RESEARCH_PLATFORM_MVP = COMPLETED / PASS",
+        "953eac0e88608d782a825d7039c1eb1bf14577c6",
+        "complete pytest suite: 83 passed",
+        "all 29 artifacts listed as completed under M2 exist",
+        "experiments/REGISTRY.csv",
+        "ATS2-M3-001 — Select Reference Strategy #1",
+        "does **not** authorize",
+        "Transition-commit closure",
     )
     core.CONTENT_MARKERS[CONSUMER_PROFILE] = (
         "single research logic instance", "Minimum data contract",
@@ -406,7 +420,8 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M2-010"',
+        'TASK_ID = "ATS2-M2-011"',
+        "M2 Exit acceptance tests",
         "tests/test_research_platform.py",
         "tests/test_experiment_runner.py",
         "tools/validate_repo.py",
@@ -451,7 +466,8 @@ def configure() -> None:
         "StandardAnalyticsResult",
         "RegisteredExperimentContext",
         "ExperimentRunResult",
-        "ATS2-M2-010 — Research platform tests",
+        "M2 Exit is recorded",
+        "ATS2-M3-001 — Select Reference Strategy #1",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
@@ -639,19 +655,22 @@ def main() -> int:
 
     state = (repo / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml").read_text(encoding="utf-8")
     for marker in (
-        'schema_version: "2.0"', "phase: M2_RESEARCH_PLATFORM_MVP",
+        'schema_version: "2.0"', "phase: M3_REFERENCE_STRATEGY_1",
         "M0_PROGRAM_REBASELINE: COMPLETED", "M1_RESEARCH_METHODOLOGY: COMPLETED",
-        "M2_RESEARCH_PLATFORM_MVP: IN_PROGRESS", "exit_decision: PASS",
+        "M2_RESEARCH_PLATFORM_MVP: COMPLETED", "M3_REFERENCE_STRATEGY_1: IN_PROGRESS",
+        "exit_decision: PASS",
         'm1_exit_review: "governance/program/M1_EXIT_REVIEW.md"',
+        'm2_exit_review: "governance/program/M2_EXIT_REVIEW.md"',
         'reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"',
         'research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"',
         'research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"',
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M2-010"',
-        'current_task: "ATS2-M2-011"', 'current_ready_task: "ATS2-M2-011"',
-        'current_wbs: "M2 Exit"', "reference_strategy_selection_allowed: false",
+        'last_completed_task_id: "ATS2-M2-011"',
+        'current_task: "ATS2-M3-001"', 'current_ready_task: "ATS2-M3-001"',
+        'current_wbs: "WBS-3.1"', "reference_strategy_selection_allowed: true",
+        "selected_reference_strategy: null",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -727,11 +746,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M2-010") != "DONE":
-        core.fail("M2-010 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M2-011") not in {"DONE", "DONE / PASS"}:
+        core.fail("M2-011 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M2-011") != "READY":
-        core.fail("M2-011 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-001") != "READY":
+        core.fail("M3-001 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

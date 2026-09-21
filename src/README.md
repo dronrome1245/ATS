@@ -1,6 +1,6 @@
 # Source code
 
-ATS is in `M2_RESEARCH_PLATFORM_MVP`.
+ATS is in `M3_REFERENCE_STRATEGY_1`; the reusable M2 research-platform baseline is complete.
 
 Canonical stack decision:
 
@@ -36,7 +36,7 @@ M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB,
 
 A concrete Reference Strategy #1 is not selected until M3. Deterministic synthetic software fixtures used for platform tests are not research entities or trading evidence.
 
-The environment baseline, Dataset Manifest boundary, base data loader, Strategy/Research interface, deterministic replay core, explicit cost-model interface, standard analytics/report and manifest-driven runner are complete at repository-artifact level. M2-010 adds end-to-end acceptance/regression tests; the next program step after its Local CI PASS is `ATS2-M2-011 — M2 Exit`.
+The M2 environment, Dataset Manifest, loader, Strategy/Research interface, replay, cost model, analytics/report, manifest-driven runner and end-to-end acceptance/regression baseline are complete. M2 Exit decision is `PASS`; M3 now uses this platform against a real Reference Strategy selection process.
 
 
 ## Implemented M2 boundary
@@ -158,4 +158,4 @@ Implemented M2-009 behavior:
 
 `ATS2-M2-010 — Research platform tests` materializes the Reference Consumer Profile acceptance fixture in `tests/test_research_platform.py` plus `tests/fixtures/platform/reference_consumer_expected.json`.
 
-The next step is not another source-code capability. It is `ATS2-M2-011 — M2 Exit`, with the canonical review artifact `governance/program/M2_EXIT_REVIEW.md`.
+M2 Exit is recorded in `governance/program/M2_EXIT_REVIEW.md`. The next program step is `ATS2-M3-001 — Select Reference Strategy #1`; no new shared source-code capability is added until the selected consumer demonstrates a need.
