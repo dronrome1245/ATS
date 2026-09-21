@@ -21,6 +21,9 @@ REFERENCE_STRATEGY_SELECTION = "governance/program/REFERENCE_STRATEGY_1_SELECTIO
 REFERENCE_STRATEGY_IDEA = "research/ideas/IDEA-0001.md"
 REFERENCE_STRATEGY_HYPOTHESIS = "research/hypotheses/HYP-0001.md"
 REFERENCE_STRATEGY_DATA_FEASIBILITY = "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
+REFERENCE_STRATEGY_PROTOTYPE = "research/reviews/HYP-0001-PROTOTYPE-01.md"
+PROTO01_SCHEMA = "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.schema.json"
+PROTO01_TOOL = "tools/proto01_eurusd.py"
 CONSUMER_PROFILE = "governance/program/REFERENCE_CONSUMER_PROFILE.md"
 RESEARCH_STACK_ADR = "governance/decisions/ADR-0001-RESEARCH-STACK.md"
 ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -116,7 +119,7 @@ def configure() -> None:
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         M1_EXIT, M2_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
-        CONSUMER_PROFILE,
+        REFERENCE_STRATEGY_PROTOTYPE, PROTO01_SCHEMA, PROTO01_TOOL, CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
         LOCAL_CI_TROUBLESHOOTING, DATASET_MANIFEST_SPEC,
@@ -219,6 +222,35 @@ def configure() -> None:
         "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
         "Decision: `CONDITIONAL`",
         "research/reviews/HYP-0001-PROTOTYPE-01.md",
+    )
+    core.CONTENT_MARKERS[REFERENCE_STRATEGY_PROTOTYPE] = (
+        "Prototype sequence: `PROTO-01`",
+        "DRAFT — DATA_SNAPSHOT_REQUIRED",
+        "2021-01-01T00:00:00Z",
+        "2026-01-01T00:00:00Z",
+        "at least 100 valid breakout observations",
+        "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+        "tools/proto01_eurusd.py",
+        "Decision: `NOT_RUN`",
+        "EXPLORATORY_PROTOTYPE",
+    )
+    core.CONTENT_MARKERS[PROTO01_SCHEMA] = (
+        "HYP-0001 PROTO-01 EURUSD 1H aligned BID/ASK rows",
+        "event_time",
+        "availability_time",
+        "bid_open",
+        "ask_open",
+        "additionalProperties",
+    )
+    core.CONTENT_MARKERS[PROTO01_TOOL] = (
+        "HYP-0001 PROTO-01",
+        "BID_candles_hour_1.bi5",
+        "ASK_candles_hour_1.bi5",
+        "PROTO01_DATA_REPORT.txt",
+        "DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml",
+        "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "FEWER_THAN_100_VALID_BREAKOUT_OBSERVATIONS",
     )
     core.CONTENT_MARKERS[CONSUMER_PROFILE] = (
         "single research logic instance", "Minimum data contract",
@@ -478,13 +510,12 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M3-003"',
-        "M3-003 data feasibility artifacts",
-        "research/ideas/IDEA-0001.md",
-        "research/hypotheses/HYP-0001.md",
-        "research/reviews/HYP-0001-DATA_FEASIBILITY.md",
-        "M3-003 data feasibility governance validation",
-        "tools/validate_repo.py",
+        'TASK_ID = "ATS2-M3-004"',
+        "M3-004 cheap prototype artifacts",
+        "research/reviews/HYP-0001-PROTOTYPE-01.md",
+        "DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml",
+        "HYP-0001-PROTOTYPE-01-result.json",
+        "M3-004 prototype governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -675,6 +706,7 @@ def validate_environment(repo: Path) -> int:
     for relative in (
         "tools/environment_fingerprint.py",
         "tools/verify_repo.py",
+        "tools/proto01_eurusd.py",
         "src/ats/schemas/dataset_manifest.py",
         "src/ats/data/loader.py",
         "src/ats/strategy/interface.py",
@@ -743,6 +775,7 @@ def main() -> int:
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
+        'prototype_id: "PROTO-01"', 'prototype_status: "PRE_RUN_DATA_REQUIRED"',
         'selected_market_context: "FX_SPOT_OTC"',
         'selected_instrument: "EURUSD"', "ideas_registered: 1",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
@@ -823,8 +856,8 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-M3-003") not in {"DONE", "DONE / CONDITIONAL"}:
         core.fail("M3-003 must be DONE / CONDITIONAL in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M3-004") != "READY":
-        core.fail("M3-004 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M3-004") != "IN_PROGRESS":
+        core.fail("M3-004 must be IN_PROGRESS in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

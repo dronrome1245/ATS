@@ -55,10 +55,10 @@ model:
   reference_strategy_1_data_feasibility: "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
 
 current:
-  focus: "Prepare Cheap Prototype PROTO-01 for HYP-0001"
+  focus: "Prepare frozen EURUSD data for HYP-0001 PROTO-01"
   last_completed_task_id: "ATS2-M3-003"
   last_completed_artifact: "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
-  next_artifact: "research/reviews/HYP-0001-PROTOTYPE-01.md"
+  next_artifact: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
   next_task_id: "ATS2-M3-004"
 
 milestones:
@@ -184,6 +184,8 @@ m3:
   idea_id: "IDEA-0001"
   hypothesis_id: "HYP-0001"
   data_feasibility_decision: "CONDITIONAL"
+  prototype_id: "PROTO-01"
+  prototype_status: "PRE_RUN_DATA_REQUIRED"
   selected_market_context: "FX_SPOT_OTC"
   selected_instrument: "EURUSD"
 
@@ -225,7 +227,7 @@ safety:
 
 strategy_pipeline:
   ideas_registered: 1
-  prototypes_active: 0
+  prototypes_active: 1
   candidates_active: 0
   experiments_registered: 0
   validated_strategies: 0

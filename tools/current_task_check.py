@@ -8,23 +8,23 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M3-003"
-TASK_NAME = "Data feasibility"
+TASK_ID = "ATS2-M3-004"
+TASK_NAME = "Cheap prototype"
 REQUIRED_ARTIFACTS = (
-    Path("research/ideas/IDEA-0001.md"),
-    Path("research/hypotheses/HYP-0001.md"),
-    Path("research/reviews/HYP-0001-DATA_FEASIBILITY.md"),
+    Path("research/reviews/HYP-0001-PROTOTYPE-01.md"),
+    Path("data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"),
+    Path("reports/research/HYP-0001-PROTOTYPE-01-result.json"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M3-003 data feasibility artifacts ==")
+    print("\n== M3-004 cheap prototype artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M3-003 data feasibility artifacts")
+    print("[PASS] M3-004 cheap prototype artifacts")
     return True
 
 
@@ -40,7 +40,6 @@ def run(name: str, command: list[str]) -> bool:
 def main() -> int:
     print("ATS CURRENT TASK CHECK")
     print(f"Task: {TASK_ID} — {TASK_NAME}")
-
     commit = subprocess.run(
         ["git", "rev-parse", "HEAD"],
         cwd=ROOT,
@@ -53,13 +52,10 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "M3-003 data feasibility governance validation",
+            "M3-004 prototype governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
-        run(
-            "full ATS Local CI",
-            [sys.executable, "tools/verify_repo.py"],
-        ),
+        run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),
     ]
     overall = all(results)
     print(f"\nATS CURRENT TASK CHECK: {'PASS' if overall else 'FAIL'}")

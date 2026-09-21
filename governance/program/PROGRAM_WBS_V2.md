@@ -308,11 +308,13 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-3.2 — Idea & rationale` — `DONE`;
 - `IDEA-0001` — `SCREENING`;
 - `HYP-0001` — `READY_FOR_DATA_FEASIBILITY`;
-- `WBS-3.3 — Data feasibility` — repository artifact implemented with decision `CONDITIONAL`; exact closure uses `ATS_TASK_CHECK.bat`;
-- next work package after PASS: **`WBS-3.4 — Cheap prototype`**.
+- `WBS-3.3 — Data feasibility` — `DONE / CONDITIONAL`;
+- `WBS-3.4 — Cheap prototype` — `IN_PROGRESS`;
+- `PROTO-01` pre-run question, fixed 2021–2025 scope and decision rule are committed before result observation;
+- next material step: prepare/hash the exact EUR/USD dataset and commit its Dataset Manifest before running the result.
 
-The next canonical research artifact after M3-003 PASS is:
+Immediate next artifact:
 
-`research/reviews/HYP-0001-PROTOTYPE-01.md`
+`data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml`
 
 Current execution state must still be read from `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` and `governance/backlog/PROGRAM_BACKLOG_V2.md`.

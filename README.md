@@ -2,41 +2,29 @@
 
 > **AI / новый чат:** сначала откройте `AI_HANDOFF.md`, затем `AGENTS.md`.
 
-**ATS — Algorithmic Trading Systems** — Strategy Factory для воспроизводимого исследования, проверки и дальнейшей эксплуатации алгоритмических торговых систем.
+ATS — Strategy Factory для воспроизводимого исследования алгоритмических торговых систем.
 
 ## Текущее состояние
 
 - Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- Reference class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`.
-- Research instrument: `EURUSD`.
-- Idea: `IDEA-0001 — SCREENING`.
-- Hypothesis: `HYP-0001 — READY_FOR_DATA_FEASIBILITY`.
-- Data Feasibility: `CONDITIONAL`.
+- Instrument: EUR/USD.
+- Timeframe: 1H.
+- Current task: `ATS2-M3-004 — Cheap prototype`.
 
-Canonical review:
-
-`research/reviews/HYP-0001-DATA_FEASIBILITY.md`
-
-Dukascopy EUR/USD 1H BID/ASK data is structurally suitable, but the actual source snapshot must be frozen, aligned and hashed before the prototype runs.
-
-## Current closure check
-
-`ATS2-M3-003 — Data feasibility`
-
-Run:
-
-`ATS_TASK_CHECK.bat`
-
-## Next task after PASS
-
-`ATS2-M3-004 — Cheap prototype`
-
-Next artifact:
+PROTO-01 записан до просмотра результата:
 
 `research/reviews/HYP-0001-PROTOTYPE-01.md`
 
-No prototype result, Candidate, Strategy ID or Experiment exists yet.
+Период заранее зафиксирован: 2021–2025.
 
-## Boundary
+## Сейчас
 
-Broker/live trading, capital allocation, Strategy Risk Mandate, leverage and scaling remain outside current scope.
+Подготовить данные:
+
+`uv run --frozen python tools/proto01_eurusd.py prepare`
+
+Потом передать:
+
+`reports/local_ci/PROTO01_DATA_REPORT.txt`
+
+Результат теста пока не запускать.

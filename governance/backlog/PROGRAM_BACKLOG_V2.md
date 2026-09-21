@@ -30,7 +30,7 @@ Backlog превращает Program WBS в исполнимую очередь 
 15. `ATS2-M3-001` — Select Reference Strategy #1 — `DONE`.
 16. `ATS2-M3-002` — Idea & rationale — `DONE`.
 17. `ATS2-M3-003` — Data feasibility — `DONE / CONDITIONAL`.
-18. `ATS2-M3-004` — Cheap prototype — `READY`.
+18. `ATS2-M3-004` — Cheap prototype — `IN_PROGRESS`.
 
 Program-level current next task — `ATS2-M3-004`.
 
@@ -71,7 +71,7 @@ M2 Exit decision: `PASS`. The platform milestone is complete; this does not crea
 | `ATS2-M3-001` | `WBS-3.1` | P1 | DONE | M1 PASS, M2 PASS | `governance/program/REFERENCE_STRATEGY_1_SELECTION.md` | Selected `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class without selecting parameters, instrument, vendor or claiming profitability |
 | `ATS2-M3-002` | `WBS-3.2` | P1 | DONE | M3-001 | `research/ideas/IDEA-0001.md` + `research/hypotheses/HYP-0001.md` | `IDEA-0001` is screened and `HYP-0001` fixes a 24-bar breakout condition, 24-bar primary horizon, BID/ASK execution premise and falsification path before prototype results |
 | `ATS2-M3-003` | `WBS-3.3` | P1 | DONE / CONDITIONAL | M3-002 | `research/reviews/HYP-0001-DATA_FEASIBILITY.md` | Dukascopy EUR/USD 1H BID/ASK path is structurally suitable; actual snapshot/coverage must be frozen before prototype execution, and PROTO-01 economic claims remain before-financing unless rollover/commission inputs are added |
-| `ATS2-M3-004` | `WBS-3.4` | P1 | READY | M3-002, M3-003 CONDITIONAL | `research/reviews/HYP-0001-PROTOTYPE-01.md` + minimal implementation/output references | One pre-written prototype question is answered with the frozen HYP-0001 rule after the actual BID/ASK snapshot conditions are resolved; no parameter optimization or formal-validation claim |
+| `ATS2-M3-004` | `WBS-3.4` | P1 | IN_PROGRESS | M3-002, M3-003 CONDITIONAL | `research/reviews/HYP-0001-PROTOTYPE-01.md` + `tools/proto01_eurusd.py` + data manifest + result | Pre-run question/rules are committed before result; fixed 2021–2025 EUR/USD data are prepared and hashed, then the 24/24 test is run once without parameter optimization |
 
 Later M3 work remains governed by `WBS-3.5`–`WBS-3.11` in `governance/program/PROGRAM_WBS_V2.md` and is instantiated into executable backlog tasks as dependencies become ready.
 
@@ -91,8 +91,14 @@ Materialized research lineage:
 - `research/hypotheses/HYP-0001.md` — `READY_FOR_DATA_FEASIBILITY`;
 - `research/reviews/HYP-0001-DATA_FEASIBILITY.md` — `CONDITIONAL`.
 
-Canonical next artifact:
+PROTO-01 pre-run artifact and tooling are materialized.
 
-`research/reviews/HYP-0001-PROTOTYPE-01.md`.
+Immediate next artifact:
 
-M3-004 may prepare PROTO-01 immediately, but it must not execute the quantitative run until the actual Dukascopy BID/ASK snapshot and coverage are frozen and hashed as required by the Data Feasibility conditions.
+`data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml`.
+
+Run only data preparation:
+
+`uv run --frozen python tools/proto01_eurusd.py prepare`
+
+Then review `reports/local_ci/PROTO01_DATA_REPORT.txt`. Do not run the quantitative result until the exact Dataset Manifest has been committed.
