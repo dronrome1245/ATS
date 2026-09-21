@@ -578,7 +578,8 @@ def configure() -> None:
         "`WBS-3.1`",
         "`WBS-3.2`",
         "M2 Research Platform MVP — `COMPLETED / PASS`",
-        "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT",
+        "Reference Strategy #1 research outcome — `REJECTED_AT_R3`",
+        "Validate first promoted Candidate",
     )
     core.CONTENT_MARKERS["data/README.md"] = (
         "Dataset Manifests",
@@ -625,8 +626,12 @@ def configure() -> None:
         "synthetic non-market",
     )
     core.CONTENT_MARKERS["reports/README.md"] = (
-        "source_class", "qualified_evidence_class", "ats.analytics.standard",
-        "gross effect", "WBS-2.9",
+        "source_class",
+        "qualified_evidence_class",
+        "ats.analytics.standard",
+        "gross effect",
+        "manifest-driven Experiment runner",
+        "negative prototype remains exploratory evidence",
     )
     core.CONTENT_MARKERS["governance/methodology/templates/CANDIDATE_EVIDENCE_INDEX_TEMPLATE.md"] = (
         "Source class", "Qualified evidence class", "Negative and discarded evidence",
