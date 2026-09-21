@@ -164,7 +164,10 @@ def test_non_scalar_parameter_values_are_rejected() -> None:
         SensitivityContractError,
         match="parameter values must be JSON scalars",
     ):
-        ParameterVariant(variant_id="bad", values=(["not", "scalar"],))  # type: ignore[list-item]
+        ParameterVariant(
+            variant_id="bad",
+            values=(["not", "scalar"],),
+        )
 
 
 def test_plan_and_results_are_immutable() -> None:
