@@ -16,7 +16,7 @@ from ats.costs.interface import (
     apply_cost_model,
 )
 from ats.data.loader import load_dataset
-from ats.replay.engine import ReplayResult, run_replay
+from ats.replay.engine import run_replay
 from ats.schemas.dataset_manifest import load_dataset_manifest
 from ats.strategy.interface import (
     ResearchDecision,
@@ -29,9 +29,7 @@ from ats.strategy.interface import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASET_MANIFEST = ROOT / "tests" / "fixtures" / "datasets" / "ordered_events.manifest.yaml"
-EXPECTED_RESULT = (
-    ROOT / "tests" / "fixtures" / "platform" / "reference_consumer_expected.json"
-)
+EXPECTED_RESULT = ROOT / "tests" / "fixtures" / "platform" / "reference_consumer_expected.json"
 REGISTRY = ROOT / "experiments" / "REGISTRY.csv"
 
 
