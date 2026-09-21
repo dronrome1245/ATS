@@ -596,8 +596,8 @@ def configure() -> None:
         ".githooks/pre-commit",
         ".githooks/pre-push",
         "GitHub Actions status is not a completion criterion",
-        "fast Local CI preflight",
-        "exit code `16`",
+        "Fast preflight before the completion check",
+        "launcher exits with code `16`",
     )
     core.CONTENT_MARKERS[LOCAL_CI_TROUBLESHOOTING] = (
         "LCI-001",
