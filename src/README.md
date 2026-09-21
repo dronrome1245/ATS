@@ -158,4 +158,4 @@ Implemented M2-009 behavior:
 
 `ATS2-M2-010 — Research platform tests` materializes the Reference Consumer Profile acceptance fixture in `tests/test_research_platform.py` plus `tests/fixtures/platform/reference_consumer_expected.json`.
 
-M2 Exit is recorded in `governance/program/M2_EXIT_REVIEW.md`. M3-001 selected `SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class. The next step is `ATS2-M3-002 — Idea & rationale`; no shared source-code capability is added until the real research consumer demonstrates a need.
+M2 Exit is recorded in `governance/program/M2_EXIT_REVIEW.md`. M3-001 selected `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class. The next step is `ATS2-M3-002 — Idea & rationale`; no shared source-code capability is added until the real research consumer demonstrates a need.

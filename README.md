@@ -15,13 +15,13 @@
 
 Reference Strategy #1 class selected at repository-artifact level:
 
-`SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT`
+`SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`
 
 Canonical decision:
 
 `governance/program/REFERENCE_STRATEGY_1_SELECTION.md`
 
-This selects only the research class: one instrument, daily bars, long/flat trend/breakout. It does not select the instrument, vendor, numeric parameters or claim profitability.
+This selects only the research class: one instrument, 1H bars, long/flat trend/breakout; positions may span multiple hours or days until an exit signal. It does not select the instrument, vendor, numeric parameters or claim profitability.
 
 ## Current closure check
 

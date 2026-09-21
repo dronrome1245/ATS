@@ -303,7 +303,7 @@ WBS не устанавливает без evidence и OWNER decision:
 - M2 Exit Review — `PASS`, canonical artifact `governance/program/M2_EXIT_REVIEW.md`;
 - M3 Reference Strategy #1 — `IN_PROGRESS`;
 - `WBS-3.1 — Select Reference Strategy #1` — repository artifact implemented; exact closure uses `ATS_TASK_CHECK.bat`;
-- selected class: `SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT`;
+- selected class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`;
 - next work package after PASS: **`WBS-3.2 — Idea & rationale`**.
 
 The next canonical research artifact after M3-001 PASS is:

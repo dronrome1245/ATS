@@ -166,13 +166,16 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[REFERENCE_STRATEGY_SELECTION] = (
         "Decision:** `SELECT`",
-        "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT",
-        "Single-instrument daily long/flat trend-following / breakout",
+        "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT",
+        "Single-instrument 1H long/flat trend-following / breakout",
         "No numeric lookback, threshold, stop, holding period, position size or cost value",
         "Binance Public Data",
+        "`1h` as a supported kline interval",
         "Alpha Vantage",
+        "`60min` as a supported intraday interval",
         "Time Series Momentum",
         "selection was made before running a backtest",
+        "OWNER changed the selected decision interval from daily bars to 1H bars",
         "ATS2-M3-002 — Idea & rationale",
         "research/ideas/IDEA-0001.md",
     )
@@ -458,7 +461,7 @@ def configure() -> None:
         "`WBS-3.1`",
         "`WBS-3.2`",
         "M2 Research Platform MVP — `COMPLETED / PASS`",
-        "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT",
+        "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT",
     )
     core.CONTENT_MARKERS["data/README.md"] = (
         "Dataset Manifests",
@@ -484,7 +487,7 @@ def configure() -> None:
         "RegisteredExperimentContext",
         "ExperimentRunResult",
         "M2 Exit is recorded",
-        "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT",
+        "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT",
         "ATS2-M3-002 — Idea & rationale",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
@@ -689,7 +692,7 @@ def main() -> int:
         'last_completed_task_id: "ATS2-M3-001"',
         'current_task: "ATS2-M3-002"', 'current_ready_task: "ATS2-M3-002"',
         'current_wbs: "WBS-3.2"', "reference_strategy_selection_allowed: true",
-        'selected_reference_strategy: "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT"',
+        'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",

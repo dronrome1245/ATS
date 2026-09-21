@@ -22,16 +22,17 @@ Canonical artifact:
 
 Selected class:
 
-`SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT`
+`SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`
 
 Meaning:
 
 - one instrument;
-- daily bars;
+- 1H bars;
 - long/flat first reference implementation;
 - trend/breakout family;
-- decisions only from completed-bar information;
+- decisions only from completed 1H-bar information;
 - no action before the next information-available execution point;
+- position may span multiple 1H bars or calendar days until an explicit exit signal;
 - no shorting, borrow, leverage or portfolio layer required for the first research line.
 
 No instrument, venue, data vendor, numeric parameter, cost value or capital/risk limit is selected yet.
@@ -87,7 +88,7 @@ The Idea/Hypothesis must be created before Data Feasibility and before any param
 - Current milestone: `M3_REFERENCE_STRATEGY_1`.
 - Last implemented task: `ATS2-M3-001`.
 - Closure checker: `ATS2-M3-001`.
-- Selected class: `SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT`.
+- Selected class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`.
 - Current ready task after PASS: `ATS2-M3-002`.
 - Current WBS after PASS: `WBS-3.2`.
 - Next artifact: `research/ideas/IDEA-0001.md`.

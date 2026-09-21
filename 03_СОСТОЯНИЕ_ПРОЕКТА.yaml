@@ -172,7 +172,7 @@ m3:
   current_task: "ATS2-M3-002"
   current_wbs: "WBS-3.2"
   reference_strategy_selection_allowed: true
-  selected_reference_strategy: "SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT"
+  selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"

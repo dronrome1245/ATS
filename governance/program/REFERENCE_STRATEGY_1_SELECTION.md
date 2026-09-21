@@ -13,20 +13,21 @@ Selection is not evidence of edge, profitability, validation, live readiness or 
 
 ## 2. Selected strategy class
 
-**Selected class:** `SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT`
+**Selected class:** `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`
 
 Human-readable description:
 
-**Single-instrument daily long/flat trend-following / breakout.**
+**Single-instrument 1H long/flat trend-following / breakout.**
 
 The class boundary is:
 
 - one instrument at a time;
-- one deterministic daily-bar stream;
+- one deterministic 1-hour bar stream;
 - price/OHLC-driven trend or breakout logic;
 - long/flat state only for the first reference implementation;
-- signal uses only completed-bar information;
+- signal uses only completed 1H-bar information;
 - any resulting action may occur no earlier than the next information-available execution point;
+- a position is **not** forced to close at the end of the day and may span multiple 1H bars or multiple calendar days until an explicit exit signal occurs;
 - no short sale, borrow, leverage, funding-rate, portfolio-allocation or multi-asset requirement is part of the first reference class.
 
 No numeric lookback, threshold, stop, holding period, position size or cost value is selected by this decision.
@@ -37,30 +38,42 @@ No numeric lookback, threshold, stop, holding period, position size or cost valu
 
 The class maps directly onto the M2 Reference Consumer Profile:
 
-`ordered bars → deterministic research state → decision intent → replay → explicit costs → analytics/result`.
+`ordered 1H bars → deterministic research state → decision intent → replay → explicit costs → analytics/result`.
 
-It does not require a new event engine, order-book model, news pipeline, multi-stream join or portfolio layer merely to answer the first research question.
+The existing platform already consumes a finite deterministically ordered event stream, so 1H does not require a different engine from the M2 baseline.
 
 ### Data feasibility
 
-Daily OHLC-like data is available from multiple current data paths.
+Current public data paths explicitly support hourly bars.
 
-One practical example is Binance Public Data, which publishes public spot market files in daily/monthly archives and provides checksum files. This demonstrates that a reproducible frozen data path can exist for a spot-market implementation without requiring a live broker connection.
+Binance Public Data documents `1h` as a supported kline interval, publishes spot archive files in daily/monthly form and provides checksum files. Its examples include monthly `1h` kline downloads.
 
-Alpha Vantage documents daily time-series APIs across equities and FX/crypto categories, showing another possible data path, although exact history/access terms differ by endpoint.
+Alpha Vantage documents `60min` as a supported intraday interval. Exact entitlement, history depth and suitability still depend on the future selected instrument.
 
 These observations establish **candidate data availability only**. This decision does not choose Binance, Alpha Vantage or any other vendor.
 
 ### Execution clarity
 
-A daily completed-bar signal with earliest-next-bar action has a clean information boundary:
+A completed 1H-bar signal with earliest-next-available action has a clean information boundary:
 
-1. bar closes;
+1. the 1H bar closes;
 2. the completed bar becomes available;
 3. strategy state and signal are updated;
 4. simulated execution is evaluated only after that information point.
 
-This is materially easier to audit than intraday microstructure-dependent logic.
+The 1H interval provides more decision observations than a daily interval while remaining far less dependent on sub-minute microstructure than lower-frequency intraday strategies.
+
+### Holding-period semantics
+
+The `1H` label describes the **decision interval**, not a forced trade duration.
+
+The position may remain open:
+
+- for a few hours;
+- across multiple sessions/days;
+- until the future hypothesis/specification emits a defined exit signal.
+
+M3-001 intentionally does not prescribe a fixed number of bars or a mandatory end-of-day flat rule.
 
 ### Research precedent
 
@@ -72,13 +85,14 @@ Those publications are **research provenance**, not evidence that the ATS implem
 
 | Strategy class | M3-001 disposition | Main reason |
 |---|---|---|
-| Single-instrument daily trend-following / breakout | **SELECT** | Minimal data surface, deterministic timing, low infrastructure burden, clear falsification path |
-| Single-instrument daily mean reversion | DEFER | More sensitive to entry-price/fill assumptions and typically higher turnover/cost sensitivity for a first vertical test |
-| Intraday momentum or mean reversion | DEFER | Requires materially stronger intraday data, session and microstructure handling |
+| Single-instrument 1H trend-following / breakout | **SELECT** | Fits current ordered-stream platform, gives more observations than daily bars, and keeps timing/execution assumptions auditable |
+| Single-instrument daily trend-following / breakout | DEFER | Even simpler timing, but fewer observations for the first vertical research loop; retained as a possible later comparison |
+| Single-instrument 1H mean reversion | DEFER | More sensitive to entry-price/fill assumptions and cost/turnover effects for the first reference line |
+| Sub-hour intraday momentum or mean reversion | DEFER | Requires stronger microstructure and higher-resolution execution assumptions |
 | Cross-sectional momentum / relative strength | DEFER | Requires multi-instrument universe construction, synchronization and survivorship controls |
 | Event/news strategy | DEFER | Requires additional event ingestion and decision-time timestamp semantics not needed for the first platform consumer |
 
-Deferred classes are not rejected as research ideas. They are simply worse first consumers for the current platform milestone.
+Deferred classes are not rejected as research ideas. They are simply not the first Reference Strategy consumer.
 
 ## 5. Deliberately unresolved fields
 
@@ -89,23 +103,24 @@ The following are **not selected in M3-001**:
 - venue;
 - data vendor;
 - historical period;
-- timezone/bar-boundary convention;
+- timezone and exact 1H bar-boundary convention;
 - exact trend/breakout definition;
 - entry/exit lookbacks;
+- fixed or variable holding-period rule;
 - position sizing;
 - stop logic;
 - fee/spread/slippage values;
 - capital, leverage or risk limits;
 - broker or live execution platform.
 
-These are resolved only by the later Idea/Hypothesis, Data Feasibility, protocol and lifecycle steps with explicit evidence.
+These are resolved only by later Idea/Hypothesis, Data Feasibility, protocol and lifecycle steps with explicit evidence.
 
 ## 6. Data-source observations for the next stage
 
 Current source observations to be verified during Data Feasibility:
 
-- Binance Public Data: public spot/futures archive, daily/monthly files, checksum support; spot timestamps from 2025 onward are documented in microseconds.
-- Alpha Vantage: documented daily time-series interfaces for equities and FX/crypto; exact entitlement/history availability must be checked for the chosen instrument and use case.
+- Binance Public Data: public spot/futures archive, `1h` klines supported, daily/monthly files and checksum support; spot timestamps from 2025 onward are documented in microseconds.
+- Alpha Vantage: documented intraday intervals include `60min`; exact entitlement/history availability must be checked for the chosen instrument and use case.
 
 The future Dataset Manifest must freeze the actual source/snapshot, timestamp semantics, coverage and integrity reference. No source is approved merely by appearing in this selection note.
 
@@ -114,6 +129,8 @@ The future Dataset Manifest must freeze the actual source/snapshot, timestamp se
 The selection was made before running a backtest for Reference Strategy #1.
 
 No parameter search, instrument ranking or result comparison was used to choose the selected class.
+
+Before M3-001 closure, OWNER changed the selected decision interval from daily bars to 1H bars. This revision occurred before any Reference Strategy backtest, Idea/Hypothesis result or Experiment observation.
 
 The first real Idea/Hypothesis must therefore begin from the class-level rationale above rather than from a discovered profitable parameter set.
 
@@ -149,7 +166,7 @@ Data-path observations:
 
 Reference Strategy #1 class is:
 
-`SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT`
+`SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`
 
 Next work package:
 

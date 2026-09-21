@@ -66,7 +66,7 @@ M2 Exit decision: `PASS`. The platform milestone is complete; this does not crea
 
 | Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done |
 |---|---|---:|---|---|---|---|
-| `ATS2-M3-001` | `WBS-3.1` | P1 | DONE | M1 PASS, M2 PASS | `governance/program/REFERENCE_STRATEGY_1_SELECTION.md` | Selected `SINGLE_INSTRUMENT_DAILY_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class without selecting parameters, instrument, vendor or claiming profitability |
+| `ATS2-M3-001` | `WBS-3.1` | P1 | DONE | M1 PASS, M2 PASS | `governance/program/REFERENCE_STRATEGY_1_SELECTION.md` | Selected `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class without selecting parameters, instrument, vendor or claiming profitability |
 | `ATS2-M3-002` | `WBS-3.2` | P1 | READY | M3-001 | `research/ideas/IDEA-0001.md` + `research/hypotheses/HYP-0001.md` | A real screened Idea and falsifiable Hypothesis are registered for the selected class with rationale, information premise, expected effect, falsification path and required data |
 
 Later M3 work remains governed by `WBS-3.3`–`WBS-3.11` in `governance/program/PROGRAM_WBS_V2.md` and is instantiated into executable backlog tasks as dependencies become ready.
@@ -85,4 +85,4 @@ Canonical next artifact:
 
 `research/ideas/IDEA-0001.md`.
 
-M3-002 must register the first real Idea and corresponding falsifiable Hypothesis for the selected daily long/flat trend-breakout class. It must not choose parameters by inspecting a profitable backtest.
+M3-002 must register the first real Idea and corresponding falsifiable Hypothesis for the selected 1H long/flat trend-breakout class. It must not choose parameters by inspecting a profitable backtest.
