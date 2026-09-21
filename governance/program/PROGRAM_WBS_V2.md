@@ -31,7 +31,7 @@ WBS является **deliverable-oriented**, а не календарным п
 | `M0_PROGRAM_REBASELINE` | Переопределить ATS как Strategy Factory | Однозначные Charter, Operating Model, Lifecycle, Research Methodology, WBS, repository structure, backlog, templates и canonical state |
 | `M1_RESEARCH_METHODOLOGY` | Сделать research воспроизводимым и управляемым | Рабочий Research Funnel, experiment protocol и economic/statistical screening |
 | `M2_RESEARCH_PLATFORM_MVP` | Создать минимальную общую исследовательскую платформу | Можно воспроизводимо загружать данные, запускать baseline experiments и получать стандартный report |
-| `M3_REFERENCE_STRATEGY_1` | Проверить вертикальный research flow на первой стратегии | Strategy #1 проходит `R0 → S05` и выявляет реальные требования к платформе |
+| `M3_REFERENCE_STRATEGY_1` | Проверить вертикальный research flow на первой стратегии | Strategy #1 либо проходит к S05, либо корректно отвергается раньше; в обоих случаях сохраняются reproducible evidence и platform learnings |
 | `M4_VALIDATION_FRAMEWORK` | Стандартизировать глубокую проверку edge | Robustness, independent examination, stress/evidence framework применимы к кандидатам |
 | `M5_EXECUTION_PLATFORM` | Подготовить подтверждённую стратегию к реальному исполнению | Demo/shadow-capable execution stack, state, reconciliation, monitoring и risk controls |
 | `M6_REFERENCE_STRATEGY_2` | Проверить универсальность платформы на другом классе стратегии | Вторая стратегия использует общую платформу и расширяет её только по доказанной потребности |
@@ -140,8 +140,8 @@ Reference Strategy #1 прошла путь минимум до S05 либо б�
 | `WBS-4.6` | P | M4 | Independent exam protocol | Freeze + exam manifest | 4.1 | VALIDATION | Version/data/criteria freeze происходит до раскрытия independent result |
 | `WBS-4.7` | P | M4 | Multiple-research accounting | Research history linkage | 1.8, 4.1 | VALIDATION | Decision review видит количество существенных исследовательских попыток и selection history |
 | `WBS-4.8` | P | M4 | Class-specific profiles | Validation profiles | 4.1 | VALIDATION / RESEARCH | Как минимум технический профиль определён; новые profiles добавляются по потребности |
-| `WBS-4.9` | S | M4 | Validate Reference Strategy #1 | S06 report | 3.10 PASS, 4.1–4.8 | VALIDATION | Robustness criteria применены без post-hoc изменения hypothesis |
-| `WBS-4.10` | S | M4 | Independent exam Strategy #1 | S07 exam report | 4.9 PASS | INDEPENDENT_REVIEWER | Frozen version получает однозначный PASS/FAIL на independent evidence |
+| `WBS-4.9` | S | M4 | Validate first promoted Candidate | S06 report | S05 PASS for a promoted Candidate, 4.1–4.8 | VALIDATION | Robustness criteria применены без post-hoc изменения hypothesis; rejected research lines не возвращаются в validation |
+| `WBS-4.10` | S | M4 | Independent exam first promoted Candidate | S07 exam report | 4.9 PASS | INDEPENDENT_REVIEWER | Frozen version получает однозначный PASS/FAIL на independent evidence |
 
 ### Exit M4
 
@@ -299,24 +299,17 @@ WBS не устанавливает без evidence и OWNER decision:
 - M0 Program Rebaseline — `COMPLETED / PASS`;
 - M1 Research Methodology — `COMPLETED / PASS`;
 - M2 Research Platform MVP — `COMPLETED / PASS`;
-- `WBS-2.0`–`WBS-2.10` — completed;
-- M2 Exit Review — `PASS`, canonical artifact `governance/program/M2_EXIT_REVIEW.md`;
-- M3 Reference Strategy #1 — `IN_PROGRESS`;
-- `WBS-3.1 — Select Reference Strategy #1` — `DONE`;
-- selected class: `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT`;
-- selected research instrument: `EURUSD` / EUR/USD spot FX;
-- `WBS-3.2 — Idea & rationale` — `DONE`;
-- `IDEA-0001` — `SCREENING`;
-- `HYP-0001` — `READY_FOR_DATA_FEASIBILITY`;
-- `WBS-3.3 — Data feasibility` — `DONE / CONDITIONAL`;
-- `WBS-3.4 — Cheap prototype` — `DONE / REJECT`;
-- `PROTO-01` ran once on the frozen 2021–2025 dataset with 1006 breakout signals;
-- mean signal return was negative and below the unconditional baseline, so the preregistered outcome is `REJECT`;
-- `WBS-3.5`–`WBS-3.10` are not entered for HYP-0001;
-- current work package: **`WBS-3.11 — Platform learning review` via early-rejection path**.
+- M3 Reference Strategy #1 — `COMPLETED / PASS`;
+- Reference Strategy #1 research outcome — `REJECTED_AT_R3`;
+- `WBS-3.1`–`WBS-3.4` — completed, with `WBS-3.4 = REJECT` research outcome;
+- `WBS-3.5`–`WBS-3.10` — not entered for HYP-0001;
+- `WBS-3.11` early-rejection platform learning review — completed;
+- M3 Exit Review — `PASS`, canonical artifact `governance/program/M3_EXIT_REVIEW.md`;
+- M4 Validation Framework — `IN_PROGRESS`;
+- current work package: **`WBS-4.1 — Validation protocol framework`**.
 
-Immediate next artifact:
+The next canonical artifact is:
 
-`governance/program/M3_EXIT_REVIEW.md`
+`governance/methodology/VALIDATION_FRAMEWORK.md`
 
-Current execution state must still be read from `03_СОСТОЯНИЕ_ПРОЕКТА.yaml`, `02_СЛЕДУЮЩИЙ_ШАГ.md` and `governance/backlog/PROGRAM_BACKLOG_V2.md`.
+Strategy-specific M4 validation will apply only to a future promoted Candidate. HYP-0001 remains rejected and is not reopened by M4.

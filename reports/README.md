@@ -19,4 +19,4 @@ M2 `WBS-2.8` materializes the minimum standard analytics/report output in `ats.a
 
 The baseline keeps gross effect, explicit modeled costs and net effect separate; exposes deterministic effect distribution/path metrics only when their semantics are declared; requires explicit applicability for trade/event counts; and renders canonical JSON plus a minimum deterministic Markdown report.
 
-It does not invent return percentages, Sharpe, win rate, capital metrics or trade semantics. The next integration step is `WBS-2.9`, which will bind this output to the manifest-driven Experiment runner.
+It does not invent return percentages, Sharpe, win rate, capital metrics or trade semantics. M2 later bound this output to the manifest-driven Experiment runner. M3 also added a real exploratory result under `reports/research/` for HYP-0001 / PROTO-01; that negative prototype remains exploratory evidence and is not upgraded to a formal Experiment.

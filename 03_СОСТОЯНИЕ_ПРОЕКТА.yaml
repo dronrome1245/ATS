@@ -2,7 +2,7 @@ schema_version: "2.0"
 program:
   id: ATS
   name: "ATS — Algorithmic Trading Systems"
-  phase: M3_REFERENCE_STRATEGY_1
+  phase: M4_VALIDATION_FRAMEWORK
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
   updated_on: "2026-09-21"
@@ -54,20 +54,21 @@ model:
   reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"
   reference_strategy_1_data_feasibility: "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
   reference_strategy_1_dataset_manifest: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
+  m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Close rejected Reference Strategy #1 and record platform learnings"
-  last_completed_task_id: "ATS2-M3-004"
-  last_completed_artifact: "reports/research/HYP-0001-PROTOTYPE-01-result.json"
-  next_artifact: "governance/program/M3_EXIT_REVIEW.md"
-  next_task_id: "ATS2-M3-005"
+  focus: "Define reusable Validation Protocol Framework"
+  last_completed_task_id: "ATS2-M3-005"
+  last_completed_artifact: "governance/program/M3_EXIT_REVIEW.md"
+  next_artifact: "governance/methodology/VALIDATION_FRAMEWORK.md"
+  next_task_id: "ATS2-M4-001"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
   M1_RESEARCH_METHODOLOGY: COMPLETED
   M2_RESEARCH_PLATFORM_MVP: COMPLETED
-  M3_REFERENCE_STRATEGY_1: IN_PROGRESS
-  M4_VALIDATION_FRAMEWORK: NOT_STARTED
+  M3_REFERENCE_STRATEGY_1: COMPLETED
+  M4_VALIDATION_FRAMEWORK: IN_PROGRESS
   M5_EXECUTION_PLATFORM: NOT_STARTED
   M6_REFERENCE_STRATEGY_2: NOT_STARTED
   M7_PORTFOLIO_LAYER: NOT_STARTED
@@ -174,6 +175,7 @@ m3:
     - "ATS2-M3-002"
     - "ATS2-M3-003"
     - "ATS2-M3-004"
+    - "ATS2-M3-005"
   completed_artifacts:
     - "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"
     - "research/ideas/IDEA-0001.md"
@@ -182,7 +184,10 @@ m3:
     - "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
     - "research/reviews/HYP-0001-PROTOTYPE-01.md"
     - "reports/research/HYP-0001-PROTOTYPE-01-result.json"
-  current_task: "ATS2-M3-005"
+    - "governance/program/M3_EXIT_REVIEW.md"
+  exit_decision: PASS
+  exit_review: "governance/program/M3_EXIT_REVIEW.md"
+  current_task: "CLOSED"
   current_wbs: "WBS-3.11"
   reference_strategy_selection_allowed: true
   selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"
@@ -200,10 +205,17 @@ m3:
   prototype_outcome: "REJECT"
   research_line_status: "REJECTED_AT_R3"
 
+m4:
+  objective: "Build a reusable validation framework for future promoted Candidates"
+  completed_tasks: []
+  current_task: "ATS2-M4-001"
+  current_wbs: "WBS-4.1"
+  first_candidate_validation_pending: true
+
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M3-005"
-  current_ready_wbs: "WBS-3.11"
+  current_ready_task: "ATS2-M4-001"
+  current_ready_wbs: "WBS-4.1"
 
 handoff_policy:
   update_after_material_step: true

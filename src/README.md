@@ -1,6 +1,6 @@
 # Source code
 
-ATS is in `M3_REFERENCE_STRATEGY_1`; the reusable M2 research-platform baseline is complete.
+ATS is in `M4_VALIDATION_FRAMEWORK`; the reusable M2 research-platform baseline and M3 Reference Strategy #1 research cycle are complete.
 
 Canonical stack decision:
 
@@ -34,9 +34,9 @@ src/ats/
 
 M2 is not DataFrame-first and does not baseline pandas, Polars, PyArrow, DuckDB, an external backtesting framework, Docker, broker adapters or live execution. Such capabilities are added only after a real consumer demonstrates the need.
 
-A concrete Reference Strategy #1 is not selected until M3. Deterministic synthetic software fixtures used for platform tests are not research entities or trading evidence.
+M3 selected and tested Reference Strategy #1. Its HYP-0001 / PROTO-01 research line was rejected at R3. Deterministic synthetic software fixtures remain software evidence only and are not trading evidence.
 
-The M2 environment, Dataset Manifest, loader, Strategy/Research interface, replay, cost model, analytics/report, manifest-driven runner and end-to-end acceptance/regression baseline are complete. M2 Exit decision is `PASS`; M3 now uses this platform against a real Reference Strategy selection process.
+The M2 environment, Dataset Manifest, loader, Strategy/Research interface, replay, cost model, analytics/report, manifest-driven runner and end-to-end acceptance/regression baseline are complete. M2 Exit decision is `PASS`; M3 then used the platform on real EUR/USD BID/ASK research data and correctly stopped the first hypothesis at Cheap Prototype.
 
 
 ## Implemented M2 boundary
@@ -158,4 +158,4 @@ Implemented M2-009 behavior:
 
 `ATS2-M2-010 — Research platform tests` materializes the Reference Consumer Profile acceptance fixture in `tests/test_research_platform.py` plus `tests/fixtures/platform/reference_consumer_expected.json`.
 
-M2 Exit is recorded in `governance/program/M2_EXIT_REVIEW.md`. M3-001 selected `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class. The next step is `ATS2-M3-002 — Idea & rationale`; no shared source-code capability is added until the real research consumer demonstrates a need.
+M2 Exit is recorded in `governance/program/M2_EXIT_REVIEW.md`. M3-001 selected `SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT` as the first reference strategy class. M3 Reference Strategy #1 is recorded as `COMPLETED / PASS`, while HYP-0001 itself is `REJECTED_AT_R3`. The next step is `ATS2-M4-001 — Validation protocol framework`; reusable validation capability will be added without reopening the rejected hypothesis.

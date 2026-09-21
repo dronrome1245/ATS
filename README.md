@@ -6,21 +6,25 @@ ATS — Strategy Factory для воспроизводимого исследо�
 
 ## Текущее состояние
 
-- Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- Reference Strategy #1: rejected at Cheap Prototype.
-- HYP-0001 / PROTO-01 outcome: `REJECT`.
+- M0: `COMPLETED / PASS`
+- M1: `COMPLETED / PASS`
+- M2: `COMPLETED / PASS`
+- M3: `COMPLETED / PASS`
+- M4 Validation Framework: `IN_PROGRESS`
 
-The fixed EUR/USD 1H breakout prototype produced 1006 signals. Mean signal return was negative and below the unconditional baseline.
+Reference Strategy #1 outcome:
 
-Canonical result:
+`HYP-0001 / PROTO-01 = REJECT`
 
-`reports/research/HYP-0001-PROTOTYPE-01-result.json`
+M3 PASS means ATS correctly executed the research process and stopped a weak hypothesis. It does not mean the strategy succeeded.
 
-No parameter rescue/optimization is allowed inside HYP-0001.
+Canonical M3 review:
+
+`governance/program/M3_EXIT_REVIEW.md`
 
 ## Current closure check
 
-`ATS2-M3-004 — Cheap prototype`
+`ATS2-M3-005 — M3 early-rejection closeout / platform learning review`
 
 Run:
 
@@ -28,8 +32,10 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M3-005 — M3 early-rejection closeout / platform learning review`
+`ATS2-M4-001 — Validation protocol framework`
 
 Next artifact:
 
-`governance/program/M3_EXIT_REVIEW.md`
+`governance/methodology/VALIDATION_FRAMEWORK.md`
+
+Rejected HYP-0001 is retained as negative exploratory evidence and is not reopened by M4.

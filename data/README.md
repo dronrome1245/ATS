@@ -29,7 +29,7 @@ Development, validation and independent evidence partitions are governed by the 
 
 M2 may use synthetic non-market fixtures for software tests. Such fixtures are platform-test inputs only: they do not receive research entity/Experiment IDs and are not trading evidence.
 
-No real data source, instrument or period has been selected yet. Reference Strategy #1 remains M3 work.
+M3 introduced the first real research dataset: Dukascopy EUR/USD 1H BID/ASK for 2021–2025. Its canonical manifest is `data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml`. Raw licensed/vendor files remain outside Git; the repository retains identity, transformation and integrity metadata.
 
 
 ## Dataset Manifest implementation
@@ -75,3 +75,10 @@ Canonical synthetic fixture:
 The CSV fixture is pinned to LF in `.gitattributes` so SHA-256 is stable across Windows and Linux checkouts.
 
 These fixtures are software tests only and are not research evidence.
+
+
+## M3 real-data learning
+
+Reference Strategy #1 demonstrated that a generic hourly frequency is not enough to define tradable observations for FX. The preparation path had to remove closed-market weekend hours and test daylight-saving boundaries explicitly.
+
+The prepared EUR/USD dataset contains 31,296 expected tradable H1 rows with zero missing expected tradable hours. It is bound by SHA-256 in the Dataset Manifest. This dataset supported one exploratory prototype that was rejected; the data record is retained for reproducibility, not as proof of edge.

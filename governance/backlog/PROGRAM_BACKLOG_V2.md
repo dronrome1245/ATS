@@ -31,9 +31,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 16. `ATS2-M3-002` — Idea & rationale — `DONE`.
 17. `ATS2-M3-003` — Data feasibility — `DONE / CONDITIONAL`.
 18. `ATS2-M3-004` — Cheap prototype — `DONE / REJECT`.
-19. `ATS2-M3-005` — M3 early-rejection closeout / platform learning review — `READY`.
+19. `ATS2-M3-005` — M3 early-rejection closeout / platform learning review — `DONE / PASS`.
+20. `ATS2-M4-001` — Validation protocol framework — `READY`.
 
-Program-level current next task — `ATS2-M3-005`.
+Program-level current next task — `ATS2-M4-001`.
 
 ## 3. M0 / M1
 
@@ -73,7 +74,7 @@ M2 Exit decision: `PASS`. The platform milestone is complete; this does not crea
 | `ATS2-M3-002` | `WBS-3.2` | P1 | DONE | M3-001 | `research/ideas/IDEA-0001.md` + `research/hypotheses/HYP-0001.md` | `IDEA-0001` is screened and `HYP-0001` fixes a 24-bar breakout condition, 24-bar primary horizon, BID/ASK execution premise and falsification path before prototype results |
 | `ATS2-M3-003` | `WBS-3.3` | P1 | DONE / CONDITIONAL | M3-002 | `research/reviews/HYP-0001-DATA_FEASIBILITY.md` | Dukascopy EUR/USD 1H BID/ASK path is structurally suitable; actual snapshot/coverage must be frozen before prototype execution, and PROTO-01 economic claims remain before-financing unless rollover/commission inputs are added |
 | `ATS2-M3-004` | `WBS-3.4` | P1 | DONE / REJECT | M3-002, M3-003 CONDITIONAL | `research/reviews/HYP-0001-PROTOTYPE-01.md` + dataset manifest + `reports/research/HYP-0001-PROTOTYPE-01-result.json` | 1006 fixed-rule signals were observed; signal mean return was negative and below baseline, so the preregistered rule produced `REJECT` and the line stops before Economic Pre-Screen |
-| `ATS2-M3-005` | `WBS-3.11 (early-rejection path)` | P1 | READY | M3-004 REJECT | `governance/program/M3_EXIT_REVIEW.md` | Preserve the R3 rejection, record reusable platform/data learnings, mark WBS-3.5–3.10 not entered for this line, and decide M3 Exit without tuning HYP-0001 |
+| `ATS2-M3-005` | `WBS-3.11 (early-rejection path)` | P1 | DONE / PASS | M3-004 REJECT | `governance/program/M3_EXIT_REVIEW.md` | R3 rejection is preserved; WBS-3.5–3.10 are not entered; real-data/platform learnings are recorded; M3 Exit = PASS without tuning HYP-0001 |
 
 Because PROTO-01 returned `REJECT`, WBS-3.5–3.10 are not entered for this research line. The remaining M3 work is the early-rejection platform-learning/exit path under WBS-3.11.
 
@@ -81,18 +82,20 @@ Reference Strategy #1 class and EUR/USD research instrument are selected, and `H
 
 Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
-## 6. Следующий шаг
+## 6. M4 — Validation Framework
+
+| Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done |
+|---|---|---:|---|---|---|---|
+| `ATS2-M4-001` | `WBS-4.1` | P1 | READY | M3 PASS, M1 methodology | `governance/methodology/VALIDATION_FRAMEWORK.md` | Allowed validation forms, evidence boundaries, candidate-specific profile selection, dependence/overlap treatment and independent-exam principles are defined without inventing a Candidate or validating rejected HYP-0001 |
+
+## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M3-005 — M3 early-rejection closeout / platform learning review`.
-
-Prototype outcome:
-
-`HYP-0001 / PROTO-01 = REJECT`.
+`ATS2-M4-001 — Validation protocol framework`.
 
 Canonical next artifact:
 
-`governance/program/M3_EXIT_REVIEW.md`.
+`governance/methodology/VALIDATION_FRAMEWORK.md`.
 
-M3-005 must preserve the negative result, document reusable learnings from the first real data/prototype path, and close M3 without entering Economic Pre-Screen, Candidate admission or parameter optimization for HYP-0001.
+M4 begins with the reusable validation rules. Strategy-specific validation remains blocked until a future research line earns Candidate/S05 eligibility.

@@ -1,62 +1,66 @@
 # ATS AI Handoff
 
-## Current state
+## Current program state
 
-- Phase: `M3_REFERENCE_STRATEGY_1 / IN_PROGRESS`.
-- Reference Strategy #1 research line: `REJECTED_AT_R3`.
-- Idea: `IDEA-0001`.
-- Hypothesis: `HYP-0001`.
-- Prototype: `PROTO-01`.
-- Prototype outcome: `REJECT`.
-- No Candidate/Strategy ID/Experiment/live permission exists.
+- M0: `COMPLETED / PASS`.
+- M1: `COMPLETED / PASS`.
+- M2: `COMPLETED / PASS`.
+- M3: `COMPLETED / PASS` at repository-transition level, pending exact-commit M3-005 BAT closure.
+- Current program phase after transition: `M4_VALIDATION_FRAMEWORK / IN_PROGRESS`.
+- No Candidate/Strategy/live permission exists.
 
-## Frozen prototype result
+## Reference Strategy #1 outcome
+
+Research line:
+
+`IDEA-0001 → HYP-0001 → PROTO-01`
+
+Terminal research status:
+
+`REJECTED_AT_R3`
 
 Canonical machine result:
 
 `reports/research/HYP-0001-PROTOTYPE-01-result.json`
 
-Run commit:
-
-`6115b1c7114e942a4f3e76795ce8d25b552cf849`
-
-Dataset:
-
-`DATA-DUKASCOPY-EURUSDH1-PROTO01-001 / 1.0.0`
-
-Metrics:
+Key result:
 
 - breakout signals: `1006`;
-- mean signal return: `-0.0002301573`;
+- signal mean return: `-0.0002301573`;
 - baseline mean: `-0.0000647136`;
 - signal minus baseline: `-0.0001654436`;
-- signal positive share: `0.4582505`;
-- overlapping signal-window share: `0.7186879`.
+- positive share: `45.8250%`;
+- overlap share: `71.8688%`;
+- decision: `REJECT`;
+- reason: `ONE_OR_BOTH_PRIMARY_HYPOTHESIS_INEQUALITIES_FAILED`.
 
-Decision rule was fixed before the result. Both primary HYP-0001 inequalities failed, therefore outcome is `REJECT` with reason `ONE_OR_BOTH_PRIMARY_HYPOTHESIS_INEQUALITIES_FAILED`.
+Do not retune or reopen HYP-0001 inside M4.
 
-Economic label:
+## M3 Exit
 
-`QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING`
+Canonical review:
 
-Commission, rollover and live-fill slippage were not modeled. The result is exploratory negative evidence, not validation evidence.
+`governance/program/M3_EXIT_REVIEW.md`
 
-## Methodology consequence
+Decision:
 
-Cheap Prototype protocol says `REJECT` stops this research line before Economic Pre-Screen.
+`M3_REFERENCE_STRATEGY_1 = COMPLETED / PASS`
 
-Therefore:
+Meaning: the research process worked and correctly rejected Strategy #1. It does not mean the strategy passed.
 
-- do not run WBS-3.5 Economic Pre-Screen for HYP-0001;
-- do not create Candidate/Strategy ID;
-- do not retune lookback/horizon/instrument inside HYP-0001;
-- retain all negative history.
+M3 platform learnings include:
+
+- explicit FX market-session/DST handling;
+- BID/ASK execution semantics;
+- real Dataset Manifest/hash workflow;
+- overlap/dependence as a validation concern;
+- early rejection prevented unnecessary broker/live engineering.
 
 ## Current closure check
 
 Current checker closes:
 
-`ATS2-M3-004 — Cheap prototype`
+`ATS2-M3-005 — M3 early-rejection closeout / platform learning review`
 
 Run:
 
@@ -64,12 +68,14 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M3-005 — M3 early-rejection closeout / platform learning review`
+`ATS2-M4-001 — Validation protocol framework`
 
 Work package:
 
-`WBS-3.11 (early-rejection path)`
+`WBS-4.1`
 
 Next artifact:
 
-`governance/program/M3_EXIT_REVIEW.md`
+`governance/methodology/VALIDATION_FRAMEWORK.md`
+
+M4 strategy-specific validation applies only to a future promoted Candidate, not rejected HYP-0001.
