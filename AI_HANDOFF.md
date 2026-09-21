@@ -10,33 +10,33 @@
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy/live permission exists.
 
-## M4-002 Parameter Sensitivity
+## M4-003 Declared slicing
 
 Implementation:
 
-`src/ats/validation/sensitivity.py`
+`src/ats/validation/slicing.py`
 
 Tests:
 
-`tests/test_validation_sensitivity.py`
+`tests/test_validation_slicing.py`
 
 Contract:
 
-- caller predeclares ordered parameter names, metric names and all variants;
-- every variant is evaluated in caller order;
-- evaluator receives read-only parameter mapping;
-- evaluator must return exactly the declared metric set;
-- non-finite/malformed values fail closed;
-- output is deterministic and includes `selection_policy = NO_AUTOMATIC_SELECTION`;
-- there is no best/winner/rank selection API.
+- slices are declared before evaluation;
+- every declared slice is reported in plan order;
+- exhaustive coverage can be required;
+- overlap can be explicitly forbidden or allowed;
+- unassigned and multiply-assigned observations are counted;
+- empty-slice policy is explicit;
+- unknown or duplicate memberships fail closed;
+- evaluator must return exactly the declared finite metric set;
+- output declares `ALL_DECLARED_SLICES_REPORTED`.
 
-This tooling is infrastructure only. It creates no Candidate, Experiment or validation evidence by itself.
+This tooling cannot selectively drop an unfavorable period/regime and creates no evidence by itself.
 
 ## Current closure check
 
-Current checker closes:
-
-`ATS2-M4-002 — Parameter sensitivity tooling`
+`ATS2-M4-003 — Time/regime slicing`
 
 Run:
 
@@ -44,14 +44,10 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-003 — Time/regime slicing`
-
-Work package:
-
-`WBS-4.3`
+`ATS2-M4-004 — Observation concentration analysis`
 
 Initial artifact:
 
-`src/ats/validation/slicing.py`
+`src/ats/validation/concentration.py`
 
-The next tool must expose all declared slices and must not selectively omit unfavorable periods/regimes.
+The next tool must expose concentration/outlier dependence without automatically deleting observations.

@@ -169,3 +169,12 @@ M2 Exit is recorded in `governance/program/M2_EXIT_REVIEW.md`. M3-001 selected `
 It preserves every declared variant, requires an exact declared metric set, rejects non-finite values, and emits `selection_policy = NO_AUTOMATIC_SELECTION`. It deliberately has no best/winner/ranking API.
 
 The software fixture is synthetic and creates no Candidate, Strategy Version, Experiment or validation evidence by itself.
+
+
+## M4 declared slicing
+
+`ats.validation.slicing` evaluates caller-declared time/regime slices without selective omission.
+
+It reports every declared slice in plan order, exposes unassigned and multiply-assigned observation counts, and requires explicit policies for exhaustiveness, overlap and empty slices. Unknown slice IDs and metric-contract violations fail closed.
+
+The synthetic slicing fixture is software-only and creates no validation evidence.

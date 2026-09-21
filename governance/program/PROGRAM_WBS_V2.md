@@ -303,12 +303,13 @@ WBS не устанавливает без evidence и OWNER decision:
 - Reference Strategy #1 research outcome — `REJECTED_AT_R3`;
 - M4 Validation Framework — `IN_PROGRESS`;
 - `WBS-4.1 — Validation protocol framework` — `DONE`;
-- `WBS-4.2 — Parameter sensitivity tooling` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
-- sensitivity artifacts: `src/ats/validation/sensitivity.py` + `tests/test_validation_sensitivity.py`;
-- next work package after PASS: **`WBS-4.3 — Time/regime slicing`**.
+- `WBS-4.2 — Parameter sensitivity tooling` — `DONE`;
+- `WBS-4.3 — Time/regime slicing` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
+- slicing artifacts: `src/ats/validation/slicing.py` + `tests/test_validation_slicing.py`;
+- next work package after PASS: **`WBS-4.4 — Trade/observation concentration`**.
 
 The next implementation target is:
 
-`src/ats/validation/slicing.py`
+`src/ats/validation/concentration.py`
 
 Strategy-specific validation remains blocked until a future research line earns Candidate/S05 eligibility. HYP-0001 remains rejected and is not reopened by M4.

@@ -184,3 +184,20 @@ M2-010 targeted closure also reruns `tests/test_experiment_runner.py`, so regist
 - output declares `NO_AUTOMATIC_SELECTION` and contains no automatic rank/selected winner.
 
 The fixture is synthetic software-only input and is not validation evidence.
+
+
+## M4 time/regime slicing tests
+
+`tests/test_validation_slicing.py` verifies:
+
+- every declared slice is reported in plan order;
+- deterministic serialization declares `ALL_DECLARED_SLICES_REPORTED`;
+- exhaustive plans reject unassigned observations;
+- non-exhaustive plans count unassigned observations explicitly;
+- overlap is blocked unless explicitly allowed and is counted when allowed;
+- unknown/duplicate memberships fail closed;
+- empty-slice handling is explicit;
+- metric contracts and finite values are enforced;
+- slicing plan/results are immutable.
+
+The fixture is synthetic software-only input and is not validation evidence.

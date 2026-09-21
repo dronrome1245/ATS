@@ -16,23 +16,23 @@ Reference Strategy #1 remains:
 
 `HYP-0001 / PROTO-01 = REJECT`
 
-It is not reopened by M4.
-
-## M4
+## M4 tooling
 
 Validation Framework:
 
 `governance/methodology/VALIDATION_FRAMEWORK.md`
 
-Parameter sensitivity tooling:
+Parameter sensitivity:
 
 `src/ats/validation/sensitivity.py`
 
-The tool evaluates the full predefined parameter region and does not choose a winner automatically.
+Declared time/regime slicing:
+
+`src/ats/validation/slicing.py`
 
 ## Current closure check
 
-`ATS2-M4-002 — Parameter sensitivity tooling`
+`ATS2-M4-003 — Time/regime slicing`
 
 Run:
 
@@ -40,8 +40,8 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-003 — Time/regime slicing`
+`ATS2-M4-004 — Observation concentration analysis`
 
 Initial implementation target:
 
-`src/ats/validation/slicing.py`
+`src/ats/validation/concentration.py`

@@ -58,11 +58,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Build deterministic time/regime slicing"
-  last_completed_task_id: "ATS2-M4-002"
-  last_completed_artifact: "src/ats/validation/sensitivity.py"
-  next_artifact: "src/ats/validation/slicing.py"
-  next_task_id: "ATS2-M4-003"
+  focus: "Build observation concentration analysis"
+  last_completed_task_id: "ATS2-M4-003"
+  last_completed_artifact: "src/ats/validation/slicing.py"
+  next_artifact: "src/ats/validation/concentration.py"
+  next_task_id: "ATS2-M4-004"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -211,20 +211,23 @@ m4:
   completed_tasks:
     - "ATS2-M4-001"
     - "ATS2-M4-002"
+    - "ATS2-M4-003"
   completed_artifacts:
     - "governance/methodology/VALIDATION_FRAMEWORK.md"
     - "src/ats/validation/__init__.py"
     - "src/ats/validation/sensitivity.py"
     - "tests/test_validation_sensitivity.py"
-  current_task: "ATS2-M4-003"
-  current_wbs: "WBS-4.3"
+    - "src/ats/validation/slicing.py"
+    - "tests/test_validation_slicing.py"
+  current_task: "ATS2-M4-004"
+  current_wbs: "WBS-4.4"
   framework_status: "BASELINE"
   first_candidate_validation_pending: true
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M4-003"
-  current_ready_wbs: "WBS-4.3"
+  current_ready_task: "ATS2-M4-004"
+  current_ready_wbs: "WBS-4.4"
 
 handoff_policy:
   update_after_material_step: true

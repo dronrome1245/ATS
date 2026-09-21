@@ -18,4 +18,25 @@ __all__ = [
     "SensitivityPoint",
     "SensitivityResult",
     "evaluate_parameter_sensitivity",
+    "EmptySlicePolicy",
+    "SliceAssigner",
+    "SliceDefinition",
+    "SliceEvaluator",
+    "SlicePlan",
+    "SlicePoint",
+    "SliceResult",
+    "SlicingContractError",
+    "evaluate_declared_slices",
 ]
+
+from ats.validation.slicing import (
+    EmptySlicePolicy,
+    SliceAssigner,
+    SliceDefinition,
+    SliceEvaluator,
+    SlicePlan,
+    SlicePoint,
+    SliceResult,
+    SlicingContractError,
+    evaluate_declared_slices,
+)

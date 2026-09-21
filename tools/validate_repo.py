@@ -99,6 +99,10 @@ VALIDATION_SENSITIVITY_FILES = (
     "src/ats/validation/sensitivity.py",
     "tests/test_validation_sensitivity.py",
 )
+VALIDATION_SLICING_FILES = (
+    "src/ats/validation/slicing.py",
+    "tests/test_validation_slicing.py",
+)
 HEADER = (
     "experiment_id", "status", "research_stage", "evidence_class",
     "qualified_evidence_class", "idea_id", "hypothesis_id", "candidate_id",
@@ -138,6 +142,7 @@ def configure() -> None:
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
         *ANALYTICS_FILES, *RUNNER_FILES, *PLATFORM_TEST_FILES,
         *LOCAL_CI_FILES, *ENVIRONMENT_FILES, *VALIDATION_SENSITIVITY_FILES,
+        *VALIDATION_SLICING_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "validation_framework",
@@ -541,6 +546,30 @@ def configure() -> None:
         "test_plan_and_results_are_immutable",
         "NO_AUTOMATIC_SELECTION",
     )
+    core.CONTENT_MARKERS["src/ats/validation/slicing.py"] = (
+        "class EmptySlicePolicy",
+        "class SliceDefinition",
+        "class SlicePlan",
+        "class SlicePoint",
+        "class SliceResult",
+        "ALL_DECLARED_SLICES_REPORTED",
+        "require_exhaustive",
+        "allow_overlap",
+        "unknown slice_ids",
+        "evaluate_declared_slices",
+        "without selective omission",
+    )
+    core.CONTENT_MARKERS["tests/test_validation_slicing.py"] = (
+        "test_every_declared_slice_is_reported_in_plan_order",
+        "test_serialization_is_deterministic_and_declares_reporting_policy",
+        "test_unassigned_observation_is_blocking_when_exhaustive",
+        "test_overlap_is_blocked_unless_explicitly_allowed",
+        "test_unknown_or_duplicate_membership_is_rejected",
+        "test_empty_slice_policy_can_reject_declared_empty_slice",
+        "test_metric_contract_and_finite_values_fail_closed",
+        "test_plan_and_result_are_immutable",
+        "ALL_DECLARED_SLICES_REPORTED",
+    )
     core.CONTENT_MARKERS["tests/fixtures/platform/reference_consumer_expected.json"] = (
         '"schema_version": "m2-reference-consumer-1"',
         '"dataset_id": "DATA-SYNTHETIC-LOADER-001"',
@@ -604,11 +633,11 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M4-002"',
-        "M4-002 parameter sensitivity artifacts",
-        "src/ats/validation/sensitivity.py",
-        "tests/test_validation_sensitivity.py",
-        "M4-002 sensitivity governance validation",
+        'TASK_ID = "ATS2-M4-003"',
+        "M4-003 slicing artifacts",
+        "src/ats/validation/slicing.py",
+        "tests/test_validation_slicing.py",
+        "M4-003 slicing governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -661,7 +690,9 @@ def configure() -> None:
         "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT",
         "M3 Reference Strategy #1 is recorded as `COMPLETED / PASS`",
         "ATS2-M4-002 — Parameter sensitivity tooling",
+        "ATS2-M4-003 — Time/regime slicing",
         "ats.validation.sensitivity",
+        "ats.validation.slicing",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
@@ -674,6 +705,7 @@ def configure() -> None:
         "test_experiment_runner.py",
         "test_research_platform.py",
         "test_validation_sensitivity.py",
+        "test_validation_slicing.py",
         "reference_consumer_expected.json",
         "vertical integration from Dataset Manifest",
         "explicit cost components",
@@ -818,6 +850,7 @@ def validate_environment(repo: Path) -> int:
         "src/ats/analytics/standard.py",
         "src/ats/runner/experiment.py",
         "src/ats/validation/sensitivity.py",
+        "src/ats/validation/slicing.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -828,6 +861,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_experiment_runner.py",
         "tests/test_research_platform.py",
         "tests/test_validation_sensitivity.py",
+        "tests/test_validation_slicing.py",
     ):
         path = repo / relative
         try:
@@ -878,9 +912,9 @@ def main() -> int:
         'dataset_manifest_spec: "governance/program/DATASET_MANIFEST_SPEC.md"',
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
-        'last_completed_task_id: "ATS2-M4-002"',
-        'current_task: "ATS2-M4-003"', 'current_ready_task: "ATS2-M4-003"',
-        'current_wbs: "WBS-4.3"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M4-003"',
+        'current_task: "ATS2-M4-004"', 'current_ready_task: "ATS2-M4-004"',
+        'current_wbs: "WBS-4.4"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -963,11 +997,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M4-002") != "DONE":
-        core.fail("M4-002 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-003") != "DONE":
+        core.fail("M4-003 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M4-003") != "READY":
-        core.fail("M4-003 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-004") != "READY":
+        core.fail("M4-004 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
