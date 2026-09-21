@@ -587,6 +587,10 @@ def configure() -> None:
         "LCI-004",
         "Repository validator marker drift from Markdown formatting",
         "stable semantic phrase",
+        "LCI-005",
+        "Windows shortcut artifact makes Local CI tree dirty",
+        "reports/local_ci/*.lnk",
+        "narrowly scoped",
         "do not modify source code for infrastructure/network failures",
         "Raw machine reports are not copied into this file",
     )
@@ -618,6 +622,7 @@ def configure() -> None:
         "LATEST.json",
         "LOCAL_CI_GATE.md",
         "LOCAL_CI_TROUBLESHOOTING.md",
+        "reports/local_ci/*.lnk",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
         "`WBS-2.0`",
@@ -785,6 +790,7 @@ def validate_environment(repo: Path) -> int:
     for ignored_report in (
         "reports/local_ci/LATEST.json",
         "reports/local_ci/CURRENT_TASK_REPORT.txt",
+        "reports/local_ci/*.lnk",
     ):
         if ignored_report not in gitignore:
             core.fail(f"local CI runtime report must remain ignored by Git: {ignored_report}")

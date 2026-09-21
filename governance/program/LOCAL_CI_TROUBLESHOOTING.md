@@ -212,6 +212,44 @@ Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added 
 
 **Scope:** agents and repository-maintenance tooling.
 
+
+### LCI-005 — Windows shortcut artifact makes Local CI tree dirty
+
+**First observed:** 2026-09-21 on `01603925a5c3d690e5e6cbfbcbaedc40e42a76e8`  
+**Class:** `DIRTY_TREE`
+
+**Symptom**
+
+Repository validation passes, but Full Local CI stops before Ruff/pytest because `git status --porcelain` reports an untracked Windows shortcut such as:
+
+`reports/local_ci/ATS_TASK_CHECK.bat - ... .lnk`
+
+The shortcut is not ATS source, research evidence or a required runtime report.
+
+**Root cause**
+
+Windows Explorer / shell interaction can create a `.lnk` shortcut inside `reports/local_ci/`. That directory intentionally contains local runtime outputs, but the shortcut was not covered by the runtime ignore policy, so exact-commit verification treated the worktree as dirty.
+
+**Correct response**
+
+Do not change research logic or validation code. Keep meaningful untracked source files blocking, but classify shell-created shortcuts in the local-report directory as disposable runtime artifacts.
+
+The repository ignores only:
+
+`reports/local_ci/*.lnk`
+
+This scope is deliberately narrow. ATS does **not** globally ignore `*.lnk`.
+
+**Preventive rule**
+
+1. Local CI runtime directories must explicitly ignore known OS-generated disposable artifacts that do not carry research/code evidence.
+2. Ignore rules must be narrowly scoped so accidental real source files still make the completion gate fail.
+3. The validator must assert the runtime ignore rule so it cannot silently disappear.
+4. When a dirty-tree failure occurs, inspect the exact `git status --porcelain` entry before deleting files or changing source code.
+
+**Scope:** OWNER Windows workflow and agents.
+
+
 ## 5. Adding future lessons
 
 Add a new entry only when all are true:

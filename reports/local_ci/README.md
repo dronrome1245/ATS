@@ -35,3 +35,10 @@ OWNER workflow:
 3. send `CURRENT_TASK_REPORT.txt` to ChatGPT.
 
 Canonical policy: `governance/program/LOCAL_CI_GATE.md`.
+
+
+## Windows shell artifacts
+
+`reports/local_ci/` is a runtime-output directory. Windows Explorer may create disposable `.lnk` shortcuts there.
+
+Only `reports/local_ci/*.lnk` is ignored for this case. The rule is intentionally directory-scoped so unrelated untracked files elsewhere in ATS still make the full clean-tree gate fail.
