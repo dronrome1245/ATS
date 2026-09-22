@@ -111,6 +111,8 @@ Apply only the formatter-prescribed style change when no logic failure is presen
 
 Confirmed latest resolution: `3a0dc9af4cc2191cc98c65b190b6f1f1c5cb1ea3` — exact Ruff diff applied to `src/ats/validation/concentration.py`, followed by fast-preflight PASS, pinned Ruff PASS, `115 passed`, full Local CI PASS and launcher PASS.
 
+Confirmed sixth resolution: `6d452c4f340825eaa39b8e28dad3f6691332b217` — exact Ruff diff applied to `tests/test_validation_resampling.py`, followed by fast-preflight PASS, pinned Ruff PASS, `124 passed`, full Local CI PASS and launcher PASS.
+
 **Preventive rule**
 
 For agent-created or programmatic Python edits that bypass the repository hooks:

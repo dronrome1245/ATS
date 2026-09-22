@@ -37,6 +37,7 @@ model:
   evidence_taxonomy: "governance/methodology/EVIDENCE_TAXONOMY.md"
   research_review_protocol: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
   validation_framework: "governance/methodology/VALIDATION_FRAMEWORK.md"
+  independent_exam_protocol: "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"
   market_pattern_discovery: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
@@ -60,11 +61,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Define independent examination freeze protocol"
-  last_completed_task_id: "ATS2-M4-005"
-  last_completed_artifact: "src/ats/validation/resampling.py"
-  next_artifact: "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"
-  next_task_id: "ATS2-M4-006"
+  focus: "Build multiple-research accounting"
+  last_completed_task_id: "ATS2-M4-006"
+  last_completed_artifact: "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"
+  next_artifact: "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"
+  next_task_id: "ATS2-M4-007"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -216,6 +217,7 @@ m4:
     - "ATS2-M4-003"
     - "ATS2-M4-004"
     - "ATS2-M4-005"
+    - "ATS2-M4-006"
   completed_artifacts:
     - "governance/methodology/VALIDATION_FRAMEWORK.md"
     - "src/ats/validation/__init__.py"
@@ -227,15 +229,16 @@ m4:
     - "tests/test_validation_concentration.py"
     - "src/ats/validation/resampling.py"
     - "tests/test_validation_resampling.py"
-  current_task: "ATS2-M4-006"
-  current_wbs: "WBS-4.6"
+    - "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"
+  current_task: "ATS2-M4-007"
+  current_wbs: "WBS-4.7"
   framework_status: "BASELINE"
   first_candidate_validation_pending: true
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M4-006"
-  current_ready_wbs: "WBS-4.6"
+  current_ready_task: "ATS2-M4-007"
+  current_ready_wbs: "WBS-4.7"
 
 handoff_policy:
   update_after_material_step: true

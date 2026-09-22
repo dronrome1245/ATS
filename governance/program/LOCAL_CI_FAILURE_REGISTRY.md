@@ -162,4 +162,20 @@ Applied resolution:
 3. keep `LCI-002` as the same recurring cause;
 4. require a fresh OWNER launcher PASS on the corrected exact commit.
 
+Resolved commit:
+
+`6d452c4f340825eaa39b8e28dad3f6691332b217`
+
+Verified result:
+
+- fast Local CI preflight: `PASS`;
+- pinned Ruff lint: `PASS`;
+- pinned Ruff format: `PASS`;
+- pytest: `124 passed`;
+- environment fingerprint: `PASS`;
+- full ATS Local CI: `PASS`;
+- current task check: `PASS`;
+- ATS task launcher: `PASS`;
+- working tree: `CLEAN`.
+
 **Reusable resolution rule remains unchanged:** exact Ruff diff is authoritative for format-only failures; apply it without logic changes, then verify the corrected exact commit through fast preflight and the full launcher.

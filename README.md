@@ -16,17 +16,18 @@ Reference Strategy #1 remains:
 
 `HYP-0001 / PROTO-01 = REJECT`
 
-## M4 tooling
+## M4 tooling/methodology
 
 - Validation Framework: `governance/methodology/VALIDATION_FRAMEWORK.md`
 - Parameter sensitivity: `src/ats/validation/sensitivity.py`
 - Declared slicing: `src/ats/validation/slicing.py`
 - Observation concentration: `src/ats/validation/concentration.py`
 - Dependence-preserving resampling: `src/ats/validation/resampling.py`
+- Independent exam protocol: `governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md`
 
 ## Market Pattern Discovery
 
-Bounded systematic price-pattern discovery is defined in:
+Bounded systematic price-pattern discovery:
 
 `governance/methodology/MARKET_PATTERN_DISCOVERY.md`
 
@@ -34,7 +35,7 @@ Discovery remains exploratory and feeds new Idea/Hypothesis objects through the 
 
 ## Current closure check
 
-`ATS2-M4-005 — Dependence-preserving resampling framework`
+`ATS2-M4-006 — Independent exam protocol`
 
 Run:
 
@@ -42,8 +43,8 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-006 — Independent exam protocol`
+`ATS2-M4-007 — Multiple-research accounting`
 
 Next artifact:
 
-`governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md`
+`governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`

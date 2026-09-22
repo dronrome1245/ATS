@@ -8,22 +8,21 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M4-005"
-TASK_NAME = "Dependence-preserving resampling framework"
+TASK_ID = "ATS2-M4-006"
+TASK_NAME = "Independent exam protocol"
 REQUIRED_ARTIFACTS = (
-    Path("src/ats/validation/resampling.py"),
-    Path("tests/test_validation_resampling.py"),
+    Path("governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M4-005 resampling artifacts ==")
+    print("\n== M4-006 independent exam artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M4-005 resampling artifacts")
+    print("[PASS] M4-006 independent exam artifacts")
     return True
 
 
@@ -51,7 +50,7 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "M4-005 resampling governance validation",
+            "M4-006 independent exam governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

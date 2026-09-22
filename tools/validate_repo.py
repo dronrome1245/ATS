@@ -17,6 +17,7 @@ REVIEW_DECISIONS = "governance/methodology/RESEARCH_REVIEW_DECISIONS.md"
 REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
 VALIDATION_FRAMEWORK = "governance/methodology/VALIDATION_FRAMEWORK.md"
 MARKET_PATTERN_DISCOVERY = "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
+INDEPENDENT_EXAM_PROTOCOL = "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 M3_EXIT = "governance/program/M3_EXIT_REVIEW.md"
@@ -140,7 +141,8 @@ DIRECT_DEV = {
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
-        VALIDATION_FRAMEWORK, MARKET_PATTERN_DISCOVERY, M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
+        VALIDATION_FRAMEWORK, MARKET_PATTERN_DISCOVERY, INDEPENDENT_EXAM_PROTOCOL,
+        M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
         REFERENCE_STRATEGY_PROTOTYPE, PROTO01_RESULT, PROTO01_SCHEMA, PROTO01_MANIFEST,
         PROTO01_TOOL,
@@ -157,7 +159,7 @@ def configure() -> None:
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "validation_framework",
-        "market_pattern_discovery",
+        "market_pattern_discovery", "independent_exam_protocol",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -216,6 +218,18 @@ def configure() -> None:
         "SHORTLIST_FOR_IDEA_INTAKE",
         "WBS-6.0 — Market Pattern Discovery",
         "M4.1–M4.8 reusable validation capability",
+        "HYP-0001 remains `REJECTED_AT_R3`",
+    )
+    core.CONTENT_MARKERS[INDEPENDENT_EXAM_PROTOCOL] = (
+        "one-shot reveal",
+        "Independent Exam Freeze Manifest",
+        "DRAFT → FROZEN → REVEALED → DECIDED",
+        "There is no `RETURN`",
+        "default to **consumed**",
+        "Technical failure before reveal",
+        "Technical failure after reveal",
+        "INDEPENDENT_EXAMINATION_EVIDENCE",
+        "revealed protected block",
         "HYP-0001 remains `REJECTED_AT_R3`",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
@@ -705,8 +719,9 @@ def configure() -> None:
         "fast Local CI preflight",
         "9fb041c51cf93071ca6735b52897cbb2b24e5568",
         "9134c44d1d3d861124c44e00b4df820ad181cb5d",
+        "6d452c4f340825eaa39b8e28dad3f6691332b217",
         "3a0dc9af4cc2191cc98c65b190b6f1f1c5cb1ea3",
-        "115 passed",
+        "124 passed",
         "Reusable resolution rule",
         "Rule-conversion discipline",
     )
@@ -723,11 +738,10 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M4-005"',
-        "M4-005 resampling artifacts",
-        "src/ats/validation/resampling.py",
-        "tests/test_validation_resampling.py",
-        "M4-005 resampling governance validation",
+        'TASK_ID = "ATS2-M4-006"',
+        "M4-006 independent exam artifacts",
+        "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md",
+        "M4-006 independent exam governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1005,6 +1019,7 @@ def main() -> int:
         'm3_exit_review: "governance/program/M3_EXIT_REVIEW.md"',
         'validation_framework: "governance/methodology/VALIDATION_FRAMEWORK.md"',
         'market_pattern_discovery: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"',
+        'independent_exam_protocol: "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1017,9 +1032,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M4-005"',
-        'current_task: "ATS2-M4-006"', 'current_ready_task: "ATS2-M4-006"',
-        'current_wbs: "WBS-4.6"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M4-006"',
+        'current_task: "ATS2-M4-007"', 'current_ready_task: "ATS2-M4-007"',
+        'current_wbs: "WBS-4.7"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -1102,11 +1117,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M4-005") != "DONE":
-        core.fail("M4-005 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-006") != "DONE":
+        core.fail("M4-006 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M4-006") != "READY":
-        core.fail("M4-006 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-007") != "READY":
+        core.fail("M4-007 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
