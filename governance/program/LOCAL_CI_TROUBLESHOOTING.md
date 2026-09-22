@@ -92,6 +92,7 @@ Always distinguish a pre-verification synchronization failure from a code failur
 **Repeat observed:** 2026-09-21 on `9f912b7b5e350d287ed76ce4bffe7a67722faf58` in `src/ats/validation/slicing.py` after remote authoring without pinned Ruff execution  
 **Repeat observed:** 2026-09-22 on `9fb041c51cf93071ca6735b52897cbb2b24e5568` in `src/ats/validation/concentration.py`; fast preflight correctly stopped before full pytest  
 **Repeat observed:** 2026-09-22 on `9134c44d1d3d861124c44e00b4df820ad181cb5d` in `tests/test_validation_resampling.py`; fast preflight again stopped before full pytest  
+**Repeat observed:** 2026-09-22 on `f989e6d77c94aaaa93df9bf6fdd994708b570404` in `tools/current_task_check.py`; fast preflight again stopped before full pytest  
 **Fixed first occurrence by:** `fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd`  
 **Class:** `FORMAT`
 

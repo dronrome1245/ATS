@@ -10,9 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TASK_ID = "ATS2-M4-006"
 TASK_NAME = "Independent exam protocol"
-REQUIRED_ARTIFACTS = (
-    Path("governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"),
-)
+REQUIRED_ARTIFACTS = (Path("governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"),)
 
 
 def check_required_artifacts() -> bool:
