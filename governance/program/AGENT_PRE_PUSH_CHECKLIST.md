@@ -52,7 +52,7 @@ If `tools/validate_repo.py` changes:
 2. do not use a marker that depends unnecessarily on Markdown emphasis, capitalization or punctuation;
 3. compile the validator after editing.
 
-If any existing validator-targeted file changes, audit **all existing markers for that target file**, even when validator code itself did not change.
+If any existing validator-targeted file changes, extract the **complete current `CONTENT_MARKERS` tuple for that target directly from `tools/validate_repo.py`** and audit every marker, even when validator code itself did not change. Do not reconstruct the tuple from memory or a hand-maintained subset.
 
 ## 6. Canonical state reconciliation
 

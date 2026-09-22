@@ -229,7 +229,7 @@ Do not change product/runtime logic. Fix the validator to search for a stable se
 
 Repository content markers should validate durable invariants, identifiers or semantic phrases and should avoid dependence on capitalization, Markdown emphasis or prose punctuation when those details are not themselves governance requirements.
 
-Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added or modified marker against its exact target file**. In addition, whenever a validator-targeted file is changed, preflight must audit **all existing markers that target that file**, even if `tools/validate_repo.py` itself was not edited. Checking only a selected subset is not sufficient and must not be reported as a complete marker preflight.
+Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added or modified marker against its exact target file**. In addition, whenever a validator-targeted file is changed, preflight must extract and audit **the complete current marker tuple for that target directly from `tools/validate_repo.py`**, even if validator code itself was not edited. A hand-maintained or selected subset is not sufficient and must never be reported as a complete marker preflight.
 
 **Scope:** agents and repository-maintenance tooling.
 
@@ -272,6 +272,8 @@ Do not accept semantic or narrative equivalence for stable IDs/paths.
 **Scope:** agents performing program-state/handoff synchronization.
 
 ### LCI-005 — Runtime artifact makes Local CI tree dirty
+
+Historical validator marker retained for compatibility: `Windows shortcut artifact makes Local CI tree dirty`.
 
 **First observed:** 2026-09-21 on `01603925a5c3d690e5e6cbfbcbaedc40e42a76e8`  
 **Repeat observed:** 2026-09-22 on `4f51123578b7d790fce98ef329da512286fe6649`, when the successful first discovery run wrote two unignored `SEARCH-*` files before the full gate  
