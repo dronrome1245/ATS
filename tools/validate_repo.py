@@ -22,6 +22,12 @@ MULTIPLE_RESEARCH_ACCOUNTING = "governance/methodology/MULTIPLE_RESEARCH_ACCOUNT
 TECHNICAL_STRATEGY_VALIDATION_PROFILE = (
     "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"
 )
+DISCOVERY_SEARCH_MANIFEST_TEMPLATE = (
+    "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
+)
+BOUNDED_DISCOVERY_ENGINE = "src/ats/discovery/bounded.py"
+BOUNDED_DISCOVERY_INIT = "src/ats/discovery/__init__.py"
+BOUNDED_DISCOVERY_TEST = "tests/test_discovery_bounded.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 M3_EXIT = "governance/program/M3_EXIT_REVIEW.md"
@@ -149,6 +155,8 @@ def configure() -> None:
         VALIDATION_FRAMEWORK, MARKET_PATTERN_DISCOVERY, INDEPENDENT_EXAM_PROTOCOL,
         MULTIPLE_RESEARCH_ACCOUNTING,
         TECHNICAL_STRATEGY_VALIDATION_PROFILE,
+        DISCOVERY_SEARCH_MANIFEST_TEMPLATE, BOUNDED_DISCOVERY_ENGINE,
+        BOUNDED_DISCOVERY_INIT, BOUNDED_DISCOVERY_TEST,
         M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
         REFERENCE_STRATEGY_PROTOTYPE, PROTO01_RESULT, PROTO01_SCHEMA, PROTO01_MANIFEST,
@@ -170,6 +178,7 @@ def configure() -> None:
         "market_pattern_discovery", "independent_exam_protocol",
         "multiple_research_accounting",
         "technical_strategy_validation_profile",
+        "discovery_search_manifest_template", "bounded_discovery_engine",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -268,6 +277,31 @@ def configure() -> None:
         "S06 freeze boundary",
         "S07 freeze boundary",
         "HYP-0001 / PROTO-01",
+    )
+    core.CONTENT_MARKERS[DISCOVERY_SEARCH_MANIFEST_TEMPLATE] = (
+        "SEARCH-SYNTHETIC-M6-001",
+        "Synthetic non-market",
+        "max_combinations: 3",
+        "ALL_VALIDATION_AND_INDEPENDENT_BLOCKS",
+        "SYNTHETIC_TEMPLATE",
+        "src/ats/discovery/bounded.py",
+    )
+    core.CONTENT_MARKERS[BOUNDED_DISCOVERY_ENGINE] = (
+        "DISCOVERY_SEARCH",
+        "EXPLORATORY_OBSERVATION",
+        "PREDECLARED_SHORTLIST_RULE_ONLY",
+        "declared alternatives exceed max_combinations",
+        "metric set mismatch",
+        "SHORTLIST_FOR_IDEA_INTAKE",
+        "NO_PATTERN_SHORTLISTED",
+        "random_seed and stochastic_protocol must be declared together",
+    )
+    core.CONTENT_MARKERS[BOUNDED_DISCOVERY_TEST] = (
+        "test_template_loads_and_full_search_space_is_retained",
+        "qualified_evidence_class",
+        "NO_PATTERN_SHORTLISTED",
+        "test_search_budget_blocks_undeclared_expansion",
+        "metric set mismatch",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -796,10 +830,12 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M4-008"',
-        "M4-008 technical strategy validation profile artifacts",
-        "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md",
-        "M4-008 technical validation profile governance validation",
+        'TASK_ID = "ATS2-M6-000"',
+        "M6-000 market pattern discovery artifacts",
+        "governance/methodology/MARKET_PATTERN_DISCOVERY.md",
+        "SEARCH_MANIFEST_TEMPLATE.yaml",
+        "src/ats/discovery/bounded.py",
+        "M6-000 discovery governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1024,6 +1060,8 @@ def validate_environment(repo: Path) -> int:
         "src/ats/validation/slicing.py",
         "src/ats/validation/concentration.py",
         "src/ats/validation/resampling.py",
+        "src/ats/discovery/__init__.py",
+        "src/ats/discovery/bounded.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -1037,6 +1075,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_validation_slicing.py",
         "tests/test_validation_concentration.py",
         "tests/test_validation_resampling.py",
+        "tests/test_discovery_bounded.py",
     ):
         path = repo / relative
         try:
@@ -1067,10 +1106,10 @@ def main() -> int:
 
     state = (repo / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml").read_text(encoding="utf-8")
     for marker in (
-        'schema_version: "2.0"', "phase: M4_VALIDATION_FRAMEWORK",
+        'schema_version: "2.0"', "phase: M6_REFERENCE_STRATEGY_2",
         "M0_PROGRAM_REBASELINE: COMPLETED", "M1_RESEARCH_METHODOLOGY: COMPLETED",
         "M2_RESEARCH_PLATFORM_MVP: COMPLETED", "M3_REFERENCE_STRATEGY_1: COMPLETED",
-        "M4_VALIDATION_FRAMEWORK: IN_PROGRESS",
+        "M4_VALIDATION_FRAMEWORK: IN_PROGRESS", "M6_REFERENCE_STRATEGY_2: IN_PROGRESS",
         "exit_decision: PASS",
         'm1_exit_review: "governance/program/M1_EXIT_REVIEW.md"',
         'm2_exit_review: "governance/program/M2_EXIT_REVIEW.md"',
@@ -1080,6 +1119,8 @@ def main() -> int:
         'independent_exam_protocol: "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"',
         'multiple_research_accounting: "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"',
         'technical_strategy_validation_profile: "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"',
+        'discovery_search_manifest_template: "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"',
+        'bounded_discovery_engine: "src/ats/discovery/bounded.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1092,9 +1133,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M4-007"',
-        'current_task: "ATS2-M4-008"', 'current_ready_task: "ATS2-M4-008"',
-        'current_wbs: "WBS-4.8"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M4-008"',
+        'current_task: "ATS2-M6-000"', 'current_ready_task: "ATS2-M6-000"',
+        'current_wbs: "WBS-6.0"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -1177,11 +1218,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M4-007") != "DONE":
-        core.fail("M4-007 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-008") != "DONE":
+        core.fail("M4-008 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M4-008") != "READY":
-        core.fail("M4-008 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-000") != "READY":
+        core.fail("M6-000 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

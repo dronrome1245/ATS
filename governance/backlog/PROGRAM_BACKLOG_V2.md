@@ -39,9 +39,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 24. `ATS2-M4-005` — Dependence-preserving resampling framework — `DONE`.
 25. `ATS2-M4-006` — Independent exam protocol — `DONE`.
 26. `ATS2-M4-007` — Multiple-research accounting — `DONE`.
-27. `ATS2-M4-008` — Technical strategy validation profile — `READY`.
+27. `ATS2-M4-008` — Technical strategy validation profile — `DONE`.
+28. `ATS2-M6-000` — Market Pattern Discovery — `READY`.
 
-Program-level current next task — `ATS2-M4-008`.
+Program-level current next task — `ATS2-M6-000`.
 
 ## 3. M0 / M1
 
@@ -100,21 +101,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M4-005` | `WBS-4.5` | P1 | DONE | M4-001, M4-004 | `src/ats/validation/resampling.py` + `tests/test_validation_resampling.py` | Whole declared blocks are resampled with replacement under an explicit seed/method; internal block order and full selection trace are preserved; no IID fallback exists in the API |
 | `ATS2-M4-006` | `WBS-4.6` | P1 | DONE | M4-001, M4-005 | `governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md` | Freeze manifest fixes version/code/config/data/costs/metrics/rule before reveal; reveal is irreversible; only PASS/FAIL exists; post-reveal repair cannot restore independence |
 | `ATS2-M4-007` | `WBS-4.7` | P1 | DONE | M4-001, M4-006, experiment/discovery history | `governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md` | Material Research Attempts, bounded-search denominators, negative/discarded outcomes, data/cost changes, returns to research and consumed protected blocks remain traceable to the selected version |
-| `ATS2-M4-008` | `WBS-4.8` | P1 | READY | M4-001…007 | `governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md` | Technical price-driven strategy profile makes V1–V7 concrete, declares applicability/required evidence and specifies what must be frozen before S06/S07 |
-| `ATS2-M6-000` | `WBS-6.0` | P1 | BLOCKED | M2, M3 learnings, M4-008 | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + future Search Manifest/result tooling | Bounded price-dynamics search preserves full search space, negative alternatives and shortlist history; outputs remain exploratory and enter normal Idea/Hypothesis funnel |
+| `ATS2-M4-008` | `WBS-4.8` | P1 | DONE | M4-001…007 | `governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md` | Technical price-driven strategy profile makes V1–V7 concrete, declares applicability/required evidence and specifies what must be frozen before S06/S07 |
+| `ATS2-M6-000` | `WBS-6.0` | P1 | READY | M2, M3 learnings, M4-008 | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + future Search Manifest/result tooling | Bounded price-dynamics search preserves full search space, negative alternatives and shortlist history; outputs remain exploratory and enter normal Idea/Hypothesis funnel |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M4-008 — Technical strategy validation profile`.
+`ATS2-M6-000 — Market Pattern Discovery`.
 
 Canonical first implementation artifact:
 
-`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`.
+`governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml`.
 
-The profile must convert the general V1–V7 framework into explicit requirements for technical price-driven strategies without inventing universal profitability or risk thresholds.
+The task builds a reproducible bounded-search capability that evaluates the complete declared alternative set, preserves negative alternatives and applies only a predeclared shortlist rule. Discovery remains exploratory and cannot create validation evidence.
 
-HYP-0001 remains rejected and is not reopened by M4.
-
-Future candidate sourcing is explicit: after the M4-008 technical Validation Profile passes its exact closure check, `ATS2-M6-000 — Market Pattern Discovery` may begin before M5. M5 remains blocked until a Candidate passes S07.
+M4.1–M4.8 reusable validation capability is complete. M4.9/M4.10 remain blocked until a future promoted Candidate reaches S05 `PASS`. HYP-0001 remains rejected and is not reopened.

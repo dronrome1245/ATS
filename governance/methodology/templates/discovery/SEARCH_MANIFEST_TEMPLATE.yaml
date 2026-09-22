@@ -1,0 +1,63 @@
+schema_version: "1.0"
+search_id: "SEARCH-SYNTHETIC-M6-001"
+dataset_id: "DATA-SYNTHETIC-DISCOVERY-001"
+dataset_version: "1.0.0"
+development_scope: "Synthetic development-only records used for software validation."
+market_universe:
+  - "SYNTHETIC_NON_MARKET"
+timestamp_semantics: "Synthetic ordered event time; no trading-time claim."
+pattern_families:
+  - "RETURN_STATE"
+feature_condition_families:
+  - "SYNTHETIC_THRESHOLD"
+horizons:
+  - "H1"
+directions:
+  - "UP"
+filters_regimes: []
+metric_names:
+  - "effect"
+  - "count"
+max_combinations: 3
+shortlist_rule:
+  metric_name: "effect"
+  operator: "GREATER_EQUAL"
+  threshold: 1.5
+random_seed: null
+stochastic_protocol: null
+cost_execution_applicability: "NOT_APPLICABLE: synthetic software fixture only."
+excluded_protected_blocks:
+  - "ALL_VALIDATION_AND_INDEPENDENT_BLOCKS"
+code_revision: "SYNTHETIC_TEMPLATE"
+implementation_reference: "src/ats/discovery/bounded.py"
+alternatives:
+  - alternative_id: "alt-low"
+    pattern_family: "RETURN_STATE"
+    feature_condition: "SYNTHETIC_THRESHOLD"
+    horizon: "H1"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "threshold"
+        value: 1.0
+  - alternative_id: "alt-mid"
+    pattern_family: "RETURN_STATE"
+    feature_condition: "SYNTHETIC_THRESHOLD"
+    horizon: "H1"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "threshold"
+        value: 2.0
+  - alternative_id: "alt-high"
+    pattern_family: "RETURN_STATE"
+    feature_condition: "SYNTHETIC_THRESHOLD"
+    horizon: "H1"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "threshold"
+        value: 3.0
+known_limitations:
+  - "Synthetic non-market template; not research evidence."
+  - "Template does not authorize access to protected validation or independent blocks."

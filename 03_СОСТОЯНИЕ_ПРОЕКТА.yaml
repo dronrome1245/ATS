@@ -2,7 +2,7 @@ schema_version: "2.0"
 program:
   id: ATS
   name: "ATS — Algorithmic Trading Systems"
-  phase: M4_VALIDATION_FRAMEWORK
+  phase: M6_REFERENCE_STRATEGY_2
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
   updated_on: "2026-09-22"
@@ -41,6 +41,8 @@ model:
   multiple_research_accounting: "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"
   technical_strategy_validation_profile: "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"
   market_pattern_discovery: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
+  discovery_search_manifest_template: "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
+  bounded_discovery_engine: "src/ats/discovery/bounded.py"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -63,11 +65,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Define technical strategy validation profile"
-  last_completed_task_id: "ATS2-M4-007"
-  last_completed_artifact: "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"
-  next_artifact: "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"
-  next_task_id: "ATS2-M4-008"
+  focus: "Build bounded market pattern discovery capability"
+  last_completed_task_id: "ATS2-M4-008"
+  last_completed_artifact: "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"
+  next_artifact: "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
+  next_task_id: "ATS2-M6-000"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -76,7 +78,7 @@ milestones:
   M3_REFERENCE_STRATEGY_1: COMPLETED
   M4_VALIDATION_FRAMEWORK: IN_PROGRESS
   M5_EXECUTION_PLATFORM: NOT_STARTED
-  M6_REFERENCE_STRATEGY_2: NOT_STARTED
+  M6_REFERENCE_STRATEGY_2: IN_PROGRESS
   M7_PORTFOLIO_LAYER: NOT_STARTED
   M8_CONTROLLED_LIVE_PORTFOLIO: NOT_STARTED
 
@@ -221,6 +223,7 @@ m4:
     - "ATS2-M4-005"
     - "ATS2-M4-006"
     - "ATS2-M4-007"
+    - "ATS2-M4-008"
   completed_artifacts:
     - "governance/methodology/VALIDATION_FRAMEWORK.md"
     - "src/ats/validation/__init__.py"
@@ -234,15 +237,23 @@ m4:
     - "tests/test_validation_resampling.py"
     - "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"
     - "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"
-  current_task: "ATS2-M4-008"
-  current_wbs: "WBS-4.8"
-  framework_status: "BASELINE"
+    - "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"
+  current_task: "BLOCKED_PENDING_S05_CANDIDATE"
+  current_wbs: "WBS-4.9"
+  framework_status: "REUSABLE_BASELINE_COMPLETE"
   first_candidate_validation_pending: true
+
+m6:
+  objective: "Source and research Reference Strategy #2 while M4 awaits an S05 PASS Candidate"
+  current_task: "ATS2-M6-000"
+  current_wbs: "WBS-6.0"
+  discovery_capability_status: "IMPLEMENTATION_IN_PROGRESS"
+  first_bounded_search_status: "NOT_STARTED"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M4-008"
-  current_ready_wbs: "WBS-4.8"
+  current_ready_task: "ATS2-M6-000"
+  current_ready_wbs: "WBS-6.0"
 
 handoff_policy:
   update_after_material_step: true
@@ -284,8 +295,10 @@ strategy_pipeline:
   active_strategies: 0
 
 discovery:
-  capability_status: "BASELINE_DEFINED"
+  capability_status: "IMPLEMENTATION_IN_PROGRESS"
   methodology: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
+  search_manifest_template: "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
+  engine: "src/ats/discovery/bounded.py"
   first_bounded_search_status: "NOT_STARTED"
   candidate_source_for_reference_strategy_2: true
   protected_blocks_allowed: false

@@ -310,12 +310,13 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-4.5 — Resampling framework` — `DONE`;
 - `WBS-4.6 — Independent exam protocol` — `DONE`;
 - `WBS-4.7 — Multiple-research accounting` — `DONE`, OWNER closure confirmed on commit `c3a29500ed5872b11d6fe7dc9429d31165251496`;
-- `WBS-4.8 — Class-specific profiles` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
+- `WBS-4.8 — Class-specific profiles` — `DONE`, exact OWNER launcher PASS confirmed on commit `50f8e7fda9460473af674f9aad45ad9c5831c44f`;
 - technical profile artifact: `governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`;
-- `WBS-6.0 — Market Pattern Discovery` remains blocked until the M4-008 closure check passes.
+- `WBS-6.0 — Market Pattern Discovery` — `IN_PROGRESS`;
+- M4.9/M4.10 remain blocked until a future research line earns Candidate/S05 eligibility.
 
 The current closure target is:
 
-`ATS2-M4-008 — Technical strategy validation profile`
+`ATS2-M6-000 — Market Pattern Discovery`
 
-Strategy-specific validation remains blocked until a future research line earns Candidate/S05 eligibility. HYP-0001 remains rejected and is not reopened by M4.
+Initial capability artifacts are the Search Manifest template, bounded discovery engine and synthetic contract tests. No real market scan or Candidate is created by the implementation baseline. HYP-0001 remains rejected and is not reopened.

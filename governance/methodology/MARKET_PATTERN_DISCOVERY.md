@@ -225,6 +225,28 @@ A discovery run should be reproducible from:
 
 Full result tables may live outside Git if too large, but their immutable location/hash and summary counts must be recorded.
 
+### 14.1 Reusable implementation baseline
+
+Canonical software/template artifacts:
+
+- Search Manifest template: `governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml`;
+- bounded discovery engine: `src/ats/discovery/bounded.py`;
+- contract tests: `tests/test_discovery_bounded.py`.
+
+The engine evaluates every explicitly declared alternative exactly once, preserves the full result set and applies only the predeclared shortlist rule from the Search Manifest.
+
+Machine-readable results declare:
+
+- `attempt_type = DISCOVERY_SEARCH`;
+- `qualified_evidence_class = EXPLORATORY_OBSERVATION`;
+- `selection_policy = PREDECLARED_SHORTLIST_RULE_ONLY`;
+- the full `search_space_count`;
+- all evaluated points;
+- the exact shortlisted alternative IDs;
+- `NO_PATTERN_SHORTLISTED` or `SHORTLIST_FOR_IDEA_INTAKE`.
+
+The reusable software baseline uses synthetic non-market tests and does not itself create a research result.
+
 ## 15. Anti-patterns
 
 Forbidden representations:
@@ -255,7 +277,7 @@ This prevents the rejected Strategy #1 line from creating a roadmap deadlock.
 
 ## 17. Current boundary
 
-Creating this methodology does not run a market scan.
+Creating the methodology and reusable software baseline does not run a real market scan.
 
 No new Idea, Hypothesis, Candidate, Strategy, Experiment or evidence result is created by this document.
 
