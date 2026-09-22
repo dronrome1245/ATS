@@ -20,10 +20,11 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | Cause | Class | Confirmed occurrences | State | Current control |
 |---|---|---:|---|---|
 | `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
-| `LCI-002` | `FORMAT` | 7 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
+| `LCI-002` | `FORMAT` | 8 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 3 | CONTROL_REQUIRED | marker audit rule for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 1 | OBSERVED | narrowly ignore `reports/local_ci/*.lnk` |
+| `LCI-006` | `HANDOFF_SYNC` | 1 | OBSERVED | exact canonical `last_completed_artifact`/`next_artifact`/`next_task_id` values must appear in handoff/next-step |
 
 ## 3. Occurrence log
 
@@ -42,6 +43,8 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-22 | `LCI-002` | `9fb041c51cf93071ca6735b52897cbb2b24e5568` | format | concentration module was stopped by fast preflight before full pytest |
 | 2026-09-22 | `LCI-002` | `9134c44d1d3d861124c44e00b4df820ad181cb5d` | format | resampling test was stopped by fast preflight before full pytest |
 | 2026-09-22 | `LCI-002` | `f989e6d77c94aaaa93df9bf6fdd994708b570404` | format | independent-exam checker tuple layout was stopped by fast preflight before full pytest |
+| 2026-09-22 | `LCI-002` | `2048d3c9cd7162e3e71429331bd2b5979534b1d6` | format | M4-008 checker repeated the same one-element tuple layout failure; fast preflight stopped before full pytest |
+| 2026-09-22 | `LCI-006` | `2048d3c9cd7162e3e71429331bd2b5979534b1d6` | validator | AI handoff omitted the exact canonical `last_completed_artifact` path |
 
 ## 4. Rule-conversion discipline
 
@@ -66,6 +69,10 @@ Validator-targeted files require complete marker audit, not a selected subset.
 ### DIRTY_TREE / LCI-005
 
 Only `reports/local_ci/*.lnk` is ignored for Windows shell shortcuts; real untracked source files remain blocking.
+
+### HANDOFF_SYNC / LCI-006
+
+Before remote push, canonical state reconciliation must compare the exact values of `last_completed_artifact`, `next_artifact`, and `next_task_id` against `AI_HANDOFF.md` and `02_СЛЕДУЮЩИЙ_ШАГ.md`. Narrative equivalence is not enough.
 
 
 ## 6. Verified control run

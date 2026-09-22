@@ -10,9 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TASK_ID = "ATS2-M4-008"
 TASK_NAME = "Technical strategy validation profile"
-REQUIRED_ARTIFACTS = (
-    Path("governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"),
-)
+REQUIRED_ARTIFACTS = (Path("governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"),)
 
 
 def check_required_artifacts() -> bool:

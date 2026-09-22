@@ -18,6 +18,10 @@ OWNER launcher report for commit:
 
 confirmed repository validator PASS, pinned Ruff PASS, `124 passed`, full Local CI PASS, M4-007 task check PASS, launcher PASS and a clean working tree.
 
+Canonical last completed artifact:
+
+`governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`
+
 ## M4-008 Technical Strategy Validation Profile
 
 Implemented artifact:

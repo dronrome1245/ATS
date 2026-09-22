@@ -93,6 +93,7 @@ Always distinguish a pre-verification synchronization failure from a code failur
 **Repeat observed:** 2026-09-22 on `9fb041c51cf93071ca6735b52897cbb2b24e5568` in `src/ats/validation/concentration.py`; fast preflight correctly stopped before full pytest  
 **Repeat observed:** 2026-09-22 on `9134c44d1d3d861124c44e00b4df820ad181cb5d` in `tests/test_validation_resampling.py`; fast preflight again stopped before full pytest  
 **Repeat observed:** 2026-09-22 on `f989e6d77c94aaaa93df9bf6fdd994708b570404` in `tools/current_task_check.py`; fast preflight again stopped before full pytest  
+**Repeat observed:** 2026-09-22 on `2048d3c9cd7162e3e71429331bd2b5979534b1d6` in `tools/current_task_check.py`; the same one-element tuple layout recurred and fast preflight again stopped before full pytest  
 **Fixed first occurrence by:** `fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd`  
 **Class:** `FORMAT`
 
@@ -231,6 +232,43 @@ Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added 
 
 **Scope:** agents and repository-maintenance tooling.
 
+
+### LCI-006 — Canonical state/handoff reconciliation drift
+
+**First observed:** 2026-09-22 on `2048d3c9cd7162e3e71429331bd2b5979534b1d6`  
+**Class:** `HANDOFF_SYNC`
+
+**Symptom**
+
+Repository validator reports:
+
+`AI_HANDOFF.md missing last_completed_artifact`
+
+even though the handoff narratively describes the previous completed task.
+
+**Root cause**
+
+The canonical state contained:
+
+`last_completed_artifact: "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"`
+
+but the synchronized handoff rewrite removed that exact artifact path. ATS reconciliation is intentionally literal for canonical identities; a prose summary is not a substitute for the canonical reference.
+
+**Correct response**
+
+Restore the exact canonical artifact reference in `AI_HANDOFF.md` without changing task scope, then rerun the launcher on the corrected exact commit.
+
+**Preventive rule**
+
+Before every remote program-state commit, mechanically compare these exact canonical-state values against both handoff surfaces:
+
+1. `last_completed_artifact` must appear in `AI_HANDOFF.md`;
+2. `next_artifact` must appear in `AI_HANDOFF.md` and `02_СЛЕДУЮЩИЙ_ШАГ.md`;
+3. `next_task_id` must appear in `AI_HANDOFF.md` and `02_СЛЕДУЮЩИЙ_ШАГ.md`.
+
+Do not accept semantic or narrative equivalence for stable IDs/paths.
+
+**Scope:** agents performing program-state/handoff synchronization.
 
 ### LCI-005 — Windows shortcut artifact makes Local CI tree dirty
 
