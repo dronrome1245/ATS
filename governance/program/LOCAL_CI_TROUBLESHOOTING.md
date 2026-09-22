@@ -264,6 +264,36 @@ Do not change the Hypothesis, data period or provider merely because of a transi
 
 **Scope:** OWNER research workflow and agents.
 
+### LCI-008 — Serialized row passed to typed continuity helper
+
+**First observed:** 2026-09-22 on `04aaa885e5be81f2468b1478423949f0e9e5323b` during HYP-0002 Data Feasibility preparation  
+**Class:** `TEST`
+
+**Symptom**
+
+Fast/full Local CI, pinned Ruff and the existing pytest suite pass, but the task-specific preparation step fails after data acquisition with:
+
+`TypeError: unsupported operand type(s) for -: 'str' and 'str'`
+
+The failure occurs while counting eligible 24-before/24-after windows.
+
+**Root cause**
+
+The confirmatory preparation path stores `event_time` as RFC3339 strings for deterministic CSV/report serialization. It then reused `valid_window()` from PROTO-01, whose contract assumes already parsed rows where `event_time` is a `datetime`. The shared algorithm was compatible, but the row representation was not.
+
+**Correct response**
+
+Do not change the frozen dataset, Hypothesis or information boundary. Parse event timestamps once and apply continuity checks to the parsed timestamp sequence. Add a regression test using the same serialized row representation emitted by the confirmatory preparation path.
+
+**Preventive rule**
+
+1. Treat serialized rows and typed in-memory rows as distinct contracts.
+2. A helper reused across those boundaries must receive explicitly converted inputs or expose a representation-neutral primitive.
+3. Task-runtime paths that transform representation must have a direct regression test; broad platform tests are not sufficient.
+4. Do not repair a representation bug by changing research parameters or data selection.
+
+**Scope:** research/development tooling.
+
 ### LCI-006 — Canonical state/handoff reconciliation drift
 
 **First observed:** 2026-09-22 on `2048d3c9cd7162e3e71429331bd2b5979534b1d6`  

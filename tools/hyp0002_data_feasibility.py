@@ -213,6 +213,14 @@ def write_confirmatory_csv(rows: list[dict[str, Any]]) -> None:
             writer.writerow(formatted)
 
 
+def valid_timestamp_window(timestamps: list[datetime], index: int) -> bool:
+    window = timestamps[index - 24 : index + 26]
+    return len(window) == 50 and all(
+        current - previous == timedelta(hours=1)
+        for previous, current in zip(window, window[1:])
+    )
+
+
 def confirmatory_stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
     timestamps = [parse_time(str(row["event_time"])) for row in rows]
     gaps = [
@@ -220,7 +228,10 @@ def confirmatory_stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
         for previous, current in zip(timestamps, timestamps[1:])
         if current - previous != timedelta(hours=1)
     ]
-    eligible = sum(valid_window(rows, index) for index in range(24, len(rows) - 25))
+    eligible = sum(
+        valid_timestamp_window(timestamps, index)
+        for index in range(24, len(timestamps) - 25)
+    )
     calendar_hours = int((CONFIRM_END - CONFIRM_START).total_seconds() // 3600)
     expected_market_hours = sum(
         is_fx_market_hour(CONFIRM_START + timedelta(hours=offset))
