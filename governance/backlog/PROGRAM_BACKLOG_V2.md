@@ -44,9 +44,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 29. `ATS2-M6-001` — First bounded discovery run — `DONE`.
 30. `ATS2-M6-002` — Strategy #2 class selection and Idea intake — `DONE`.
 31. `ATS2-M6-003` — HYP-0002 formation — `DONE`.
-32. `ATS2-M6-004` — HYP-0002 Data Feasibility preparation — `READY`.
+32. `ATS2-M6-004` — HYP-0002 Data Feasibility preparation — `DONE`.
+33. `ATS2-M6-005` — HYP-0002 Data Feasibility freeze — `READY`.
 
-Program-level current next task — `ATS2-M6-004`.
+Program-level current next task — `ATS2-M6-005`.
 
 ## 3. M0 / M1
 
@@ -110,18 +111,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M6-001` | `WBS-6.0` | P1 | DONE | M6-000 | `research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml` + `reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md` | Exact-head run evaluated all 16 alternatives, retained full denominator and returned `SHORTLIST_FOR_IDEA_INTAKE` with five reversal variants |
 | `ATS2-M6-002` | `WBS-6.1` | P1 | DONE | M6-001 | `governance/program/REFERENCE_STRATEGY_2_SELECTION.md` + `research/ideas/IDEA-0002.md` | Selected the two-sided return-tail reversal class and screened IDEA-0002 without promoting one discovery cell as a winner |
 | `ATS2-M6-003` | `WBS-6.2` | P1 | DONE | M6-002 | `research/hypotheses/HYP-0002.md` | Froze the post-discovery two-sided 24H reversal formulation and required development-only thresholds plus unseen confirmatory data |
-| `ATS2-M6-004` | `WBS-6.2` | P1 | READY | M6-003 | `research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md` + local preparation report | Freeze Q10_DEV/Q90_DEV from the canonical development snapshot and acquire/hash the disjoint 2026-01 through 2026-08 Dukascopy BID/ASK block without evaluating HYP-0002 outcomes |
+| `ATS2-M6-004` | `WBS-6.2` | P1 | DONE | M6-003 | `research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md` + local preparation report | Froze Q10_DEV/Q90_DEV and the disjoint 2026-01 through 2026-08 Dukascopy BID/ASK block with no HYP-0002 outcome calculation |
+| `ATS2-M6-005` | `WBS-6.2` | P1 | READY | M6-004 | `research/reviews/HYP-0002-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest | Record a CONDITIONAL Data Feasibility decision, freeze exact thresholds/data identity/cost limitations, and permit only the bounded cheap confirmatory prototype |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M6-004 — HYP-0002 Data Feasibility preparation`.
+`ATS2-M6-005 — HYP-0002 Data Feasibility freeze`.
 
 Canonical artifact:
 
-`research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md`.
+`research/reviews/HYP-0002-DATA-FEASIBILITY.md`.
 
-The preparation freezes development-only Q10_DEV/Q90_DEV values and a disjoint Dukascopy EURUSD H1 BID/ASK block from 2026-01-01 through 2026-08-31. It records coverage and hashes but does not calculate HYP-0002 outcomes.
+The review freezes Q10_DEV/Q90_DEV, the confirmatory Dataset Manifest and explicit cost/execution limitations before any HYP-0002 outcome reveal. Decision is CONDITIONAL: the cheap prototype may answer the narrow quote-return claim but cannot make full-net economic or live-execution claims.
 
-After the OWNER run, use the emitted preparation values to commit the formal Data Feasibility review and confirmatory Dataset Manifest.
+After exact-head PASS, the next step is to freeze `HYP-0002-PROTOTYPE-01` before running the confirmatory outcome.

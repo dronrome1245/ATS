@@ -50,6 +50,9 @@ model:
   reference_strategy_2_idea: "research/ideas/IDEA-0002.md"
   reference_strategy_2_hypothesis: "research/hypotheses/HYP-0002.md"
   reference_strategy_2_data_feasibility_prep: "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"
+  reference_strategy_2_data_feasibility: "research/reviews/HYP-0002-DATA-FEASIBILITY.md"
+  reference_strategy_2_confirmatory_manifest: "data/manifests/DATA-DUKASCOPY-EURUSDH1-HYP0002-001.yaml"
+  reference_strategy_2_confirmatory_schema: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -72,11 +75,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Prepare HYP-0002 Data Feasibility evidence"
-  last_completed_task_id: "ATS2-M6-003"
-  last_completed_artifact: "research/hypotheses/HYP-0002.md"
-  next_artifact: "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"
-  next_task_id: "ATS2-M6-004"
+  focus: "Freeze HYP-0002 Data Feasibility review"
+  last_completed_task_id: "ATS2-M6-004"
+  last_completed_artifact: "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"
+  next_artifact: "research/reviews/HYP-0002-DATA-FEASIBILITY.md"
+  next_task_id: "ATS2-M6-005"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -257,6 +260,7 @@ m6:
     - "ATS2-M6-001"
     - "ATS2-M6-002"
     - "ATS2-M6-003"
+    - "ATS2-M6-004"
   completed_artifacts:
     - "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
     - "src/ats/discovery/bounded.py"
@@ -266,8 +270,18 @@ m6:
     - "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
     - "research/ideas/IDEA-0002.md"
     - "research/hypotheses/HYP-0002.md"
-  current_task: "ATS2-M6-004"
+    - "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"
+    - "tools/hyp0002_data_feasibility.py"
+  current_task: "ATS2-M6-005"
   current_wbs: "WBS-6.2"
+  data_feasibility_decision: "CONDITIONAL"
+  q10_dev: -0.005141454111
+  q90_dev: 0.005394148971
+  confirmatory_dataset_id: "DATA-DUKASCOPY-EURUSDH1-HYP0002-001"
+  confirmatory_dataset_version: "1.0.0"
+  confirmatory_dataset_sha256: "d62a7103478da2a79a0992310005bcd0afc8dc0010088dccd2ed0e54e2ec112f"
+  confirmatory_source_bundle_sha256: "ccbf5ceff1ee1a5a1cb62dead3af531ce05ae4f71e4da32140b526326e686392"
+  information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
   discovery_capability_status: "BASELINE_COMPLETE"
   first_bounded_search_status: "COMPLETED_SHORTLIST_FOR_IDEA_INTAKE"
   selected_reference_strategy_2_class: "SINGLE_INSTRUMENT_1H_TWO_SIDED_RETURN_TAIL_REVERSAL"
@@ -276,7 +290,7 @@ m6:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M6-004"
+  current_ready_task: "ATS2-M6-005"
   current_ready_wbs: "WBS-6.2"
 
 handoff_policy:

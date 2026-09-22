@@ -12,14 +12,16 @@ ATS — Strategy Factory для воспроизводимого исследо�
 
 Current work:
 
-`ATS2-M6-004 — HYP-0002 Data Feasibility preparation`
+`ATS2-M6-005 — HYP-0002 Data Feasibility freeze`
 
 Artifacts:
 
 - `research/hypotheses/HYP-0002.md`
-- `research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md`
-- `tools/hyp0002_data_feasibility.py`
+- `research/reviews/HYP-0002-DATA-FEASIBILITY.md`
+- `data/manifests/DATA-DUKASCOPY-EURUSDH1-HYP0002-001.yaml`
 
-The preparation freezes thresholds and unseen-data identity only; it does not compute the HYP-0002 outcome.
+Decision: `CONDITIONAL`.
+
+No HYP-0002 confirmatory outcome has been calculated.
 
 Run `ATS_TASK_CHECK.bat`, then return `reports/local_ci/CURRENT_TASK_REPORT.txt`.

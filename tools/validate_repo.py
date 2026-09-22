@@ -37,6 +37,9 @@ REFERENCE_STRATEGY_2_SELECTION = "governance/program/REFERENCE_STRATEGY_2_SELECT
 REFERENCE_STRATEGY_2_IDEA = "research/ideas/IDEA-0002.md"
 REFERENCE_STRATEGY_2_HYPOTHESIS = "research/hypotheses/HYP-0002.md"
 REFERENCE_STRATEGY_2_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"
+REFERENCE_STRATEGY_2_DATA_FEASIBILITY = "research/reviews/HYP-0002-DATA-FEASIBILITY.md"
+HYP0002_CONFIRMATORY_MANIFEST = "data/manifests/DATA-DUKASCOPY-EURUSDH1-HYP0002-001.yaml"
+HYP0002_CONFIRMATORY_SCHEMA = "data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -171,7 +174,11 @@ def configure() -> None:
         EURUSD_H1_DISCOVERY_TOOL, EURUSD_H1_DISCOVERY_TEST,
         FIRST_DISCOVERY_RESULT_SUMMARY, REFERENCE_STRATEGY_2_SELECTION,
         REFERENCE_STRATEGY_2_IDEA, REFERENCE_STRATEGY_2_HYPOTHESIS,
-        REFERENCE_STRATEGY_2_DATA_FEASIBILITY_PREP, HYP0002_DATA_FEASIBILITY_TOOL,
+        REFERENCE_STRATEGY_2_DATA_FEASIBILITY_PREP,
+        REFERENCE_STRATEGY_2_DATA_FEASIBILITY,
+        HYP0002_CONFIRMATORY_MANIFEST,
+        HYP0002_CONFIRMATORY_SCHEMA,
+        HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
         REFERENCE_STRATEGY_PROTOTYPE, PROTO01_RESULT, PROTO01_SCHEMA, PROTO01_MANIFEST,
@@ -198,6 +205,9 @@ def configure() -> None:
         "first_discovery_result_summary", "reference_strategy_2_selection",
         "reference_strategy_2_idea", "reference_strategy_2_hypothesis",
         "reference_strategy_2_data_feasibility_prep",
+        "reference_strategy_2_data_feasibility",
+        "reference_strategy_2_confirmatory_manifest",
+        "reference_strategy_2_confirmatory_schema",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -414,6 +424,37 @@ def configure() -> None:
         "Q90_DEV",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         "HYP0002_DATA_FEASIBILITY_REPORT.txt",
+    )
+    core.CONTENT_MARKERS[REFERENCE_STRATEGY_2_DATA_FEASIBILITY] = (
+        "Hypothesis ID: `HYP-0002`",
+        "Review status: `CONDITIONAL`",
+        "Q10_DEV = -0.005141454111",
+        "Q90_DEV = 0.005394148971",
+        "DATA-DUKASCOPY-EURUSDH1-HYP0002-001@1.0.0",
+        "d62a7103478da2a79a0992310005bcd0afc8dc0010088dccd2ed0e54e2ec112f",
+        "ccbf5ceff1ee1a5a1cb62dead3af531ce05ae4f71e4da32140b526326e686392",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+        "Decision: `CONDITIONAL`",
+        "HYP-0002-PROTOTYPE-01.md",
+    )
+    core.CONTENT_MARKERS[HYP0002_CONFIRMATORY_MANIFEST] = (
+        'dataset_id: "DATA-DUKASCOPY-EURUSDH1-HYP0002-001"',
+        'dataset_version: "1.0.0"',
+        "4,153 aligned rows",
+        "ccbf5ceff1ee1a5a1cb62dead3af531ce05ae4f71e4da32140b526326e686392",
+        "d62a7103478da2a79a0992310005bcd0afc8dc0010088dccd2ed0e54e2ec112f",
+        'availability_mode: "EXPLICIT_FIELD"',
+        'missing: "ALLOW_DECLARED_GAPS"',
+        "tools/hyp0002_data_feasibility.py@8b1e2dbc0e604c7fb3ca8297e0f61f252147619a",
+    )
+    core.CONTENT_MARKERS[HYP0002_CONFIRMATORY_SCHEMA] = (
+        "HYP-0002 confirmatory EURUSD 1H aligned BID/ASK rows",
+        "event_time",
+        "availability_time",
+        "bid_open",
+        "ask_open",
+        "additionalProperties",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -942,12 +983,12 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M6-004"',
-        "M6-004 HYP-0002 data feasibility preparation artifacts",
-        "HYP-0002-DATA-FEASIBILITY-PREP.md",
-        "hyp0002_data_feasibility.py",
-        "M6-004 freeze thresholds and confirmatory data",
-        "M6-004 data feasibility preparation governance validation",
+        'TASK_ID = "ATS2-M6-005"',
+        "M6-005 HYP-0002 Data Feasibility artifacts",
+        "HYP-0002-DATA-FEASIBILITY.md",
+        "DATA-DUKASCOPY-EURUSDH1-HYP0002-001.yaml",
+        "DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json",
+        "M6-005 Data Feasibility governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1246,6 +1287,9 @@ def main() -> int:
         'reference_strategy_2_idea: "research/ideas/IDEA-0002.md"',
         'reference_strategy_2_hypothesis: "research/hypotheses/HYP-0002.md"',
         'reference_strategy_2_data_feasibility_prep: "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"',
+        'reference_strategy_2_data_feasibility: "research/reviews/HYP-0002-DATA-FEASIBILITY.md"',
+        'reference_strategy_2_confirmatory_manifest: "data/manifests/DATA-DUKASCOPY-EURUSDH1-HYP0002-001.yaml"',
+        'reference_strategy_2_confirmatory_schema: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1258,8 +1302,8 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M6-003"',
-        'current_task: "ATS2-M6-004"', 'current_ready_task: "ATS2-M6-004"',
+        'last_completed_task_id: "ATS2-M6-004"',
+        'current_task: "ATS2-M6-005"', 'current_ready_task: "ATS2-M6-005"',
         'current_wbs: "WBS-6.2"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -1343,11 +1387,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M6-003") != "DONE":
-        core.fail("M6-003 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-004") != "DONE":
+        core.fail("M6-004 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M6-004") != "READY":
-        core.fail("M6-004 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-005") != "READY":
+        core.fail("M6-005 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

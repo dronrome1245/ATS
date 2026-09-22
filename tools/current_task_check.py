@@ -8,22 +8,23 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M6-004"
-TASK_NAME = "HYP-0002 data feasibility preparation"
+TASK_ID = "ATS2-M6-005"
+TASK_NAME = "HYP-0002 Data Feasibility freeze"
 REQUIRED_ARTIFACTS = (
-    Path("research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"),
-    Path("tools/hyp0002_data_feasibility.py"),
+    Path("research/reviews/HYP-0002-DATA-FEASIBILITY.md"),
+    Path("data/manifests/DATA-DUKASCOPY-EURUSDH1-HYP0002-001.yaml"),
+    Path("data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M6-004 HYP-0002 data feasibility preparation artifacts ==")
+    print("\n== M6-005 HYP-0002 Data Feasibility artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M6-004 HYP-0002 data feasibility preparation artifacts")
+    print("[PASS] M6-005 HYP-0002 Data Feasibility artifacts")
     return True
 
 
@@ -51,11 +52,7 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "M6-004 freeze thresholds and confirmatory data",
-            [sys.executable, "tools/hyp0002_data_feasibility.py"],
-        ),
-        run(
-            "M6-004 data feasibility preparation governance validation",
+            "M6-005 Data Feasibility governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

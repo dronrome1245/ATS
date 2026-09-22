@@ -1,0 +1,64 @@
+schema_version: "2.0"
+
+dataset_id: "DATA-DUKASCOPY-EURUSDH1-HYP0002-001"
+dataset_version: "1.0.0"
+description: "EUR/USD 1H aligned BID/ASK confirmatory dataset for HYP-0002, frozen to 2026-01 through 2026-08 before any HYP-0002 outcome calculation."
+
+source:
+  source_reference: "Dukascopy monthly EURUSD H1 BID/ASK candle files; 16 source files"
+  snapshot_reference: "source-bundle-sha256:ccbf5ceff1ee1a5a1cb62dead3af531ce05ae4f71e4da32140b526326e686392"
+
+storage:
+  format: "CSV"
+  location: "data/derived/HYP-0002-CONFIRM-01-EURUSD-H1.csv"
+  schema_reference: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json"
+
+coverage:
+  start: "2026-01-01T00:00:00Z"
+  end: "2026-08-31T23:00:00Z"
+  scope: "EURUSD 1H tradable-hour BID/ASK bars for 2026-01 through 2026-08; 4,153 aligned rows; zero missing tradable hours; 35 declared gaps; 2,414 eligible 24-before/24-after timestamps."
+
+time_semantics:
+  timezone: "UTC"
+  timestamp_representation: "RFC3339"
+  event_time_field: "event_time"
+  availability_time_field: "availability_time"
+  availability_mode: "EXPLICIT_FIELD"
+
+ordering:
+  keys:
+    - "event_time"
+  tie_break_keys:
+    - "sequence"
+  direction: "ASCENDING"
+
+quality_policy:
+  duplicates: "REJECT"
+  missing: "ALLOW_DECLARED_GAPS"
+  malformed: "REJECT"
+  out_of_order: "REJECT"
+
+transformation_lineage:
+  parent_datasets: []
+  preparation_reference: "tools/hyp0002_data_feasibility.py@8b1e2dbc0e604c7fb3ca8297e0f61f252147619a"
+  steps:
+    - "Decode Dukascopy monthly EURUSD BID and ASK H1 BI5 candle files for January through August 2026."
+    - "Convert bar-open timestamps to UTC and set availability_time to one hour after event_time."
+    - "Remove calendar hours outside the declared Dukascopy FX trading-hour policy."
+    - "Require exact BID/ASK timestamp alignment and reject duplicates or impossible OHLC values."
+    - "Keep only 2026-01-01T00:00:00Z through 2026-08-31T23:00:00Z."
+    - "Do not fill session or data gaps; 24-before/24-after windows crossing a gap are ineligible."
+    - "Do not calculate HYP-0002 signal returns or outcomes during dataset preparation."
+
+integrity:
+  algorithm: "SHA256"
+  digest: "d62a7103478da2a79a0992310005bcd0afc8dc0010088dccd2ed0e54e2ec112f"
+  reason: null
+
+known_limitations:
+  - "Raw Dukascopy source files and prepared market bytes remain local/external and are not committed to Git."
+  - "Source bundle identity is ccbf5ceff1ee1a5a1cb62dead3af531ce05ae4f71e4da32140b526326e686392 across 16 monthly BID/ASK files."
+  - "There are 35 declared session/data gaps, maximum 49 hours, with zero missing expected tradable hours."
+  - "2,414 timestamps have complete contiguous 24-before/24-after windows under the HYP-0002 eligibility geometry."
+  - "Spread is represented by BID/ASK opens; commission, financing/rollover and live-fill slippage are not included."
+  - "This dataset supports a HYP-0002 cheap confirmatory prototype only and is not validation or independent evidence."
