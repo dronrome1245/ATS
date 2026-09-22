@@ -75,7 +75,8 @@ Before moving the remote branch:
 3. audit local Markdown references introduced or changed by the patch;
 4. if an environment with project-pinned tools is available, run the fast gate on the exact proposed content before push;
 5. if pinned Ruff is unavailable, preserve `FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF` status and do not claim preflight PASS;
-6. if the current task runner writes files under `reports/local_ci/` before the full gate, verify that every intended disposable output is covered by a narrow `.gitignore` pattern; do not ignore the whole runtime directory.
+6. if the current task runner writes files under `reports/local_ci/` before the full gate, verify that every intended disposable output is covered by a narrow `.gitignore` pattern; do not ignore the whole runtime directory;
+7. if a current task acquires external source files, require resumable file-level caching and bounded retry/backoff for transient source failures; do not change a frozen provider/period merely to escape a temporary outage.
 
 ## 8. Required pre-launch declaration
 

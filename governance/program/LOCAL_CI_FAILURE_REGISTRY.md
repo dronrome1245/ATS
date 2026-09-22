@@ -25,6 +25,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | `LCI-004` | `VALIDATOR` | 4 | REPEAT_AFTER_CONTROL_THRESHOLD | extract and audit the complete current marker tuple for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
 | `LCI-006` | `HANDOFF_SYNC` | 1 | OBSERVED | exact canonical `last_completed_artifact`/`next_artifact`/`next_task_id` values must appear in handoff/next-step |
+| `LCI-007` | `DATA_SOURCE_NETWORK` | 2 | RECURRING | resumable local cache plus bounded extra download batches/backoff for transient source 5xx/timeouts |
 
 ## 3. Occurrence log
 
@@ -49,6 +50,8 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-22 | `LCI-005` | `4f51123578b7d790fce98ef329da512286fe6649` | clean tree | successful discovery run created two unignored `reports/local_ci/SEARCH-*` runtime files before full gate |
 | 2026-09-22 | `LCI-004` | `5beb1e5060e0d92427f7971759215f0916e90b7d` | validator | manual marker audit omitted the existing `Windows shortcut artifact makes Local CI tree dirty` literal after the troubleshooting heading was renamed |
 | 2026-09-22 | `LCI-002` | `cf7f97c0263fa6b546911aaadcea748727e8afca` | format | HYP-0002 feasibility tool used multiline forms that Ruff canonicalized to one-line string assignment and compact set comprehensions |
+| 2026-09-22 | `LCI-007` | `2545491d35a980e8c375100b9c8f8d99ee44f41e` | data acquisition | Dukascopy ASK 2026-05 returned repeated HTTP 503/connection reset; rerun later progressed past that file |
+| 2026-09-22 | `LCI-007` | `2545491d35a980e8c375100b9c8f8d99ee44f41e` | data acquisition | subsequent resume reached BID 2026-06 but again hit repeated HTTP 503/timeout |
 
 ## 4. Rule-conversion discipline
 
@@ -83,6 +86,10 @@ Any task runner that writes local output before the full clean-tree gate must ha
 ### HANDOFF_SYNC / LCI-006
 
 Before remote push, canonical state reconciliation must compare the exact values of `last_completed_artifact`, `next_artifact`, and `next_task_id` against `AI_HANDOFF.md` and `02_СЛЕДУЮЩИЙ_ШАГ.md`. Narrative equivalence is not enough.
+
+### DATA_SOURCE_NETWORK / LCI-007
+
+External historical-data acquisition must be resumable. Successfully downloaded source files remain cached; transient 5xx/timeouts on one month/side receive bounded additional download batches with backoff. A source-network failure does not change the frozen data period, provider or hypothesis.
 
 
 ## 6. Verified control run

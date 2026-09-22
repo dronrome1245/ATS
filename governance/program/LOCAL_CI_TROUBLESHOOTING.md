@@ -236,6 +236,34 @@ Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added 
 **Scope:** agents and repository-maintenance tooling.
 
 
+### LCI-007 — Historical data source transient network failure
+
+**First observed:** 2026-09-22 on `2545491d35a980e8c375100b9c8f8d99ee44f41e` while acquiring HYP-0002 confirmatory data  
+**Repeat observed:** 2026-09-22 on the same exact commit after resume progressed to a later month/side  
+**Class:** `DATA_SOURCE_NETWORK`
+
+**Symptom**
+
+Repository validator, pinned Ruff, pytest and full Local CI pass, but the task-specific data preparation step receives repeated upstream `HTTP 503 Service Unavailable`, read timeout or connection reset errors from the frozen historical-data provider.
+
+**Root cause**
+
+The external data source is intermittently unavailable during acquisition. Successful month/side files are already persisted locally, so later runs resume from the first missing source file rather than restarting the whole acquisition.
+
+**Correct response**
+
+Do not change the Hypothesis, data period or provider merely because of a transient source-network failure. Keep the existing local cache and retry only the missing month/side. Use bounded additional download batches with increasing backoff; if the source remains unavailable after the bound, fail closed without computing any HYP-0002 outcome.
+
+**Preventive rule**
+
+1. External-source research preparation must be resumable and idempotent at a source-file boundary.
+2. Confirmed successful files must be reused from the local frozen cache.
+3. Transient 5xx/timeouts may receive bounded retry batches with backoff.
+4. Exhausted retries remain a blocking source-network failure; they must not trigger post-hoc source/period changes.
+5. The preparation step must preserve the declared information boundary while retrying.
+
+**Scope:** OWNER research workflow and agents.
+
 ### LCI-006 — Canonical state/handoff reconciliation drift
 
 **First observed:** 2026-09-22 on `2048d3c9cd7162e3e71429331bd2b5979534b1d6`  
