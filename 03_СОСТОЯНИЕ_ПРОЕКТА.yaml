@@ -49,6 +49,7 @@ model:
   reference_strategy_2_selection: "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
   reference_strategy_2_idea: "research/ideas/IDEA-0002.md"
   reference_strategy_2_hypothesis: "research/hypotheses/HYP-0002.md"
+  reference_strategy_2_data_feasibility_prep: "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -71,11 +72,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Form HYP-0002 for Reference Strategy #2"
-  last_completed_task_id: "ATS2-M6-002"
-  last_completed_artifact: "research/ideas/IDEA-0002.md"
-  next_artifact: "research/hypotheses/HYP-0002.md"
-  next_task_id: "ATS2-M6-003"
+  focus: "Prepare HYP-0002 Data Feasibility evidence"
+  last_completed_task_id: "ATS2-M6-003"
+  last_completed_artifact: "research/hypotheses/HYP-0002.md"
+  next_artifact: "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"
+  next_task_id: "ATS2-M6-004"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -255,6 +256,7 @@ m6:
     - "ATS2-M6-000"
     - "ATS2-M6-001"
     - "ATS2-M6-002"
+    - "ATS2-M6-003"
   completed_artifacts:
     - "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
     - "src/ats/discovery/bounded.py"
@@ -263,7 +265,8 @@ m6:
     - "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"
     - "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
     - "research/ideas/IDEA-0002.md"
-  current_task: "ATS2-M6-003"
+    - "research/hypotheses/HYP-0002.md"
+  current_task: "ATS2-M6-004"
   current_wbs: "WBS-6.2"
   discovery_capability_status: "BASELINE_COMPLETE"
   first_bounded_search_status: "COMPLETED_SHORTLIST_FOR_IDEA_INTAKE"
@@ -273,7 +276,7 @@ m6:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M6-003"
+  current_ready_task: "ATS2-M6-004"
   current_ready_wbs: "WBS-6.2"
 
 handoff_policy:

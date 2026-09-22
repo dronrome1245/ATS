@@ -8,37 +8,39 @@
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy Version/live permission exists.
 
-## Verified M6-002 closure
+## Verified M6-003 closure
 
-OWNER launcher PASS was confirmed on exact commit `34805510000d56ea78e112dc8b4bf7ea574a2cf8` with repository validator PASS, pinned Ruff PASS, `138 passed`, full Local CI PASS, task check PASS and launcher PASS.
+OWNER launcher PASS was confirmed on exact commit `84aff042c7d57a0e001c35a5a75d29369f983e60` with repository validator PASS, pinned Ruff PASS, `138 passed`, full Local CI PASS, task check PASS and launcher PASS.
 
 Canonical last completed artifact:
 
-`research/ideas/IDEA-0002.md`
-
-## M6-003 HYP-0002
-
-Current artifact:
-
 `research/hypotheses/HYP-0002.md`
 
-HYP-0002 is explicitly post-discovery. It freezes:
+## M6-004 HYP-0002 Data Feasibility preparation
 
-- 24H prior-return lookback;
-- development-calibrated 10th/90th percentile tails from the known 2021–2025 block;
-- 24H effect horizon;
-- both HIGH-tail/DOWN and LOW-tail/UP reversal sides.
+Canonical preparation artifact:
 
-Both sides are part of the primary claim. A failed side cannot be silently removed.
+`research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md`
 
-The next blocking question is Data Feasibility: freeze numeric development thresholds and identify a previously unseen confirmatory block/source before any cheap prototype result is viewed.
+Tool:
+
+`tools/hyp0002_data_feasibility.py`
+
+Frozen information boundary:
+
+- development calibration remains the canonical 2021–2025 EURUSD H1 snapshot;
+- the tool computes development-only `Q10_DEV` and `Q90_DEV`;
+- confirmatory source is Dukascopy EURUSD 1H BID/ASK;
+- confirmatory period is 2026-01-01 through 2026-08-31 UTC;
+- preparation records hashes/coverage only;
+- `NO_HYPOTHESIS_OUTCOME_COMPUTED` prohibits HYP-0002 result calculation.
 
 ## Current closure check
 
-Current task: `ATS2-M6-003 — HYP-0002 formation`
+Current task: `ATS2-M6-004 — HYP-0002 Data Feasibility preparation`
 
-Canonical next artifact: `research/hypotheses/HYP-0002.md`
+Canonical next artifact: `research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md`
 
 Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
-After PASS, proceed to HYP-0002 Data Feasibility review.
+The report will contain Q10_DEV/Q90_DEV plus confirmatory hashes/coverage. Do not run a HYP-0002 outcome calculation before the formal Data Feasibility review is committed.

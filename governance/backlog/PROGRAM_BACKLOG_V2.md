@@ -43,9 +43,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 28. `ATS2-M6-000` — Market Pattern Discovery capability — `DONE`.
 29. `ATS2-M6-001` — First bounded discovery run — `DONE`.
 30. `ATS2-M6-002` — Strategy #2 class selection and Idea intake — `DONE`.
-31. `ATS2-M6-003` — HYP-0002 formation — `READY`.
+31. `ATS2-M6-003` — HYP-0002 formation — `DONE`.
+32. `ATS2-M6-004` — HYP-0002 Data Feasibility preparation — `READY`.
 
-Program-level current next task — `ATS2-M6-003`.
+Program-level current next task — `ATS2-M6-004`.
 
 ## 3. M0 / M1
 
@@ -108,18 +109,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M6-000` | `WBS-6.0` | P1 | DONE | M2, M3 learnings, M4-008 | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + reusable bounded-search tooling | Search Manifest contract, deterministic full-denominator engine and synthetic contract tests are available without creating market evidence |
 | `ATS2-M6-001` | `WBS-6.0` | P1 | DONE | M6-000 | `research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml` + `reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md` | Exact-head run evaluated all 16 alternatives, retained full denominator and returned `SHORTLIST_FOR_IDEA_INTAKE` with five reversal variants |
 | `ATS2-M6-002` | `WBS-6.1` | P1 | DONE | M6-001 | `governance/program/REFERENCE_STRATEGY_2_SELECTION.md` + `research/ideas/IDEA-0002.md` | Selected the two-sided return-tail reversal class and screened IDEA-0002 without promoting one discovery cell as a winner |
-| `ATS2-M6-003` | `WBS-6.2` | P1 | READY | M6-002 | `research/hypotheses/HYP-0002.md` | Freeze one post-discovery falsifiable two-sided 24H reversal formulation, preserve the 16-alternative selection history, and require a previously unseen confirmatory block before cheap prototype evidence |
+| `ATS2-M6-003` | `WBS-6.2` | P1 | DONE | M6-002 | `research/hypotheses/HYP-0002.md` | Froze the post-discovery two-sided 24H reversal formulation and required development-only thresholds plus unseen confirmatory data |
+| `ATS2-M6-004` | `WBS-6.2` | P1 | READY | M6-003 | `research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md` + local preparation report | Freeze Q10_DEV/Q90_DEV from the canonical development snapshot and acquire/hash the disjoint 2026-01 through 2026-08 Dukascopy BID/ASK block without evaluating HYP-0002 outcomes |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M6-003 — HYP-0002 formation`.
+`ATS2-M6-004 — HYP-0002 Data Feasibility preparation`.
 
 Canonical artifact:
 
-`research/hypotheses/HYP-0002.md`.
+`research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md`.
 
-HYP-0002 is explicitly post-discovery and freezes a symmetric 24H-lookback / 10%-tail / 24H-effect reversal claim. The 2021–2025 block is used only for development threshold calibration; a cheap confirmatory test must use a previously unseen block/source resolved by Data Feasibility.
+The preparation freezes development-only Q10_DEV/Q90_DEV values and a disjoint Dukascopy EURUSD H1 BID/ASK block from 2026-01-01 through 2026-08-31. It records coverage and hashes but does not calculate HYP-0002 outcomes.
 
-M4.9/M4.10 remain blocked until a future promoted Candidate reaches S05 `PASS`.
+After the OWNER run, use the emitted preparation values to commit the formal Data Feasibility review and confirmatory Dataset Manifest.

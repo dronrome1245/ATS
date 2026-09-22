@@ -317,11 +317,13 @@ WBS не устанавливает без evidence и OWNER decision:
 - M6-001 closure is confirmed on `d08e11f236c2318269314de64da85a7eacbb9105`;
 - first discovery outcome: `SHORTLIST_FOR_IDEA_INTAKE`, five of sixteen alternatives, all reversal;
 - `WBS-6.1 — Select Strategy #2` — `DONE`, exact OWNER launcher PASS confirmed on commit `34805510000d56ea78e112dc8b4bf7ea574a2cf8`;
-- `WBS-6.2 — Run Research Funnel` — `IN_PROGRESS`, beginning with HYP-0002 formation;
+- `WBS-6.2 — Run Research Funnel` — `IN_PROGRESS`;
+- HYP-0002 formation is `DONE`, exact OWNER launcher PASS confirmed on commit `84aff042c7d57a0e001c35a5a75d29369f983e60`;
+- current research-funnel step is Data Feasibility preparation;
 - M4.9/M4.10 remain blocked until a future research line earns Candidate/S05 eligibility.
 
 The current execution target is:
 
-`ATS2-M6-003 — HYP-0002 formation`
+`ATS2-M6-004 — HYP-0002 Data Feasibility preparation`
 
-HYP-0002 is a transparent post-discovery formulation. It freezes one symmetric 24H prior-return tail-reversal claim and requires a future unseen confirmatory block before cheap prototype evidence. HYP-0001 remains rejected.
+The preparation freezes development thresholds and the disjoint 2026-01 through 2026-08 confirmatory data identity before any HYP-0002 outcome is calculated. HYP-0001 remains rejected.
