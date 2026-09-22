@@ -45,9 +45,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 30. `ATS2-M6-002` — Strategy #2 class selection and Idea intake — `DONE`.
 31. `ATS2-M6-003` — HYP-0002 formation — `DONE`.
 32. `ATS2-M6-004` — HYP-0002 Data Feasibility preparation — `DONE`.
-33. `ATS2-M6-005` — HYP-0002 Data Feasibility freeze — `READY`.
+33. `ATS2-M6-005` — HYP-0002 Data Feasibility freeze — `DONE`.
+34. `ATS2-M6-006` — HYP-0002 PROTO-01 freeze — `READY`.
 
-Program-level current next task — `ATS2-M6-005`.
+Program-level current next task — `ATS2-M6-006`.
 
 ## 3. M0 / M1
 
@@ -112,18 +113,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M6-002` | `WBS-6.1` | P1 | DONE | M6-001 | `governance/program/REFERENCE_STRATEGY_2_SELECTION.md` + `research/ideas/IDEA-0002.md` | Selected the two-sided return-tail reversal class and screened IDEA-0002 without promoting one discovery cell as a winner |
 | `ATS2-M6-003` | `WBS-6.2` | P1 | DONE | M6-002 | `research/hypotheses/HYP-0002.md` | Froze the post-discovery two-sided 24H reversal formulation and required development-only thresholds plus unseen confirmatory data |
 | `ATS2-M6-004` | `WBS-6.2` | P1 | DONE | M6-003 | `research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md` + local preparation report | Froze Q10_DEV/Q90_DEV and the disjoint 2026-01 through 2026-08 Dukascopy BID/ASK block with no HYP-0002 outcome calculation |
-| `ATS2-M6-005` | `WBS-6.2` | P1 | READY | M6-004 | `research/reviews/HYP-0002-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest | Record a CONDITIONAL Data Feasibility decision, freeze exact thresholds/data identity/cost limitations, and permit only the bounded cheap confirmatory prototype |
+| `ATS2-M6-005` | `WBS-6.2` | P1 | DONE | M6-004 | `research/reviews/HYP-0002-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest | Recorded CONDITIONAL feasibility and froze thresholds, confirmatory data identity, timing and cost limitations before outcome reveal |
+| `ATS2-M6-006` | `WBS-6.2` | P1 | READY | M6-005 | `research/reviews/HYP-0002-PROTOTYPE-01.md` + frozen runner/tests | Freeze one two-sided confirmatory prototype question, exact four-inequality decision rule and deterministic implementation without running the confirmatory result |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M6-005 — HYP-0002 Data Feasibility freeze`.
+`ATS2-M6-006 — HYP-0002 PROTO-01 freeze`.
 
 Canonical artifact:
 
-`research/reviews/HYP-0002-DATA-FEASIBILITY.md`.
+`research/reviews/HYP-0002-PROTOTYPE-01.md`.
 
-The review freezes Q10_DEV/Q90_DEV, the confirmatory Dataset Manifest and explicit cost/execution limitations before any HYP-0002 outcome reveal. Decision is CONDITIONAL: the cheap prototype may answer the narrow quote-return claim but cannot make full-net economic or live-execution claims.
+The prototype question, frozen thresholds/data identity, both tail sides, all four primary inequalities, decision rule and exact runner are fixed before the first confirmatory result is computed.
 
-After exact-head PASS, the next step is to freeze `HYP-0002-PROTOTYPE-01` before running the confirmatory outcome.
+The M6-006 closure checker does not execute `tools/hyp0002_proto01.py`. After exact-head PASS, a separate task may run the frozen prototype once.

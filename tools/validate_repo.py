@@ -40,6 +40,9 @@ REFERENCE_STRATEGY_2_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0002-DATA-FEA
 REFERENCE_STRATEGY_2_DATA_FEASIBILITY = "research/reviews/HYP-0002-DATA-FEASIBILITY.md"
 HYP0002_CONFIRMATORY_MANIFEST = "data/manifests/DATA-DUKASCOPY-EURUSDH1-HYP0002-001.yaml"
 HYP0002_CONFIRMATORY_SCHEMA = "data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json"
+HYP0002_PROTOTYPE = "research/reviews/HYP-0002-PROTOTYPE-01.md"
+HYP0002_PROTOTYPE_TOOL = "tools/hyp0002_proto01.py"
+HYP0002_PROTOTYPE_TEST = "tests/test_hyp0002_proto01.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -178,6 +181,9 @@ def configure() -> None:
         REFERENCE_STRATEGY_2_DATA_FEASIBILITY,
         HYP0002_CONFIRMATORY_MANIFEST,
         HYP0002_CONFIRMATORY_SCHEMA,
+        HYP0002_PROTOTYPE,
+        HYP0002_PROTOTYPE_TOOL,
+        HYP0002_PROTOTYPE_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -208,6 +214,8 @@ def configure() -> None:
         "reference_strategy_2_data_feasibility",
         "reference_strategy_2_confirmatory_manifest",
         "reference_strategy_2_confirmatory_schema",
+        "reference_strategy_2_prototype",
+        "reference_strategy_2_prototype_runner",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -455,6 +463,37 @@ def configure() -> None:
         "bid_open",
         "ask_open",
         "additionalProperties",
+    )
+    core.CONTENT_MARKERS[HYP0002_PROTOTYPE] = (
+        "Prototype sequence: `PROTO-01`",
+        "Status: `FROZEN_NOT_RUN`",
+        "Q10_DEV = -0.005141454111",
+        "Q90_DEV = 0.005394148971",
+        "all four primary inequalities",
+        "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
+        "tools/hyp0002_proto01.py",
+        "Result summary",
+        "`NOT_RUN`",
+    )
+    core.CONTENT_MARKERS[HYP0002_PROTOTYPE_TOOL] = (
+        "EXPECTED_DATASET_SHA256",
+        "Q10_DEV = -0.005141454111",
+        "Q90_DEV = 0.005394148971",
+        "up_signed_return",
+        "down_signed_return",
+        "ALL_FOUR_PRIMARY_INEQUALITIES_MET",
+        "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
+        "ONE_OR_BOTH_TAILS_HAVE_ZERO_EVENTS",
+        "HYP0002_PROTO01_RESULT.json",
+    )
+    core.CONTENT_MARKERS[HYP0002_PROTOTYPE_TEST] = (
+        "test_signed_return_side_conventions",
+        "test_two_sided_decision_contract",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
+        "ONE_OR_BOTH_TAILS_HAVE_ZERO_EVENTS",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -983,12 +1022,12 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M6-005"',
-        "M6-005 HYP-0002 Data Feasibility artifacts",
-        "HYP-0002-DATA-FEASIBILITY.md",
-        "DATA-DUKASCOPY-EURUSDH1-HYP0002-001.yaml",
-        "DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json",
-        "M6-005 Data Feasibility governance validation",
+        'TASK_ID = "ATS2-M6-006"',
+        "M6-006 HYP-0002 PROTO-01 freeze artifacts",
+        "HYP-0002-PROTOTYPE-01.md",
+        "hyp0002_proto01.py",
+        "test_hyp0002_proto01.py",
+        "M6-006 HYP-0002 PROTO-01 freeze governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1184,6 +1223,8 @@ def validate_environment(repo: Path) -> int:
         "reports/local_ci/CURRENT_TASK_REPORT.txt",
         "reports/local_ci/HYP0002_DATA_FEASIBILITY.json",
         "reports/local_ci/HYP0002_DATA_FEASIBILITY_REPORT.txt",
+        "reports/local_ci/HYP0002_PROTO01_RESULT.json",
+        "reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt",
         "reports/local_ci/*.lnk",
     ):
         if ignored_report not in gitignore:
@@ -1220,6 +1261,7 @@ def validate_environment(repo: Path) -> int:
         "src/ats/discovery/eurusd_h1.py",
         "tools/discover_eurusd_h1.py",
         "tools/hyp0002_data_feasibility.py",
+        "tools/hyp0002_proto01.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -1235,6 +1277,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_validation_resampling.py",
         "tests/test_discovery_bounded.py",
         "tests/test_discovery_eurusd_h1.py",
+        "tests/test_hyp0002_proto01.py",
     ):
         path = repo / relative
         try:
@@ -1290,6 +1333,8 @@ def main() -> int:
         'reference_strategy_2_data_feasibility: "research/reviews/HYP-0002-DATA-FEASIBILITY.md"',
         'reference_strategy_2_confirmatory_manifest: "data/manifests/DATA-DUKASCOPY-EURUSDH1-HYP0002-001.yaml"',
         'reference_strategy_2_confirmatory_schema: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json"',
+        'reference_strategy_2_prototype: "research/reviews/HYP-0002-PROTOTYPE-01.md"',
+        'reference_strategy_2_prototype_runner: "tools/hyp0002_proto01.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1302,8 +1347,8 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M6-004"',
-        'current_task: "ATS2-M6-005"', 'current_ready_task: "ATS2-M6-005"',
+        'last_completed_task_id: "ATS2-M6-005"',
+        'current_task: "ATS2-M6-006"', 'current_ready_task: "ATS2-M6-006"',
         'current_wbs: "WBS-6.2"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -1387,11 +1432,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M6-004") != "DONE":
-        core.fail("M6-004 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-005") != "DONE":
+        core.fail("M6-005 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M6-005") != "READY":
-        core.fail("M6-005 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-006") != "READY":
+        core.fail("M6-006 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

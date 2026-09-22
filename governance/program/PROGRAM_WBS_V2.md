@@ -320,11 +320,12 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-6.2 — Run Research Funnel` — `IN_PROGRESS`;
 - HYP-0002 formation is `DONE`, exact OWNER launcher PASS confirmed on commit `84aff042c7d57a0e001c35a5a75d29369f983e60`;
 - HYP-0002 Data Feasibility preparation is `DONE`, exact OWNER launcher PASS confirmed on commit `8b1e2dbc0e604c7fb3ca8297e0f61f252147619a`;
-- current research-funnel step is formal Data Feasibility freeze;
+- HYP-0002 Data Feasibility freeze is `DONE`, exact OWNER launcher PASS confirmed on commit `2f99bbbe688c3f2fc28ea7994f7cc700948af5c7`;
+- current research-funnel step is PROTO-01 protocol/implementation freeze before confirmatory reveal;
 - M4.9/M4.10 remain blocked until a future research line earns Candidate/S05 eligibility.
 
 The current execution target is:
 
-`ATS2-M6-005 — HYP-0002 Data Feasibility freeze`
+`ATS2-M6-006 — HYP-0002 PROTO-01 freeze`
 
-The review freezes the development thresholds, confirmatory dataset identity and cost/execution limitations before any HYP-0002 outcome is calculated. HYP-0001 remains rejected.
+The prototype freezes one two-sided question, all four primary inequalities and the deterministic runner without executing the confirmatory outcome. HYP-0001 remains rejected.
