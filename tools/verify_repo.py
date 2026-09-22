@@ -22,6 +22,7 @@ LINT_PATHS = (
     "tools/verify_repo.py",
     "tools/current_task_check.py",
     "tools/proto01_eurusd.py",
+    "tools/discover_eurusd_h1.py",
     "src",
     "tests",
 )
@@ -31,6 +32,7 @@ FORMAT_PATHS = (
     "tools/verify_repo.py",
     "tools/current_task_check.py",
     "tools/proto01_eurusd.py",
+    "tools/discover_eurusd_h1.py",
     "src",
     "tests",
 )

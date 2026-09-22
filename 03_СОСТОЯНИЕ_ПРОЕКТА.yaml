@@ -43,6 +43,8 @@ model:
   market_pattern_discovery: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
   discovery_search_manifest_template: "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
   bounded_discovery_engine: "src/ats/discovery/bounded.py"
+  first_discovery_search_manifest: "research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"
+  first_discovery_runner: "tools/discover_eurusd_h1.py"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -65,11 +67,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Build bounded market pattern discovery capability"
-  last_completed_task_id: "ATS2-M4-008"
-  last_completed_artifact: "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"
-  next_artifact: "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
-  next_task_id: "ATS2-M6-000"
+  focus: "Run first bounded EURUSD H1 discovery search"
+  last_completed_task_id: "ATS2-M6-000"
+  last_completed_artifact: "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
+  next_artifact: "research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"
+  next_task_id: "ATS2-M6-001"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -245,14 +247,20 @@ m4:
 
 m6:
   objective: "Source and research Reference Strategy #2 while M4 awaits an S05 PASS Candidate"
-  current_task: "ATS2-M6-000"
+  completed_tasks:
+    - "ATS2-M6-000"
+  completed_artifacts:
+    - "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
+    - "src/ats/discovery/bounded.py"
+    - "tests/test_discovery_bounded.py"
+  current_task: "ATS2-M6-001"
   current_wbs: "WBS-6.0"
-  discovery_capability_status: "IMPLEMENTATION_IN_PROGRESS"
-  first_bounded_search_status: "NOT_STARTED"
+  discovery_capability_status: "BASELINE_COMPLETE"
+  first_bounded_search_status: "FROZEN_NOT_RUN"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M6-000"
+  current_ready_task: "ATS2-M6-001"
   current_ready_wbs: "WBS-6.0"
 
 handoff_policy:
@@ -295,11 +303,13 @@ strategy_pipeline:
   active_strategies: 0
 
 discovery:
-  capability_status: "IMPLEMENTATION_IN_PROGRESS"
+  capability_status: "BASELINE_COMPLETE"
   methodology: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
   search_manifest_template: "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
   engine: "src/ats/discovery/bounded.py"
-  first_bounded_search_status: "NOT_STARTED"
+  first_search_manifest: "research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"
+  first_search_runner: "tools/discover_eurusd_h1.py"
+  first_bounded_search_status: "FROZEN_NOT_RUN"
   candidate_source_for_reference_strategy_2: true
   protected_blocks_allowed: false
 

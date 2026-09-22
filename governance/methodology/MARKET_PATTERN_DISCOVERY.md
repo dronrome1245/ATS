@@ -247,6 +247,33 @@ Machine-readable results declare:
 
 The reusable software baseline uses synthetic non-market tests and does not itself create a research result.
 
+### 14.2 First bounded search
+
+The first real bounded Search Manifest is:
+
+`research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml`
+
+Its development dataset is the already known M3 EURUSD H1 2021–2025 snapshot. Reuse is permitted only as development information; the entire block is explicitly unavailable for a future independent claim for research sourced from this search.
+
+The search is frozen before result observation:
+
+- pattern families: return-tail continuation and return-tail reversal;
+- lookbacks: 6H and 24H;
+- tail definition: upper/lower 10% of prior mid-close return;
+- forward horizons: 6H and 24H;
+- directions follow the declared continuation/reversal semantics;
+- total alternatives: 16;
+- shortlist score: the minimum of signed mean forward return and signed excess over the unconditional same-direction baseline;
+- shortlist rule: `shortlist_score >= 0`;
+- executable return uses next-hour BID/ASK entry/exit semantics so spread is represented;
+- commission, financing and live slippage remain outside this exploratory search.
+
+Runner:
+
+`tools/discover_eurusd_h1.py`
+
+The runner rejects silent code drift after manifest freeze and writes the full result only to ignored local reports for review before any canonical result is committed.
+
 ## 15. Anti-patterns
 
 Forbidden representations:

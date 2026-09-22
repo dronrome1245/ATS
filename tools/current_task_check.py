@@ -8,25 +8,24 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M6-000"
-TASK_NAME = "Market Pattern Discovery"
+TASK_ID = "ATS2-M6-001"
+TASK_NAME = "First bounded discovery run"
 REQUIRED_ARTIFACTS = (
-    Path("governance/methodology/MARKET_PATTERN_DISCOVERY.md"),
-    Path("governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"),
-    Path("src/ats/discovery/bounded.py"),
-    Path("src/ats/discovery/__init__.py"),
-    Path("tests/test_discovery_bounded.py"),
+    Path("research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"),
+    Path("src/ats/discovery/eurusd_h1.py"),
+    Path("tools/discover_eurusd_h1.py"),
+    Path("tests/test_discovery_eurusd_h1.py"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M6-000 market pattern discovery artifacts ==")
+    print("\n== M6-001 first bounded discovery artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M6-000 market pattern discovery artifacts")
+    print("[PASS] M6-001 first bounded discovery artifacts")
     return True
 
 
@@ -54,7 +53,11 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "M6-000 discovery governance validation",
+            "M6-001 first bounded discovery run",
+            [sys.executable, "tools/discover_eurusd_h1.py"],
+        ),
+        run(
+            "M6-001 discovery governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

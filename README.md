@@ -6,12 +6,9 @@ ATS — Strategy Factory для воспроизводимого исследо�
 
 ## Текущее состояние
 
-- M0: `COMPLETED / PASS`
-- M1: `COMPLETED / PASS`
-- M2: `COMPLETED / PASS`
-- M3: `COMPLETED / PASS`
+- M0–M3: `COMPLETED / PASS`
 - M4 reusable validation baseline WBS-4.1…4.8: `COMPLETED`
-- M4 strategy-specific WBS-4.9/WBS-4.10: blocked until an eligible S05 PASS Candidate
+- M4.9/M4.10: blocked until an eligible S05 PASS Candidate
 - M6 Reference Strategy #2 lane: `IN_PROGRESS`
 
 Reference Strategy #1 remains:
@@ -20,18 +17,19 @@ Reference Strategy #1 remains:
 
 ## Current work
 
-`ATS2-M6-000 — Market Pattern Discovery`
+`ATS2-M6-001 — First bounded discovery run`
 
-Core artifacts:
+Frozen manifest:
 
-- `governance/methodology/MARKET_PATTERN_DISCOVERY.md`
-- `governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml`
-- `src/ats/discovery/bounded.py`
-- `tests/test_discovery_bounded.py`
+`research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml`
 
-Discovery is exploratory hypothesis generation. It preserves the full declared alternative set and cannot directly create validation evidence.
+Runner:
 
-## Current closure check
+`tools/discover_eurusd_h1.py`
+
+The search evaluates the complete 16-alternative development-only set. Any shortlist remains exploratory and must enter the normal Idea/Hypothesis funnel before stronger research claims.
+
+## Current execution
 
 Run:
 

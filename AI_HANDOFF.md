@@ -6,59 +6,55 @@
 - M1: `COMPLETED / PASS`.
 - M2: `COMPLETED / PASS`.
 - M3: `COMPLETED / PASS`.
-- M4 reusable program-level baseline through WBS-4.8: `COMPLETED`; M4 milestone remains `IN_PROGRESS` pending the first eligible Candidate for WBS-4.9/WBS-4.10.
+- M4 reusable baseline WBS-4.1…4.8: `COMPLETED`; M4.9/M4.10 wait for an eligible S05 PASS Candidate.
 - M6 Reference Strategy #2 lane: `IN_PROGRESS`.
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy/live permission exists.
 
-## Verified M4-008 closure
+## Verified M6-000 closure
 
 OWNER launcher PASS was confirmed on exact commit:
 
-`50f8e7fda9460473af674f9aad45ad9c5831c44f`
+`d5a7e8c60cfacf3fd0ff19dee6f2ebd0c672dba9`
 
-Evidence included pinned Ruff lint/format PASS, `124 passed`, full Local CI PASS, M4-008 task check PASS and launcher PASS.
+Evidence included repository validator PASS, pinned Ruff lint/format PASS, `133 passed`, full Local CI PASS, M6-000 task check PASS and launcher PASS.
 
 Canonical last completed artifact:
 
-`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`
+`governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml`
 
-## M6-000 Market Pattern Discovery
+## M6-001 First bounded discovery run
 
-Current implementation artifacts:
+Frozen Search Manifest:
 
-- `governance/methodology/MARKET_PATTERN_DISCOVERY.md`;
-- `governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml`;
-- `src/ats/discovery/bounded.py`;
-- `src/ats/discovery/__init__.py`;
-- `tests/test_discovery_bounded.py`.
+`research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml`
 
-The bounded engine evaluates every declared alternative exactly once, preserves the full denominator and negative alternatives, and applies only a predeclared shortlist rule. Results remain `EXPLORATORY_OBSERVATION`.
+The run is development-only and uses the already known 2021–2025 EURUSD H1 dataset. It evaluates 16 predeclared return-tail continuation/reversal alternatives across 6H/24H lookbacks and 6H/24H forward horizons.
 
-No real market scan, Idea, Hypothesis, Candidate, Strategy Version or Experiment is created by the software baseline.
+The entire dataset is development-known for this research lane. It cannot become protected independent evidence for a pattern sourced by this search.
 
-## Agent pre-push control
+Runner:
 
-Mandatory checklist:
+`tools/discover_eurusd_h1.py`
 
-`governance/program/AGENT_PRE_PUSH_CHECKLIST.md`
+The runner verifies the frozen implementation revision and dataset identity, writes the full result to ignored local reports and emits only exploratory shortlist outcomes.
 
-## Current closure check
+## Current execution
 
-Close:
+Current task:
 
-`ATS2-M6-000 — Market Pattern Discovery`
+`ATS2-M6-001 — First bounded discovery run`
 
 Canonical next artifact:
 
-`governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml`
+`research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml`
 
 Run:
 
 `ATS_TASK_CHECK.bat`
 
-and return:
+Then return:
 
 `reports/local_ci/CURRENT_TASK_REPORT.txt`
 
-M4.9/M4.10 remain blocked until a future promoted Candidate reaches S05 `PASS`.
+No Strategy #2 selection occurs until the discovery result is reviewed.
