@@ -87,6 +87,14 @@ The report includes:
 
 `LATEST.json` and `CURRENT_TASK_REPORT.txt` are local runtime evidence and are ignored by Git. Canonical governance does not depend on committing machine-specific verification output.
 
+## Agent remote pre-push checklist
+
+Before any material remote write, agents must apply:
+
+`governance/program/AGENT_PRE_PUSH_CHECKLIST.md`
+
+The checklist makes Python formatting status, canonical-state reconciliation and validator-marker audit explicit before OWNER verification. A remote commit with unverified Python formatting remains `FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`; task completion remains `PENDING_OWNER_LAUNCHER` until the exact HEAD passes the launcher.
+
 ## Failure handling and durable lessons
 
 A FAIL must be diagnosed from the first failing stage before source changes are made.

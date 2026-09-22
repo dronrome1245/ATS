@@ -32,6 +32,14 @@ The profile applies the V1–V7 framework to price-driven technical strategies, 
 
 No strategy-specific validation run has been created.
 
+## Agent pre-push control
+
+Mandatory checklist:
+
+`governance/program/AGENT_PRE_PUSH_CHECKLIST.md`
+
+Remote Python formatting must be reported as `VERIFIED_BY_PINNED_RUFF` or `FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`. Until exact-head launcher PASS, completion remains `PENDING_OWNER_LAUNCHER`.
+
 ## Current closure check
 
 Close:

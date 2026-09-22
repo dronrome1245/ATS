@@ -40,6 +40,7 @@ ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
 LOCAL_CI_GATE = "governance/program/LOCAL_CI_GATE.md"
 LOCAL_CI_TROUBLESHOOTING = "governance/program/LOCAL_CI_TROUBLESHOOTING.md"
 LOCAL_CI_FAILURE_REGISTRY = "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"
+AGENT_PRE_PUSH_CHECKLIST = "governance/program/AGENT_PRE_PUSH_CHECKLIST.md"
 DATASET_MANIFEST_SPEC = "governance/program/DATASET_MANIFEST_SPEC.md"
 DATASET_MANIFEST_FILES = (
     "data/manifests/DATASET_TEMPLATE.yaml",
@@ -155,7 +156,8 @@ def configure() -> None:
         CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
-        LOCAL_CI_TROUBLESHOOTING, LOCAL_CI_FAILURE_REGISTRY, DATASET_MANIFEST_SPEC,
+        LOCAL_CI_TROUBLESHOOTING, LOCAL_CI_FAILURE_REGISTRY, AGENT_PRE_PUSH_CHECKLIST,
+        DATASET_MANIFEST_SPEC,
         *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
         *ANALYTICS_FILES, *RUNNER_FILES, *PLATFORM_TEST_FILES,
@@ -711,11 +713,30 @@ def configure() -> None:
         "uv run --frozen python tools/verify_repo.py",
         "ATS LOCAL CI: PASS",
         "LOCAL_CI_TROUBLESHOOTING.md",
+        "AGENT_PRE_PUSH_CHECKLIST.md",
         ".githooks/pre-commit",
         ".githooks/pre-push",
         "GitHub Actions status is not a completion criterion",
         "Fast preflight before the completion check",
         "launcher exits with code `16`",
+    )
+    core.CONTENT_MARKERS[AGENT_PRE_PUSH_CHECKLIST] = (
+        "Before any material remote repository write",
+        "FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF",
+        "Exact Ruff diff is authoritative",
+        "Validator marker audit",
+        "Canonical state reconciliation",
+        "last_completed_artifact",
+        "next_artifact",
+        "next_task_id",
+        "First failing stage",
+        "PENDING_OWNER_LAUNCHER",
+        "do not declare completion without `ATS TASK LAUNCHER: PASS`",
+    )
+    core.CONTENT_MARKERS["AGENTS.md"] = (
+        "AGENT_PRE_PUSH_CHECKLIST.md",
+        "FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF",
+        "PENDING_OWNER_LAUNCHER",
     )
     core.CONTENT_MARKERS[LOCAL_CI_TROUBLESHOOTING] = (
         "LCI-001",

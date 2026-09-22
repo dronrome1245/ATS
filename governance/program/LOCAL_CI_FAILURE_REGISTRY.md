@@ -56,6 +56,8 @@ After a control is added, the next exact-commit PASS is evidence that the contro
 
 ## 5. Current technical controls
 
+Shared agent-side prevention is defined in `governance/program/AGENT_PRE_PUSH_CHECKLIST.md` and is mandatory before material remote repository writes.
+
 ### FORMAT / LCI-002
 
 The Windows launcher runs a fast Local CI preflight before the full current-task check. The fast gate includes repository validation, Ruff lint and Ruff format, but skips full pytest/fingerprint. A format failure therefore stops before the expensive full test suite.
