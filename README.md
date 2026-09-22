@@ -49,3 +49,12 @@ Run:
 Initial implementation target:
 
 `src/ats/validation/resampling.py`
+
+
+## Market Pattern Discovery
+
+ATS now has a canonical methodology for bounded systematic search of price-dynamics patterns:
+
+`governance/methodology/MARKET_PATTERN_DISCOVERY.md`
+
+Discovery results remain exploratory and can only feed new Idea/Hypothesis objects; search space and negative alternatives must remain visible.

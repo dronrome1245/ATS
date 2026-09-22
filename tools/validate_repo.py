@@ -16,6 +16,7 @@ REVIEW_CHECKS = "governance/methodology/RESEARCH_REVIEW_CHECKS.md"
 REVIEW_DECISIONS = "governance/methodology/RESEARCH_REVIEW_DECISIONS.md"
 REVIEW_TEMPLATE = "governance/methodology/templates/RESEARCH_REVIEW_TEMPLATE.md"
 VALIDATION_FRAMEWORK = "governance/methodology/VALIDATION_FRAMEWORK.md"
+MARKET_PATTERN_DISCOVERY = "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 M3_EXIT = "governance/program/M3_EXIT_REVIEW.md"
@@ -135,7 +136,7 @@ DIRECT_DEV = {
 def configure() -> None:
     core.REQUIRED_FILES = core.REQUIRED_FILES + (
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
-        VALIDATION_FRAMEWORK, M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
+        VALIDATION_FRAMEWORK, MARKET_PATTERN_DISCOVERY, M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
         REFERENCE_STRATEGY_PROTOTYPE, PROTO01_RESULT, PROTO01_SCHEMA, PROTO01_MANIFEST,
         PROTO01_TOOL,
@@ -151,6 +152,7 @@ def configure() -> None:
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "validation_framework",
+        "market_pattern_discovery",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -198,6 +200,18 @@ def configure() -> None:
         "no direct tuning on validation data",
         "future eligible Candidates",
         "ATS2-M4-002 — Parameter sensitivity tooling",
+    )
+    core.CONTENT_MARKERS[MARKET_PATTERN_DISCOVERY] = (
+        "Market Pattern Discovery is **hypothesis generation**",
+        "Search Manifest",
+        "qualified_evidence_class = EXPLORATORY_OBSERVATION",
+        "Search-space accounting",
+        "Bounded search, not unlimited mining",
+        "NO_PATTERN_SHORTLISTED",
+        "SHORTLIST_FOR_IDEA_INTAKE",
+        "WBS-6.0 — Market Pattern Discovery",
+        "M4.1–M4.8 reusable validation capability",
+        "HYP-0001 remains `REJECTED_AT_R3`",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -709,6 +723,9 @@ def configure() -> None:
         "M2 Research Platform MVP — `COMPLETED / PASS`",
         "Reference Strategy #1 research outcome — `REJECTED_AT_R3`",
         "Validate first promoted Candidate",
+        "`WBS-6.0`",
+        "Market Pattern Discovery",
+        "M4.1–M4.8",
     )
     core.CONTENT_MARKERS["data/README.md"] = (
         "Dataset Manifests",
@@ -953,6 +970,7 @@ def main() -> int:
         'm2_exit_review: "governance/program/M2_EXIT_REVIEW.md"',
         'm3_exit_review: "governance/program/M3_EXIT_REVIEW.md"',
         'validation_framework: "governance/methodology/VALIDATION_FRAMEWORK.md"',
+        'market_pattern_discovery: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',

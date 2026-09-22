@@ -33,6 +33,14 @@ Research Methodology определяет, как ATS превращает то�
 
 Стратегия не проходит дальше, если не выполнено хотя бы одно из этих условий.
 
+## 2.1 Market Pattern Discovery
+
+ATS may systematically search development data for bounded price-dynamics patterns under `MARKET_PATTERN_DISCOVERY.md`.
+
+Discovery is hypothesis generation. It must preserve the declared search space, number of alternatives, failed/negative results and shortlist history. A discovered pattern remains `EXPLORATORY_OBSERVATION` until a separate Idea/Hypothesis enters the normal Research Funnel.
+
+Protected validation/independent blocks are not discovery data.
+
 ## 3. Research не равен доказательству
 
 ATS разделяет четыре типа работы.

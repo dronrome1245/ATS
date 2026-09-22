@@ -178,14 +178,15 @@ ATS имеет reusable execution skeleton и как минимум один val
 
 | ID | Scope | Milestone | Work package | Deliverable | Dependencies | Responsible role | Definition of Done |
 |---|---|---|---|---|---|---|---|
-| `WBS-6.1` | S | M6 | Select Strategy #2 | Selection decision | M3–M5 learnings | OWNER / RESEARCH | Выбран существенно иной strategy/data/execution profile, предпочтительно event-driven/news |
+| `WBS-6.0` | P | M6 | Market Pattern Discovery | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + bounded Search Manifest/result history | M1, M2, M3 learnings, 4.7 | RESEARCH / DEVELOPMENT / VALIDATION | Можно воспроизводимо искать bounded price-dynamics patterns на development data; search space, failed alternatives и shortlist history сохраняются; discovery не создаёт validation evidence |
+| `WBS-6.1` | S | M6 | Select Strategy #2 | Selection decision | 6.0 or explicit Idea intake, M3 learnings | OWNER / RESEARCH | Выбран существенно иной strategy/data/execution profile из bounded discovery/idea intake без заявления edge до Research Funnel |
 | `WBS-6.2` | S | M6 | Run Research Funnel | R0–R4 artifacts | 6.1, M1 | RESEARCH / DATA | Strategy #2 получает independent promotion decision |
 | `WBS-6.3` | P/S | M6 | Identify new data needs | Data capability decision | 6.2 | DATA / DEVELOPMENT | Новые feeds/timestamps/features добавляются только при подтверждённой need |
 | `WBS-6.4` | P | M6 | Extend Strategy API | Generalized interfaces | 6.2–6.3 | DEVELOPMENT | Новая стратегия не требует ломать semantics Strategy #1; shared abstraction подтверждена двумя consumers |
 | `WBS-6.5` | P | M6 | Event/news data support if required | Event ingestion/replay capability | 6.3 | DEVELOPMENT / DATA | Publication time, consensus/actual/revision semantics воспроизводимы для relevant events |
 | `WBS-6.6` | S | M6 | Baseline & Economic Viability #2 | S04–S05 reports | 6.2–6.5 | RESEARCH / DEVELOPMENT | Strategy #2 достигает честного S05 decision на shared platform |
 | `WBS-6.7` | P | M6 | Platform reuse review | Reuse/generalization report | 6.6 | DEVELOPMENT / PROGRAM | Ясно, какие компоненты действительно shared, а какие должны остаться strategy-specific |
-| `WBS-6.8` | S | M6 | Validation #2 | S06–S07 when justified | 6.6 PASS, M4 | VALIDATION | Перспективная Strategy #2 проходит class-appropriate validation; при FAIL evidence сохраняется |
+| `WBS-6.8` | S | M6 | Validation handoff #2 | S06–S07 through M4.9/M4.10 when justified | 6.6 PASS, 4.1–4.8 | VALIDATION | Если Strategy #2 является первым promoted Candidate, её S06/S07 исполняют M4.9/M4.10; при FAIL evidence сохраняется и M5 не открывается |
 
 ### Exit M6
 
@@ -250,13 +251,13 @@ ATS доказал, что Research Factory и Shared Platform применим�
 
 Минимальный путь к первому meaningful live candidate:
 
-`M0 → M1 → M2 → M3(S05 PASS) → M4(S07 PASS) → M5(S09 PASS) → OWNER live decision → S10`
+`M0 → M1 → M2 → M3(vertical flow; PASS or early REJECT) → M4.1–M4.8 → M6.0–M6.6 until first S05 PASS Candidate → M4.9–M4.10(S07 PASS) → M5(S09 PASS) → OWNER live decision → S10`
 
 Минимальный путь к portfolio capability:
 
-`первый live candidate + Strategy #2 evidence → M6 → минимум два portfolio candidates → M7 → M8`
+`first validated/live candidate + later distinct strategy evidence → минимум два portfolio candidates → M7 → M8`
 
-Эта последовательность не запрещает параллельный дешёвый Research Funnel для других идей.
+M6 research/discovery may overlap M4 after reusable work packages 4.1–4.8; M5 remains blocked until S07 PASS. Эта последовательность не запрещает параллельный дешёвый Research Funnel для других идей.
 
 ---
 
@@ -308,6 +309,7 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-4.4 — Trade/observation concentration` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
 - concentration artifacts: `src/ats/validation/concentration.py` + `tests/test_validation_concentration.py`;
 - next work package after PASS: **`WBS-4.5 — Resampling framework`**.
+- future candidate-sourcing path: `WBS-6.0 — Market Pattern Discovery` after reusable M4 accounting capability; it may source Strategy #2 before M5.
 
 The next implementation target is:
 

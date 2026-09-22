@@ -37,6 +37,7 @@ model:
   evidence_taxonomy: "governance/methodology/EVIDENCE_TAXONOMY.md"
   research_review_protocol: "governance/methodology/RESEARCH_REVIEW_PROTOCOL.md"
   validation_framework: "governance/methodology/VALIDATION_FRAMEWORK.md"
+  market_pattern_discovery: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -271,6 +272,13 @@ strategy_pipeline:
   experiments_registered: 0
   validated_strategies: 0
   active_strategies: 0
+
+discovery:
+  capability_status: "BASELINE_DEFINED"
+  methodology: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
+  first_bounded_search_status: "NOT_STARTED"
+  candidate_source_for_reference_strategy_2: true
+  protected_blocks_allowed: false
 
 legacy:
   legacy_readme: "legacy/v1/README.md"

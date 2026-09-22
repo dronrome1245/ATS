@@ -95,6 +95,7 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M4-003` | `WBS-4.3` | P1 | DONE | M4-001, M4-002 | `src/ats/validation/slicing.py` + `tests/test_validation_slicing.py` | Every declared slice is reported in plan order; exhaustive/overlap/empty-slice policies are explicit; unknown membership and metric-contract violations fail closed |
 | `ATS2-M4-004` | `WBS-4.4` | P1 | DONE | M4-001, M4-003 | `src/ats/validation/concentration.py` + `tests/test_validation_concentration.py` | Full observation/group set is retained; predeclared top-count diagnostics quantify absolute concentration; zero-denominator cases are explicit; no outlier is removed automatically |
 | `ATS2-M4-005` | `WBS-4.5` | P1 | READY | M4-001, M4-004 | `src/ats/validation/resampling.py` + `tests/test_validation_resampling.py` | Deterministic resampling contracts preserve declared dependence/block structure and never silently fall back to IID assumptions |
+| `ATS2-M6-000` | `WBS-6.0` | P1 | BLOCKED | M2, M3 learnings, M4-007 | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + future Search Manifest/result tooling | Bounded price-dynamics search preserves full search space, negative alternatives and shortlist history; outputs remain exploratory and enter normal Idea/Hypothesis funnel |
 
 ## 7. Следующий шаг
 
@@ -109,3 +110,5 @@ Canonical first implementation artifact:
 The tool must make the resampling assumption explicit and preserve declared block/dependence structure. It must not silently treat dependent observations as IID.
 
 HYP-0001 remains rejected and is not reopened by M4.
+
+Future candidate sourcing is now explicit: after reusable M4 accounting capability is available, `ATS2-M6-000 — Market Pattern Discovery` may begin before M5. M5 remains blocked until a Candidate passes S07.

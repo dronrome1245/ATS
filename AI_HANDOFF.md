@@ -53,3 +53,27 @@ Run:
 Initial artifact:
 
 `src/ats/validation/resampling.py`
+
+
+## Market Pattern Discovery
+
+Canonical methodology:
+
+`governance/methodology/MARKET_PATTERN_DISCOVERY.md`
+
+Purpose: systematically search for bounded price-dynamics patterns without presenting data-mined findings as validation evidence.
+
+Rules:
+
+- development data only;
+- Search Manifest fixes pattern families/horizons/filters/search budget;
+- full search-space count and failed alternatives are retained;
+- outputs remain `EXPLORATORY_OBSERVATION`;
+- shortlist may create a new Idea/Hypothesis only;
+- protected validation/independent blocks are not used for discovery.
+
+Roadmap bridge:
+
+`M4.1–M4.8 → WBS-6.0 discovery / Strategy #2 research → first S05 PASS Candidate → M4.9/M4.10 → M5`
+
+This removes the post-M3 early-rejection candidate-sourcing deadlock.
