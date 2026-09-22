@@ -90,6 +90,7 @@ Always distinguish a pre-verification synchronization failure from a code failur
 **Repeat observed:** 2026-09-21 on `c8a0225acafba15d59dcd35d5bf3aceee716ced3` in `src/ats/runner/experiment.py`  
 **Repeat observed:** 2026-09-21 on `cd348024bd907225ea15219786ef5ad54ebdea1d` in `src/ats/validation/sensitivity.py` and `tools/current_task_check.py` after a manual line-length preflight incorrectly implied formatting readiness  
 **Repeat observed:** 2026-09-21 on `9f912b7b5e350d287ed76ce4bffe7a67722faf58` in `src/ats/validation/slicing.py` after remote authoring without pinned Ruff execution  
+**Repeat observed:** 2026-09-22 on `9fb041c51cf93071ca6735b52897cbb2b24e5568` in `src/ats/validation/concentration.py`; fast preflight correctly stopped before full pytest  
 **Fixed first occurrence by:** `fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd`  
 **Class:** `FORMAT`
 
@@ -122,6 +123,8 @@ For agent-created or programmatic Python edits that bypass the repository hooks:
 **Escalation**
 
 This failure class is now recurring at the technical-control threshold. Documentation alone is insufficient. `ATS_TASK_CHECK.bat` must run the fast Local CI gate before the full task check so format/lint/validator failures stop the workflow before the expensive full pytest stage.
+
+The fast preflight is now proven as an early-stop control, but it cannot verify format before push because the remote authoring environment does not have the pinned Ruff executable. Therefore remote Python commits remain explicitly format-unverified until OWNER fast preflight supplies pinned Ruff output.
 
 **Scope:** agents and any tooling that writes directly to the remote repository.
 

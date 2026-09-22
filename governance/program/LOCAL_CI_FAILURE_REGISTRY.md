@@ -20,7 +20,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | Cause | Class | Confirmed occurrences | State | Current control |
 |---|---|---:|---|---|
 | `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
-| `LCI-002` | `FORMAT` | 4 | CONTROL_REQUIRED | fast Local CI preflight before full task check; exact Ruff diff is authoritative |
+| `LCI-002` | `FORMAT` | 5 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 3 | CONTROL_REQUIRED | marker audit rule for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 1 | OBSERVED | narrowly ignore `reports/local_ci/*.lnk` |
@@ -39,6 +39,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-21 | `LCI-005` | `01603925a5c3d690e5e6cbfbcbaedc40e42a76e8` | clean tree | Windows `.lnk` appeared under local reports |
 | 2026-09-21 | `LCI-002` | `cd348024bd907225ea15219786ef5ad54ebdea1d` | format | sensitivity/checker needed Ruff canonical layout |
 | 2026-09-21 | `LCI-002` | `9f912b7b5e350d287ed76ce4bffe7a67722faf58` | format | slicing module needed Ruff canonical layout |
+| 2026-09-22 | `LCI-002` | `9fb041c51cf93071ca6735b52897cbb2b24e5568` | format | concentration module was stopped by fast preflight before full pytest |
 
 ## 4. Rule-conversion discipline
 
@@ -80,3 +81,24 @@ Observed sequence:
 5. ATS task launcher PASS.
 
 This confirms the control is active and does not replace the final full gate.
+
+
+## 7. Post-threshold rule for remote Python edits
+
+### FORMAT / LCI-002 — post-threshold rule
+
+The fast preflight is confirmed useful: on the fifth occurrence it stopped the workflow before full pytest. However, detection is not prevention.
+
+Because the remote authoring environment does not have the project-pinned Ruff executable, any commit containing remotely authored Python must be treated as:
+
+`FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`
+
+until the OWNER fast preflight runs.
+
+Rules:
+
+1. never describe remote Python formatting as verified without pinned Ruff output;
+2. if fast preflight returns a Ruff diff, apply that exact diff only and increment this registry;
+3. do not run or request the expensive full task check separately after a fast-preflight format failure; fix format first;
+4. repeated FORMAT events after this threshold remain the same `LCI-002` cause and must not receive new IDs;
+5. if a future environment gains the exact pinned Ruff version, running it before push becomes mandatory and replaces this limitation.

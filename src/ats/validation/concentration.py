@@ -61,9 +61,7 @@ class ConcentrationPlan:
             raise ConcentrationContractError("top_counts must contain unique values")
         for value in self.top_counts:
             if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
-                raise ConcentrationContractError(
-                    "top_counts must contain positive integers"
-                )
+                raise ConcentrationContractError("top_counts must contain positive integers")
 
 
 @dataclass(frozen=True, slots=True)
@@ -178,10 +176,7 @@ def analyze_concentration(
     if len(observation_ids) != len(set(observation_ids)):
         raise ConcentrationContractError("observation_id values must be unique")
 
-    values = tuple(
-        _finite_number(item.value, label="contribution value")
-        for item in contributions
-    )
+    values = tuple(_finite_number(item.value, label="contribution value") for item in contributions)
     total_effect = math.fsum(values)
     total_absolute_effect = math.fsum(abs(value) for value in values)
 
@@ -189,9 +184,7 @@ def analyze_concentration(
         range(len(contributions)),
         key=lambda index: (-abs(values[index]), index),
     )
-    observation_magnitudes = tuple(
-        abs(values[index]) for index in ordered_observation_indices
-    )
+    observation_magnitudes = tuple(abs(values[index]) for index in ordered_observation_indices)
 
     group_values: dict[str, list[float]] = {}
     group_counts: dict[str, int] = {}
@@ -222,9 +215,7 @@ def analyze_concentration(
         range(len(groups)),
         key=lambda index: (-groups[index].absolute_net_effect, index),
     )
-    group_magnitudes = tuple(
-        groups[index].absolute_net_effect for index in ordered_group_indices
-    )
+    group_magnitudes = tuple(groups[index].absolute_net_effect for index in ordered_group_indices)
 
     return ConcentrationResult(
         plan_id=plan.plan_id,
