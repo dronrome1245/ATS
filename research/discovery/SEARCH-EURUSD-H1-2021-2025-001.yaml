@@ -1,0 +1,254 @@
+schema_version: "1.0"
+search_id: "SEARCH-EURUSD-H1-2021-2025-001"
+dataset_id: "DATA-DUKASCOPY-EURUSDH1-PROTO01-001"
+dataset_version: "1.0.0"
+development_scope: "EURUSD H1 2021-2025 development-known data; no protected claim."
+market_universe:
+  - "EURUSD"
+timestamp_semantics: "UTC H1 bars; signal after completed close, entry on next hour open."
+pattern_families:
+  - "RETURN_TAIL_CONTINUATION"
+  - "RETURN_TAIL_REVERSAL"
+feature_condition_families:
+  - "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+horizons:
+  - "6H"
+  - "24H"
+directions:
+  - "UP"
+  - "DOWN"
+filters_regimes: []
+metric_names:
+  - "event_count"
+  - "mean_signed_forward_return"
+  - "mean_excess_vs_baseline"
+  - "median_signed_forward_return"
+  - "positive_share"
+  - "overlap_share"
+  - "shortlist_score"
+max_combinations: 16
+shortlist_rule:
+  metric_name: "shortlist_score"
+  operator: "GREATER_EQUAL"
+  threshold: 0.0
+random_seed: null
+stochastic_protocol: null
+cost_execution_applicability: "Spread via BID/ASK opens; commission, financing and slippage excluded."
+excluded_protected_blocks:
+  - "ALL_FUTURE_VALIDATION_AND_INDEPENDENT_BLOCKS"
+code_revision: "1eeb10aca94d48dc5f42e787983df7cac9ea540c"
+implementation_reference: "src/ats/discovery/eurusd_h1.py + tools/discover_eurusd_h1.py"
+alternatives:
+  - alternative_id: "alt-01-lb6-high-cont-6h"
+    pattern_family: "RETURN_TAIL_CONTINUATION"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "6H"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 6
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "HIGH"
+  - alternative_id: "alt-02-lb6-high-cont-24h"
+    pattern_family: "RETURN_TAIL_CONTINUATION"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "24H"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 6
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "HIGH"
+  - alternative_id: "alt-03-lb6-low-cont-6h"
+    pattern_family: "RETURN_TAIL_CONTINUATION"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "6H"
+    direction: "DOWN"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 6
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "LOW"
+  - alternative_id: "alt-04-lb6-low-cont-24h"
+    pattern_family: "RETURN_TAIL_CONTINUATION"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "24H"
+    direction: "DOWN"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 6
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "LOW"
+  - alternative_id: "alt-05-lb6-high-rev-6h"
+    pattern_family: "RETURN_TAIL_REVERSAL"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "6H"
+    direction: "DOWN"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 6
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "HIGH"
+  - alternative_id: "alt-06-lb6-high-rev-24h"
+    pattern_family: "RETURN_TAIL_REVERSAL"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "24H"
+    direction: "DOWN"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 6
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "HIGH"
+  - alternative_id: "alt-07-lb6-low-rev-6h"
+    pattern_family: "RETURN_TAIL_REVERSAL"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "6H"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 6
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "LOW"
+  - alternative_id: "alt-08-lb6-low-rev-24h"
+    pattern_family: "RETURN_TAIL_REVERSAL"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "24H"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 6
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "LOW"
+  - alternative_id: "alt-09-lb24-high-cont-6h"
+    pattern_family: "RETURN_TAIL_CONTINUATION"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "6H"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 24
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "HIGH"
+  - alternative_id: "alt-10-lb24-high-cont-24h"
+    pattern_family: "RETURN_TAIL_CONTINUATION"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "24H"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 24
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "HIGH"
+  - alternative_id: "alt-11-lb24-low-cont-6h"
+    pattern_family: "RETURN_TAIL_CONTINUATION"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "6H"
+    direction: "DOWN"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 24
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "LOW"
+  - alternative_id: "alt-12-lb24-low-cont-24h"
+    pattern_family: "RETURN_TAIL_CONTINUATION"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "24H"
+    direction: "DOWN"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 24
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "LOW"
+  - alternative_id: "alt-13-lb24-high-rev-6h"
+    pattern_family: "RETURN_TAIL_REVERSAL"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "6H"
+    direction: "DOWN"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 24
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "HIGH"
+  - alternative_id: "alt-14-lb24-high-rev-24h"
+    pattern_family: "RETURN_TAIL_REVERSAL"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "24H"
+    direction: "DOWN"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 24
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "HIGH"
+  - alternative_id: "alt-15-lb24-low-rev-6h"
+    pattern_family: "RETURN_TAIL_REVERSAL"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "6H"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 24
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "LOW"
+  - alternative_id: "alt-16-lb24-low-rev-24h"
+    pattern_family: "RETURN_TAIL_REVERSAL"
+    feature_condition: "PRIOR_MID_CLOSE_RETURN_QUANTILE"
+    horizon: "24H"
+    direction: "UP"
+    filter_regime: null
+    parameters:
+      - name: "lookback_hours"
+        value: 24
+      - name: "tail_quantile"
+        value: 0.1
+      - name: "tail"
+        value: "LOW"
+known_limitations:
+  - "Exploratory development search; not validation evidence."
+  - "This same 2021-2025 dataset was already inspected during HYP-0001 research."
+  - "Commission, financing and live slippage are not modeled."
+  - "Any shortlist must enter separate Idea/Hypothesis intake before further research."
