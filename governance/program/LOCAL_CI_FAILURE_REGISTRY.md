@@ -27,6 +27,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | `LCI-006` | `HANDOFF_SYNC` | 1 | OBSERVED | exact canonical `last_completed_artifact`/`next_artifact`/`next_task_id` values must appear in handoff/next-step |
 | `LCI-007` | `DATA_SOURCE_NETWORK` | 2 | RECURRING | resumable local cache plus bounded extra download batches/backoff for transient source 5xx/timeouts |
 | `LCI-008` | `TEST` | 1 | OBSERVED | regression-test serialized event-time rows against typed continuity logic used by task preparation |
+| `LCI-009` | `LINT` | 1 | OBSERVED | track Ruff lint and format separately; inspect import grouping for every new/rewritten Python import block |
 
 ## 3. Occurrence log
 
@@ -55,6 +56,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-22 | `LCI-007` | `2545491d35a980e8c375100b9c8f8d99ee44f41e` | data acquisition | subsequent resume reached BID 2026-06 but again hit repeated HTTP 503/timeout |
 | 2026-09-22 | `LCI-008` | `04aaa885e5be81f2468b1478423949f0e9e5323b` | task runtime | confirmatory rows stored RFC3339 event-time strings but `valid_window` expected datetime-valued rows, causing string subtraction after acquisition completed |
 | 2026-09-22 | `LCI-002` | `7c8e82e7f29b0bc3e09de557f88dd1c14441474f` | format | Ruff compacted generator expressions in `valid_timestamp_window` and confirmatory eligible-count calculation |
+| 2026-09-22 | `LCI-009` | `213fb1116e7ca2fc866fc7281b57215d3908cb64` | lint | Ruff I001 rejected a blank line between `import yaml` and sibling-tool import `from proto01_eurusd ...`; format itself passed |
 
 ## 4. Rule-conversion discipline
 
@@ -97,6 +99,10 @@ External historical-data acquisition must be resumable. Successfully downloaded 
 ### TEST / LCI-008
 
 Task-specific preparation code must test representation boundaries explicitly. Serialized RFC3339 row values and typed datetime row values are separate contracts; continuity helpers must consume the representation they declare. A regression test must cover the same serialized row shape produced by the preparation path.
+
+### LINT / LCI-009
+
+Remote Python preflight must treat Ruff lint and Ruff format as separate gates. The current `pyproject.toml` selects Ruff `I`, so import grouping/order is a blocking invariant even when `ruff format --check` would pass. For new or rewritten files under `tools/`, sibling-tool imports must be grouped exactly as pinned Ruff classifies them; do not insert a first-party separator unless the Ruff configuration explicitly defines that module as first-party.
 
 
 ## 6. Verified control run

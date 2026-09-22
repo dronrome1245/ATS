@@ -13,7 +13,6 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-
 from proto01_eurusd import parse_time, sha256_file
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -265,6 +265,41 @@ Do not change the Hypothesis, data period or provider merely because of a transi
 
 **Scope:** OWNER research workflow and agents.
 
+### LCI-009 — Ruff import-order lint failure after remote Python authoring
+
+**First observed:** 2026-09-22 on `213fb1116e7ca2fc866fc7281b57215d3908cb64` in `tools/hyp0002_proto01.py`  
+**Class:** `LINT`
+
+**Symptom**
+
+Repository validator and `ruff format --check` pass, but pinned Ruff lint fails with `I001 Import block is un-sorted or un-formatted`.
+
+The observed exact diff removed the blank line between:
+
+`import yaml`
+
+and:
+
+`from proto01_eurusd import ...`
+
+**Root cause**
+
+The remote authoring preflight tracked formatting risk but did not independently track lint/import-order risk. Under the current `pyproject.toml`, Ruff selects `I` and no explicit first-party classification is configured for sibling modules under `tools/`. Ruff therefore classified the observed sibling-tool import in the same import section as the installed dependency import.
+
+**Correct response**
+
+Apply the exact pinned-Ruff import diff and do not change runtime/research logic. Rerun the launcher on the corrected exact HEAD.
+
+**Preventive rule**
+
+1. Ruff lint and Ruff format are separate pre-launch statuses.
+2. If pinned Ruff has not run on exact proposed Python content, both statuses remain unverified.
+3. Every new or materially rewritten Python import block receives an explicit import-grouping audit when Ruff `I` rules are enabled.
+4. Under the current configuration, do not invent a first-party separator for sibling `tools/` modules unless Ruff configuration explicitly defines that classification.
+5. An import-only lint failure must never trigger research-logic changes.
+
+**Scope:** agents and any tooling that writes Python through remote repository APIs.
+
 ### LCI-008 — Serialized row passed to typed continuity helper
 
 **First observed:** 2026-09-22 on `04aaa885e5be81f2468b1478423949f0e9e5323b` during HYP-0002 Data Feasibility preparation  

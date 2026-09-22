@@ -31,9 +31,10 @@ Before writing:
 
 Any Python content written through a remote repository API bypasses local hooks.
 
-If the exact project-pinned Ruff version has not run on the exact proposed Python content, its status is:
+If the exact project-pinned Ruff version has not run on the exact proposed Python content, record **both** statuses:
 
-`FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`
+- `RUFF_LINT_UNVERIFIED_UNTIL_PINNED_RUFF`
+- `RUFF_FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`
 
 Rules:
 
@@ -42,7 +43,9 @@ Rules:
 3. preserve previously Ruff-confirmed layouts when only constants/strings/task identity change;
 4. for `tools/current_task_check.py`, change task constants/strings and required artifact paths without reflowing a previously confirmed template unless logic truly changes;
 5. when OWNER Local CI provides an exact Ruff diff, **Exact Ruff diff is authoritative**; apply it literally instead of inventing an equivalent layout;
-6. lint success, syntax compilation, line-length inspection and visual inspection do not equal Ruff-format verification.
+6. lint success, syntax compilation, line-length inspection and visual inspection do not equal Ruff-format verification;
+7. formatter-compatible content may still fail Ruff lint; for every new or materially rewritten import block, audit grouping/order separately when `I` rules are selected;
+8. under the current Ruff configuration, sibling modules under `tools/` are not assumed first-party merely because they are in the repository; follow pinned Ruff's classification and exact diff.
 
 ## 5. Validator marker audit
 
@@ -74,7 +77,7 @@ Before moving the remote branch:
 2. check changed Python for syntax errors;
 3. audit local Markdown references introduced or changed by the patch;
 4. if an environment with project-pinned tools is available, run the fast gate on the exact proposed content before push;
-5. if pinned Ruff is unavailable, preserve `FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF` status and do not claim preflight PASS;
+5. if pinned Ruff is unavailable, preserve both `RUFF_LINT_UNVERIFIED_UNTIL_PINNED_RUFF` and `RUFF_FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`; do not claim Ruff preflight PASS;
 6. if the current task runner writes files under `reports/local_ci/` before the full gate, verify that every intended disposable output is covered by a narrow `.gitignore` pattern; do not ignore the whole runtime directory;
 7. if a current task acquires external source files, require resumable file-level caching and bounded retry/backoff for transient source failures; do not change a frozen provider/period merely to escape a temporary outage.
 
@@ -85,7 +88,8 @@ Before asking OWNER to run `ATS_TASK_CHECK.bat`, state:
 - exact commit SHA;
 - current task ID;
 - whether Python changed;
-- Ruff status: `VERIFIED_BY_PINNED_RUFF` or `FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`;
+- Ruff lint status: `VERIFIED_BY_PINNED_RUFF` or `RUFF_LINT_UNVERIFIED_UNTIL_PINNED_RUFF`;
+- Ruff format status: `VERIFIED_BY_PINNED_RUFF` or `RUFF_FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`;
 - canonical state reconciliation: `PASS` or the exact mismatch;
 - validator marker audit: `PASS`, `N/A`, or the exact unresolved issue;
 - task completion status: always `PENDING_OWNER_LAUNCHER` until exact-head PASS.
