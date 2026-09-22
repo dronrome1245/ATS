@@ -10,52 +10,42 @@
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy/live permission exists.
 
-## M4-007 Multiple-Research Accounting
+## Verified M4-007 closure
 
-Canonical artifact:
+OWNER launcher report for commit:
 
-`governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`
+`c3a29500ed5872b11d6fe7dc9429d31165251496`
 
-Contract:
+confirmed repository validator PASS, pinned Ruff PASS, `124 passed`, full Local CI PASS, M4-007 task check PASS, launcher PASS and a clean working tree.
 
-- ATS preserves material selection history, not only the selected result;
-- canonical unit is a Material Research Attempt;
-- discovery/search denominators and negative/discarded alternatives remain visible;
-- material data/cost/execution changes remain visible;
-- S06 returns to research are material events;
-- revealed independent blocks remain recorded as consumed;
-- technical/format-only reruns do not inflate research counts unless they change research decisions;
-- selected versions retain lineage to material ancestors;
-- no universal numeric penalty is imposed solely from attempt count.
+## M4-008 Technical Strategy Validation Profile
 
-Before Candidate promotion/S06/S07, reviewer receives a Research Freedom Summary.
+Implemented artifact:
 
-## LCI-002 occurrence 7
+`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`
 
-Confirmed resolution:
+The profile applies the V1–V7 framework to price-driven technical strategies, fixes data-zone and chronology requirements, declares V1–V7 applicability, requires Research Freedom Summary accounting, and defines S06/S07 freeze boundaries without universal profitability/risk thresholds.
 
-`4d4f5546c54bc1b8985f37dd63c251b87517245e`
-
-Exact Ruff diff was followed by fast-preflight PASS, pinned Ruff PASS, `124 passed`, full Local CI PASS and launcher PASS.
-
-## Market Pattern Discovery
-
-Every bounded discovery Search Manifest feeds `MULTIPLE_RESEARCH_ACCOUNTING.md`.
-
-`WBS-6.0` remains blocked until M4-008 completes the reusable technical Validation Profile baseline.
+No strategy-specific validation run has been created.
 
 ## Current closure check
 
-`ATS2-M4-007 — Multiple-research accounting`
+Close:
+
+`ATS2-M4-008 — Technical strategy validation profile`
 
 Run:
 
 `ATS_TASK_CHECK.bat`
 
-## Next task after PASS
+and return:
 
-`ATS2-M4-008 — Technical strategy validation profile`
+`reports/local_ci/CURRENT_TASK_REPORT.txt`
 
-Initial artifact:
+## After PASS
 
-`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`
+Next program-level task:
+
+`ATS2-M6-000 — Market Pattern Discovery`
+
+`WBS-4.9 / WBS-4.10` remain blocked until a future promoted Candidate reaches S05 `PASS`.

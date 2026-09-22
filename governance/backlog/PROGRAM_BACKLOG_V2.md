@@ -117,4 +117,4 @@ The profile must convert the general V1–V7 framework into explicit requirement
 
 HYP-0001 remains rejected and is not reopened by M4.
 
-Future candidate sourcing is now explicit: after reusable M4 accounting capability is available, `ATS2-M6-000 — Market Pattern Discovery` may begin before M5. M5 remains blocked until a Candidate passes S07.
+Future candidate sourcing is explicit: after the M4-008 technical Validation Profile passes its exact closure check, `ATS2-M6-000 — Market Pattern Discovery` may begin before M5. M5 remains blocked until a Candidate passes S07.

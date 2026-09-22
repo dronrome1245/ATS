@@ -386,6 +386,10 @@ Must make material research attempts/search freedom visible to review.
 
 Must turn this general framework into explicit requirements for each strategy/data class that ATS actually needs.
 
+Initial class profile:
+
+`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`
+
 No tool may silently choose a validation method solely because it produces a better result.
 
 ## 13. Current M4 boundary

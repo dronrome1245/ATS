@@ -182,7 +182,7 @@ Therefore:
 - independent blocks remain protected;
 - the same final block must not be repeatedly used to rescue discovered patterns.
 
-Formal corrections, if needed, belong to the later Statistical Validation Profile; discovery itself must at least preserve the complete selection history.
+Formal corrections, if needed, belong to the applicable class-specific Validation Profile; for price-driven technical strategies the baseline is `TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`. Discovery itself must at least preserve the complete selection history.
 
 ## 12. Shortlist outcomes
 

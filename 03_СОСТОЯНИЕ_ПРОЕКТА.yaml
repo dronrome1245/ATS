@@ -5,7 +5,7 @@ program:
   phase: M4_VALIDATION_FRAMEWORK
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-21"
+  updated_on: "2026-09-22"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -39,6 +39,7 @@ model:
   validation_framework: "governance/methodology/VALIDATION_FRAMEWORK.md"
   independent_exam_protocol: "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"
   multiple_research_accounting: "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"
+  technical_strategy_validation_profile: "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"
   market_pattern_discovery: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"

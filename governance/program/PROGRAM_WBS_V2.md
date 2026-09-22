@@ -178,7 +178,7 @@ ATS имеет reusable execution skeleton и как минимум один val
 
 | ID | Scope | Milestone | Work package | Deliverable | Dependencies | Responsible role | Definition of Done |
 |---|---|---|---|---|---|---|---|
-| `WBS-6.0` | P | M6 | Market Pattern Discovery | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + bounded Search Manifest/result history | M1, M2, M3 learnings, 4.7 | RESEARCH / DEVELOPMENT / VALIDATION | Можно воспроизводимо искать bounded price-dynamics patterns на development data; search space, failed alternatives и shortlist history сохраняются; discovery не создаёт validation evidence |
+| `WBS-6.0` | P | M6 | Market Pattern Discovery | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + bounded Search Manifest/result history | M1, M2, M3 learnings, 4.8 | RESEARCH / DEVELOPMENT / VALIDATION | Можно воспроизводимо искать bounded price-dynamics patterns на development data; search space, failed alternatives и shortlist history сохраняются; discovery не создаёт validation evidence |
 | `WBS-6.1` | S | M6 | Select Strategy #2 | Selection decision | 6.0 or explicit Idea intake, M3 learnings | OWNER / RESEARCH | Выбран существенно иной strategy/data/execution profile из bounded discovery/idea intake без заявления edge до Research Funnel |
 | `WBS-6.2` | S | M6 | Run Research Funnel | R0–R4 artifacts | 6.1, M1 | RESEARCH / DATA | Strategy #2 получает independent promotion decision |
 | `WBS-6.3` | P/S | M6 | Identify new data needs | Data capability decision | 6.2 | DATA / DEVELOPMENT | Новые feeds/timestamps/features добавляются только при подтверждённой need |
@@ -309,13 +309,13 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-4.4 — Trade/observation concentration` — `DONE`;
 - `WBS-4.5 — Resampling framework` — `DONE`;
 - `WBS-4.6 — Independent exam protocol` — `DONE`;
-- `WBS-4.7 — Multiple-research accounting` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
-- accounting artifact: `governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`;
-- next work package after PASS: **`WBS-4.8 — Class-specific profiles`**;
-- `WBS-6.0 — Market Pattern Discovery` remains blocked until M4-008 completes the reusable validation profile baseline.
+- `WBS-4.7 — Multiple-research accounting` — `DONE`, OWNER closure confirmed on commit `c3a29500ed5872b11d6fe7dc9429d31165251496`;
+- `WBS-4.8 — Class-specific profiles` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
+- technical profile artifact: `governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`;
+- `WBS-6.0 — Market Pattern Discovery` remains blocked until the M4-008 closure check passes.
 
-The next implementation target is:
+The current closure target is:
 
-`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`
+`ATS2-M4-008 — Technical strategy validation profile`
 
 Strategy-specific validation remains blocked until a future research line earns Candidate/S05 eligibility. HYP-0001 remains rejected and is not reopened by M4.

@@ -25,18 +25,19 @@ Reference Strategy #1 remains:
 - Dependence-preserving resampling: `src/ats/validation/resampling.py`
 - Independent exam protocol: `governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md`
 - Multiple-research accounting: `governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`
+- Technical strategy validation profile: `governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`
 
 ## Market Pattern Discovery
 
-Bounded systematic price-pattern discovery:
+Bounded systematic price-pattern discovery methodology:
 
 `governance/methodology/MARKET_PATTERN_DISCOVERY.md`
 
-Its search-space history feeds multiple-research accounting.
+Execution of WBS-6.0 remains blocked until the M4-008 closure check passes.
 
 ## Current closure check
 
-`ATS2-M4-007 — Multiple-research accounting`
+`ATS2-M4-008 — Technical strategy validation profile`
 
 Run:
 
@@ -44,8 +45,6 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-008 — Technical strategy validation profile`
+`ATS2-M6-000 — Market Pattern Discovery`
 
-Next artifact:
-
-`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`
+M4.9/M4.10 remain strategy-level work for the first future S05 PASS Candidate.

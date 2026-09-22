@@ -19,6 +19,9 @@ VALIDATION_FRAMEWORK = "governance/methodology/VALIDATION_FRAMEWORK.md"
 MARKET_PATTERN_DISCOVERY = "governance/methodology/MARKET_PATTERN_DISCOVERY.md"
 INDEPENDENT_EXAM_PROTOCOL = "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"
 MULTIPLE_RESEARCH_ACCOUNTING = "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"
+TECHNICAL_STRATEGY_VALIDATION_PROFILE = (
+    "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"
+)
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 M3_EXIT = "governance/program/M3_EXIT_REVIEW.md"
@@ -144,6 +147,7 @@ def configure() -> None:
         TAXONOMY, REVIEW_PROTOCOL, REVIEW_CHECKS, REVIEW_DECISIONS, REVIEW_TEMPLATE,
         VALIDATION_FRAMEWORK, MARKET_PATTERN_DISCOVERY, INDEPENDENT_EXAM_PROTOCOL,
         MULTIPLE_RESEARCH_ACCOUNTING,
+        TECHNICAL_STRATEGY_VALIDATION_PROFILE,
         M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
         REFERENCE_STRATEGY_PROTOTYPE, PROTO01_RESULT, PROTO01_SCHEMA, PROTO01_MANIFEST,
@@ -163,6 +167,7 @@ def configure() -> None:
         "evidence_taxonomy", "research_review_protocol", "validation_framework",
         "market_pattern_discovery", "independent_exam_protocol",
         "multiple_research_accounting",
+        "technical_strategy_validation_profile",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -246,6 +251,21 @@ def configure() -> None:
         "CONSUMED_PROTECTED_BLOCK",
         "Experiment Registry",
         "HYP-0001 remains `REJECTED_AT_R3`",
+    )
+    core.CONTENT_MARKERS[TECHNICAL_STRATEGY_VALIDATION_PROFILE] = (
+        "price-driven technical strategies",
+        "DEVELOPMENT → VALIDATION → INDEPENDENT_EXAMINATION",
+        "V1 — Parameter neighbourhood",
+        "V2 — Time / regime slicing",
+        "V3 — Observation dependence",
+        "V4 — Concentration / outliers",
+        "V5 — Cost / execution sensitivity",
+        "V6 — Resampling / path uncertainty",
+        "V7 — Research freedom / multiple-research accounting",
+        "Research Freedom Summary",
+        "S06 freeze boundary",
+        "S07 freeze boundary",
+        "HYP-0001 / PROTO-01",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -755,10 +775,10 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M4-007"',
-        "M4-007 multiple-research accounting artifacts",
-        "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md",
-        "M4-007 accounting governance validation",
+        'TASK_ID = "ATS2-M4-008"',
+        "M4-008 technical strategy validation profile artifacts",
+        "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md",
+        "M4-008 technical validation profile governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1038,6 +1058,7 @@ def main() -> int:
         'market_pattern_discovery: "governance/methodology/MARKET_PATTERN_DISCOVERY.md"',
         'independent_exam_protocol: "governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"',
         'multiple_research_accounting: "governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"',
+        'technical_strategy_validation_profile: "governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
