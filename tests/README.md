@@ -217,3 +217,18 @@ The fixture is synthetic software-only input and is not validation evidence.
 - plan/results are immutable.
 
 The fixture is synthetic software-only input and is not validation evidence.
+
+
+## M4 resampling tests
+
+`tests/test_validation_resampling.py` verifies:
+
+- repeated runs with the same explicit seed are identical;
+- source block IDs and observation counts are retained;
+- selected blocks remain whole and preserve internal order;
+- output declares `DECLARED_BLOCKS_PRESERVED`;
+- there is no implicit IID method/fallback;
+- duplicate block IDs, empty/non-finite blocks and invalid plan shapes fail closed;
+- plan/results are immutable.
+
+The fixture is synthetic software-only input and is not validation evidence.

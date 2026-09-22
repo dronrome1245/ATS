@@ -189,3 +189,14 @@ The synthetic slicing fixture is software-only and creates no validation evidenc
 The result declares `NO_AUTOMATIC_OUTLIER_REMOVAL`. Ranking by absolute magnitude is diagnostic only; it does not delete observations or change the underlying evidence.
 
 The synthetic fixture is software-only and creates no validation evidence.
+
+
+## M4 dependence-preserving resampling
+
+`ATS2-M4-005 — Dependence-preserving resampling framework` materializes `ats.validation.resampling`.
+
+The current baseline supports explicit `BLOCK_BOOTSTRAP` only. Callers must declare block semantics, whole blocks are selected with replacement, within-block order is preserved, every selected block ID is retained, and the random seed is explicit.
+
+There is no IID fallback in the API. If IID resampling is ever needed, it must be introduced as an explicit separately justified method rather than inferred automatically.
+
+The synthetic fixture is software-only and creates no validation evidence.

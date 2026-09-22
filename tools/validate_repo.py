@@ -109,6 +109,10 @@ VALIDATION_CONCENTRATION_FILES = (
     "src/ats/validation/concentration.py",
     "tests/test_validation_concentration.py",
 )
+VALIDATION_RESAMPLING_FILES = (
+    "src/ats/validation/resampling.py",
+    "tests/test_validation_resampling.py",
+)
 HEADER = (
     "experiment_id", "status", "research_stage", "evidence_class",
     "qualified_evidence_class", "idea_id", "hypothesis_id", "candidate_id",
@@ -149,6 +153,7 @@ def configure() -> None:
         *ANALYTICS_FILES, *RUNNER_FILES, *PLATFORM_TEST_FILES,
         *LOCAL_CI_FILES, *ENVIRONMENT_FILES, *VALIDATION_SENSITIVITY_FILES,
         *VALIDATION_SLICING_FILES, *VALIDATION_CONCENTRATION_FILES,
+        *VALIDATION_RESAMPLING_FILES,
     )
     core.CANONICAL_PATH_KEYS = core.CANONICAL_PATH_KEYS + (
         "evidence_taxonomy", "research_review_protocol", "validation_framework",
@@ -613,6 +618,29 @@ def configure() -> None:
         "test_plan_and_result_are_immutable",
         "NO_AUTOMATIC_OUTLIER_REMOVAL",
     )
+    core.CONTENT_MARKERS["src/ats/validation/resampling.py"] = (
+        "class ResamplingContractError",
+        "class ResamplingMethod",
+        "BLOCK_BOOTSTRAP",
+        "class ResamplingBlock",
+        "class ResamplingPlan",
+        "class ResamplingReplicate",
+        "class ResamplingResult",
+        "DECLARED_BLOCKS_PRESERVED",
+        "run_block_resampling",
+        "preserve internal order",
+    )
+    core.CONTENT_MARKERS["tests/test_validation_resampling.py"] = (
+        "test_repeated_block_resampling_is_exactly_deterministic",
+        "test_source_block_identity_and_count_are_retained",
+        "test_each_selected_block_is_preserved_whole_and_in_order",
+        "test_serialization_declares_no_iid_fallback",
+        "test_duplicate_block_ids_are_rejected",
+        "test_empty_or_non_finite_blocks_are_rejected",
+        "test_no_implicit_method_or_empty_block_set",
+        "test_plan_and_result_are_immutable",
+        "DECLARED_BLOCKS_PRESERVED",
+    )
     core.CONTENT_MARKERS["tests/fixtures/platform/reference_consumer_expected.json"] = (
         '"schema_version": "m2-reference-consumer-1"',
         '"dataset_id": "DATA-SYNTHETIC-LOADER-001"',
@@ -694,11 +722,11 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M4-004"',
-        "M4-004 concentration artifacts",
-        "src/ats/validation/concentration.py",
-        "tests/test_validation_concentration.py",
-        "M4-004 concentration governance validation",
+        'TASK_ID = "ATS2-M4-005"',
+        "M4-005 resampling artifacts",
+        "src/ats/validation/resampling.py",
+        "tests/test_validation_resampling.py",
+        "M4-005 resampling governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -756,9 +784,11 @@ def configure() -> None:
         "ATS2-M4-002 — Parameter sensitivity tooling",
         "ATS2-M4-003 — Time/regime slicing",
         "ATS2-M4-004 — Observation concentration analysis",
+        "ATS2-M4-005 — Dependence-preserving resampling framework",
         "ats.validation.sensitivity",
         "ats.validation.slicing",
         "ats.validation.concentration",
+        "ats.validation.resampling",
     )
     core.CONTENT_MARKERS["tests/README.md"] = (
         "test_environment_baseline.py",
@@ -773,6 +803,7 @@ def configure() -> None:
         "test_validation_sensitivity.py",
         "test_validation_slicing.py",
         "test_validation_concentration.py",
+        "test_validation_resampling.py",
         "reference_consumer_expected.json",
         "vertical integration from Dataset Manifest",
         "explicit cost components",
@@ -919,6 +950,7 @@ def validate_environment(repo: Path) -> int:
         "src/ats/validation/sensitivity.py",
         "src/ats/validation/slicing.py",
         "src/ats/validation/concentration.py",
+        "src/ats/validation/resampling.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -931,6 +963,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_validation_sensitivity.py",
         "tests/test_validation_slicing.py",
         "tests/test_validation_concentration.py",
+        "tests/test_validation_resampling.py",
     ):
         path = repo / relative
         try:
@@ -983,9 +1016,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M4-004"',
-        'current_task: "ATS2-M4-005"', 'current_ready_task: "ATS2-M4-005"',
-        'current_wbs: "WBS-4.5"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M4-005"',
+        'current_task: "ATS2-M4-006"', 'current_ready_task: "ATS2-M4-006"',
+        'current_wbs: "WBS-4.6"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -1068,11 +1101,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M4-004") != "DONE":
-        core.fail("M4-004 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-005") != "DONE":
+        core.fail("M4-005 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M4-005") != "READY":
-        core.fail("M4-005 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M4-006") != "READY":
+        core.fail("M4-006 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

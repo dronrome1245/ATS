@@ -9,6 +9,15 @@ from ats.validation.concentration import (
     TopConcentration,
     analyze_concentration,
 )
+from ats.validation.resampling import (
+    ResamplingBlock,
+    ResamplingContractError,
+    ResamplingMethod,
+    ResamplingPlan,
+    ResamplingReplicate,
+    ResamplingResult,
+    run_block_resampling,
+)
 from ats.validation.sensitivity import (
     Evaluator,
     ParameterVariant,
@@ -27,6 +36,13 @@ __all__ = [
     "GroupContribution",
     "TopConcentration",
     "analyze_concentration",
+    "ResamplingBlock",
+    "ResamplingContractError",
+    "ResamplingMethod",
+    "ResamplingPlan",
+    "ResamplingReplicate",
+    "ResamplingResult",
+    "run_block_resampling",
     "Evaluator",
     "ParameterVariant",
     "SensitivityContractError",

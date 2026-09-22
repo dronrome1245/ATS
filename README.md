@@ -18,25 +18,23 @@ Reference Strategy #1 remains:
 
 ## M4 tooling
 
-Validation Framework:
+- Validation Framework: `governance/methodology/VALIDATION_FRAMEWORK.md`
+- Parameter sensitivity: `src/ats/validation/sensitivity.py`
+- Declared slicing: `src/ats/validation/slicing.py`
+- Observation concentration: `src/ats/validation/concentration.py`
+- Dependence-preserving resampling: `src/ats/validation/resampling.py`
 
-`governance/methodology/VALIDATION_FRAMEWORK.md`
+## Market Pattern Discovery
 
-Parameter sensitivity:
+Bounded systematic price-pattern discovery is defined in:
 
-`src/ats/validation/sensitivity.py`
+`governance/methodology/MARKET_PATTERN_DISCOVERY.md`
 
-Declared time/regime slicing:
-
-`src/ats/validation/slicing.py`
-
-Observation concentration:
-
-`src/ats/validation/concentration.py`
+Discovery remains exploratory and feeds new Idea/Hypothesis objects through the normal Research Funnel.
 
 ## Current closure check
 
-`ATS2-M4-004 — Observation concentration analysis`
+`ATS2-M4-005 — Dependence-preserving resampling framework`
 
 Run:
 
@@ -44,17 +42,8 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-005 — Dependence-preserving resampling framework`
+`ATS2-M4-006 — Independent exam protocol`
 
-Initial implementation target:
+Next artifact:
 
-`src/ats/validation/resampling.py`
-
-
-## Market Pattern Discovery
-
-ATS now has a canonical methodology for bounded systematic search of price-dynamics patterns:
-
-`governance/methodology/MARKET_PATTERN_DISCOVERY.md`
-
-Discovery results remain exploratory and can only feed new Idea/Hypothesis objects; search space and negative alternatives must remain visible.
+`governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md`

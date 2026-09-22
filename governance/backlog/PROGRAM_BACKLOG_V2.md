@@ -94,20 +94,21 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M4-002` | `WBS-4.2` | P1 | DONE | M4-001, M2 platform | `src/ats/validation/sensitivity.py` + `tests/test_validation_sensitivity.py` | Ordered predefined variants are all evaluated and serialized; missing/extra/non-finite metrics fail closed; the result exposes `NO_AUTOMATIC_SELECTION` and no best/winner ranking |
 | `ATS2-M4-003` | `WBS-4.3` | P1 | DONE | M4-001, M4-002 | `src/ats/validation/slicing.py` + `tests/test_validation_slicing.py` | Every declared slice is reported in plan order; exhaustive/overlap/empty-slice policies are explicit; unknown membership and metric-contract violations fail closed |
 | `ATS2-M4-004` | `WBS-4.4` | P1 | DONE | M4-001, M4-003 | `src/ats/validation/concentration.py` + `tests/test_validation_concentration.py` | Full observation/group set is retained; predeclared top-count diagnostics quantify absolute concentration; zero-denominator cases are explicit; no outlier is removed automatically |
-| `ATS2-M4-005` | `WBS-4.5` | P1 | READY | M4-001, M4-004 | `src/ats/validation/resampling.py` + `tests/test_validation_resampling.py` | Deterministic resampling contracts preserve declared dependence/block structure and never silently fall back to IID assumptions |
+| `ATS2-M4-005` | `WBS-4.5` | P1 | DONE | M4-001, M4-004 | `src/ats/validation/resampling.py` + `tests/test_validation_resampling.py` | Whole declared blocks are resampled with replacement under an explicit seed/method; internal block order and full selection trace are preserved; no IID fallback exists in the API |
+| `ATS2-M4-006` | `WBS-4.6` | P1 | READY | M4-001, M4-005 | `governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md` | Protected block, Strategy Version, code/config, costs, metrics and PASS/FAIL rule are frozen before one-shot reveal; revealed data cannot remain independent |
 | `ATS2-M6-000` | `WBS-6.0` | P1 | BLOCKED | M2, M3 learnings, M4-007 | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + future Search Manifest/result tooling | Bounded price-dynamics search preserves full search space, negative alternatives and shortlist history; outputs remain exploratory and enter normal Idea/Hypothesis funnel |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M4-005 — Dependence-preserving resampling framework`.
+`ATS2-M4-006 — Independent exam protocol`.
 
 Canonical first implementation artifact:
 
-`src/ats/validation/resampling.py`.
+`governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md`.
 
-The tool must make the resampling assumption explicit and preserve declared block/dependence structure. It must not silently treat dependent observations as IID.
+The protocol must freeze the exact Strategy Version, protected data block, code/configuration, costs, metrics and binary PASS/FAIL rule before reveal; the protected block is one-shot for that independent decision.
 
 HYP-0001 remains rejected and is not reopened by M4.
 

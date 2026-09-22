@@ -295,7 +295,7 @@ WBS не устанавливает без evidence и OWNER decision:
 
 # 16. Текущая точка исполнения
 
-На 21 сентября 2026 года:
+На 22 сентября 2026 года:
 
 - M0 Program Rebaseline — `COMPLETED / PASS`;
 - M1 Research Methodology — `COMPLETED / PASS`;
@@ -306,13 +306,14 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-4.1 — Validation protocol framework` — `DONE`;
 - `WBS-4.2 — Parameter sensitivity tooling` — `DONE`;
 - `WBS-4.3 — Time/regime slicing` — `DONE`;
-- `WBS-4.4 — Trade/observation concentration` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
-- concentration artifacts: `src/ats/validation/concentration.py` + `tests/test_validation_concentration.py`;
-- next work package after PASS: **`WBS-4.5 — Resampling framework`**.
-- future candidate-sourcing path: `WBS-6.0 — Market Pattern Discovery` after reusable M4 accounting capability; it may source Strategy #2 before M5.
+- `WBS-4.4 — Trade/observation concentration` — `DONE`;
+- `WBS-4.5 — Resampling framework` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
+- resampling artifacts: `src/ats/validation/resampling.py` + `tests/test_validation_resampling.py`;
+- next work package after PASS: **`WBS-4.6 — Independent exam protocol`**;
+- future candidate-sourcing path remains `WBS-6.0 — Market Pattern Discovery` after reusable M4 accounting capability.
 
 The next implementation target is:
 
-`src/ats/validation/resampling.py`
+`governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md`
 
 Strategy-specific validation remains blocked until a future research line earns Candidate/S05 eligibility. HYP-0001 remains rejected and is not reopened by M4.
