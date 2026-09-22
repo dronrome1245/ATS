@@ -74,7 +74,8 @@ Before moving the remote branch:
 2. check changed Python for syntax errors;
 3. audit local Markdown references introduced or changed by the patch;
 4. if an environment with project-pinned tools is available, run the fast gate on the exact proposed content before push;
-5. if pinned Ruff is unavailable, preserve `FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF` status and do not claim preflight PASS.
+5. if pinned Ruff is unavailable, preserve `FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF` status and do not claim preflight PASS;
+6. if the current task runner writes files under `reports/local_ci/` before the full gate, verify that every intended disposable output is covered by a narrow `.gitignore` pattern; do not ignore the whole runtime directory.
 
 ## 8. Required pre-launch declaration
 

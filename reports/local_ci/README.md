@@ -37,8 +37,16 @@ OWNER workflow:
 Canonical policy: `governance/program/LOCAL_CI_GATE.md`.
 
 
-## Windows shell artifacts
+## Runtime-output ignore policy
 
-`reports/local_ci/` is a runtime-output directory. Windows Explorer may create disposable `.lnk` shortcuts there.
+`reports/local_ci/` is a runtime-output directory. Generated files must be ignored by narrow, purpose-specific patterns rather than by ignoring the whole directory.
 
-Only `reports/local_ci/*.lnk` is ignored for this case. The rule is intentionally directory-scoped so unrelated untracked files elsewhere in ATS still make the full clean-tree gate fail.
+Current patterns include:
+
+- `reports/local_ci/SEARCH-*-result.json` — machine-readable bounded-discovery runtime results;
+- `reports/local_ci/SEARCH-*-report.txt` — bounded-discovery shareable summaries;
+- `reports/local_ci/*.lnk` — disposable Windows Explorer shortcuts.
+
+The rules are deliberately directory-scoped and filename-scoped so unrelated untracked files still make the full clean-tree gate fail.
+
+A task runner that creates a new local runtime filename must add an appropriate narrow ignore rule before the runner is used inside a completion check.

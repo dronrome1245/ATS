@@ -19,6 +19,8 @@ reports/local_ci/CURRENT_TASK_REPORT.txt
 reports/local_ci/PROTO01_DATA_REPORT.txt
 reports/local_ci/PROTO01_RESULT_REPORT.txt
 reports/local_ci/PROTO01_RESULT.json
+reports/local_ci/SEARCH-*-result.json
+reports/local_ci/SEARCH-*-report.txt
 reports/local_ci/*.lnk
 
 # Raw or licensed market data

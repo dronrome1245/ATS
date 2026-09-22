@@ -271,9 +271,10 @@ Do not accept semantic or narrative equivalence for stable IDs/paths.
 
 **Scope:** agents performing program-state/handoff synchronization.
 
-### LCI-005 — Windows shortcut artifact makes Local CI tree dirty
+### LCI-005 — Runtime artifact makes Local CI tree dirty
 
 **First observed:** 2026-09-21 on `01603925a5c3d690e5e6cbfbcbaedc40e42a76e8`  
+**Repeat observed:** 2026-09-22 on `4f51123578b7d790fce98ef329da512286fe6649`, when the successful first discovery run wrote two unignored `SEARCH-*` files before the full gate  
 **Class:** `DIRTY_TREE`
 
 **Symptom**
@@ -286,24 +287,25 @@ The shortcut is not ATS source, research evidence or a required runtime report.
 
 **Root cause**
 
-Windows Explorer / shell interaction can create a `.lnk` shortcut inside `reports/local_ci/`. That directory intentionally contains local runtime outputs, but the shortcut was not covered by the runtime ignore policy, so exact-commit verification treated the worktree as dirty.
+`reports/local_ci/` intentionally contains disposable runtime outputs, but the ignore policy was enumerated file-by-file. The first occurrence was a Windows shortcut; the second was caused by the M6 discovery runner creating its machine result and text report before the full clean-tree gate. Those new generated filenames were not yet covered by `.gitignore`.
 
 **Correct response**
 
-Do not change research logic or validation code. Keep meaningful untracked source files blocking, but classify shell-created shortcuts in the local-report directory as disposable runtime artifacts.
+Do not change research logic. Add only narrow ignore patterns for the confirmed disposable runtime artifact class:
 
-The repository ignores only:
+- `reports/local_ci/SEARCH-*-result.json`;
+- `reports/local_ci/SEARCH-*-report.txt`;
+- existing Windows shortcut handling remains `reports/local_ci/*.lnk`.
 
-`reports/local_ci/*.lnk`
-
-This scope is deliberately narrow. ATS does **not** globally ignore `*.lnk`.
+Do not ignore all of `reports/local_ci/` and do not globally ignore broad file types. The ignore rules remain narrowly scoped.
 
 **Preventive rule**
 
-1. Local CI runtime directories must explicitly ignore known OS-generated disposable artifacts that do not carry research/code evidence.
-2. Ignore rules must be narrowly scoped so accidental real source files still make the completion gate fail.
-3. The validator must assert the runtime ignore rule so it cannot silently disappear.
-4. When a dirty-tree failure occurs, inspect the exact `git status --porcelain` entry before deleting files or changing source code.
+1. Every task runner that writes local files before the full gate must declare its output paths during implementation.
+2. Before activating that runner in `tools/current_task_check.py`, ensure each disposable output has a narrow `.gitignore` pattern.
+3. Unknown/unexpected untracked files must remain blocking.
+4. Runtime-output documentation must list the intended ignored patterns.
+5. When a dirty-tree failure occurs, inspect the exact `git status --porcelain` entries before deleting files or changing source code.
 
 **Scope:** OWNER Windows workflow and agents.
 

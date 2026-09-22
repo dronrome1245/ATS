@@ -23,7 +23,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | `LCI-002` | `FORMAT` | 9 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 3 | CONTROL_REQUIRED | marker audit rule for every changed validator-targeted file |
-| `LCI-005` | `DIRTY_TREE` | 1 | OBSERVED | narrowly ignore `reports/local_ci/*.lnk` |
+| `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
 | `LCI-006` | `HANDOFF_SYNC` | 1 | OBSERVED | exact canonical `last_completed_artifact`/`next_artifact`/`next_task_id` values must appear in handoff/next-step |
 
 ## 3. Occurrence log
@@ -46,6 +46,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-22 | `LCI-002` | `2048d3c9cd7162e3e71429331bd2b5979534b1d6` | format | M4-008 checker repeated the same one-element tuple layout failure; fast preflight stopped before full pytest |
 | 2026-09-22 | `LCI-006` | `2048d3c9cd7162e3e71429331bd2b5979534b1d6` | validator | AI handoff omitted the exact canonical `last_completed_artifact` path |
 | 2026-09-22 | `LCI-002` | `feb146aa0a65b3909b13efabbfe2c9097c0b74c0` | format | Ruff preferred the one-line contiguous-hour comparison in `src/ats/discovery/eurusd_h1.py`; fast preflight stopped before discovery execution |
+| 2026-09-22 | `LCI-005` | `4f51123578b7d790fce98ef329da512286fe6649` | clean tree | successful discovery run created two unignored `reports/local_ci/SEARCH-*` runtime files before full gate |
 
 ## 4. Rule-conversion discipline
 
@@ -71,7 +72,11 @@ Validator-targeted files require complete marker audit, not a selected subset.
 
 ### DIRTY_TREE / LCI-005
 
-Only `reports/local_ci/*.lnk` is ignored for Windows shell shortcuts; real untracked source files remain blocking.
+Known disposable runtime outputs under `reports/local_ci/` use narrow ignore patterns. Existing Windows shortcut handling remains `reports/local_ci/*.lnk`. Bounded discovery uses `reports/local_ci/SEARCH-*-result.json` and `reports/local_ci/SEARCH-*-report.txt`.
+
+These patterns are narrowly scoped; real untracked source files and unknown runtime filenames remain blocking.
+
+Any task runner that writes local output before the full clean-tree gate must have its output pattern covered before the runner is activated in `tools/current_task_check.py`.
 
 ### HANDOFF_SYNC / LCI-006
 
