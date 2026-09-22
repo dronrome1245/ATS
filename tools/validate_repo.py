@@ -1245,6 +1245,7 @@ def main() -> int:
         'reference_strategy_2_selection: "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"',
         'reference_strategy_2_idea: "research/ideas/IDEA-0002.md"',
         'reference_strategy_2_hypothesis: "research/hypotheses/HYP-0002.md"',
+        'reference_strategy_2_data_feasibility_prep: "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1257,8 +1258,8 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M6-002"',
-        'current_task: "ATS2-M6-003"', 'current_ready_task: "ATS2-M6-003"',
+        'last_completed_task_id: "ATS2-M6-003"',
+        'current_task: "ATS2-M6-004"', 'current_ready_task: "ATS2-M6-004"',
         'current_wbs: "WBS-6.2"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -1342,11 +1343,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M6-002") != "DONE":
-        core.fail("M6-002 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-003") != "DONE":
+        core.fail("M6-003 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M6-003") != "READY":
-        core.fail("M6-003 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-004") != "READY":
+        core.fail("M6-004 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
