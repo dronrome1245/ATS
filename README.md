@@ -12,14 +12,14 @@ ATS — Strategy Factory для воспроизводимого исследо�
 
 Reference Strategy #1 remains `HYP-0001 / PROTO-01 = REJECT`.
 
-Current work: `ATS2-M6-002 — Strategy #2 class selection and Idea intake`.
-
-Selected class: `SINGLE_INSTRUMENT_1H_TWO_SIDED_RETURN_TAIL_REVERSAL`.
+Current work: `ATS2-M6-003 — HYP-0002 formation`.
 
 Artifacts:
 
-- `reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md`
 - `governance/program/REFERENCE_STRATEGY_2_SELECTION.md`
 - `research/ideas/IDEA-0002.md`
+- `research/hypotheses/HYP-0002.md`
+
+HYP-0002 is post-discovery and requires unseen confirmatory data before stronger evidence.
 
 Run `ATS_TASK_CHECK.bat`, then return `reports/local_ci/CURRENT_TASK_REPORT.txt`.

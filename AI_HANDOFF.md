@@ -8,38 +8,37 @@
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy Version/live permission exists.
 
-## Verified M6-001 closure
+## Verified M6-002 closure
 
-OWNER launcher PASS was confirmed on exact commit `d08e11f236c2318269314de64da85a7eacbb9105` with discovery run PASS, repository validator PASS, pinned Ruff PASS, `138 passed`, full Local CI PASS and launcher PASS.
+OWNER launcher PASS was confirmed on exact commit `34805510000d56ea78e112dc8b4bf7ea574a2cf8` with repository validator PASS, pinned Ruff PASS, `138 passed`, full Local CI PASS, task check PASS and launcher PASS.
 
 Canonical last completed artifact:
 
-`reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md`
+`research/ideas/IDEA-0002.md`
 
-## Discovery result
+## M6-003 HYP-0002
 
-`SEARCH-EURUSD-H1-2021-2025-001` returned `SHORTLIST_FOR_IDEA_INTAKE`: all 16 alternatives were evaluated, five were shortlisted, all five were reversal, and no continuation variant was shortlisted.
+Current artifact:
 
-The full-denominator summary is `reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md`.
+`research/hypotheses/HYP-0002.md`
 
-## M6-002
+HYP-0002 is explicitly post-discovery. It freezes:
 
-Selected class:
+- 24H prior-return lookback;
+- development-calibrated 10th/90th percentile tails from the known 2021–2025 block;
+- 24H effect horizon;
+- both HIGH-tail/DOWN and LOW-tail/UP reversal sides.
 
-`SINGLE_INSTRUMENT_1H_TWO_SIDED_RETURN_TAIL_REVERSAL`
+Both sides are part of the primary claim. A failed side cannot be silently removed.
 
-Selection artifact: `governance/program/REFERENCE_STRATEGY_2_SELECTION.md`
-
-Idea: `research/ideas/IDEA-0002.md`
-
-No exact parameter winner is selected.
+The next blocking question is Data Feasibility: freeze numeric development thresholds and identify a previously unseen confirmatory block/source before any cheap prototype result is viewed.
 
 ## Current closure check
 
-Current task: `ATS2-M6-002 — Strategy #2 class selection and Idea intake`
+Current task: `ATS2-M6-003 — HYP-0002 formation`
 
-Canonical next artifact: `governance/program/REFERENCE_STRATEGY_2_SELECTION.md`
+Canonical next artifact: `research/hypotheses/HYP-0002.md`
 
 Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
-After PASS, the next research step is HYP-0002 formation.
+After PASS, proceed to HYP-0002 Data Feasibility review.

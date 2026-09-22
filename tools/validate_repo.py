@@ -35,6 +35,7 @@ EURUSD_H1_DISCOVERY_TEST = "tests/test_discovery_eurusd_h1.py"
 FIRST_DISCOVERY_RESULT_SUMMARY = "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"
 REFERENCE_STRATEGY_2_SELECTION = "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
 REFERENCE_STRATEGY_2_IDEA = "research/ideas/IDEA-0002.md"
+REFERENCE_STRATEGY_2_HYPOTHESIS = "research/hypotheses/HYP-0002.md"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 M3_EXIT = "governance/program/M3_EXIT_REVIEW.md"
@@ -167,7 +168,7 @@ def configure() -> None:
         FIRST_DISCOVERY_SEARCH_MANIFEST, EURUSD_H1_DISCOVERY,
         EURUSD_H1_DISCOVERY_TOOL, EURUSD_H1_DISCOVERY_TEST,
         FIRST_DISCOVERY_RESULT_SUMMARY, REFERENCE_STRATEGY_2_SELECTION,
-        REFERENCE_STRATEGY_2_IDEA,
+        REFERENCE_STRATEGY_2_IDEA, REFERENCE_STRATEGY_2_HYPOTHESIS,
         M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
         REFERENCE_STRATEGY_PROTOTYPE, PROTO01_RESULT, PROTO01_SCHEMA, PROTO01_MANIFEST,
@@ -192,7 +193,7 @@ def configure() -> None:
         "discovery_search_manifest_template", "bounded_discovery_engine",
         "first_discovery_search_manifest", "first_discovery_runner",
         "first_discovery_result_summary", "reference_strategy_2_selection",
-        "reference_strategy_2_idea",
+        "reference_strategy_2_idea", "reference_strategy_2_hypothesis",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -378,6 +379,18 @@ def configure() -> None:
         "Result: `RELATED`",
         "Decision: `SCREEN`",
         "HYP-0002",
+    )
+    core.CONTENT_MARKERS[REFERENCE_STRATEGY_2_HYPOTHESIS] = (
+        "Hypothesis ID: `HYP-0002`",
+        "Parent Idea ID: `IDEA-0002`",
+        "post-discovery",
+        "R24(t)",
+        "Q10_DEV",
+        "Q90_DEV",
+        "both tails must satisfy both inequalities",
+        "previously unseen",
+        "Decision: `DATA_FEASIBILITY`",
+        "READY_FOR_DATA_FEASIBILITY",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -906,12 +919,12 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M6-002"',
-        "M6-002 Strategy #2 selection and Idea artifacts",
-        "SEARCH-EURUSD-H1-2021-2025-001-summary.md",
+        'TASK_ID = "ATS2-M6-003"',
+        "M6-003 HYP-0002 formation artifacts",
         "REFERENCE_STRATEGY_2_SELECTION.md",
         "IDEA-0002.md",
-        "M6-002 Strategy #2 selection governance validation",
+        "HYP-0002.md",
+        "M6-003 HYP-0002 governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1205,6 +1218,7 @@ def main() -> int:
         'first_discovery_result_summary: "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"',
         'reference_strategy_2_selection: "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"',
         'reference_strategy_2_idea: "research/ideas/IDEA-0002.md"',
+        'reference_strategy_2_hypothesis: "research/hypotheses/HYP-0002.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1217,9 +1231,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M6-001"',
-        'current_task: "ATS2-M6-002"', 'current_ready_task: "ATS2-M6-002"',
-        'current_wbs: "WBS-6.1"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M6-002"',
+        'current_task: "ATS2-M6-003"', 'current_ready_task: "ATS2-M6-003"',
+        'current_wbs: "WBS-6.2"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -1302,11 +1316,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M6-001") != "DONE":
-        core.fail("M6-001 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-002") != "DONE":
+        core.fail("M6-002 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M6-002") != "READY":
-        core.fail("M6-002 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-003") != "READY":
+        core.fail("M6-003 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

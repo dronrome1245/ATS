@@ -48,6 +48,7 @@ model:
   first_discovery_result_summary: "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"
   reference_strategy_2_selection: "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
   reference_strategy_2_idea: "research/ideas/IDEA-0002.md"
+  reference_strategy_2_hypothesis: "research/hypotheses/HYP-0002.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -70,11 +71,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Select Reference Strategy #2 class and register Idea #2"
-  last_completed_task_id: "ATS2-M6-001"
-  last_completed_artifact: "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"
-  next_artifact: "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
-  next_task_id: "ATS2-M6-002"
+  focus: "Form HYP-0002 for Reference Strategy #2"
+  last_completed_task_id: "ATS2-M6-002"
+  last_completed_artifact: "research/ideas/IDEA-0002.md"
+  next_artifact: "research/hypotheses/HYP-0002.md"
+  next_task_id: "ATS2-M6-003"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -253,23 +254,27 @@ m6:
   completed_tasks:
     - "ATS2-M6-000"
     - "ATS2-M6-001"
+    - "ATS2-M6-002"
   completed_artifacts:
     - "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
     - "src/ats/discovery/bounded.py"
     - "tests/test_discovery_bounded.py"
     - "research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"
     - "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"
-  current_task: "ATS2-M6-002"
-  current_wbs: "WBS-6.1"
+    - "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
+    - "research/ideas/IDEA-0002.md"
+  current_task: "ATS2-M6-003"
+  current_wbs: "WBS-6.2"
   discovery_capability_status: "BASELINE_COMPLETE"
   first_bounded_search_status: "COMPLETED_SHORTLIST_FOR_IDEA_INTAKE"
   selected_reference_strategy_2_class: "SINGLE_INSTRUMENT_1H_TWO_SIDED_RETURN_TAIL_REVERSAL"
   idea_id: "IDEA-0002"
+  hypothesis_id: "HYP-0002"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M6-002"
-  current_ready_wbs: "WBS-6.1"
+  current_ready_task: "ATS2-M6-003"
+  current_ready_wbs: "WBS-6.2"
 
 handoff_policy:
   update_after_material_step: true

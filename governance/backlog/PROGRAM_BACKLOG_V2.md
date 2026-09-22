@@ -42,9 +42,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 27. `ATS2-M4-008` — Technical strategy validation profile — `DONE`.
 28. `ATS2-M6-000` — Market Pattern Discovery capability — `DONE`.
 29. `ATS2-M6-001` — First bounded discovery run — `DONE`.
-30. `ATS2-M6-002` — Strategy #2 class selection and Idea intake — `READY`.
+30. `ATS2-M6-002` — Strategy #2 class selection and Idea intake — `DONE`.
+31. `ATS2-M6-003` — HYP-0002 formation — `READY`.
 
-Program-level current next task — `ATS2-M6-002`.
+Program-level current next task — `ATS2-M6-003`.
 
 ## 3. M0 / M1
 
@@ -106,18 +107,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M4-008` | `WBS-4.8` | P1 | DONE | M4-001…007 | `governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md` | Technical price-driven strategy profile makes V1–V7 concrete, declares applicability/required evidence and specifies what must be frozen before S06/S07 |
 | `ATS2-M6-000` | `WBS-6.0` | P1 | DONE | M2, M3 learnings, M4-008 | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + reusable bounded-search tooling | Search Manifest contract, deterministic full-denominator engine and synthetic contract tests are available without creating market evidence |
 | `ATS2-M6-001` | `WBS-6.0` | P1 | DONE | M6-000 | `research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml` + `reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md` | Exact-head run evaluated all 16 alternatives, retained full denominator and returned `SHORTLIST_FOR_IDEA_INTAKE` with five reversal variants |
-| `ATS2-M6-002` | `WBS-6.1` | P1 | READY | M6-001 | `governance/program/REFERENCE_STRATEGY_2_SELECTION.md` + `research/ideas/IDEA-0002.md` | Select a distinct reversal strategy class and register a screened Idea without post-hoc ranking or claiming edge |
+| `ATS2-M6-002` | `WBS-6.1` | P1 | DONE | M6-001 | `governance/program/REFERENCE_STRATEGY_2_SELECTION.md` + `research/ideas/IDEA-0002.md` | Selected the two-sided return-tail reversal class and screened IDEA-0002 without promoting one discovery cell as a winner |
+| `ATS2-M6-003` | `WBS-6.2` | P1 | READY | M6-002 | `research/hypotheses/HYP-0002.md` | Freeze one post-discovery falsifiable two-sided 24H reversal formulation, preserve the 16-alternative selection history, and require a previously unseen confirmatory block before cheap prototype evidence |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M6-002 — Strategy #2 class selection and Idea intake`.
+`ATS2-M6-003 — HYP-0002 formation`.
 
 Canonical artifact:
 
-`governance/program/REFERENCE_STRATEGY_2_SELECTION.md`.
+`research/hypotheses/HYP-0002.md`.
 
-The full denominator is retained in `reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md`. The selected class is two-sided 1H return-tail reversal; no shortlisted parameterization is promoted as a winner.
+HYP-0002 is explicitly post-discovery and freezes a symmetric 24H-lookback / 10%-tail / 24H-effect reversal claim. The 2021–2025 block is used only for development threshold calibration; a cheap confirmatory test must use a previously unseen block/source resolved by Data Feasibility.
 
-The paired Idea artifact is `research/ideas/IDEA-0002.md`. M4.9/M4.10 remain blocked until a future promoted Candidate reaches S05 `PASS`.
+M4.9/M4.10 remain blocked until a future promoted Candidate reaches S05 `PASS`.
