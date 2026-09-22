@@ -20,7 +20,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | Cause | Class | Confirmed occurrences | State | Current control |
 |---|---|---:|---|---|
 | `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
-| `LCI-002` | `FORMAT` | 5 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
+| `LCI-002` | `FORMAT` | 6 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 3 | CONTROL_REQUIRED | marker audit rule for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 1 | OBSERVED | narrowly ignore `reports/local_ci/*.lnk` |
@@ -40,6 +40,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-21 | `LCI-002` | `cd348024bd907225ea15219786ef5ad54ebdea1d` | format | sensitivity/checker needed Ruff canonical layout |
 | 2026-09-21 | `LCI-002` | `9f912b7b5e350d287ed76ce4bffe7a67722faf58` | format | slicing module needed Ruff canonical layout |
 | 2026-09-22 | `LCI-002` | `9fb041c51cf93071ca6735b52897cbb2b24e5568` | format | concentration module was stopped by fast preflight before full pytest |
+| 2026-09-22 | `LCI-002` | `9134c44d1d3d861124c44e00b4df820ad181cb5d` | format | resampling test was stopped by fast preflight before full pytest |
 
 ## 4. Rule-conversion discipline
 
@@ -140,3 +141,25 @@ Verified result:
 - working tree: `CLEAN`.
 
 **Reusable resolution rule:** when `LCI-002` is caused only by Ruff formatting, apply the exact Ruff diff without changing logic, then require a fresh exact-commit launcher PASS. Do not invent an alternative manual layout.
+
+
+## 9. Resolution evidence — LCI-002 occurrence 6
+
+Failed commit:
+
+`9134c44d1d3d861124c44e00b4df820ad181cb5d`
+
+Failure:
+
+`ruff format --check` requested one canonical formatting change only in:
+
+`tests/test_validation_resampling.py`
+
+Applied resolution:
+
+1. apply the exact Ruff-provided comprehension layout;
+2. do not change test semantics or resampling logic;
+3. keep `LCI-002` as the same recurring cause;
+4. require a fresh OWNER launcher PASS on the corrected exact commit.
+
+**Reusable resolution rule remains unchanged:** exact Ruff diff is authoritative for format-only failures; apply it without logic changes, then verify the corrected exact commit through fast preflight and the full launcher.

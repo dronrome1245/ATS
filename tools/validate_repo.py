@@ -704,6 +704,7 @@ def configure() -> None:
         "REPEAT_AFTER_CONTROL_THRESHOLD",
         "fast Local CI preflight",
         "9fb041c51cf93071ca6735b52897cbb2b24e5568",
+        "9134c44d1d3d861124c44e00b4df820ad181cb5d",
         "3a0dc9af4cc2191cc98c65b190b6f1f1c5cb1ea3",
         "115 passed",
         "Reusable resolution rule",

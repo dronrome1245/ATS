@@ -58,9 +58,7 @@ def test_each_selected_block_is_preserved_whole_and_in_order() -> None:
 
     for replicate in result.replicates:
         rebuilt = tuple(
-            value
-            for block_id in replicate.selected_block_ids
-            for value in source[block_id]
+            value for block_id in replicate.selected_block_ids for value in source[block_id]
         )
         assert replicate.values == rebuilt
 
