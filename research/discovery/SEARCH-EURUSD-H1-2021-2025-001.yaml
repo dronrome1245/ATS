@@ -36,7 +36,7 @@ stochastic_protocol: null
 cost_execution_applicability: "Spread via BID/ASK opens; commission, financing and slippage excluded."
 excluded_protected_blocks:
   - "ALL_FUTURE_VALIDATION_AND_INDEPENDENT_BLOCKS"
-code_revision: "1eeb10aca94d48dc5f42e787983df7cac9ea540c"
+code_revision: "2e339ff9b1f1cbd6e48250a5202cc3e3294de59d"
 implementation_reference: "src/ats/discovery/eurusd_h1.py + tools/discover_eurusd_h1.py"
 alternatives:
   - alternative_id: "alt-01-lb6-high-cont-6h"
