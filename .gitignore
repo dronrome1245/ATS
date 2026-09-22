@@ -21,6 +21,8 @@ reports/local_ci/PROTO01_RESULT_REPORT.txt
 reports/local_ci/PROTO01_RESULT.json
 reports/local_ci/SEARCH-*-result.json
 reports/local_ci/SEARCH-*-report.txt
+reports/local_ci/HYP0002_DATA_FEASIBILITY.json
+reports/local_ci/HYP0002_DATA_FEASIBILITY_REPORT.txt
 reports/local_ci/*.lnk
 
 # Raw or licensed market data
@@ -29,6 +31,7 @@ data/cache/
 data/private/
 data/external/dukascopy/
 data/derived/HYP-0001-PROTO-01-EURUSD-H1.csv
+data/derived/HYP-0002-CONFIRM-01-EURUSD-H1.csv
 
 # Python tooling
 __pycache__/

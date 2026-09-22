@@ -36,6 +36,8 @@ FIRST_DISCOVERY_RESULT_SUMMARY = "reports/research/SEARCH-EURUSD-H1-2021-2025-00
 REFERENCE_STRATEGY_2_SELECTION = "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
 REFERENCE_STRATEGY_2_IDEA = "research/ideas/IDEA-0002.md"
 REFERENCE_STRATEGY_2_HYPOTHESIS = "research/hypotheses/HYP-0002.md"
+REFERENCE_STRATEGY_2_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"
+HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
 M3_EXIT = "governance/program/M3_EXIT_REVIEW.md"
@@ -169,6 +171,7 @@ def configure() -> None:
         EURUSD_H1_DISCOVERY_TOOL, EURUSD_H1_DISCOVERY_TEST,
         FIRST_DISCOVERY_RESULT_SUMMARY, REFERENCE_STRATEGY_2_SELECTION,
         REFERENCE_STRATEGY_2_IDEA, REFERENCE_STRATEGY_2_HYPOTHESIS,
+        REFERENCE_STRATEGY_2_DATA_FEASIBILITY_PREP, HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
         REFERENCE_STRATEGY_PROTOTYPE, PROTO01_RESULT, PROTO01_SCHEMA, PROTO01_MANIFEST,
@@ -194,6 +197,7 @@ def configure() -> None:
         "first_discovery_search_manifest", "first_discovery_runner",
         "first_discovery_result_summary", "reference_strategy_2_selection",
         "reference_strategy_2_idea", "reference_strategy_2_hypothesis",
+        "reference_strategy_2_data_feasibility_prep",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -391,6 +395,25 @@ def configure() -> None:
         "previously unseen",
         "Decision: `DATA_FEASIBILITY`",
         "READY_FOR_DATA_FEASIBILITY",
+    )
+    core.CONTENT_MARKERS[REFERENCE_STRATEGY_2_DATA_FEASIBILITY_PREP] = (
+        "ATS2-M6-004",
+        "Q10_DEV",
+        "Q90_DEV",
+        "2026-01-01T00:00:00Z",
+        "2026-09-01T00:00:00Z",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "tools/hyp0002_data_feasibility.py",
+    )
+    core.CONTENT_MARKERS[HYP0002_DATA_FEASIBILITY_TOOL] = (
+        "CONFIRM_START = datetime(2026, 1, 1",
+        "CONFIRM_END = datetime(2026, 9, 1",
+        "EXPECTED_DEVELOPMENT_SHA256",
+        "linear_quantile",
+        "Q10_DEV",
+        "Q90_DEV",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "HYP0002_DATA_FEASIBILITY_REPORT.txt",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -919,12 +942,12 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M6-003"',
-        "M6-003 HYP-0002 formation artifacts",
-        "REFERENCE_STRATEGY_2_SELECTION.md",
-        "IDEA-0002.md",
-        "HYP-0002.md",
-        "M6-003 HYP-0002 governance validation",
+        'TASK_ID = "ATS2-M6-004"',
+        "M6-004 HYP-0002 data feasibility preparation artifacts",
+        "HYP-0002-DATA-FEASIBILITY-PREP.md",
+        "hyp0002_data_feasibility.py",
+        "M6-004 freeze thresholds and confirmatory data",
+        "M6-004 data feasibility preparation governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1118,6 +1141,8 @@ def validate_environment(repo: Path) -> int:
     for ignored_report in (
         "reports/local_ci/LATEST.json",
         "reports/local_ci/CURRENT_TASK_REPORT.txt",
+        "reports/local_ci/HYP0002_DATA_FEASIBILITY.json",
+        "reports/local_ci/HYP0002_DATA_FEASIBILITY_REPORT.txt",
         "reports/local_ci/*.lnk",
     ):
         if ignored_report not in gitignore:
@@ -1153,6 +1178,7 @@ def validate_environment(repo: Path) -> int:
         "src/ats/discovery/bounded.py",
         "src/ats/discovery/eurusd_h1.py",
         "tools/discover_eurusd_h1.py",
+        "tools/hyp0002_data_feasibility.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",

@@ -8,23 +8,22 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M6-003"
-TASK_NAME = "HYP-0002 formation"
+TASK_ID = "ATS2-M6-004"
+TASK_NAME = "HYP-0002 data feasibility preparation"
 REQUIRED_ARTIFACTS = (
-    Path("governance/program/REFERENCE_STRATEGY_2_SELECTION.md"),
-    Path("research/ideas/IDEA-0002.md"),
-    Path("research/hypotheses/HYP-0002.md"),
+    Path("research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md"),
+    Path("tools/hyp0002_data_feasibility.py"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M6-003 HYP-0002 formation artifacts ==")
+    print("\n== M6-004 HYP-0002 data feasibility preparation artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M6-003 HYP-0002 formation artifacts")
+    print("[PASS] M6-004 HYP-0002 data feasibility preparation artifacts")
     return True
 
 
@@ -52,7 +51,11 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "M6-003 HYP-0002 governance validation",
+            "M6-004 freeze thresholds and confirmatory data",
+            [sys.executable, "tools/hyp0002_data_feasibility.py"],
+        ),
+        run(
+            "M6-004 data feasibility preparation governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

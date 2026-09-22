@@ -23,6 +23,7 @@ LINT_PATHS = (
     "tools/current_task_check.py",
     "tools/proto01_eurusd.py",
     "tools/discover_eurusd_h1.py",
+    "tools/hyp0002_data_feasibility.py",
     "src",
     "tests",
 )
@@ -33,6 +34,7 @@ FORMAT_PATHS = (
     "tools/current_task_check.py",
     "tools/proto01_eurusd.py",
     "tools/discover_eurusd_h1.py",
+    "tools/hyp0002_data_feasibility.py",
     "src",
     "tests",
 )

@@ -45,6 +45,8 @@ Current patterns include:
 
 - `reports/local_ci/SEARCH-*-result.json` — machine-readable bounded-discovery runtime results;
 - `reports/local_ci/SEARCH-*-report.txt` — bounded-discovery shareable summaries;
+- `reports/local_ci/HYP0002_DATA_FEASIBILITY.json` — local HYP-0002 threshold/data-preparation evidence;
+- `reports/local_ci/HYP0002_DATA_FEASIBILITY_REPORT.txt` — HYP-0002 preparation summary;
 - `reports/local_ci/*.lnk` — disposable Windows Explorer shortcuts.
 
 The rules are deliberately directory-scoped and filename-scoped so unrelated untracked files still make the full clean-tree gate fail.
