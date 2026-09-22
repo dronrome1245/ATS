@@ -124,7 +124,7 @@ No significance threshold is introduced at R3.
 Frozen before result:
 
 - `ADVANCE_TO_ECONOMIC_SCREEN`: both tail sides have at least one valid event, all four primary inequalities pass, and no blocking data/implementation defect is present.
-- `REJECT`: both tail sides have at least one valid event and one or more of the four primary inequalities fail.
+- `REJECT`: both tail sides have at least one valid event and one or more of the four primary inequalities fail. Reason: `ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED`.
 - `PARK`: either tail side has zero valid events, so the two-sided claim cannot be answered on the frozen block.
 - `ITERATE`: only for a correctable data/implementation defect discovered before a valid interpretable outcome; never for tuning an unfavorable result.
 
