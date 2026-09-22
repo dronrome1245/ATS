@@ -45,6 +45,9 @@ model:
   bounded_discovery_engine: "src/ats/discovery/bounded.py"
   first_discovery_search_manifest: "research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"
   first_discovery_runner: "tools/discover_eurusd_h1.py"
+  first_discovery_result_summary: "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"
+  reference_strategy_2_selection: "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
+  reference_strategy_2_idea: "research/ideas/IDEA-0002.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -67,11 +70,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Run first bounded EURUSD H1 discovery search"
-  last_completed_task_id: "ATS2-M6-000"
-  last_completed_artifact: "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
-  next_artifact: "research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"
-  next_task_id: "ATS2-M6-001"
+  focus: "Select Reference Strategy #2 class and register Idea #2"
+  last_completed_task_id: "ATS2-M6-001"
+  last_completed_artifact: "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"
+  next_artifact: "governance/program/REFERENCE_STRATEGY_2_SELECTION.md"
+  next_task_id: "ATS2-M6-002"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -249,19 +252,24 @@ m6:
   objective: "Source and research Reference Strategy #2 while M4 awaits an S05 PASS Candidate"
   completed_tasks:
     - "ATS2-M6-000"
+    - "ATS2-M6-001"
   completed_artifacts:
     - "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
     - "src/ats/discovery/bounded.py"
     - "tests/test_discovery_bounded.py"
-  current_task: "ATS2-M6-001"
-  current_wbs: "WBS-6.0"
+    - "research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"
+    - "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"
+  current_task: "ATS2-M6-002"
+  current_wbs: "WBS-6.1"
   discovery_capability_status: "BASELINE_COMPLETE"
-  first_bounded_search_status: "FROZEN_NOT_RUN"
+  first_bounded_search_status: "COMPLETED_SHORTLIST_FOR_IDEA_INTAKE"
+  selected_reference_strategy_2_class: "SINGLE_INSTRUMENT_1H_TWO_SIDED_RETURN_TAIL_REVERSAL"
+  idea_id: "IDEA-0002"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M6-001"
-  current_ready_wbs: "WBS-6.0"
+  current_ready_task: "ATS2-M6-002"
+  current_ready_wbs: "WBS-6.1"
 
 handoff_policy:
   update_after_material_step: true
@@ -295,7 +303,7 @@ safety:
   emergency_stop_required_before_live: true
 
 strategy_pipeline:
-  ideas_registered: 1
+  ideas_registered: 2
   prototypes_active: 0
   candidates_active: 0
   experiments_registered: 0
@@ -309,7 +317,10 @@ discovery:
   engine: "src/ats/discovery/bounded.py"
   first_search_manifest: "research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"
   first_search_runner: "tools/discover_eurusd_h1.py"
-  first_bounded_search_status: "FROZEN_NOT_RUN"
+  first_result_summary: "reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"
+  first_result_sha256: "2f363b3fcdc3f80600bf1f488197f9f848ad8b286248c611ff2aa8d71ac6a318"
+  first_bounded_search_status: "COMPLETED_SHORTLIST_FOR_IDEA_INTAKE"
+  shortlisted_alternatives: 5
   candidate_source_for_reference_strategy_2: true
   protected_blocks_allowed: false
 

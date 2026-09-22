@@ -41,9 +41,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 26. `ATS2-M4-007` — Multiple-research accounting — `DONE`.
 27. `ATS2-M4-008` — Technical strategy validation profile — `DONE`.
 28. `ATS2-M6-000` — Market Pattern Discovery capability — `DONE`.
-29. `ATS2-M6-001` — First bounded discovery run — `READY`.
+29. `ATS2-M6-001` — First bounded discovery run — `DONE`.
+30. `ATS2-M6-002` — Strategy #2 class selection and Idea intake — `READY`.
 
-Program-level current next task — `ATS2-M6-001`.
+Program-level current next task — `ATS2-M6-002`.
 
 ## 3. M0 / M1
 
@@ -104,18 +105,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M4-007` | `WBS-4.7` | P1 | DONE | M4-001, M4-006, experiment/discovery history | `governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md` | Material Research Attempts, bounded-search denominators, negative/discarded outcomes, data/cost changes, returns to research and consumed protected blocks remain traceable to the selected version |
 | `ATS2-M4-008` | `WBS-4.8` | P1 | DONE | M4-001…007 | `governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md` | Technical price-driven strategy profile makes V1–V7 concrete, declares applicability/required evidence and specifies what must be frozen before S06/S07 |
 | `ATS2-M6-000` | `WBS-6.0` | P1 | DONE | M2, M3 learnings, M4-008 | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + reusable bounded-search tooling | Search Manifest contract, deterministic full-denominator engine and synthetic contract tests are available without creating market evidence |
-| `ATS2-M6-001` | `WBS-6.0` | P1 | READY | M6-000 | `research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml` + local result report | Frozen 16-alternative development-only EURUSD H1 search runs on the exact existing dataset/code revision, preserves all alternatives and emits only exploratory shortlist outcomes |
+| `ATS2-M6-001` | `WBS-6.0` | P1 | DONE | M6-000 | `research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml` + `reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md` | Exact-head run evaluated all 16 alternatives, retained full denominator and returned `SHORTLIST_FOR_IDEA_INTAKE` with five reversal variants |
+| `ATS2-M6-002` | `WBS-6.1` | P1 | READY | M6-001 | `governance/program/REFERENCE_STRATEGY_2_SELECTION.md` + `research/ideas/IDEA-0002.md` | Select a distinct reversal strategy class and register a screened Idea without post-hoc ranking or claiming edge |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M6-001 — First bounded discovery run`.
+`ATS2-M6-002 — Strategy #2 class selection and Idea intake`.
 
 Canonical artifact:
 
-`research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml`.
+`governance/program/REFERENCE_STRATEGY_2_SELECTION.md`.
 
-The frozen search inspects 16 predeclared return-tail continuation/reversal alternatives on the existing 2021–2025 EURUSD H1 development dataset. The full denominator and all negative alternatives remain visible; a shortlist remains exploratory and only feeds later Idea/Hypothesis intake.
+The full denominator is retained in `reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md`. The selected class is two-sided 1H return-tail reversal; no shortlisted parameterization is promoted as a winner.
 
-M4.9/M4.10 remain blocked until a future promoted Candidate reaches S05 `PASS`. HYP-0001 remains rejected and is not reopened.
+The paired Idea artifact is `research/ideas/IDEA-0002.md`. M4.9/M4.10 remain blocked until a future promoted Candidate reaches S05 `PASS`.

@@ -2,59 +2,44 @@
 
 ## Current program state
 
-- M0: `COMPLETED / PASS`.
-- M1: `COMPLETED / PASS`.
-- M2: `COMPLETED / PASS`.
-- M3: `COMPLETED / PASS`.
+- M0–M3: `COMPLETED / PASS`.
 - M4 reusable baseline WBS-4.1…4.8: `COMPLETED`; M4.9/M4.10 wait for an eligible S05 PASS Candidate.
 - M6 Reference Strategy #2 lane: `IN_PROGRESS`.
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
-- No Candidate/Strategy/live permission exists.
+- No Candidate/Strategy Version/live permission exists.
 
-## Verified M6-000 closure
+## Verified M6-001 closure
 
-OWNER launcher PASS was confirmed on exact commit:
-
-`d5a7e8c60cfacf3fd0ff19dee6f2ebd0c672dba9`
-
-Evidence included repository validator PASS, pinned Ruff lint/format PASS, `133 passed`, full Local CI PASS, M6-000 task check PASS and launcher PASS.
+OWNER launcher PASS was confirmed on exact commit `d08e11f236c2318269314de64da85a7eacbb9105` with discovery run PASS, repository validator PASS, pinned Ruff PASS, `138 passed`, full Local CI PASS and launcher PASS.
 
 Canonical last completed artifact:
 
-`governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml`
+`reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md`
 
-## M6-001 First bounded discovery run
+## Discovery result
 
-Frozen Search Manifest:
+`SEARCH-EURUSD-H1-2021-2025-001` returned `SHORTLIST_FOR_IDEA_INTAKE`: all 16 alternatives were evaluated, five were shortlisted, all five were reversal, and no continuation variant was shortlisted.
 
-`research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml`
+The full-denominator summary is `reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md`.
 
-The run is development-only and uses the already known 2021–2025 EURUSD H1 dataset. It evaluates 16 predeclared return-tail continuation/reversal alternatives across 6H/24H lookbacks and 6H/24H forward horizons.
+## M6-002
 
-The entire dataset is development-known for this research lane. It cannot become protected independent evidence for a pattern sourced by this search.
+Selected class:
 
-Runner:
+`SINGLE_INSTRUMENT_1H_TWO_SIDED_RETURN_TAIL_REVERSAL`
 
-`tools/discover_eurusd_h1.py`
+Selection artifact: `governance/program/REFERENCE_STRATEGY_2_SELECTION.md`
 
-The runner verifies the frozen implementation revision and dataset identity, writes the full result to ignored local reports and emits only exploratory shortlist outcomes.
+Idea: `research/ideas/IDEA-0002.md`
 
-## Current execution
+No exact parameter winner is selected.
 
-Current task:
+## Current closure check
 
-`ATS2-M6-001 — First bounded discovery run`
+Current task: `ATS2-M6-002 — Strategy #2 class selection and Idea intake`
 
-Canonical next artifact:
+Canonical next artifact: `governance/program/REFERENCE_STRATEGY_2_SELECTION.md`
 
-`research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml`
+Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
-Run:
-
-`ATS_TASK_CHECK.bat`
-
-Then return:
-
-`reports/local_ci/CURRENT_TASK_REPORT.txt`
-
-No Strategy #2 selection occurs until the discovery result is reviewed.
+After PASS, the next research step is HYP-0002 formation.

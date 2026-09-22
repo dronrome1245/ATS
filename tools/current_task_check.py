@@ -8,24 +8,23 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M6-001"
-TASK_NAME = "First bounded discovery run"
+TASK_ID = "ATS2-M6-002"
+TASK_NAME = "Strategy #2 class selection and Idea intake"
 REQUIRED_ARTIFACTS = (
-    Path("research/discovery/SEARCH-EURUSD-H1-2021-2025-001.yaml"),
-    Path("src/ats/discovery/eurusd_h1.py"),
-    Path("tools/discover_eurusd_h1.py"),
-    Path("tests/test_discovery_eurusd_h1.py"),
+    Path("reports/research/SEARCH-EURUSD-H1-2021-2025-001-summary.md"),
+    Path("governance/program/REFERENCE_STRATEGY_2_SELECTION.md"),
+    Path("research/ideas/IDEA-0002.md"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M6-001 first bounded discovery artifacts ==")
+    print("\n== M6-002 Strategy #2 selection and Idea artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M6-001 first bounded discovery artifacts")
+    print("[PASS] M6-002 Strategy #2 selection and Idea artifacts")
     return True
 
 
@@ -53,11 +52,7 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "M6-001 first bounded discovery run",
-            [sys.executable, "tools/discover_eurusd_h1.py"],
-        ),
-        run(
-            "M6-001 discovery governance validation",
+            "M6-002 Strategy #2 selection governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

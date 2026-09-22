@@ -312,12 +312,15 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-4.7 — Multiple-research accounting` — `DONE`, OWNER closure confirmed on commit `c3a29500ed5872b11d6fe7dc9429d31165251496`;
 - `WBS-4.8 — Class-specific profiles` — `DONE`, exact OWNER launcher PASS confirmed on commit `50f8e7fda9460473af674f9aad45ad9c5831c44f`;
 - technical profile artifact: `governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`;
-- `WBS-6.0 — Market Pattern Discovery` — reusable capability `DONE`; first bounded run `IN_PROGRESS`;
-- M6-000 capability closure is confirmed by OWNER launcher PASS on commit `d5a7e8c60cfacf3fd0ff19dee6f2ebd0c672dba9`;
+- `WBS-6.0 — Market Pattern Discovery` — `DONE`; reusable capability and first bounded run are complete;
+- M6-000 closure is confirmed on `d5a7e8c60cfacf3fd0ff19dee6f2ebd0c672dba9`;
+- M6-001 closure is confirmed on `d08e11f236c2318269314de64da85a7eacbb9105`;
+- first discovery outcome: `SHORTLIST_FOR_IDEA_INTAKE`, five of sixteen alternatives, all reversal;
+- `WBS-6.1 — Select Strategy #2` — `IN_PROGRESS`;
 - M4.9/M4.10 remain blocked until a future research line earns Candidate/S05 eligibility.
 
 The current execution target is:
 
-`ATS2-M6-001 — First bounded discovery run`
+`ATS2-M6-002 — Strategy #2 class selection and Idea intake`
 
-The first Search Manifest is frozen before result observation and uses the already development-known 2021–2025 EURUSD H1 dataset. It cannot create validation evidence or a Candidate. HYP-0001 remains rejected and is not reopened.
+The selection is family-level only: `SINGLE_INSTRUMENT_1H_TWO_SIDED_RETURN_TAIL_REVERSAL`. Exact lookback, tail threshold and horizon remain unresolved until a separately frozen Hypothesis. HYP-0001 remains rejected.
