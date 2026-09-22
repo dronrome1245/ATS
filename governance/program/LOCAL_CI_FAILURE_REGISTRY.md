@@ -20,7 +20,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | Cause | Class | Confirmed occurrences | State | Current control |
 |---|---|---:|---|---|
 | `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
-| `LCI-002` | `FORMAT` | 9 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
+| `LCI-002` | `FORMAT` | 10 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 4 | REPEAT_AFTER_CONTROL_THRESHOLD | extract and audit the complete current marker tuple for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
@@ -48,6 +48,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-22 | `LCI-002` | `feb146aa0a65b3909b13efabbfe2c9097c0b74c0` | format | Ruff preferred the one-line contiguous-hour comparison in `src/ats/discovery/eurusd_h1.py`; fast preflight stopped before discovery execution |
 | 2026-09-22 | `LCI-005` | `4f51123578b7d790fce98ef329da512286fe6649` | clean tree | successful discovery run created two unignored `reports/local_ci/SEARCH-*` runtime files before full gate |
 | 2026-09-22 | `LCI-004` | `5beb1e5060e0d92427f7971759215f0916e90b7d` | validator | manual marker audit omitted the existing `Windows shortcut artifact makes Local CI tree dirty` literal after the troubleshooting heading was renamed |
+| 2026-09-22 | `LCI-002` | `cf7f97c0263fa6b546911aaadcea748727e8afca` | format | HYP-0002 feasibility tool used multiline forms that Ruff canonicalized to one-line string assignment and compact set comprehensions |
 
 ## 4. Rule-conversion discipline
 

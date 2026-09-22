@@ -35,9 +35,7 @@ CONFIRM_END = datetime(2026, 9, 1, tzinfo=UTC)
 CONFIRM_PATH = ROOT / "data/derived/HYP-0002-CONFIRM-01-EURUSD-H1.csv"
 REPORT_JSON = ROOT / "reports/local_ci/HYP0002_DATA_FEASIBILITY.json"
 REPORT_TEXT = ROOT / "reports/local_ci/HYP0002_DATA_FEASIBILITY_REPORT.txt"
-EXPECTED_DEVELOPMENT_SHA256 = (
-    "aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0"
-)
+EXPECTED_DEVELOPMENT_SHA256 = "aeda05d90994259a22e25d882398218aead968941fe0b1c73eb34894841291c0"
 
 
 class FeasibilityPrepError(RuntimeError):
@@ -130,14 +128,10 @@ def build_confirmatory_rows() -> tuple[list[dict[str, Any]], list[dict[str, str]
             )
 
     bid_times = {
-        value
-        for value in bid
-        if CONFIRM_START <= value < CONFIRM_END and is_fx_market_hour(value)
+        value for value in bid if CONFIRM_START <= value < CONFIRM_END and is_fx_market_hour(value)
     }
     ask_times = {
-        value
-        for value in ask
-        if CONFIRM_START <= value < CONFIRM_END and is_fx_market_hour(value)
+        value for value in ask if CONFIRM_START <= value < CONFIRM_END and is_fx_market_hour(value)
     }
     if bid_times != ask_times:
         raise FeasibilityPrepError(

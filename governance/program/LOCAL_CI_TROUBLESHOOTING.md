@@ -95,6 +95,7 @@ Always distinguish a pre-verification synchronization failure from a code failur
 **Repeat observed:** 2026-09-22 on `f989e6d77c94aaaa93df9bf6fdd994708b570404` in `tools/current_task_check.py`; fast preflight again stopped before full pytest  
 **Repeat observed:** 2026-09-22 on `2048d3c9cd7162e3e71429331bd2b5979534b1d6` in `tools/current_task_check.py`; the same one-element tuple layout recurred and fast preflight again stopped before full pytest  
 **Repeat observed:** 2026-09-22 on `feb146aa0a65b3909b13efabbfe2c9097c0b74c0` in `src/ats/discovery/eurusd_h1.py`; Ruff preferred a one-line boolean comparison even though the manual line-length/syntax preflight found no defect  
+**Repeat observed:** 2026-09-22 on `cf7f97c0263fa6b546911aaadcea748727e8afca` in `tools/hyp0002_data_feasibility.py`; Ruff canonicalized a one-value string assignment and simple set comprehensions into compact one-line forms  
 **Fixed first occurrence by:** `fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd`  
 **Class:** `FORMAT`
 
@@ -128,7 +129,8 @@ For agent-created or programmatic Python edits that bypass the repository hooks:
 4. never infer that passing tests + lint means format also passes;
 5. if Local CI supplies an exact formatter diff, apply that canonical layout rather than hand-inventing another equivalent layout;
 6. manual line-length checks, syntax compilation and visual style inspection are **not** Ruff-format preflight and must never be described as such;
-7. before asking OWNER to run the launcher after remote Python edits, state formatting as either `VERIFIED_BY_PINNED_RUFF` or `NOT_YET_VERIFIED_BY_RUFF`; there is no intermediate "looks formatted" state.
+7. before asking OWNER to run the launcher after remote Python edits, state formatting as either `VERIFIED_BY_PINNED_RUFF` or `NOT_YET_VERIFIED_BY_RUFF`; there is no intermediate "looks formatted" state;
+8. when pinned Ruff is unavailable, still normalize previously observed canonical shapes before push: single-value parenthesized assignments and simple comprehensions should use Ruff's compact form when they fit the configured line width. This reduces recurrence but does not count as Ruff verification.
 
 **Escalation**
 
