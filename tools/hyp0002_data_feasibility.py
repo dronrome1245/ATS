@@ -282,7 +282,7 @@ def write_reports(
         "NEXT STEP",
         "---------",
         "Send CURRENT_TASK_REPORT.txt to ChatGPT.",
-        "Do not run a HYP-0002 outcome calculation before the Data Feasibility review is committed.",
+        "Do not run HYP-0002 outcome before the Data Feasibility review is committed.",
     ]
     REPORT_TEXT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
