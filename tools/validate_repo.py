@@ -1033,7 +1033,8 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS["tools/verify_repo.py"] = (
         "ATS Local CI Gate", "repository validator", "ruff lint", "ruff format",
-        "pytest", "environment fingerprint", "ATS LOCAL CI:", "LATEST.json",
+        "pytest collection", "pytest", "environment fingerprint",
+        "ATS LOCAL CI:", "LATEST.json",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",

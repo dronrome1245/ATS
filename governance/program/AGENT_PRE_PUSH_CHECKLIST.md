@@ -45,7 +45,9 @@ Rules:
 5. when OWNER Local CI provides an exact Ruff diff, **Exact Ruff diff is authoritative**; apply it literally instead of inventing an equivalent layout;
 6. lint success, syntax compilation, line-length inspection and visual inspection do not equal Ruff-format verification;
 7. formatter-compatible content may still fail Ruff lint; for every new or materially rewritten import block, audit grouping/order separately when `I` rules are selected;
-8. under the current Ruff configuration, sibling modules under `tools/` are not assumed first-party merely because they are in the repository; follow pinned Ruff's classification and exact diff.
+8. under the current Ruff configuration, sibling modules under `tools/` are not assumed first-party merely because they are in the repository; follow pinned Ruff's classification and exact diff;
+9. for every new Python tool that is imported by tests or another module, perform an actual import smoke in that same namespace/context; syntax compilation alone is insufficient;
+10. prohibit script-directory-only sibling imports in modules that must also import as `tools.<module>`; use self-contained helpers or a proper package-level dependency.
 
 ## 5. Validator marker audit
 
@@ -76,7 +78,7 @@ Before moving the remote branch:
 1. reject placeholder tokens prohibited by the repository validator in current operational content;
 2. check changed Python for syntax errors;
 3. audit local Markdown references introduced or changed by the patch;
-4. if an environment with project-pinned tools is available, run the fast gate on the exact proposed content before push;
+4. if an environment with project-pinned tools is available, run the fast gate on the exact proposed content before push; the fast gate includes pytest collection/import verification;
 5. if pinned Ruff is unavailable, preserve both `RUFF_LINT_UNVERIFIED_UNTIL_PINNED_RUFF` and `RUFF_FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`; do not claim Ruff preflight PASS;
 6. if the current task runner writes files under `reports/local_ci/` before the full gate, verify that every intended disposable output is covered by a narrow `.gitignore` pattern; do not ignore the whole runtime directory;
 7. if a current task acquires external source files, require resumable file-level caching and bounded retry/backoff for transient source failures; do not change a frozen provider/period merely to escape a temporary outage.

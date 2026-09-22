@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import statistics
 import subprocess
@@ -13,7 +14,6 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from proto01_eurusd import parse_time, sha256_file
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data/derived/HYP-0002-CONFIRM-01-EURUSD-H1.csv"
@@ -30,6 +30,18 @@ HORIZON_HOURS = 24
 
 class Proto02Error(RuntimeError):
     """Raised when the frozen HYP-0002 PROTO-01 contract cannot be executed."""
+
+
+def parse_time(value: str) -> datetime:
+    return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC)
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def git_head() -> str:

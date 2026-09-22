@@ -198,6 +198,14 @@ def main() -> int:
         )
     )
 
+    if args.fast:
+        steps.append(
+            run_step(
+                "pytest collection",
+                [sys.executable, "-m", "pytest", "--collect-only", "-q"],
+            )
+        )
+
     if not args.fast:
         steps.append(
             run_step(

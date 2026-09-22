@@ -300,6 +300,39 @@ Apply the exact pinned-Ruff import diff and do not change runtime/research logic
 
 **Scope:** agents and any tooling that writes Python through remote repository APIs.
 
+### LCI-010 — Tool imports under script context but not pytest package context
+
+**First observed:** 2026-09-22 on `199e81861b6aab5c5844a76cadfb183f4fc693a8`  
+**Class:** `TEST_IMPORT`
+
+**Symptom**
+
+Fast validator, Ruff lint and Ruff format all pass. Full pytest then fails during collection before any test runs:
+
+`ModuleNotFoundError: No module named 'proto01_eurusd'`
+
+The test imports `tools.hyp0002_proto01`, while that module used a script-context sibling import:
+
+`from proto01_eurusd import ...`
+
+**Root cause**
+
+A Python tool was authored to run correctly as `python tools/file.py` but was not import-safe under the namespace used by pytest. Syntax compilation and Ruff do not execute imports, so the defect escaped the previous pre-push checks.
+
+**Correct response**
+
+Do not change the frozen research protocol. Remove the script-only sibling import from the runner and make the trivial file/time helpers self-contained. Verify the module can be imported as `tools.hyp0002_proto01`.
+
+**Preventive rule**
+
+1. New Python tools that tests import must be importable in the exact pytest namespace/context.
+2. Do not rely on script-directory-only imports for such tools.
+3. Fast Local CI must run `pytest --collect-only -q` so collection/import failures stop before the full suite.
+4. Agent pre-push checks for new Python tools must include an actual import smoke, not only syntax compilation.
+5. Import-context fixes must not alter frozen research parameters or outcome rules.
+
+**Scope:** agents and research/development tooling.
+
 ### LCI-008 — Serialized row passed to typed continuity helper
 
 **First observed:** 2026-09-22 on `04aaa885e5be81f2468b1478423949f0e9e5323b` during HYP-0002 Data Feasibility preparation  
