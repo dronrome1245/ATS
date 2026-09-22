@@ -108,6 +108,8 @@ A Python file was written directly through the remote repository path, so local 
 
 Apply only the formatter-prescribed style change when no logic failure is present, keep it in a style-only commit when practical, then rerun the full launcher on the new exact HEAD.
 
+Confirmed latest resolution: `3a0dc9af4cc2191cc98c65b190b6f1f1c5cb1ea3` — exact Ruff diff applied to `src/ats/validation/concentration.py`, followed by fast-preflight PASS, pinned Ruff PASS, `115 passed`, full Local CI PASS and launcher PASS.
+
 **Preventive rule**
 
 For agent-created or programmatic Python edits that bypass the repository hooks:

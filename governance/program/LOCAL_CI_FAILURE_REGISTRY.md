@@ -102,3 +102,41 @@ Rules:
 3. do not run or request the expensive full task check separately after a fast-preflight format failure; fix format first;
 4. repeated FORMAT events after this threshold remain the same `LCI-002` cause and must not receive new IDs;
 5. if a future environment gains the exact pinned Ruff version, running it before push becomes mandatory and replaces this limitation.
+
+
+## 8. Resolution evidence — LCI-002 occurrence 5
+
+Failed commit:
+
+`9fb041c51cf93071ca6735b52897cbb2b24e5568`
+
+Failure:
+
+`ruff format --check` requested canonical formatting changes only in:
+
+`src/ats/validation/concentration.py`
+
+Applied resolution:
+
+1. use the exact Ruff-provided layout;
+2. do not change concentration-analysis logic;
+3. rerun the OWNER launcher on the new exact commit;
+4. require both fast-preflight PASS and final full-gate PASS.
+
+Resolved commit:
+
+`3a0dc9af4cc2191cc98c65b190b6f1f1c5cb1ea3`
+
+Verified result:
+
+- fast Local CI preflight: `PASS`;
+- pinned Ruff lint: `PASS`;
+- pinned Ruff format: `PASS`;
+- pytest: `115 passed`;
+- environment fingerprint: `PASS`;
+- full ATS Local CI: `PASS`;
+- current task check: `PASS`;
+- ATS task launcher: `PASS`;
+- working tree: `CLEAN`.
+
+**Reusable resolution rule:** when `LCI-002` is caused only by Ruff formatting, apply the exact Ruff diff without changing logic, then require a fresh exact-commit launcher PASS. Do not invent an alternative manual layout.

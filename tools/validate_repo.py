@@ -659,9 +659,12 @@ def configure() -> None:
         "Escalation policy",
         "LCI-002",
         "Confirmed occurrences",
-        "CONTROL_REQUIRED",
+        "REPEAT_AFTER_CONTROL_THRESHOLD",
         "fast Local CI preflight",
-        "9f912b7b5e350d287ed76ce4bffe7a67722faf58",
+        "9fb041c51cf93071ca6735b52897cbb2b24e5568",
+        "3a0dc9af4cc2191cc98c65b190b6f1f1c5cb1ea3",
+        "115 passed",
+        "Reusable resolution rule",
         "Rule-conversion discipline",
     )
     core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
