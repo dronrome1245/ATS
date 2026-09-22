@@ -128,8 +128,7 @@ class EurusdH1Evaluator:
 
     def _is_contiguous(self, start: int, end: int) -> bool:
         return all(
-            self._bars[index].event_time - self._bars[index - 1].event_time
-            == timedelta(hours=1)
+            self._bars[index].event_time - self._bars[index - 1].event_time == timedelta(hours=1)
             for index in range(start + 1, end + 1)
         )
 

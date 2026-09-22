@@ -20,7 +20,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | Cause | Class | Confirmed occurrences | State | Current control |
 |---|---|---:|---|---|
 | `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
-| `LCI-002` | `FORMAT` | 8 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
+| `LCI-002` | `FORMAT` | 9 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 3 | CONTROL_REQUIRED | marker audit rule for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 1 | OBSERVED | narrowly ignore `reports/local_ci/*.lnk` |
@@ -45,6 +45,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-22 | `LCI-002` | `f989e6d77c94aaaa93df9bf6fdd994708b570404` | format | independent-exam checker tuple layout was stopped by fast preflight before full pytest |
 | 2026-09-22 | `LCI-002` | `2048d3c9cd7162e3e71429331bd2b5979534b1d6` | format | M4-008 checker repeated the same one-element tuple layout failure; fast preflight stopped before full pytest |
 | 2026-09-22 | `LCI-006` | `2048d3c9cd7162e3e71429331bd2b5979534b1d6` | validator | AI handoff omitted the exact canonical `last_completed_artifact` path |
+| 2026-09-22 | `LCI-002` | `feb146aa0a65b3909b13efabbfe2c9097c0b74c0` | format | Ruff preferred the one-line contiguous-hour comparison in `src/ats/discovery/eurusd_h1.py`; fast preflight stopped before discovery execution |
 
 ## 4. Rule-conversion discipline
 

@@ -94,6 +94,7 @@ Always distinguish a pre-verification synchronization failure from a code failur
 **Repeat observed:** 2026-09-22 on `9134c44d1d3d861124c44e00b4df820ad181cb5d` in `tests/test_validation_resampling.py`; fast preflight again stopped before full pytest  
 **Repeat observed:** 2026-09-22 on `f989e6d77c94aaaa93df9bf6fdd994708b570404` in `tools/current_task_check.py`; fast preflight again stopped before full pytest  
 **Repeat observed:** 2026-09-22 on `2048d3c9cd7162e3e71429331bd2b5979534b1d6` in `tools/current_task_check.py`; the same one-element tuple layout recurred and fast preflight again stopped before full pytest  
+**Repeat observed:** 2026-09-22 on `feb146aa0a65b3909b13efabbfe2c9097c0b74c0` in `src/ats/discovery/eurusd_h1.py`; Ruff preferred a one-line boolean comparison even though the manual line-length/syntax preflight found no defect  
 **Fixed first occurrence by:** `fd09a08de2a234ac1249a9e44ee7e21f32f4a7cd`  
 **Class:** `FORMAT`
 
