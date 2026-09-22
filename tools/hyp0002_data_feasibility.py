@@ -216,8 +216,7 @@ def write_confirmatory_csv(rows: list[dict[str, Any]]) -> None:
 def valid_timestamp_window(timestamps: list[datetime], index: int) -> bool:
     window = timestamps[index - 24 : index + 26]
     return len(window) == 50 and all(
-        current - previous == timedelta(hours=1)
-        for previous, current in zip(window, window[1:])
+        current - previous == timedelta(hours=1) for previous, current in zip(window, window[1:])
     )
 
 
@@ -229,8 +228,7 @@ def confirmatory_stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
         if current - previous != timedelta(hours=1)
     ]
     eligible = sum(
-        valid_timestamp_window(timestamps, index)
-        for index in range(24, len(timestamps) - 25)
+        valid_timestamp_window(timestamps, index) for index in range(24, len(timestamps) - 25)
     )
     calendar_hours = int((CONFIRM_END - CONFIRM_START).total_seconds() // 3600)
     expected_market_hours = sum(

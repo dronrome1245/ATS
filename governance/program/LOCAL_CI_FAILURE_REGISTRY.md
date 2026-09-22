@@ -20,7 +20,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | Cause | Class | Confirmed occurrences | State | Current control |
 |---|---|---:|---|---|
 | `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
-| `LCI-002` | `FORMAT` | 10 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
+| `LCI-002` | `FORMAT` | 11 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 4 | REPEAT_AFTER_CONTROL_THRESHOLD | extract and audit the complete current marker tuple for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
@@ -54,6 +54,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-22 | `LCI-007` | `2545491d35a980e8c375100b9c8f8d99ee44f41e` | data acquisition | Dukascopy ASK 2026-05 returned repeated HTTP 503/connection reset; rerun later progressed past that file |
 | 2026-09-22 | `LCI-007` | `2545491d35a980e8c375100b9c8f8d99ee44f41e` | data acquisition | subsequent resume reached BID 2026-06 but again hit repeated HTTP 503/timeout |
 | 2026-09-22 | `LCI-008` | `04aaa885e5be81f2468b1478423949f0e9e5323b` | task runtime | confirmatory rows stored RFC3339 event-time strings but `valid_window` expected datetime-valued rows, causing string subtraction after acquisition completed |
+| 2026-09-22 | `LCI-002` | `7c8e82e7f29b0bc3e09de557f88dd1c14441474f` | format | Ruff compacted generator expressions in `valid_timestamp_window` and confirmatory eligible-count calculation |
 
 ## 4. Rule-conversion discipline
 
