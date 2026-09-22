@@ -10,47 +10,43 @@
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy/live permission exists.
 
-## M4-006 Independent Examination Protocol
+## M4-007 Multiple-Research Accounting
 
 Canonical artifact:
 
-`governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md`
+`governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`
 
 Contract:
 
-- strategy-specific S07 requires S05 PASS + S06 PASS;
-- exact Strategy Version/code/config/data/costs/metrics/PASS-FAIL rule are frozen before reveal;
-- canonical states are `DRAFT → FROZEN → REVEALED → DECIDED`;
-- reveal irreversibly consumes the protected block for the applicable independent claim;
-- S07 decision is only `PASS / FAIL`;
-- there is no RETURN/conditional pass/rescue tuning;
-- technical failure before reveal may be rerun only when logs prove decision-relevant protected output was not exposed;
-- if output was exposed, later repair cannot restore independence;
-- a failed/revealed block cannot become independent again for a modified version.
+- ATS preserves material selection history, not only the selected result;
+- canonical unit is a Material Research Attempt;
+- discovery/search denominators and negative/discarded alternatives remain visible;
+- material data/cost/execution changes remain visible;
+- S06 returns to research are material events;
+- revealed independent blocks remain recorded as consumed;
+- technical/format-only reruns do not inflate research counts unless they change research decisions;
+- selected versions retain lineage to material ancestors;
+- no universal numeric penalty is imposed solely from attempt count.
 
-No independent exam is currently run.
+Before Candidate promotion/S06/S07, reviewer receives a Research Freedom Summary.
 
-## LCI-002 occurrence 6
+## LCI-002 occurrence 7
 
-Confirmed resolution commit:
+Confirmed resolution:
 
-`6d452c4f340825eaa39b8e28dad3f6691332b217`
+`4d4f5546c54bc1b8985f37dd63c251b87517245e`
 
 Exact Ruff diff was followed by fast-preflight PASS, pinned Ruff PASS, `124 passed`, full Local CI PASS and launcher PASS.
 
 ## Market Pattern Discovery
 
-Canonical methodology remains:
+Every bounded discovery Search Manifest feeds `MULTIPLE_RESEARCH_ACCOUNTING.md`.
 
-`governance/methodology/MARKET_PATTERN_DISCOVERY.md`
-
-Roadmap bridge:
-
-`M4.1–M4.8 → WBS-6.0 discovery / Strategy #2 research → first S05 PASS Candidate → M4.9/M4.10 → M5`
+`WBS-6.0` remains blocked until M4-008 completes the reusable technical Validation Profile baseline.
 
 ## Current closure check
 
-`ATS2-M4-006 — Independent exam protocol`
+`ATS2-M4-007 — Multiple-research accounting`
 
 Run:
 
@@ -58,8 +54,8 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-007 — Multiple-research accounting`
+`ATS2-M4-008 — Technical strategy validation profile`
 
 Initial artifact:
 
-`governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`
+`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`

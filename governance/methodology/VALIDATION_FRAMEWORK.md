@@ -25,7 +25,8 @@ This framework operationalizes the validation part of:
 - `EXPERIMENT_REGISTRATION.md` — pre-result registration boundary;
 - `EVIDENCE_TAXONOMY.md` — `VALIDATION_EVIDENCE` and `INDEPENDENT_EXAMINATION_EVIDENCE`;
 - `RESEARCH_REVIEW_PROTOCOL.md` — completeness, lineage, evidence-class and sufficiency review;
-- `RESEARCH_REVIEW_CHECKS.md` — effective sample, dependence, concentration, uncertainty and research freedom.
+- `RESEARCH_REVIEW_CHECKS.md` — effective sample, dependence, concentration, uncertainty and research freedom;
+- `MULTIPLE_RESEARCH_ACCOUNTING.md` — material research attempts, selection lineage, negative alternatives and consumed protected blocks.
 
 This document does not weaken any prerequisite in those methodologies.
 

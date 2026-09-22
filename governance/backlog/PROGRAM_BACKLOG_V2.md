@@ -38,9 +38,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 23. `ATS2-M4-004` — Observation concentration analysis — `DONE`.
 24. `ATS2-M4-005` — Dependence-preserving resampling framework — `DONE`.
 25. `ATS2-M4-006` — Independent exam protocol — `DONE`.
-26. `ATS2-M4-007` — Multiple-research accounting — `READY`.
+26. `ATS2-M4-007` — Multiple-research accounting — `DONE`.
+27. `ATS2-M4-008` — Technical strategy validation profile — `READY`.
 
-Program-level current next task — `ATS2-M4-007`.
+Program-level current next task — `ATS2-M4-008`.
 
 ## 3. M0 / M1
 
@@ -98,20 +99,21 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M4-004` | `WBS-4.4` | P1 | DONE | M4-001, M4-003 | `src/ats/validation/concentration.py` + `tests/test_validation_concentration.py` | Full observation/group set is retained; predeclared top-count diagnostics quantify absolute concentration; zero-denominator cases are explicit; no outlier is removed automatically |
 | `ATS2-M4-005` | `WBS-4.5` | P1 | DONE | M4-001, M4-004 | `src/ats/validation/resampling.py` + `tests/test_validation_resampling.py` | Whole declared blocks are resampled with replacement under an explicit seed/method; internal block order and full selection trace are preserved; no IID fallback exists in the API |
 | `ATS2-M4-006` | `WBS-4.6` | P1 | DONE | M4-001, M4-005 | `governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md` | Freeze manifest fixes version/code/config/data/costs/metrics/rule before reveal; reveal is irreversible; only PASS/FAIL exists; post-reveal repair cannot restore independence |
-| `ATS2-M4-007` | `WBS-4.7` | P1 | READY | M4-001, M4-006, experiment/discovery history | `governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md` | Review can reconstruct material hypotheses, versions, searches, discarded alternatives, negative results, returns to research and consumed protected blocks without hiding selection history |
-| `ATS2-M6-000` | `WBS-6.0` | P1 | BLOCKED | M2, M3 learnings, M4-007 | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + future Search Manifest/result tooling | Bounded price-dynamics search preserves full search space, negative alternatives and shortlist history; outputs remain exploratory and enter normal Idea/Hypothesis funnel |
+| `ATS2-M4-007` | `WBS-4.7` | P1 | DONE | M4-001, M4-006, experiment/discovery history | `governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md` | Material Research Attempts, bounded-search denominators, negative/discarded outcomes, data/cost changes, returns to research and consumed protected blocks remain traceable to the selected version |
+| `ATS2-M4-008` | `WBS-4.8` | P1 | READY | M4-001…007 | `governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md` | Technical price-driven strategy profile makes V1–V7 concrete, declares applicability/required evidence and specifies what must be frozen before S06/S07 |
+| `ATS2-M6-000` | `WBS-6.0` | P1 | BLOCKED | M2, M3 learnings, M4-008 | `governance/methodology/MARKET_PATTERN_DISCOVERY.md` + future Search Manifest/result tooling | Bounded price-dynamics search preserves full search space, negative alternatives and shortlist history; outputs remain exploratory and enter normal Idea/Hypothesis funnel |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M4-007 — Multiple-research accounting`.
+`ATS2-M4-008 — Technical strategy validation profile`.
 
 Canonical first implementation artifact:
 
-`governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`.
+`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`.
 
-The accounting model must preserve material research attempts, search freedom, negative/discarded alternatives, prior returns to research and consumed protected blocks so a clean final result cannot hide the selection path.
+The profile must convert the general V1–V7 framework into explicit requirements for technical price-driven strategies without inventing universal profitability or risk thresholds.
 
 HYP-0001 remains rejected and is not reopened by M4.
 

@@ -24,6 +24,7 @@ Reference Strategy #1 remains:
 - Observation concentration: `src/ats/validation/concentration.py`
 - Dependence-preserving resampling: `src/ats/validation/resampling.py`
 - Independent exam protocol: `governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md`
+- Multiple-research accounting: `governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`
 
 ## Market Pattern Discovery
 
@@ -31,11 +32,11 @@ Bounded systematic price-pattern discovery:
 
 `governance/methodology/MARKET_PATTERN_DISCOVERY.md`
 
-Discovery remains exploratory and feeds new Idea/Hypothesis objects through the normal Research Funnel.
+Its search-space history feeds multiple-research accounting.
 
 ## Current closure check
 
-`ATS2-M4-006 — Independent exam protocol`
+`ATS2-M4-007 — Multiple-research accounting`
 
 Run:
 
@@ -43,8 +44,8 @@ Run:
 
 ## Next task after PASS
 
-`ATS2-M4-007 — Multiple-research accounting`
+`ATS2-M4-008 — Technical strategy validation profile`
 
 Next artifact:
 
-`governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`
+`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`

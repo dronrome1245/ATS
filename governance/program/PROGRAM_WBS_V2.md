@@ -308,13 +308,14 @@ WBS не устанавливает без evidence и OWNER decision:
 - `WBS-4.3 — Time/regime slicing` — `DONE`;
 - `WBS-4.4 — Trade/observation concentration` — `DONE`;
 - `WBS-4.5 — Resampling framework` — `DONE`;
-- `WBS-4.6 — Independent exam protocol` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
-- independent-exam artifact: `governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md`;
-- next work package after PASS: **`WBS-4.7 — Multiple-research accounting`**;
-- future candidate-sourcing path remains `WBS-6.0 — Market Pattern Discovery` after reusable M4 accounting capability.
+- `WBS-4.6 — Independent exam protocol` — `DONE`;
+- `WBS-4.7 — Multiple-research accounting` — repository implementation complete; exact closure uses `ATS_TASK_CHECK.bat`;
+- accounting artifact: `governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`;
+- next work package after PASS: **`WBS-4.8 — Class-specific profiles`**;
+- `WBS-6.0 — Market Pattern Discovery` remains blocked until M4-008 completes the reusable validation profile baseline.
 
 The next implementation target is:
 
-`governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md`
+`governance/methodology/TECHNICAL_STRATEGY_VALIDATION_PROFILE.md`
 
 Strategy-specific validation remains blocked until a future research line earns Candidate/S05 eligibility. HYP-0001 remains rejected and is not reopened by M4.

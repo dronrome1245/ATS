@@ -8,19 +8,19 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M4-006"
-TASK_NAME = "Independent exam protocol"
-REQUIRED_ARTIFACTS = (Path("governance/methodology/INDEPENDENT_EXAM_PROTOCOL.md"),)
+TASK_ID = "ATS2-M4-007"
+TASK_NAME = "Multiple-research accounting"
+REQUIRED_ARTIFACTS = (Path("governance/methodology/MULTIPLE_RESEARCH_ACCOUNTING.md"),)
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M4-006 independent exam artifacts ==")
+    print("\n== M4-007 multiple-research accounting artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M4-006 independent exam artifacts")
+    print("[PASS] M4-007 multiple-research accounting artifacts")
     return True
 
 
@@ -48,7 +48,7 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "M4-006 independent exam governance validation",
+            "M4-007 accounting governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

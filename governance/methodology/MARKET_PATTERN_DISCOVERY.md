@@ -108,7 +108,7 @@ Record, as applicable:
 
 The final report must not show only the best result without the denominator of how many alternatives were inspected.
 
-This directly feeds `WBS-4.7 — Multiple-research accounting`.
+This directly feeds `WBS-4.7 — Multiple-research accounting` under `MULTIPLE_RESEARCH_ACCOUNTING.md`.
 
 ## 7. Bounded search, not unlimited mining
 
