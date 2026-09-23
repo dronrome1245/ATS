@@ -31,12 +31,8 @@ EXPECTED_RESULT = {
     "minimum_required_currency_count": 6,
     "common_possible_development_start": "2003-08-03T21:00:00Z",
     "development_end_exclusive": "2021-09-01T00:00:00Z",
-    "history_metadata_sha256": (
-        "215ad432126018f4f871a1e10bc3f315524b84ae29d83fc3fd3adc188107417d"
-    ),
-    "probe_bundle_sha256": (
-        "a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e"
-    ),
+    "history_metadata_sha256": ("215ad432126018f4f871a1e10bc3f315524b84ae29d83fc3fd3adc188107417d"),
+    "probe_bundle_sha256": ("a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e"),
     "information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED",
 }
 EXPECTED_CURRENCIES = ["AUD", "CAD", "CHF", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK"]
