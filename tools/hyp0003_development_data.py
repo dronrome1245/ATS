@@ -468,7 +468,9 @@ def decode_jetta_month(path: Path, month: datetime) -> dict[datetime, Ohlc]:
         raise DevelopmentDataPrepError(f"unexpected Jetta H1 shift: {path}")
     if not isinstance(timestamp_ms, int):
         raise DevelopmentDataPrepError(f"invalid Jetta timestamp: {path}")
-    if any(not isinstance(value, (int, float)) or not math.isfinite(value) for value in base_values):
+    if any(
+        not isinstance(value, (int, float)) or not math.isfinite(value) for value in base_values
+    ):
         raise DevelopmentDataPrepError(f"invalid Jetta base candle: {path}")
 
     deltas = [payload[name] for name in ("opens", "highs", "lows", "closes")]
