@@ -51,11 +51,15 @@ Provider/source class: Dukascopy monthly H1 BID/ASK candles.
 
 Canonical tool: `tools/hyp0003_development_data.py`.
 
-Each source object is cached under `data/external/dukascopy/`. Cached non-empty objects are reused. Transient network/5xx/socket failures use bounded retry batches. `404/410` on both endpoints is recorded as source absence. One-sided monthly source absence, decompression failure, malformed BI5, duplicate/out-of-order timestamps and indeterminate source state are blocking.
+Each source object is cached under `data/external/dukascopy/`. Cached non-empty objects are reused. The current provider-native primary path is Dukascopy's `https://jetta.dukascopy.com/v1` compact JSON H1 monthly bucket API. Existing/legacy Dukascopy BI5 monthly objects remain accepted as a cache-compatible fallback. Transient network/5xx/socket failures use bounded retry batches. Source absence is recorded only when the available provider-native paths classify the object as absent; technical failure on any unresolved path remains blocking.
 
-Raw provider bytes remain local/external and are not committed.
+This endpoint change does not change provider, frozen source pair, month, side, event-time interval or information boundary. Raw provider bytes remain local/external and are not committed.
 
-## BI5 point scaling
+Jetta compact JSON gaps are not expanded into synthetic flat candles. RF-008 reconstructs only timestamps explicitly represented by the provider response, preserving the frozen no-forward-fill/no-interpolation rule.
+
+## Source encoding and price scaling
+
+Jetta compact JSON carries its own positive price `multiplier`, which is applied exactly to its delta-encoded OHLC columns. Legacy BI5 uses the frozen point divisor below.
 
 Dukascopy documents point value `100000` for most FX pairs and `1000` for JPY pairs:
 
@@ -99,7 +103,7 @@ All normalized prices must be finite and positive and preserve executable BID/AS
 - ordering: event time first, then frozen currency order;
 - no forward fill or interpolation.
 
-Duplicates, out-of-order BI5 records, impossible OHLC, one-sided BID/ASK availability and BID/ASK timestamp mismatch are blocking. Missing expected market hours on both sides are reported rather than filled.
+Duplicates, out-of-order BI5/JSON records, malformed compact JSON, impossible OHLC, one-sided BID/ASK availability and BID/ASK timestamp mismatch are blocking. Missing expected market hours on both sides are reported rather than filled.
 
 ## Monthly cutoff eligibility
 

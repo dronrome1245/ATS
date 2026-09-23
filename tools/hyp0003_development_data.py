@@ -15,6 +15,7 @@ import time
 import urllib.error
 import urllib.request
 from datetime import UTC, datetime, timedelta
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
@@ -29,9 +30,12 @@ DOWNLOAD_BASES = (
     "https://datafeed.dukascopy.com/datafeed",
     "https://www.dukascopy.com/datafeed",
 )
+JETTA_API_ROOT = "https://jetta.dukascopy.com/v1"
+SOURCE_FORMAT_BI5 = "BI5"
+SOURCE_FORMAT_JETTA_JSON = "JETTA_JSON"
 USER_AGENT = "ATS-Research/1.0"
 DOWNLOAD_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)
-SUCCESS_THROTTLE_SECONDS = 0.05
+SUCCESS_THROTTLE_SECONDS = 0.10
 RAW_ROOT = ROOT / "data" / "external" / "dukascopy"
 DERIVED_PATH = ROOT / "data" / "derived" / "HYP-0003-DEV-01-G10EXUSD-H1.csv"
 REPORT_JSON = ROOT / "reports" / "local_ci" / "HYP0003_DEVELOPMENT_DATA.json"
@@ -187,9 +191,31 @@ def raw_path(symbol: str, month: datetime, side: str) -> Path:
     )
 
 
+def jetta_raw_path(symbol: str, month: datetime, side: str) -> Path:
+    return (
+        RAW_ROOT
+        / symbol
+        / "H1"
+        / str(month.year)
+        / f"{month.month:02d}"
+        / f"{side}_candles_hour_1.json"
+    )
+
+
 def source_url(base: str, symbol: str, month: datetime, side: str) -> str:
     source_month = month.month - 1
     return f"{base}/{symbol}/{month.year}/{source_month:02d}/{side}_candles_hour_1.bi5"
+
+
+def jetta_instrument_code(symbol: str) -> str:
+    if len(symbol) != 6 or not symbol.isalpha():
+        raise DevelopmentDataPrepError(f"invalid FX symbol for Jetta API: {symbol}")
+    return f"{symbol[:3]}-{symbol[3:]}"
+
+
+def jetta_source_url(symbol: str, month: datetime, side: str) -> str:
+    instrument = jetta_instrument_code(symbol)
+    return f"{JETTA_API_ROOT}/candles/hour/{instrument}/{side}/{month.year}/{month.month}"
 
 
 def sha256_file(path: Path) -> str:
@@ -223,18 +249,47 @@ def fetch_bytes(url: str, timeout: int = 30) -> tuple[bytes, dict[str, str]]:
     return body, headers
 
 
-def download_source_once(
+def download_jetta_source_once(
     symbol: str,
     month: datetime,
     side: str,
 ) -> tuple[Path, dict[str, str]] | None:
-    if month >= DATA_END:
-        raise DevelopmentDataPrepError("protected-tail source month requested by RF-008")
+    destination = jetta_raw_path(symbol, month, side)
+    if destination.exists() and destination.stat().st_size > 0:
+        return destination, {
+            "source_url": "LOCAL_FROZEN_COPY",
+            "source_format": SOURCE_FORMAT_JETTA_JSON,
+            "last_modified": "",
+            "etag": "",
+        }
 
+    url = jetta_source_url(symbol, month, side)
+    try:
+        body, headers = fetch_bytes(url)
+    except FileNotFoundError:
+        return None
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_suffix(destination.suffix + ".part")
+    temporary.write_bytes(body)
+    temporary.replace(destination)
+    headers["source_url"] = url
+    headers["source_format"] = SOURCE_FORMAT_JETTA_JSON
+    if SUCCESS_THROTTLE_SECONDS:
+        time.sleep(SUCCESS_THROTTLE_SECONDS)
+    return destination, headers
+
+
+def download_legacy_source_once(
+    symbol: str,
+    month: datetime,
+    side: str,
+) -> tuple[Path, dict[str, str]] | None:
     destination = raw_path(symbol, month, side)
     if destination.exists() and destination.stat().st_size > 0:
         return destination, {
             "source_url": "LOCAL_FROZEN_COPY",
+            "source_format": SOURCE_FORMAT_BI5,
             "last_modified": "",
             "etag": "",
         }
@@ -250,6 +305,7 @@ def download_source_once(
             temporary.write_bytes(body)
             temporary.replace(destination)
             headers["source_url"] = url
+            headers["source_format"] = SOURCE_FORMAT_BI5
             if SUCCESS_THROTTLE_SECONDS:
                 time.sleep(SUCCESS_THROTTLE_SECONDS)
             return destination, headers
@@ -263,6 +319,50 @@ def download_source_once(
     if missing == len(DOWNLOAD_BASES):
         return None
     raise DevelopmentDataPrepError(f"indeterminate source state for {symbol} {month:%Y-%m} {side}")
+
+
+def download_source_once(
+    symbol: str,
+    month: datetime,
+    side: str,
+) -> tuple[Path, dict[str, str]] | None:
+    if month >= DATA_END:
+        raise DevelopmentDataPrepError("protected-tail source month requested by RF-008")
+
+    jetta_cache = jetta_raw_path(symbol, month, side)
+    legacy_cache = raw_path(symbol, month, side)
+    if jetta_cache.exists() and jetta_cache.stat().st_size > 0:
+        return download_jetta_source_once(symbol, month, side)
+    if legacy_cache.exists() and legacy_cache.stat().st_size > 0:
+        return download_legacy_source_once(symbol, month, side)
+
+    jetta_error: DevelopmentDataPrepError | None = None
+    try:
+        jetta = download_jetta_source_once(symbol, month, side)
+    except DevelopmentDataPrepError as exc:
+        jetta_error = exc
+    else:
+        if jetta is not None:
+            return jetta
+
+    legacy_error: DevelopmentDataPrepError | None = None
+    try:
+        legacy = download_legacy_source_once(symbol, month, side)
+    except DevelopmentDataPrepError as exc:
+        legacy_error = exc
+    else:
+        if legacy is not None:
+            return legacy
+
+    if jetta_error is None and legacy_error is None:
+        return None
+
+    errors = [
+        f"Jetta: {jetta_error}" if jetta_error is not None else "",
+        f"legacy BI5: {legacy_error}" if legacy_error is not None else "",
+    ]
+    detail = " | ".join(item for item in errors if item)
+    raise DevelopmentDataPrepError(f"all Dukascopy source paths failed: {detail}")
 
 
 def download_source_resilient(
@@ -333,6 +433,96 @@ def decode_month(
             raise DevelopmentDataPrepError(f"invalid low in {path}: {timestamp}")
         rows[timestamp] = values
     return rows
+
+
+def multiplier_scale(multiplier: float) -> int:
+    exponent = Decimal(str(multiplier)).as_tuple().exponent
+    return max(0, -int(exponent))
+
+
+def decode_jetta_month(path: Path, month: datetime) -> dict[datetime, Ohlc]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise DevelopmentDataPrepError(f"cannot decode Jetta JSON {path}: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise DevelopmentDataPrepError(f"invalid Jetta payload type: {path}")
+
+    columns = ("times", "opens", "highs", "lows", "closes", "volumes")
+    if any(not isinstance(payload.get(name), list) for name in columns):
+        raise DevelopmentDataPrepError(f"invalid Jetta columns: {path}")
+
+    length = len(payload["times"])
+    if any(len(payload[name]) != length for name in columns[1:]):
+        raise DevelopmentDataPrepError(f"mismatched Jetta column lengths: {path}")
+    if length == 0:
+        return {}
+
+    multiplier = payload.get("multiplier")
+    shift = payload.get("shift")
+    timestamp_ms = payload.get("timestamp")
+    base_values = [payload.get(name) for name in ("open", "high", "low", "close")]
+    if not isinstance(multiplier, (int, float)) or not math.isfinite(multiplier) or multiplier <= 0:
+        raise DevelopmentDataPrepError(f"invalid Jetta multiplier: {path}")
+    if shift != 3_600_000:
+        raise DevelopmentDataPrepError(f"unexpected Jetta H1 shift: {path}")
+    if not isinstance(timestamp_ms, int):
+        raise DevelopmentDataPrepError(f"invalid Jetta timestamp: {path}")
+    if any(not isinstance(value, (int, float)) or not math.isfinite(value) for value in base_values):
+        raise DevelopmentDataPrepError(f"invalid Jetta base candle: {path}")
+
+    deltas = [payload[name] for name in ("opens", "highs", "lows", "closes")]
+    if any(not isinstance(value, int) for column in deltas for value in column):
+        raise DevelopmentDataPrepError(f"non-integer Jetta price delta: {path}")
+
+    scale = multiplier_scale(float(multiplier))
+    units = [round(float(value) / float(multiplier)) for value in base_values]
+    end = next_month(month)
+    rows: dict[datetime, Ohlc] = {}
+    previous_timestamp: datetime | None = None
+
+    for index, time_delta in enumerate(payload["times"]):
+        if not isinstance(time_delta, int) or time_delta < 0:
+            raise DevelopmentDataPrepError(f"invalid Jetta time delta: {path}")
+        timestamp_ms += time_delta * shift
+        for field_index, column in enumerate(deltas):
+            units[field_index] += int(column[index])
+
+        timestamp = datetime.fromtimestamp(timestamp_ms / 1000.0, tz=UTC)
+        if not month <= timestamp < end:
+            raise DevelopmentDataPrepError(
+                f"unexpected Jetta timestamp {timestamp.isoformat()} in {path}"
+            )
+        if timestamp in rows:
+            raise DevelopmentDataPrepError(f"duplicate Jetta timestamp in {path}: {timestamp}")
+        if previous_timestamp is not None and timestamp < previous_timestamp:
+            raise DevelopmentDataPrepError(f"out-of-order Jetta timestamp in {path}: {timestamp}")
+        previous_timestamp = timestamp
+
+        values = tuple(round(value * float(multiplier), scale) for value in units)
+        open_price, high_price, low_price, close_price = values
+        if not all(math.isfinite(value) and value > 0 for value in values):
+            raise DevelopmentDataPrepError(f"invalid Jetta price in {path}: {timestamp}")
+        if high_price < max(open_price, close_price) or high_price < low_price:
+            raise DevelopmentDataPrepError(f"invalid Jetta high in {path}: {timestamp}")
+        if low_price > min(open_price, close_price):
+            raise DevelopmentDataPrepError(f"invalid Jetta low in {path}: {timestamp}")
+        rows[timestamp] = values
+
+    return rows
+
+
+def decode_source_object(
+    path: Path,
+    month: datetime,
+    symbol: str,
+    source_format: str,
+) -> dict[datetime, Ohlc]:
+    if source_format == SOURCE_FORMAT_JETTA_JSON:
+        return decode_jetta_month(path, month)
+    if source_format == SOURCE_FORMAT_BI5:
+        return decode_month(path, month, POINT_DIVISORS[symbol])
+    raise DevelopmentDataPrepError(f"unknown source format: {source_format}")
 
 
 def invert_ohlc(values: Ohlc) -> Ohlc:
@@ -514,10 +704,12 @@ def build_dataset() -> dict[str, Any]:
                         continue
 
                     path, headers = downloaded
-                    decoded_by_side[side] = decode_month(
+                    source_format = headers["source_format"]
+                    decoded_by_side[side] = decode_source_object(
                         path,
                         month,
-                        POINT_DIVISORS[symbol],
+                        symbol,
+                        source_format,
                     )
                     source_files.append(
                         {
@@ -525,6 +717,7 @@ def build_dataset() -> dict[str, Any]:
                             "month": month.strftime("%Y-%m"),
                             "side": side,
                             "sha256": sha256_file(path),
+                            "source_format": source_format,
                             "relative_path": str(path.relative_to(ROOT)).replace("\\", "/"),
                             "source_url": headers["source_url"],
                             "last_modified": headers["last_modified"],
