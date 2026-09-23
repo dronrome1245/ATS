@@ -263,11 +263,15 @@ The fifth occurrence showed that the dedicated metadata path itself was still a 
 
 The sixth occurrence repeated the same upstream HistoryStart unavailability. Its subsequent fallback `HTTP 403` is classified separately as `LCI-012` because that failure is caused by the request contract, not by source-network availability.
 
+The seventh occurrence happened during RF-008 full development acquisition after all local quality gates passed. The legacy monthly BI5 hosts could not deliver `GBPUSD 2003-08 BID`: `datafeed.dukascopy.com` timed out and `www.dukascopy.com/datafeed` returned `HTTP 503` through all bounded batches. Current Dukascopy ecosystem tooling now uses the provider-native `https://jetta.dukascopy.com/v1` compact candle API for H1 monthly buckets, so the acquisition request path—not the frozen provider or period—needed a provider-native fallback update.
+
 **Correct response**
 
 Do not change the Hypothesis, data period or provider merely because of a transient source-network failure. Keep the existing local cache and retry only the missing month/side. Use bounded additional download/probe batches with increasing backoff; if the source remains unavailable after the bound, fail closed without computing any research outcome.
 
 For HYP-0003 probes, the control is `probe_side_resilient()` with `PROBE_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)`. Each new batch reuses any source object already cached by a previous attempt. `fetch_bytes()` must normalize both `URLError` and direct `OSError` socket failures into `ProbeError` so fallback endpoints and outer retry batches remain active.
+
+For RF-008 full H1 acquisition, use the current Dukascopy Jetta monthly candle API as the first provider-native content path and keep already cached / legacy BI5 as fallback. Jetta compact JSON is decoded without creating synthetic flat bars for omitted hours; missing expected market hours remain explicit quality statistics.
 
 **Preventive rule**
 
@@ -278,10 +282,12 @@ For HYP-0003 probes, the control is `probe_side_resilient()` with `PROBE_BATCH_B
 5. The preparation step must preserve the declared information boundary while retrying.
 6. Per-URL retries alone do not satisfy this control for a long-running source task; a file/probe operation must also have bounded outer retry batches.
 7. The retry control must have regression coverage that simulates transient failure followed by recovery without real network access.
+8. When the provider has migrated its current public historical-data path, use that provider-native path before repeatedly hammering a degraded legacy host; preserve legacy cache compatibility and the same provider/source class.
+9. Compact provider responses must not introduce synthetic bars when the frozen research contract forbids forward fill or interpolation.
 
 **Escalation**
 
-Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore added a concrete per-object retry-batch control and deterministic unit test. Occurrence 4 strengthened the control with explicit OS/socket exception normalization. Occurrence 5 keeps `REPEAT_AFTER_CONTROL_THRESHOLD` and removes the metadata single point of failure with two HistoryStart endpoints plus the provider-native instruments metadata fallback. Occurrence 6 confirms the upstream network class remains recurring; the fallback `403` is tracked under `LCI-012`.
+Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore added a concrete per-object retry-batch control and deterministic unit test. Occurrence 4 strengthened the control with explicit OS/socket exception normalization. Occurrence 5 keeps `REPEAT_AFTER_CONTROL_THRESHOLD` and removes the metadata single point of failure with two HistoryStart endpoints plus the provider-native instruments metadata fallback. Occurrence 6 confirms the upstream network class remains recurring; the fallback `403` is tracked under `LCI-012`. Occurrence 7 strengthens full development acquisition with the current Dukascopy Jetta H1 monthly path plus legacy BI5 cache/fallback, without changing provider, period, universe or information boundary.
 
 **Scope:** OWNER research workflow and agents.
 
