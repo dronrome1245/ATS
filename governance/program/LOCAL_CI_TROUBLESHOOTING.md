@@ -243,6 +243,7 @@ Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added 
 **Repeat observed:** 2026-09-22 on the same exact commit after resume progressed to a later month/side  
 **Repeat observed:** 2026-09-23 on `b82e827c0c8510a38aac3179411b3b2a8d455310` during HYP-0003 source availability probing  
 **Repeat after control:** 2026-09-23 on `0988069a525a7cd0d8acb48a3d9ed34d3ceb0332` after outer retry batches were added  
+**Repeat after control:** 2026-09-23 on `7dec11ceb34c456a6c2f6b93833eeb02b2f0e804` when HistoryStart metadata timed out after all batches  
 **Class:** `DATA_SOURCE_NETWORK`
 
 **Symptom**
@@ -256,6 +257,8 @@ The external data source is intermittently unavailable during acquisition. Succe
 The third occurrence exposed a control gap in the new HYP-0003 availability probe: it had short per-URL retries, but no outer per-object retry batches with increasing backoff. A transient reset while classifying an old month therefore aborted the task before the existing cache/resume design could accumulate further progress.
 
 The fourth occurrence showed a second boundary bug: `urllib.request.urlopen()` can raise a direct Windows `OSError` / `ConnectionResetError`, not only `URLError`. The final reset therefore escaped `ProbeError`, bypassed the remaining fallback/retry taxonomy and surfaced as raw `WinError 10054`.
+
+The fifth occurrence showed that the dedicated metadata path itself was still a single point of failure: `HistoryStart.bi5` timed out after all bounded batches. The source provider also exposes H1 inception in its public instruments metadata, so source discovery now has a provider-native fallback rather than changing provider or research period.
 
 **Correct response**
 
@@ -275,7 +278,7 @@ For HYP-0003 probes, the control is `probe_side_resilient()` with `PROBE_BATCH_B
 
 **Escalation**
 
-Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore added a concrete per-object retry-batch control and deterministic unit test. Occurrence 4 is `REPEAT_AFTER_CONTROL_THRESHOLD`; the control is strengthened with explicit OS/socket exception normalization plus regression coverage for direct `ConnectionResetError`.
+Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore added a concrete per-object retry-batch control and deterministic unit test. Occurrence 4 strengthened the control with explicit OS/socket exception normalization. Occurrence 5 keeps `REPEAT_AFTER_CONTROL_THRESHOLD` and removes the metadata single point of failure with two HistoryStart endpoints plus the provider-native instruments metadata fallback.
 
 **Scope:** OWNER research workflow and agents.
 

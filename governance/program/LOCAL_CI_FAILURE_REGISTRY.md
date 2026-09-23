@@ -25,7 +25,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | `LCI-004` | `VALIDATOR` | 4 | REPEAT_AFTER_CONTROL_THRESHOLD | extract and audit the complete current marker tuple for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
 | `LCI-006` | `HANDOFF_SYNC` | 1 | OBSERVED | exact canonical `last_completed_artifact`/`next_artifact`/`next_task_id` values must appear in handoff/next-step |
-| `LCI-007` | `DATA_SOURCE_NETWORK` | 4 | REPEAT_AFTER_CONTROL_THRESHOLD | cache + fallback endpoints + per-object retry batches; normalize direct OSError/socket resets into retryable source errors |
+| `LCI-007` | `DATA_SOURCE_NETWORK` | 5 | REPEAT_AFTER_CONTROL_THRESHOLD | cache + endpoint fallback + provider-native metadata fallback + retry batches; normalize direct OSError/socket resets |
 | `LCI-008` | `TEST` | 1 | OBSERVED | regression-test serialized event-time rows against typed continuity logic used by task preparation |
 | `LCI-009` | `LINT` | 1 | OBSERVED | track Ruff lint and format separately; inspect import grouping for every new/rewritten Python import block |
 | `LCI-010` | `TEST_IMPORT` | 1 | OBSERVED | fast pytest collection plus same-context import smoke for new Python tools; avoid script-only sibling imports |
@@ -59,6 +59,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-23 | `LCI-007` | `b82e827c0c8510a38aac3179411b3b2a8d455310` | source probe | AUDUSD historical-availability probe hit repeated WinError 10054/10060 after per-URL retries; full CI had already passed |
 | 2026-09-23 | `LCI-007` | `0988069a525a7cd0d8acb48a3d9ed34d3ceb0332` | source probe | outer 5/15/30-second retry batches ran, but final Windows connection reset escaped as raw OSError instead of retryable ProbeError |
 | 2026-09-23 | `LCI-011` | `338ad44867d9ae68e11eb613a96b92101a5ac853` | source discovery | retry/fallback control worked, but binary-searching old monthly URLs hit persistent HTTP 503 for AUDUSD 1997-11 ASK on both endpoints |
+| 2026-09-23 | `LCI-007` | `7dec11ceb34c456a6c2f6b93833eeb02b2f0e804` | metadata acquisition | HistoryStart metadata timed out after all retry batches; the metadata path had no alternate provider-native source |
 | 2026-09-22 | `LCI-008` | `04aaa885e5be81f2468b1478423949f0e9e5323b` | task runtime | confirmatory rows stored RFC3339 event-time strings but `valid_window` expected datetime-valued rows, causing string subtraction after acquisition completed |
 | 2026-09-22 | `LCI-002` | `7c8e82e7f29b0bc3e09de557f88dd1c14441474f` | format | Ruff compacted generator expressions in `valid_timestamp_window` and confirmatory eligible-count calculation |
 | 2026-09-22 | `LCI-009` | `213fb1116e7ca2fc866fc7281b57215d3908cb64` | lint | Ruff I001 rejected a blank line between `import yaml` and sibling-tool import `from proto01_eurusd ...`; format itself passed |
@@ -100,7 +101,7 @@ Before remote push, canonical state reconciliation must compare the exact values
 
 ### DATA_SOURCE_NETWORK / LCI-007
 
-External historical-data acquisition must be resumable. Successfully downloaded source files remain cached; transient 5xx/timeouts on one month/side receive bounded additional download batches with backoff. At occurrence 3, the control became mandatory in code: source-probe/download operations use an outer per-object retry batch in addition to any per-URL retry loop. Occurrence 4 showed that platform-level socket/OSError exceptions must also be normalized into the retryable source-error class so they cannot bypass fallback endpoints or the outer batch. A source-network failure does not change the frozen data period, provider or hypothesis.
+External historical-data acquisition must be resumable. Successfully downloaded source files remain cached; transient 5xx/timeouts on one month/side receive bounded additional download batches with backoff. At occurrence 3, the control became mandatory in code: source-probe/download operations use an outer per-object retry batch in addition to any per-URL retry loop. Occurrence 4 showed that platform-level socket/OSError exceptions must also be normalized into the retryable source-error class so they cannot bypass fallback endpoints or the outer batch. Occurrence 5 showed that provider metadata discovery also needs a fallback path: HistoryStart uses both Dukascopy historical-data endpoints first, then the public instruments metadata `history_start_60min` field. A source-network failure does not change the frozen data period, provider or hypothesis.
 
 ### TEST / LCI-008
 

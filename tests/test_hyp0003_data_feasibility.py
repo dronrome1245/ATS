@@ -10,6 +10,7 @@ from tools.hyp0003_data_feasibility import (
     history_start_datetime,
     normalized_bid_ask,
     parse_history_start,
+    parse_instruments_jsonp,
     source_url,
 )
 
@@ -45,6 +46,17 @@ def test_parse_history_start_h1_metadata() -> None:
         1_200_000_000,
         tz=UTC,
     )
+
+
+def test_parse_instruments_jsonp_h1_fallback() -> None:
+    payload = (
+        b'jsonp({"instruments":{"1":{"historical_filename":"AUDUSD",'
+        b'"history_start_60min":1200000000000}}})'
+    )
+
+    history = parse_instruments_jsonp(payload)
+
+    assert history["AUDUSD"][3_600_000] == 1_200_000_000_000
 
 
 def test_fetch_bytes_normalizes_direct_oserror(

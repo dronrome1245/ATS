@@ -640,9 +640,12 @@ def configure() -> None:
         "PROTECTED_START = datetime(2021, 9, 1",
         "MINIMUM_FEASIBLE_CURRENCIES = 6",
         "CANDIDATES",
-        "HISTORY_START_URL",
+        "HISTORY_START_URLS",
+        "INSTRUMENTS_URL",
         "H1_PERIOD_MS = 3_600_000",
         "parse_history_start",
+        "parse_instruments_jsonp",
+        "load_history_metadata",
         "history_start_datetime",
         "PROBE_BATCH_BACKOFF_SECONDS",
         "probe_side_resilient",
@@ -657,6 +660,7 @@ def configure() -> None:
     core.CONTENT_MARKERS[HYP0003_DATA_FEASIBILITY_TEST] = (
         "test_source_url_uses_zero_based_dukascopy_month",
         "test_parse_history_start_h1_metadata",
+        "test_parse_instruments_jsonp_h1_fallback",
         "test_fetch_bytes_normalizes_direct_oserror",
         "test_probe_side_resilient_retries_transient_network_error",
         "test_normalized_bid_ask_preserves_executable_order",
@@ -1136,6 +1140,7 @@ def configure() -> None:
         "next_task_id",
         "First failing stage",
         "socket/`OSError`",
+        "provider-native fallback",
         "PENDING_OWNER_LAUNCHER",
         "do not declare completion without `ATS TASK LAUNCHER: PASS`",
     )
@@ -1180,6 +1185,8 @@ def configure() -> None:
         "LCI-011",
         "HistoryStart.bi5",
         "DATA_SOURCE_DISCOVERY_PROTOCOL",
+        "history_start_60min",
+        "7dec11ceb34c456a6c2f6b93833eeb02b2f0e804",
     )
     core.CONTENT_MARKERS[LOCAL_CI_FAILURE_REGISTRY] = (
         "Escalation policy",
@@ -1204,10 +1211,12 @@ def configure() -> None:
         "LCI-011",
         "338ad44867d9ae68e11eb613a96b92101a5ac853",
         "DATA_SOURCE_DISCOVERY_PROTOCOL",
+        "7dec11ceb34c456a6c2f6b93833eeb02b2f0e804",
     )
     core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
         "git pull --ff-only",
         "tools/run_and_tee.py",
+        "Progress:",
         "uv sync --frozen",
         "tools/current_task_check.py",
         "CURRENT_TASK_REPORT.txt",
@@ -1226,11 +1235,15 @@ def configure() -> None:
         "hyp0003_data_feasibility.py",
         "test_hyp0003_data_feasibility.py",
         "full ATS Local CI before source probe",
+        "@@PROGRESS 45",
+        "@@PROGRESS 80",
         "RF-006 HYP-0003 source availability probe",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
         "PYTHONUNBUFFERED",
+        "PROGRESS_PREFIX",
+        "render_progress",
         "subprocess.Popen",
         "stderr=subprocess.STDOUT",
         "report.flush",

@@ -23,25 +23,22 @@ if errorlevel 1 goto :git_missing
 where uv >nul 2>&1
 if errorlevel 1 goto :uv_missing
 
-echo [1/4] Updating repository...
+echo Progress: [--------------------] 0%%
 >> "%REPORT%" echo == git pull --ff-only ==
 git pull --ff-only >> "%REPORT%" 2>&1
 if errorlevel 1 goto :pull_failed
 >> "%REPORT%" echo.
-
-echo [2/4] Syncing frozen environment...
+echo Progress: [##------------------] 10%%
 >> "%REPORT%" echo == uv sync --frozen ==
 uv sync --frozen >> "%REPORT%" 2>&1
 if errorlevel 1 goto :sync_failed
 >> "%REPORT%" echo.
-
-echo [3/4] Running fast Local CI preflight...
+echo Progress: [####----------------] 20%%
 >> "%REPORT%" echo == fast local ci preflight ==
 uv run --frozen python tools/verify_repo.py --fast >> "%REPORT%" 2>&1
 if errorlevel 1 goto :preflight_failed
 >> "%REPORT%" echo.
-
-echo [4/4] Running current task check ^(live progress below^)...
+echo Progress: [########------------] 40%%
 >> "%REPORT%" echo == current task check ==
 uv run --frozen python tools/run_and_tee.py "%REPORT%" tools/current_task_check.py
 if errorlevel 1 goto :task_failed
@@ -95,8 +92,6 @@ goto :finish
 >> "%REPORT%" echo.
 >> "%REPORT%" echo Finished: %DATE% %TIME%
 
-echo.
-type "%REPORT%"
 echo.
 echo ============================================================
 echo Report file: %REPORT%

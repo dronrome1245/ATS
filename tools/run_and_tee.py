@@ -9,6 +9,15 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+PROGRESS_PREFIX = "@@PROGRESS "
+
+
+def render_progress(percent: int) -> None:
+    bounded = max(0, min(100, percent))
+    width = 20
+    filled = round(width * bounded / 100)
+    bar = "#" * filled + "-" * (width - filled)
+    print(f"\rProgress: [{bar}] {bounded:3d}%", end="", flush=True)
 
 
 def main() -> int:
@@ -39,11 +48,20 @@ def main() -> int:
             bufsize=1,
         )
         assert process.stdout is not None
+        last_progress: int | None = None
         for line in process.stdout:
-            print(line, end="", flush=True)
             report.write(line)
             report.flush()
-        return process.wait()
+            if line.startswith(PROGRESS_PREFIX):
+                try:
+                    last_progress = int(line[len(PROGRESS_PREFIX) :].strip())
+                except ValueError:
+                    continue
+                render_progress(last_progress)
+        return_code = process.wait()
+        if last_progress is not None:
+            print()
+        return return_code
 
 
 if __name__ == "__main__":

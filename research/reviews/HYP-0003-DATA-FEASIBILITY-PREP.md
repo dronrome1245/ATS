@@ -43,13 +43,14 @@ Canonical tool:
 
 For each candidate symbol the tool:
 
-1. downloads or reuses Dukascopy `metadata/HistoryStart.bi5`;
-2. parses the big-endian history-start table and reads the H1 start timestamp for the symbol;
-3. verifies August 2021 BID and ASK monthly H1 availability;
-4. decompresses each August 2021 probe object and validates the BI5 record structure;
-5. records record count, first/last source timestamps and SHA-256;
-6. derives the common possible development start from the latest H1 metadata start among source-qualified currencies;
-7. hashes the HistoryStart identity plus boundary probe identities into one `probe_bundle_sha256`.
+1. downloads or reuses Dukascopy `metadata/HistoryStart.bi5` from either historical-data endpoint;
+2. if both HistoryStart endpoints remain unavailable, falls back to the Dukascopy public instruments metadata field `history_start_60min`;
+3. parses the selected provider-native metadata and reads the H1 start timestamp for the symbol;
+4. verifies August 2021 BID and ASK monthly H1 availability;
+5. decompresses each August 2021 probe object and validates the BI5 record structure;
+6. records record count, first/last source timestamps and SHA-256;
+7. derives the common possible development start from the latest H1 metadata start among source-qualified currencies;
+8. hashes the chosen metadata identity plus boundary probe identities into one `probe_bundle_sha256`.
 
 This replaces the earlier binary search across arbitrary old monthly URLs. Repeated HTTP 503 responses on a 1997 availability probe showed that historical content URLs are not a reliable protocol for discovering provider inception. Dukascopy's dedicated history-start metadata is the appropriate source-discovery mechanism.
 
@@ -59,7 +60,7 @@ The metadata/probe path never calculates strategy returns.
 
 `probe_bundle_sha256` identifies only the RF-006 availability/integrity probes.
 
-It includes the Dukascopy `HistoryStart.bi5` SHA-256 plus the August 2021 BID/ASK boundary probes. It is **not** the future HYP-0003 development dataset hash and is **not** the full source-bundle hash for the future development dataset.
+It includes the chosen Dukascopy provider-native metadata SHA-256 plus the August 2021 BID/ASK boundary probes. It is **not** the future HYP-0003 development dataset hash and is **not** the full source-bundle hash for the future development dataset.
 
 Those identities require the later full-data preparation task.
 

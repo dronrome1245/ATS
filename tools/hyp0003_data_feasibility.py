@@ -27,13 +27,19 @@ DOWNLOAD_BASES = (
     "https://datafeed.dukascopy.com/datafeed",
     "https://www.dukascopy.com/datafeed",
 )
-HISTORY_START_URL = (
-    "https://datafeed.dukascopy.com/datafeed/metadata/HistoryStart.bi5"
+HISTORY_START_URLS = (
+    "https://datafeed.dukascopy.com/datafeed/metadata/HistoryStart.bi5",
+    "https://www.dukascopy.com/datafeed/metadata/HistoryStart.bi5",
+)
+INSTRUMENTS_URL = (
+    "https://freeserv.dukascopy.com/2.0/"
+    "index.php?path=common%2Finstruments"
 )
 USER_AGENT = "ATS-Research/1.0"
 PROBE_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)
 RAW_ROOT = ROOT / "data" / "external" / "dukascopy"
 HISTORY_START_PATH = RAW_ROOT / "metadata" / "HistoryStart.bi5"
+INSTRUMENTS_PATH = RAW_ROOT / "metadata" / "instruments.jsonp"
 REPORT_JSON = ROOT / "reports" / "local_ci" / "HYP0003_DATA_FEASIBILITY.json"
 REPORT_TEXT = ROOT / "reports" / "local_ci" / "HYP0003_DATA_FEASIBILITY_REPORT.txt"
 
@@ -69,6 +75,10 @@ class ProbeObject:
 
 def progress(message: str) -> None:
     print(message, flush=True)
+
+
+def emit_progress(percent: int) -> None:
+    print(f"@@PROGRESS {percent}", flush=True)
 
 
 def git_head() -> str:
@@ -142,8 +152,8 @@ def fetch_bytes(url: str, timeout: int = 30) -> tuple[bytes, dict[str, str]]:
     return body, headers
 
 
-def cached_or_fetch(
-    url: str,
+def cached_or_fetch_any(
+    urls: tuple[str, ...],
     destination: Path,
     label: str,
 ) -> tuple[Path, dict[str, str]]:
@@ -155,28 +165,29 @@ def cached_or_fetch(
         }
 
     attempts = len(PROBE_BATCH_BACKOFF_SECONDS) + 1
-    last_error: ProbeError | None = None
+    errors: list[str] = []
     for batch in range(attempts):
-        try:
-            body, headers = fetch_bytes(url)
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            temporary = destination.with_suffix(destination.suffix + ".part")
-            temporary.write_bytes(body)
-            temporary.replace(destination)
-            headers["source_url"] = url
-            return destination, headers
-        except ProbeError as exc:
-            last_error = exc
-            if batch == attempts - 1:
-                break
+        for url in urls:
+            try:
+                body, headers = fetch_bytes(url)
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                temporary = destination.with_suffix(destination.suffix + ".part")
+                temporary.write_bytes(body)
+                temporary.replace(destination)
+                headers["source_url"] = url
+                return destination, headers
+            except (FileNotFoundError, ProbeError) as exc:
+                errors.append(f"{url}: {exc}")
+        if batch < attempts - 1:
             delay = PROBE_BATCH_BACKOFF_SECONDS[batch]
             progress(
-                f"[network] {label} failed; retrying in {delay:.0f}s "
-                f"(batch {batch + 2}/{attempts})"
+                f"[network] {label} failed on all endpoints; "
+                f"retrying in {delay:.0f}s"
             )
             time.sleep(delay)
     raise ProbeError(
-        f"{label} failed after {attempts} batches: {last_error}"
+        f"{label} failed after {attempts} batches: "
+        + " | ".join(errors[-4:])
     )
 
 
@@ -343,15 +354,73 @@ def parse_history_start(payload: bytes) -> dict[str, dict[int, int]]:
     return result
 
 
+def canonical_symbol(value: str) -> str:
+    return "".join(character for character in value.upper() if character.isalnum())
+
+
+def parse_instruments_jsonp(payload: bytes) -> dict[str, dict[int, int]]:
+    text = payload.decode("utf-8").strip()
+    if not text.lower().startswith("jsonp(") or not text.endswith(")"):
+        raise ProbeError("unexpected Dukascopy instruments JSONP wrapper")
+    parsed = json.loads(text[len("jsonp(") : -1])
+    instruments = parsed.get("instruments")
+    if not isinstance(instruments, dict):
+        raise ProbeError("Dukascopy instruments payload has no instruments object")
+
+    result: dict[str, dict[int, int]] = {}
+    for instrument_id, value in instruments.items():
+        if not isinstance(value, dict):
+            continue
+        raw_symbol = (
+            value.get("historical_filename")
+            or value.get("title")
+            or value.get("name")
+            or instrument_id
+        )
+        start_value = value.get("history_start_60min")
+        if start_value is None:
+            continue
+        try:
+            start_ms = int(start_value)
+        except (TypeError, ValueError):
+            continue
+        if start_ms > 0:
+            result[canonical_symbol(str(raw_symbol))] = {H1_PERIOD_MS: start_ms}
+    return result
+
+
 def history_start_datetime(
     history: dict[str, dict[int, int]],
     symbol: str,
 ) -> datetime | None:
-    value = history.get(symbol.upper(), {}).get(H1_PERIOD_MS)
+    value = history.get(canonical_symbol(symbol), {}).get(H1_PERIOD_MS)
     if value is None or value <= 0:
         return None
     milliseconds = value * 1000 if value < 10_000_000_000 else value
     return datetime.fromtimestamp(milliseconds / 1000.0, tz=UTC)
+
+
+def load_history_metadata() -> tuple[dict[str, dict[int, int]], str, str]:
+    try:
+        path, source = cached_or_fetch_any(
+            HISTORY_START_URLS,
+            HISTORY_START_PATH,
+            "Dukascopy HistoryStart.bi5",
+        )
+        return parse_history_start(path.read_bytes()), source["source_url"], sha256_file(path)
+    except ProbeError as history_error:
+        progress(f"[metadata] HistoryStart unavailable: {history_error}")
+
+    path, source = cached_or_fetch_any(
+        (INSTRUMENTS_URL,),
+        INSTRUMENTS_PATH,
+        "Dukascopy instruments metadata",
+    )
+    return (
+        parse_instruments_jsonp(path.read_bytes()),
+        source["source_url"],
+        sha256_file(path),
+    )
 
 
 def normalized_bid_ask(
@@ -395,18 +464,14 @@ def probe_bundle_hash(
 
 
 def prepare() -> dict[str, Any]:
-    progress("[metadata] Loading Dukascopy HistoryStart.bi5...")
-    history_path, history_source = cached_or_fetch(
-        HISTORY_START_URL,
-        HISTORY_START_PATH,
-        "Dukascopy HistoryStart.bi5",
-    )
-    history_sha256 = sha256_file(history_path)
-    history = parse_history_start(history_path.read_bytes())
+    emit_progress(82)
+    progress("[metadata] Loading Dukascopy history metadata...")
+    history, history_source_url, history_sha256 = load_history_metadata()
     progress(
         f"[metadata] Loaded {len(history)} instruments; "
         f"sha256={history_sha256[:12]}..."
     )
+    emit_progress(85)
 
     symbol_results: list[dict[str, Any]] = []
     probe_objects: list[ProbeObject] = []
@@ -475,7 +540,9 @@ def prepare() -> dict[str, Any]:
             f"[probe {index}/{total}] {symbol}: OK "
             f"({len(retained)} retained so far)"
         )
+        emit_progress(85 + round(index * 14 / total))
 
+    emit_progress(99)
     common_start = max(first_usable_times) if first_usable_times else None
     decision = (
         "READY_FOR_FREEZE_REVIEW"
@@ -486,8 +553,8 @@ def prepare() -> dict[str, Any]:
         "schema_version": "hyp0003-data-feasibility-probe-2",
         "hypothesis_id": "HYP-0003",
         "git_commit": git_head(),
-        "history_start_source_url": history_source["source_url"],
-        "history_start_sha256": history_sha256,
+        "history_metadata_source_url": history_source_url,
+        "history_metadata_sha256": history_sha256,
         "candidate_currencies": list(CANDIDATES),
         "retained_source_currencies": retained,
         "retained_currency_count": len(retained),
@@ -531,7 +598,7 @@ def write_reports(payload: dict[str, Any]) -> None:
             f"{payload['common_possible_development_start']}"
         ),
         f"Development end exclusive: {payload['development_end_exclusive']}",
-        f"HistoryStart SHA256: {payload['history_start_sha256']}",
+        f"History metadata SHA256: {payload['history_metadata_sha256']}",
         f"Boundary probe objects: {payload['probe_object_count']}",
         f"Probe bundle SHA256: {payload['probe_bundle_sha256']}",
         "Information boundary: NO_HYPOTHESIS_OUTCOME_COMPUTED",
