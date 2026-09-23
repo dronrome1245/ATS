@@ -36,6 +36,7 @@ INSTRUMENTS_URL = (
     "index.php?path=common%2Finstruments"
 )
 USER_AGENT = "ATS-Research/1.0"
+FREESERV_REFERER = "https://freeserv.dukascopy.com/"
 PROBE_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)
 RAW_ROOT = ROOT / "data" / "external" / "dukascopy"
 HISTORY_START_PATH = RAW_ROOT / "metadata" / "HistoryStart.bi5"
@@ -130,10 +131,10 @@ def sha256_file(path: Path) -> str:
 
 
 def fetch_bytes(url: str, timeout: int = 30) -> tuple[bytes, dict[str, str]]:
-    request = urllib.request.Request(
-        url,
-        headers={"User-Agent": USER_AGENT, "Accept": "*/*"},
-    )
+    headers = {"User-Agent": USER_AGENT, "Accept": "*/*"}
+    if url.startswith(FREESERV_REFERER):
+        headers["Referer"] = FREESERV_REFERER
+    request = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             body = response.read()

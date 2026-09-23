@@ -244,6 +244,7 @@ Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added 
 **Repeat observed:** 2026-09-23 on `b82e827c0c8510a38aac3179411b3b2a8d455310` during HYP-0003 source availability probing  
 **Repeat after control:** 2026-09-23 on `0988069a525a7cd0d8acb48a3d9ed34d3ceb0332` after outer retry batches were added  
 **Repeat after control:** 2026-09-23 on `7dec11ceb34c456a6c2f6b93833eeb02b2f0e804` when HistoryStart metadata timed out after all batches  
+**Repeat after control:** 2026-09-23 on `1b45022b8d57e8140016f8448a63e0a182697bcc` when HistoryStart again failed before the fallback reached a separate request-protocol defect  
 **Class:** `DATA_SOURCE_NETWORK`
 
 **Symptom**
@@ -259,6 +260,8 @@ The third occurrence exposed a control gap in the new HYP-0003 availability prob
 The fourth occurrence showed a second boundary bug: `urllib.request.urlopen()` can raise a direct Windows `OSError` / `ConnectionResetError`, not only `URLError`. The final reset therefore escaped `ProbeError`, bypassed the remaining fallback/retry taxonomy and surfaced as raw `WinError 10054`.
 
 The fifth occurrence showed that the dedicated metadata path itself was still a single point of failure: `HistoryStart.bi5` timed out after all bounded batches. The source provider also exposes H1 inception through the public instruments metadata field `history_start_60min`, so source discovery now has a provider-native fallback rather than changing provider or research period.
+
+The sixth occurrence repeated the same upstream HistoryStart unavailability. Its subsequent fallback `HTTP 403` is classified separately as `LCI-012` because that failure is caused by the request contract, not by source-network availability.
 
 **Correct response**
 
@@ -278,7 +281,7 @@ For HYP-0003 probes, the control is `probe_side_resilient()` with `PROBE_BATCH_B
 
 **Escalation**
 
-Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore added a concrete per-object retry-batch control and deterministic unit test. Occurrence 4 strengthened the control with explicit OS/socket exception normalization. Occurrence 5 keeps `REPEAT_AFTER_CONTROL_THRESHOLD` and removes the metadata single point of failure with two HistoryStart endpoints plus the provider-native instruments metadata fallback.
+Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore added a concrete per-object retry-batch control and deterministic unit test. Occurrence 4 strengthened the control with explicit OS/socket exception normalization. Occurrence 5 keeps `REPEAT_AFTER_CONTROL_THRESHOLD` and removes the metadata single point of failure with two HistoryStart endpoints plus the provider-native instruments metadata fallback. Occurrence 6 confirms the upstream network class remains recurring; the fallback `403` is tracked under `LCI-012`.
 
 **Scope:** OWNER research workflow and agents.
 
@@ -308,6 +311,33 @@ Do not increase retry counts and do not change the strategy/data provider. Repla
 3. Cache the metadata object and bind it by SHA-256.
 4. Preserve the existing retry/backoff control for real metadata/content network failures.
 5. A discovery-protocol correction before any strategy result does not authorize changing HYP-0003 parameters or protected evidence boundaries.
+
+**Scope:** research/development tooling and agents.
+
+### LCI-012 — Dukascopy freeserv metadata requires request Referer
+
+**First observed:** 2026-09-23 on `1b45022b8d57e8140016f8448a63e0a182697bcc`  
+**Class:** `DATA_SOURCE_REQUEST_PROTOCOL`
+
+**Symptom**
+
+Repository validator, pinned Ruff, 148/148 pytest and full Local CI pass. Both HistoryStart endpoints are unavailable, then the provider-native `common/instruments` fallback returns `HTTP 403` on every bounded retry.
+
+**Root cause**
+
+The public Dukascopy freeserv instruments endpoint requires the request context used by its chart client: `Referer: https://freeserv.dukascopy.com/`. RF-006 sent only `User-Agent` and `Accept`, so the valid fallback request was rejected before its JSONP payload could be parsed.
+
+**Correct response**
+
+Keep the same provider, candidate universe and protected period. Send the required Referer only for freeserv requests, preserve all existing timeout/retry behavior, and regression-test the exact header passed through `fetch_bytes()`.
+
+**Preventive rule**
+
+1. Provider-native fallback endpoints must reproduce required public client request headers when those headers are part of the endpoint contract.
+2. A deterministic authorization/context response such as `403` must not be interpreted as source absence.
+3. Header fixes must be endpoint-scoped; do not add unrelated browser headers to all historical-data requests.
+4. The fallback request contract must have a network-free regression test that inspects the constructed request.
+5. A request-protocol correction does not authorize changing the frozen provider, universe, development period or information boundary.
 
 **Scope:** research/development tooling and agents.
 

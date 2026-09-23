@@ -44,7 +44,7 @@ Canonical tool:
 For each candidate symbol the tool:
 
 1. downloads or reuses Dukascopy `metadata/HistoryStart.bi5` from either historical-data endpoint;
-2. if both HistoryStart endpoints remain unavailable, falls back to the Dukascopy public instruments metadata field `history_start_60min`;
+2. if both HistoryStart endpoints remain unavailable, falls back to the Dukascopy public instruments metadata field `history_start_60min`, sending the provider-required `Referer: https://freeserv.dukascopy.com/` request header;
 3. parses the selected provider-native metadata and reads the H1 start timestamp for the symbol;
 4. verifies August 2021 BID and ASK monthly H1 availability;
 5. decompresses each August 2021 probe object and validates the BI5 record structure;
@@ -53,6 +53,8 @@ For each candidate symbol the tool:
 8. hashes the chosen metadata identity plus boundary probe identities into one `probe_bundle_sha256`.
 
 This replaces the earlier binary search across arbitrary old monthly URLs. Repeated HTTP 503 responses on a 1997 availability probe showed that historical content URLs are not a reliable protocol for discovering provider inception. Dukascopy's dedicated history-start metadata is the appropriate source-discovery mechanism.
+
+A `403` from the freeserv fallback without this request context is a request-protocol failure, not evidence that the instrument history is absent.
 
 The metadata/probe path never calculates strategy returns.
 

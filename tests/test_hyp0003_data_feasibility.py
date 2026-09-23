@@ -97,6 +97,38 @@ def test_load_history_metadata_falls_back_to_instruments_jsonp(
     ]
 
 
+def test_fetch_bytes_sets_freeserv_referer(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    captured: dict[str, str | None] = {}
+
+    class FakeResponse:
+        headers = {"Last-Modified": "test", "ETag": "test"}
+
+        def __enter__(self) -> "FakeResponse":
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            return None
+
+        def read(self) -> bytes:
+            return b'jsonp({"instruments":{}})'
+
+    def fake_urlopen(
+        request: feasibility.urllib.request.Request,
+        **_kwargs: object,
+    ) -> FakeResponse:
+        captured["referer"] = request.get_header("Referer")
+        return FakeResponse()
+
+    monkeypatch.setattr(feasibility.urllib.request, "urlopen", fake_urlopen)
+
+    body, _headers = feasibility.fetch_bytes(feasibility.INSTRUMENTS_URL)
+
+    assert body.startswith(b"jsonp(")
+    assert captured["referer"] == feasibility.FREESERV_REFERER
+
+
 def test_fetch_bytes_normalizes_direct_oserror(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
