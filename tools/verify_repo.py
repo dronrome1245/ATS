@@ -25,6 +25,7 @@ LINT_PATHS = (
     "tools/discover_eurusd_h1.py",
     "tools/hyp0002_data_feasibility.py",
     "tools/hyp0002_proto01.py",
+    "tools/hyp0003_development_data.py",
     "src",
     "tests",
 )
@@ -37,6 +38,7 @@ FORMAT_PATHS = (
     "tools/discover_eurusd_h1.py",
     "tools/hyp0002_data_feasibility.py",
     "tools/hyp0002_proto01.py",
+    "tools/hyp0003_development_data.py",
     "src",
     "tests",
 )
