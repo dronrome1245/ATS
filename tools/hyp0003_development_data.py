@@ -428,8 +428,7 @@ def download_source_pair_from_format(
     if len(missing) == 2:
         return None
     raise DevelopmentDataPrepError(
-        f"one-sided {source_format} source absence for {symbol} {month:%Y-%m}: "
-        f"missing {missing[0]}"
+        f"one-sided {source_format} source absence for {symbol} {month:%Y-%m}: missing {missing[0]}"
     )
 
 
@@ -863,8 +862,7 @@ def build_dataset() -> dict[str, Any]:
                         )
                     except DevelopmentDataPrepError as exc:
                         raise DevelopmentDataPrepError(
-                            f"{symbol} {month:%Y-%m} {iso_z(timestamp)} "
-                            f"{pair_source_format}: {exc}"
+                            f"{symbol} {month:%Y-%m} {iso_z(timestamp)} {pair_source_format}: {exc}"
                         ) from exc
                 month_rows[currency] = normalized
 

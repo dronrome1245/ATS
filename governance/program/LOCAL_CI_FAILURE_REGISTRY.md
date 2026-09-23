@@ -20,7 +20,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | Cause | Class | Confirmed occurrences | State | Current control |
 |---|---|---:|---|---|
 | `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
-| `LCI-002` | `FORMAT` | 15 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
+| `LCI-002` | `FORMAT` | 16 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 4 | REPEAT_AFTER_CONTROL_THRESHOLD | extract and audit the complete current marker tuple for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
@@ -73,6 +73,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-23 | `LCI-002` | `9665c81bdd6f2a6eb98e69d4b518be6854224966` | format | RF-008 fast preflight requested pinned Ruff canonical layout in the new development-data runner, checker and synthetic tests before acquisition began |
 | 2026-09-23 | `LCI-002` | `cd864887ae81c8628042d1f268844d22117a6fb9` | format | second RF-008 fast preflight exposed one remaining multiline exception raise in `tools/hyp0003_development_data.py`; exact Ruff diff requested one-line canonical form |
 | 2026-09-23 | `LCI-002` | `2aa98a679e469e680f2048cc71e390259d1c02a8` | format | Jetta fallback introduced one long base-candle validation condition that pinned Ruff expanded to its canonical multiline form before acquisition began |
+| 2026-09-23 | `LCI-002` | `5a9684de2f05927e403337ee6f6f3338a9044a50` | format | source-coherence fix left two multiline f-string fragments that pinned Ruff canonicalized before acquisition could resume |
 | 2026-09-22 | `LCI-009` | `213fb1116e7ca2fc866fc7281b57215d3908cb64` | lint | Ruff I001 rejected a blank line between `import yaml` and sibling-tool import `from proto01_eurusd ...`; format itself passed |
 | 2026-09-22 | `LCI-010` | `199e81861b6aab5c5844a76cadfb183f4fc693a8` | pytest collection | `tools.hyp0002_proto01` imported a sibling tool with script-only `from proto01_eurusd ...`, causing ModuleNotFoundError when pytest imported it as `tools.*` |
 
