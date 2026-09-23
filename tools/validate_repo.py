@@ -1364,7 +1364,7 @@ def main() -> int:
 
     state = (repo / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml").read_text(encoding="utf-8")
     for marker in (
-        'schema_version: "2.0"', "phase: M6_REFERENCE_STRATEGY_2",
+        'schema_version: "2.0"', "phase: RESEARCH_FACTORY_CONTINUOUS",
         "M0_PROGRAM_REBASELINE: COMPLETED", "M1_RESEARCH_METHODOLOGY: COMPLETED",
         "M2_RESEARCH_PLATFORM_MVP: COMPLETED", "M3_REFERENCE_STRATEGY_1: COMPLETED",
         "M4_VALIDATION_FRAMEWORK: IN_PROGRESS", "M6_REFERENCE_STRATEGY_2: COMPLETED",
