@@ -87,13 +87,15 @@ model:
   strategy_3_data_feasibility_prep: "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"
   strategy_3_data_feasibility_prep_result: "reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json"
   strategy_3_data_feasibility_tool: "tools/hyp0003_data_feasibility.py"
+  strategy_3_development_data_prep: "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
+  strategy_3_development_data_tool: "tools/hyp0003_development_data.py"
 
 current:
-  focus: "Freeze HYP-0003 source-qualified universe and development-data acquisition contract"
-  last_completed_task_id: "ATS2-RF-006"
-  last_completed_artifact: "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"
-  next_artifact: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
-  next_task_id: "ATS2-RF-007"
+  focus: "Prepare full pre-protected HYP-0003 development dataset"
+  last_completed_task_id: "ATS2-RF-007"
+  last_completed_artifact: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
+  next_artifact: "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
+  next_task_id: "ATS2-RF-008"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -335,6 +337,7 @@ research_factory:
     - "ATS2-RF-004"
     - "ATS2-RF-005"
     - "ATS2-RF-006"
+    - "ATS2-RF-007"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -343,9 +346,10 @@ research_factory:
     - "research/hypotheses/HYP-0003.md"
     - "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
     - "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"
-  current_task: "ATS2-RF-007"
+    - "reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json"
+  current_task: "ATS2-RF-008"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-008"
+  next_task: "ATS2-RF-009"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -364,7 +368,9 @@ research_factory:
   probe_bundle_sha256: "a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e"
   development_dataset_id: "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001"
   development_dataset_version: "1.0.0"
-  development_data_acquisition_contract_status: "PENDING_OWNER_LAUNCHER_RF007"
+  rf007_verified_commit: "21942dccc1985bfc422579c185e9836610627b8b"
+  development_data_acquisition_contract_status: "FROZEN_RF007"
+  development_data_preparation_status: "PENDING_RF008_OWNER_LAUNCHER"
   development_grid_variants: 25
   candidate_currency_count: 9
   minimum_feasible_currency_count: 6
@@ -376,7 +382,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-007"
+  current_ready_task: "ATS2-RF-008"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:

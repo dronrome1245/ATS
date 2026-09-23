@@ -10,52 +10,50 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-006 closure
+## Verified RF-007 closure
 
 OWNER launcher PASS was confirmed on exact commit:
 
-`acf197d5774116c7d9a8b742eab77c6ee3447214`
+`21942dccc1985bfc422579c185e9836610627b8b`
 
-Evidence included pinned Ruff lint/format, pytest collection `149 tests`, full pytest `149 passed`, full Local CI, all nine Dukascopy source probes, current task PASS and launcher PASS.
+Evidence included pinned Ruff lint/format, pytest collection `149 tests`, full pytest `149 passed`, canonical RF-006 result validation, full Local CI, current task PASS and launcher PASS.
 
 Canonical last completed artifact:
 
-`research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md`
+`research/reviews/HYP-0003-DATA-FEASIBILITY.md`
 
-RF-006 preparation result:
+RF-007 froze all nine source-qualified currencies, common possible development start `2003-08-03T21:00:00Z`, and the pre-protected development-data acquisition/normalization/quality contract.
 
-- decision: `READY_FOR_FREEZE_REVIEW`;
-- source-qualified currencies: `AUD, CAD, CHF, EUR, GBP, JPY, NOK, NZD, SEK`;
-- common possible development start: `2003-08-03T21:00:00Z`;
-- probe bundle SHA-256: `a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e`;
-- information boundary: `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+Data Feasibility remains `CONDITIONAL` and information boundary remains `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
 
-Canonicalized machine result:
-
-`reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json`
-
-## RF-007 HYP-0003 Data Feasibility freeze
+## RF-008 HYP-0003 development data preparation
 
 Current task:
 
-`ATS2-RF-007 — HYP-0003 Data Feasibility freeze`
+`ATS2-RF-008 — HYP-0003 development data preparation`
 
 Canonical next artifact:
 
-`research/reviews/HYP-0003-DATA-FEASIBILITY.md`
+`research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md`
 
-RF-007 freezes all nine source-qualified currencies, the common possible development start and the full pre-protected development-data acquisition/normalization/quality contract.
+Runner:
 
-The Data Feasibility decision remains `CONDITIONAL`: full development bytes, full source-bundle/dataset hashes, whole-period quality statistics and monthly-cutoff eligibility counts are not yet materialized.
+`tools/hyp0003_development_data.py`
 
-No HYP-0003 momentum cell is authorized in RF-007.
+RF-008 attempts `217` source months × `9` source pairs × `2` sides = `3906` Dukascopy monthly H1 source objects. Acquisition is resumable from local frozen source files.
 
-Protected-tail boundary remains:
+Local outputs:
 
-`2021-09-01T00:00:00Z <= time < 2026-09-01T00:00:00Z`
+- `data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv`;
+- `reports/local_ci/HYP0003_DEVELOPMENT_DATA.json`;
+- `reports/local_ci/HYP0003_DEVELOPMENT_DATA_REPORT.txt`.
+
+RF-008 records source/data hashes, coverage, missing-market-hour and monthly-cutoff eligibility statistics. It does not calculate formation returns, ranks, baskets, holding returns or any HYP-0003 cell.
+
+Protected-tail months at or after `2021-09-01T00:00:00Z` are prohibited.
 
 Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
-After exact-head PASS:
+After exact-head PASS and report review:
 
-`ATS2-RF-008 — HYP-0003 development data preparation`.
+`ATS2-RF-009 — HYP-0003 development data freeze`.

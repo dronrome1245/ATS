@@ -57,6 +57,11 @@ HYP0003_DATA_FEASIBILITY_PREP_RESULT = (
 )
 HYP0003_DATA_FEASIBILITY_TOOL = "tools/hyp0003_data_feasibility.py"
 HYP0003_DATA_FEASIBILITY_TEST = "tests/test_hyp0003_data_feasibility.py"
+STRATEGY_3_DEVELOPMENT_DATA_PREP = (
+    "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
+)
+HYP0003_DEVELOPMENT_DATA_TOOL = "tools/hyp0003_development_data.py"
+HYP0003_DEVELOPMENT_DATA_TEST = "tests/test_hyp0003_development_data.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -212,6 +217,9 @@ def configure() -> None:
         HYP0003_DATA_FEASIBILITY_PREP_RESULT,
         HYP0003_DATA_FEASIBILITY_TOOL,
         HYP0003_DATA_FEASIBILITY_TEST,
+        STRATEGY_3_DEVELOPMENT_DATA_PREP,
+        HYP0003_DEVELOPMENT_DATA_TOOL,
+        HYP0003_DEVELOPMENT_DATA_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -254,6 +262,8 @@ def configure() -> None:
         "strategy_3_data_feasibility",
         "strategy_3_data_feasibility_prep",
         "strategy_3_data_feasibility_tool",
+        "strategy_3_development_data_prep",
+        "strategy_3_development_data_tool",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -684,6 +694,45 @@ def configure() -> None:
         "test_probe_side_resilient_retries_transient_network_error",
         "test_normalized_bid_ask_preserves_executable_order",
         "INVERSE",
+    )
+    core.CONTENT_MARKERS[STRATEGY_3_DEVELOPMENT_DATA_PREP] = (
+        "ATS2-RF-008",
+        "PREPARATION_PROTOCOL_FROZEN",
+        "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001",
+        "3906",
+        "USDJPY = 1000",
+        "READY_FOR_DEVELOPMENT_DATA_FREEZE",
+        "INSUFFICIENT_DEVELOPMENT_DATA",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "ATS2-RF-009",
+    )
+    core.CONTENT_MARKERS[HYP0003_DEVELOPMENT_DATA_TOOL] = (
+        "HYP-0003",
+        "DATA_START = datetime(2003, 8, 3, 21",
+        "DATA_END = datetime(2021, 9, 1",
+        "POINT_DIVISORS",
+        '"USDJPY": 1_000',
+        "development_months",
+        "download_source_resilient",
+        "normalize_pair_ohlc",
+        "source_bundle_hash",
+        "supports_longest_12_12_geometry",
+        "READY_FOR_DEVELOPMENT_DATA_FREEZE",
+        "INSUFFICIENT_DEVELOPMENT_DATA",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "HYP0003_DEVELOPMENT_DATA_REPORT.txt",
+    )
+    core.CONTENT_MARKERS[HYP0003_DEVELOPMENT_DATA_TEST] = (
+        "test_development_months_are_frozen_before_protected_tail",
+        "test_point_divisors_are_explicit_and_jpy_specific",
+        "test_decode_month_uses_frozen_point_divisor",
+        "test_decode_month_rejects_out_of_order_records",
+        "test_normalize_pair_ohlc_preserves_execution_order",
+        "test_source_bundle_hash_is_order_independent",
+        "test_monthly_cutoff_uses_last_expected_fx_market_hour",
+        "test_longest_12_12_geometry_respects_boundaries",
+        "test_download_source_rejects_protected_tail_before_network",
+        "test_download_source_resilient_retries_transient_error",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -1247,14 +1296,14 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-007"',
-        "RF-007 HYP-0003 Data Feasibility freeze artifacts",
-        "HYP-0003-DATA-FEASIBILITY.md",
-        "HYP-0003-DATA-FEASIBILITY-PREP.md",
-        "HYP-0003-DATA-FEASIBILITY-PREP-result.json",
-        "check_canonical_preparation_result",
-        "READY_FOR_FREEZE_REVIEW",
-        "full ATS Local CI for RF-007 freeze",
+        'TASK_ID = "ATS2-RF-008"',
+        "RF-008 HYP-0003 development data preparation artifacts",
+        "HYP-0003-DEVELOPMENT-DATA-PREP.md",
+        "hyp0003_development_data.py",
+        "HYP0003_DEVELOPMENT_DATA.json",
+        "READY_FOR_DEVELOPMENT_DATA_FREEZE",
+        "INSUFFICIENT_DEVELOPMENT_DATA",
+        "full ATS Local CI before RF-008 data acquisition",
         "emit_progress(45)",
         "emit_progress(75)",
         "ATS CURRENT TASK CHECK:",
@@ -1465,6 +1514,9 @@ def validate_environment(repo: Path) -> int:
         "reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt",
         "reports/local_ci/HYP0003_DATA_FEASIBILITY.json",
         "reports/local_ci/HYP0003_DATA_FEASIBILITY_REPORT.txt",
+        "reports/local_ci/HYP0003_DEVELOPMENT_DATA.json",
+        "reports/local_ci/HYP0003_DEVELOPMENT_DATA_REPORT.txt",
+        "data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv*",
         "reports/local_ci/*.lnk",
     ):
         if ignored_report not in gitignore:
@@ -1504,6 +1556,7 @@ def validate_environment(repo: Path) -> int:
         "tools/hyp0002_data_feasibility.py",
         "tools/hyp0002_proto01.py",
         "tools/hyp0003_data_feasibility.py",
+        "tools/hyp0003_development_data.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -1521,6 +1574,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_discovery_eurusd_h1.py",
         "tests/test_hyp0002_proto01.py",
         "tests/test_hyp0003_data_feasibility.py",
+        "tests/test_hyp0003_development_data.py",
     ):
         path = repo / relative
         try:
@@ -1590,6 +1644,8 @@ def main() -> int:
         'strategy_3_data_feasibility_prep: "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"',
         'strategy_3_data_feasibility_prep_result: "reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json"',
         'strategy_3_data_feasibility_tool: "tools/hyp0003_data_feasibility.py"',
+        'strategy_3_development_data_prep: "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"',
+        'strategy_3_development_data_tool: "tools/hyp0003_development_data.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1602,9 +1658,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-006"',
-        'current_task: "ATS2-RF-007"', 'current_ready_task: "ATS2-RF-007"',
-        'next_task: "ATS2-RF-008"',
+        'last_completed_task_id: "ATS2-RF-007"',
+        'current_task: "ATS2-RF-008"', 'current_ready_task: "ATS2-RF-008"',
+        'next_task: "ATS2-RF-009"',
         'current_wbs: "WBS-RF.2"',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
         'preparation_decision: "READY_FOR_FREEZE_REVIEW"',
@@ -1612,6 +1668,9 @@ def main() -> int:
         'common_possible_development_start: "2003-08-03T21:00:00Z"',
         'probe_bundle_sha256: "a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e"',
         'development_dataset_id: "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001"',
+        'rf007_verified_commit: "21942dccc1985bfc422579c185e9836610627b8b"',
+        'development_data_acquisition_contract_status: "FROZEN_RF007"',
+        'development_data_preparation_status: "PENDING_RF008_OWNER_LAUNCHER"',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -1695,14 +1754,14 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-RF-006") != "DONE":
-        core.fail("RF-006 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-007") != "DONE":
+        core.fail("RF-007 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-007") != "READY":
-        core.fail("RF-007 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-008") != "READY":
+        core.fail("RF-008 must be READY in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-008") != "BLOCKED":
-        core.fail("RF-008 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-009") != "BLOCKED":
+        core.fail("RF-009 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
