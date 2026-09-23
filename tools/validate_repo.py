@@ -640,6 +640,8 @@ def configure() -> None:
         "MINIMUM_FEASIBLE_CURRENCIES = 6",
         "CANDIDATES",
         "find_first_available_month",
+        "PROBE_BATCH_BACKOFF_SECONDS",
+        "probe_side_resilient",
         "normalized_bid_ask",
         "probe_bundle_hash",
         "READY_FOR_FREEZE_REVIEW",
@@ -650,6 +652,7 @@ def configure() -> None:
     core.CONTENT_MARKERS[HYP0003_DATA_FEASIBILITY_TEST] = (
         "test_month_index_round_trip_and_previous_month",
         "test_source_url_uses_zero_based_dukascopy_month",
+        "test_probe_side_resilient_retries_transient_network_error",
         "test_normalized_bid_ask_preserves_executable_order",
         "INVERSE",
     )
@@ -1162,6 +1165,9 @@ def configure() -> None:
         "do not modify source code for infrastructure/network failures",
         "Raw machine reports are not copied into this file",
         "technical-control threshold",
+        "LCI-007",
+        "probe_side_resilient",
+        "CONTROL_REQUIRED",
     )
     core.CONTENT_MARKERS[LOCAL_CI_FAILURE_REGISTRY] = (
         "Escalation policy",
@@ -1178,6 +1184,9 @@ def configure() -> None:
         "124 passed",
         "Reusable resolution rule",
         "Rule-conversion discipline",
+        "LCI-007",
+        "CONTROL_REQUIRED",
+        "b82e827c0c8510a38aac3179411b3b2a8d455310",
     )
     core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
         "git pull --ff-only",

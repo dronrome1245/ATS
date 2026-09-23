@@ -4,6 +4,7 @@ from datetime import UTC, datetime
 
 import pytest
 
+import tools.hyp0003_data_feasibility as feasibility
 from tools.hyp0003_data_feasibility import (
     month_from_number,
     month_number,
@@ -27,6 +28,34 @@ def test_source_url_uses_zero_based_dukascopy_month() -> None:
         month,
         "BID",
     ).endswith("/EURUSD/2021/07/BID_candles_hour_1.bi5")
+
+
+def test_probe_side_resilient_retries_transient_network_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls: list[tuple[str, datetime, str]] = []
+
+    def fake_probe_side(
+        symbol: str,
+        month: datetime,
+        side: str,
+    ) -> feasibility.ProbeObject | None:
+        calls.append((symbol, month, side))
+        if len(calls) < 3:
+            raise feasibility.ProbeError("transient network failure")
+        return None
+
+    monkeypatch.setattr(feasibility, "probe_side", fake_probe_side)
+    monkeypatch.setattr(feasibility.time, "sleep", lambda _delay: None)
+
+    result = feasibility.probe_side_resilient(
+        "AUDUSD",
+        datetime(1997, 11, 1, tzinfo=UTC),
+        "BID",
+    )
+
+    assert result is None
+    assert len(calls) == 3
 
 
 def test_normalized_bid_ask_preserves_executable_order() -> None:

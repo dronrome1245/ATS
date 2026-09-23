@@ -241,6 +241,7 @@ Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added 
 
 **First observed:** 2026-09-22 on `2545491d35a980e8c375100b9c8f8d99ee44f41e` while acquiring HYP-0002 confirmatory data  
 **Repeat observed:** 2026-09-22 on the same exact commit after resume progressed to a later month/side  
+**Repeat observed:** 2026-09-23 on `b82e827c0c8510a38aac3179411b3b2a8d455310` during HYP-0003 source availability probing  
 **Class:** `DATA_SOURCE_NETWORK`
 
 **Symptom**
@@ -251,9 +252,13 @@ Repository validator, pinned Ruff, pytest and full Local CI pass, but the task-s
 
 The external data source is intermittently unavailable during acquisition. Successful month/side files are already persisted locally, so later runs resume from the first missing source file rather than restarting the whole acquisition.
 
+The third occurrence exposed a control gap in the new HYP-0003 availability probe: it had short per-URL retries, but no outer per-object retry batches with increasing backoff. A transient reset while classifying an old month therefore aborted the task before the existing cache/resume design could accumulate further progress.
+
 **Correct response**
 
-Do not change the Hypothesis, data period or provider merely because of a transient source-network failure. Keep the existing local cache and retry only the missing month/side. Use bounded additional download batches with increasing backoff; if the source remains unavailable after the bound, fail closed without computing any HYP-0002 outcome.
+Do not change the Hypothesis, data period or provider merely because of a transient source-network failure. Keep the existing local cache and retry only the missing month/side. Use bounded additional download/probe batches with increasing backoff; if the source remains unavailable after the bound, fail closed without computing any research outcome.
+
+For HYP-0003 probes, the control is `probe_side_resilient()` with `PROBE_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)`. Each new batch reuses any source object already cached by a previous attempt.
 
 **Preventive rule**
 
@@ -262,6 +267,12 @@ Do not change the Hypothesis, data period or provider merely because of a transi
 3. Transient 5xx/timeouts may receive bounded retry batches with backoff.
 4. Exhausted retries remain a blocking source-network failure; they must not trigger post-hoc source/period changes.
 5. The preparation step must preserve the declared information boundary while retrying.
+6. Per-URL retries alone do not satisfy this control for a long-running source task; a file/probe operation must also have bounded outer retry batches.
+7. The retry control must have regression coverage that simulates transient failure followed by recovery without real network access.
+
+**Escalation**
+
+Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore adds a concrete per-object retry-batch control and a deterministic unit test; documentation alone is no longer sufficient.
 
 **Scope:** OWNER research workflow and agents.
 

@@ -28,6 +28,7 @@ DOWNLOAD_BASES = (
     "https://www.dukascopy.com/datafeed",
 )
 USER_AGENT = "ATS-Research/1.0"
+PROBE_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)
 RAW_ROOT = ROOT / "data" / "external" / "dukascopy"
 REPORT_JSON = ROOT / "reports" / "local_ci" / "HYP0003_DATA_FEASIBILITY.json"
 REPORT_TEXT = ROOT / "reports" / "local_ci" / "HYP0003_DATA_FEASIBILITY_REPORT.txt"
@@ -235,9 +236,32 @@ def probe_side(symbol: str, month: datetime, side: str) -> ProbeObject | None:
     return inspect_probe(symbol, month, side, path, source)
 
 
+def probe_side_resilient(symbol: str, month: datetime, side: str) -> ProbeObject | None:
+    attempts = len(PROBE_BATCH_BACKOFF_SECONDS) + 1
+    last_error: ProbeError | None = None
+    for batch in range(attempts):
+        try:
+            return probe_side(symbol, month, side)
+        except ProbeError as exc:
+            last_error = exc
+            if batch == attempts - 1:
+                break
+            delay = PROBE_BATCH_BACKOFF_SECONDS[batch]
+            print(
+                f"Dukascopy probe batch failed for {symbol} {month:%Y-%m} {side}; "
+                f"retrying in {delay:.0f}s",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
+    raise ProbeError(
+        f"cannot classify {symbol} {month:%Y-%m} {side} "
+        f"after {attempts} probe batches: {last_error}"
+    )
+
+
 def probe_month(symbol: str, month: datetime) -> tuple[ProbeObject, ProbeObject] | None:
-    bid = probe_side(symbol, month, "BID")
-    ask = probe_side(symbol, month, "ASK")
+    bid = probe_side_resilient(symbol, month, "BID")
+    ask = probe_side_resilient(symbol, month, "ASK")
     if bid is None and ask is None:
         return None
     if bid is None or ask is None:
