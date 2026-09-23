@@ -57,6 +57,11 @@ HYP0003_DATA_FEASIBILITY_PREP_RESULT = (
 )
 HYP0003_DATA_FEASIBILITY_TOOL = "tools/hyp0003_data_feasibility.py"
 HYP0003_DATA_FEASIBILITY_TEST = "tests/test_hyp0003_data_feasibility.py"
+STRATEGY_3_DEVELOPMENT_DATA_PREP = (
+    "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
+)
+HYP0003_DEVELOPMENT_DATA_TOOL = "tools/hyp0003_development_data.py"
+HYP0003_DEVELOPMENT_DATA_TEST = "tests/test_hyp0003_development_data.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -212,6 +217,9 @@ def configure() -> None:
         HYP0003_DATA_FEASIBILITY_PREP_RESULT,
         HYP0003_DATA_FEASIBILITY_TOOL,
         HYP0003_DATA_FEASIBILITY_TEST,
+        STRATEGY_3_DEVELOPMENT_DATA_PREP,
+        HYP0003_DEVELOPMENT_DATA_TOOL,
+        HYP0003_DEVELOPMENT_DATA_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -254,6 +262,8 @@ def configure() -> None:
         "strategy_3_data_feasibility",
         "strategy_3_data_feasibility_prep",
         "strategy_3_data_feasibility_tool",
+        "strategy_3_development_data_prep",
+        "strategy_3_development_data_tool",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
