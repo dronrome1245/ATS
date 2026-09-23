@@ -48,6 +48,10 @@ Expected local outputs after a successful reveal:
 - `reports/local_ci/HYP0002_PROTO01_RESULT.json`
 - `reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt`
 
+Canonical next artifact after review:
+
+`reports/research/HYP-0002-PROTOTYPE-01-result.json`
+
 After launcher PASS, return both:
 
 - `reports/local_ci/CURRENT_TASK_REPORT.txt`
