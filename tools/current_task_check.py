@@ -8,23 +8,22 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-RF-003"
-TASK_NAME = "Strategy #3 family selection and Idea intake"
+TASK_ID = "ATS2-RF-004"
+TASK_NAME = "HYP-0003 formation"
 REQUIRED_ARTIFACTS = (
-    Path("governance/program/STRATEGY_3_IDEA_SOURCING.md"),
-    Path("governance/program/STRATEGY_3_FAMILY_SELECTION.md"),
     Path("research/ideas/IDEA-0003.md"),
+    Path("research/hypotheses/HYP-0003.md"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== RF-003 Strategy #3 family selection and Idea intake artifacts ==")
+    print("\n== RF-004 HYP-0003 formation artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] RF-003 Strategy #3 family selection and Idea intake artifacts")
+    print("[PASS] RF-004 HYP-0003 formation artifacts")
     return True
 
 
@@ -52,7 +51,7 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "RF-003 Strategy #3 family selection and Idea intake governance validation",
+            "RF-004 HYP-0003 formation governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

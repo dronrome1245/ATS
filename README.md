@@ -18,8 +18,6 @@ Current lane:
 
 Current work:
 
-`ATS2-RF-003 — Strategy #3 family selection and Idea intake`
+`ATS2-RF-004 — HYP-0003 formation`
 
-Selected research family: cross-sectional currency momentum.
-
-No Strategy #3 parameter set has been selected yet.
+We are defining a bounded 25-variant development parameter grid for cross-sectional currency momentum. No confirmatory result has been viewed.

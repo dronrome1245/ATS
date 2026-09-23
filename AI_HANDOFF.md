@@ -10,52 +10,50 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-002 closure
+## Verified RF-003 closure
 
 OWNER launcher PASS was confirmed on exact commit:
 
-`040a0c78dc3829c7ca534397dc55691eaae1a4fd`
+`be11af8bfa3fb7386babb4ebab67d4e70c50924f`
 
 Evidence included pinned Ruff lint/format, pytest collection `141 tests`, full pytest `141 passed`, full Local CI, current task PASS and launcher PASS.
 
 Canonical last completed artifact:
 
-`governance/program/STRATEGY_3_IDEA_SOURCING.md`
-
-## RF-003 Strategy #3 family selection and Idea intake
-
-Current task:
-
-`ATS2-RF-003 — Strategy #3 family selection and Idea intake`
-
-Canonical next artifact:
-
 `research/ideas/IDEA-0003.md`
-
-Selection artifact:
-
-`governance/program/STRATEGY_3_FAMILY_SELECTION.md`
 
 Selected family:
 
 `S3-FAM-02 — CROSS_SECTIONAL_CURRENCY_MOMENTUM`
 
-Idea:
+## RF-004 HYP-0003 formation
 
-`IDEA-0003 — Cross-Sectional Currency Momentum`
+Current task:
 
-Status:
+`ATS2-RF-004 — HYP-0003 formation`
 
-`SCREENING`
+Canonical next artifact:
 
-The selection is based on materially different mechanism, plausible multi-instrument data path, cheap falsification and platform value. It is not a claim of profitability.
+`research/hypotheses/HYP-0003.md`
 
-Exact currency universe, provider, lookback, holding/rebalance horizon, ranking rule and target magnitude remain unselected.
+HYP-0003 is a development-stage Hypothesis, not the final confirmatory claim.
 
-Development parameter tuning will be allowed under a bounded search policy with full variant accounting. Confirmatory data cannot be tuned against and remain independent evidence for the same claim.
+It freezes:
+
+- monthly cross-sectional ranking;
+- formation periods `1, 3, 6, 9, 12 months`;
+- holding periods `1, 3, 6, 9, 12 months`;
+- exactly `25` declared development variants;
+- top/bottom one-sixth winner/loser baskets;
+- side-aware BID/ASK execution;
+- a broad-region rule based on the median cell mean, at least `13 / 25` positive-mean cells, and breadth across at least three formation and three holding periods.
+
+The exact currency universe, provider and development dates are still unresolved and belong to Data Feasibility.
+
+If HYP-0003 passes development, ATS must create a new fixed Hypothesis ID for a separate previously unseen confirmatory block. The development result cannot be relabeled as confirmation.
 
 Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
 After exact-head PASS:
 
-`ATS2-RF-004 — HYP-0003 formation`.
+`ATS2-RF-005 — HYP-0003 Data Feasibility`.

@@ -354,8 +354,10 @@ RF-001 sourcing rebaseline is complete pending exact OWNER evidence already rece
 
 RF-002 idea sourcing is complete pending exact OWNER evidence already received on the task commit.
 
+RF-003 family selection and IDEA-0003 intake are complete pending exact OWNER evidence already received on the task commit.
+
 The current execution target is:
 
-`ATS2-RF-003 — Strategy #3 family selection and Idea intake`
+`ATS2-RF-004 — HYP-0003 formation`
 
-The selected family for Idea intake is cross-sectional currency momentum. RF-003 registers IDEA-0003 without fixing its currency universe, lookback, holding/rebalance horizon or ranking rule. Those choices belong to HYP-0003 and bounded development research.
+HYP-0003 is a development-stage broad-region claim over a fixed 25-cell formation/holding grid. It allows bounded parameter research with full accounting, but any later confirmatory formulation requires a new fixed Hypothesis ID and a separate unseen block.

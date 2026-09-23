@@ -52,10 +52,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 37. `ATS2-M6-009` — M6 Exit Review — `DONE / PASS`.
 38. `ATS2-RF-001` — Strategy #3 sourcing rebaseline — `DONE`.
 39. `ATS2-RF-002` — Strategy #3 idea sourcing — `DONE`.
-40. `ATS2-RF-003` — Strategy #3 family selection and Idea intake — `READY`.
-41. `ATS2-RF-004` — HYP-0003 formation — `BLOCKED` pending RF-003 exact-head PASS.
+40. `ATS2-RF-003` — Strategy #3 family selection and Idea intake — `DONE`.
+41. `ATS2-RF-004` — HYP-0003 formation — `READY`.
+42. `ATS2-RF-005` — HYP-0003 Data Feasibility — `BLOCKED` pending RF-004 exact-head PASS.
 
-Program-level current next task — `ATS2-RF-003`.
+Program-level current next task — `ATS2-RF-004`.
 
 ## 3. M0 / M1
 
@@ -132,25 +133,24 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 |---|---|---:|---|---|---|---|
 | `ATS2-RF-001` | `WBS-RF.0` | P1 | DONE | M6 Exit PASS | `governance/program/STRATEGY_3_SOURCING_REBASELINE.md` | Continuous Research Factory lane defined without inventing Strategy #3 facts; development tuning before confirmatory freeze is allowed only with complete search accounting |
 | `ATS2-RF-002` | `WBS-RF.1` | P1 | DONE | RF-001 PASS | `governance/program/STRATEGY_3_IDEA_SOURCING.md` | Retained four reviewed families, shortlisted three and selected no winner |
-| `ATS2-RF-003` | `WBS-RF.1` | P1 | READY | RF-002 PASS | `governance/program/STRATEGY_3_FAMILY_SELECTION.md` + `research/ideas/IDEA-0003.md` | Select at most one family and register one Idea without fixing post-hoc parameters or claiming profitability |
-| `ATS2-RF-004` | `WBS-RF.2` | P1 | BLOCKED | RF-003 PASS | `research/hypotheses/HYP-0003.md` | Form a falsifiable cross-sectional momentum hypothesis with bounded development search policy and protected confirmatory boundary |
+| `ATS2-RF-003` | `WBS-RF.1` | P1 | DONE | RF-002 PASS | `governance/program/STRATEGY_3_FAMILY_SELECTION.md` + `research/ideas/IDEA-0003.md` | Selected cross-sectional currency momentum and registered IDEA-0003 without fixing a parameter set |
+| `ATS2-RF-004` | `WBS-RF.2` | P1 | READY | RF-003 PASS | `research/hypotheses/HYP-0003.md` | Freeze a 25-cell literature-motivated development grid, broad-region falsification rule and separate future confirmatory-Hypothesis boundary |
+| `ATS2-RF-005` | `WBS-RF.2` | P1 | BLOCKED | RF-004 PASS | `research/reviews/HYP-0003-DATA_FEASIBILITY.md` | Verify synchronized point-in-time multi-currency data, universe rule, monthly cutoff, BID/ASK semantics, costs and preserved future confirmatory capacity before any HYP-0003 development result |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-003 — Strategy #3 family selection and Idea intake`.
+`ATS2-RF-004 — HYP-0003 formation`.
 
 Canonical artifact:
 
-`research/ideas/IDEA-0003.md`
+`research/hypotheses/HYP-0003.md`
 
-Selected family for Idea intake:
+Current activity is **задаём проверяемую гипотезу и ограниченную область параметров для development-настройки**.
 
-`S3-FAM-02 — CROSS_SECTIONAL_CURRENCY_MOMENTUM`
+HYP-0003 declares exactly `25` formation/holding variants from the literature-motivated `1/3/6/9/12 month` grid and tests for a broad positive region rather than selecting one best cell.
 
-Current activity is **выбираем семейство и оформляем идею**, not parameter optimization or confirmatory testing.
+No confirmatory data are revealed in HYP-0003. A separate new Hypothesis ID will be required for the fixed confirmatory test if development succeeds.
 
-Exact universe, data provider, lookback, holding/rebalance horizon and ranking rule remain unselected.
-
-After exact-head PASS, advance to `ATS2-RF-004 — HYP-0003 formation`.
+After exact-head PASS, advance to `ATS2-RF-005 — HYP-0003 Data Feasibility`.
