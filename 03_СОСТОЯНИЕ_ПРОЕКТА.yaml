@@ -84,13 +84,15 @@ model:
   strategy_3_idea: "research/ideas/IDEA-0003.md"
   strategy_3_hypothesis: "research/hypotheses/HYP-0003.md"
   strategy_3_data_feasibility: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
+  strategy_3_data_feasibility_prep: "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"
+  strategy_3_data_feasibility_tool: "tools/hyp0003_data_feasibility.py"
 
 current:
-  focus: "Assess HYP-0003 multi-currency data feasibility"
-  last_completed_task_id: "ATS2-RF-004"
-  last_completed_artifact: "research/hypotheses/HYP-0003.md"
-  next_artifact: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
-  next_task_id: "ATS2-RF-005"
+  focus: "Machine-probe HYP-0003 multi-currency source availability"
+  last_completed_task_id: "ATS2-RF-005"
+  last_completed_artifact: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
+  next_artifact: "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"
+  next_task_id: "ATS2-RF-006"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -330,15 +332,17 @@ research_factory:
     - "ATS2-RF-002"
     - "ATS2-RF-003"
     - "ATS2-RF-004"
+    - "ATS2-RF-005"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
     - "governance/program/STRATEGY_3_FAMILY_SELECTION.md"
     - "research/ideas/IDEA-0003.md"
     - "research/hypotheses/HYP-0003.md"
-  current_task: "ATS2-RF-005"
+    - "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
+  current_task: "ATS2-RF-006"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-006"
+  next_task: "ATS2-RF-007"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -359,7 +363,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-005"
+  current_ready_task: "ATS2-RF-006"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:

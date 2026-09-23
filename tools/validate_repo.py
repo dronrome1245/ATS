@@ -51,6 +51,9 @@ STRATEGY_3_FAMILY_SELECTION = "governance/program/STRATEGY_3_FAMILY_SELECTION.md
 STRATEGY_3_IDEA = "research/ideas/IDEA-0003.md"
 STRATEGY_3_HYPOTHESIS = "research/hypotheses/HYP-0003.md"
 STRATEGY_3_DATA_FEASIBILITY = "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
+STRATEGY_3_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"
+HYP0003_DATA_FEASIBILITY_TOOL = "tools/hyp0003_data_feasibility.py"
+HYP0003_DATA_FEASIBILITY_TEST = "tests/test_hyp0003_data_feasibility.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -201,6 +204,9 @@ def configure() -> None:
         STRATEGY_3_IDEA,
         STRATEGY_3_HYPOTHESIS,
         STRATEGY_3_DATA_FEASIBILITY,
+        STRATEGY_3_DATA_FEASIBILITY_PREP,
+        HYP0003_DATA_FEASIBILITY_TOOL,
+        HYP0003_DATA_FEASIBILITY_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -241,6 +247,8 @@ def configure() -> None:
         "strategy_3_idea",
         "strategy_3_hypothesis",
         "strategy_3_data_feasibility",
+        "strategy_3_data_feasibility_prep",
+        "strategy_3_data_feasibility_tool",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -613,6 +621,37 @@ def configure() -> None:
         "2026-09-01T00:00:00Z",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         "ATS2-RF-006",
+    )
+    core.CONTENT_MARKERS[STRATEGY_3_DATA_FEASIBILITY_PREP] = (
+        "ATS2-RF-006",
+        "PREPARATION_PROTOCOL_FROZEN",
+        "AUDUSD, USDCAD, USDCHF, EURUSD, GBPUSD, USDJPY, USDNOK, NZDUSD, USDSEK",
+        "2021-09-01T00:00:00Z",
+        "probe_bundle_sha256",
+        "READY_FOR_FREEZE_REVIEW",
+        "INSUFFICIENT_SOURCE_UNIVERSE",
+        "HYP0003_DATA_FEASIBILITY.json",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "ATS2-RF-007",
+    )
+    core.CONTENT_MARKERS[HYP0003_DATA_FEASIBILITY_TOOL] = (
+        "HYP-0003",
+        "PROTECTED_START = datetime(2021, 9, 1",
+        "MINIMUM_FEASIBLE_CURRENCIES = 6",
+        "CANDIDATES",
+        "find_first_available_month",
+        "normalized_bid_ask",
+        "probe_bundle_hash",
+        "READY_FOR_FREEZE_REVIEW",
+        "INSUFFICIENT_SOURCE_UNIVERSE",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "HYP0003_DATA_FEASIBILITY_REPORT.txt",
+    )
+    core.CONTENT_MARKERS[HYP0003_DATA_FEASIBILITY_TEST] = (
+        "test_month_index_round_trip_and_previous_month",
+        "test_source_url_uses_zero_based_dukascopy_month",
+        "test_normalized_bid_ask_preserves_executable_order",
+        "INVERSE",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -1153,12 +1192,14 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-005"',
-        "RF-005 HYP-0003 Data Feasibility artifacts",
-        "HYP-0003.md",
+        'TASK_ID = "ATS2-RF-006"',
+        "RF-006 HYP-0003 Data Feasibility preparation artifacts",
         "HYP-0003-DATA-FEASIBILITY.md",
-        "RF-005 HYP-0003 Data Feasibility governance validation",
-        "tools/verify_repo.py",
+        "HYP-0003-DATA-FEASIBILITY-PREP.md",
+        "hyp0003_data_feasibility.py",
+        "test_hyp0003_data_feasibility.py",
+        "full ATS Local CI before source probe",
+        "RF-006 HYP-0003 source availability probe",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/verify_repo.py"] = (
@@ -1356,6 +1397,8 @@ def validate_environment(repo: Path) -> int:
         "reports/local_ci/HYP0002_DATA_FEASIBILITY_REPORT.txt",
         "reports/local_ci/HYP0002_PROTO01_RESULT.json",
         "reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt",
+        "reports/local_ci/HYP0003_DATA_FEASIBILITY.json",
+        "reports/local_ci/HYP0003_DATA_FEASIBILITY_REPORT.txt",
         "reports/local_ci/*.lnk",
     ):
         if ignored_report not in gitignore:
@@ -1393,6 +1436,7 @@ def validate_environment(repo: Path) -> int:
         "tools/discover_eurusd_h1.py",
         "tools/hyp0002_data_feasibility.py",
         "tools/hyp0002_proto01.py",
+        "tools/hyp0003_data_feasibility.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -1409,6 +1453,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_discovery_bounded.py",
         "tests/test_discovery_eurusd_h1.py",
         "tests/test_hyp0002_proto01.py",
+        "tests/test_hyp0003_data_feasibility.py",
     ):
         path = repo / relative
         try:
@@ -1475,6 +1520,8 @@ def main() -> int:
         'strategy_3_idea: "research/ideas/IDEA-0003.md"',
         'strategy_3_hypothesis: "research/hypotheses/HYP-0003.md"',
         'strategy_3_data_feasibility: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"',
+        'strategy_3_data_feasibility_prep: "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"',
+        'strategy_3_data_feasibility_tool: "tools/hyp0003_data_feasibility.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1487,8 +1534,8 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-004"',
-        'current_task: "ATS2-RF-005"', 'current_ready_task: "ATS2-RF-005"',
+        'last_completed_task_id: "ATS2-RF-005"',
+        'current_task: "ATS2-RF-006"', 'current_ready_task: "ATS2-RF-006"',
         'current_wbs: "WBS-RF.2"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -1572,11 +1619,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-RF-004") != "DONE":
-        core.fail("RF-004 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-005") != "DONE":
+        core.fail("RF-005 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-005") != "READY":
-        core.fail("RF-005 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-006") != "READY":
+        core.fail("RF-006 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

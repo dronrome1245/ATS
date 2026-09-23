@@ -54,10 +54,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 39. `ATS2-RF-002` — Strategy #3 idea sourcing — `DONE`.
 40. `ATS2-RF-003` — Strategy #3 family selection and Idea intake — `DONE`.
 41. `ATS2-RF-004` — HYP-0003 formation — `DONE`.
-42. `ATS2-RF-005` — HYP-0003 Data Feasibility — `READY`.
-43. `ATS2-RF-006` — HYP-0003 Data Feasibility preparation — `BLOCKED` pending RF-005 exact-head PASS.
+42. `ATS2-RF-005` — HYP-0003 Data Feasibility — `DONE`.
+43. `ATS2-RF-006` — HYP-0003 Data Feasibility preparation — `READY`.
+44. `ATS2-RF-007` — HYP-0003 Data Feasibility freeze — `BLOCKED` pending RF-006 exact-head PASS.
 
-Program-level current next task — `ATS2-RF-005`.
+Program-level current next task — `ATS2-RF-006`.
 
 ## 3. M0 / M1
 
@@ -136,23 +137,22 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-002` | `WBS-RF.1` | P1 | DONE | RF-001 PASS | `governance/program/STRATEGY_3_IDEA_SOURCING.md` | Retained four reviewed families, shortlisted three and selected no winner |
 | `ATS2-RF-003` | `WBS-RF.1` | P1 | DONE | RF-002 PASS | `governance/program/STRATEGY_3_FAMILY_SELECTION.md` + `research/ideas/IDEA-0003.md` | Selected cross-sectional currency momentum and registered IDEA-0003 without fixing a parameter set |
 | `ATS2-RF-004` | `WBS-RF.2` | P1 | DONE | RF-003 PASS | `research/hypotheses/HYP-0003.md` | Froze the 25-cell development grid, broad-region rule and separate future confirmatory-Hypothesis boundary |
-| `ATS2-RF-005` | `WBS-RF.2` | P1 | READY | RF-004 PASS | `research/reviews/HYP-0003-DATA-FEASIBILITY.md` | Record CONDITIONAL source feasibility, predeclare non-performance G10-ex-USD candidate universe, quote normalization, basket rounding, timing and protected-tail rules before source preparation |
-| `ATS2-RF-006` | `WBS-RF.2` | P1 | BLOCKED | RF-005 PASS | HYP-0003 preparation tool + local feasibility report | Machine-verify all nine source symbols, freeze feasible universe/common development coverage/hashes and compute no momentum outcome |
+| `ATS2-RF-005` | `WBS-RF.2` | P1 | DONE | RF-004 PASS | `research/reviews/HYP-0003-DATA-FEASIBILITY.md` | Recorded CONDITIONAL source feasibility, non-performance G10-ex-USD candidate universe, timing and protected-tail rules |
+| `ATS2-RF-006` | `WBS-RF.2` | P1 | READY | RF-005 PASS | `research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md` + probe tool/tests + local feasibility report | Probe all nine source symbols, identify source-qualified universe/common possible development start and probe hashes without computing momentum |
+| `ATS2-RF-007` | `WBS-RF.2` | P1 | BLOCKED | RF-006 PASS | canonical HYP-0003 feasibility-preparation result + updated Data Feasibility freeze | Record the probe result, freeze the source-qualified universe/coverage decision, and define the full-development-data acquisition contract without revealing the protected tail |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-005 — HYP-0003 Data Feasibility`.
+`ATS2-RF-006 — HYP-0003 Data Feasibility preparation`.
 
 Canonical artifact:
 
-`research/reviews/HYP-0003-DATA-FEASIBILITY.md`
+`research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md`
 
-Current activity is **проверяем, можно ли честно собрать данные для настройки Strategy #3**.
+Current activity is **машинно проверяем доступность 9 валютных источников**, not Strategy #3 profitability.
 
-The review is `CONDITIONAL`: source capabilities are documented, but exact nine-symbol availability/common coverage and integrity must still be verified locally.
+The tool probes first two-sided H1 source availability and August 2021 for each candidate, records probe hashes/common possible development start, and does not compute momentum or any of the 25 development cells.
 
-No HYP-0003 momentum result is computed.
-
-After exact-head PASS, advance to `ATS2-RF-006 — HYP-0003 Data Feasibility preparation`.
+After exact-head PASS and report review, advance to `ATS2-RF-007 — HYP-0003 Data Feasibility freeze`.

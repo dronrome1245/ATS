@@ -25,6 +25,8 @@ reports/local_ci/HYP0002_DATA_FEASIBILITY.json
 reports/local_ci/HYP0002_DATA_FEASIBILITY_REPORT.txt
 reports/local_ci/HYP0002_PROTO01_RESULT.json
 reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt
+reports/local_ci/HYP0003_DATA_FEASIBILITY.json
+reports/local_ci/HYP0003_DATA_FEASIBILITY_REPORT.txt
 reports/local_ci/*.lnk
 
 # Raw or licensed market data

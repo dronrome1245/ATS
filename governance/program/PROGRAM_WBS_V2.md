@@ -358,8 +358,10 @@ RF-003 family selection and IDEA-0003 intake are complete pending exact OWNER ev
 
 RF-004 HYP-0003 formation is complete with exact OWNER launcher PASS on `f402469ff3aa52bcd3ae98189f7ad4b92eac7ffc`.
 
+RF-005 Data Feasibility is complete with exact OWNER launcher PASS on `859f31be6df087095b58aa993e7e3e1787c4b172`.
+
 The current execution target is:
 
-`ATS2-RF-005 — HYP-0003 Data Feasibility`
+`ATS2-RF-006 — HYP-0003 Data Feasibility preparation`
 
-The review predeclares a non-performance G10-ex-USD candidate set, executable quote normalization, basket rounding, month-boundary timing and a 60-month protected tail. Source feasibility remains conditional until local machine preparation verifies exact symbol availability and common coverage without computing HYP-0003 outcomes.
+RF-006 uses bounded source probes to establish source-qualified currencies and common possible development coverage before any full multi-year acquisition. Probe hashes identify only the availability/integrity probes; no HYP-0003 momentum or 25-cell outcome is computed.

@@ -18,6 +18,6 @@ Current lane:
 
 Current work:
 
-`ATS2-RF-005 — HYP-0003 Data Feasibility`
+`ATS2-RF-006 — HYP-0003 Data Feasibility preparation`
 
-We are verifying the multi-currency data path before running any of the 25 Strategy #3 development variants.
+We are probing multi-currency source availability before downloading the full Strategy #3 development dataset. No momentum result is computed.

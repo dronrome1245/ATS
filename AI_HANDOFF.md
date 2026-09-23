@@ -10,50 +10,49 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-004 closure
+## Verified RF-005 closure
 
 OWNER launcher PASS was confirmed on exact commit:
 
-`f402469ff3aa52bcd3ae98189f7ad4b92eac7ffc`
+`859f31be6df087095b58aa993e7e3e1787c4b172`
 
 Evidence included pinned Ruff lint/format, pytest collection `141 tests`, full pytest `141 passed`, full Local CI, current task PASS and launcher PASS.
 
 Canonical last completed artifact:
 
-`research/hypotheses/HYP-0003.md`
+`research/reviews/HYP-0003-DATA-FEASIBILITY.md`
 
-## RF-005 HYP-0003 Data Feasibility
+## RF-006 HYP-0003 Data Feasibility preparation
 
 Current task:
 
-`ATS2-RF-005 — HYP-0003 Data Feasibility`
+`ATS2-RF-006 — HYP-0003 Data Feasibility preparation`
 
 Canonical next artifact:
 
-`research/reviews/HYP-0003-DATA-FEASIBILITY.md`
+`research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md`
 
-Decision:
+Tool:
 
-`CONDITIONAL`
+`tools/hyp0003_data_feasibility.py`
 
-The review fixes before any development result:
+The tool probes all nine predeclared source pairs, finds first two-sided monthly H1 availability, verifies August 2021 availability, validates BI5 structure and records SHA-256 probe identities.
 
-- G10-ex-USD candidate currencies: `AUD, CAD, CHF, EUR, GBP, JPY, NOK, NZD, SEK`;
-- nine mechanical USD-pair candidates;
-- minimum feasible cross-section: `6`;
-- direct/inverse BID/ASK normalization;
-- extreme-basket size: `max(1, ceil(N/6))`;
-- deterministic tie break;
-- H1 UTC month-boundary timing;
-- protected tail: `2021-09-01T00:00:00Z` to `2026-09-01T00:00:00Z`;
-- information boundary: `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+It does not decode price levels for strategy research, rank currencies, calculate momentum, form winner/loser baskets or evaluate any of the 25 HYP-0003 cells.
 
-Dukascopy is the primary source candidate because its official historical-data service documents multi-instrument historical data and BID/ASK export. Exact availability/common coverage still requires local machine verification.
+Protected-tail months at or after `2021-09-01T00:00:00Z` are not downloaded by RF-006.
 
-No HYP-0003 momentum surface has been computed.
+Local outputs:
+
+- `reports/local_ci/HYP0003_DATA_FEASIBILITY.json`
+- `reports/local_ci/HYP0003_DATA_FEASIBILITY_REPORT.txt`
+
+Information boundary:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
 Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
-After exact-head PASS:
+After exact-head PASS and report review:
 
-`ATS2-RF-006 — HYP-0003 Data Feasibility preparation`.
+`ATS2-RF-007 — HYP-0003 Data Feasibility freeze`.
