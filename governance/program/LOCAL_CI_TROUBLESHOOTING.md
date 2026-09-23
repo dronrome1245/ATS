@@ -242,6 +242,7 @@ Whenever `CONTENT_MARKERS` is changed, preflight must audit **every newly added 
 **First observed:** 2026-09-22 on `2545491d35a980e8c375100b9c8f8d99ee44f41e` while acquiring HYP-0002 confirmatory data  
 **Repeat observed:** 2026-09-22 on the same exact commit after resume progressed to a later month/side  
 **Repeat observed:** 2026-09-23 on `b82e827c0c8510a38aac3179411b3b2a8d455310` during HYP-0003 source availability probing  
+**Repeat after control:** 2026-09-23 on `0988069a525a7cd0d8acb48a3d9ed34d3ceb0332` after outer retry batches were added  
 **Class:** `DATA_SOURCE_NETWORK`
 
 **Symptom**
@@ -254,11 +255,13 @@ The external data source is intermittently unavailable during acquisition. Succe
 
 The third occurrence exposed a control gap in the new HYP-0003 availability probe: it had short per-URL retries, but no outer per-object retry batches with increasing backoff. A transient reset while classifying an old month therefore aborted the task before the existing cache/resume design could accumulate further progress.
 
+The fourth occurrence showed a second boundary bug: `urllib.request.urlopen()` can raise a direct Windows `OSError` / `ConnectionResetError`, not only `URLError`. The final reset therefore escaped `ProbeError`, bypassed the remaining fallback/retry taxonomy and surfaced as raw `WinError 10054`.
+
 **Correct response**
 
 Do not change the Hypothesis, data period or provider merely because of a transient source-network failure. Keep the existing local cache and retry only the missing month/side. Use bounded additional download/probe batches with increasing backoff; if the source remains unavailable after the bound, fail closed without computing any research outcome.
 
-For HYP-0003 probes, the control is `probe_side_resilient()` with `PROBE_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)`. Each new batch reuses any source object already cached by a previous attempt.
+For HYP-0003 probes, the control is `probe_side_resilient()` with `PROBE_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)`. Each new batch reuses any source object already cached by a previous attempt. `fetch_bytes()` must normalize both `URLError` and direct `OSError` socket failures into `ProbeError` so fallback endpoints and outer retry batches remain active.
 
 **Preventive rule**
 
@@ -272,7 +275,7 @@ For HYP-0003 probes, the control is `probe_side_resilient()` with `PROBE_BATCH_B
 
 **Escalation**
 
-Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore adds a concrete per-object retry-batch control and a deterministic unit test; documentation alone is no longer sufficient.
+Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore added a concrete per-object retry-batch control and deterministic unit test. Occurrence 4 is `REPEAT_AFTER_CONTROL_THRESHOLD`; the control is strengthened with explicit OS/socket exception normalization plus regression coverage for direct `ConnectionResetError`.
 
 **Scope:** OWNER research workflow and agents.
 

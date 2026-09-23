@@ -81,7 +81,7 @@ Before moving the remote branch:
 4. if an environment with project-pinned tools is available, run the fast gate on the exact proposed content before push; the fast gate includes pytest collection/import verification;
 5. if pinned Ruff is unavailable, preserve both `RUFF_LINT_UNVERIFIED_UNTIL_PINNED_RUFF` and `RUFF_FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`; do not claim Ruff preflight PASS;
 6. if the current task runner writes files under `reports/local_ci/` before the full gate, verify that every intended disposable output is covered by a narrow `.gitignore` pattern; do not ignore the whole runtime directory;
-7. if a current task acquires external source files, require resumable file-level caching and bounded retry/backoff for transient source failures; do not change a frozen provider/period merely to escape a temporary outage.
+7. if a current task acquires external source files, require resumable file-level caching and bounded retry/backoff for transient source failures; normalize direct socket/`OSError` failures into the retryable source-network class so they cannot bypass fallback/retry controls; do not change a frozen provider/period merely to escape a temporary outage.
 
 ## 8. Required pre-launch declaration
 

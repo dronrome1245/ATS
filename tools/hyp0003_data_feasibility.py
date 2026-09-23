@@ -142,7 +142,7 @@ def fetch_bytes(url: str, timeout: int = 30) -> tuple[bytes, dict[str, str]]:
         if exc.code in {404, 410}:
             raise FileNotFoundError(url) from exc
         raise ProbeError(f"HTTP {exc.code} while probing {url}") from exc
-    except urllib.error.URLError as exc:
+    except (urllib.error.URLError, OSError) as exc:
         raise ProbeError(f"network error while probing {url}: {exc}") from exc
     if not body:
         raise ProbeError(f"empty source object: {url}")

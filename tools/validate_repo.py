@@ -642,6 +642,7 @@ def configure() -> None:
         "find_first_available_month",
         "PROBE_BATCH_BACKOFF_SECONDS",
         "probe_side_resilient",
+        "urllib.error.URLError, OSError",
         "normalized_bid_ask",
         "probe_bundle_hash",
         "READY_FOR_FREEZE_REVIEW",
@@ -652,6 +653,7 @@ def configure() -> None:
     core.CONTENT_MARKERS[HYP0003_DATA_FEASIBILITY_TEST] = (
         "test_month_index_round_trip_and_previous_month",
         "test_source_url_uses_zero_based_dukascopy_month",
+        "test_fetch_bytes_normalizes_direct_oserror",
         "test_probe_side_resilient_retries_transient_network_error",
         "test_normalized_bid_ask_preserves_executable_order",
         "INVERSE",
@@ -1129,6 +1131,7 @@ def configure() -> None:
         "next_artifact",
         "next_task_id",
         "First failing stage",
+        "socket/`OSError`",
         "PENDING_OWNER_LAUNCHER",
         "do not declare completion without `ATS TASK LAUNCHER: PASS`",
     )
@@ -1168,6 +1171,8 @@ def configure() -> None:
         "LCI-007",
         "probe_side_resilient",
         "CONTROL_REQUIRED",
+        "REPEAT_AFTER_CONTROL_THRESHOLD",
+        "ConnectionResetError",
     )
     core.CONTENT_MARKERS[LOCAL_CI_FAILURE_REGISTRY] = (
         "Escalation policy",
@@ -1186,7 +1191,9 @@ def configure() -> None:
         "Rule-conversion discipline",
         "LCI-007",
         "CONTROL_REQUIRED",
+        "REPEAT_AFTER_CONTROL_THRESHOLD",
         "b82e827c0c8510a38aac3179411b3b2a8d455310",
+        "0988069a525a7cd0d8acb48a3d9ed34d3ceb0332",
     )
     core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
         "git pull --ff-only",

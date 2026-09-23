@@ -30,6 +30,18 @@ def test_source_url_uses_zero_based_dukascopy_month() -> None:
     ).endswith("/EURUSD/2021/07/BID_candles_hour_1.bi5")
 
 
+def test_fetch_bytes_normalizes_direct_oserror(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def fail_urlopen(*_args: object, **_kwargs: object) -> object:
+        raise ConnectionResetError(10054, "connection reset")
+
+    monkeypatch.setattr(feasibility.urllib.request, "urlopen", fail_urlopen)
+
+    with pytest.raises(feasibility.ProbeError, match="network error while probing"):
+        feasibility.fetch_bytes("https://example.invalid/test")
+
+
 def test_probe_side_resilient_retries_transient_network_error(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
