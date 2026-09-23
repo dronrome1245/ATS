@@ -9,77 +9,42 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-RF-007"
-TASK_NAME = "HYP-0003 Data Feasibility freeze"
-RESULT_PATH = Path("reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json")
+TASK_ID = "ATS2-RF-008"
+TASK_NAME = "HYP-0003 development data preparation"
+LOCAL_RESULT = Path("reports/local_ci/HYP0003_DEVELOPMENT_DATA.json")
 REQUIRED_ARTIFACTS = (
+    Path("research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"),
     Path("research/reviews/HYP-0003-DATA-FEASIBILITY.md"),
-    Path("research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"),
-    RESULT_PATH,
-    Path("tools/hyp0003_data_feasibility.py"),
-    Path("tests/test_hyp0003_data_feasibility.py"),
+    Path("tools/hyp0003_development_data.py"),
+    Path("tests/test_hyp0003_development_data.py"),
 )
-
-EXPECTED_RESULT = {
-    "task_id": "ATS2-RF-006",
-    "hypothesis_id": "HYP-0003",
-    "preparation_commit": "acf197d5774116c7d9a8b742eab77c6ee3447214",
-    "launcher_status": "PASS",
-    "source_probe_status": "PASS",
-    "preparation_decision": "READY_FOR_FREEZE_REVIEW",
-    "retained_currency_count": 9,
-    "minimum_required_currency_count": 6,
-    "common_possible_development_start": "2003-08-03T21:00:00Z",
-    "development_end_exclusive": "2021-09-01T00:00:00Z",
-    "history_metadata_sha256": ("215ad432126018f4f871a1e10bc3f315524b84ae29d83fc3fd3adc188107417d"),
-    "probe_bundle_sha256": ("a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e"),
-    "information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+VALID_PREPARATION_DECISIONS = {
+    "READY_FOR_DEVELOPMENT_DATA_FREEZE",
+    "INSUFFICIENT_DEVELOPMENT_DATA",
 }
-EXPECTED_CURRENCIES = ["AUD", "CAD", "CHF", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK"]
 
 
 def check_required_artifacts() -> bool:
-    print("\n== RF-007 HYP-0003 Data Feasibility freeze artifacts ==", flush=True)
-    missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
+    print(
+        "\n== RF-008 HYP-0003 development data preparation artifacts ==",
+        flush=True,
+    )
+    missing = [
+        str(path)
+        for path in REQUIRED_ARTIFACTS
+        if not (ROOT / path).is_file()
+    ]
     if missing:
         for path in missing:
-            print(f"[FAIL] missing required artifact: {path}")
-        return False
-    print("[PASS] RF-007 HYP-0003 Data Feasibility freeze artifacts", flush=True)
-    return True
-
-
-def check_canonical_preparation_result() -> bool:
-    print("\n== RF-007 canonical RF-006 preparation result ==", flush=True)
-    try:
-        payload = json.loads((ROOT / RESULT_PATH).read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        print(f"[FAIL] cannot load canonical preparation result: {exc}", flush=True)
-        return False
-
-    for key, expected in EXPECTED_RESULT.items():
-        actual = payload.get(key)
-        if actual != expected:
             print(
-                f"[FAIL] canonical preparation result mismatch for {key}: "
-                f"{actual!r} != {expected!r}",
+                f"[FAIL] missing required artifact: {path}",
                 flush=True,
             )
-            return False
-
-    if payload.get("retained_source_currencies") != EXPECTED_CURRENCIES:
-        print("[FAIL] canonical retained currency order/set mismatch", flush=True)
         return False
-
-    symbol_results = payload.get("symbol_results")
-    if not isinstance(symbol_results, list) or len(symbol_results) != 9:
-        print("[FAIL] canonical symbol result count must be 9", flush=True)
-        return False
-    if any(item.get("status") != "SOURCE_AVAILABLE" for item in symbol_results):
-        print("[FAIL] every frozen source symbol must be SOURCE_AVAILABLE", flush=True)
-        return False
-
-    print("[PASS] RF-007 canonical RF-006 preparation result", flush=True)
+    print(
+        "[PASS] RF-008 HYP-0003 development data preparation artifacts",
+        flush=True,
+    )
     return True
 
 
@@ -88,8 +53,75 @@ def run(name: str, command: list[str]) -> bool:
     print("$ " + " ".join(command), flush=True)
     completed = subprocess.run(command, cwd=ROOT, text=True)
     passed = completed.returncode == 0
-    print(f"[{'PASS' if passed else 'FAIL'}] {name}", flush=True)
+    print(
+        f"[{'PASS' if passed else 'FAIL'}] {name}",
+        flush=True,
+    )
     return passed
+
+
+def check_local_preparation_result(commit: str) -> bool:
+    print(
+        "\n== RF-008 local development-data preparation result ==",
+        flush=True,
+    )
+    try:
+        payload = json.loads(
+            (ROOT / LOCAL_RESULT).read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        print(
+            f"[FAIL] cannot load local preparation result: {exc}",
+            flush=True,
+        )
+        return False
+
+    checks = {
+        "task_id": TASK_ID,
+        "hypothesis_id": "HYP-0003",
+        "git_commit": commit,
+        "development_dataset_id": (
+            "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001"
+        ),
+        "development_dataset_version": "1.0.0",
+        "period_end_exclusive": "2021-09-01T00:00:00Z",
+        "source_month_count": 217,
+        "source_objects_expected": 3906,
+        "protected_tail_source_objects_requested": 0,
+        "information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+    }
+    for key, expected in checks.items():
+        actual = payload.get(key)
+        if actual != expected:
+            print(
+                f"[FAIL] local preparation result mismatch for {key}: "
+                f"{actual!r} != {expected!r}",
+                flush=True,
+            )
+            return False
+
+    decision = payload.get("preparation_decision")
+    if decision not in VALID_PREPARATION_DECISIONS:
+        print(
+            f"[FAIL] invalid preparation decision: {decision!r}",
+            flush=True,
+        )
+        return False
+    if not (
+        payload.get("prepared_csv_sha256")
+        and payload.get("source_bundle_sha256")
+    ):
+        print(
+            "[FAIL] local result is missing dataset/source hashes",
+            flush=True,
+        )
+        return False
+
+    print(
+        f"[PASS] RF-008 local preparation result ({decision})",
+        flush=True,
+    )
+    return True
 
 
 def emit_progress(percent: int) -> None:
@@ -112,28 +144,39 @@ def main() -> int:
     artifacts = check_required_artifacts()
 
     emit_progress(55)
-    canonical_result = check_canonical_preparation_result()
-
-    emit_progress(65)
     governance = run(
-        "RF-007 HYP-0003 freeze governance validation",
+        "RF-008 HYP-0003 preparation governance validation",
         [sys.executable, "tools/validate_repo.py"],
     )
 
-    emit_progress(75)
+    emit_progress(65)
     full_ci = run(
-        "full ATS Local CI for RF-007 freeze",
+        "full ATS Local CI before RF-008 data acquisition",
         [sys.executable, "tools/verify_repo.py"],
     )
 
-    passed = all((artifacts, canonical_result, governance, full_ci))
-    if passed:
+    if not all((artifacts, governance, full_ci)):
+        print(
+            "\nATS CURRENT TASK CHECK: FAIL",
+            flush=True,
+        )
+        return 1
+
+    emit_progress(75)
+    prepared = run(
+        "RF-008 HYP-0003 full development-data preparation",
+        [sys.executable, "tools/hyp0003_development_data.py"],
+    )
+    local_result = prepared and check_local_preparation_result(commit)
+
+    if local_result:
         emit_progress(100)
     print(
-        f"\nATS CURRENT TASK CHECK: {'PASS' if passed else 'FAIL'}",
+        f"\nATS CURRENT TASK CHECK: "
+        f"{'PASS' if local_result else 'FAIL'}",
         flush=True,
     )
-    return 0 if passed else 1
+    return 0 if local_result else 1
 
 
 if __name__ == "__main__":
