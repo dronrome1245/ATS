@@ -49,9 +49,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 34. `ATS2-M6-006` — HYP-0002 PROTO-01 freeze — `DONE`.
 35. `ATS2-M6-007` — HYP-0002 PROTO-01 reveal — `DONE`.
 36. `ATS2-M6-008` — Reference Strategy #2 early-rejection closeout — `DONE`.
-37. `ATS2-M6-009` — M6 Exit Review — `READY`.
+37. `ATS2-M6-009` — M6 Exit Review — `DONE / PASS`.
+38. `ATS2-RF-001` — Strategy #3 sourcing rebaseline — `READY`.
+39. `ATS2-RF-002` — Strategy #3 idea sourcing — `BLOCKED` pending RF-001 exact-head PASS.
 
-Program-level current next task — `ATS2-M6-009`.
+Program-level current next task — `ATS2-RF-001`.
 
 ## 3. M0 / M1
 
@@ -120,18 +122,25 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M6-006` | `WBS-6.2` | P1 | DONE | M6-005 | `research/reviews/HYP-0002-PROTOTYPE-01.md` + frozen runner/tests | Froze the two-sided prototype question, four-inequality decision rule and deterministic implementation before reveal |
 | `ATS2-M6-007` | `WBS-6.2` | P1 | DONE | M6-006 | `reports/research/HYP-0002-PROTOTYPE-01-result.json` | Exact frozen reveal returned `REJECT`: high-tail/DOWN passed both inequalities while low-tail/UP failed both; no rerun or post-result rescue |
 | `ATS2-M6-008` | `WBS-6.7` | P1 | DONE | M6-007 REJECT | `governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md` | Preserved terminal negative evidence, recorded reuse/generalization learnings and kept downstream strategy work unentered |
-| `ATS2-M6-009` | M6 Exit | P1 | READY | M6-008 | `governance/program/M6_EXIT_REVIEW.md` | Decide M6 against its two-profile Research Factory/platform-generalization exit criterion without treating either rejected strategy as a Candidate |
+| `ATS2-M6-009` | M6 Exit | P1 | DONE / PASS | M6-008 | `governance/program/M6_EXIT_REVIEW.md` | M6 closed against its two-profile Research Factory/platform-generalization exit criterion; both strategy lines remain rejected at R3 and candidate count remains zero |
 
-## 7. Следующий шаг
+## 7. Continuous Research Factory after M6
+
+| Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done |
+|---|---|---:|---|---|---|---|
+| `ATS2-RF-001` | `WBS-RF.0` | P1 | READY | M6 Exit PASS | `governance/program/STRATEGY_3_SOURCING_REBASELINE.md` | Continuous Research Factory lane is defined without inventing Strategy #3 market/instrument/timeframe; M6 stays closed and M4.9/M4.10 remain blocked |
+| `ATS2-RF-002` | `WBS-RF.1` | P1 | BLOCKED | RF-001 PASS | Strategy #3 Idea/discovery intake artifacts | Source and screen new ideas with complete search accounting; do not tune HYP-0001/HYP-0002 or preselect a winner |
+
+## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M6-009 — M6 Exit Review`.
+`ATS2-RF-001 — Strategy #3 sourcing rebaseline`.
 
 Canonical artifact:
 
-`governance/program/M6_EXIT_REVIEW.md`
+`governance/program/STRATEGY_3_SOURCING_REBASELINE.md`
 
-The proposed M6 decision is `PASS`: the Research Factory was exercised on two materially different profiles and negative evidence was preserved honestly. This does not create a Candidate or open M5.
+M6 is closed as `COMPLETED / PASS`. Both reference strategy lines remain rejected at R3 and candidate count remains zero.
 
-After exact-head PASS, create a separate roadmap rebaseline for Strategy #3 sourcing because the program still has zero S05 PASS Candidates.
+After exact-head PASS, advance to `ATS2-RF-002 — Strategy #3 idea sourcing`.

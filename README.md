@@ -8,17 +8,17 @@ ATS — Strategy Factory для воспроизводимого исследо�
 
 - M0–M3: `COMPLETED / PASS`
 - M4 reusable baseline WBS-4.1…4.8: `COMPLETED`
-- M6: Exit Review pending
-- Reference Strategy #1: `REJECTED_AT_R3`
-- Reference Strategy #2: `REJECTED_AT_R3`
+- M6: `COMPLETED / PASS`
+- Strategy #1: отклонена на R3
+- Strategy #2: отклонена на R3
 - Candidate count: `0`
+
+Current lane:
+
+`RESEARCH_FACTORY_CONTINUOUS`
 
 Current work:
 
-`ATS2-M6-009 — M6 Exit Review`
+`ATS2-RF-001 — Strategy #3 sourcing rebaseline`
 
-Canonical artifact:
-
-`governance/program/M6_EXIT_REVIEW.md`
-
-M6 PASS would mean the two-profile Research Factory/generalization objective was met. It would not mean a successful strategy was found.
+We are planning the sourcing process for Strategy #3. No Strategy #3 market/instrument/timeframe has been selected yet.

@@ -192,6 +192,24 @@ ATS имеет reusable execution skeleton и как минимум один val
 
 ATS доказал, что Research Factory и Shared Platform применимы минимум к двум различным strategy profiles или выявил конкретные архитектурные ограничения с сохранённым evidence.
 
+M6 is `COMPLETED / PASS` after exact OWNER launcher PASS on `01953b1dd5a8c3e81a372705b2198ba8ef2027d0`. Both reference strategy lines remain rejected at R3; no Candidate was created.
+
+---
+
+## Continuous Research Factory lane after M6
+
+This is a permanent program lane, not a new numbered milestone for every strategy attempt.
+
+| ID | Scope | Program lane | Work package | Deliverable | Dependencies | Responsible role | Definition of Done |
+|---|---|---|---|---|---|---|---|
+| `WBS-RF.0` | P | Research Factory | Strategy sourcing rebaseline | sourcing/research boundary decision | M6 Exit PASS | PROGRAM / RESEARCH | Defines continuous sourcing without reopening M6 or inventing Strategy #3 facts |
+| `WBS-RF.1` | S | Research Factory | Strategy #3 idea sourcing | Idea/discovery intake history | RF.0 | RESEARCH | Complete search denominator and negative alternatives retained; one or more ideas may enter screening |
+| `WBS-RF.2` | S | Research Factory | Research Funnel | Idea → Hypothesis → Data Feasibility → Cheap Prototype | RF.1, M1 | RESEARCH / DATA | New line receives its own IDs, evidence boundary and terminal R3/R4 decision |
+| `WBS-RF.3` | S | Research Factory | Candidate path | Economic Pre-Screen / Candidate / S01–S05 artifacts | RF.2 advance | RESEARCH / DEVELOPMENT | Only evidence-supported lines may become Candidates and seek S05 PASS |
+| `WBS-RF.4` | S | Research Factory | Validation handoff | first future S05 PASS Candidate handed to M4.9/M4.10 | RF.3 S05 PASS, M4.1–M4.8 | VALIDATION | Reusable validation framework receives an eligible Candidate without reviving rejected hypotheses |
+
+The RF lane may repeat for Strategy #4 and later if a line is rejected. M4.9/M4.10 remain blocked until RF.4 has an eligible Candidate.
+
 ---
 
 # 10. WBS 7 — Portfolio & Capital Layer
@@ -330,8 +348,10 @@ WBS не устанавливает без evidence и OWNER decision:
 - M4.9/M4.10 remain blocked until a future research line earns Candidate/S05 eligibility;
 - current step is M6 Exit Review.
 
+M6 is now `COMPLETED / PASS`; Reference Strategy #1 and #2 both remain rejected at R3.
+
 The current execution target is:
 
-`ATS2-M6-009 — M6 Exit Review`
+`ATS2-RF-001 — Strategy #3 sourcing rebaseline`
 
-The proposed M6 decision is PASS against the two-profile Research Factory/platform-generalization exit criterion. It does not claim strategy success and does not open M5. After operational M6 closure, the roadmap requires a separate rebaseline for Strategy #3 sourcing.
+This task converts strategy sourcing into the permanent Research Factory lane without creating a Strategy #3 claim, market, instrument, timeframe or Candidate in advance.

@@ -2,7 +2,7 @@ schema_version: "2.0"
 program:
   id: ATS
   name: "ATS — Algorithmic Trading Systems"
-  phase: M6_REFERENCE_STRATEGY_2
+  phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
   updated_on: "2026-09-23"
@@ -78,13 +78,14 @@ model:
   reference_strategy_1_dataset_manifest: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
   m6_exit_review: "governance/program/M6_EXIT_REVIEW.md"
+  strategy_3_sourcing_rebaseline: "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
 
 current:
-  focus: "Close M6 after Reference Strategy #2 early rejection"
-  last_completed_task_id: "ATS2-M6-008"
-  last_completed_artifact: "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"
-  next_artifact: "governance/program/M6_EXIT_REVIEW.md"
-  next_task_id: "ATS2-M6-009"
+  focus: "Rebaseline continuous Research Factory for Strategy #3 sourcing"
+  last_completed_task_id: "ATS2-M6-009"
+  last_completed_artifact: "governance/program/M6_EXIT_REVIEW.md"
+  next_artifact: "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
+  next_task_id: "ATS2-RF-001"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -93,7 +94,7 @@ milestones:
   M3_REFERENCE_STRATEGY_1: COMPLETED
   M4_VALIDATION_FRAMEWORK: IN_PROGRESS
   M5_EXECUTION_PLATFORM: NOT_STARTED
-  M6_REFERENCE_STRATEGY_2: IN_PROGRESS
+  M6_REFERENCE_STRATEGY_2: COMPLETED
   M7_PORTFOLIO_LAYER: NOT_STARTED
   M8_CONTROLLED_LIVE_PORTFOLIO: NOT_STARTED
 
@@ -270,6 +271,7 @@ m6:
     - "ATS2-M6-006"
     - "ATS2-M6-007"
     - "ATS2-M6-008"
+    - "ATS2-M6-009"
   completed_artifacts:
     - "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
     - "src/ats/discovery/bounded.py"
@@ -289,9 +291,11 @@ m6:
     - "tests/test_hyp0002_proto01.py"
     - "reports/research/HYP-0002-PROTOTYPE-01-result.json"
     - "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"
-  current_task: "ATS2-M6-009"
+    - "governance/program/M6_EXIT_REVIEW.md"
+  exit_decision: "PASS"
+  exit_review: "governance/program/M6_EXIT_REVIEW.md"
+  current_task: "CLOSED"
   current_wbs: "M6_EXIT"
-  proposed_exit_decision: "PASS"
   data_feasibility_decision: "CONDITIONAL"
   prototype_id: "PROTO-01"
   prototype_status: "REJECTED"
@@ -312,10 +316,19 @@ m6:
   idea_id: "IDEA-0002"
   hypothesis_id: "HYP-0002"
 
+research_factory:
+  objective: "Continuously source and screen new strategy ideas until a future Candidate earns S05 PASS"
+  status: IN_PROGRESS
+  current_strategy_sequence: 3
+  current_task: "ATS2-RF-001"
+  current_wbs: "WBS-RF.0"
+  next_task_after_rebaseline: "ATS2-RF-002"
+  candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
+
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M6-009"
-  current_ready_wbs: "M6_EXIT"
+  current_ready_task: "ATS2-RF-001"
+  current_ready_wbs: "WBS-RF.0"
 
 handoff_policy:
   update_after_material_step: true

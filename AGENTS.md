@@ -58,7 +58,7 @@ ATS — не одна стратегия и не один robot project.
 - Portfolio & Capital;
 - Operations & Governance.
 
-Текущая работа управляется milestones M0–M8, Program WBS и canonical backlog.
+Текущая работа управляется milestones M0–M8, постоянным Research Factory lane после M6, Program WBS и canonical backlog.
 
 ## 6. Research discipline
 
