@@ -77,13 +77,14 @@ model:
   reference_strategy_1_data_feasibility: "research/reviews/HYP-0001-DATA_FEASIBILITY.md"
   reference_strategy_1_dataset_manifest: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-PROTO01.yaml"
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
+  m6_exit_review: "governance/program/M6_EXIT_REVIEW.md"
 
 current:
-  focus: "Close Reference Strategy #2 after R3 rejection"
-  last_completed_task_id: "ATS2-M6-007"
-  last_completed_artifact: "reports/research/HYP-0002-PROTOTYPE-01-result.json"
-  next_artifact: "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"
-  next_task_id: "ATS2-M6-008"
+  focus: "Close M6 after Reference Strategy #2 early rejection"
+  last_completed_task_id: "ATS2-M6-008"
+  last_completed_artifact: "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"
+  next_artifact: "governance/program/M6_EXIT_REVIEW.md"
+  next_task_id: "ATS2-M6-009"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -268,6 +269,7 @@ m6:
     - "ATS2-M6-005"
     - "ATS2-M6-006"
     - "ATS2-M6-007"
+    - "ATS2-M6-008"
   completed_artifacts:
     - "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
     - "src/ats/discovery/bounded.py"
@@ -286,8 +288,10 @@ m6:
     - "tools/hyp0002_proto01.py"
     - "tests/test_hyp0002_proto01.py"
     - "reports/research/HYP-0002-PROTOTYPE-01-result.json"
-  current_task: "ATS2-M6-008"
-  current_wbs: "WBS-6.7"
+    - "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"
+  current_task: "ATS2-M6-009"
+  current_wbs: "M6_EXIT"
+  proposed_exit_decision: "PASS"
   data_feasibility_decision: "CONDITIONAL"
   prototype_id: "PROTO-01"
   prototype_status: "REJECTED"
@@ -310,8 +314,8 @@ m6:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M6-008"
-  current_ready_wbs: "WBS-6.7"
+  current_ready_task: "ATS2-M6-009"
+  current_ready_wbs: "M6_EXIT"
 
 handoff_policy:
   update_after_material_step: true

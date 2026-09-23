@@ -325,11 +325,13 @@ WBS не устанавливает без evidence и OWNER decision:
 - HYP-0002 PROTO-01 reveal is `DONE / REJECT`, exact OWNER launcher PASS confirmed on commit `96d7b90ac908cacccfefbccbe8daa06867b2f18c`;
 - Reference Strategy #2 research outcome is `REJECTED_AT_R3`;
 - WBS-6.3–6.6 and WBS-6.8 are not entered for this rejected line;
-- current step is WBS-6.7 early-rejection reuse review;
-- M4.9/M4.10 remain blocked until a future research line earns Candidate/S05 eligibility.
+- Reference Strategy #2 early-rejection reuse review is `DONE`, exact OWNER launcher PASS confirmed on commit `e1440d999abe4744e9604c06910b8bf1c8449b03`;
+- both Reference Strategy #1 and #2 remain rejected at R3;
+- M4.9/M4.10 remain blocked until a future research line earns Candidate/S05 eligibility;
+- current step is M6 Exit Review.
 
 The current execution target is:
 
-`ATS2-M6-008 — Reference Strategy #2 early-rejection closeout`
+`ATS2-M6-009 — M6 Exit Review`
 
-The closeout preserves the negative prototype result, records reusable two-profile/platform learnings and prepares a separate M6 continuation/exit decision. HYP-0001 and HYP-0002 both remain rejected at R3.
+The proposed M6 decision is PASS against the two-profile Research Factory/platform-generalization exit criterion. It does not claim strategy success and does not open M5. After operational M6 closure, the roadmap requires a separate rebaseline for Strategy #3 sourcing.

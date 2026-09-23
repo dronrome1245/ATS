@@ -48,9 +48,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 33. `ATS2-M6-005` — HYP-0002 Data Feasibility freeze — `DONE`.
 34. `ATS2-M6-006` — HYP-0002 PROTO-01 freeze — `DONE`.
 35. `ATS2-M6-007` — HYP-0002 PROTO-01 reveal — `DONE`.
-36. `ATS2-M6-008` — Reference Strategy #2 early-rejection closeout — `READY`.
+36. `ATS2-M6-008` — Reference Strategy #2 early-rejection closeout — `DONE`.
+37. `ATS2-M6-009` — M6 Exit Review — `READY`.
 
-Program-level current next task — `ATS2-M6-008`.
+Program-level current next task — `ATS2-M6-009`.
 
 ## 3. M0 / M1
 
@@ -118,18 +119,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M6-005` | `WBS-6.2` | P1 | DONE | M6-004 | `research/reviews/HYP-0002-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest | Recorded CONDITIONAL feasibility and froze thresholds, confirmatory data identity, timing and cost limitations before outcome reveal |
 | `ATS2-M6-006` | `WBS-6.2` | P1 | DONE | M6-005 | `research/reviews/HYP-0002-PROTOTYPE-01.md` + frozen runner/tests | Froze the two-sided prototype question, four-inequality decision rule and deterministic implementation before reveal |
 | `ATS2-M6-007` | `WBS-6.2` | P1 | DONE | M6-006 | `reports/research/HYP-0002-PROTOTYPE-01-result.json` | Exact frozen reveal returned `REJECT`: high-tail/DOWN passed both inequalities while low-tail/UP failed both; no rerun or post-result rescue |
-| `ATS2-M6-008` | `WBS-6.7` | P1 | READY | M6-007 REJECT | `governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md` | Preserve terminal negative evidence, record reuse/generalization learnings, mark WBS-6.3–6.6/6.8 not entered for this line, and prepare the separate M6 continuation/exit decision |
+| `ATS2-M6-008` | `WBS-6.7` | P1 | DONE | M6-007 REJECT | `governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md` | Preserved terminal negative evidence, recorded reuse/generalization learnings and kept downstream strategy work unentered |
+| `ATS2-M6-009` | M6 Exit | P1 | READY | M6-008 | `governance/program/M6_EXIT_REVIEW.md` | Decide M6 against its two-profile Research Factory/platform-generalization exit criterion without treating either rejected strategy as a Candidate |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M6-008 — Reference Strategy #2 early-rejection closeout`.
+`ATS2-M6-009 — M6 Exit Review`.
 
 Canonical artifact:
 
-`governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md`
+`governance/program/M6_EXIT_REVIEW.md`
 
-HYP-0002 / PROTO-01 is `REJECTED_AT_R3`. Economic Pre-Screen, Candidate admission, validation and live engineering are not entered.
+The proposed M6 decision is `PASS`: the Research Factory was exercised on two materially different profiles and negative evidence was preserved honestly. This does not create a Candidate or open M5.
 
-After exact-head PASS, the program must make a separate M6 continuation/exit decision: either close M6 on the two-profile generalization objective or rebaseline research sourcing because no S05 PASS Candidate exists.
+After exact-head PASS, create a separate roadmap rebaseline for Strategy #3 sourcing because the program still has zero S05 PASS Candidates.

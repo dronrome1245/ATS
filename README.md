@@ -8,19 +8,17 @@ ATS — Strategy Factory для воспроизводимого исследо�
 
 - M0–M3: `COMPLETED / PASS`
 - M4 reusable baseline WBS-4.1…4.8: `COMPLETED`
-- M6: `IN_PROGRESS`
+- M6: Exit Review pending
 - Reference Strategy #1: `REJECTED_AT_R3`
 - Reference Strategy #2: `REJECTED_AT_R3`
 - Candidate count: `0`
 
 Current work:
 
-`ATS2-M6-008 — Reference Strategy #2 early-rejection closeout`
+`ATS2-M6-009 — M6 Exit Review`
 
-Canonical result:
+Canonical artifact:
 
-`reports/research/HYP-0002-PROTOTYPE-01-result.json`
+`governance/program/M6_EXIT_REVIEW.md`
 
-Canonical closeout:
-
-`governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md`
+M6 PASS would mean the two-profile Research Factory/generalization objective was met. It would not mean a successful strategy was found.
