@@ -1235,8 +1235,8 @@ def configure() -> None:
         "hyp0003_data_feasibility.py",
         "test_hyp0003_data_feasibility.py",
         "full ATS Local CI before source probe",
-        "@@PROGRESS 45",
-        "@@PROGRESS 80",
+        "emit_progress(45)",
+        "emit_progress(80)",
         "RF-006 HYP-0003 source availability probe",
         "ATS CURRENT TASK CHECK:",
     )
