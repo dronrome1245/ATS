@@ -1,9 +1,9 @@
 # HYP-0003 Data Feasibility Review
 
-**Task:** `ATS2-RF-005`  
-**Hypothesis ID:** `HYP-0003`  
-**Review status:** `CONDITIONAL`  
-**Date:** 23 September 2026
+Task: `ATS2-RF-005`  
+Hypothesis ID: `HYP-0003`  
+Review status: `CONDITIONAL`  
+Date: 23 September 2026
 
 ## 1. Decision question
 
