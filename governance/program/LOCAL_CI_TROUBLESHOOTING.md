@@ -347,6 +347,39 @@ Keep the same provider, candidate universe and protected period. Send the requir
 
 **Scope:** research/development tooling and agents.
 
+### LCI-013 — Mixed source format inside one BID/ASK month-pair
+
+**First observed:** 2026-09-23 on `d2fd7d83b40aa60a65b1b9f9d59461523ecd27ec` during RF-008 development-data preparation  
+**Class:** `DATA_SOURCE_COHERENCE`
+
+**Symptom**
+
+Fast/full Local CI and 163/163 pytest pass. RF-008 then progresses through 36 source months and stops while normalizing `USDCAD 2006-10` with:
+
+`normalized executable ASK is below BID`
+
+The side-level acquisition path permits one side of a `symbol/month` to come from cached legacy BI5 while the other side comes from Jetta JSON.
+
+**Root cause**
+
+BID and ASK are an executable quote pair and must be derived from one coherent provider encoding/path snapshot for that `symbol/month`. Side-level cache/fallback selection did not enforce that invariant. Mixing separately sourced historical representations can create revision/aggregation inconsistencies even when each side individually decodes and passes OHLC validation.
+
+**Correct response**
+
+Do not weaken quote-order validation and do not change the frozen universe, period or provider. Acquire BID and ASK atomically by source format. A complete Jetta pair is valid; a complete legacy BI5 pair is valid. A partial pair may trigger fallback to the alternate Dukascopy path, but Jetta and BI5 sides must never be combined inside one monthly quote pair.
+
+**Preventive rule**
+
+1. Treat `symbol/month/BID+ASK` as the acquisition consistency unit.
+2. Require one `source_format` for both sides before decoding/normalization.
+3. Partial cache reuse is allowed only when the second side can be completed from the same format.
+4. If same-format completion fails, retry/fallback the whole BID/ASK pair through the alternate Dukascopy path.
+5. Preserve strict executable quote-order validation; do not hide a coherence defect by relaxing `ASK >= BID`.
+6. Include symbol, timestamp and source format in any future normalization failure.
+7. Cover partial-cache fallback with a network-free regression test.
+
+**Scope:** RF-008 historical-data acquisition and reusable multi-source cache logic.
+
 ### LCI-009 — Ruff import-order lint failure after remote Python authoring
 
 **First observed:** 2026-09-22 on `213fb1116e7ca2fc866fc7281b57215d3908cb64` in `tools/hyp0002_proto01.py`  

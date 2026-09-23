@@ -92,6 +92,64 @@ def test_download_source_prefers_jetta_provider_path(
     assert prep.download_source_once("GBPUSD", month, "BID") == (path, headers)
 
 
+def test_source_pair_falls_back_to_coherent_jetta_after_partial_legacy(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path,
+) -> None:
+    month = datetime(2006, 10, 1, tzinfo=UTC)
+    legacy_bid = tmp_path / "legacy-BID.bi5"
+    legacy_bid.write_bytes(b"cached")
+    legacy_ask = tmp_path / "legacy-ASK.bi5"
+    jetta_bid = tmp_path / "jetta-BID.json"
+    jetta_ask = tmp_path / "jetta-ASK.json"
+
+    monkeypatch.setattr(
+        prep,
+        "raw_path",
+        lambda _symbol, _month, side: legacy_bid if side == "BID" else legacy_ask,
+    )
+    monkeypatch.setattr(
+        prep,
+        "jetta_raw_path",
+        lambda _symbol, _month, side: jetta_bid if side == "BID" else jetta_ask,
+    )
+
+    def legacy(_symbol: str, _month: datetime, side: str):
+        if side == "BID":
+            return (
+                legacy_bid,
+                {
+                    "source_url": "LOCAL_FROZEN_COPY",
+                    "source_format": prep.SOURCE_FORMAT_BI5,
+                    "last_modified": "",
+                    "etag": "",
+                },
+            )
+        raise prep.DevelopmentDataPrepError("legacy ASK unavailable")
+
+    def jetta(_symbol: str, _month: datetime, side: str):
+        path = jetta_bid if side == "BID" else jetta_ask
+        return (
+            path,
+            {
+                "source_url": f"JETTA-{side}",
+                "source_format": prep.SOURCE_FORMAT_JETTA_JSON,
+                "last_modified": "",
+                "etag": "",
+            },
+        )
+
+    monkeypatch.setattr(prep, "download_legacy_source_once", legacy)
+    monkeypatch.setattr(prep, "download_jetta_source_once", jetta)
+
+    pair = prep.download_source_pair_once("USDCAD", month)
+
+    assert pair is not None
+    assert {headers["source_format"] for _, headers in pair.values()} == {
+        prep.SOURCE_FORMAT_JETTA_JSON
+    }
+
+
 def test_download_source_reuses_legacy_cache_before_jetta_network(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path,

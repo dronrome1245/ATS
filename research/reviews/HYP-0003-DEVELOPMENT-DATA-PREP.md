@@ -57,6 +57,8 @@ This endpoint change does not change provider, frozen source pair, month, side, 
 
 Jetta compact JSON gaps are not expanded into synthetic flat candles. RF-008 reconstructs only timestamps explicitly represented by the provider response, preserving the frozen no-forward-fill/no-interpolation rule.
 
+For each frozen `symbol/month`, BID and ASK are an atomic source pair. Both sides must use the same source encoding/path class (`JETTA_JSON` or legacy `BI5`). A partial cache may be completed only if the second side is obtained from the same format; otherwise RF-008 falls back to a coherent pair from the alternate Dukascopy path. Mixed `JETTA_JSON + BI5` BID/ASK pairs are prohibited.
+
 ## Source encoding and price scaling
 
 Jetta compact JSON carries its own positive price `multiplier`, which is applied exactly to its delta-encoded OHLC columns. Legacy BI5 uses the frozen point divisor below.
@@ -103,7 +105,7 @@ All normalized prices must be finite and positive and preserve executable BID/AS
 - ordering: event time first, then frozen currency order;
 - no forward fill or interpolation.
 
-Duplicates, out-of-order BI5/JSON records, malformed compact JSON, impossible OHLC, one-sided BID/ASK availability and BID/ASK timestamp mismatch are blocking. Missing expected market hours on both sides are reported rather than filled.
+Duplicates, out-of-order BI5/JSON records, malformed compact JSON, impossible OHLC, mixed source formats within a BID/ASK month-pair, one-sided BID/ASK availability and BID/ASK timestamp mismatch are blocking. Missing expected market hours on both sides are reported rather than filled.
 
 ## Monthly cutoff eligibility
 
