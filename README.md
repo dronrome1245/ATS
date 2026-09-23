@@ -12,15 +12,11 @@ ATS — Strategy Factory для воспроизводимого исследо�
 
 Current work:
 
-`ATS2-M6-006 — HYP-0002 PROTO-01 freeze`
+`ATS2-M6-007 — HYP-0002 PROTO-01 reveal`
 
-Artifacts:
+The frozen runner is unchanged from the exact M6-006 PASS commit. Full CI runs before the confirmatory reveal.
 
-- `research/reviews/HYP-0002-DATA-FEASIBILITY.md`
-- `research/reviews/HYP-0002-PROTOTYPE-01.md`
-- `tools/hyp0002_proto01.py`
-- `tests/test_hyp0002_proto01.py`
+After launcher PASS return:
 
-The confirmatory outcome remains `NOT_RUN`.
-
-Run `ATS_TASK_CHECK.bat`, then return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
+- `reports/local_ci/CURRENT_TASK_REPORT.txt`
+- `reports/local_ci/HYP0002_PROTO01_RESULT.json`

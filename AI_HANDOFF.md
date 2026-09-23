@@ -8,27 +8,15 @@
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy Version/live permission exists.
 
-## Verified M6-005 closure
+## Verified M6-006 closure
 
-OWNER launcher PASS was confirmed on exact commit `2f99bbbe688c3f2fc28ea7994f7cc700948af5c7` with repository validator PASS, pinned Ruff PASS, `139 passed`, full Local CI PASS, task check PASS and launcher PASS.
+OWNER launcher PASS was confirmed on exact commit:
+
+`ca7ed470f0aac6a1fed2a1c5a4d487f5fd56557e`
+
+Evidence included fast repository validation PASS, pinned Ruff lint/format PASS, fast pytest collection PASS with `141 tests collected`, full pytest `141 passed`, full Local CI PASS, current task PASS and launcher PASS.
 
 Canonical last completed artifact:
-
-`research/reviews/HYP-0002-DATA-FEASIBILITY.md`
-
-Data Feasibility decision:
-
-`CONDITIONAL`
-
-Frozen confirmatory dataset:
-
-`DATA-DUKASCOPY-EURUSDH1-HYP0002-001@1.0.0`
-
-No HYP-0002 outcome has been calculated.
-
-## M6-006 HYP-0002 PROTO-01 freeze
-
-Current artifact:
 
 `research/reviews/HYP-0002-PROTOTYPE-01.md`
 
@@ -36,32 +24,33 @@ Frozen runner:
 
 `tools/hyp0002_proto01.py`
 
-Synthetic tests:
+The frozen result remained `NOT_RUN` throughout M6-006.
 
-`tests/test_hyp0002_proto01.py`
-
-The prototype freezes:
-
-- Q10_DEV `-0.005141454111`;
-- Q90_DEV `0.005394148971`;
-- the exact confirmatory dataset/hash;
-- HIGH-tail/DOWN and LOW-tail/UP sides;
-- all four primary inequalities;
-- after-spread / before-financing economic label;
-- ADVANCE / REJECT / PARK / ITERATE rule.
-
-M6-006 does not execute the runner. Result remains `NOT_RUN`.
-
-## Current closure check
+## M6-007 confirmatory reveal
 
 Current task:
 
-`ATS2-M6-006 — HYP-0002 PROTO-01 freeze`
+`ATS2-M6-007 — HYP-0002 PROTO-01 reveal`
 
-Canonical next artifact:
+The exact frozen runner from the M6-006 PASS is unchanged.
 
-`research/reviews/HYP-0002-PROTOTYPE-01.md`
+Execution order is mandatory:
 
-Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
+1. frozen input/artifact check;
+2. governance validation;
+3. full ATS Local CI;
+4. frozen PROTO-01 reveal.
 
-After exact-head PASS, run the frozen PROTO-01 once in a separate reveal task.
+This order prevents a valid reveal from being followed by a later CI failure inside the same task check.
+
+Expected local outputs after a successful reveal:
+
+- `reports/local_ci/HYP0002_PROTO01_RESULT.json`
+- `reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt`
+
+After launcher PASS, return both:
+
+- `reports/local_ci/CURRENT_TASK_REPORT.txt`
+- `reports/local_ci/HYP0002_PROTO01_RESULT.json`
+
+The machine JSON will be used to record the complete result canonically without running the prototype again.

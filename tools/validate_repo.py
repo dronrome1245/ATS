@@ -1022,13 +1022,13 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M6-006"',
-        "M6-006 HYP-0002 PROTO-01 freeze artifacts",
+        'TASK_ID = "ATS2-M6-007"',
+        "M6-007 HYP-0002 PROTO-01 frozen inputs",
         "HYP-0002-PROTOTYPE-01.md",
         "hyp0002_proto01.py",
         "test_hyp0002_proto01.py",
-        "M6-006 HYP-0002 PROTO-01 freeze governance validation",
-        "tools/verify_repo.py",
+        "full ATS Local CI before reveal",
+        "M6-007 HYP-0002 PROTO-01 frozen reveal",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/verify_repo.py"] = (
@@ -1348,8 +1348,8 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M6-005"',
-        'current_task: "ATS2-M6-006"', 'current_ready_task: "ATS2-M6-006"',
+        'last_completed_task_id: "ATS2-M6-006"',
+        'current_task: "ATS2-M6-007"', 'current_ready_task: "ATS2-M6-007"',
         'current_wbs: "WBS-6.2"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -1433,11 +1433,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M6-005") != "DONE":
-        core.fail("M6-005 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-006") != "DONE":
+        core.fail("M6-006 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M6-006") != "READY":
-        core.fail("M6-006 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-007") != "READY":
+        core.fail("M6-007 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

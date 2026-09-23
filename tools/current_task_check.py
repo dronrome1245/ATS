@@ -8,8 +8,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-M6-006"
-TASK_NAME = "HYP-0002 PROTO-01 freeze"
+TASK_ID = "ATS2-M6-007"
+TASK_NAME = "HYP-0002 PROTO-01 reveal"
 REQUIRED_ARTIFACTS = (
     Path("research/reviews/HYP-0002-PROTOTYPE-01.md"),
     Path("tools/hyp0002_proto01.py"),
@@ -18,13 +18,13 @@ REQUIRED_ARTIFACTS = (
 
 
 def check_required_artifacts() -> bool:
-    print("\n== M6-006 HYP-0002 PROTO-01 freeze artifacts ==")
+    print("\n== M6-007 HYP-0002 PROTO-01 frozen inputs ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] M6-006 HYP-0002 PROTO-01 freeze artifacts")
+    print("[PASS] M6-007 HYP-0002 PROTO-01 frozen inputs")
     return True
 
 
@@ -49,17 +49,24 @@ def main() -> int:
     ).stdout.strip()
     print(f"Commit: {commit}")
 
-    results = [
+    pre_reveal = [
         check_required_artifacts(),
         run(
-            "M6-006 HYP-0002 PROTO-01 freeze governance validation",
+            "M6-007 HYP-0002 PROTO-01 reveal governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
-        run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),
+        run("full ATS Local CI before reveal", [sys.executable, "tools/verify_repo.py"]),
     ]
-    overall = all(results)
-    print(f"\nATS CURRENT TASK CHECK: {'PASS' if overall else 'FAIL'}")
-    return 0 if overall else 1
+    if not all(pre_reveal):
+        print("\nATS CURRENT TASK CHECK: FAIL")
+        return 1
+
+    revealed = run(
+        "M6-007 HYP-0002 PROTO-01 frozen reveal",
+        [sys.executable, "tools/hyp0002_proto01.py"],
+    )
+    print(f"\nATS CURRENT TASK CHECK: {'PASS' if revealed else 'FAIL'}")
+    return 0 if revealed else 1
 
 
 if __name__ == "__main__":
