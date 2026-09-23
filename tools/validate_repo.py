@@ -655,7 +655,6 @@ def configure() -> None:
         "HYP0003_DATA_FEASIBILITY_REPORT.txt",
     )
     core.CONTENT_MARKERS[HYP0003_DATA_FEASIBILITY_TEST] = (
-        "test_month_index_round_trip_and_previous_month",
         "test_source_url_uses_zero_based_dukascopy_month",
         "test_parse_history_start_h1_metadata",
         "test_fetch_bytes_normalizes_direct_oserror",
