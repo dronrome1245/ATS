@@ -55,6 +55,8 @@ model:
   reference_strategy_2_confirmatory_schema: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json"
   reference_strategy_2_prototype: "research/reviews/HYP-0002-PROTOTYPE-01.md"
   reference_strategy_2_prototype_runner: "tools/hyp0002_proto01.py"
+  reference_strategy_2_prototype_result: "reports/research/HYP-0002-PROTOTYPE-01-result.json"
+  reference_strategy_2_closeout: "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"
   reference_consumer_profile: "governance/program/REFERENCE_CONSUMER_PROFILE.md"
   research_stack_adr: "governance/decisions/ADR-0001-RESEARCH-STACK.md"
   research_environment_spec: "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
@@ -77,11 +79,11 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
 
 current:
-  focus: "Run frozen HYP-0002 PROTO-01 confirmatory reveal"
-  last_completed_task_id: "ATS2-M6-006"
-  last_completed_artifact: "research/reviews/HYP-0002-PROTOTYPE-01.md"
-  next_artifact: "reports/research/HYP-0002-PROTOTYPE-01-result.json"
-  next_task_id: "ATS2-M6-007"
+  focus: "Close Reference Strategy #2 after R3 rejection"
+  last_completed_task_id: "ATS2-M6-007"
+  last_completed_artifact: "reports/research/HYP-0002-PROTOTYPE-01-result.json"
+  next_artifact: "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"
+  next_task_id: "ATS2-M6-008"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -265,6 +267,7 @@ m6:
     - "ATS2-M6-004"
     - "ATS2-M6-005"
     - "ATS2-M6-006"
+    - "ATS2-M6-007"
   completed_artifacts:
     - "governance/methodology/templates/discovery/SEARCH_MANIFEST_TEMPLATE.yaml"
     - "src/ats/discovery/bounded.py"
@@ -282,18 +285,23 @@ m6:
     - "research/reviews/HYP-0002-PROTOTYPE-01.md"
     - "tools/hyp0002_proto01.py"
     - "tests/test_hyp0002_proto01.py"
-  current_task: "ATS2-M6-007"
-  current_wbs: "WBS-6.2"
+    - "reports/research/HYP-0002-PROTOTYPE-01-result.json"
+  current_task: "ATS2-M6-008"
+  current_wbs: "WBS-6.7"
   data_feasibility_decision: "CONDITIONAL"
   prototype_id: "PROTO-01"
-  prototype_status: "READY_FOR_REVEAL"
+  prototype_status: "REJECTED"
+  prototype_outcome: "REJECT"
+  prototype_result_sha256: "cf89ae89680aad25d24944dc737c4092f995327dca022a7c6a19d7ea102e552e"
+  prototype_reveal_commit: "96d7b90ac908cacccfefbccbe8daa06867b2f18c"
+  research_line_status: "REJECTED_AT_R3"
   q10_dev: -0.005141454111
   q90_dev: 0.005394148971
   confirmatory_dataset_id: "DATA-DUKASCOPY-EURUSDH1-HYP0002-001"
   confirmatory_dataset_version: "1.0.0"
   confirmatory_dataset_sha256: "d62a7103478da2a79a0992310005bcd0afc8dc0010088dccd2ed0e54e2ec112f"
   confirmatory_source_bundle_sha256: "ccbf5ceff1ee1a5a1cb62dead3af531ce05ae4f71e4da32140b526326e686392"
-  information_boundary: "FROZEN_CONFIRMATORY_REVEAL_AUTHORIZED_NOT_YET_RUN"
+  information_boundary: "CONFIRMATORY_REVEALED_PROTOTYPE_REJECTED"
   discovery_capability_status: "BASELINE_COMPLETE"
   first_bounded_search_status: "COMPLETED_SHORTLIST_FOR_IDEA_INTAKE"
   selected_reference_strategy_2_class: "SINGLE_INSTRUMENT_1H_TWO_SIDED_RETURN_TAIL_REVERSAL"
@@ -302,8 +310,8 @@ m6:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-M6-007"
-  current_ready_wbs: "WBS-6.2"
+  current_ready_task: "ATS2-M6-008"
+  current_ready_wbs: "WBS-6.7"
 
 handoff_policy:
   update_after_material_step: true
@@ -338,7 +346,7 @@ safety:
 
 strategy_pipeline:
   ideas_registered: 2
-  prototypes_active: 1
+  prototypes_active: 0
   candidates_active: 0
   experiments_registered: 0
   validated_strategies: 0

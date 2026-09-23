@@ -1,0 +1,53 @@
+{
+  "dataset": {
+    "dataset_id": "DATA-DUKASCOPY-EURUSDH1-HYP0002-001",
+    "dataset_version": "1.0.0",
+    "prepared_csv_sha256": "d62a7103478da2a79a0992310005bcd0afc8dc0010088dccd2ed0e54e2ec112f"
+  },
+  "decision": "REJECT",
+  "decision_reason": "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
+  "economic_label": "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+  "evidence_class": "EXPLORATORY_PROTOTYPE",
+  "frozen_thresholds": {
+    "q10_dev": -0.005141454111,
+    "q90_dev": 0.005394148971
+  },
+  "hypothesis_id": "HYP-0002",
+  "limitations": [
+    "Commission is not modeled.",
+    "Financing/rollover is not modeled.",
+    "1H quote opens are not guaranteed live fills.",
+    "Overlapping forward windows create dependent observations.",
+    "This is exploratory prototype evidence, not validation evidence."
+  ],
+  "metrics": {
+    "aligned_bars": 4153,
+    "eligible_observations": 2414,
+    "high_tail_down": {
+      "event_count": 201,
+      "mean_minus_baseline": 0.00040537180107395865,
+      "mean_signed_return": 0.0004902837195506912,
+      "median_signed_return": 0.00042826912095672576,
+      "overlapping_event_share": 0.9203980099502488,
+      "overlapping_event_windows": 185,
+      "positive_share": 0.5472636815920398,
+      "unconditional_mean_return": 8.491191847673248e-05
+    },
+    "low_tail_up": {
+      "event_count": 122,
+      "mean_minus_baseline": -0.00014766499867732195,
+      "mean_signed_return": -0.0002984301044940726,
+      "median_signed_return": 2.652818004655888e-05,
+      "overlapping_event_share": 0.9016393442622951,
+      "overlapping_event_windows": 110,
+      "positive_share": 0.5,
+      "unconditional_mean_return": -0.00015076510581675065
+    }
+  },
+  "prototype_sequence": "PROTO-01",
+  "run_context": {
+    "completed_at": "2026-09-23T05:33:23.410773+00:00",
+    "git_commit": "96d7b90ac908cacccfefbccbe8daa06867b2f18c"
+  },
+  "schema_version": "hyp0002-proto01-result-1"
+}

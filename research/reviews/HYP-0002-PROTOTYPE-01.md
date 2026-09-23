@@ -6,7 +6,7 @@
 - Data Feasibility review: `research/reviews/HYP-0002-DATA-FEASIBILITY.md`
 - Prototype sequence: `PROTO-01`
 - Created on: `2026-09-22`
-- Status: `FROZEN_NOT_RUN`
+- Status: `COMPLETED / REJECT`
 
 ## Prototype question
 
@@ -135,25 +135,52 @@ If one side fails while the other passes, the result is `REJECT` for HYP-0002. A
 - Frozen runner: `tools/hyp0002_proto01.py`
 - Synthetic contract tests: `tests/test_hyp0002_proto01.py`
 - Local prepared CSV: `data/derived/HYP-0002-CONFIRM-01-EURUSD-H1.csv`
-- Future local machine result: `reports/local_ci/HYP0002_PROTO01_RESULT.json`
-- Future local result report: `reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt`
-- Future canonical machine result after review: `reports/research/HYP-0002-PROTOTYPE-01-result.json`
+- Local machine result: `reports/local_ci/HYP0002_PROTO01_RESULT.json`
+- Local result report: `reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt`
+- Canonical machine result: `reports/research/HYP-0002-PROTOTYPE-01-result.json`
+- Result file SHA-256: `cf89ae89680aad25d24944dc737c4092f995327dca022a7c6a19d7ea102e552e`
+- Reveal commit: `96d7b90ac908cacccfefbccbe8daa06867b2f18c`
 
-The current M6-006 closure does **not** execute the frozen runner.
+M6-007 executed the exact frozen runner once after full Local CI PASS.
 
 ## Result summary
 
-`NOT_RUN`
+PROTO-01 was revealed once on the frozen confirmatory dataset.
 
-No confirmatory outcome has been calculated at this freeze point.
+Shared context:
+
+- aligned bars: `4,153`;
+- eligible observations: `2,414`.
+
+High-tail / DOWN:
+
+- events: `201`;
+- mean signed return: `0.0004902837195506912`;
+- unconditional DOWN mean: `0.00008491191847673248`;
+- mean minus baseline: `0.00040537180107395865`;
+- median signed return: `0.00042826912095672576`;
+- positive share: `0.5472636815920398`;
+- overlapping event share: `0.9203980099502488`.
+
+Low-tail / UP:
+
+- events: `122`;
+- mean signed return: `-0.0002984301044940726`;
+- unconditional UP mean: `-0.00015076510581675065`;
+- mean minus baseline: `-0.00014766499867732195`;
+- median signed return: `0.00002652818004655888`;
+- positive share: `0.5`;
+- overlapping event share: `0.9016393442622951`.
+
+The high-tail/DOWN side passed both primary inequalities. The low-tail/UP side failed both primary inequalities. The frozen two-sided claim therefore failed.
 
 ## Data / implementation anomalies
 
-None observed at freeze time. Any later runtime defect must be repaired without changing the frozen research question, thresholds, period or decision rule.
+No blocking data or implementation anomaly was reported by the valid reveal. Both tail samples show high forward-window overlap, retained as a dependence limitation rather than filtered away.
 
 ## Search and iteration accounting
 
-- Prototype iterations inspected so far: `0 results`
+- Prototype iterations inspected so far: `1 result`
 - Parameter / variant count in this iteration: `1 fixed two-sided rule`
 - Markets / instruments inspected: `1 — EURUSD`
 - Material data-source changes: `0`
@@ -161,13 +188,15 @@ None observed at freeze time. Any later runtime defect must be repaired without 
 
 ## Interpretation
 
-Not applicable before execution.
+The two-sided reversal claim does not survive the frozen confirmatory prototype. The passing high-tail/DOWN side does not rescue HYP-0002 because the Hypothesis explicitly requires both directions.
+
+The result is negative exploratory prototype evidence only. No conclusion about formal validation, live execution or full-net profitability is made.
 
 ## Outcome
 
-- Decision: `NOT_RUN`
-- Reason: `PROTOCOL_FROZEN_BEFORE_CONFIRMATORY_REVEAL`
-- Resulting action: after exact-head OWNER launcher PASS, run the frozen PROTO-01 once on the frozen dataset.
+- Decision: `REJECT`
+- Reason: `ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED`
+- Resulting action: stop HYP-0002 before Economic Pre-Screen. Retain the negative result and do not change thresholds, horizon, side requirement or confirmatory period inside HYP-0002 to rescue the line.
 
 ## Evidence classification
 

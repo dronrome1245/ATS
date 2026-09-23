@@ -43,6 +43,8 @@ HYP0002_CONFIRMATORY_SCHEMA = "data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.s
 HYP0002_PROTOTYPE = "research/reviews/HYP-0002-PROTOTYPE-01.md"
 HYP0002_PROTOTYPE_TOOL = "tools/hyp0002_proto01.py"
 HYP0002_PROTOTYPE_TEST = "tests/test_hyp0002_proto01.py"
+HYP0002_PROTOTYPE_RESULT = "reports/research/HYP-0002-PROTOTYPE-01-result.json"
+REFERENCE_STRATEGY_2_CLOSEOUT = "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -184,6 +186,8 @@ def configure() -> None:
         HYP0002_PROTOTYPE,
         HYP0002_PROTOTYPE_TOOL,
         HYP0002_PROTOTYPE_TEST,
+        HYP0002_PROTOTYPE_RESULT,
+        REFERENCE_STRATEGY_2_CLOSEOUT,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -216,6 +220,8 @@ def configure() -> None:
         "reference_strategy_2_confirmatory_schema",
         "reference_strategy_2_prototype",
         "reference_strategy_2_prototype_runner",
+        "reference_strategy_2_prototype_result",
+        "reference_strategy_2_closeout",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -466,16 +472,16 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[HYP0002_PROTOTYPE] = (
         "Prototype sequence: `PROTO-01`",
-        "Status: `FROZEN_NOT_RUN`",
+        "Status: `COMPLETED / REJECT`",
         "Q10_DEV = -0.005141454111",
         "Q90_DEV = 0.005394148971",
         "all four primary inequalities",
         "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
-        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "201",
+        "122",
         "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
         "tools/hyp0002_proto01.py",
-        "Result summary",
-        "`NOT_RUN`",
+        "Decision: `REJECT`",
     )
     core.CONTENT_MARKERS[HYP0002_PROTOTYPE_TOOL] = (
         "EXPECTED_DATASET_SHA256",
@@ -494,6 +500,28 @@ def configure() -> None:
         "ADVANCE_TO_ECONOMIC_SCREEN",
         "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
         "ONE_OR_BOTH_TAILS_HAVE_ZERO_EVENTS",
+    )
+    core.CONTENT_MARKERS[HYP0002_PROTOTYPE_RESULT] = (
+        '"decision": "REJECT"',
+        '"decision_reason": "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED"',
+        '"event_count": 201',
+        '"event_count": 122',
+        '"mean_signed_return": 0.0004902837195506912',
+        '"mean_signed_return": -0.0002984301044940726',
+        '"git_commit": "96d7b90ac908cacccfefbccbe8daa06867b2f18c"',
+        '"prepared_csv_sha256": "d62a7103478da2a79a0992310005bcd0afc8dc0010088dccd2ed0e54e2ec112f"',
+    )
+    core.CONTENT_MARKERS[REFERENCE_STRATEGY_2_CLOSEOUT] = (
+        "ATS2-M6-008",
+        "REJECTED_AT_R3",
+        "cf89ae89680aad25d24944dc737c4092f995327dca022a7c6a19d7ea102e552e",
+        "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
+        "201",
+        "122",
+        "WBS-6.3",
+        "WBS-6.7",
+        "PASS — NEGATIVE_EVIDENCE_PRESERVED_WITHOUT_RESCUE",
+        "M6 milestone status remains",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -1022,13 +1050,13 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-M6-007"',
-        "M6-007 HYP-0002 PROTO-01 frozen inputs",
+        'TASK_ID = "ATS2-M6-008"',
+        "M6-008 Reference Strategy #2 closeout artifacts",
         "HYP-0002-PROTOTYPE-01.md",
-        "hyp0002_proto01.py",
-        "test_hyp0002_proto01.py",
-        "full ATS Local CI before reveal",
-        "M6-007 HYP-0002 PROTO-01 frozen reveal",
+        "HYP-0002-PROTOTYPE-01-result.json",
+        "REFERENCE_STRATEGY_2_CLOSEOUT.md",
+        "M6-008 Reference Strategy #2 closeout governance validation",
+        "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/verify_repo.py"] = (
@@ -1336,6 +1364,8 @@ def main() -> int:
         'reference_strategy_2_confirmatory_schema: "data/manifests/DATA-EURUSD-DUKASCOPY-H1-HYP0002.schema.json"',
         'reference_strategy_2_prototype: "research/reviews/HYP-0002-PROTOTYPE-01.md"',
         'reference_strategy_2_prototype_runner: "tools/hyp0002_proto01.py"',
+        'reference_strategy_2_prototype_result: "reports/research/HYP-0002-PROTOTYPE-01-result.json"',
+        'reference_strategy_2_closeout: "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1348,9 +1378,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M6-006"',
-        'current_task: "ATS2-M6-007"', 'current_ready_task: "ATS2-M6-007"',
-        'current_wbs: "WBS-6.2"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-M6-007"',
+        'current_task: "ATS2-M6-008"', 'current_ready_task: "ATS2-M6-008"',
+        'current_wbs: "WBS-6.7"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -1433,11 +1463,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M6-006") != "DONE":
-        core.fail("M6-006 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-007") != "DONE":
+        core.fail("M6-007 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-M6-007") != "READY":
-        core.fail("M6-007 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-M6-008") != "READY":
+        core.fail("M6-008 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

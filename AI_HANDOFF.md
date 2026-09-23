@@ -4,57 +4,53 @@
 
 - M0–M3: `COMPLETED / PASS`.
 - M4 reusable baseline WBS-4.1…4.8: `COMPLETED`; M4.9/M4.10 wait for an eligible S05 PASS Candidate.
-- M6 Reference Strategy #2 lane: `IN_PROGRESS`.
+- M6: `IN_PROGRESS`.
 - HYP-0001 / PROTO-01: `REJECTED_AT_R3`.
+- HYP-0002 / PROTO-01: `REJECTED_AT_R3`.
 - No Candidate/Strategy Version/live permission exists.
 
-## Verified M6-006 closure
+## Verified M6-007 reveal
 
 OWNER launcher PASS was confirmed on exact commit:
 
-`ca7ed470f0aac6a1fed2a1c5a4d487f5fd56557e`
+`96d7b90ac908cacccfefbccbe8daa06867b2f18c`
 
-Evidence included fast repository validation PASS, pinned Ruff lint/format PASS, fast pytest collection PASS with `141 tests collected`, full pytest `141 passed`, full Local CI PASS, current task PASS and launcher PASS.
+The launcher passed fast validation/Ruff/pytest collection, full pytest `141 passed`, full Local CI, then executed the frozen reveal as the final task step.
 
 Canonical last completed artifact:
 
-`research/reviews/HYP-0002-PROTOTYPE-01.md`
+`reports/research/HYP-0002-PROTOTYPE-01-result.json`
 
-Frozen runner:
+Result file SHA-256:
 
-`tools/hyp0002_proto01.py`
+`cf89ae89680aad25d24944dc737c4092f995327dca022a7c6a19d7ea102e552e`
 
-The frozen result remained `NOT_RUN` throughout M6-006.
+Decision:
 
-## M6-007 confirmatory reveal
+`REJECT — ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED`
+
+High-tail/DOWN passed both primary inequalities. Low-tail/UP failed both primary inequalities. No rerun or post-result rescue is allowed inside HYP-0002.
+
+## M6-008 early-rejection closeout
 
 Current task:
 
-`ATS2-M6-007 — HYP-0002 PROTO-01 reveal`
+`ATS2-M6-008 — Reference Strategy #2 early-rejection closeout`
 
-The exact frozen runner from the M6-006 PASS is unchanged.
+Canonical next artifact:
 
-Execution order is mandatory:
+`governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md`
 
-1. frozen input/artifact check;
-2. governance validation;
-3. full ATS Local CI;
-4. frozen PROTO-01 reveal.
+The closeout records:
 
-This order prevents a valid reveal from being followed by a later CI failure inside the same task check.
+- immutable negative prototype evidence;
+- two-profile Research Factory reuse learnings;
+- very high forward-window overlap/dependence;
+- WBS-6.3–6.6 and WBS-6.8 as not entered for this rejected line;
+- WBS-6.7 as an explicit early-rejection reuse-review path.
 
-Expected local outputs after a successful reveal:
+M6 remains `IN_PROGRESS` during this task.
 
-- `reports/local_ci/HYP0002_PROTO01_RESULT.json`
-- `reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt`
+Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
-Canonical next artifact after review:
-
-`reports/research/HYP-0002-PROTOTYPE-01-result.json`
-
-After launcher PASS, return both:
-
-- `reports/local_ci/CURRENT_TASK_REPORT.txt`
-- `reports/local_ci/HYP0002_PROTO01_RESULT.json`
-
-The machine JSON will be used to record the complete result canonically without running the prototype again.
+After exact-head PASS, make a separate M6 continuation/exit decision. Do not reopen or tune HYP-0002.

@@ -185,7 +185,7 @@ ATS имеет reusable execution skeleton и как минимум один val
 | `WBS-6.4` | P | M6 | Extend Strategy API | Generalized interfaces | 6.2–6.3 | DEVELOPMENT | Новая стратегия не требует ломать semantics Strategy #1; shared abstraction подтверждена двумя consumers |
 | `WBS-6.5` | P | M6 | Event/news data support if required | Event ingestion/replay capability | 6.3 | DEVELOPMENT / DATA | Publication time, consensus/actual/revision semantics воспроизводимы для relevant events |
 | `WBS-6.6` | S | M6 | Baseline & Economic Viability #2 | S04–S05 reports | 6.2–6.5 | RESEARCH / DEVELOPMENT | Strategy #2 достигает честного S05 decision на shared platform |
-| `WBS-6.7` | P | M6 | Platform reuse review | Reuse/generalization report | 6.6 | DEVELOPMENT / PROGRAM | Ясно, какие компоненты действительно shared, а какие должны остаться strategy-specific |
+| `WBS-6.7` | P | M6 | Platform reuse review | Reuse/generalization report | 6.6 or terminal 6.2 early-rejection outcome | DEVELOPMENT / PROGRAM | Ясно, какие компоненты действительно shared, какие должны остаться strategy-specific, и какие learnings сохраняются при раннем Research Funnel rejection |
 | `WBS-6.8` | S | M6 | Validation handoff #2 | S06–S07 through M4.9/M4.10 when justified | 6.6 PASS, 4.1–4.8 | VALIDATION | Если Strategy #2 является первым promoted Candidate, её S06/S07 исполняют M4.9/M4.10; при FAIL evidence сохраняется и M5 не открывается |
 
 ### Exit M6
@@ -322,11 +322,14 @@ WBS не устанавливает без evidence и OWNER decision:
 - HYP-0002 Data Feasibility preparation is `DONE`, exact OWNER launcher PASS confirmed on commit `8b1e2dbc0e604c7fb3ca8297e0f61f252147619a`;
 - HYP-0002 Data Feasibility freeze is `DONE`, exact OWNER launcher PASS confirmed on commit `2f99bbbe688c3f2fc28ea7994f7cc700948af5c7`;
 - HYP-0002 PROTO-01 freeze is `DONE`, exact OWNER launcher PASS confirmed on commit `ca7ed470f0aac6a1fed2a1c5a4d487f5fd56557e`;
-- current research-funnel step is the one-time confirmatory reveal of the frozen PROTO-01;
+- HYP-0002 PROTO-01 reveal is `DONE / REJECT`, exact OWNER launcher PASS confirmed on commit `96d7b90ac908cacccfefbccbe8daa06867b2f18c`;
+- Reference Strategy #2 research outcome is `REJECTED_AT_R3`;
+- WBS-6.3–6.6 and WBS-6.8 are not entered for this rejected line;
+- current step is WBS-6.7 early-rejection reuse review;
 - M4.9/M4.10 remain blocked until a future research line earns Candidate/S05 eligibility.
 
 The current execution target is:
 
-`ATS2-M6-007 — HYP-0002 PROTO-01 reveal`
+`ATS2-M6-008 — Reference Strategy #2 early-rejection closeout`
 
-The task runs all gates before executing the frozen runner. No parameter, threshold, dataset, horizon, side or decision rule may change. HYP-0001 remains rejected.
+The closeout preserves the negative prototype result, records reusable two-profile/platform learnings and prepares a separate M6 continuation/exit decision. HYP-0001 and HYP-0002 both remain rejected at R3.

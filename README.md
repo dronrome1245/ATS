@@ -8,15 +8,19 @@ ATS — Strategy Factory для воспроизводимого исследо�
 
 - M0–M3: `COMPLETED / PASS`
 - M4 reusable baseline WBS-4.1…4.8: `COMPLETED`
-- M6 Reference Strategy #2 lane: `IN_PROGRESS`
+- M6: `IN_PROGRESS`
+- Reference Strategy #1: `REJECTED_AT_R3`
+- Reference Strategy #2: `REJECTED_AT_R3`
+- Candidate count: `0`
 
 Current work:
 
-`ATS2-M6-007 — HYP-0002 PROTO-01 reveal`
+`ATS2-M6-008 — Reference Strategy #2 early-rejection closeout`
 
-The frozen runner is unchanged from the exact M6-006 PASS commit. Full CI runs before the confirmatory reveal.
+Canonical result:
 
-After launcher PASS return:
+`reports/research/HYP-0002-PROTOTYPE-01-result.json`
 
-- `reports/local_ci/CURRENT_TASK_REPORT.txt`
-- `reports/local_ci/HYP0002_PROTO01_RESULT.json`
+Canonical closeout:
+
+`governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md`

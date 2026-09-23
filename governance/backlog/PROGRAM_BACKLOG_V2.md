@@ -47,9 +47,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 32. `ATS2-M6-004` — HYP-0002 Data Feasibility preparation — `DONE`.
 33. `ATS2-M6-005` — HYP-0002 Data Feasibility freeze — `DONE`.
 34. `ATS2-M6-006` — HYP-0002 PROTO-01 freeze — `DONE`.
-35. `ATS2-M6-007` — HYP-0002 PROTO-01 reveal — `READY`.
+35. `ATS2-M6-007` — HYP-0002 PROTO-01 reveal — `DONE`.
+36. `ATS2-M6-008` — Reference Strategy #2 early-rejection closeout — `READY`.
 
-Program-level current next task — `ATS2-M6-007`.
+Program-level current next task — `ATS2-M6-008`.
 
 ## 3. M0 / M1
 
@@ -116,21 +117,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-M6-004` | `WBS-6.2` | P1 | DONE | M6-003 | `research/reviews/HYP-0002-DATA-FEASIBILITY-PREP.md` + local preparation report | Froze Q10_DEV/Q90_DEV and the disjoint 2026-01 through 2026-08 Dukascopy BID/ASK block with no HYP-0002 outcome calculation |
 | `ATS2-M6-005` | `WBS-6.2` | P1 | DONE | M6-004 | `research/reviews/HYP-0002-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest | Recorded CONDITIONAL feasibility and froze thresholds, confirmatory data identity, timing and cost limitations before outcome reveal |
 | `ATS2-M6-006` | `WBS-6.2` | P1 | DONE | M6-005 | `research/reviews/HYP-0002-PROTOTYPE-01.md` + frozen runner/tests | Froze the two-sided prototype question, four-inequality decision rule and deterministic implementation before reveal |
-| `ATS2-M6-007` | `WBS-6.2` | P1 | READY | M6-006 | local PROTO-01 machine result + OWNER report | Run full CI first, then execute the exact frozen HYP-0002 PROTO-01 runner once and preserve the complete machine result for canonical recording |
+| `ATS2-M6-007` | `WBS-6.2` | P1 | DONE | M6-006 | `reports/research/HYP-0002-PROTOTYPE-01-result.json` | Exact frozen reveal returned `REJECT`: high-tail/DOWN passed both inequalities while low-tail/UP failed both; no rerun or post-result rescue |
+| `ATS2-M6-008` | `WBS-6.7` | P1 | READY | M6-007 REJECT | `governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md` | Preserve terminal negative evidence, record reuse/generalization learnings, mark WBS-6.3–6.6/6.8 not entered for this line, and prepare the separate M6 continuation/exit decision |
 
 ## 7. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-M6-007 — HYP-0002 PROTO-01 reveal`.
+`ATS2-M6-008 — Reference Strategy #2 early-rejection closeout`.
 
-Frozen runner:
+Canonical artifact:
 
-`tools/hyp0002_proto01.py`
+`governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md`
 
-The task checker first runs governance validation and full Local CI. Only after those pass does it execute the already frozen runner. The runner writes:
+HYP-0002 / PROTO-01 is `REJECTED_AT_R3`. Economic Pre-Screen, Candidate admission, validation and live engineering are not entered.
 
-- `reports/local_ci/HYP0002_PROTO01_RESULT.json`;
-- `reports/local_ci/HYP0002_PROTO01_RESULT_REPORT.txt`.
-
-After launcher PASS, return both `CURRENT_TASK_REPORT.txt` and `HYP0002_PROTO01_RESULT.json` so the result can be recorded canonically without rerunning the reveal.
+After exact-head PASS, the program must make a separate M6 continuation/exit decision: either close M6 on the two-profile generalization objective or rebaseline research sourcing because no S05 PASS Candidate exists.
