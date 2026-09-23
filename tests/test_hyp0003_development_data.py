@@ -88,6 +88,37 @@ def test_download_source_prefers_jetta_provider_path(
     assert prep.download_source_once("GBPUSD", month, "BID") == (path, headers)
 
 
+def test_download_source_reuses_legacy_cache_before_jetta_network(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path,
+) -> None:
+    month = datetime(2021, 8, 1, tzinfo=UTC)
+    legacy_path = tmp_path / "BID_candles_hour_1.bi5"
+    legacy_path.write_bytes(b"cached")
+    jetta_path = tmp_path / "BID_candles_hour_1.json"
+    headers = {
+        "source_url": "LOCAL_FROZEN_COPY",
+        "source_format": prep.SOURCE_FORMAT_BI5,
+        "last_modified": "",
+        "etag": "",
+    }
+
+    monkeypatch.setattr(prep, "raw_path", lambda _symbol, _month, _side: legacy_path)
+    monkeypatch.setattr(prep, "jetta_raw_path", lambda _symbol, _month, _side: jetta_path)
+    monkeypatch.setattr(
+        prep,
+        "download_legacy_source_once",
+        lambda _symbol, _month, _side: (legacy_path, headers),
+    )
+
+    def fail_jetta(_symbol: str, _month: datetime, _side: str):
+        raise AssertionError("network Jetta path should not run when legacy cache exists")
+
+    monkeypatch.setattr(prep, "download_jetta_source_once", fail_jetta)
+
+    assert prep.download_source_once("GBPUSD", month, "BID") == (legacy_path, headers)
+
+
 def test_decode_month_uses_frozen_point_divisor(tmp_path) -> None:
     month = datetime(2021, 8, 1, tzinfo=UTC)
     path = tmp_path / "BID_candles_hour_1.bi5"
