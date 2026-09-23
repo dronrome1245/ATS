@@ -451,7 +451,9 @@ def download_source_pair_once(
             return pair
 
     if errors:
-        raise DevelopmentDataPrepError("coherent BID/ASK source pair unavailable: " + " | ".join(errors))
+        raise DevelopmentDataPrepError(
+            "coherent BID/ASK source pair unavailable: " + " | ".join(errors)
+        )
     return None
 
 
