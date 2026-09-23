@@ -258,7 +258,7 @@ The third occurrence exposed a control gap in the new HYP-0003 availability prob
 
 The fourth occurrence showed a second boundary bug: `urllib.request.urlopen()` can raise a direct Windows `OSError` / `ConnectionResetError`, not only `URLError`. The final reset therefore escaped `ProbeError`, bypassed the remaining fallback/retry taxonomy and surfaced as raw `WinError 10054`.
 
-The fifth occurrence showed that the dedicated metadata path itself was still a single point of failure: `HistoryStart.bi5` timed out after all bounded batches. The source provider also exposes H1 inception in its public instruments metadata, so source discovery now has a provider-native fallback rather than changing provider or research period.
+The fifth occurrence showed that the dedicated metadata path itself was still a single point of failure: `HistoryStart.bi5` timed out after all bounded batches. The source provider also exposes H1 inception through the public instruments metadata field `history_start_60min`, so source discovery now has a provider-native fallback rather than changing provider or research period.
 
 **Correct response**
 
