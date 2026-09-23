@@ -52,6 +52,9 @@ STRATEGY_3_IDEA = "research/ideas/IDEA-0003.md"
 STRATEGY_3_HYPOTHESIS = "research/hypotheses/HYP-0003.md"
 STRATEGY_3_DATA_FEASIBILITY = "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
 STRATEGY_3_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"
+HYP0003_DATA_FEASIBILITY_PREP_RESULT = (
+    "reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json"
+)
 HYP0003_DATA_FEASIBILITY_TOOL = "tools/hyp0003_data_feasibility.py"
 HYP0003_DATA_FEASIBILITY_TEST = "tests/test_hyp0003_data_feasibility.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
@@ -206,6 +209,7 @@ def configure() -> None:
         STRATEGY_3_HYPOTHESIS,
         STRATEGY_3_DATA_FEASIBILITY,
         STRATEGY_3_DATA_FEASIBILITY_PREP,
+        HYP0003_DATA_FEASIBILITY_PREP_RESULT,
         HYP0003_DATA_FEASIBILITY_TOOL,
         HYP0003_DATA_FEASIBILITY_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
@@ -622,6 +626,20 @@ def configure() -> None:
         "2026-09-01T00:00:00Z",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         "ATS2-RF-006",
+        "RF-007 freeze update",
+        "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001",
+        "a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e",
+        "ATS2-RF-008",
+    )
+    core.CONTENT_MARKERS[HYP0003_DATA_FEASIBILITY_PREP_RESULT] = (
+        '"task_id": "ATS2-RF-006"',
+        '"preparation_commit": "acf197d5774116c7d9a8b742eab77c6ee3447214"',
+        '"preparation_decision": "READY_FOR_FREEZE_REVIEW"',
+        '"retained_currency_count": 9',
+        '"common_possible_development_start": "2003-08-03T21:00:00Z"',
+        '"history_metadata_sha256": "215ad432126018f4f871a1e10bc3f315524b84ae29d83fc3fd3adc188107417d"',
+        '"probe_bundle_sha256": "a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e"',
+        '"information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
     )
     core.CONTENT_MARKERS[STRATEGY_3_DATA_FEASIBILITY_PREP] = (
         "ATS2-RF-006",
@@ -1229,16 +1247,16 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-006"',
-        "RF-006 HYP-0003 Data Feasibility preparation artifacts",
+        'TASK_ID = "ATS2-RF-007"',
+        "RF-007 HYP-0003 Data Feasibility freeze artifacts",
         "HYP-0003-DATA-FEASIBILITY.md",
         "HYP-0003-DATA-FEASIBILITY-PREP.md",
-        "hyp0003_data_feasibility.py",
-        "test_hyp0003_data_feasibility.py",
-        "full ATS Local CI before source probe",
+        "HYP-0003-DATA-FEASIBILITY-PREP-result.json",
+        "check_canonical_preparation_result",
+        "READY_FOR_FREEZE_REVIEW",
+        "full ATS Local CI for RF-007 freeze",
         "emit_progress(45)",
-        "emit_progress(80)",
-        "RF-006 HYP-0003 source availability probe",
+        "emit_progress(75)",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1570,6 +1588,7 @@ def main() -> int:
         'strategy_3_hypothesis: "research/hypotheses/HYP-0003.md"',
         'strategy_3_data_feasibility: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"',
         'strategy_3_data_feasibility_prep: "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"',
+        'strategy_3_data_feasibility_prep_result: "reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json"',
         'strategy_3_data_feasibility_tool: "tools/hyp0003_data_feasibility.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
@@ -1583,9 +1602,17 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-005"',
-        'current_task: "ATS2-RF-006"', 'current_ready_task: "ATS2-RF-006"',
-        'current_wbs: "WBS-RF.2"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-RF-006"',
+        'current_task: "ATS2-RF-007"', 'current_ready_task: "ATS2-RF-007"',
+        'next_task: "ATS2-RF-008"',
+        'current_wbs: "WBS-RF.2"',
+        'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
+        'preparation_decision: "READY_FOR_FREEZE_REVIEW"',
+        'source_qualified_currency_count: 9',
+        'common_possible_development_start: "2003-08-03T21:00:00Z"',
+        'probe_bundle_sha256: "a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e"',
+        'development_dataset_id: "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001"',
+        "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -1668,11 +1695,14 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-RF-005") != "DONE":
-        core.fail("RF-005 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-006") != "DONE":
+        core.fail("RF-006 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-006") != "READY":
-        core.fail("RF-006 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-007") != "READY":
+        core.fail("RF-007 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-008") != "BLOCKED":
+        core.fail("RF-008 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

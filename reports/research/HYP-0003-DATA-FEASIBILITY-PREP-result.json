@@ -1,0 +1,95 @@
+{
+  "schema_version": "hyp0003-data-feasibility-prep-canonical-1",
+  "task_id": "ATS2-RF-006",
+  "hypothesis_id": "HYP-0003",
+  "evidence_origin": "OWNER_ATS_TASK_CHECK_REPORT",
+  "preparation_commit": "acf197d5774116c7d9a8b742eab77c6ee3447214",
+  "launcher_status": "PASS",
+  "source_probe_status": "PASS",
+  "preparation_decision": "READY_FOR_FREEZE_REVIEW",
+  "history_metadata_instrument_count": 1512,
+  "history_metadata_sha256": "215ad432126018f4f871a1e10bc3f315524b84ae29d83fc3fd3adc188107417d",
+  "probe_object_count": 18,
+  "probe_bundle_sha256": "a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e",
+  "retained_source_currencies": [
+    "AUD",
+    "CAD",
+    "CHF",
+    "EUR",
+    "GBP",
+    "JPY",
+    "NOK",
+    "NZD",
+    "SEK"
+  ],
+  "retained_currency_count": 9,
+  "minimum_required_currency_count": 6,
+  "common_possible_development_start": "2003-08-03T21:00:00Z",
+  "development_end_exclusive": "2021-09-01T00:00:00Z",
+  "information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+  "symbol_results": [
+    {
+      "currency": "AUD",
+      "symbol": "AUDUSD",
+      "orientation": "DIRECT",
+      "status": "SOURCE_AVAILABLE",
+      "h1_history_start": "2003-08-03T21:00:00Z"
+    },
+    {
+      "currency": "CAD",
+      "symbol": "USDCAD",
+      "orientation": "INVERSE",
+      "status": "SOURCE_AVAILABLE",
+      "h1_history_start": "2003-08-03T21:00:00Z"
+    },
+    {
+      "currency": "CHF",
+      "symbol": "USDCHF",
+      "orientation": "INVERSE",
+      "status": "SOURCE_AVAILABLE",
+      "h1_history_start": "2003-05-04T20:00:00Z"
+    },
+    {
+      "currency": "EUR",
+      "symbol": "EURUSD",
+      "orientation": "DIRECT",
+      "status": "SOURCE_AVAILABLE",
+      "h1_history_start": "2003-05-04T21:00:00Z"
+    },
+    {
+      "currency": "GBP",
+      "symbol": "GBPUSD",
+      "orientation": "DIRECT",
+      "status": "SOURCE_AVAILABLE",
+      "h1_history_start": "2003-05-04T20:00:00Z"
+    },
+    {
+      "currency": "JPY",
+      "symbol": "USDJPY",
+      "orientation": "INVERSE",
+      "status": "SOURCE_AVAILABLE",
+      "h1_history_start": "2003-05-04T21:00:00Z"
+    },
+    {
+      "currency": "NOK",
+      "symbol": "USDNOK",
+      "orientation": "INVERSE",
+      "status": "SOURCE_AVAILABLE",
+      "h1_history_start": "2003-08-03T21:00:00Z"
+    },
+    {
+      "currency": "NZD",
+      "symbol": "NZDUSD",
+      "orientation": "DIRECT",
+      "status": "SOURCE_AVAILABLE",
+      "h1_history_start": "2003-08-03T21:00:00Z"
+    },
+    {
+      "currency": "SEK",
+      "symbol": "USDSEK",
+      "orientation": "INVERSE",
+      "status": "SOURCE_AVAILABLE",
+      "h1_history_start": "2003-08-03T21:00:00Z"
+    }
+  ]
+}

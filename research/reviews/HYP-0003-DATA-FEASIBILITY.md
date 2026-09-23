@@ -273,3 +273,161 @@ The preparation task must:
 - keep all data at or after `2021-09-01T00:00:00Z` out of HYP-0003 development calculations;
 - produce hashes and coverage/quality statistics;
 - compute **no HYP-0003 momentum outcome**.
+
+
+## 17. RF-007 freeze update — source-qualified universe and development-data contract
+
+This dated update records the RF-006 exact-head preparation result and supersedes only the unresolved preparation facts in Sections 9, 13, 15 and 16. The earlier `CONDITIONAL` decision history is retained.
+
+### 17.1 Canonical RF-006 preparation result
+
+Exact-head OWNER launcher PASS was obtained on:
+
+`acf197d5774116c7d9a8b742eab77c6ee3447214`
+
+Canonical preparation result:
+
+`reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json`
+
+The machine result records:
+
+- preparation decision: `READY_FOR_FREEZE_REVIEW`;
+- Dukascopy history metadata instruments: `1512`;
+- history metadata SHA-256: `215ad432126018f4f871a1e10bc3f315524b84ae29d83fc3fd3adc188107417d`;
+- August 2021 boundary probe objects: `18`;
+- probe bundle SHA-256: `a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e`;
+- retained source currencies: `AUD, CAD, CHF, EUR, GBP, JPY, NOK, NZD, SEK`;
+- retained currency count: `9`;
+- minimum required: `6`;
+- common possible development start: `2003-08-03T21:00:00Z`;
+- development end exclusive: `2021-09-01T00:00:00Z`;
+- information boundary: `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+
+Per-symbol H1 history starts recorded by RF-006:
+
+| Currency | Source pair | Orientation | H1 history start | RF-006 status |
+|---|---|---|---|---|
+| AUD | AUDUSD | DIRECT | 2003-08-03T21:00:00Z | SOURCE_AVAILABLE |
+| CAD | USDCAD | INVERSE | 2003-08-03T21:00:00Z | SOURCE_AVAILABLE |
+| CHF | USDCHF | INVERSE | 2003-05-04T20:00:00Z | SOURCE_AVAILABLE |
+| EUR | EURUSD | DIRECT | 2003-05-04T21:00:00Z | SOURCE_AVAILABLE |
+| GBP | GBPUSD | DIRECT | 2003-05-04T20:00:00Z | SOURCE_AVAILABLE |
+| JPY | USDJPY | INVERSE | 2003-05-04T21:00:00Z | SOURCE_AVAILABLE |
+| NOK | USDNOK | INVERSE | 2003-08-03T21:00:00Z | SOURCE_AVAILABLE |
+| NZD | NZDUSD | DIRECT | 2003-08-03T21:00:00Z | SOURCE_AVAILABLE |
+| SEK | USDSEK | INVERSE | 2003-08-03T21:00:00Z | SOURCE_AVAILABLE |
+
+The RF-006 probe result is source/data-feasibility evidence only. It contains no HYP-0003 momentum result.
+
+### 17.2 Frozen source-qualified universe
+
+The source-qualified candidate universe is frozen as all nine predeclared currencies:
+
+`AUD, CAD, CHF, EUR, GBP, JPY, NOK, NZD, SEK`
+
+No currency was removed by strategy return or momentum behavior.
+
+Point-in-time eligibility may still vary at a monthly ranking timestamp under the frozen quality rules below. Such ineligibility does not remove the currency from the candidate universe and may not be used to select currencies by observed HYP-0003 performance.
+
+### 17.3 Full development-data acquisition contract
+
+Future development dataset identity:
+
+- dataset ID: `DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001`;
+- dataset version: `1.0.0`;
+- source class: Dukascopy monthly H1 BID/ASK candles;
+- target event-time interval: `2003-08-03T21:00:00Z <= event_time < 2021-09-01T00:00:00Z`;
+- protected-tail rule: RF-008 must not request, read, decode or derive source months at or after September 2021;
+- future manifest path: `data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml`;
+- future schema path: `data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json`;
+- local prepared-data path: `data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv`.
+
+RF-008 must attempt the monthly BID and ASK H1 source objects for every frozen source pair from August 2003 through August 2021 inclusive. Raw provider bytes remain local/external and are not committed to Git.
+
+Acquisition must remain resumable at the source-object boundary. A cached source object with a recorded SHA-256 is reused. `404/410` source absence is recorded as source absence; timeout, reset, 5xx, decompression or indeterminate failures remain technical blockers and may not be relabeled as missing market data.
+
+The full source-bundle SHA-256 must be calculated from a canonical, sorted serialization of each acquired object's `symbol`, `month`, `side` and object SHA-256. The RF-006 `probe_bundle_sha256` is not a substitute for that identity.
+
+### 17.4 Quote normalization, time and quality contract
+
+Direct `CURRENCYUSD` pairs preserve source BID and ASK sides.
+
+For inverse `USDCURRENCY` pairs, normalized OHLC is frozen as:
+
+- normalized BID open/close = `1 / source ASK open/close`;
+- normalized BID high = `1 / source ASK low`;
+- normalized BID low = `1 / source ASK high`;
+- normalized ASK open/close = `1 / source BID open/close`;
+- normalized ASK high = `1 / source BID low`;
+- normalized ASK low = `1 / source BID high`.
+
+All normalized quote fields must be finite and positive, with executable ASK/BID ordering preserved.
+
+Time semantics remain:
+
+- timezone: `UTC`;
+- event time: H1 bar open;
+- availability time: event time plus one hour;
+- market-hour calendar: reuse the existing regression-tested Dukascopy FX `is_fx_market_hour()` semantics;
+- exact BID/ASK timestamp alignment is required per symbol;
+- duplicates, out-of-order records and malformed/impossible quotes are blocking;
+- expected closed-market hours are declared gaps and are never filled;
+- missing expected tradable-hour bars are counted explicitly and never interpolated or forward-filled.
+
+For each calendar-month ranking boundary, the eligible cutoff bar for a currency is the aligned completed H1 bar at the **last expected Dukascopy FX market-hour open before the next calendar month begins**. If that expected bar is missing or invalid, that currency is ineligible at that ranking timestamp. RF-008 may not silently fall back to an older stale bar.
+
+Modeled entry remains no earlier than the first eligible quote/bar open at or after the cutoff bar's availability time.
+
+If fewer than six currencies are eligible at a ranking timestamp, HYP-0003 makes no claim for that timestamp.
+
+### 17.5 RF-008 required preparation outputs
+
+Before any HYP-0003 momentum cell may be evaluated, RF-008 must report at minimum:
+
+- acquired/missing source-object counts and per-object SHA-256 identities;
+- full source-bundle SHA-256;
+- per-symbol first/last usable timestamps and aligned row counts;
+- duplicate, out-of-order, malformed and impossible-quote counts;
+- expected tradable-hour missing counts and declared session-gap counts;
+- normalized quote-order validity;
+- monthly cutoff ineligibility counts by currency and reason;
+- final common usable development interval;
+- eligible monthly ranking-point count;
+- the count supporting the longest `12-month formation / 12-month holding` geometry with the holding effect ending before `2021-09-01T00:00:00Z`;
+- prepared dataset SHA-256 and manifest/schema identities.
+
+RF-008 is prohibited from calculating formation returns, cross-sectional ranks, winner/loser baskets, any of the 25 variant returns or the HYP-0003 breadth decision.
+
+### 17.6 Feasibility decision after RF-006
+
+Decision remains:
+
+`CONDITIONAL`
+
+Resolved by RF-006:
+
+- all nine predeclared source pairs are source-qualified at the development boundary;
+- the common possible development start is now known;
+- provider-native metadata and boundary probe identities are frozen.
+
+Still required before development outcome execution:
+
+- full pre-protected source acquisition;
+- full source-bundle and prepared-dataset hashes;
+- whole-period quality statistics;
+- deterministic monthly-cutoff eligibility statistics;
+- eligible monthly ranking-point counts, including the longest 12/12 geometry.
+
+Therefore RF-007 authorizes **development-data preparation only**. It does not authorize calculation of any HYP-0003 development outcome.
+
+Hypothesis reformulation required:
+
+`NO`
+
+### 17.7 Next task
+
+After exact-head OWNER launcher PASS for RF-007:
+
+`ATS2-RF-008 — HYP-0003 development data preparation`
+
+The protected tail remains unavailable to HYP-0003 development.
