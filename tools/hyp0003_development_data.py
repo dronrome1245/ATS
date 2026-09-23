@@ -329,6 +329,11 @@ def download_source_once(
     if month >= DATA_END:
         raise DevelopmentDataPrepError("protected-tail source month requested by RF-008")
 
+    if jetta_raw_path(symbol, month, side).exists():
+        return download_jetta_source_once(symbol, month, side)
+    if raw_path(symbol, month, side).exists():
+        return download_legacy_source_once(symbol, month, side)
+
     jetta_error: DevelopmentDataPrepError | None = None
     try:
         jetta = download_jetta_source_once(symbol, month, side)
@@ -465,12 +470,8 @@ def decode_jetta_month(path: Path, month: datetime) -> dict[datetime, Ohlc]:
         raise DevelopmentDataPrepError(f"invalid Jetta base candle: {path}")
 
     deltas = [payload[name] for name in ("opens", "highs", "lows", "closes")]
-    if any(
-        not isinstance(value, (int, float)) or not math.isfinite(value)
-        for column in [payload["times"], *deltas]
-        for value in column
-    ):
-        raise DevelopmentDataPrepError(f"non-finite Jetta delta: {path}")
+    if any(not isinstance(value, int) for column in deltas for value in column):
+        raise DevelopmentDataPrepError(f"non-integer Jetta price delta: {path}")
 
     scale = multiplier_scale(float(multiplier))
     units = [round(float(value) / float(multiplier)) for value in base_values]
