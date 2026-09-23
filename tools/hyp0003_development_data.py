@@ -390,6 +390,96 @@ def download_source_resilient(
     )
 
 
+def _nonempty(path: Path) -> bool:
+    return path.exists() and path.stat().st_size > 0
+
+
+def _source_format_priority(symbol: str, month: datetime) -> tuple[str, str]:
+    jetta_cached = any(_nonempty(jetta_raw_path(symbol, month, side)) for side in ("BID", "ASK"))
+    legacy_cached = any(_nonempty(raw_path(symbol, month, side)) for side in ("BID", "ASK"))
+    if legacy_cached and not jetta_cached:
+        return SOURCE_FORMAT_BI5, SOURCE_FORMAT_JETTA_JSON
+    return SOURCE_FORMAT_JETTA_JSON, SOURCE_FORMAT_BI5
+
+
+def download_source_pair_from_format(
+    symbol: str,
+    month: datetime,
+    source_format: str,
+) -> dict[str, tuple[Path, dict[str, str]]] | None:
+    if source_format == SOURCE_FORMAT_JETTA_JSON:
+        downloader = download_jetta_source_once
+    elif source_format == SOURCE_FORMAT_BI5:
+        downloader = download_legacy_source_once
+    else:
+        raise DevelopmentDataPrepError(f"unknown pair source format: {source_format}")
+
+    result: dict[str, tuple[Path, dict[str, str]]] = {}
+    missing: list[str] = []
+    for side in ("BID", "ASK"):
+        downloaded = downloader(symbol, month, side)
+        if downloaded is None:
+            missing.append(side)
+        else:
+            result[side] = downloaded
+
+    if not missing:
+        return result
+    if len(missing) == 2:
+        return None
+    raise DevelopmentDataPrepError(
+        f"one-sided {source_format} source absence for {symbol} {month:%Y-%m}: "
+        f"missing {missing[0]}"
+    )
+
+
+def download_source_pair_once(
+    symbol: str,
+    month: datetime,
+) -> dict[str, tuple[Path, dict[str, str]]] | None:
+    if month >= DATA_END:
+        raise DevelopmentDataPrepError("protected-tail source month requested by RF-008")
+
+    errors: list[str] = []
+    for source_format in _source_format_priority(symbol, month):
+        try:
+            pair = download_source_pair_from_format(symbol, month, source_format)
+        except DevelopmentDataPrepError as exc:
+            errors.append(f"{source_format}: {exc}")
+            continue
+        if pair is not None:
+            return pair
+
+    if errors:
+        raise DevelopmentDataPrepError("coherent BID/ASK source pair unavailable: " + " | ".join(errors))
+    return None
+
+
+def download_source_pair_resilient(
+    symbol: str,
+    month: datetime,
+) -> dict[str, tuple[Path, dict[str, str]]] | None:
+    attempts = len(DOWNLOAD_BATCH_BACKOFF_SECONDS) + 1
+    last_error: DevelopmentDataPrepError | None = None
+    for batch in range(attempts):
+        try:
+            return download_source_pair_once(symbol, month)
+        except DevelopmentDataPrepError as exc:
+            last_error = exc
+            if batch == attempts - 1:
+                break
+            delay = DOWNLOAD_BATCH_BACKOFF_SECONDS[batch]
+            progress(
+                f"[network] coherent {symbol} {month:%Y-%m} BID/ASK pair failed; "
+                f"retrying in {delay:.0f}s (batch {batch + 2}/{attempts})"
+            )
+            time.sleep(delay)
+    raise DevelopmentDataPrepError(
+        f"cannot acquire coherent {symbol} {month:%Y-%m} BID/ASK pair "
+        f"after {attempts} batches: {last_error}"
+    )
+
+
 def decode_month(
     path: Path,
     month: datetime,
@@ -686,15 +776,9 @@ def build_dataset() -> dict[str, Any]:
                     str,
                     dict[datetime, Ohlc],
                 ] = {}
-                missing_sides: list[str] = []
-                for side in ("BID", "ASK"):
-                    downloaded = download_source_resilient(
-                        symbol,
-                        month,
-                        side,
-                    )
-                    if downloaded is None:
-                        missing_sides.append(side)
+                downloaded_pair = download_source_pair_resilient(symbol, month)
+                if downloaded_pair is None:
+                    for side in ("BID", "ASK"):
                         missing_source_objects.append(
                             {
                                 "symbol": symbol,
@@ -703,36 +787,38 @@ def build_dataset() -> dict[str, Any]:
                             }
                         )
                         decoded_by_side[side] = {}
-                        continue
-
-                    path, headers = downloaded
-                    source_format = headers["source_format"]
-                    decoded_by_side[side] = decode_source_object(
-                        path,
-                        month,
-                        symbol,
-                        source_format,
-                    )
-                    source_files.append(
-                        {
-                            "symbol": symbol,
-                            "month": month.strftime("%Y-%m"),
-                            "side": side,
-                            "sha256": sha256_file(path),
-                            "source_format": source_format,
-                            "relative_path": str(path.relative_to(ROOT)).replace("\\", "/"),
-                            "source_url": headers["source_url"],
-                            "last_modified": headers["last_modified"],
-                            "etag": headers["etag"],
-                        }
-                    )
-
-                if len(missing_sides) == 1:
-                    raise DevelopmentDataPrepError(
-                        f"one-sided source object absence: "
-                        f"{symbol} {month:%Y-%m} "
-                        f"missing {missing_sides[0]}"
-                    )
+                    pair_source_format = "SOURCE_ABSENT"
+                else:
+                    pair_formats = {
+                        headers["source_format"] for _, headers in downloaded_pair.values()
+                    }
+                    if len(pair_formats) != 1:
+                        raise DevelopmentDataPrepError(
+                            f"mixed source formats for {symbol} {month:%Y-%m}: "
+                            f"{sorted(pair_formats)}"
+                        )
+                    pair_source_format = next(iter(pair_formats))
+                    for side in ("BID", "ASK"):
+                        path, headers = downloaded_pair[side]
+                        decoded_by_side[side] = decode_source_object(
+                            path,
+                            month,
+                            symbol,
+                            pair_source_format,
+                        )
+                        source_files.append(
+                            {
+                                "symbol": symbol,
+                                "month": month.strftime("%Y-%m"),
+                                "side": side,
+                                "sha256": sha256_file(path),
+                                "source_format": pair_source_format,
+                                "relative_path": str(path.relative_to(ROOT)).replace("\\", "/"),
+                                "source_url": headers["source_url"],
+                                "last_modified": headers["last_modified"],
+                                "etag": headers["etag"],
+                            }
+                        )
 
                 bid_times = expected_set.intersection(decoded_by_side["BID"])
                 ask_times = expected_set.intersection(decoded_by_side["ASK"])
@@ -767,11 +853,17 @@ def build_dataset() -> dict[str, Any]:
                     NormalizedPair,
                 ] = {}
                 for timestamp in aligned_times:
-                    normalized[timestamp] = normalize_pair_ohlc(
-                        decoded_by_side["BID"][timestamp],
-                        decoded_by_side["ASK"][timestamp],
-                        orientation,
-                    )
+                    try:
+                        normalized[timestamp] = normalize_pair_ohlc(
+                            decoded_by_side["BID"][timestamp],
+                            decoded_by_side["ASK"][timestamp],
+                            orientation,
+                        )
+                    except DevelopmentDataPrepError as exc:
+                        raise DevelopmentDataPrepError(
+                            f"{symbol} {month:%Y-%m} {iso_z(timestamp)} "
+                            f"{pair_source_format}: {exc}"
+                        ) from exc
                 month_rows[currency] = normalized
 
             all_timestamps = sorted(
