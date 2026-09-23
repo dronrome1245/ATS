@@ -79,13 +79,14 @@ model:
   m3_exit_review: "governance/program/M3_EXIT_REVIEW.md"
   m6_exit_review: "governance/program/M6_EXIT_REVIEW.md"
   strategy_3_sourcing_rebaseline: "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
+  strategy_3_idea_sourcing: "governance/program/STRATEGY_3_IDEA_SOURCING.md"
 
 current:
-  focus: "Rebaseline continuous Research Factory for Strategy #3 sourcing"
-  last_completed_task_id: "ATS2-M6-009"
-  last_completed_artifact: "governance/program/M6_EXIT_REVIEW.md"
-  next_artifact: "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
-  next_task_id: "ATS2-RF-001"
+  focus: "Source and shortlist Strategy #3 research families"
+  last_completed_task_id: "ATS2-RF-001"
+  last_completed_artifact: "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
+  next_artifact: "governance/program/STRATEGY_3_IDEA_SOURCING.md"
+  next_task_id: "ATS2-RF-002"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -320,15 +321,21 @@ research_factory:
   objective: "Continuously source and screen new strategy ideas until a future Candidate earns S05 PASS"
   status: IN_PROGRESS
   current_strategy_sequence: 3
-  current_task: "ATS2-RF-001"
-  current_wbs: "WBS-RF.0"
-  next_task_after_rebaseline: "ATS2-RF-002"
+  completed_tasks:
+    - "ATS2-RF-001"
+  completed_artifacts:
+    - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
+  current_task: "ATS2-RF-002"
+  current_wbs: "WBS-RF.1"
+  next_task: "ATS2-RF-003"
+  sourcing_families_reviewed: 4
+  sourcing_families_shortlisted: 3
   candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-001"
-  current_ready_wbs: "WBS-RF.0"
+  current_ready_task: "ATS2-RF-002"
+  current_ready_wbs: "WBS-RF.1"
 
 handoff_policy:
   update_after_material_step: true

@@ -9,8 +9,7 @@ ATS — Strategy Factory для воспроизводимого исследо�
 - M0–M3: `COMPLETED / PASS`
 - M4 reusable baseline WBS-4.1…4.8: `COMPLETED`
 - M6: `COMPLETED / PASS`
-- Strategy #1: отклонена на R3
-- Strategy #2: отклонена на R3
+- Strategy #1 and #2: отклонены на R3
 - Candidate count: `0`
 
 Current lane:
@@ -19,6 +18,6 @@ Current lane:
 
 Current work:
 
-`ATS2-RF-001 — Strategy #3 sourcing rebaseline`
+`ATS2-RF-002 — Strategy #3 idea sourcing`
 
-We are planning the sourcing process for Strategy #3. No Strategy #3 market/instrument/timeframe has been selected yet.
+We are sourcing and comparing Strategy #3 research families. No family has been selected yet.

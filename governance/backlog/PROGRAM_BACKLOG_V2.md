@@ -50,10 +50,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 35. `ATS2-M6-007` — HYP-0002 PROTO-01 reveal — `DONE`.
 36. `ATS2-M6-008` — Reference Strategy #2 early-rejection closeout — `DONE`.
 37. `ATS2-M6-009` — M6 Exit Review — `DONE / PASS`.
-38. `ATS2-RF-001` — Strategy #3 sourcing rebaseline — `READY`.
-39. `ATS2-RF-002` — Strategy #3 idea sourcing — `BLOCKED` pending RF-001 exact-head PASS.
+38. `ATS2-RF-001` — Strategy #3 sourcing rebaseline — `DONE`.
+39. `ATS2-RF-002` — Strategy #3 idea sourcing — `READY`.
+40. `ATS2-RF-003` — Strategy #3 family selection and Idea intake — `BLOCKED` pending RF-002 exact-head PASS.
 
-Program-level current next task — `ATS2-RF-001`.
+Program-level current next task — `ATS2-RF-002`.
 
 ## 3. M0 / M1
 
@@ -128,19 +129,22 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 | Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done |
 |---|---|---:|---|---|---|---|
-| `ATS2-RF-001` | `WBS-RF.0` | P1 | READY | M6 Exit PASS | `governance/program/STRATEGY_3_SOURCING_REBASELINE.md` | Continuous Research Factory lane is defined without inventing Strategy #3 market/instrument/timeframe; M6 stays closed and M4.9/M4.10 remain blocked |
-| `ATS2-RF-002` | `WBS-RF.1` | P1 | BLOCKED | RF-001 PASS | Strategy #3 Idea/discovery intake artifacts | Source and screen new ideas with complete search accounting; do not tune HYP-0001/HYP-0002 or preselect a winner |
+| `ATS2-RF-001` | `WBS-RF.0` | P1 | DONE | M6 Exit PASS | `governance/program/STRATEGY_3_SOURCING_REBASELINE.md` | Continuous Research Factory lane defined without inventing Strategy #3 facts; development tuning before confirmatory freeze is allowed only with complete search accounting |
+| `ATS2-RF-002` | `WBS-RF.1` | P1 | READY | RF-001 PASS | `governance/program/STRATEGY_3_IDEA_SOURCING.md` | Literature-informed bounded shortlist retains all reviewed families, records data/cheap-test constraints and selects no winner |
+| `ATS2-RF-003` | `WBS-RF.1` | P1 | BLOCKED | RF-002 PASS | Strategy #3 family selection + `research/ideas/IDEA-0003.md` or explicit PARK decision | Choose at most one family for Idea intake using mechanism/data/research-freedom criteria without claiming profitability |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-001 — Strategy #3 sourcing rebaseline`.
+`ATS2-RF-002 — Strategy #3 idea sourcing`.
 
 Canonical artifact:
 
-`governance/program/STRATEGY_3_SOURCING_REBASELINE.md`
+`governance/program/STRATEGY_3_IDEA_SOURCING.md`
 
-M6 is closed as `COMPLETED / PASS`. Both reference strategy lines remain rejected at R3 and candidate count remains zero.
+Current activity is **idea sourcing**, not strategy testing.
 
-After exact-head PASS, advance to `ATS2-RF-002 — Strategy #3 idea sourcing`.
+The task retains a bounded shortlist of three families and one additional data-constrained family. No winner, market, instrument, timeframe or provider is selected.
+
+After exact-head PASS, advance to `ATS2-RF-003 — Strategy #3 family selection and Idea intake`.

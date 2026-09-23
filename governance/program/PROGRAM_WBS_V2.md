@@ -350,8 +350,10 @@ WBS не устанавливает без evidence и OWNER decision:
 
 M6 is now `COMPLETED / PASS`; Reference Strategy #1 and #2 both remain rejected at R3.
 
+RF-001 sourcing rebaseline is complete pending exact OWNER evidence already received on the transition commit.
+
 The current execution target is:
 
-`ATS2-RF-001 — Strategy #3 sourcing rebaseline`
+`ATS2-RF-002 — Strategy #3 idea sourcing`
 
-This task converts strategy sourcing into the permanent Research Factory lane without creating a Strategy #3 claim, market, instrument, timeframe or Candidate in advance.
+This task forms a bounded, literature-informed family shortlist. It explicitly allows bounded development parameter search before confirmatory freeze, while preserving every materially inspected variant and prohibiting reuse of revealed confirmatory data as independent evidence after tuning.

@@ -46,6 +46,7 @@ HYP0002_PROTOTYPE_TEST = "tests/test_hyp0002_proto01.py"
 HYP0002_PROTOTYPE_RESULT = "reports/research/HYP-0002-PROTOTYPE-01-result.json"
 REFERENCE_STRATEGY_2_CLOSEOUT = "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"
 STRATEGY_3_SOURCING_REBASELINE = "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
+STRATEGY_3_IDEA_SOURCING = "governance/program/STRATEGY_3_IDEA_SOURCING.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -191,6 +192,7 @@ def configure() -> None:
         HYP0002_PROTOTYPE_RESULT,
         REFERENCE_STRATEGY_2_CLOSEOUT,
         STRATEGY_3_SOURCING_REBASELINE,
+        STRATEGY_3_IDEA_SOURCING,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -226,6 +228,7 @@ def configure() -> None:
         "reference_strategy_2_prototype_result",
         "reference_strategy_2_closeout",
         "strategy_3_sourcing_rebaseline",
+        "strategy_3_idea_sourcing",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -538,6 +541,18 @@ def configure() -> None:
         "M4.9 = BLOCKED_PENDING_S05_CANDIDATE",
         "Strategy #3 idea sourcing",
         "All live/capital permissions remain false",
+    )
+    core.CONTENT_MARKERS[STRATEGY_3_IDEA_SOURCING] = (
+        "ATS2-RF-002",
+        "Development optimization rule",
+        "S3-FAM-01",
+        "S3-FAM-02",
+        "S3-FAM-03",
+        "Order-flow prediction",
+        "Families reviewed for this task: `4`",
+        "Immediate shortlist for Strategy #3 Idea selection: `3`",
+        "No family is ranked",
+        "ATS2-RF-003",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -1078,11 +1093,11 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-001"',
-        "RF-001 Strategy #3 sourcing rebaseline artifacts",
-        "M6_EXIT_REVIEW.md",
+        'TASK_ID = "ATS2-RF-002"',
+        "RF-002 Strategy #3 idea sourcing artifacts",
         "STRATEGY_3_SOURCING_REBASELINE.md",
-        "RF-001 Strategy #3 sourcing rebaseline governance validation",
+        "STRATEGY_3_IDEA_SOURCING.md",
+        "RF-002 Strategy #3 idea sourcing governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1395,6 +1410,7 @@ def main() -> int:
         'reference_strategy_2_prototype_result: "reports/research/HYP-0002-PROTOTYPE-01-result.json"',
         'reference_strategy_2_closeout: "governance/program/REFERENCE_STRATEGY_2_CLOSEOUT.md"',
         'strategy_3_sourcing_rebaseline: "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"',
+        'strategy_3_idea_sourcing: "governance/program/STRATEGY_3_IDEA_SOURCING.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1407,9 +1423,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-M6-009"',
-        'current_task: "ATS2-RF-001"', 'current_ready_task: "ATS2-RF-001"',
-        'current_wbs: "WBS-RF.0"', "reference_strategy_selection_allowed: true",
+        'last_completed_task_id: "ATS2-RF-001"',
+        'current_task: "ATS2-RF-002"', 'current_ready_task: "ATS2-RF-002"',
+        'current_wbs: "WBS-RF.1"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
         'data_feasibility_decision: "CONDITIONAL"',
@@ -1492,11 +1508,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-M6-009") != "DONE / PASS":
-        core.fail("M6-009 must be DONE / PASS in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-001") != "DONE":
+        core.fail("RF-001 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-001") != "READY":
-        core.fail("RF-001 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-002") != "READY":
+        core.fail("RF-002 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
