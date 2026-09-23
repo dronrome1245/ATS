@@ -702,6 +702,8 @@ def configure() -> None:
         "3906",
         "jetta.dukascopy.com/v1",
         "no-forward-fill/no-interpolation",
+        "BID and ASK are an atomic source pair",
+        "Mixed `JETTA_JSON + BI5` BID/ASK pairs are prohibited",
         "USDJPY = 1000",
         "READY_FOR_DEVELOPMENT_DATA_FREEZE",
         "INSUFFICIENT_DEVELOPMENT_DATA",
@@ -722,6 +724,10 @@ def configure() -> None:
         "download_jetta_source_once",
         "download_legacy_source_once",
         "download_source_resilient",
+        "download_source_pair_from_format",
+        "download_source_pair_once",
+        "download_source_pair_resilient",
+        "mixed source formats",
         "decode_jetta_month",
         "decode_source_object",
         "normalize_pair_ohlc",
@@ -739,6 +745,7 @@ def configure() -> None:
         "test_decode_jetta_month_preserves_real_gaps_without_flat_fill",
         "test_download_source_prefers_jetta_provider_path",
         "test_download_source_reuses_legacy_cache_before_jetta_network",
+        "test_source_pair_falls_back_to_coherent_jetta_after_partial_legacy",
         "test_decode_month_uses_frozen_point_divisor",
         "test_decode_month_rejects_out_of_order_records",
         "test_normalize_pair_ohlc_preserves_execution_order",
@@ -1269,6 +1276,9 @@ def configure() -> None:
         "DATA_SOURCE_DISCOVERY_PROTOCOL",
         "history_start_60min",
         "7dec11ceb34c456a6c2f6b93833eeb02b2f0e804",
+        "LCI-013",
+        "DATA_SOURCE_COHERENCE",
+        "Mixed source format inside one BID/ASK month-pair",
     )
     core.CONTENT_MARKERS[LOCAL_CI_FAILURE_REGISTRY] = (
         "Escalation policy",
@@ -1294,6 +1304,9 @@ def configure() -> None:
         "338ad44867d9ae68e11eb613a96b92101a5ac853",
         "DATA_SOURCE_DISCOVERY_PROTOCOL",
         "7dec11ceb34c456a6c2f6b93833eeb02b2f0e804",
+        "LCI-013",
+        "DATA_SOURCE_COHERENCE",
+        "d2fd7d83b40aa60a65b1b9f9d59461523ecd27ec",
     )
     core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
         "git pull --ff-only",
