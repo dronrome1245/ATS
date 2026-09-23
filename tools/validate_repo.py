@@ -738,6 +738,7 @@ def configure() -> None:
         "test_jetta_source_url_uses_current_h1_month_bucket",
         "test_decode_jetta_month_preserves_real_gaps_without_flat_fill",
         "test_download_source_prefers_jetta_provider_path",
+        "test_download_source_reuses_legacy_cache_before_jetta_network",
         "test_decode_month_uses_frozen_point_divisor",
         "test_decode_month_rejects_out_of_order_records",
         "test_normalize_pair_ohlc_preserves_execution_order",
