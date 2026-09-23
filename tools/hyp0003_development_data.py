@@ -415,9 +415,7 @@ def load_frozen_rf006_result() -> dict[str, Any]:
     try:
         payload = json.loads(RF006_RESULT_PATH.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
-        raise DevelopmentDataPrepError(
-            f"cannot load frozen RF-006 result: {exc}"
-        ) from exc
+        raise DevelopmentDataPrepError(f"cannot load frozen RF-006 result: {exc}") from exc
 
     checks = {
         "preparation_decision": "READY_FOR_FREEZE_REVIEW",
