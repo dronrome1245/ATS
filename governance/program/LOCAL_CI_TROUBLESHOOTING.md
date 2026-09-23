@@ -279,6 +279,35 @@ Occurrence 3 reached `CONTROL_REQUIRED`. HYP-0003 therefore added a concrete per
 
 **Scope:** OWNER research workflow and agents.
 
+### LCI-011 — Monthly content URLs are unsuitable for discovering history inception
+
+**First observed:** 2026-09-23 on `338ad44867d9ae68e11eb613a96b92101a5ac853`  
+**Class:** `DATA_SOURCE_DISCOVERY_PROTOCOL`
+
+**Symptom**
+
+Repository validator, pinned Ruff, 146/146 pytest and full Local CI all pass. The RF-006 source probe then repeatedly receives `HTTP 503` from both Dukascopy content endpoints for the same old monthly object while trying to binary-search the first available H1 month.
+
+**Root cause**
+
+The retry/network control is functioning, but the discovery protocol is wrong for this question. A historical content URL is optimized for retrieving a known source object, not for proving the provider's first-ever H1 month. Persistent 5xx responses on an arbitrary pre-inception/old month are not a reliable `available / unavailable` signal.
+
+Dukascopy exposes dedicated history-start metadata and the JForex `IDataService.getTimeOfFirstCandle` concept for first-available history.
+
+**Correct response**
+
+Do not increase retry counts and do not change the strategy/data provider. Replace binary search across old content URLs with the dedicated `metadata/HistoryStart.bi5` source for H1 start timestamps. Keep actual monthly BID/ASK content probes only for the required development boundary and later full-data acquisition.
+
+**Preventive rule**
+
+1. Use metadata/catalog endpoints for source-discovery questions when the provider exposes them.
+2. Use content URLs to retrieve known required objects, not to infer provider inception through repeated missing/old requests.
+3. Cache the metadata object and bind it by SHA-256.
+4. Preserve the existing retry/backoff control for real metadata/content network failures.
+5. A discovery-protocol correction before any strategy result does not authorize changing HYP-0003 parameters or protected evidence boundaries.
+
+**Scope:** research/development tooling and agents.
+
 ### LCI-009 — Ruff import-order lint failure after remote Python authoring
 
 **First observed:** 2026-09-22 on `213fb1116e7ca2fc866fc7281b57215d3908cb64` in `tools/hyp0002_proto01.py`  

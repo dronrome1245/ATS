@@ -41,9 +41,9 @@ uv run --frozen python tools/verify_repo.py --fast >> "%REPORT%" 2>&1
 if errorlevel 1 goto :preflight_failed
 >> "%REPORT%" echo.
 
-echo [4/4] Running current task check...
+echo [4/4] Running current task check ^(live progress below^)...
 >> "%REPORT%" echo == current task check ==
-uv run --frozen python tools/current_task_check.py >> "%REPORT%" 2>&1
+uv run --frozen python tools/run_and_tee.py "%REPORT%" tools/current_task_check.py
 if errorlevel 1 goto :task_failed
 
 >> "%REPORT%" echo.

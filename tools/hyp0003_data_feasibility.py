@@ -18,18 +18,22 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-SEARCH_FLOOR = datetime(1990, 1, 1, tzinfo=UTC)
 PROTECTED_START = datetime(2021, 9, 1, tzinfo=UTC)
 LAST_DEVELOPMENT_MONTH = datetime(2021, 8, 1, tzinfo=UTC)
 MINIMUM_FEASIBLE_CURRENCIES = 6
+H1_PERIOD_MS = 3_600_000
 RECORD = struct.Struct(">IIIIIf")
 DOWNLOAD_BASES = (
     "https://datafeed.dukascopy.com/datafeed",
     "https://www.dukascopy.com/datafeed",
 )
+HISTORY_START_URL = (
+    "https://datafeed.dukascopy.com/datafeed/metadata/HistoryStart.bi5"
+)
 USER_AGENT = "ATS-Research/1.0"
 PROBE_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)
 RAW_ROOT = ROOT / "data" / "external" / "dukascopy"
+HISTORY_START_PATH = RAW_ROOT / "metadata" / "HistoryStart.bi5"
 REPORT_JSON = ROOT / "reports" / "local_ci" / "HYP0003_DATA_FEASIBILITY.json"
 REPORT_TEXT = ROOT / "reports" / "local_ci" / "HYP0003_DATA_FEASIBILITY_REPORT.txt"
 
@@ -63,6 +67,10 @@ class ProbeObject:
     last_timestamp: str
 
 
+def progress(message: str) -> None:
+    print(message, flush=True)
+
+
 def git_head() -> str:
     completed = subprocess.run(
         ["git", "rev-parse", "HEAD"],
@@ -82,21 +90,6 @@ def next_month(value: datetime) -> datetime:
     if value.month == 12:
         return datetime(value.year + 1, 1, 1, tzinfo=UTC)
     return datetime(value.year, value.month + 1, 1, tzinfo=UTC)
-
-
-def previous_month(value: datetime) -> datetime:
-    if value.month == 1:
-        return datetime(value.year - 1, 12, 1, tzinfo=UTC)
-    return datetime(value.year, value.month - 1, 1, tzinfo=UTC)
-
-
-def month_number(value: datetime) -> int:
-    return value.year * 12 + value.month - 1
-
-
-def month_from_number(value: int) -> datetime:
-    year, month_index = divmod(value, 12)
-    return datetime(year, month_index + 1, 1, tzinfo=UTC)
 
 
 def raw_path(symbol: str, month: datetime, side: str) -> Path:
@@ -147,6 +140,44 @@ def fetch_bytes(url: str, timeout: int = 30) -> tuple[bytes, dict[str, str]]:
     if not body:
         raise ProbeError(f"empty source object: {url}")
     return body, headers
+
+
+def cached_or_fetch(
+    url: str,
+    destination: Path,
+    label: str,
+) -> tuple[Path, dict[str, str]]:
+    if destination.exists() and destination.stat().st_size > 0:
+        return destination, {
+            "source_url": "LOCAL_FROZEN_COPY",
+            "last_modified": "",
+            "etag": "",
+        }
+
+    attempts = len(PROBE_BATCH_BACKOFF_SECONDS) + 1
+    last_error: ProbeError | None = None
+    for batch in range(attempts):
+        try:
+            body, headers = fetch_bytes(url)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            temporary = destination.with_suffix(destination.suffix + ".part")
+            temporary.write_bytes(body)
+            temporary.replace(destination)
+            headers["source_url"] = url
+            return destination, headers
+        except ProbeError as exc:
+            last_error = exc
+            if batch == attempts - 1:
+                break
+            delay = PROBE_BATCH_BACKOFF_SECONDS[batch]
+            progress(
+                f"[network] {label} failed; retrying in {delay:.0f}s "
+                f"(batch {batch + 2}/{attempts})"
+            )
+            time.sleep(delay)
+    raise ProbeError(
+        f"{label} failed after {attempts} batches: {last_error}"
+    )
 
 
 def download_probe(
@@ -236,7 +267,11 @@ def probe_side(symbol: str, month: datetime, side: str) -> ProbeObject | None:
     return inspect_probe(symbol, month, side, path, source)
 
 
-def probe_side_resilient(symbol: str, month: datetime, side: str) -> ProbeObject | None:
+def probe_side_resilient(
+    symbol: str,
+    month: datetime,
+    side: str,
+) -> ProbeObject | None:
     attempts = len(PROBE_BATCH_BACKOFF_SECONDS) + 1
     last_error: ProbeError | None = None
     for batch in range(attempts):
@@ -247,10 +282,9 @@ def probe_side_resilient(symbol: str, month: datetime, side: str) -> ProbeObject
             if batch == attempts - 1:
                 break
             delay = PROBE_BATCH_BACKOFF_SECONDS[batch]
-            print(
-                f"Dukascopy probe batch failed for {symbol} {month:%Y-%m} {side}; "
-                f"retrying in {delay:.0f}s",
-                file=sys.stderr,
+            progress(
+                f"[network] {symbol} {month:%Y-%m} {side} failed; "
+                f"retrying in {delay:.0f}s (batch {batch + 2}/{attempts})"
             )
             time.sleep(delay)
     raise ProbeError(
@@ -259,7 +293,10 @@ def probe_side_resilient(symbol: str, month: datetime, side: str) -> ProbeObject
     )
 
 
-def probe_month(symbol: str, month: datetime) -> tuple[ProbeObject, ProbeObject] | None:
+def probe_month(
+    symbol: str,
+    month: datetime,
+) -> tuple[ProbeObject, ProbeObject] | None:
     bid = probe_side_resilient(symbol, month, "BID")
     ask = probe_side_resilient(symbol, month, "ASK")
     if bid is None and ask is None:
@@ -269,33 +306,52 @@ def probe_month(symbol: str, month: datetime) -> tuple[ProbeObject, ProbeObject]
     return bid, ask
 
 
-def find_first_available_month(symbol: str) -> tuple[datetime, ProbeObject, ProbeObject] | None:
-    if probe_month(symbol, LAST_DEVELOPMENT_MONTH) is None:
+def parse_history_start(payload: bytes) -> dict[str, dict[int, int]]:
+    offset = 0
+    result: dict[str, dict[int, int]] = {}
+
+    def take(size: int, context: str) -> bytes:
+        nonlocal offset
+        end = offset + size
+        if end > len(payload):
+            raise ProbeError(f"unexpected EOF reading {context}")
+        chunk = payload[offset:end]
+        offset = end
+        return chunk
+
+    while offset < len(payload):
+        name_length = struct.unpack(">H", take(2, "instrument name length"))[0]
+        if not 0 < name_length <= 256:
+            raise ProbeError(f"invalid HistoryStart instrument name length: {name_length}")
+        name = take(name_length, "instrument name").decode("ascii").strip()
+        if not name:
+            raise ProbeError("empty HistoryStart instrument name")
+
+        period_count = struct.unpack(">Q", take(8, "period count"))[0]
+        if not 0 < period_count <= 16:
+            raise ProbeError(
+                f"invalid HistoryStart period count {period_count} for {name}"
+            )
+
+        periods: dict[int, int] = {}
+        for _ in range(period_count):
+            period_ms = struct.unpack(">Q", take(8, "period milliseconds"))[0]
+            start_ms = struct.unpack(">Q", take(8, "start milliseconds"))[0]
+            periods[int(period_ms)] = int(start_ms)
+        result[name.upper()] = periods
+
+    return result
+
+
+def history_start_datetime(
+    history: dict[str, dict[int, int]],
+    symbol: str,
+) -> datetime | None:
+    value = history.get(symbol.upper(), {}).get(H1_PERIOD_MS)
+    if value is None or value <= 0:
         return None
-
-    low = month_number(SEARCH_FLOOR)
-    high = month_number(LAST_DEVELOPMENT_MONTH)
-    while low < high:
-        middle = (low + high) // 2
-        month = month_from_number(middle)
-        if probe_month(symbol, month) is None:
-            low = middle + 1
-        else:
-            high = middle
-
-    first_month = month_from_number(low)
-    first_pair = probe_month(symbol, first_month)
-    if first_pair is None:
-        raise ProbeError(f"binary availability search failed for {symbol}")
-
-    if first_month == SEARCH_FLOOR:
-        raise ProbeError(f"search floor is too recent for {symbol}")
-
-    prior = previous_month(first_month)
-    if probe_month(symbol, prior) is not None:
-        raise ProbeError(f"availability is not monotonic around first month for {symbol}")
-
-    return first_month, first_pair[0], first_pair[1]
+    milliseconds = value * 1000 if value < 10_000_000_000 else value
+    return datetime.fromtimestamp(milliseconds / 1000.0, tz=UTC)
 
 
 def normalized_bid_ask(
@@ -312,58 +368,94 @@ def normalized_bid_ask(
     raise ValueError(f"unknown quote orientation: {orientation}")
 
 
-def probe_bundle_hash(objects: list[ProbeObject]) -> str:
-    payload = [
-        {
-            "symbol": item.symbol,
-            "month": item.month,
-            "side": item.side,
-            "sha256": item.sha256,
-            "record_count": item.record_count,
-            "first_timestamp": item.first_timestamp,
-            "last_timestamp": item.last_timestamp,
-        }
-        for item in sorted(objects, key=lambda item: (item.symbol, item.month, item.side))
-    ]
+def probe_bundle_hash(
+    history_start_sha256: str,
+    objects: list[ProbeObject],
+) -> str:
+    payload: dict[str, Any] = {
+        "history_start_sha256": history_start_sha256,
+        "probe_objects": [
+            {
+                "symbol": item.symbol,
+                "month": item.month,
+                "side": item.side,
+                "sha256": item.sha256,
+                "record_count": item.record_count,
+                "first_timestamp": item.first_timestamp,
+                "last_timestamp": item.last_timestamp,
+            }
+            for item in sorted(
+                objects,
+                key=lambda item: (item.symbol, item.month, item.side),
+            )
+        ],
+    }
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
     return hashlib.sha256(encoded).hexdigest()
 
 
 def prepare() -> dict[str, Any]:
+    progress("[metadata] Loading Dukascopy HistoryStart.bi5...")
+    history_path, history_source = cached_or_fetch(
+        HISTORY_START_URL,
+        HISTORY_START_PATH,
+        "Dukascopy HistoryStart.bi5",
+    )
+    history_sha256 = sha256_file(history_path)
+    history = parse_history_start(history_path.read_bytes())
+    progress(
+        f"[metadata] Loaded {len(history)} instruments; "
+        f"sha256={history_sha256[:12]}..."
+    )
+
     symbol_results: list[dict[str, Any]] = []
     probe_objects: list[ProbeObject] = []
     retained: list[str] = []
     first_usable_times: list[datetime] = []
+    total = len(CANDIDATES)
 
-    for currency, (symbol, orientation) in CANDIDATES.items():
-        print(f"Probing {currency} via {symbol}...")
-        first = find_first_available_month(symbol)
+    for index, (currency, (symbol, orientation)) in enumerate(
+        CANDIDATES.items(),
+        start=1,
+    ):
+        progress(f"[probe {index}/{total}] {currency} via {symbol}: reading H1 start...")
+        first_usable = history_start_datetime(history, symbol)
+        if first_usable is None or first_usable >= PROTECTED_START:
+            progress(
+                f"[probe {index}/{total}] {symbol}: no usable H1 metadata before boundary"
+            )
+            symbol_results.append(
+                {
+                    "currency": currency,
+                    "symbol": symbol,
+                    "orientation": orientation,
+                    "status": "NO_USABLE_H1_HISTORY_METADATA",
+                }
+            )
+            continue
+
+        progress(
+            f"[probe {index}/{total}] {symbol}: H1 starts {iso_z(first_usable)}; "
+            "checking 2021-08 BID/ASK..."
+        )
         last_pair = probe_month(symbol, LAST_DEVELOPMENT_MONTH)
-
-        if first is None or last_pair is None:
+        if last_pair is None:
+            progress(
+                f"[probe {index}/{total}] {symbol}: boundary BID/ASK unavailable"
+            )
             symbol_results.append(
                 {
                     "currency": currency,
                     "symbol": symbol,
                     "orientation": orientation,
                     "status": "SOURCE_UNAVAILABLE_AT_DEVELOPMENT_BOUNDARY",
+                    "h1_history_start": iso_z(first_usable),
                 }
             )
             continue
 
-        first_month, first_bid, first_ask = first
         last_bid, last_ask = last_pair
-        objects = [first_bid, first_ask, last_bid, last_ask]
-        probe_objects.extend(objects)
-
-        first_usable = max(
-            datetime.strptime(first_bid.first_timestamp, "%Y-%m-%dT%H:%M:%SZ").replace(
-                tzinfo=UTC
-            ),
-            datetime.strptime(first_ask.first_timestamp, "%Y-%m-%dT%H:%M:%SZ").replace(
-                tzinfo=UTC
-            ),
-        )
+        probe_objects.extend((last_bid, last_ask))
         retained.append(currency)
         first_usable_times.append(first_usable)
         symbol_results.append(
@@ -372,17 +464,16 @@ def prepare() -> dict[str, Any]:
                 "symbol": symbol,
                 "orientation": orientation,
                 "status": "SOURCE_AVAILABLE",
-                "first_available_month": first_month.strftime("%Y-%m"),
-                "first_usable_timestamp": iso_z(first_usable),
-                "first_probe": {
-                    "bid": first_bid.__dict__,
-                    "ask": first_ask.__dict__,
-                },
+                "h1_history_start": iso_z(first_usable),
                 "last_development_probe": {
                     "bid": last_bid.__dict__,
                     "ask": last_ask.__dict__,
                 },
             }
+        )
+        progress(
+            f"[probe {index}/{total}] {symbol}: OK "
+            f"({len(retained)} retained so far)"
         )
 
     common_start = max(first_usable_times) if first_usable_times else None
@@ -392,9 +483,11 @@ def prepare() -> dict[str, Any]:
         else "INSUFFICIENT_SOURCE_UNIVERSE"
     )
     return {
-        "schema_version": "hyp0003-data-feasibility-probe-1",
+        "schema_version": "hyp0003-data-feasibility-probe-2",
         "hypothesis_id": "HYP-0003",
         "git_commit": git_head(),
+        "history_start_source_url": history_source["source_url"],
+        "history_start_sha256": history_sha256,
         "candidate_currencies": list(CANDIDATES),
         "retained_source_currencies": retained,
         "retained_currency_count": len(retained),
@@ -402,7 +495,11 @@ def prepare() -> dict[str, Any]:
         "common_possible_development_start": iso_z(common_start) if common_start else None,
         "development_end_exclusive": iso_z(PROTECTED_START),
         "protected_tail_start": iso_z(PROTECTED_START),
-        "probe_bundle_sha256": probe_bundle_hash(probe_objects) if probe_objects else None,
+        "probe_bundle_sha256": (
+            probe_bundle_hash(history_sha256, probe_objects)
+            if probe_objects
+            else None
+        ),
         "probe_object_count": len(probe_objects),
         "symbol_results": symbol_results,
         "preparation_decision": decision,
@@ -434,7 +531,8 @@ def write_reports(payload: dict[str, Any]) -> None:
             f"{payload['common_possible_development_start']}"
         ),
         f"Development end exclusive: {payload['development_end_exclusive']}",
-        f"Probe objects: {payload['probe_object_count']}",
+        f"HistoryStart SHA256: {payload['history_start_sha256']}",
+        f"Boundary probe objects: {payload['probe_object_count']}",
         f"Probe bundle SHA256: {payload['probe_bundle_sha256']}",
         "Information boundary: NO_HYPOTHESIS_OUTCOME_COMPUTED",
         "",
@@ -443,11 +541,8 @@ def write_reports(payload: dict[str, Any]) -> None:
     ]
     for item in payload["symbol_results"]:
         summary = f"{item['currency']} {item['symbol']}: {item['status']}"
-        if "first_available_month" in item:
-            summary += (
-                f"; first_month={item['first_available_month']}; "
-                f"first_usable={item['first_usable_timestamp']}"
-            )
+        if "h1_history_start" in item:
+            summary += f"; h1_start={item['h1_history_start']}"
         lines.append(summary)
 
     lines += [
@@ -458,7 +553,7 @@ def write_reports(payload: dict[str, Any]) -> None:
         "Do not run any HYP-0003 momentum development calculation yet.",
     ]
     REPORT_TEXT.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print("\n".join(lines))
+    print("\n".join(lines), flush=True)
 
 
 def main() -> int:
@@ -466,7 +561,11 @@ def main() -> int:
         payload = prepare()
         write_reports(payload)
     except (OSError, ProbeError, ValueError) as exc:
-        print(f"HYP-0003 DATA FEASIBILITY PREP BLOCKED: {exc}", file=sys.stderr)
+        print(
+            f"HYP-0003 DATA FEASIBILITY PREP BLOCKED: {exc}",
+            file=sys.stderr,
+            flush=True,
+        )
         return 1
     return 0
 

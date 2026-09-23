@@ -125,6 +125,7 @@ LOCAL_CI_FILES = (
     "ATS_TASK_CHECK.bat",
     "tools/verify_repo.py",
     "tools/current_task_check.py",
+    "tools/run_and_tee.py",
     ".githooks/pre-commit",
     ".githooks/pre-push",
     "reports/local_ci/README.md",
@@ -639,7 +640,10 @@ def configure() -> None:
         "PROTECTED_START = datetime(2021, 9, 1",
         "MINIMUM_FEASIBLE_CURRENCIES = 6",
         "CANDIDATES",
-        "find_first_available_month",
+        "HISTORY_START_URL",
+        "H1_PERIOD_MS = 3_600_000",
+        "parse_history_start",
+        "history_start_datetime",
         "PROBE_BATCH_BACKOFF_SECONDS",
         "probe_side_resilient",
         "urllib.error.URLError, OSError",
@@ -653,6 +657,7 @@ def configure() -> None:
     core.CONTENT_MARKERS[HYP0003_DATA_FEASIBILITY_TEST] = (
         "test_month_index_round_trip_and_previous_month",
         "test_source_url_uses_zero_based_dukascopy_month",
+        "test_parse_history_start_h1_metadata",
         "test_fetch_bytes_normalizes_direct_oserror",
         "test_probe_side_resilient_retries_transient_network_error",
         "test_normalized_bid_ask_preserves_executable_order",
@@ -1173,6 +1178,9 @@ def configure() -> None:
         "CONTROL_REQUIRED",
         "REPEAT_AFTER_CONTROL_THRESHOLD",
         "ConnectionResetError",
+        "LCI-011",
+        "HistoryStart.bi5",
+        "DATA_SOURCE_DISCOVERY_PROTOCOL",
     )
     core.CONTENT_MARKERS[LOCAL_CI_FAILURE_REGISTRY] = (
         "Escalation policy",
@@ -1194,9 +1202,13 @@ def configure() -> None:
         "REPEAT_AFTER_CONTROL_THRESHOLD",
         "b82e827c0c8510a38aac3179411b3b2a8d455310",
         "0988069a525a7cd0d8acb48a3d9ed34d3ceb0332",
+        "LCI-011",
+        "338ad44867d9ae68e11eb613a96b92101a5ac853",
+        "DATA_SOURCE_DISCOVERY_PROTOCOL",
     )
     core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
         "git pull --ff-only",
+        "tools/run_and_tee.py",
         "uv sync --frozen",
         "tools/current_task_check.py",
         "CURRENT_TASK_REPORT.txt",
@@ -1217,6 +1229,13 @@ def configure() -> None:
         "full ATS Local CI before source probe",
         "RF-006 HYP-0003 source availability probe",
         "ATS CURRENT TASK CHECK:",
+    )
+    core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
+        "PYTHONUNBUFFERED",
+        "subprocess.Popen",
+        "stderr=subprocess.STDOUT",
+        "report.flush",
+        "process.wait",
     )
     core.CONTENT_MARKERS["tools/verify_repo.py"] = (
         "ATS Local CI Gate", "repository validator", "ruff lint", "ruff format",
@@ -1434,6 +1453,7 @@ def validate_environment(repo: Path) -> int:
     for relative in (
         "tools/environment_fingerprint.py",
         "tools/verify_repo.py",
+        "tools/run_and_tee.py",
         "tools/proto01_eurusd.py",
         "src/ats/schemas/dataset_manifest.py",
         "src/ats/data/loader.py",

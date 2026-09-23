@@ -1,23 +1,17 @@
 from __future__ import annotations
 
+import struct
 from datetime import UTC, datetime
 
 import pytest
 
 import tools.hyp0003_data_feasibility as feasibility
 from tools.hyp0003_data_feasibility import (
-    month_from_number,
-    month_number,
+    history_start_datetime,
     normalized_bid_ask,
-    previous_month,
+    parse_history_start,
     source_url,
 )
-
-
-def test_month_index_round_trip_and_previous_month() -> None:
-    month = datetime(2021, 1, 1, tzinfo=UTC)
-    assert month_from_number(month_number(month)) == month
-    assert previous_month(month) == datetime(2020, 12, 1, tzinfo=UTC)
 
 
 def test_source_url_uses_zero_based_dukascopy_month() -> None:
@@ -28,6 +22,29 @@ def test_source_url_uses_zero_based_dukascopy_month() -> None:
         month,
         "BID",
     ).endswith("/EURUSD/2021/07/BID_candles_hour_1.bi5")
+
+
+def test_parse_history_start_h1_metadata() -> None:
+    name = b"AUDUSD"
+    payload = b"".join(
+        (
+            struct.pack(">H", len(name)),
+            name,
+            struct.pack(">Q", 2),
+            struct.pack(">Q", 60_000),
+            struct.pack(">Q", 1_100_000_000_000),
+            struct.pack(">Q", 3_600_000),
+            struct.pack(">Q", 1_200_000_000_000),
+        )
+    )
+
+    history = parse_history_start(payload)
+
+    assert history["AUDUSD"][3_600_000] == 1_200_000_000_000
+    assert history_start_datetime(history, "AUDUSD") == datetime.fromtimestamp(
+        1_200_000_000,
+        tz=UTC,
+    )
 
 
 def test_fetch_bytes_normalizes_direct_oserror(
@@ -62,7 +79,7 @@ def test_probe_side_resilient_retries_transient_network_error(
 
     result = feasibility.probe_side_resilient(
         "AUDUSD",
-        datetime(1997, 11, 1, tzinfo=UTC),
+        datetime(2021, 8, 1, tzinfo=UTC),
         "BID",
     )
 

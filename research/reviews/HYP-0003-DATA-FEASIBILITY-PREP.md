@@ -43,21 +43,23 @@ Canonical tool:
 
 For each candidate symbol the tool:
 
-1. searches monthly Dukascopy H1 files for the first month where both BID and ASK are available;
-2. validates that the immediately prior month is unavailable when a first month is found;
-3. verifies August 2021 BID and ASK availability;
-4. decompresses each downloaded probe object and validates the BI5 record structure;
+1. downloads or reuses Dukascopy `metadata/HistoryStart.bi5`;
+2. parses the big-endian history-start table and reads the H1 start timestamp for the symbol;
+3. verifies August 2021 BID and ASK monthly H1 availability;
+4. decompresses each August 2021 probe object and validates the BI5 record structure;
 5. records record count, first/last source timestamps and SHA-256;
-6. derives the common possible development start from the latest first-usable timestamp among source-qualified currencies;
-7. hashes the complete probe-record identity into one `probe_bundle_sha256`.
+6. derives the common possible development start from the latest H1 metadata start among source-qualified currencies;
+7. hashes the HistoryStart identity plus boundary probe identities into one `probe_bundle_sha256`.
 
-The binary search uses source availability only. It never reads price values for strategy calculations.
+This replaces the earlier binary search across arbitrary old monthly URLs. Repeated HTTP 503 responses on a 1997 availability probe showed that historical content URLs are not a reliable protocol for discovering provider inception. Dukascopy's dedicated history-start metadata is the appropriate source-discovery mechanism.
+
+The metadata/probe path never calculates strategy returns.
 
 ## Important hash boundary
 
 `probe_bundle_sha256` identifies only the RF-006 availability/integrity probes.
 
-It is **not** the future HYP-0003 development dataset hash and is **not** the full source-bundle hash for the future development dataset.
+It includes the Dukascopy `HistoryStart.bi5` SHA-256 plus the August 2021 BID/ASK boundary probes. It is **not** the future HYP-0003 development dataset hash and is **not** the full source-bundle hash for the future development dataset.
 
 Those identities require the later full-data preparation task.
 
