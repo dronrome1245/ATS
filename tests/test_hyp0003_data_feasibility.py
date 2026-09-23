@@ -59,6 +59,44 @@ def test_parse_instruments_jsonp_h1_fallback() -> None:
     assert history["AUDUSD"][3_600_000] == 1_200_000_000_000
 
 
+def test_load_history_metadata_falls_back_to_instruments_jsonp(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path,
+) -> None:
+    fallback = tmp_path / "instruments.jsonp"
+    fallback.write_bytes(
+        b'jsonp({"instruments":{"1":{"historical_filename":"AUDUSD",'
+        b'"history_start_60min":1200000000000}}})'
+    )
+    calls: list[str] = []
+
+    def fake_cached_or_fetch_any(
+        _urls: tuple[str, ...],
+        _destination,
+        label: str,
+    ):
+        calls.append(label)
+        if "HistoryStart" in label:
+            raise feasibility.ProbeError("metadata timeout")
+        return fallback, {"source_url": "INSTRUMENTS_FALLBACK"}
+
+    monkeypatch.setattr(
+        feasibility,
+        "cached_or_fetch_any",
+        fake_cached_or_fetch_any,
+    )
+
+    history, source_url, digest = feasibility.load_history_metadata()
+
+    assert source_url == "INSTRUMENTS_FALLBACK"
+    assert history["AUDUSD"][3_600_000] == 1_200_000_000_000
+    assert len(digest) == 64
+    assert calls == [
+        "Dukascopy HistoryStart.bi5",
+        "Dukascopy instruments metadata",
+    ]
+
+
 def test_fetch_bytes_normalizes_direct_oserror(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

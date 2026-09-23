@@ -438,11 +438,11 @@ def normalized_bid_ask(
 
 
 def probe_bundle_hash(
-    history_start_sha256: str,
+    metadata_sha256: str,
     objects: list[ProbeObject],
 ) -> str:
     payload: dict[str, Any] = {
-        "history_start_sha256": history_start_sha256,
+        "history_metadata_sha256": metadata_sha256,
         "probe_objects": [
             {
                 "symbol": item.symbol,
@@ -497,6 +497,7 @@ def prepare() -> dict[str, Any]:
                     "status": "NO_USABLE_H1_HISTORY_METADATA",
                 }
             )
+            emit_progress(85 + round(index * 14 / total))
             continue
 
         progress(
@@ -517,6 +518,7 @@ def prepare() -> dict[str, Any]:
                     "h1_history_start": iso_z(first_usable),
                 }
             )
+            emit_progress(85 + round(index * 14 / total))
             continue
 
         last_bid, last_ask = last_pair

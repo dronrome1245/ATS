@@ -661,6 +661,7 @@ def configure() -> None:
         "test_source_url_uses_zero_based_dukascopy_month",
         "test_parse_history_start_h1_metadata",
         "test_parse_instruments_jsonp_h1_fallback",
+        "test_load_history_metadata_falls_back_to_instruments_jsonp",
         "test_fetch_bytes_normalizes_direct_oserror",
         "test_probe_side_resilient_retries_transient_network_error",
         "test_normalized_bid_ask_preserves_executable_order",
