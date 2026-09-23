@@ -134,7 +134,7 @@ This is a concrete architectural/evidence boundary, not a reason to invent downs
 
 ## 7. Program consequence
 
-Current candidate count:
+Candidate count:
 
 `0`
 
