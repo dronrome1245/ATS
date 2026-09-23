@@ -18,6 +18,6 @@ Current lane:
 
 Current work:
 
-`ATS2-RF-004 — HYP-0003 formation`
+`ATS2-RF-005 — HYP-0003 Data Feasibility`
 
-We are defining a bounded 25-variant development parameter grid for cross-sectional currency momentum. No confirmatory result has been viewed.
+We are verifying the multi-currency data path before running any of the 25 Strategy #3 development variants.

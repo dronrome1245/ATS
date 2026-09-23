@@ -10,50 +10,50 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-003 closure
+## Verified RF-004 closure
 
 OWNER launcher PASS was confirmed on exact commit:
 
-`be11af8bfa3fb7386babb4ebab67d4e70c50924f`
+`f402469ff3aa52bcd3ae98189f7ad4b92eac7ffc`
 
 Evidence included pinned Ruff lint/format, pytest collection `141 tests`, full pytest `141 passed`, full Local CI, current task PASS and launcher PASS.
 
 Canonical last completed artifact:
 
-`research/ideas/IDEA-0003.md`
+`research/hypotheses/HYP-0003.md`
 
-Selected family:
-
-`S3-FAM-02 — CROSS_SECTIONAL_CURRENCY_MOMENTUM`
-
-## RF-004 HYP-0003 formation
+## RF-005 HYP-0003 Data Feasibility
 
 Current task:
 
-`ATS2-RF-004 — HYP-0003 formation`
+`ATS2-RF-005 — HYP-0003 Data Feasibility`
 
 Canonical next artifact:
 
-`research/hypotheses/HYP-0003.md`
+`research/reviews/HYP-0003-DATA-FEASIBILITY.md`
 
-HYP-0003 is a development-stage Hypothesis, not the final confirmatory claim.
+Decision:
 
-It freezes:
+`CONDITIONAL`
 
-- monthly cross-sectional ranking;
-- formation periods `1, 3, 6, 9, 12 months`;
-- holding periods `1, 3, 6, 9, 12 months`;
-- exactly `25` declared development variants;
-- top/bottom one-sixth winner/loser baskets;
-- side-aware BID/ASK execution;
-- a broad-region rule based on the median cell mean, at least `13 / 25` positive-mean cells, and breadth across at least three formation and three holding periods.
+The review fixes before any development result:
 
-The exact currency universe, provider and development dates are still unresolved and belong to Data Feasibility.
+- G10-ex-USD candidate currencies: `AUD, CAD, CHF, EUR, GBP, JPY, NOK, NZD, SEK`;
+- nine mechanical USD-pair candidates;
+- minimum feasible cross-section: `6`;
+- direct/inverse BID/ASK normalization;
+- extreme-basket size: `max(1, ceil(N/6))`;
+- deterministic tie break;
+- H1 UTC month-boundary timing;
+- protected tail: `2021-09-01T00:00:00Z` to `2026-09-01T00:00:00Z`;
+- information boundary: `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
 
-If HYP-0003 passes development, ATS must create a new fixed Hypothesis ID for a separate previously unseen confirmatory block. The development result cannot be relabeled as confirmation.
+Dukascopy is the primary source candidate because its official historical-data service documents multi-instrument historical data and BID/ASK export. Exact availability/common coverage still requires local machine verification.
+
+No HYP-0003 momentum surface has been computed.
 
 Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
 After exact-head PASS:
 
-`ATS2-RF-005 — HYP-0003 Data Feasibility`.
+`ATS2-RF-006 — HYP-0003 Data Feasibility preparation`.

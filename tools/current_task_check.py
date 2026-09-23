@@ -8,22 +8,22 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-RF-004"
-TASK_NAME = "HYP-0003 formation"
+TASK_ID = "ATS2-RF-005"
+TASK_NAME = "HYP-0003 Data Feasibility"
 REQUIRED_ARTIFACTS = (
-    Path("research/ideas/IDEA-0003.md"),
     Path("research/hypotheses/HYP-0003.md"),
+    Path("research/reviews/HYP-0003-DATA-FEASIBILITY.md"),
 )
 
 
 def check_required_artifacts() -> bool:
-    print("\n== RF-004 HYP-0003 formation artifacts ==")
+    print("\n== RF-005 HYP-0003 Data Feasibility artifacts ==")
     missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}")
         return False
-    print("[PASS] RF-004 HYP-0003 formation artifacts")
+    print("[PASS] RF-005 HYP-0003 Data Feasibility artifacts")
     return True
 
 
@@ -51,7 +51,7 @@ def main() -> int:
     results = [
         check_required_artifacts(),
         run(
-            "RF-004 HYP-0003 formation governance validation",
+            "RF-005 HYP-0003 Data Feasibility governance validation",
             [sys.executable, "tools/validate_repo.py"],
         ),
         run("full ATS Local CI", [sys.executable, "tools/verify_repo.py"]),

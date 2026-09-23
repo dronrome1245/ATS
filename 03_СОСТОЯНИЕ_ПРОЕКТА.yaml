@@ -83,13 +83,14 @@ model:
   strategy_3_family_selection: "governance/program/STRATEGY_3_FAMILY_SELECTION.md"
   strategy_3_idea: "research/ideas/IDEA-0003.md"
   strategy_3_hypothesis: "research/hypotheses/HYP-0003.md"
+  strategy_3_data_feasibility: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
 
 current:
-  focus: "Form HYP-0003 bounded development-region hypothesis"
-  last_completed_task_id: "ATS2-RF-003"
-  last_completed_artifact: "research/ideas/IDEA-0003.md"
-  next_artifact: "research/hypotheses/HYP-0003.md"
-  next_task_id: "ATS2-RF-004"
+  focus: "Assess HYP-0003 multi-currency data feasibility"
+  last_completed_task_id: "ATS2-RF-004"
+  last_completed_artifact: "research/hypotheses/HYP-0003.md"
+  next_artifact: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
+  next_task_id: "ATS2-RF-005"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -328,14 +329,16 @@ research_factory:
     - "ATS2-RF-001"
     - "ATS2-RF-002"
     - "ATS2-RF-003"
+    - "ATS2-RF-004"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
     - "governance/program/STRATEGY_3_FAMILY_SELECTION.md"
     - "research/ideas/IDEA-0003.md"
-  current_task: "ATS2-RF-004"
+    - "research/hypotheses/HYP-0003.md"
+  current_task: "ATS2-RF-005"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-005"
+  next_task: "ATS2-RF-006"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -344,13 +347,19 @@ research_factory:
   idea_status: "SCREENING"
   hypothesis_id: "HYP-0003"
   hypothesis_status: "READY_FOR_DATA_FEASIBILITY"
+  data_feasibility_decision: "CONDITIONAL"
   development_grid_variants: 25
+  candidate_currency_count: 9
+  minimum_feasible_currency_count: 6
+  protected_tail_start: "2021-09-01T00:00:00Z"
+  protected_tail_end_exclusive: "2026-09-01T00:00:00Z"
+  information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
   confirmatory_hypothesis_required_after_development_pass: true
   candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-004"
+  current_ready_task: "ATS2-RF-005"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:

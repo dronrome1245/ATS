@@ -50,6 +50,7 @@ STRATEGY_3_IDEA_SOURCING = "governance/program/STRATEGY_3_IDEA_SOURCING.md"
 STRATEGY_3_FAMILY_SELECTION = "governance/program/STRATEGY_3_FAMILY_SELECTION.md"
 STRATEGY_3_IDEA = "research/ideas/IDEA-0003.md"
 STRATEGY_3_HYPOTHESIS = "research/hypotheses/HYP-0003.md"
+STRATEGY_3_DATA_FEASIBILITY = "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -199,6 +200,7 @@ def configure() -> None:
         STRATEGY_3_FAMILY_SELECTION,
         STRATEGY_3_IDEA,
         STRATEGY_3_HYPOTHESIS,
+        STRATEGY_3_DATA_FEASIBILITY,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -238,6 +240,7 @@ def configure() -> None:
         "strategy_3_family_selection",
         "strategy_3_idea",
         "strategy_3_hypothesis",
+        "strategy_3_data_feasibility",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -598,6 +601,18 @@ def configure() -> None:
         "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
         "new Hypothesis ID",
         "READY_FOR_DATA_FEASIBILITY",
+    )
+    core.CONTENT_MARKERS[STRATEGY_3_DATA_FEASIBILITY] = (
+        "Hypothesis ID: `HYP-0003`",
+        "Review status: `CONDITIONAL`",
+        "AUD, CAD, CHF, EUR, GBP, JPY, NOK, NZD, SEK",
+        "basket_size = max(1, ceil(eligible_currency_count / 6))",
+        "1 / source ASK",
+        "1 / source BID",
+        "2021-09-01T00:00:00Z",
+        "2026-09-01T00:00:00Z",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "ATS2-RF-006",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -1138,11 +1153,11 @@ def configure() -> None:
         "ATS TASK LAUNCHER: FAIL",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-004"',
-        "RF-004 HYP-0003 formation artifacts",
-        "IDEA-0003.md",
+        'TASK_ID = "ATS2-RF-005"',
+        "RF-005 HYP-0003 Data Feasibility artifacts",
         "HYP-0003.md",
-        "RF-004 HYP-0003 formation governance validation",
+        "HYP-0003-DATA-FEASIBILITY.md",
+        "RF-005 HYP-0003 Data Feasibility governance validation",
         "tools/verify_repo.py",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1459,6 +1474,7 @@ def main() -> int:
         'strategy_3_family_selection: "governance/program/STRATEGY_3_FAMILY_SELECTION.md"',
         'strategy_3_idea: "research/ideas/IDEA-0003.md"',
         'strategy_3_hypothesis: "research/hypotheses/HYP-0003.md"',
+        'strategy_3_data_feasibility: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1471,8 +1487,8 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-003"',
-        'current_task: "ATS2-RF-004"', 'current_ready_task: "ATS2-RF-004"',
+        'last_completed_task_id: "ATS2-RF-004"',
+        'current_task: "ATS2-RF-005"', 'current_ready_task: "ATS2-RF-005"',
         'current_wbs: "WBS-RF.2"', "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -1556,11 +1572,11 @@ def main() -> int:
     next_step = (repo / "02_СЛЕДУЮЩИЙ_ШАГ.md").read_text(encoding="utf-8")
     backlog = (repo / "governance/backlog/PROGRAM_BACKLOG_V2.md").read_text(encoding="utf-8")
 
-    if core.backlog_status(backlog, "ATS2-RF-003") != "DONE":
-        core.fail("RF-003 must be DONE in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-004") != "DONE":
+        core.fail("RF-004 must be DONE in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-004") != "READY":
-        core.fail("RF-004 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-005") != "READY":
+        core.fail("RF-005 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

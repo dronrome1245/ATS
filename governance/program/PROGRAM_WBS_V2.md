@@ -356,8 +356,10 @@ RF-002 idea sourcing is complete pending exact OWNER evidence already received o
 
 RF-003 family selection and IDEA-0003 intake are complete pending exact OWNER evidence already received on the task commit.
 
+RF-004 HYP-0003 formation is complete with exact OWNER launcher PASS on `f402469ff3aa52bcd3ae98189f7ad4b92eac7ffc`.
+
 The current execution target is:
 
-`ATS2-RF-004 — HYP-0003 formation`
+`ATS2-RF-005 — HYP-0003 Data Feasibility`
 
-HYP-0003 is a development-stage broad-region claim over a fixed 25-cell formation/holding grid. It allows bounded parameter research with full accounting, but any later confirmatory formulation requires a new fixed Hypothesis ID and a separate unseen block.
+The review predeclares a non-performance G10-ex-USD candidate set, executable quote normalization, basket rounding, month-boundary timing and a 60-month protected tail. Source feasibility remains conditional until local machine preparation verifies exact symbol availability and common coverage without computing HYP-0003 outcomes.
