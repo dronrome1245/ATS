@@ -80,13 +80,15 @@ model:
   m6_exit_review: "governance/program/M6_EXIT_REVIEW.md"
   strategy_3_sourcing_rebaseline: "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
   strategy_3_idea_sourcing: "governance/program/STRATEGY_3_IDEA_SOURCING.md"
+  strategy_3_family_selection: "governance/program/STRATEGY_3_FAMILY_SELECTION.md"
+  strategy_3_idea: "research/ideas/IDEA-0003.md"
 
 current:
-  focus: "Source and shortlist Strategy #3 research families"
-  last_completed_task_id: "ATS2-RF-001"
-  last_completed_artifact: "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
-  next_artifact: "governance/program/STRATEGY_3_IDEA_SOURCING.md"
-  next_task_id: "ATS2-RF-002"
+  focus: "Select Strategy #3 family and register IDEA-0003"
+  last_completed_task_id: "ATS2-RF-002"
+  last_completed_artifact: "governance/program/STRATEGY_3_IDEA_SOURCING.md"
+  next_artifact: "research/ideas/IDEA-0003.md"
+  next_task_id: "ATS2-RF-003"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -323,18 +325,24 @@ research_factory:
   current_strategy_sequence: 3
   completed_tasks:
     - "ATS2-RF-001"
+    - "ATS2-RF-002"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
-  current_task: "ATS2-RF-002"
+    - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
+  current_task: "ATS2-RF-003"
   current_wbs: "WBS-RF.1"
-  next_task: "ATS2-RF-003"
+  next_task: "ATS2-RF-004"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
+  selected_family: "S3-FAM-02"
+  selected_family_class: "CROSS_SECTIONAL_CURRENCY_MOMENTUM"
+  idea_id: "IDEA-0003"
+  idea_status: "SCREENING"
   candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-002"
+  current_ready_task: "ATS2-RF-003"
   current_ready_wbs: "WBS-RF.1"
 
 handoff_policy:
@@ -369,7 +377,7 @@ safety:
   emergency_stop_required_before_live: true
 
 strategy_pipeline:
-  ideas_registered: 2
+  ideas_registered: 3
   prototypes_active: 0
   candidates_active: 0
   experiments_registered: 0

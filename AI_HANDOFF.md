@@ -10,42 +10,52 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-001 closure
+## Verified RF-002 closure
 
 OWNER launcher PASS was confirmed on exact commit:
 
-`7d8f0638cd3e11d1eab0e5de37201d73c5a1f2d5`
+`040a0c78dc3829c7ca534397dc55691eaae1a4fd`
 
 Evidence included pinned Ruff lint/format, pytest collection `141 tests`, full pytest `141 passed`, full Local CI, current task PASS and launcher PASS.
 
 Canonical last completed artifact:
 
-`governance/program/STRATEGY_3_SOURCING_REBASELINE.md`
+`governance/program/STRATEGY_3_IDEA_SOURCING.md`
 
-## RF-002 Strategy #3 idea sourcing
+## RF-003 Strategy #3 family selection and Idea intake
 
 Current task:
 
-`ATS2-RF-002 — Strategy #3 idea sourcing`
+`ATS2-RF-003 — Strategy #3 family selection and Idea intake`
 
 Canonical next artifact:
 
-`governance/program/STRATEGY_3_IDEA_SOURCING.md`
+`research/ideas/IDEA-0003.md`
 
-Shortlisted families:
+Selection artifact:
 
-- `S3-FAM-01` macroeconomic announcement response;
-- `S3-FAM-02` cross-sectional currency momentum;
-- `S3-FAM-03` intraday time/session effect.
+`governance/program/STRATEGY_3_FAMILY_SELECTION.md`
 
-Order-flow prediction is retained as a fourth research-relevant family but is not immediately shortlisted because a reproducible data path is not yet established.
+Selected family:
 
-No family is selected or ranked in RF-002.
+`S3-FAM-02 — CROSS_SECTIONAL_CURRENCY_MOMENTUM`
 
-Development parameter tuning is allowed before confirmatory freeze if the search space and all materially inspected variants are retained. Revealed confirmatory data cannot be tuned against and still remain independent evidence for the same claim.
+Idea:
+
+`IDEA-0003 — Cross-Sectional Currency Momentum`
+
+Status:
+
+`SCREENING`
+
+The selection is based on materially different mechanism, plausible multi-instrument data path, cheap falsification and platform value. It is not a claim of profitability.
+
+Exact currency universe, provider, lookback, holding/rebalance horizon, ranking rule and target magnitude remain unselected.
+
+Development parameter tuning will be allowed under a bounded search policy with full variant accounting. Confirmatory data cannot be tuned against and remain independent evidence for the same claim.
 
 Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
 After exact-head PASS:
 
-`ATS2-RF-003 — Strategy #3 family selection and Idea intake`.
+`ATS2-RF-004 — HYP-0003 formation`.

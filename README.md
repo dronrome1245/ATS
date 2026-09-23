@@ -18,6 +18,8 @@ Current lane:
 
 Current work:
 
-`ATS2-RF-002 — Strategy #3 idea sourcing`
+`ATS2-RF-003 — Strategy #3 family selection and Idea intake`
 
-We are sourcing and comparing Strategy #3 research families. No family has been selected yet.
+Selected research family: cross-sectional currency momentum.
+
+No Strategy #3 parameter set has been selected yet.

@@ -352,8 +352,10 @@ M6 is now `COMPLETED / PASS`; Reference Strategy #1 and #2 both remain rejected 
 
 RF-001 sourcing rebaseline is complete pending exact OWNER evidence already received on the transition commit.
 
+RF-002 idea sourcing is complete pending exact OWNER evidence already received on the task commit.
+
 The current execution target is:
 
-`ATS2-RF-002 — Strategy #3 idea sourcing`
+`ATS2-RF-003 — Strategy #3 family selection and Idea intake`
 
-This task forms a bounded, literature-informed family shortlist. It explicitly allows bounded development parameter search before confirmatory freeze, while preserving every materially inspected variant and prohibiting reuse of revealed confirmatory data as independent evidence after tuning.
+The selected family for Idea intake is cross-sectional currency momentum. RF-003 registers IDEA-0003 without fixing its currency universe, lookback, holding/rebalance horizon or ranking rule. Those choices belong to HYP-0003 and bounded development research.

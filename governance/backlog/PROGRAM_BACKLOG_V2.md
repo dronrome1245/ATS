@@ -51,10 +51,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 36. `ATS2-M6-008` — Reference Strategy #2 early-rejection closeout — `DONE`.
 37. `ATS2-M6-009` — M6 Exit Review — `DONE / PASS`.
 38. `ATS2-RF-001` — Strategy #3 sourcing rebaseline — `DONE`.
-39. `ATS2-RF-002` — Strategy #3 idea sourcing — `READY`.
-40. `ATS2-RF-003` — Strategy #3 family selection and Idea intake — `BLOCKED` pending RF-002 exact-head PASS.
+39. `ATS2-RF-002` — Strategy #3 idea sourcing — `DONE`.
+40. `ATS2-RF-003` — Strategy #3 family selection and Idea intake — `READY`.
+41. `ATS2-RF-004` — HYP-0003 formation — `BLOCKED` pending RF-003 exact-head PASS.
 
-Program-level current next task — `ATS2-RF-002`.
+Program-level current next task — `ATS2-RF-003`.
 
 ## 3. M0 / M1
 
@@ -130,21 +131,26 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | Task ID | WBS | Priority | Status | Dependencies | Deliverable | Definition of Done |
 |---|---|---:|---|---|---|---|
 | `ATS2-RF-001` | `WBS-RF.0` | P1 | DONE | M6 Exit PASS | `governance/program/STRATEGY_3_SOURCING_REBASELINE.md` | Continuous Research Factory lane defined without inventing Strategy #3 facts; development tuning before confirmatory freeze is allowed only with complete search accounting |
-| `ATS2-RF-002` | `WBS-RF.1` | P1 | READY | RF-001 PASS | `governance/program/STRATEGY_3_IDEA_SOURCING.md` | Literature-informed bounded shortlist retains all reviewed families, records data/cheap-test constraints and selects no winner |
-| `ATS2-RF-003` | `WBS-RF.1` | P1 | BLOCKED | RF-002 PASS | Strategy #3 family selection + `research/ideas/IDEA-0003.md` or explicit PARK decision | Choose at most one family for Idea intake using mechanism/data/research-freedom criteria without claiming profitability |
+| `ATS2-RF-002` | `WBS-RF.1` | P1 | DONE | RF-001 PASS | `governance/program/STRATEGY_3_IDEA_SOURCING.md` | Retained four reviewed families, shortlisted three and selected no winner |
+| `ATS2-RF-003` | `WBS-RF.1` | P1 | READY | RF-002 PASS | `governance/program/STRATEGY_3_FAMILY_SELECTION.md` + `research/ideas/IDEA-0003.md` | Select at most one family and register one Idea without fixing post-hoc parameters or claiming profitability |
+| `ATS2-RF-004` | `WBS-RF.2` | P1 | BLOCKED | RF-003 PASS | `research/hypotheses/HYP-0003.md` | Form a falsifiable cross-sectional momentum hypothesis with bounded development search policy and protected confirmatory boundary |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-002 — Strategy #3 idea sourcing`.
+`ATS2-RF-003 — Strategy #3 family selection and Idea intake`.
 
 Canonical artifact:
 
-`governance/program/STRATEGY_3_IDEA_SOURCING.md`
+`research/ideas/IDEA-0003.md`
 
-Current activity is **idea sourcing**, not strategy testing.
+Selected family for Idea intake:
 
-The task retains a bounded shortlist of three families and one additional data-constrained family. No winner, market, instrument, timeframe or provider is selected.
+`S3-FAM-02 — CROSS_SECTIONAL_CURRENCY_MOMENTUM`
 
-After exact-head PASS, advance to `ATS2-RF-003 — Strategy #3 family selection and Idea intake`.
+Current activity is **выбираем семейство и оформляем идею**, not parameter optimization or confirmatory testing.
+
+Exact universe, data provider, lookback, holding/rebalance horizon and ranking rule remain unselected.
+
+After exact-head PASS, advance to `ATS2-RF-004 — HYP-0003 formation`.
