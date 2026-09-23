@@ -29,11 +29,7 @@ def check_required_artifacts() -> bool:
         "\n== RF-008 HYP-0003 development data preparation artifacts ==",
         flush=True,
     )
-    missing = [
-        str(path)
-        for path in REQUIRED_ARTIFACTS
-        if not (ROOT / path).is_file()
-    ]
+    missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(
@@ -66,9 +62,7 @@ def check_local_preparation_result(commit: str) -> bool:
         flush=True,
     )
     try:
-        payload = json.loads(
-            (ROOT / LOCAL_RESULT).read_text(encoding="utf-8")
-        )
+        payload = json.loads((ROOT / LOCAL_RESULT).read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         print(
             f"[FAIL] cannot load local preparation result: {exc}",
@@ -80,9 +74,7 @@ def check_local_preparation_result(commit: str) -> bool:
         "task_id": TASK_ID,
         "hypothesis_id": "HYP-0003",
         "git_commit": commit,
-        "development_dataset_id": (
-            "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001"
-        ),
+        "development_dataset_id": ("DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001"),
         "development_dataset_version": "1.0.0",
         "period_end_exclusive": "2021-09-01T00:00:00Z",
         "source_month_count": 217,
@@ -94,8 +86,7 @@ def check_local_preparation_result(commit: str) -> bool:
         actual = payload.get(key)
         if actual != expected:
             print(
-                f"[FAIL] local preparation result mismatch for {key}: "
-                f"{actual!r} != {expected!r}",
+                f"[FAIL] local preparation result mismatch for {key}: {actual!r} != {expected!r}",
                 flush=True,
             )
             return False
@@ -107,10 +98,7 @@ def check_local_preparation_result(commit: str) -> bool:
             flush=True,
         )
         return False
-    if not (
-        payload.get("prepared_csv_sha256")
-        and payload.get("source_bundle_sha256")
-    ):
+    if not (payload.get("prepared_csv_sha256") and payload.get("source_bundle_sha256")):
         print(
             "[FAIL] local result is missing dataset/source hashes",
             flush=True,
@@ -172,8 +160,7 @@ def main() -> int:
     if local_result:
         emit_progress(100)
     print(
-        f"\nATS CURRENT TASK CHECK: "
-        f"{'PASS' if local_result else 'FAIL'}",
+        f"\nATS CURRENT TASK CHECK: {'PASS' if local_result else 'FAIL'}",
         flush=True,
     )
     return 0 if local_result else 1

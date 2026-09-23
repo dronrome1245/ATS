@@ -36,14 +36,10 @@ RAW_ROOT = ROOT / "data" / "external" / "dukascopy"
 DERIVED_PATH = ROOT / "data" / "derived" / "HYP-0003-DEV-01-G10EXUSD-H1.csv"
 REPORT_JSON = ROOT / "reports" / "local_ci" / "HYP0003_DEVELOPMENT_DATA.json"
 REPORT_TEXT = ROOT / "reports" / "local_ci" / "HYP0003_DEVELOPMENT_DATA_REPORT.txt"
-RF006_RESULT_PATH = (
-    ROOT / "reports" / "research" / "HYP-0003-DATA-FEASIBILITY-PREP-result.json"
-)
+RF006_RESULT_PATH = ROOT / "reports" / "research" / "HYP-0003-DATA-FEASIBILITY-PREP-result.json"
 DATASET_ID = "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001"
 DATASET_VERSION = "1.0.0"
-EXPECTED_PROBE_BUNDLE_SHA256 = (
-    "a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e"
-)
+EXPECTED_PROBE_BUNDLE_SHA256 = "a88add123fd42e83396ba17de13cf65fedf18d8e0a5e1eca476ed6338c91b45e"
 
 CANDIDATES: dict[str, tuple[str, str]] = {
     "AUD": ("AUDUSD", "DIRECT"),
@@ -193,10 +189,7 @@ def raw_path(symbol: str, month: datetime, side: str) -> Path:
 
 def source_url(base: str, symbol: str, month: datetime, side: str) -> str:
     source_month = month.month - 1
-    return (
-        f"{base}/{symbol}/{month.year}/{source_month:02d}/"
-        f"{side}_candles_hour_1.bi5"
-    )
+    return f"{base}/{symbol}/{month.year}/{source_month:02d}/{side}_candles_hour_1.bi5"
 
 
 def sha256_file(path: Path) -> str:
@@ -224,9 +217,7 @@ def fetch_bytes(url: str, timeout: int = 30) -> tuple[bytes, dict[str, str]]:
             raise FileNotFoundError(url) from exc
         raise DevelopmentDataPrepError(f"HTTP {exc.code} while fetching {url}") from exc
     except (urllib.error.URLError, OSError) as exc:
-        raise DevelopmentDataPrepError(
-            f"network error while fetching {url}: {exc}"
-        ) from exc
+        raise DevelopmentDataPrepError(f"network error while fetching {url}: {exc}") from exc
     if not body:
         raise DevelopmentDataPrepError(f"empty source object: {url}")
     return body, headers
@@ -238,9 +229,7 @@ def download_source_once(
     side: str,
 ) -> tuple[Path, dict[str, str]] | None:
     if month >= DATA_END:
-        raise DevelopmentDataPrepError(
-            "protected-tail source month requested by RF-008"
-        )
+        raise DevelopmentDataPrepError("protected-tail source month requested by RF-008")
 
     destination = raw_path(symbol, month, side)
     if destination.exists() and destination.stat().st_size > 0:
@@ -273,9 +262,7 @@ def download_source_once(
         raise DevelopmentDataPrepError(" | ".join(technical_errors[-2:]))
     if missing == len(DOWNLOAD_BASES):
         return None
-    raise DevelopmentDataPrepError(
-        f"indeterminate source state for {symbol} {month:%Y-%m} {side}"
-    )
+    raise DevelopmentDataPrepError(f"indeterminate source state for {symbol} {month:%Y-%m} {side}")
 
 
 def download_source_resilient(
@@ -299,8 +286,7 @@ def download_source_resilient(
             )
             time.sleep(delay)
     raise DevelopmentDataPrepError(
-        f"cannot acquire {symbol} {month:%Y-%m} {side} "
-        f"after {attempts} batches: {last_error}"
+        f"cannot acquire {symbol} {month:%Y-%m} {side} after {attempts} batches: {last_error}"
     )
 
 
@@ -320,22 +306,16 @@ def decode_month(
     rows: dict[datetime, Ohlc] = {}
     previous_timestamp: datetime | None = None
     for offset in range(0, len(raw), RECORD.size):
-        seconds, open_raw, close_raw, low_raw, high_raw, _volume = RECORD.unpack_from(
-            raw, offset
-        )
+        seconds, open_raw, close_raw, low_raw, high_raw, _volume = RECORD.unpack_from(raw, offset)
         timestamp = month + timedelta(seconds=seconds)
         if not month <= timestamp < end:
             raise DevelopmentDataPrepError(
                 f"unexpected timestamp {timestamp.isoformat()} in {path}"
             )
         if timestamp in rows:
-            raise DevelopmentDataPrepError(
-                f"duplicate timestamp in {path}: {timestamp}"
-            )
+            raise DevelopmentDataPrepError(f"duplicate timestamp in {path}: {timestamp}")
         if previous_timestamp is not None and timestamp < previous_timestamp:
-            raise DevelopmentDataPrepError(
-                f"out-of-order timestamp in {path}: {timestamp}"
-            )
+            raise DevelopmentDataPrepError(f"out-of-order timestamp in {path}: {timestamp}")
         previous_timestamp = timestamp
 
         values = (
@@ -346,17 +326,11 @@ def decode_month(
         )
         open_price, high_price, low_price, close_price = values
         if not all(math.isfinite(value) and value > 0 for value in values):
-            raise DevelopmentDataPrepError(
-                f"non-positive/non-finite price in {path}"
-            )
+            raise DevelopmentDataPrepError(f"non-positive/non-finite price in {path}")
         if high_price < max(open_price, close_price) or high_price < low_price:
-            raise DevelopmentDataPrepError(
-                f"invalid high in {path}: {timestamp}"
-            )
+            raise DevelopmentDataPrepError(f"invalid high in {path}: {timestamp}")
         if low_price > min(open_price, close_price):
-            raise DevelopmentDataPrepError(
-                f"invalid low in {path}: {timestamp}"
-            )
+            raise DevelopmentDataPrepError(f"invalid low in {path}: {timestamp}")
         rows[timestamp] = values
     return rows
 
@@ -381,28 +355,18 @@ def normalize_pair_ohlc(
     elif orientation == "INVERSE":
         bid, ask = invert_ohlc(source_ask), invert_ohlc(source_bid)
     else:
-        raise DevelopmentDataPrepError(
-            f"unknown source orientation: {orientation}"
-        )
+        raise DevelopmentDataPrepError(f"unknown source orientation: {orientation}")
 
     for label, values in (("BID", bid), ("ASK", ask)):
         open_price, high_price, low_price, close_price = values
         if not all(math.isfinite(value) and value > 0 for value in values):
-            raise DevelopmentDataPrepError(
-                f"normalized {label} has invalid price"
-            )
+            raise DevelopmentDataPrepError(f"normalized {label} has invalid price")
         if high_price < max(open_price, close_price) or high_price < low_price:
-            raise DevelopmentDataPrepError(
-                f"normalized {label} has invalid high"
-            )
+            raise DevelopmentDataPrepError(f"normalized {label} has invalid high")
         if low_price > min(open_price, close_price):
-            raise DevelopmentDataPrepError(
-                f"normalized {label} has invalid low"
-            )
+            raise DevelopmentDataPrepError(f"normalized {label} has invalid low")
     if any(ask[index] < bid[index] for index in range(4)):
-        raise DevelopmentDataPrepError(
-            "normalized executable ASK is below BID"
-        )
+        raise DevelopmentDataPrepError("normalized executable ASK is below BID")
     return bid, ask
 
 
@@ -449,9 +413,7 @@ def expected_market_times(month: datetime) -> list[datetime]:
 
 def load_frozen_rf006_result() -> dict[str, Any]:
     try:
-        payload = json.loads(
-            RF006_RESULT_PATH.read_text(encoding="utf-8")
-        )
+        payload = json.loads(RF006_RESULT_PATH.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise DevelopmentDataPrepError(
             f"cannot load frozen RF-006 result: {exc}"
@@ -469,8 +431,7 @@ def load_frozen_rf006_result() -> dict[str, Any]:
     for key, expected in checks.items():
         if payload.get(key) != expected:
             raise DevelopmentDataPrepError(
-                f"frozen RF-006 result mismatch for {key}: "
-                f"{payload.get(key)!r}"
+                f"frozen RF-006 result mismatch for {key}: {payload.get(key)!r}"
             )
     return payload
 
@@ -566,9 +527,7 @@ def build_dataset() -> dict[str, Any]:
                             "month": month.strftime("%Y-%m"),
                             "side": side,
                             "sha256": sha256_file(path),
-                            "relative_path": str(
-                                path.relative_to(ROOT)
-                            ).replace("\\", "/"),
+                            "relative_path": str(path.relative_to(ROOT)).replace("\\", "/"),
                             "source_url": headers["source_url"],
                             "last_modified": headers["last_modified"],
                             "etag": headers["etag"],
@@ -582,12 +541,8 @@ def build_dataset() -> dict[str, Any]:
                         f"missing {missing_sides[0]}"
                     )
 
-                bid_times = expected_set.intersection(
-                    decoded_by_side["BID"]
-                )
-                ask_times = expected_set.intersection(
-                    decoded_by_side["ASK"]
-                )
+                bid_times = expected_set.intersection(decoded_by_side["BID"])
+                ask_times = expected_set.intersection(decoded_by_side["ASK"])
                 if bid_times != ask_times:
                     raise DevelopmentDataPrepError(
                         f"BID/ASK timestamp mismatch for "
@@ -599,9 +554,7 @@ def build_dataset() -> dict[str, Any]:
                 aligned_times = sorted(bid_times)
                 stats = symbol_stats[currency]
                 stats["expected_market_hours"] += len(expected_times)
-                stats["missing_market_hours"] += (
-                    len(expected_times) - len(aligned_times)
-                )
+                stats["missing_market_hours"] += len(expected_times) - len(aligned_times)
                 stats["aligned_rows"] += len(aligned_times)
 
                 if aligned_times:
@@ -629,11 +582,7 @@ def build_dataset() -> dict[str, Any]:
                 month_rows[currency] = normalized
 
             all_timestamps = sorted(
-                {
-                    timestamp
-                    for rows in month_rows.values()
-                    for timestamp in rows
-                }
+                {timestamp for rows in month_rows.values() for timestamp in rows}
             )
             for timestamp in all_timestamps:
                 for currency, (symbol, orientation) in CANDIDATES.items():
@@ -644,9 +593,7 @@ def build_dataset() -> dict[str, Any]:
                     writer.writerow(
                         {
                             "event_time": iso_z(timestamp),
-                            "availability_time": iso_z(
-                                timestamp + timedelta(hours=1)
-                            ),
+                            "availability_time": iso_z(timestamp + timedelta(hours=1)),
                             "currency": currency,
                             "source_symbol": symbol,
                             "source_orientation": orientation,
@@ -664,9 +611,7 @@ def build_dataset() -> dict[str, Any]:
                     sequence += 1
 
             eligible_currencies = [
-                currency
-                for currency in CANDIDATES
-                if cutoff in month_rows[currency]
+                currency for currency in CANDIDATES if cutoff in month_rows[currency]
             ]
             ranking_anchor = next_month(month)
             if ranking_anchor >= DATA_END:
@@ -679,25 +624,18 @@ def build_dataset() -> dict[str, Any]:
                 {
                     "source_month": month.strftime("%Y-%m"),
                     "cutoff_event_time": iso_z(cutoff),
-                    "cutoff_availability_time": iso_z(
-                        cutoff + timedelta(hours=1)
-                    ),
+                    "cutoff_availability_time": iso_z(cutoff + timedelta(hours=1)),
                     "ranking_month_anchor": iso_z(ranking_anchor),
                     "eligible_currencies": eligible_currencies,
                     "eligible_currency_count": len(eligible_currencies),
                     "status": point_status,
                     "supports_longest_12_12_geometry": (
-                        point_status == "ELIGIBLE_GE6"
-                        and supports_longest_12_12_geometry(month)
+                        point_status == "ELIGIBLE_GE6" and supports_longest_12_12_geometry(month)
                     ),
                 }
             )
 
-            if (
-                month_index == 1
-                or month_index % 12 == 0
-                or month_index == len(months)
-            ):
+            if month_index == 1 or month_index % 12 == 0 or month_index == len(months):
                 progress(
                     f"[month {month_index}/{len(months)}] "
                     f"{month:%Y-%m}; rows={sequence}; "
@@ -714,9 +652,7 @@ def build_dataset() -> dict[str, Any]:
 
     if sequence == 0:
         temporary.unlink(missing_ok=True)
-        raise DevelopmentDataPrepError(
-            "prepared development dataset has no rows"
-        )
+        raise DevelopmentDataPrepError("prepared development dataset has no rows")
     temporary.replace(DERIVED_PATH)
 
     first_values = [
@@ -729,27 +665,11 @@ def build_dataset() -> dict[str, Any]:
         for stats in symbol_stats.values()
         if stats["last_usable_timestamp"] is not None
     ]
-    common_start = (
-        max(first_values)
-        if len(first_values) == len(CANDIDATES)
-        else None
-    )
-    common_end = (
-        min(last_values)
-        if len(last_values) == len(CANDIDATES)
-        else None
-    )
+    common_start = max(first_values) if len(first_values) == len(CANDIDATES) else None
+    common_end = min(last_values) if len(last_values) == len(CANDIDATES) else None
 
-    eligible_points = [
-        point
-        for point in monthly_points
-        if point["status"] == "ELIGIBLE_GE6"
-    ]
-    longest_points = [
-        point
-        for point in monthly_points
-        if point["supports_longest_12_12_geometry"]
-    ]
+    eligible_points = [point for point in monthly_points if point["status"] == "ELIGIBLE_GE6"]
+    longest_points = [point for point in monthly_points if point["supports_longest_12_12_geometry"]]
     decision = (
         "READY_FOR_DEVELOPMENT_DATA_FREEZE"
         if eligible_points and longest_points and common_start is not None
@@ -773,9 +693,7 @@ def build_dataset() -> dict[str, Any]:
         "source_files": source_files,
         "missing_source_objects": missing_source_objects,
         "source_bundle_sha256": source_bundle_hash(source_files),
-        "prepared_csv_relative_path": str(
-            DERIVED_PATH.relative_to(ROOT)
-        ).replace("\\", "/"),
+        "prepared_csv_relative_path": str(DERIVED_PATH.relative_to(ROOT)).replace("\\", "/"),
         "prepared_csv_sha256": sha256_file(DERIVED_PATH),
         "prepared_row_count": sequence,
         "common_usable_start": common_start,
@@ -806,10 +724,7 @@ def write_reports(payload: dict[str, Any]) -> None:
             f"Dataset ID: {payload['development_dataset_id']}"
             f"@{payload['development_dataset_version']}"
         ),
-        (
-            f"Period: {payload['period_start']} "
-            f"to {payload['period_end_exclusive']}"
-        ),
+        (f"Period: {payload['period_start']} to {payload['period_end_exclusive']}"),
         f"Source months: {payload['source_month_count']}",
         f"Source objects expected: {payload['source_objects_expected']}",
         f"Source objects acquired: {payload['source_objects_acquired']}",
@@ -858,9 +773,7 @@ def write_reports(payload: dict[str, Any]) -> None:
 
 def prepare() -> int:
     emit_progress(76)
-    progress(
-        "[contract] RF-007 frozen development-data contract loaded"
-    )
+    progress("[contract] RF-007 frozen development-data contract loaded")
     payload = build_dataset()
     write_reports(payload)
     return 0

@@ -100,16 +100,9 @@ def test_normalize_pair_ohlc_preserves_execution_order() -> None:
         ask,
         "INVERSE",
     )
-    assert inverse_bid == pytest.approx(
-        (1.0 / 110.1, 1.0 / 109.1, 1.0 / 111.1, 1.0 / 110.6)
-    )
-    assert inverse_ask == pytest.approx(
-        (1.0 / 110.0, 1.0 / 109.0, 1.0 / 111.0, 1.0 / 110.5)
-    )
-    assert all(
-        inverse_ask[index] >= inverse_bid[index]
-        for index in range(4)
-    )
+    assert inverse_bid == pytest.approx((1.0 / 110.1, 1.0 / 109.1, 1.0 / 111.1, 1.0 / 110.6))
+    assert inverse_ask == pytest.approx((1.0 / 110.0, 1.0 / 109.0, 1.0 / 111.0, 1.0 / 110.5))
+    assert all(inverse_ask[index] >= inverse_bid[index] for index in range(4))
 
 
 def test_source_bundle_hash_is_order_independent() -> None:
@@ -149,18 +142,10 @@ def test_monthly_cutoff_uses_last_expected_fx_market_hour() -> None:
 
 
 def test_longest_12_12_geometry_respects_boundaries() -> None:
-    assert not prep.supports_longest_12_12_geometry(
-        datetime(2003, 7, 1, tzinfo=UTC)
-    )
-    assert prep.supports_longest_12_12_geometry(
-        datetime(2004, 8, 1, tzinfo=UTC)
-    )
-    assert prep.supports_longest_12_12_geometry(
-        datetime(2020, 7, 1, tzinfo=UTC)
-    )
-    assert not prep.supports_longest_12_12_geometry(
-        datetime(2020, 8, 1, tzinfo=UTC)
-    )
+    assert not prep.supports_longest_12_12_geometry(datetime(2003, 7, 1, tzinfo=UTC))
+    assert prep.supports_longest_12_12_geometry(datetime(2004, 8, 1, tzinfo=UTC))
+    assert prep.supports_longest_12_12_geometry(datetime(2020, 7, 1, tzinfo=UTC))
+    assert not prep.supports_longest_12_12_geometry(datetime(2020, 8, 1, tzinfo=UTC))
 
 
 def test_download_source_rejects_protected_tail_before_network() -> None:
