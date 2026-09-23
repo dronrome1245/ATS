@@ -329,9 +329,11 @@ def download_source_once(
     if month >= DATA_END:
         raise DevelopmentDataPrepError("protected-tail source month requested by RF-008")
 
-    if jetta_raw_path(symbol, month, side).exists():
+    jetta_cache = jetta_raw_path(symbol, month, side)
+    legacy_cache = raw_path(symbol, month, side)
+    if jetta_cache.exists() and jetta_cache.stat().st_size > 0:
         return download_jetta_source_once(symbol, month, side)
-    if raw_path(symbol, month, side).exists():
+    if legacy_cache.exists() and legacy_cache.stat().st_size > 0:
         return download_legacy_source_once(symbol, month, side)
 
     jetta_error: DevelopmentDataPrepError | None = None
