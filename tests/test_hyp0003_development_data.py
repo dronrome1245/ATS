@@ -67,6 +67,8 @@ def test_download_source_prefers_jetta_provider_path(
 ) -> None:
     month = datetime(2021, 8, 1, tzinfo=UTC)
     path = tmp_path / "BID_candles_hour_1.json"
+    jetta_cache = tmp_path / "jetta-cache.json"
+    legacy_cache = tmp_path / "legacy-cache.bi5"
     headers = {
         "source_url": "JETTA",
         "source_format": prep.SOURCE_FORMAT_JETTA_JSON,
@@ -74,6 +76,8 @@ def test_download_source_prefers_jetta_provider_path(
         "etag": "",
     }
 
+    monkeypatch.setattr(prep, "jetta_raw_path", lambda _symbol, _month, _side: jetta_cache)
+    monkeypatch.setattr(prep, "raw_path", lambda _symbol, _month, _side: legacy_cache)
     monkeypatch.setattr(
         prep,
         "download_jetta_source_once",

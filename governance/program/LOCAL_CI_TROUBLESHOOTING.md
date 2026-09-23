@@ -430,18 +430,22 @@ The failure occurs while counting eligible 24-before/24-after windows.
 
 **Root cause**
 
-The confirmatory preparation path stores `event_time` as RFC3339 strings for deterministic CSV/report serialization. It then reused `valid_window()` from PROTO-01, whose contract assumes already parsed rows where `event_time` is a `datetime`. The shared algorithm was compatible, but the row representation was not.
+The first occurrence: the confirmatory preparation path stores `event_time` as RFC3339 strings for deterministic CSV/report serialization. It then reused `valid_window()` from PROTO-01, whose contract assumes already parsed rows where `event_time` is a `datetime`. The shared algorithm was compatible, but the row representation was not.
+
+The second occurrence: an RF-008 network-free Jetta-preference test called cache-aware production code without replacing its real cache-path helpers. Because the OWNER host already had a valid legacy BI5 object from earlier probes, the code correctly chose the frozen local cache before the mocked Jetta network path. The test therefore depended on external filesystem state and asserted the wrong branch for that environment.
 
 **Correct response**
 
-Do not change the frozen dataset, Hypothesis or information boundary. Parse event timestamps once and apply continuity checks to the parsed timestamp sequence. Add a regression test using the same serialized row representation emitted by the confirmatory preparation path.
+Do not change the frozen dataset, Hypothesis, provider, cache-first production behavior or information boundary. For representation failures, parse event timestamps once and apply continuity checks to the parsed timestamp sequence. For cache-aware unit tests, replace both Jetta and legacy cache-path helpers with isolated `tmp_path` locations so the test explicitly controls whether cache files exist.
 
 **Preventive rule**
 
 1. Treat serialized rows and typed in-memory rows as distinct contracts.
 2. A helper reused across those boundaries must receive explicitly converted inputs or expose a representation-neutral primitive.
 3. Task-runtime paths that transform representation must have a direct regression test; broad platform tests are not sufficient.
-4. Do not repair a representation bug by changing research parameters or data selection.
+4. Network-free tests for cache-aware code must isolate filesystem/cache paths under `tmp_path`; they must not inherit the OWNER's real `data/external/` cache.
+5. A test for "network/provider preference when cache is absent" must make both candidate cache paths explicitly absent before asserting which provider function runs.
+6. Do not repair a test-contract bug by changing research parameters, provider selection or production cache-first semantics.
 
 **Scope:** research/development tooling.
 

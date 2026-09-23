@@ -26,7 +26,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
 | `LCI-006` | `HANDOFF_SYNC` | 1 | OBSERVED | exact canonical `last_completed_artifact`/`next_artifact`/`next_task_id` values must appear in handoff/next-step |
 | `LCI-007` | `DATA_SOURCE_NETWORK` | 7 | REPEAT_AFTER_CONTROL_THRESHOLD | cache + current Dukascopy Jetta H1 path + legacy BI5 fallback + metadata fallback + retry batches; normalize direct OSError/socket resets |
-| `LCI-008` | `TEST` | 1 | OBSERVED | regression-test serialized event-time rows against typed continuity logic used by task preparation |
+| `LCI-008` | `TEST` | 2 | RECURRING | task-specific tests must isolate representation and filesystem/cache state; cache-aware network tests use temp paths |
 | `LCI-009` | `LINT` | 1 | OBSERVED | track Ruff lint and format separately; inspect import grouping for every new/rewritten Python import block |
 | `LCI-010` | `TEST_IMPORT` | 1 | OBSERVED | fast pytest collection plus same-context import smoke for new Python tools; avoid script-only sibling imports |
 | `LCI-011` | `DATA_SOURCE_DISCOVERY_PROTOCOL` | 1 | OBSERVED | use Dukascopy HistoryStart metadata for first H1 availability; content URLs only verify required boundary data |
@@ -65,6 +65,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-23 | `LCI-007` | `d33e3112c7e6734bba8dfbc664c4c8498ed11650` | development data acquisition | legacy GBPUSD 2003-08 BID paths exhausted bounded retries with datafeed timeout and www HTTP 503; current Dukascopy tooling uses the provider-native Jetta H1 API instead |
 | 2026-09-23 | `LCI-012` | `1b45022b8d57e8140016f8448a63e0a182697bcc` | metadata fallback | public instruments fallback returned HTTP 403 because the request omitted the required freeserv Referer |
 | 2026-09-22 | `LCI-008` | `04aaa885e5be81f2468b1478423949f0e9e5323b` | task runtime | confirmatory rows stored RFC3339 event-time strings but `valid_window` expected datetime-valued rows, causing string subtraction after acquisition completed |
+| 2026-09-23 | `LCI-008` | `5691d6e3635db9b11f3ba8c7d4c69426d31556f1` | full pytest | Jetta-preference unit test inherited the owner's real legacy BI5 cache and therefore exercised the intentional cache-first branch instead of the no-cache Jetta path |
 | 2026-09-22 | `LCI-002` | `7c8e82e7f29b0bc3e09de557f88dd1c14441474f` | format | Ruff compacted generator expressions in `valid_timestamp_window` and confirmatory eligible-count calculation |
 | 2026-09-23 | `LCI-002` | `8a8e331f949e8084c17beef23b636e25a5dbf84b` | format | RF-007 checker used multiline parenthesized hash literals that pinned Ruff canonicalized to one-line assignments |
 | 2026-09-23 | `LCI-002` | `9665c81bdd6f2a6eb98e69d4b518be6854224966` | format | RF-008 fast preflight requested pinned Ruff canonical layout in the new development-data runner, checker and synthetic tests before acquisition began |
