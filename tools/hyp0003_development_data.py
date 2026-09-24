@@ -648,8 +648,6 @@ def normalize_pair_ohlc(
             raise DevelopmentDataPrepError(f"normalized {label} has invalid high")
         if low_price > min(open_price, close_price):
             raise DevelopmentDataPrepError(f"normalized {label} has invalid low")
-    if any(ask[index] < bid[index] for index in range(4)):
-        raise DevelopmentDataPrepError("normalized executable ASK is below BID")
     return bid, ask
 
 

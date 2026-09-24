@@ -233,7 +233,7 @@ def test_decode_month_rejects_out_of_order_records(tmp_path) -> None:
         prep.decode_month(path, month, 100_000)
 
 
-def test_normalize_pair_ohlc_preserves_execution_order() -> None:
+def test_normalize_pair_ohlc_preserves_side_semantics() -> None:
     bid = (110.0, 111.0, 109.0, 110.5)
     ask = (110.1, 111.1, 109.1, 110.6)
 
@@ -252,7 +252,21 @@ def test_normalize_pair_ohlc_preserves_execution_order() -> None:
     )
     assert inverse_bid == pytest.approx((1.0 / 110.1, 1.0 / 109.1, 1.0 / 111.1, 1.0 / 110.6))
     assert inverse_ask == pytest.approx((1.0 / 110.0, 1.0 / 109.0, 1.0 / 111.0, 1.0 / 110.5))
-    assert all(inverse_ask[index] >= inverse_bid[index] for index in range(4))
+
+
+def test_normalize_pair_ohlc_accepts_independently_aggregated_extrema() -> None:
+    bid = (0.81657, 0.81707, 0.81627, 0.81657)
+    ask = (0.81673, 0.81723, 0.81613, 0.81673)
+
+    normalized_bid, normalized_ask = prep.normalize_pair_ohlc(
+        bid,
+        ask,
+        "DIRECT",
+    )
+
+    assert normalized_bid == bid
+    assert normalized_ask == ask
+    assert normalized_ask[2] < normalized_bid[2]
 
 
 def test_source_bundle_hash_is_order_independent() -> None:

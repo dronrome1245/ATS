@@ -378,11 +378,54 @@ Do not weaken quote-order validation and do not change the frozen universe, peri
 2. Require one `source_format` for both sides before decoding/normalization.
 3. Partial cache reuse is allowed only when the second side can be completed from the same format.
 4. If same-format completion fails, retry/fallback the whole BID/ASK pair through the alternate Dukascopy path.
-5. Preserve strict executable quote-order validation; do not hide a coherence defect by relaxing `ASK >= BID`.
+5. Keep source-format coherence independent from quote-semantics validation. Component-wise ordering of separately aggregated OHLC extrema is governed by `LCI-014`, not by this coherence rule.
 6. Include symbol, timestamp and source format in any future normalization failure.
 7. Cover partial-cache fallback with a network-free regression test.
 
 **Scope:** RF-008 historical-data acquisition and reusable multi-source cache logic.
+
+### LCI-014 — Separately aggregated BID/ASK OHLC extrema treated as synchronous quotes
+
+**First observed:** 2026-09-23 on `9ce6f9b506b0b04c4d97ed1aa018d3c1bec76f62` during RF-008 development-data preparation  
+**Diagnosed:** 2026-09-24 on `4135fc4d7bbbc9522ff09e7447c887b1a0c5ae02` using cache-only `ATS_TASK_DIAG.bat`  
+**Class:** `DATA_OHLC_SIDE_SEMANTICS`
+
+**Symptom**
+
+RF-008 stops on:
+
+`AUDUSD 2007-04 2007-04-09T11:00:00Z JETTA_JSON: normalized executable ASK is below BID`
+
+Targeted diagnostics show both Jetta sides decode to 482 internally valid H1 candles. At the failing candle:
+
+- BID = `(0.81657, 0.81707, 0.81627, 0.81657)`;
+- ASK = `(0.81673, 0.81723, 0.81613, 0.81673)`.
+
+Open, high and close retain positive ASK-minus-BID differences, while only the separately aggregated low crosses.
+
+**Root cause**
+
+The RF-008 quality check treated corresponding BID and ASK OHLC components as if they were synchronous executable quotes. Dukascopy non-tick candles are side-specific BID or ASK aggregates; high/low extrema on opposite sides can refer to different intra-bar quote events. Component-wise spread ordering is therefore not a valid invariant for independently aggregated candle extrema.
+
+The decoder, point scaling, timestamp alignment and source-format coherence are not implicated by this diagnostic.
+
+**Correct response**
+
+Do not alter HYP-0003, the provider, protected period or source files. Keep each BID/ASK candle internally valid and require timestamp/source-format coherence, but remove the cross-side component-wise `ASK >= BID` rejection for aggregated OHLC fields.
+
+Do not repair the source by clipping extrema, synthesizing spread, interpolating or forward-filling. Any later execution calculation must use the appropriate quote side explicitly.
+
+**Preventive rule**
+
+1. Distinguish synchronous scalar/tick quote invariants from side-specific aggregated-candle invariants.
+2. Validate each side's OHLC internally: finite/positive, high bounds and low bounds.
+3. Preserve exact BID/ASK H1 timestamp alignment and same-format source coherence.
+4. Do not compare separately aggregated BID/ASK high/low components as though they were contemporaneous quotes.
+5. Preserve raw source hashes and values; never manufacture a spread-corrected candle.
+6. Before changing candle semantics after a runtime failure, collect a cache-only diagnostic with raw BID/ASK values and neighboring bars.
+7. Add a regression test using the exact diagnosed crossed-extrema values.
+
+**Scope:** RF-008 historical-data normalization and any future side-specific OHLC ingestion.
 
 ### LCI-009 — Ruff import-order lint failure after remote Python authoring
 
