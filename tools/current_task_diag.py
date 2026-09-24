@@ -298,7 +298,7 @@ def scan_cached_jetta_geometry() -> int:
     print("\n== cache-wide Jetta OHLC geometry scan ==")
     print(f"Cached Jetta files selected: {len(paths)}")
     print("Protected-tail files read: 0")
-    print(f"Current production tolerance: {prep.JETTA_OHLC_TOLERANCE_UNITS} unit")
+    print("Production Jetta geometry rejection: DISABLED_BY_PROVIDER_SEMANTICS")
 
     total_histogram: Counter[int] = Counter()
     all_examples: list[dict[str, object]] = []
@@ -328,16 +328,12 @@ def scan_cached_jetta_geometry() -> int:
 
     total_candles = sum(total_histogram.values())
     violating = total_candles - total_histogram.get(0, 0)
-    beyond = sum(
-        count for units, count in total_histogram.items() if units > prep.JETTA_OHLC_TOLERANCE_UNITS
-    )
     maximum = max(total_histogram, default=0)
 
     print(f"Files scanned successfully: {len(paths) - len(file_errors)}")
     print(f"File errors: {len(file_errors)}")
     print(f"Candles scanned: {total_candles}")
     print(f"Candles with any geometry discrepancy: {violating}")
-    print(f"Candles beyond current tolerance: {beyond}")
     print(f"Maximum geometry violation units: {maximum}")
     print(f"Base-field Python/JS rounding mismatches: {rounding_mismatches}")
     print_scan_histogram(total_histogram)
