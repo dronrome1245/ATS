@@ -1399,6 +1399,7 @@ def configure() -> None:
         'DEFAULT_MONTH = "2007-04"',
         'DEFAULT_TIMESTAMP = "2007-04-09T11:00:00Z"',
         "JETTA_CANDLE_FAILURE_PATTERN",
+        "OHLC geometry",
         "forensic_jetta_rows",
         "python_round",
         "js_math_round",
