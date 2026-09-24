@@ -61,6 +61,14 @@ def test_decode_jetta_month_preserves_real_gaps_without_flat_fill(tmp_path) -> N
     )
 
 
+def test_jetta_ohlc_units_accepts_diagnosed_one_unit_quantization() -> None:
+    assert prep.jetta_ohlc_units_are_valid([83_040, 83_820, 83_041, 83_785])
+
+
+def test_jetta_ohlc_units_rejects_two_unit_geometry_violation() -> None:
+    assert not prep.jetta_ohlc_units_are_valid([83_040, 83_820, 83_042, 83_785])
+
+
 def test_download_source_prefers_jetta_provider_path(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path,
