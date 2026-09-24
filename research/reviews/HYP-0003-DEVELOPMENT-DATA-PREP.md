@@ -94,7 +94,11 @@ For inverse `USDCURRENCY` pairs:
 - normalized ASK high = `1 / source BID low`;
 - normalized ASK low = `1 / source BID high`.
 
-All normalized prices must be finite and positive and preserve executable BID/ASK ordering for open, high, low and close.
+All normalized prices must be finite and positive, and each BID and ASK candle must be internally valid on its own side.
+
+RF-008 diagnostic evidence showed that Dukascopy/Jetta H1 BID and ASK candles are side-specific aggregates. Component-wise `ASK >= BID` is therefore **not** a valid invariant for separately aggregated OHLC extrema: the BID high/low and ASK high/low can represent different intra-hour quote events. RF-008 must not reject, clip or synthesize spread merely because corresponding OHLC extrema cross after separate aggregation.
+
+This correction does not relax source coherence: BID and ASK must still use the same source format for a given `symbol/month`, have aligned H1 event timestamps, and pass independent OHLC validity checks. Any later execution calculation must consume the appropriate quote side explicitly rather than treating aggregated BID/ASK extrema as synchronous executable quotes.
 
 ## Time and quality contract
 
