@@ -471,30 +471,25 @@ Do not apply this tolerance to legacy BI5. Do not clip low/high to open/close, r
 
 **Scope:** RF-008 Jetta compact candle decoding and normalization boundary.
 
-### LCI-009 — Ruff import-order lint failure after remote Python authoring
+### LCI-009 — Ruff lint failure after remote Python authoring
 
 **First observed:** 2026-09-22 on `213fb1116e7ca2fc866fc7281b57215d3908cb64` in `tools/hyp0002_proto01.py`  
+**Repeat observed:** 2026-09-24 on `4675d472efc016e92deeb886ab171d3cf8e79cfa` in `tools/current_task_diag.py`; agent preflight caught Ruff F541 before merge to `main`  
 **Class:** `LINT`
 
 **Symptom**
 
-Repository validator and `ruff format --check` pass, but pinned Ruff lint fails with `I001 Import block is un-sorted or un-formatted`.
+Pinned Ruff lint fails on otherwise test-passing remote Python before merge.
 
-The observed exact diff removed the blank line between:
-
-`import yaml`
-
-and:
-
-`from proto01_eurusd import ...`
+The first occurrence was `I001 Import block is un-sorted or un-formatted`. The repeat occurrence was `F541 f-string without any placeholders` in the cache-wide diagnostic scanner. In both cases the failure was authoring/lint-only and unrelated to research or runtime semantics.
 
 **Root cause**
 
-The remote authoring preflight tracked formatting risk but did not independently track lint/import-order risk. Under the current `pyproject.toml`, Ruff selects `I` and no explicit first-party classification is configured for sibling modules under `tools/`. Ruff therefore classified the observed sibling-tool import in the same import section as the installed dependency import.
+Remote repository authoring bypasses local Git hooks and does not have the project-pinned Ruff executable. Manual syntax/line-length/style inspection cannot reproduce every selected Ruff lint rule. Import grouping was the first observed subtype; F541 confirmed the cause is broader than import ordering.
 
 **Correct response**
 
-Apply the exact pinned-Ruff import diff and do not change runtime/research logic. Rerun the launcher on the corrected exact HEAD.
+Apply only the pinned-Ruff lint correction on the same `agent/*` branch and do not change runtime/research logic. Rerun `ATS_AGENT_PREFLIGHT.bat` on the corrected exact branch HEAD before merge.
 
 **Preventive rule**
 
@@ -502,7 +497,9 @@ Apply the exact pinned-Ruff import diff and do not change runtime/research logic
 2. If pinned Ruff has not run on exact proposed Python content, both statuses remain unverified.
 3. Every new or materially rewritten Python import block receives an explicit import-grouping audit when Ruff `I` rules are enabled.
 4. Under the current configuration, do not invent a first-party separator for sibling `tools/` modules unless Ruff configuration explicitly defines that classification.
-5. An import-only lint failure must never trigger research-logic changes.
+5. Simple static lint hazards such as an f-string with no interpolation should be removed during authoring, but manual inspection is not a substitute for pinned Ruff.
+6. Remotely authored Python remains on `agent/*` until pinned Ruff lint and format both PASS on that exact commit.
+7. A lint-only failure must never trigger research/data/runtime-logic changes.
 
 **Scope:** agents and any tooling that writes Python through remote repository APIs.
 

@@ -297,7 +297,7 @@ def scan_cached_jetta_geometry() -> int:
     paths = cached_jetta_paths()
     print("\n== cache-wide Jetta OHLC geometry scan ==")
     print(f"Cached Jetta files selected: {len(paths)}")
-    print(f"Protected-tail files read: 0")
+    print("Protected-tail files read: 0")
     print(f"Current production tolerance: {prep.JETTA_OHLC_TOLERANCE_UNITS} unit")
 
     total_histogram: Counter[int] = Counter()
@@ -329,9 +329,7 @@ def scan_cached_jetta_geometry() -> int:
     total_candles = sum(total_histogram.values())
     violating = total_candles - total_histogram.get(0, 0)
     beyond = sum(
-        count
-        for units, count in total_histogram.items()
-        if units > prep.JETTA_OHLC_TOLERANCE_UNITS
+        count for units, count in total_histogram.items() if units > prep.JETTA_OHLC_TOLERANCE_UNITS
     )
     maximum = max(total_histogram, default=0)
 
