@@ -8,6 +8,7 @@ import json
 import math
 import re
 import subprocess
+from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -32,6 +33,7 @@ JETTA_CANDLE_FAILURE_PATTERN = re.compile(
     r"(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\+00:00)"
 )
 NEIGHBOR_COUNT = 2
+SCAN_TOP_EXAMPLES = 20
 
 
 def parse_month(value: str) -> datetime:
@@ -193,6 +195,189 @@ def print_forensic_jetta_target(
             print(f"      internally_valid: {valid}")
 
 
+def geometry_violation_units(units: list[int]) -> int:
+    open_units, high_units, low_units, close_units = units
+    return max(
+        0,
+        max(open_units, close_units) - high_units,
+        low_units - high_units,
+        low_units - min(open_units, close_units),
+    )
+
+
+def cached_jetta_paths() -> list[Path]:
+    candidate_symbols = {symbol for symbol, _orientation in prep.CANDIDATES.values()}
+    paths: list[Path] = []
+    for path in prep.RAW_ROOT.glob("*/H1/*/*/*_candles_hour_1.json"):
+        relative = path.relative_to(prep.RAW_ROOT)
+        if len(relative.parts) != 5:
+            continue
+        symbol, timeframe, year_text, month_text, _filename = relative.parts
+        if symbol not in candidate_symbols or timeframe != "H1":
+            continue
+        try:
+            month = datetime(
+                int(year_text),
+                int(month_text),
+                1,
+                tzinfo=UTC,
+            )
+        except ValueError:
+            continue
+        if month >= prep.DATA_END:
+            continue
+        if path.is_file() and path.stat().st_size > 0:
+            paths.append(path)
+    return sorted(paths)
+
+
+def scan_jetta_file(
+    path: Path,
+) -> tuple[Counter[int], list[dict[str, object]], int]:
+    relative = path.relative_to(prep.RAW_ROOT)
+    symbol, _timeframe, year_text, month_text, filename = relative.parts
+    side = filename.split("_", 1)[0]
+    month = datetime(int(year_text), int(month_text), 1, tzinfo=UTC)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+
+    multiplier = float(payload["multiplier"])
+    shift = int(payload["shift"])
+    timestamp_ms = int(payload["timestamp"])
+    base_values = [float(payload[name]) for name in ("open", "high", "low", "close")]
+    deltas = [payload[name] for name in ("opens", "highs", "lows", "closes")]
+    units = [round(value / multiplier) for value in base_values]
+    rounding_mismatches = sum(
+        round(value / multiplier) != js_math_round_positive(value / multiplier)
+        for value in base_values
+    )
+
+    histogram: Counter[int] = Counter()
+    examples: list[dict[str, object]] = []
+    end = prep.next_month(month)
+
+    for index, time_delta in enumerate(payload["times"]):
+        timestamp_ms += int(time_delta) * shift
+        for field_index, column in enumerate(deltas):
+            units[field_index] += int(column[index])
+        timestamp = datetime.fromtimestamp(timestamp_ms / 1000.0, tz=UTC)
+        if not month <= timestamp < end:
+            continue
+
+        violation = geometry_violation_units(units)
+        histogram[violation] += 1
+        if violation > 0:
+            examples.append(
+                {
+                    "violation_units": violation,
+                    "symbol": symbol,
+                    "month": f"{month:%Y-%m}",
+                    "side": side,
+                    "timestamp": prep.iso_z(timestamp),
+                    "units": tuple(units),
+                    "path": str(relative).replace("\\", "/"),
+                }
+            )
+
+    return histogram, examples, rounding_mismatches
+
+
+def print_scan_histogram(histogram: Counter[int]) -> None:
+    exact_limit = 20
+    print("\nGeometry violation histogram (encoded units):")
+    for units in range(exact_limit + 1):
+        count = histogram.get(units, 0)
+        if count or units <= 2:
+            print(f"  {units}: {count}")
+    above = sum(count for units, count in histogram.items() if units > exact_limit)
+    if above:
+        print(f"  >{exact_limit}: {above}")
+
+
+def scan_cached_jetta_geometry() -> int:
+    paths = cached_jetta_paths()
+    print("\n== cache-wide Jetta OHLC geometry scan ==")
+    print(f"Cached Jetta files selected: {len(paths)}")
+    print(f"Protected-tail files read: 0")
+    print(f"Current production tolerance: {prep.JETTA_OHLC_TOLERANCE_UNITS} unit")
+
+    total_histogram: Counter[int] = Counter()
+    all_examples: list[dict[str, object]] = []
+    file_errors: list[str] = []
+    group_max: dict[tuple[str, str], int] = {}
+    rounding_mismatches = 0
+
+    for path in paths:
+        try:
+            histogram, examples, file_rounding_mismatches = scan_jetta_file(path)
+        except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
+            file_errors.append(f"{path.relative_to(ROOT)}: {exc}")
+            continue
+
+        total_histogram.update(histogram)
+        all_examples.extend(examples)
+        rounding_mismatches += file_rounding_mismatches
+
+        relative = path.relative_to(prep.RAW_ROOT)
+        symbol = relative.parts[0]
+        side = relative.parts[-1].split("_", 1)[0]
+        file_max = max(histogram, default=0)
+        group_max[(symbol, side)] = max(
+            group_max.get((symbol, side), 0),
+            file_max,
+        )
+
+    total_candles = sum(total_histogram.values())
+    violating = total_candles - total_histogram.get(0, 0)
+    beyond = sum(
+        count
+        for units, count in total_histogram.items()
+        if units > prep.JETTA_OHLC_TOLERANCE_UNITS
+    )
+    maximum = max(total_histogram, default=0)
+
+    print(f"Files scanned successfully: {len(paths) - len(file_errors)}")
+    print(f"File errors: {len(file_errors)}")
+    print(f"Candles scanned: {total_candles}")
+    print(f"Candles with any geometry discrepancy: {violating}")
+    print(f"Candles beyond current tolerance: {beyond}")
+    print(f"Maximum geometry violation units: {maximum}")
+    print(f"Base-field Python/JS rounding mismatches: {rounding_mismatches}")
+    print_scan_histogram(total_histogram)
+
+    print("\nMaximum violation by symbol/side:")
+    for (symbol, side), value in sorted(group_max.items()):
+        print(f"  {symbol} {side}: {value}")
+
+    if all_examples:
+        ranked = sorted(
+            all_examples,
+            key=lambda item: (
+                -int(item["violation_units"]),
+                str(item["symbol"]),
+                str(item["side"]),
+                str(item["timestamp"]),
+            ),
+        )
+        print(f"\nTop {min(SCAN_TOP_EXAMPLES, len(ranked))} violating candles:")
+        for item in ranked[:SCAN_TOP_EXAMPLES]:
+            print(
+                "  "
+                f"{item['violation_units']} units | "
+                f"{item['symbol']} {item['side']} {item['timestamp']} | "
+                f"OHLC units={item['units']} | {item['path']}"
+            )
+
+    if file_errors:
+        print("\nFile errors:")
+        for error in file_errors[:SCAN_TOP_EXAMPLES]:
+            print(f"  {error}")
+
+    print("\nInformation boundary: NO_HYPOTHESIS_OUTCOME_COMPUTED")
+    print("Network access: DISABLED_BY_DESIGN")
+    print("ATS JETTA GEOMETRY SCAN: COMPLETE")
+    return 0 if not file_errors else 1
+
+
 def available_formats(symbol: str, month: datetime) -> list[tuple[str, dict[str, Path]]]:
     formats: list[tuple[str, dict[str, Path]]] = []
     jetta = {side: prep.jetta_raw_path(symbol, month, side) for side in ("BID", "ASK")}
@@ -307,7 +492,18 @@ def main() -> int:
     parser.add_argument("--symbol")
     parser.add_argument("--month")
     parser.add_argument("--timestamp")
+    parser.add_argument(
+        "--scan-jetta-geometry",
+        action="store_true",
+        help="Scan all cached pre-protected Jetta H1 candles for OHLC geometry discrepancies.",
+    )
     args = parser.parse_args()
+
+    if args.scan_jetta_geometry:
+        print("ATS CURRENT TASK DIAGNOSTIC")
+        print("Task: ATS2-RF-008 — HYP-0003 development data preparation")
+        print(f"Commit: {git_head()}")
+        return scan_cached_jetta_geometry()
 
     report_target = latest_report_target()
     report_symbol, report_month, report_timestamp = report_target or (
