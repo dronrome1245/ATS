@@ -711,7 +711,7 @@ def configure() -> None:
         "side-specific aggregates",
         "Component-wise `ASK >= BID`",
         "JETTA_JSON",
-        "one encoded price unit",
+        "`1` encoded price unit",
         "not clipped, reordered or spread-repaired",
         "BID and ASK are an atomic source pair",
         "Mixed `JETTA_JSON + BI5` BID/ASK pairs are prohibited",
