@@ -44,8 +44,23 @@ Do not commit raw `CURRENT_TASK_REPORT.txt` or `LATEST.json`. After a FAIL, the 
 
 OWNER workflow:
 
-1. double-click `ATS_TASK_CHECK.bat`;
-2. wait for PASS or FAIL;
+For an unmerged agent change:
+
+1. switch to the requested `agent/*` branch;
+2. double-click `ATS_AGENT_PREFLIGHT.bat`;
+3. send `AGENT_PREFLIGHT_REPORT.txt` to ChatGPT;
+4. do not run the full task launcher until the agent branch has passed and been merged.
+
+For an unresolved task-runtime/data failure:
+
+1. stay on the exact failing commit;
+2. double-click `ATS_TASK_DIAG.bat`;
+3. send `CURRENT_TASK_DIAG_REPORT.txt` to ChatGPT.
+
+For final task completion after merge:
+
+1. switch back to `main` and pull the merged commit;
+2. double-click `ATS_TASK_CHECK.bat`;
 3. send `CURRENT_TASK_REPORT.txt` to ChatGPT.
 
 Canonical policy: `governance/program/LOCAL_CI_GATE.md`.
