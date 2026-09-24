@@ -466,8 +466,10 @@ Do not apply this tolerance to legacy BI5. Do not clip low/high to open/close, r
 5. Legacy BI5 remains under strict internal OHLC geometry validation.
 6. Diagnose future compact-format anomalies with raw base values, cumulative deltas and both Python/JS rounding reconstructions before changing the tolerance.
 7. Regression-test both the diagnosed one-unit PASS case and a two-unit FAIL case.
+8. Apply source-format-specific geometry validation once at decode time; downstream DIRECT/INVERSE normalization must not silently reimpose a stricter generic OHLC geometry rule.
+9. Normalization may still reject non-finite/non-positive mapped prices or unknown orientation.
 
-**Scope:** RF-008 Jetta compact candle decoding.
+**Scope:** RF-008 Jetta compact candle decoding and normalization boundary.
 
 ### LCI-009 — Ruff import-order lint failure after remote Python authoring
 
