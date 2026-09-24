@@ -61,3 +61,4 @@ known_limitations:
   - "Commission, financing/rollover and live-fill slippage are not modeled; multi-month financing remains materially relevant before economic claims or Candidate promotion."
   - "The protected tail beginning 2021-09-01T00:00:00Z is not part of this dataset and no protected-tail source object was requested during RF-008."
   - "This is development data only; it is not validation, independent-examination or profitability evidence."
+  - "Information boundary: NO_HYPOTHESIS_OUTCOME_COMPUTED."
