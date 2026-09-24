@@ -102,6 +102,8 @@ This correction does not relax source coherence: BID and ASK must still use the 
 
 For `JETTA_JSON` only, compact integer-delta reconstruction may produce a one-unit OHLC geometry discrepancy because each OHLC component is quantized independently at the provider multiplier. RF-008 permits at most `1` encoded price unit of internal high/low boundary discrepancy. Reconstructed values are preserved exactly; they are not clipped, reordered or spread-repaired. A discrepancy greater than one encoded unit is blocking. Legacy `BI5` OHLC validation remains strict.
 
+Source-format-specific OHLC geometry is validated exactly once during source decoding. Quote normalization must not reapply a stricter generic OHLC geometry rule after a source candle has already passed its decoder policy; normalization is limited to DIRECT/INVERSE mapping plus finite/positive output checks.
+
 ## Time and quality contract
 
 - timezone: `UTC`;
