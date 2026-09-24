@@ -26,7 +26,7 @@ FAILURE_PATTERN = re.compile(
     r"(?P<source_format>[A-Z0-9_]+):"
 )
 JETTA_CANDLE_FAILURE_PATTERN = re.compile(
-    r"HYP-0003 DEVELOPMENT DATA PREP BLOCKED: invalid Jetta (?P<field>high|low) in "
+    r"HYP-0003 DEVELOPMENT DATA PREP BLOCKED: invalid Jetta (?P<field>high|low|OHLC geometry) in "
     r".*[\\/](?P<symbol>[A-Z]{6})[\\/]H1[\\/](?P<year>\d{4})[\\/](?P<month>\d{2})"
     r"[\\/](?P<side>BID|ASK)_candles_hour_1\.json: "
     r"(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\+00:00)"
