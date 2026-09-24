@@ -33,6 +33,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | `LCI-012` | `DATA_SOURCE_REQUEST_PROTOCOL` | 1 | OBSERVED | send the provider-required freeserv Referer and regression-test the constructed request |
 | `LCI-013` | `DATA_SOURCE_COHERENCE` | 1 | OBSERVED | require one source format for both BID and ASK of each symbol/month; mixed Jetta/BI5 pairs are blocked |
 | `LCI-014` | `DATA_OHLC_SIDE_SEMANTICS` | 1 | OBSERVED | validate BID/ASK H1 candles independently; do not impose component-wise spread ordering on separately aggregated OHLC extrema |
+| `LCI-015` | `DATA_JETTA_QUANTIZATION` | 1 | OBSERVED | permit at most one Jetta multiplier unit of internal OHLC geometry discrepancy without altering reconstructed values |
 
 ## 3. Occurrence log
 
@@ -70,6 +71,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-23 | `LCI-008` | `5691d6e3635db9b11f3ba8c7d4c69426d31556f1` | full pytest | Jetta-preference unit test inherited the owner's real legacy BI5 cache and therefore exercised the intentional cache-first branch instead of the no-cache Jetta path |
 | 2026-09-23 | `LCI-013` | `d2fd7d83b40aa60a65b1b9f9d59461523ecd27ec` | development data normalization | RF-008 reached USDCAD 2006-10 and failed executable BID/ASK ordering while side-level acquisition still allowed Jetta and legacy BI5 to be combined within one symbol/month |
 | 2026-09-24 | `LCI-014` | `4135fc4d7bbbc9522ff09e7447c887b1a0c5ae02` diagnostic of prior `9ce6f9b...` runtime failure | development data normalization | cache-only diagnostic proved AUDUSD 2007-04-09T11:00 JETTA_JSON had internally valid BID/ASK candles but ASK low 0.81613 below BID low 0.81627 while open/high/close spreads remained positive |
+| 2026-09-24 | `LCI-015` | `816d333e0d19447103fe782ab4e6ef2f39f55c8c` diagnostic of `f7691346...` runtime failure | Jetta decode | AUDUSD 2008-09-23T18:00 BID reconstructed identically under Python and JS rounding as open 83040, high 83820, low 83041, close 83785 units; only low/open geometry differed by one encoded unit |
 | 2026-09-22 | `LCI-002` | `7c8e82e7f29b0bc3e09de557f88dd1c14441474f` | format | Ruff compacted generator expressions in `valid_timestamp_window` and confirmatory eligible-count calculation |
 | 2026-09-23 | `LCI-002` | `8a8e331f949e8084c17beef23b636e25a5dbf84b` | format | RF-007 checker used multiline parenthesized hash literals that pinned Ruff canonicalized to one-line assignments |
 | 2026-09-23 | `LCI-002` | `9665c81bdd6f2a6eb98e69d4b518be6854224966` | format | RF-008 fast preflight requested pinned Ruff canonical layout in the new development-data runner, checker and synthetic tests before acquisition began |
