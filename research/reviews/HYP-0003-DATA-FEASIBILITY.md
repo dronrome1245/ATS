@@ -437,6 +437,8 @@ The protected tail remains unavailable to HYP-0003 development.
 
 ## 18. RF-009 development data freeze update
 
+Task: `ATS2-RF-009`  
+
 This update canonicalizes the exact RF-008 OWNER PASS result before any HYP-0003 development outcome is calculated. It supersedes the unresolved development-data facts in Sections 9, 13, 15 and 16 while preserving the historical `CONDITIONAL` review record and all cost/execution limitations.
 
 ### 18.1 Canonical RF-008 preparation result
