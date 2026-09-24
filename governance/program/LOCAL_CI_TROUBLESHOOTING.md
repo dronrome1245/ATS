@@ -427,6 +427,48 @@ Do not repair the source by clipping extrema, synthesizing spread, interpolating
 
 **Scope:** RF-008 historical-data normalization and any future side-specific OHLC ingestion.
 
+### LCI-015 — Jetta compact OHLC has one-unit internal quantization discrepancy
+
+**First observed:** 2026-09-24 on `f7691346be73b98ab83acef10cd7cf134fa83ce8` during RF-008 development-data preparation  
+**Diagnosed:** 2026-09-24 on `816d333e0d19447103fe782ab4e6ef2f39f55c8c` using cache-only `ATS_TASK_DIAG.bat`  
+**Class:** `DATA_JETTA_QUANTIZATION`
+
+**Symptom**
+
+RF-008 reaches September 2008 and stops on:
+
+`invalid Jetta low ... AUDUSD/H1/2008/09/BID_candles_hour_1.json: 2008-09-23 18:00:00+00:00`
+
+Forensic reconstruction gives the target BID candle as:
+
+`open=83040, high=83820, low=83041, close=83785`
+
+in encoded price units. The low is one unit above the open. Neighboring candles are internally valid, the ASK target is valid, and Python `round()` and JavaScript-compatible `Math.round()` reconstruction produce the same units.
+
+**Root cause**
+
+This is not a Python rounding defect. Dukascopy/Jetta compact candle fields are independently quantized integer-delta series. The provider representation can contain a one-multiplier-unit internal OHLC boundary discrepancy even when the decoded candle is otherwise coherent.
+
+The current `dukascopy-node` normalizer reconstructs these integer-delta fields and returns them without clipping or a separate strict OHLC-geometry rejection.
+
+**Correct response**
+
+Keep the source bytes and reconstructed OHLC unchanged. For `JETTA_JSON`, validate OHLC geometry in integer encoded units and permit at most one multiplier unit of boundary discrepancy. Reject any discrepancy greater than one unit.
+
+Do not apply this tolerance to legacy BI5. Do not clip low/high to open/close, reorder fields, synthesize spread or forward-fill.
+
+**Preventive rule**
+
+1. Apply compact-format tolerances in encoded integer units, not floating-point epsilon.
+2. Jetta internal OHLC tolerance is exactly one multiplier unit.
+3. Preserve decoded prices exactly even when the one-unit tolerance is exercised.
+4. A two-unit-or-larger geometry violation remains blocking.
+5. Legacy BI5 remains under strict internal OHLC geometry validation.
+6. Diagnose future compact-format anomalies with raw base values, cumulative deltas and both Python/JS rounding reconstructions before changing the tolerance.
+7. Regression-test both the diagnosed one-unit PASS case and a two-unit FAIL case.
+
+**Scope:** RF-008 Jetta compact candle decoding.
+
 ### LCI-009 — Ruff import-order lint failure after remote Python authoring
 
 **First observed:** 2026-09-22 on `213fb1116e7ca2fc866fc7281b57215d3908cb64` in `tools/hyp0002_proto01.py`  
