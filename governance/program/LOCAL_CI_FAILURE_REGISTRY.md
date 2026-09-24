@@ -20,7 +20,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | Cause | Class | Confirmed occurrences | State | Current control |
 |---|---|---:|---|---|
 | `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
-| `LCI-002` | `FORMAT` | 16 | REPEAT_AFTER_CONTROL_THRESHOLD | fast Local CI preflight before full task check; exact Ruff diff is authoritative; remote Python commits remain format-unverified until pinned Ruff runs |
+| `LCI-002` | `FORMAT` | 16 | REPEAT_AFTER_CONTROL_THRESHOLD | remote Python stages on `agent/*`; `ATS_AGENT_PREFLIGHT.bat` must PASS before merge to `main`; exact Ruff diff remains authoritative |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 4 | REPEAT_AFTER_CONTROL_THRESHOLD | extract and audit the complete current marker tuple for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
@@ -149,21 +149,25 @@ This confirms the control is active and does not replace the final full gate.
 
 ### FORMAT / LCI-002 — post-threshold rule
 
-The fast preflight is confirmed useful: on the fifth occurrence it stopped the workflow before full pytest. However, detection is not prevention.
+The fast task preflight is confirmed useful, but repeated failures showed that detection after a remote commit reached `main` was not prevention.
 
-Because the remote authoring environment does not have the project-pinned Ruff executable, any commit containing remotely authored Python must be treated as:
+Because the remote authoring environment does not have the project-pinned Ruff executable, remotely authored Python now stages on `agent/*`. The exact agent commit must pass `ATS_AGENT_PREFLIGHT.bat` before squash/merge to `main`.
+
+Before OWNER agent preflight, the branch remains:
 
 `FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`
 
-until the OWNER fast preflight runs.
+After exact-agent-commit preflight PASS, pinned Ruff status is verified for the content being merged.
 
 Rules:
 
 1. never describe remote Python formatting as verified without pinned Ruff output;
-2. if fast preflight returns a Ruff diff, apply that exact diff only and increment this registry;
-3. do not run or request the expensive full task check separately after a fast-preflight format failure; fix format first;
-4. repeated FORMAT events after this threshold remain the same `LCI-002` cause and must not receive new IDs;
-5. if a future environment gains the exact pinned Ruff version, running it before push becomes mandatory and replaces this limitation.
+2. remotely authored Python must remain on `agent/*` until OWNER `ATS_AGENT_PREFLIGHT.bat` PASS;
+3. if agent preflight returns a Ruff diff, apply that exact diff on the same agent branch and rerun preflight; do not merge the failing content to `main`;
+4. do not run the full task-specific acquisition merely to discover formatter/test errors already covered by agent preflight;
+5. repeated FORMAT events after this threshold remain the same `LCI-002` cause and must not receive new IDs;
+6. after agent preflight PASS, squash/merge the verified content to `main`, then run the final task launcher for task-specific runtime/completion evidence;
+7. if a future remote authoring environment gains the exact pinned Ruff version, running it before the OWNER preflight remains preferred but does not remove the branch-staging control.
 
 
 ## 8. Resolution evidence — LCI-002 occurrence 5
