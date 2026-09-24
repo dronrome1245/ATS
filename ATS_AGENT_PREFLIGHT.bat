@@ -23,6 +23,11 @@ if errorlevel 1 goto :git_missing
 where uv >nul 2>&1
 if errorlevel 1 goto :uv_missing
 
+>> "%REPORT%" echo == git pull --ff-only current agent branch ==
+git pull --ff-only >> "%REPORT%" 2>&1
+if errorlevel 1 goto :pull_failed
+>> "%REPORT%" echo.
+
 >> "%REPORT%" echo == git fetch origin main ==
 git fetch origin main >> "%REPORT%" 2>&1
 if errorlevel 1 goto :fetch_failed
@@ -52,22 +57,28 @@ goto :failed
 set "RC=12"
 goto :failed
 
+:pull_failed
+>> "%REPORT%" echo.
+>> "%REPORT%" echo ERROR: git pull --ff-only failed for current agent branch.
+set "RC=13"
+goto :failed
+
 :fetch_failed
 >> "%REPORT%" echo.
 >> "%REPORT%" echo ERROR: git fetch origin main failed.
-set "RC=13"
+set "RC=14"
 goto :failed
 
 :sync_failed
 >> "%REPORT%" echo.
 >> "%REPORT%" echo ERROR: uv sync --frozen failed.
-set "RC=14"
+set "RC=15"
 goto :failed
 
 :preflight_failed
 >> "%REPORT%" echo.
 >> "%REPORT%" echo ERROR: agent branch preflight failed.
-set "RC=15"
+set "RC=16"
 goto :failed
 
 :failed
