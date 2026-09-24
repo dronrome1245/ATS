@@ -57,10 +57,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 42. `ATS2-RF-005` — HYP-0003 Data Feasibility — `DONE`.
 43. `ATS2-RF-006` — HYP-0003 Data Feasibility preparation — `DONE`.
 44. `ATS2-RF-007` — HYP-0003 Data Feasibility freeze — `DONE`.
-45. `ATS2-RF-008` — HYP-0003 development data preparation — `READY`.
-46. `ATS2-RF-009` — HYP-0003 development data freeze — `BLOCKED` pending RF-008 exact-head PASS.
+45. `ATS2-RF-008` — HYP-0003 development data preparation — `DONE / PASS`.
+46. `ATS2-RF-009` — HYP-0003 development data freeze — `READY`.
 
-Program-level current next task — `ATS2-RF-008`.
+Program-level current next task — `ATS2-RF-009`.
 
 ## 3. M0 / M1
 
@@ -142,21 +142,21 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-005` | `WBS-RF.2` | P1 | DONE | RF-004 PASS | `research/reviews/HYP-0003-DATA-FEASIBILITY.md` | Recorded CONDITIONAL source feasibility, non-performance G10-ex-USD candidate universe, timing and protected-tail rules |
 | `ATS2-RF-006` | `WBS-RF.2` | P1 | DONE | RF-005 PASS | `research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md` + probe tool/tests + local feasibility report | Exact-head OWNER launcher PASS recorded 9/9 source-qualified currencies, common possible development start and probe hashes without computing momentum |
 | `ATS2-RF-007` | `WBS-RF.2` | P1 | DONE | RF-006 PASS | `reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json` + updated `research/reviews/HYP-0003-DATA-FEASIBILITY.md` | Exact-head OWNER launcher PASS froze the 9-currency source universe, common possible coverage and full development-data acquisition contract without revealing the protected tail |
-| `ATS2-RF-008` | `WBS-RF.2` | P1 | READY | RF-007 PASS | `research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md` + `tools/hyp0003_development_data.py` + tests + local preparation report | Acquire and normalize the full pre-protected H1 BID/ASK development dataset under the RF-007 contract, emit full hashes/quality/cutoff statistics and eligible monthly-point counts, and compute no HYP-0003 momentum cell |
-| `ATS2-RF-009` | `WBS-RF.2` | P1 | BLOCKED | RF-008 PASS | canonical RF-008 result + development Dataset Manifest/schema + updated Data Feasibility freeze | Canonically freeze or reject the prepared development dataset identity/quality result before any HYP-0003 development outcome is calculated |
+| `ATS2-RF-008` | `WBS-RF.2` | P1 | DONE / PASS | RF-007 PASS | `research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md` + `tools/hyp0003_development_data.py` + tests + local preparation report | Exact-head OWNER launcher PASS on `63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3` acquired `3906 / 3906` source objects, prepared `1,014,509` rows, emitted frozen source/data hashes and requested zero protected-tail source objects without computing a HYP-0003 momentum cell |
+| `ATS2-RF-009` | `WBS-RF.2` | P1 | READY | RF-008 PASS | canonical RF-008 result + development Dataset Manifest/schema + updated Data Feasibility freeze | Canonically freeze or reject the prepared development dataset identity/quality result before any HYP-0003 development outcome is calculated |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-008 — HYP-0003 development data preparation`.
+`ATS2-RF-009 — HYP-0003 development data freeze`.
 
 Canonical artifact:
 
-`research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md`
+`data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml`
 
-Current activity is **acquire/normalize the full pre-protected 9-currency H1 development dataset and measure data quality/coverage**, not Strategy #3 profitability.
+Current activity is **freeze the exact RF-008 prepared dataset identity, schema, hashes, coverage and quality result**, not Strategy #3 profitability.
 
-RF-008 may process only data before `2021-09-01T00:00:00Z` and may not calculate momentum, ranks, baskets or any of the 25 development cells.
+RF-009 must not reacquire/tune the development dataset, inspect the protected tail, or calculate momentum, ranks, baskets, holding returns or any of the 25 development cells.
 
-After exact-head PASS and report review, advance to `ATS2-RF-009 — HYP-0003 development data freeze`.
+A later development-execution work package is selected only after RF-009 exact-head PASS.

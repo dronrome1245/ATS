@@ -434,3 +434,88 @@ After exact-head OWNER launcher PASS for RF-007:
 `ATS2-RF-008 — HYP-0003 development data preparation`
 
 The protected tail remains unavailable to HYP-0003 development.
+
+## 18. RF-009 development data freeze update
+
+This update canonicalizes the exact RF-008 OWNER PASS result before any HYP-0003 development outcome is calculated. It supersedes the unresolved development-data facts in Sections 9, 13, 15 and 16 while preserving the historical `CONDITIONAL` review record and all cost/execution limitations.
+
+### 18.1 Canonical RF-008 preparation result
+
+Exact-head OWNER launcher PASS was obtained on:
+
+`63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3`
+
+Canonical result:
+
+`reports/research/HYP-0003-DEVELOPMENT-DATA-PREP-result.json`
+
+RF-008 recorded:
+
+- preparation decision: `READY_FOR_DEVELOPMENT_DATA_FREEZE`;
+- source months: `217`;
+- source objects: `3906 / 3906` acquired, `0` missing;
+- source bundle SHA-256: `9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a`;
+- prepared rows: `1,014,509`;
+- prepared CSV SHA-256: `8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2`;
+- common usable start: `2003-08-03T21:00:00Z`;
+- common usable end: `2021-08-31T23:00:00Z`;
+- monthly ranking points with at least six cutoff-eligible currencies: `207`;
+- points supporting the longest declared 12-month formation / 12-month holding geometry: `184`;
+- protected-tail source objects requested: `0`;
+- information boundary: `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+
+### 18.2 Frozen development dataset identity
+
+Dataset:
+
+`DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001@1.0.0`
+
+Canonical manifest:
+
+`data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml`
+
+Canonical row schema:
+
+`data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json`
+
+Prepared local bytes:
+
+`data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv`
+
+The Dataset Manifest freezes the RF-008 source snapshot, prepared-data digest, time semantics, deterministic ordering, quality policy and transformation lineage. A source snapshot, prepared-data hash, coverage, schema, timestamp semantic or preparation change is a material dataset change and may not silently replace this version.
+
+### 18.3 Quality result carried into the freeze
+
+| Currency | Source pair | Prepared rows | Missing expected market hours | Cutoff-eligible months | Cutoff-missing months |
+|---|---|---:|---:|---:|---:|
+| AUD | AUDUSD | 112054 | 1157 | 203 | 14 |
+| CAD | USDCAD | 112864 | 347 | 208 | 9 |
+| CHF | USDCHF | 112879 | 332 | 208 | 9 |
+| EUR | EURUSD | 112900 | 311 | 208 | 9 |
+| GBP | GBPUSD | 112872 | 339 | 207 | 10 |
+| JPY | USDJPY | 112872 | 339 | 208 | 9 |
+| NOK | USDNOK | 112848 | 363 | 208 | 9 |
+| NZD | NZDUSD | 112832 | 379 | 208 | 9 |
+| SEK | USDSEK | 112388 | 823 | 207 | 10 |
+
+These gaps/cutoff statistics are retained as data-quality facts. No currency was added or removed based on HYP-0003 returns or momentum behavior. Missing hours remain unfilled.
+
+### 18.4 RF-009 freeze decision
+
+Freeze decision:
+
+`FREEZE_DEVELOPMENT_DATASET`
+
+Reason:
+
+RF-008 completed the full frozen source denominator, produced a stable prepared-data digest, retained all nine source-qualified currencies, exposed explicit gap/cutoff statistics, provided `207` structurally eligible >=6-currency monthly anchors and `184` anchors for the longest declared 12/12 geometry, and made zero protected-tail source requests.
+
+The overall Data Feasibility review remains `CONDITIONAL` because commission, financing/rollover and live-fill slippage are not resolved. This freeze authorizes only the use of this exact dataset version for a later HYP-0003 development-stage structural screen after spread; it does not establish economic profitability, Candidate status, validation evidence or independent evidence.
+
+### 18.5 Information boundary
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
+RF-009 freezes metadata and bytes only. Formation returns, currency ranks, winner/loser baskets, holding returns, 25-cell means and the breadth rule remain uncomputed during this task.
+
+The protected tail beginning `2021-09-01T00:00:00Z` remains closed.
