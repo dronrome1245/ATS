@@ -57,6 +57,8 @@ Canonical policy: `governance/program/LOCAL_CI_GATE.md`.
 
 Current patterns include:
 
+- `reports/local_ci/AGENT_PREFLIGHT_REPORT.txt` — pre-merge agent-branch OWNER verification report;
+- `reports/local_ci/CURRENT_TASK_DIAG_REPORT.txt` — targeted task-runtime diagnostic report;
 - `reports/local_ci/SEARCH-*-result.json` — machine-readable bounded-discovery runtime results;
 - `reports/local_ci/SEARCH-*-report.txt` — bounded-discovery shareable summaries;
 - `reports/local_ci/HYP0002_DATA_FEASIBILITY.json` — local HYP-0002 threshold/data-preparation evidence;
