@@ -94,15 +94,17 @@ For inverse `USDCURRENCY` pairs:
 - normalized ASK high = `1 / source BID low`;
 - normalized ASK low = `1 / source BID high`.
 
-All normalized prices must be finite and positive, and each BID and ASK candle must be internally valid on its own side.
+All normalized prices must be finite and positive. Source-format validation is applied according to the provider encoding contract rather than by imposing one generic OHLC geometry rule across BI5 and Jetta.
 
 RF-008 diagnostic evidence showed that Dukascopy/Jetta H1 BID and ASK candles are side-specific aggregates. Component-wise `ASK >= BID` is therefore **not** a valid invariant for separately aggregated OHLC extrema: the BID high/low and ASK high/low can represent different intra-hour quote events. RF-008 must not reject, clip or synthesize spread merely because corresponding OHLC extrema cross after separate aggregation.
 
 This correction does not relax source coherence: BID and ASK must still use the same source format for a given `symbol/month`, have aligned H1 event timestamps, and pass independent OHLC validity checks. Any later execution calculation must consume the appropriate quote side explicitly rather than treating aggregated BID/ASK extrema as synchronous executable quotes.
 
-For `JETTA_JSON` only, compact integer-delta reconstruction may produce a one-unit OHLC geometry discrepancy because each OHLC component is quantized independently at the provider multiplier. RF-008 permits at most `1` encoded price unit of internal high/low boundary discrepancy. Reconstructed values are preserved exactly; they are not clipped, reordered or spread-repaired. A discrepancy greater than one encoded unit is blocking. Legacy `BI5` OHLC validation remains strict.
+For `JETTA_JSON`, compact integer-delta OHLC fields are reconstructed exactly and preserved as provided by the provider encoding. Cache-wide diagnostics over the currently acquired pre-protected cache found rare internal geometry discrepancies in encoded units, but the provider-native Jetta consumer reconstructs those fields without an OHLC-ordering rejection. Therefore Jetta high/low geometry discrepancy is diagnostic-only in RF-008 and is not a blocking condition by itself.
 
-Source-format-specific OHLC geometry is validated exactly once during source decoding. Quote normalization must not reapply a stricter generic OHLC geometry rule after a source candle has already passed its decoder policy; normalization is limited to DIRECT/INVERSE mapping plus finite/positive output checks.
+RF-008 still blocks malformed Jetta payloads, non-finite/non-positive prices, invalid time deltas, duplicate/out-of-order timestamps and timestamp/source-format incoherence. Reconstructed Jetta values must never be clipped, reordered, spread-repaired, interpolated or forward-filled. Legacy `BI5` OHLC geometry validation remains strict.
+
+Source-format-specific validation is performed during source decoding. Quote normalization is limited to DIRECT/INVERSE mapping plus finite/positive output checks and must not impose a stricter generic OHLC rule downstream.
 
 ## Time and quality contract
 
@@ -113,7 +115,7 @@ Source-format-specific OHLC geometry is validated exactly once during source dec
 - ordering: event time first, then frozen currency order;
 - no forward fill or interpolation.
 
-Duplicates, out-of-order BI5/JSON records, malformed compact JSON, impossible OHLC, mixed source formats within a BID/ASK month-pair, one-sided BID/ASK availability and BID/ASK timestamp mismatch are blocking. Missing expected market hours on both sides are reported rather than filled.
+Duplicates, out-of-order BI5/JSON records, malformed compact JSON, non-finite/non-positive prices, strict BI5 OHLC violations, mixed source formats within a BID/ASK month-pair, one-sided BID/ASK availability and BID/ASK timestamp mismatch are blocking. Jetta internal high/low geometry discrepancies are reported diagnostically rather than used as an invented ATS rejection threshold. Missing expected market hours on both sides are reported rather than filled.
 
 ## Monthly cutoff eligibility
 
