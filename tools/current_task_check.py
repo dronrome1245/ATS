@@ -107,10 +107,17 @@ def check_canonical_freeze() -> bool:
     for key, expected in checks.items():
         actual = result.get(key)
         if actual != expected:
-            print(f"[FAIL] canonical RF-008 result mismatch for {key}: {actual!r} != {expected!r}", flush=True)
+            print(
+                f"[FAIL] canonical RF-008 result mismatch for {key}: "
+                f"{actual!r} != {expected!r}",
+                flush=True,
+            )
             return False
 
-    if manifest.dataset_id != EXPECTED_DATASET_ID or manifest.dataset_version != EXPECTED_DATASET_VERSION:
+    if (
+        manifest.dataset_id != EXPECTED_DATASET_ID
+        or manifest.dataset_version != EXPECTED_DATASET_VERSION
+    ):
         print("[FAIL] Dataset Manifest identity mismatch", flush=True)
         return False
     if manifest.storage.location != PREPARED_PATH.as_posix():
