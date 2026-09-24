@@ -709,7 +709,7 @@ def configure() -> None:
         "jetta.dukascopy.com/v1",
         "no-forward-fill/no-interpolation",
         "side-specific aggregates",
-        "component-wise `ASK >= BID`",
+        "Component-wise `ASK >= BID`",
         "BID and ASK are an atomic source pair",
         "Mixed `JETTA_JSON + BI5` BID/ASK pairs are prohibited",
         "USDJPY = 1000",
