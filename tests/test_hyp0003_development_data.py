@@ -61,12 +61,19 @@ def test_decode_jetta_month_preserves_real_gaps_without_flat_fill(tmp_path) -> N
     )
 
 
-def test_jetta_ohlc_units_accepts_diagnosed_one_unit_quantization() -> None:
-    assert prep.jetta_ohlc_units_are_valid([83_040, 83_820, 83_041, 83_785])
+def test_decode_jetta_month_preserves_provider_geometry_discrepancy(tmp_path) -> None:
+    month = datetime(2008, 10, 1, tzinfo=UTC)
+    path = tmp_path / "ASK_candles_hour_1.json"
+    path.write_text(
+        """{"timestamp":1222819200000,"multiplier":0.00001,"open":0.6415,"high":0.6524,"low":0.64152,"close":0.6518,"shift":3600000,"times":[0],"opens":[0],"highs":[0],"lows":[0],"closes":[0],"volumes":[1.0]}""",
+        encoding="utf-8",
+    )
 
+    decoded = prep.decode_jetta_month(path, month)
 
-def test_jetta_ohlc_units_rejects_two_unit_geometry_violation() -> None:
-    assert not prep.jetta_ohlc_units_are_valid([83_040, 83_820, 83_042, 83_785])
+    assert decoded[datetime(2008, 10, 1, tzinfo=UTC)] == pytest.approx(
+        (0.6415, 0.6524, 0.64152, 0.6518)
+    )
 
 
 def test_download_source_prefers_jetta_provider_path(

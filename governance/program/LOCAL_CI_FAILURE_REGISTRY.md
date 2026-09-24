@@ -20,20 +20,20 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | Cause | Class | Confirmed occurrences | State | Current control |
 |---|---|---:|---|---|
 | `LCI-001` | `SYNC_NETWORK` | 1 | OBSERVED | classify before source changes |
-| `LCI-002` | `FORMAT` | 17 | REPEAT_AFTER_CONTROL_THRESHOLD | remote Python stages on `agent/*`; `ATS_AGENT_PREFLIGHT.bat` must PASS before merge to `main`; exact Ruff diff remains authoritative |
+| `LCI-002` | `FORMAT` | 18 | REPEAT_AFTER_CONTROL_THRESHOLD | remote Python stages on `agent/*`; `ATS_AGENT_PREFLIGHT.bat` must PASS before merge to `main`; exact Ruff diff remains authoritative |
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 4 | REPEAT_AFTER_CONTROL_THRESHOLD | extract and audit the complete current marker tuple for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
 | `LCI-006` | `HANDOFF_SYNC` | 1 | OBSERVED | exact canonical `last_completed_artifact`/`next_artifact`/`next_task_id` values must appear in handoff/next-step |
 | `LCI-007` | `DATA_SOURCE_NETWORK` | 7 | REPEAT_AFTER_CONTROL_THRESHOLD | cache + current Dukascopy Jetta H1 path + legacy BI5 fallback + metadata fallback + retry batches; normalize direct OSError/socket resets |
 | `LCI-008` | `TEST` | 2 | RECURRING | task-specific tests must isolate representation and filesystem/cache state; cache-aware network tests use temp paths |
-| `LCI-009` | `LINT` | 1 | OBSERVED | track Ruff lint and format separately; inspect import grouping for every new/rewritten Python import block |
+| `LCI-009` | `LINT` | 2 | RECURRING | pinned Ruff lint runs on exact `agent/*` content before merge; apply the reported lint fix without changing research/runtime logic |
 | `LCI-010` | `TEST_IMPORT` | 1 | OBSERVED | fast pytest collection plus same-context import smoke for new Python tools; avoid script-only sibling imports |
 | `LCI-011` | `DATA_SOURCE_DISCOVERY_PROTOCOL` | 1 | OBSERVED | use Dukascopy HistoryStart metadata for first H1 availability; content URLs only verify required boundary data |
 | `LCI-012` | `DATA_SOURCE_REQUEST_PROTOCOL` | 1 | OBSERVED | send the provider-required freeserv Referer and regression-test the constructed request |
 | `LCI-013` | `DATA_SOURCE_COHERENCE` | 1 | OBSERVED | require one source format for both BID and ASK of each symbol/month; mixed Jetta/BI5 pairs are blocked |
 | `LCI-014` | `DATA_OHLC_SIDE_SEMANTICS` | 1 | OBSERVED | validate BID/ASK H1 candles independently; do not impose component-wise spread ordering on separately aggregated OHLC extrema |
-| `LCI-015` | `DATA_JETTA_QUANTIZATION` | 1 | OBSERVED | permit at most one Jetta multiplier unit of internal OHLC geometry discrepancy without altering reconstructed values |
+| `LCI-015` | `DATA_JETTA_QUANTIZATION` | 2 | RECURRING | preserve provider-reconstructed Jetta OHLC without an ATS geometry rejection threshold; keep geometry scan diagnostic-only; BI5 remains strict |
 
 ## 3. Occurrence log
 
@@ -72,6 +72,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-23 | `LCI-013` | `d2fd7d83b40aa60a65b1b9f9d59461523ecd27ec` | development data normalization | RF-008 reached USDCAD 2006-10 and failed executable BID/ASK ordering while side-level acquisition still allowed Jetta and legacy BI5 to be combined within one symbol/month |
 | 2026-09-24 | `LCI-014` | `4135fc4d7bbbc9522ff09e7447c887b1a0c5ae02` diagnostic of prior `9ce6f9b...` runtime failure | development data normalization | cache-only diagnostic proved AUDUSD 2007-04-09T11:00 JETTA_JSON had internally valid BID/ASK candles but ASK low 0.81613 below BID low 0.81627 while open/high/close spreads remained positive |
 | 2026-09-24 | `LCI-015` | `816d333e0d19447103fe782ab4e6ef2f39f55c8c` diagnostic of `f7691346...` runtime failure | Jetta decode | AUDUSD 2008-09-23T18:00 BID reconstructed identically under Python and JS rounding as open 83040, high 83820, low 83041, close 83785 units; only low/open geometry differed by one encoded unit |
+| 2026-09-24 | `LCI-015` | `e6f232fc68d700a39fecd1a76d66dbbc3c228878` runtime plus cache-wide diagnostic on `558b9790ce54adeefaed16541bf9256ff8b086ca` | Jetta decode | second failure occurred at a two-unit AUDUSD ASK discrepancy; scan of 577910 cached pre-protected Jetta candles found 29 total discrepancies (27 one-unit, 2 two-unit), max 2, zero Python/JS base-rounding mismatches, showing that the prior one-unit threshold was an ATS-invented blocker rather than provider semantics |
 | 2026-09-22 | `LCI-002` | `7c8e82e7f29b0bc3e09de557f88dd1c14441474f` | format | Ruff compacted generator expressions in `valid_timestamp_window` and confirmatory eligible-count calculation |
 | 2026-09-23 | `LCI-002` | `8a8e331f949e8084c17beef23b636e25a5dbf84b` | format | RF-007 checker used multiline parenthesized hash literals that pinned Ruff canonicalized to one-line assignments |
 | 2026-09-23 | `LCI-002` | `9665c81bdd6f2a6eb98e69d4b518be6854224966` | format | RF-008 fast preflight requested pinned Ruff canonical layout in the new development-data runner, checker and synthetic tests before acquisition began |
@@ -79,6 +80,8 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-23 | `LCI-002` | `2aa98a679e469e680f2048cc71e390259d1c02a8` | format | Jetta fallback introduced one long base-candle validation condition that pinned Ruff expanded to its canonical multiline form before acquisition began |
 | 2026-09-23 | `LCI-002` | `5a9684de2f05927e403337ee6f6f3338a9044a50` | format | source-coherence fix left two multiline f-string fragments that pinned Ruff canonicalized before acquisition could resume |
 | 2026-09-24 | `LCI-002` | `e80002e9a34207de9c4754c1861a5a08b6130713` on `agent/owner-preflight-and-task-diag` | agent preflight format | first staging-workflow run caught two Ruff canonical-layout differences in `tools/current_task_diag.py` before merge; `main` remained unchanged |
+| 2026-09-24 | `LCI-002` | `4675d472efc016e92deeb886ab171d3cf8e79cfa` on `agent/rf008-jetta-geometry-diag` | agent preflight format | cache-wide diagnostic scanner used a multiline generator expression that pinned Ruff canonicalized before merge; `main` remained unchanged |
+| 2026-09-24 | `LCI-009` | `4675d472efc016e92deeb886ab171d3cf8e79cfa` on `agent/rf008-jetta-geometry-diag` | agent preflight lint | Ruff F541 rejected an f-string with no placeholders in the diagnostic scanner before merge; `main` remained unchanged |
 | 2026-09-22 | `LCI-009` | `213fb1116e7ca2fc866fc7281b57215d3908cb64` | lint | Ruff I001 rejected a blank line between `import yaml` and sibling-tool import `from proto01_eurusd ...`; format itself passed |
 | 2026-09-22 | `LCI-010` | `199e81861b6aab5c5844a76cadfb183f4fc693a8` | pytest collection | `tools.hyp0002_proto01` imported a sibling tool with script-only `from proto01_eurusd ...`, causing ModuleNotFoundError when pytest imported it as `tools.*` |
 
