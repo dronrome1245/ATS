@@ -427,49 +427,51 @@ Do not repair the source by clipping extrema, synthesizing spread, interpolating
 
 **Scope:** RF-008 historical-data normalization and any future side-specific OHLC ingestion.
 
-### LCI-015 — Jetta compact OHLC has one-unit internal quantization discrepancy
+### LCI-015 — ATS imposed a Jetta OHLC geometry threshold not required by provider semantics
 
 **First observed:** 2026-09-24 on `f7691346be73b98ab83acef10cd7cf134fa83ce8` during RF-008 development-data preparation  
-**Diagnosed:** 2026-09-24 on `816d333e0d19447103fe782ab4e6ef2f39f55c8c` using cache-only `ATS_TASK_DIAG.bat`  
+**Repeat observed:** 2026-09-24 on `e6f232fc68d700a39fecd1a76d66dbbc3c228878` at a two-unit AUDUSD ASK discrepancy  
+**Diagnosed:** cache-wide on `558b9790ce54adeefaed16541bf9256ff8b086ca` using `ATS_TASK_DIAG.bat --scan-jetta-geometry`  
 **Class:** `DATA_JETTA_QUANTIZATION`
 
 **Symptom**
 
-RF-008 reaches September 2008 and stops on:
+RF-008 first stopped on a one-unit Jetta geometry discrepancy, then stopped again after that tolerance was introduced on a two-unit AUDUSD ASK discrepancy.
 
-`invalid Jetta low ... AUDUSD/H1/2008/09/BID_candles_hour_1.json: 2008-09-23 18:00:00+00:00`
+Cache-wide diagnostics over the currently acquired pre-protected Jetta cache scanned `577910` candles in `1108` files with no file errors and found:
 
-Forensic reconstruction gives the target BID candle as:
-
-`open=83040, high=83820, low=83041, close=83785`
-
-in encoded price units. The low is one unit above the open. Neighboring candles are internally valid, the ASK target is valid, and Python `round()` and JavaScript-compatible `Math.round()` reconstruction produce the same units.
+- `577881` candles with zero discrepancy;
+- `27` with one encoded-unit discrepancy;
+- `2` with two encoded-unit discrepancy;
+- maximum discrepancy `2` units;
+- all observed discrepancies in AUDUSD;
+- zero Python/JavaScript base-rounding mismatches;
+- protected-tail files read: `0`.
 
 **Root cause**
 
-This is not a Python rounding defect. Dukascopy/Jetta compact candle fields are independently quantized integer-delta series. The provider representation can contain a one-multiplier-unit internal OHLC boundary discrepancy even when the decoded candle is otherwise coherent.
+This is not a Python rounding defect. The ATS decoder reconstructed the same integer-delta values as JavaScript-compatible rounding, but ATS added an extra OHLC-geometry rejection threshold that is not part of the provider-native Jetta consumer semantics.
 
-The current `dukascopy-node` normalizer reconstructs these integer-delta fields and returns them without clipping or a separate strict OHLC-geometry rejection.
+The first one-unit tolerance was therefore an underfit local policy rather than a provider contract. Raising it from one to two (or further) after each new candle would be data-driven threshold chasing inside RF-008.
 
 **Correct response**
 
-Keep the source bytes and reconstructed OHLC unchanged. For `JETTA_JSON`, validate OHLC geometry in integer encoded units and permit at most one multiplier unit of boundary discrepancy. Reject any discrepancy greater than one unit.
+Keep Jetta source bytes and reconstructed OHLC unchanged and follow the provider-native compact-candle semantics: validate structure, finite/positive prices, time deltas and ordering, but do not invent an ATS high/low geometry rejection threshold for `JETTA_JSON`.
 
-Do not apply this tolerance to legacy BI5. Do not clip low/high to open/close, reorder fields, synthesize spread or forward-fill.
+Keep cache-wide geometry scanning as a diagnostic for RF-008/RF-009 review. Do not clip low/high to open/close, reorder fields, synthesize spread or forward-fill. Legacy BI5 remains under strict OHLC geometry validation.
 
 **Preventive rule**
 
-1. Apply compact-format tolerances in encoded integer units, not floating-point epsilon.
-2. Jetta internal OHLC tolerance is exactly one multiplier unit.
-3. Preserve decoded prices exactly even when the one-unit tolerance is exercised.
-4. A two-unit-or-larger geometry violation remains blocking.
-5. Legacy BI5 remains under strict internal OHLC geometry validation.
-6. Diagnose future compact-format anomalies with raw base values, cumulative deltas and both Python/JS rounding reconstructions before changing the tolerance.
-7. Regression-test both the diagnosed one-unit PASS case and a two-unit FAIL case.
-8. Apply source-format-specific geometry validation once at decode time; downstream DIRECT/INVERSE normalization must not silently reimpose a stricter generic OHLC geometry rule.
-9. Normalization may still reject non-finite/non-positive mapped prices or unknown orientation.
+1. Do not invent source-format rejection thresholds from observed anomalies when the provider-native decoder does not define that threshold.
+2. Preserve Jetta decoded prices exactly; geometry discrepancy is diagnostic-only.
+3. Keep malformed payload, non-finite/non-positive value, invalid time-delta, duplicate/out-of-order timestamp and source-coherence checks blocking.
+4. Legacy BI5 remains under strict internal OHLC geometry validation.
+5. Diagnose compact-format anomalies with raw base values, cumulative deltas and cache-wide distributions before changing source semantics.
+6. Keep the geometry scan protected-tail-safe and outcome-free.
+7. Downstream DIRECT/INVERSE normalization must not silently impose a stricter generic OHLC geometry rule.
+8. Normalization may still reject non-finite/non-positive mapped prices or unknown orientation.
 
-**Scope:** RF-008 Jetta compact candle decoding and normalization boundary.
+**Scope:** RF-008 Jetta compact candle decoding, diagnostics and normalization boundary.
 
 ### LCI-009 — Ruff lint failure after remote Python authoring
 
