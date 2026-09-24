@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
@@ -16,6 +17,14 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SYMBOL = "AUDUSD"
 DEFAULT_MONTH = "2007-04"
 DEFAULT_TIMESTAMP = "2007-04-09T11:00:00Z"
+TASK_REPORT_PATH = ROOT / "reports" / "local_ci" / "CURRENT_TASK_REPORT.txt"
+FAILURE_PATTERN = re.compile(
+    r"HYP-0003 DEVELOPMENT DATA PREP BLOCKED: "
+    r"(?P<symbol>[A-Z]{6}) "
+    r"(?P<month>\d{4}-\d{2}) "
+    r"(?P<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z) "
+    r"(?P<source_format>[A-Z0-9_]+):"
+)
 NEIGHBOR_COUNT = 2
 
 
@@ -39,6 +48,24 @@ def git_head() -> str:
         text=True,
     )
     return completed.stdout.strip()
+
+
+def latest_report_target() -> tuple[str, str, str] | None:
+    if not TASK_REPORT_PATH.is_file():
+        return None
+    try:
+        lines = TASK_REPORT_PATH.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return None
+    for line in reversed(lines):
+        match = FAILURE_PATTERN.search(line)
+        if match is not None:
+            return (
+                match.group("symbol"),
+                match.group("month"),
+                match.group("timestamp"),
+            )
+    return None
 
 
 def orientation_for_symbol(symbol: str) -> str:
@@ -178,15 +205,24 @@ def diagnose_format(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="RF-008 cached-candle diagnostic")
-    parser.add_argument("--symbol", default=DEFAULT_SYMBOL)
-    parser.add_argument("--month", default=DEFAULT_MONTH)
-    parser.add_argument("--timestamp", default=DEFAULT_TIMESTAMP)
+    parser.add_argument("--symbol")
+    parser.add_argument("--month")
+    parser.add_argument("--timestamp")
     args = parser.parse_args()
 
-    symbol = args.symbol.upper()
+    report_target = latest_report_target()
+    report_symbol, report_month, report_timestamp = report_target or (
+        DEFAULT_SYMBOL,
+        DEFAULT_MONTH,
+        DEFAULT_TIMESTAMP,
+    )
+    symbol = (args.symbol or report_symbol).upper()
+    month_text = args.month or report_month
+    timestamp_text = args.timestamp or report_timestamp
+
     try:
-        month = parse_month(args.month)
-        target = parse_timestamp(args.timestamp)
+        month = parse_month(month_text)
+        target = parse_timestamp(timestamp_text)
     except ValueError as exc:
         print(f"[FAIL] invalid diagnostic arguments: {exc}")
         return 2
@@ -197,6 +233,10 @@ def main() -> int:
     print(f"Symbol: {symbol}")
     print(f"Month: {month:%Y-%m}")
     print(f"Timestamp: {prep.iso_z(target)}")
+    print(
+        "Target source: "
+        + ("CURRENT_TASK_REPORT.txt" if report_target is not None else "frozen default")
+    )
     print("Network access: DISABLED_BY_DESIGN")
     print("Information boundary: NO_HYPOTHESIS_OUTCOME_COMPUTED")
 
