@@ -61,6 +61,14 @@ def test_decode_jetta_month_preserves_real_gaps_without_flat_fill(tmp_path) -> N
     )
 
 
+def test_jetta_ohlc_units_accepts_diagnosed_one_unit_quantization() -> None:
+    assert prep.jetta_ohlc_units_are_valid([83_040, 83_820, 83_041, 83_785])
+
+
+def test_jetta_ohlc_units_rejects_two_unit_geometry_violation() -> None:
+    assert not prep.jetta_ohlc_units_are_valid([83_040, 83_820, 83_042, 83_785])
+
+
 def test_download_source_prefers_jetta_provider_path(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path,
@@ -267,6 +275,27 @@ def test_normalize_pair_ohlc_accepts_independently_aggregated_extrema() -> None:
     assert normalized_bid == bid
     assert normalized_ask == ask
     assert normalized_ask[2] < normalized_bid[2]
+
+
+def test_normalize_pair_ohlc_preserves_prevalidated_one_unit_jetta_geometry() -> None:
+    source_bid = (0.8304, 0.8382, 0.83041, 0.83785)
+    source_ask = (0.8306, 0.8383, 0.83059, 0.83815)
+
+    direct_bid, direct_ask = prep.normalize_pair_ohlc(
+        source_bid,
+        source_ask,
+        "DIRECT",
+    )
+    assert direct_bid == source_bid
+    assert direct_ask == source_ask
+
+    inverse_bid, inverse_ask = prep.normalize_pair_ohlc(
+        source_bid,
+        source_ask,
+        "INVERSE",
+    )
+    assert inverse_bid == pytest.approx(prep.invert_ohlc(source_ask))
+    assert inverse_ask == pytest.approx(prep.invert_ohlc(source_bid))
 
 
 def test_source_bundle_hash_is_order_independent() -> None:

@@ -25,6 +25,12 @@ FAILURE_PATTERN = re.compile(
     r"(?P<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z) "
     r"(?P<source_format>[A-Z0-9_]+):"
 )
+JETTA_CANDLE_FAILURE_PATTERN = re.compile(
+    r"HYP-0003 DEVELOPMENT DATA PREP BLOCKED: invalid Jetta (?P<field>high|low) in "
+    r".*[\\/](?P<symbol>[A-Z]{6})[\\/]H1[\\/](?P<year>\d{4})[\\/](?P<month>\d{2})"
+    r"[\\/](?P<side>BID|ASK)_candles_hour_1\.json: "
+    r"(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\+00:00)"
+)
 NEIGHBOR_COUNT = 2
 
 
@@ -65,6 +71,13 @@ def latest_report_target() -> tuple[str, str, str] | None:
                 match.group("month"),
                 match.group("timestamp"),
             )
+        jetta_match = JETTA_CANDLE_FAILURE_PATTERN.search(line)
+        if jetta_match is not None:
+            return (
+                jetta_match.group("symbol"),
+                f"{jetta_match.group('year')}-{jetta_match.group('month')}",
+                jetta_match.group("timestamp"),
+            )
     return None
 
 
@@ -98,9 +111,86 @@ def print_jetta_metadata(path: Path, side: str) -> None:
                 scaled = float(value) / float(multiplier)
                 print(
                     f"{side} Jetta base {field} units: "
+                    f"scaled={scaled:.17g}; "
                     f"python_round={round(scaled)}; "
                     f"js_math_round={js_math_round_positive(scaled)}"
                 )
+
+
+def ohlc_is_internally_valid(values: prep.Ohlc) -> bool:
+    open_price, high_price, low_price, close_price = values
+    return (
+        all(math.isfinite(value) and value > 0 for value in values)
+        and high_price >= max(open_price, close_price)
+        and high_price >= low_price
+        and low_price <= min(open_price, close_price)
+    )
+
+
+def forensic_jetta_rows(
+    path: Path,
+    month: datetime,
+    use_js_round: bool,
+) -> list[tuple[datetime, prep.Ohlc, tuple[int, int, int, int], bool]]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    multiplier = float(payload["multiplier"])
+    shift = int(payload["shift"])
+    timestamp_ms = int(payload["timestamp"])
+    base_values = [float(payload[name]) for name in ("open", "high", "low", "close")]
+    deltas = [payload[name] for name in ("opens", "highs", "lows", "closes")]
+    rounder = js_math_round_positive if use_js_round else round
+    units = [rounder(value / multiplier) for value in base_values]
+    scale = prep.multiplier_scale(multiplier)
+    end = prep.next_month(month)
+    rows: list[tuple[datetime, prep.Ohlc, tuple[int, int, int, int], bool]] = []
+
+    for index, time_delta in enumerate(payload["times"]):
+        timestamp_ms += int(time_delta) * shift
+        step_deltas = tuple(int(column[index]) for column in deltas)
+        for field_index, delta in enumerate(step_deltas):
+            units[field_index] += delta
+        timestamp = datetime.fromtimestamp(timestamp_ms / 1000.0, tz=UTC)
+        if not month <= timestamp < end:
+            continue
+        values = tuple(round(value * multiplier, scale) for value in units)
+        rows.append(
+            (
+                timestamp,
+                values,
+                step_deltas,
+                ohlc_is_internally_valid(values),
+            )
+        )
+    return rows
+
+
+def print_forensic_jetta_target(
+    path: Path,
+    month: datetime,
+    side: str,
+    target: datetime,
+) -> None:
+    print(f"\n{side} Jetta forensic reconstruction:")
+    modes = (
+        ("python_round", False),
+        ("js_math_round", True),
+    )
+    for label, use_js_round in modes:
+        rows = forensic_jetta_rows(path, month, use_js_round)
+        timestamps = [row[0] for row in rows]
+        if target not in timestamps:
+            print(f"  {label}: target timestamp not present")
+            continue
+        index = timestamps.index(target)
+        start = max(0, index - NEIGHBOR_COUNT)
+        end = min(len(rows), index + NEIGHBOR_COUNT + 1)
+        print(f"  mode={label}")
+        for timestamp, values, step_deltas, valid in rows[start:end]:
+            marker = " <TARGET>" if timestamp == target else ""
+            print(f"    {prep.iso_z(timestamp)}{marker}")
+            print(f"      OHLC: {values}")
+            print(f"      encoded deltas: {step_deltas}")
+            print(f"      internally_valid: {valid}")
 
 
 def available_formats(symbol: str, month: datetime) -> list[tuple[str, dict[str, Path]]]:
@@ -162,18 +252,33 @@ def diagnose_format(
         if source_format == prep.SOURCE_FORMAT_JETTA_JSON:
             print_jetta_metadata(path, side)
 
-    bid_rows = prep.decode_source_object(
-        paths["BID"],
-        month,
-        symbol,
-        source_format,
-    )
-    ask_rows = prep.decode_source_object(
-        paths["ASK"],
-        month,
-        symbol,
-        source_format,
-    )
+    try:
+        bid_rows = prep.decode_source_object(
+            paths["BID"],
+            month,
+            symbol,
+            source_format,
+        )
+    except prep.DevelopmentDataPrepError as exc:
+        print(f"Strict BID decode: BLOCKED — {exc}")
+        if source_format == prep.SOURCE_FORMAT_JETTA_JSON:
+            print_forensic_jetta_target(paths["BID"], month, "BID", target)
+            print_forensic_jetta_target(paths["ASK"], month, "ASK", target)
+        return True
+
+    try:
+        ask_rows = prep.decode_source_object(
+            paths["ASK"],
+            month,
+            symbol,
+            source_format,
+        )
+    except prep.DevelopmentDataPrepError as exc:
+        print(f"Strict ASK decode: BLOCKED — {exc}")
+        if source_format == prep.SOURCE_FORMAT_JETTA_JSON:
+            print_forensic_jetta_target(paths["BID"], month, "BID", target)
+            print_forensic_jetta_target(paths["ASK"], month, "ASK", target)
+        return True
 
     print(f"BID decoded rows: {len(bid_rows)}")
     print(f"ASK decoded rows: {len(ask_rows)}")
