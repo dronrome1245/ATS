@@ -131,13 +131,17 @@ For agent-created or programmatic Python edits that bypass the repository hooks:
 5. if Local CI supplies an exact formatter diff, apply that canonical layout rather than hand-inventing another equivalent layout;
 6. manual line-length checks, syntax compilation and visual style inspection are **not** Ruff-format preflight and must never be described as such;
 7. before asking OWNER to run the launcher after remote Python edits, state formatting as either `VERIFIED_BY_PINNED_RUFF` or `NOT_YET_VERIFIED_BY_RUFF`; there is no intermediate "looks formatted" state;
-8. when pinned Ruff is unavailable, still normalize previously observed canonical shapes before push: single-value parenthesized assignments and simple comprehensions should use Ruff's compact form when they fit the configured line width. This reduces recurrence but does not count as Ruff verification.
+8. when pinned Ruff is unavailable in the remote authoring environment, still normalize previously observed canonical shapes before branch push; this reduces recurrence but does not count as Ruff verification;
+9. do not merge remotely authored Python from `agent/*` to `main` until `ATS_AGENT_PREFLIGHT.bat` reports PASS for that exact agent commit;
+10. if the first failure after merge is task-runtime/data and its root cause is not demonstrated, use `ATS_TASK_DIAG.bat` before another production patch.
 
 **Escalation**
 
-This failure class is now recurring at the technical-control threshold. Documentation alone is insufficient. `ATS_TASK_CHECK.bat` must run the fast Local CI gate before the full task check so format/lint/validator failures stop the workflow before the expensive full pytest stage.
+This failure class exceeded the technical-control threshold repeatedly. The task-launcher fast gate reduced wasted full-task runs but still allowed unverified remote Python to reach `main`.
 
-The fast preflight is now proven as an early-stop control, but it cannot verify format before push because the remote authoring environment does not have the pinned Ruff executable. Therefore remote Python commits remain explicitly format-unverified until OWNER fast preflight supplies pinned Ruff output.
+The preventive control is therefore moved earlier in the lifecycle: remotely authored material/Python changes stage on `agent/*`, and `ATS_AGENT_PREFLIGHT.bat` runs the full normal Local CI gate on the exact agent commit before merge. A failing agent preflight is fixed on the branch and is not merged to `main`.
+
+After exact-agent-commit PASS, the verified content may be squash-merged. `ATS_TASK_CHECK.bat` remains the final task-runtime/completion gate on exact `main`.
 
 **Scope:** agents and any tooling that writes directly to the remote repository.
 

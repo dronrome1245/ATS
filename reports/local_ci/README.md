@@ -1,20 +1,34 @@
 # Local CI reports
 
-Normal Windows owner workflow uses one stable launcher:
+Normal Windows task-completion workflow uses:
 
 `ATS_TASK_CHECK.bat`
 
-The BAT itself is task-agnostic. It automatically performs:
+Agent-authored changes now use a separate staging workflow before they are merged to `main`:
+
+`ATS_AGENT_PREFLIGHT.bat`
+
+Runtime data failures that need evidence before a code change use:
+
+`ATS_TASK_DIAG.bat`
+
+The completion BAT remains task-agnostic. It automatically performs:
 
 1. `git pull --ff-only`;
 2. `uv sync --frozen`;
 3. `tools/current_task_check.py`.
 
-`tools/current_task_check.py` is the task-specific verification package and is updated by the agent when the current work package changes.
+`ATS_AGENT_PREFLIGHT.bat` runs only on an `agent/*` branch. It refreshes `origin/main`, synchronizes the frozen environment, then runs the full normal Local CI gate on the exact agent commit. It does not run task-specific acquisition. The agent may merge the branch to `main` only after this preflight returns PASS.
 
-The shareable report for the current task is always:
+`ATS_TASK_DIAG.bat` runs `tools/current_task_diag.py`. For RF-008 it reads only already cached source objects and does not request market data from the network. Its default diagnostic target is the latest confirmed failing candle, and optional command-line arguments can select another target.
 
-`reports/local_ci/CURRENT_TASK_REPORT.txt`
+`tools/current_task_check.py` and `tools/current_task_diag.py` are task-specific surfaces and are updated by the agent when the active work package changes.
+
+Shareable reports are:
+
+- `reports/local_ci/CURRENT_TASK_REPORT.txt` — final task launcher;
+- `reports/local_ci/AGENT_PREFLIGHT_REPORT.txt` — agent-branch pre-merge verification;
+- `reports/local_ci/CURRENT_TASK_DIAG_REPORT.txt` — targeted runtime diagnostic.
 
 The Python Local CI runner additionally writes:
 
@@ -30,8 +44,23 @@ Do not commit raw `CURRENT_TASK_REPORT.txt` or `LATEST.json`. After a FAIL, the 
 
 OWNER workflow:
 
-1. double-click `ATS_TASK_CHECK.bat`;
-2. wait for PASS or FAIL;
+For an unmerged agent change:
+
+1. switch to the requested `agent/*` branch;
+2. double-click `ATS_AGENT_PREFLIGHT.bat`;
+3. send `AGENT_PREFLIGHT_REPORT.txt` to ChatGPT;
+4. do not run the full task launcher until the agent branch has passed and been merged.
+
+For an unresolved task-runtime/data failure:
+
+1. stay on the exact failing commit;
+2. double-click `ATS_TASK_DIAG.bat`;
+3. send `CURRENT_TASK_DIAG_REPORT.txt` to ChatGPT.
+
+For final task completion after merge:
+
+1. switch back to `main` and pull the merged commit;
+2. double-click `ATS_TASK_CHECK.bat`;
 3. send `CURRENT_TASK_REPORT.txt` to ChatGPT.
 
 Canonical policy: `governance/program/LOCAL_CI_GATE.md`.
@@ -43,6 +72,8 @@ Canonical policy: `governance/program/LOCAL_CI_GATE.md`.
 
 Current patterns include:
 
+- `reports/local_ci/AGENT_PREFLIGHT_REPORT.txt` — pre-merge agent-branch OWNER verification report;
+- `reports/local_ci/CURRENT_TASK_DIAG_REPORT.txt` — targeted task-runtime diagnostic report;
 - `reports/local_ci/SEARCH-*-result.json` — machine-readable bounded-discovery runtime results;
 - `reports/local_ci/SEARCH-*-report.txt` — bounded-discovery shareable summaries;
 - `reports/local_ci/HYP0002_DATA_FEASIBILITY.json` — local HYP-0002 threshold/data-preparation evidence;

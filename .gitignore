@@ -16,6 +16,8 @@ artifacts/runtime/
 reports/local_ci/LATEST.json
 reports/local_ci/LATEST_REPORT.txt
 reports/local_ci/CURRENT_TASK_REPORT.txt
+reports/local_ci/AGENT_PREFLIGHT_REPORT.txt
+reports/local_ci/CURRENT_TASK_DIAG_REPORT.txt
 reports/local_ci/PROTO01_DATA_REPORT.txt
 reports/local_ci/PROTO01_RESULT_REPORT.txt
 reports/local_ci/PROTO01_RESULT.json

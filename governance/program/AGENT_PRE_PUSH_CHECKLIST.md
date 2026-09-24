@@ -9,6 +9,8 @@ Before any material remote repository write, the agent must evaluate this checkl
 
 A task is not complete because a remote commit exists. Completion still requires `ATS_TASK_CHECK.bat = PASS` on the exact HEAD being closed.
 
+Material remote changes are staged on `agent/*` first. When Python is remotely authored without prior pinned-Ruff execution, direct merge/write to `main` is prohibited until `ATS_AGENT_PREFLIGHT.bat = PASS` on the exact agent commit.
+
 ## 2. Context and task identity
 
 Before editing:
@@ -47,7 +49,9 @@ Rules:
 7. formatter-compatible content may still fail Ruff lint; for every new or materially rewritten import block, audit grouping/order separately when `I` rules are selected;
 8. under the current Ruff configuration, sibling modules under `tools/` are not assumed first-party merely because they are in the repository; follow pinned Ruff's classification and exact diff;
 9. for every new Python tool that is imported by tests or another module, perform an actual import smoke in that same namespace/context; syntax compilation alone is insufficient;
-10. prohibit script-directory-only sibling imports in modules that must also import as `tools.<module>`; use self-contained helpers or a proper package-level dependency.
+10. prohibit script-directory-only sibling imports in modules that must also import as `tools.<module>`; use self-contained helpers or a proper package-level dependency;
+11. if pinned Ruff has not run in the remote authoring environment, write the Python only to an `agent/*` staging branch; do not place the unverified Python directly on `main`;
+12. request OWNER `ATS_AGENT_PREFLIGHT.bat` on that exact branch commit before any squash/merge to `main`.
 
 ## 5. Validator marker audit
 
@@ -81,11 +85,26 @@ Before moving the remote branch:
 4. if an environment with project-pinned tools is available, run the fast gate on the exact proposed content before push; the fast gate includes pytest collection/import verification;
 5. if pinned Ruff is unavailable, preserve both `RUFF_LINT_UNVERIFIED_UNTIL_PINNED_RUFF` and `RUFF_FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF`; do not claim Ruff preflight PASS;
 6. if the current task runner writes files under `reports/local_ci/` before the full gate, verify that every intended disposable output is covered by a narrow `.gitignore` pattern; do not ignore the whole runtime directory;
-7. if a current task acquires external source files, require resumable file-level caching and bounded retry/backoff for transient source failures; normalize direct socket/`OSError` failures into the retryable source-network class; source-discovery metadata must use provider-native fallback endpoints/metadata when available; do not change a frozen provider/period merely to escape a temporary outage.
+7. if a current task acquires external source files, require resumable file-level caching and bounded retry/backoff for transient source failures; normalize direct socket/`OSError` failures into the retryable source-network class; source-discovery metadata must use provider-native fallback endpoints/metadata when available; do not change a frozen provider/period merely to escape a temporary outage;
+8. for an unproven task-runtime/data failure, prefer `ATS_TASK_DIAG.bat` and diagnostic evidence before another production-code patch;
+9. an `agent/*` branch containing material remote changes may move to `main` only after the OWNER preflight report names that exact agent commit and returns PASS.
 
 ## 8. Required pre-launch declaration
 
-Before asking OWNER to run `ATS_TASK_CHECK.bat`, state:
+Before asking OWNER to verify an unmerged agent branch, state:
+
+- exact agent commit SHA;
+- branch name;
+- current task ID;
+- whether Python changed;
+- Ruff lint/format status before OWNER verification;
+- canonical state reconciliation;
+- validator marker audit;
+- merge status: `BLOCKED_PENDING_OWNER_AGENT_PREFLIGHT`.
+
+Ask OWNER to run `ATS_AGENT_PREFLIGHT.bat`, not `ATS_TASK_CHECK.bat`.
+
+Only after exact-agent-commit preflight PASS may the agent squash/merge to `main`. Before asking OWNER to run the final `ATS_TASK_CHECK.bat`, state:
 
 - exact commit SHA;
 - current task ID;
@@ -98,14 +117,16 @@ Before asking OWNER to run `ATS_TASK_CHECK.bat`, state:
 
 ## 9. Failure handling
 
-When the launcher returns FAIL:
+When a launcher returns FAIL:
 
 1. identify the **First failing stage**;
 2. classify it under the existing `LCI-###` cause where applicable;
-3. fix only the narrowest confirmed cause;
-4. update durable failure knowledge when the recurrence changes the preventive rule or count;
-5. rerun the launcher on the new exact HEAD;
-6. do not declare completion without `ATS TASK LAUNCHER: PASS`.
+3. if the first failure is task runtime/data and root cause is not proven, run the targeted diagnostic before changing production logic;
+4. fix only the narrowest confirmed cause;
+5. put the fix on `agent/*`, not directly on `main`;
+6. rerun OWNER agent preflight on the new exact branch HEAD;
+7. merge only after preflight PASS, then rerun the final task launcher on the new exact `main` HEAD;
+8. do not declare completion without `ATS TASK LAUNCHER: PASS`.
 
 ## 10. Completion boundary
 

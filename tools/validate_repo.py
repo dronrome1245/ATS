@@ -131,8 +131,12 @@ PLATFORM_TEST_FILES = (
 )
 LOCAL_CI_FILES = (
     "ATS_TASK_CHECK.bat",
+    "ATS_AGENT_PREFLIGHT.bat",
+    "ATS_TASK_DIAG.bat",
     "tools/verify_repo.py",
     "tools/current_task_check.py",
+    "tools/agent_preflight.py",
+    "tools/current_task_diag.py",
     "tools/run_and_tee.py",
     ".githooks/pre-commit",
     ".githooks/pre-push",
@@ -1208,6 +1212,11 @@ def configure() -> None:
     core.CONTENT_MARKERS[LOCAL_CI_GATE] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
+        "ATS_AGENT_PREFLIGHT.bat",
+        "AGENT_PREFLIGHT_REPORT.txt",
+        "ATS_TASK_DIAG.bat",
+        "CURRENT_TASK_DIAG_REPORT.txt",
+        "agent/*",
         "uv run --frozen python tools/verify_repo.py",
         "ATS LOCAL CI: PASS",
         "LOCAL_CI_TROUBLESHOOTING.md",
@@ -1230,6 +1239,10 @@ def configure() -> None:
         "First failing stage",
         "socket/`OSError`",
         "provider-native fallback",
+        "agent/*",
+        "ATS_AGENT_PREFLIGHT.bat",
+        "BLOCKED_PENDING_OWNER_AGENT_PREFLIGHT",
+        "ATS_TASK_DIAG.bat",
         "PENDING_OWNER_LAUNCHER",
         "do not declare completion without `ATS TASK LAUNCHER: PASS`",
     )
@@ -1237,6 +1250,9 @@ def configure() -> None:
         "AGENT_PRE_PUSH_CHECKLIST.md",
         "FORMAT_UNVERIFIED_UNTIL_PINNED_RUFF",
         "PENDING_OWNER_LAUNCHER",
+        "agent/*",
+        "ATS_AGENT_PREFLIGHT.bat",
+        "ATS_TASK_DIAG.bat",
     )
     core.CONTENT_MARKERS[LOCAL_CI_TROUBLESHOOTING] = (
         "LCI-001",
@@ -1279,6 +1295,8 @@ def configure() -> None:
         "LCI-013",
         "DATA_SOURCE_COHERENCE",
         "Mixed source format inside one BID/ASK month-pair",
+        "ATS_AGENT_PREFLIGHT.bat",
+        "ATS_TASK_DIAG.bat",
     )
     core.CONTENT_MARKERS[LOCAL_CI_FAILURE_REGISTRY] = (
         "Escalation policy",
@@ -1307,6 +1325,8 @@ def configure() -> None:
         "LCI-013",
         "DATA_SOURCE_COHERENCE",
         "d2fd7d83b40aa60a65b1b9f9d59461523ecd27ec",
+        "ATS_AGENT_PREFLIGHT.bat",
+        "agent/*",
     )
     core.CONTENT_MARKERS["ATS_TASK_CHECK.bat"] = (
         "git pull --ff-only",
@@ -1321,6 +1341,41 @@ def configure() -> None:
         "exit code %RC%",
         "ATS TASK LAUNCHER: PASS",
         "ATS TASK LAUNCHER: FAIL",
+    )
+    core.CONTENT_MARKERS["ATS_AGENT_PREFLIGHT.bat"] = (
+        "git fetch origin main",
+        "uv sync --frozen",
+        "tools/run_and_tee.py",
+        "tools/agent_preflight.py",
+        "AGENT_PREFLIGHT_REPORT.txt",
+        "ATS AGENT PREFLIGHT: PASS",
+        "ATS AGENT PREFLIGHT: FAIL",
+    )
+    core.CONTENT_MARKERS["ATS_TASK_DIAG.bat"] = (
+        "uv sync --frozen",
+        "tools/run_and_tee.py",
+        "tools/current_task_diag.py",
+        "CURRENT_TASK_DIAG_REPORT.txt",
+        "ATS TASK DIAGNOSTIC: COMPLETE",
+        "ATS TASK DIAGNOSTIC: FAIL",
+    )
+    core.CONTENT_MARKERS["tools/agent_preflight.py"] = (
+        'AGENT_BRANCH_PREFIX = "agent/"',
+        "origin/main",
+        "full ATS Local CI on agent branch",
+        "tools/verify_repo.py",
+        "agent branch has no changes relative to main",
+    )
+    core.CONTENT_MARKERS["tools/current_task_diag.py"] = (
+        'DEFAULT_SYMBOL = "AUDUSD"',
+        'DEFAULT_MONTH = "2007-04"',
+        'DEFAULT_TIMESTAMP = "2007-04-09T11:00:00Z"',
+        "Network access: DISABLED_BY_DESIGN",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "Jetta base",
+        "ASK-BID",
+        "Normalization result",
+        "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
         'TASK_ID = "ATS2-RF-008"',
@@ -1348,10 +1403,15 @@ def configure() -> None:
         "ATS Local CI Gate", "repository validator", "ruff lint", "ruff format",
         "pytest collection", "pytest", "environment fingerprint",
         "ATS LOCAL CI:", "LATEST.json",
+        "tools/agent_preflight.py", "tools/current_task_diag.py",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
+        "ATS_AGENT_PREFLIGHT.bat",
+        "AGENT_PREFLIGHT_REPORT.txt",
+        "ATS_TASK_DIAG.bat",
+        "CURRENT_TASK_DIAG_REPORT.txt",
         "LATEST.json",
         "LOCAL_CI_GATE.md",
         "LOCAL_CI_TROUBLESHOOTING.md",
@@ -1535,6 +1595,8 @@ def validate_environment(repo: Path) -> int:
     for ignored_report in (
         "reports/local_ci/LATEST.json",
         "reports/local_ci/CURRENT_TASK_REPORT.txt",
+        "reports/local_ci/AGENT_PREFLIGHT_REPORT.txt",
+        "reports/local_ci/CURRENT_TASK_DIAG_REPORT.txt",
         "reports/local_ci/HYP0002_DATA_FEASIBILITY.json",
         "reports/local_ci/HYP0002_DATA_FEASIBILITY_REPORT.txt",
         "reports/local_ci/HYP0002_PROTO01_RESULT.json",
@@ -1564,6 +1626,8 @@ def validate_environment(repo: Path) -> int:
         "tools/environment_fingerprint.py",
         "tools/verify_repo.py",
         "tools/run_and_tee.py",
+        "tools/agent_preflight.py",
+        "tools/current_task_diag.py",
         "tools/proto01_eurusd.py",
         "src/ats/schemas/dataset_manifest.py",
         "src/ats/data/loader.py",

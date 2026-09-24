@@ -24,6 +24,38 @@ The agent updates `tools/current_task_check.py` when the active task changes; th
 
 OWNER should use `ATS_TASK_CHECK.bat` and send `CURRENT_TASK_REPORT.txt` instead of manually copying console commands/output.
 
+## Agent staging workflow before main
+
+Material changes authored through remote repository APIs are staged on an `agent/*` branch first. In particular, remotely authored Python must not be merged directly to `main` when the exact pinned Ruff environment has not already checked that content.
+
+The OWNER pre-merge launcher is:
+
+`ATS_AGENT_PREFLIGHT.bat`
+
+It:
+
+1. refreshes `origin/main`;
+2. synchronizes the frozen uv environment;
+3. verifies that the current branch is `agent/*` and the working tree is clean;
+4. runs the full normal Local CI gate on the exact agent commit;
+5. writes `reports/local_ci/AGENT_PREFLIGHT_REPORT.txt`.
+
+It deliberately does **not** run task-specific acquisition or other expensive current-task runtime work.
+
+An agent branch may be squash-merged to `main` only after `ATS AGENT PREFLIGHT: PASS` names the exact agent commit being merged. After merge, final task completion still requires `ATS_TASK_CHECK.bat` on the exact `main` commit.
+
+## Targeted runtime diagnostic workflow
+
+When the first failing stage is task runtime and the root cause is not yet proven, use:
+
+`ATS_TASK_DIAG.bat`
+
+It invokes `tools/current_task_diag.py` and writes:
+
+`reports/local_ci/CURRENT_TASK_DIAG_REPORT.txt`
+
+For RF-008 the diagnostic runner is cache-only by design: it does not request market data from the network and does not execute all 217 source months. It inspects one requested failing source candle, source hashes, BID/ASK rows and nearby observations. A diagnostic COMPLETE result is evidence for root-cause analysis, not task completion.
+
 ## Canonical commands
 
 Direct full completion gate, primarily for tooling/hooks:
@@ -71,9 +103,11 @@ Each full Python gate writes:
 
 `reports/local_ci/LATEST.json`
 
-The stable task launcher writes the canonical shareable task report:
+The Windows launchers write these shareable reports:
 
-`reports/local_ci/CURRENT_TASK_REPORT.txt`
+- `reports/local_ci/CURRENT_TASK_REPORT.txt` — final task completion attempt;
+- `reports/local_ci/AGENT_PREFLIGHT_REPORT.txt` — pre-merge agent-branch verification;
+- `reports/local_ci/CURRENT_TASK_DIAG_REPORT.txt` — targeted runtime diagnostic
 
 The report includes:
 
@@ -107,9 +141,11 @@ The troubleshooting registry records failure class, supported root cause, correc
 
 Infrastructure failures such as `git pull --ff-only` connectivity errors must not trigger speculative code changes. Conversely, a formatter-only failure should be fixed as a formatting issue when tests/lint/validator already establish that no separate logic failure is present.
 
-When an agent or tool writes Python directly to the remote repository and therefore bypasses local hooks, Ruff formatting remains part of the authoring responsibility. Passing tests or Ruff lint alone does not imply `ruff format --check` will pass.
+When an agent or tool writes Python directly to the remote repository and therefore bypasses local hooks, Ruff formatting remains part of the authoring responsibility. Passing tests or Ruff lint alone does not imply `ruff format --check` will pass. Such changes are staged on `agent/*` and receive OWNER `ATS_AGENT_PREFLIGHT.bat` verification before merge to `main`.
 
-After every fix, the authoritative evidence is still a new full launcher run on the new exact HEAD.
+For a task-runtime/data failure whose cause is not yet demonstrated, the next step is diagnostic evidence rather than another speculative production patch. Use `ATS_TASK_DIAG.bat` when the current task exposes a targeted diagnostic.
+
+After a merged fix, the authoritative completion evidence is still a new full task launcher run on the new exact `main` HEAD.
 
 ## Git hooks
 
