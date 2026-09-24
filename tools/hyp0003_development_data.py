@@ -33,7 +33,6 @@ DOWNLOAD_BASES = (
 JETTA_API_ROOT = "https://jetta.dukascopy.com/v1"
 SOURCE_FORMAT_BI5 = "BI5"
 SOURCE_FORMAT_JETTA_JSON = "JETTA_JSON"
-JETTA_OHLC_TOLERANCE_UNITS = 1
 USER_AGENT = "ATS-Research/1.0"
 DOWNLOAD_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)
 SUCCESS_THROTTLE_SECONDS = 0.10
@@ -532,16 +531,6 @@ def multiplier_scale(multiplier: float) -> int:
     return max(0, -int(exponent))
 
 
-def jetta_ohlc_units_are_valid(units: list[int]) -> bool:
-    open_units, high_units, low_units, close_units = units
-    tolerance = JETTA_OHLC_TOLERANCE_UNITS
-    return (
-        high_units + tolerance >= max(open_units, close_units)
-        and high_units + tolerance >= low_units
-        and low_units - tolerance <= min(open_units, close_units)
-    )
-
-
 def decode_jetta_month(path: Path, month: datetime) -> dict[datetime, Ohlc]:
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
@@ -606,8 +595,6 @@ def decode_jetta_month(path: Path, month: datetime) -> dict[datetime, Ohlc]:
         values = tuple(round(value * float(multiplier), scale) for value in units)
         if not all(math.isfinite(value) and value > 0 for value in values):
             raise DevelopmentDataPrepError(f"invalid Jetta price in {path}: {timestamp}")
-        if not jetta_ohlc_units_are_valid(units):
-            raise DevelopmentDataPrepError(f"invalid Jetta OHLC geometry in {path}: {timestamp}")
         rows[timestamp] = values
 
     return rows
