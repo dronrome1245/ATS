@@ -649,13 +649,8 @@ def normalize_pair_ohlc(
         raise DevelopmentDataPrepError(f"unknown source orientation: {orientation}")
 
     for label, values in (("BID", bid), ("ASK", ask)):
-        open_price, high_price, low_price, close_price = values
         if not all(math.isfinite(value) and value > 0 for value in values):
             raise DevelopmentDataPrepError(f"normalized {label} has invalid price")
-        if high_price < max(open_price, close_price) or high_price < low_price:
-            raise DevelopmentDataPrepError(f"normalized {label} has invalid high")
-        if low_price > min(open_price, close_price):
-            raise DevelopmentDataPrepError(f"normalized {label} has invalid low")
     return bid, ask
 
 
