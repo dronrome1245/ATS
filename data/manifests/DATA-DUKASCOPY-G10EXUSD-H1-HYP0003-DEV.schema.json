@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HYP-0003 frozen G10-ex-USD normalized H1 BID/ASK development rows",
+  "type": "object",
+  "required": [
+    "event_time",
+    "availability_time",
+    "currency",
+    "source_symbol",
+    "source_orientation",
+    "sequence",
+    "bid_open",
+    "bid_high",
+    "bid_low",
+    "bid_close",
+    "ask_open",
+    "ask_high",
+    "ask_low",
+    "ask_close"
+  ],
+  "properties": {
+    "event_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "availability_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "AUD",
+        "CAD",
+        "CHF",
+        "EUR",
+        "GBP",
+        "JPY",
+        "NOK",
+        "NZD",
+        "SEK"
+      ]
+    },
+    "source_symbol": {
+      "type": "string",
+      "enum": [
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "USDNOK",
+        "NZDUSD",
+        "USDSEK"
+      ]
+    },
+    "source_orientation": {
+      "type": "string",
+      "enum": [
+        "DIRECT",
+        "INVERSE"
+      ]
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "bid_open": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "bid_high": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "bid_low": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "bid_close": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "ask_open": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "ask_high": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "ask_low": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "ask_close": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    }
+  },
+  "additionalProperties": false
+}

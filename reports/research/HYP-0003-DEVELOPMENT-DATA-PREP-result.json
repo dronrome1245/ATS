@@ -1,0 +1,110 @@
+{
+  "schema_version": "hyp0003-development-data-prep-canonical-1",
+  "task_id": "ATS2-RF-008",
+  "hypothesis_id": "HYP-0003",
+  "evidence_origin": "OWNER_ATS_TASK_CHECK_REPORT",
+  "preparation_commit": "63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3",
+  "launcher_status": "PASS",
+  "preparation_decision": "READY_FOR_DEVELOPMENT_DATA_FREEZE",
+  "development_dataset_id": "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001",
+  "development_dataset_version": "1.0.0",
+  "period_start": "2003-08-03T21:00:00Z",
+  "period_end_exclusive": "2021-09-01T00:00:00Z",
+  "source_month_count": 217,
+  "source_objects_expected": 3906,
+  "source_objects_acquired": 3906,
+  "source_objects_missing": 0,
+  "source_bundle_sha256": "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a",
+  "prepared_csv_relative_path": "data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv",
+  "prepared_csv_sha256": "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2",
+  "prepared_rows": 1014509,
+  "common_usable_start": "2003-08-03T21:00:00Z",
+  "common_usable_end": "2021-08-31T23:00:00Z",
+  "eligible_monthly_ranking_points_ge6": 207,
+  "eligible_longest_12_12_geometry_points": 184,
+  "protected_tail_source_objects_requested": 0,
+  "information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+  "symbol_quality": [
+    {
+      "currency": "AUD",
+      "symbol": "AUDUSD",
+      "orientation": "DIRECT",
+      "rows": 112054,
+      "missing_market_hours": 1157,
+      "cutoff_eligible_months": 203,
+      "cutoff_missing_months": 14
+    },
+    {
+      "currency": "CAD",
+      "symbol": "USDCAD",
+      "orientation": "INVERSE",
+      "rows": 112864,
+      "missing_market_hours": 347,
+      "cutoff_eligible_months": 208,
+      "cutoff_missing_months": 9
+    },
+    {
+      "currency": "CHF",
+      "symbol": "USDCHF",
+      "orientation": "INVERSE",
+      "rows": 112879,
+      "missing_market_hours": 332,
+      "cutoff_eligible_months": 208,
+      "cutoff_missing_months": 9
+    },
+    {
+      "currency": "EUR",
+      "symbol": "EURUSD",
+      "orientation": "DIRECT",
+      "rows": 112900,
+      "missing_market_hours": 311,
+      "cutoff_eligible_months": 208,
+      "cutoff_missing_months": 9
+    },
+    {
+      "currency": "GBP",
+      "symbol": "GBPUSD",
+      "orientation": "DIRECT",
+      "rows": 112872,
+      "missing_market_hours": 339,
+      "cutoff_eligible_months": 207,
+      "cutoff_missing_months": 10
+    },
+    {
+      "currency": "JPY",
+      "symbol": "USDJPY",
+      "orientation": "INVERSE",
+      "rows": 112872,
+      "missing_market_hours": 339,
+      "cutoff_eligible_months": 208,
+      "cutoff_missing_months": 9
+    },
+    {
+      "currency": "NOK",
+      "symbol": "USDNOK",
+      "orientation": "INVERSE",
+      "rows": 112848,
+      "missing_market_hours": 363,
+      "cutoff_eligible_months": 208,
+      "cutoff_missing_months": 9
+    },
+    {
+      "currency": "NZD",
+      "symbol": "NZDUSD",
+      "orientation": "DIRECT",
+      "rows": 112832,
+      "missing_market_hours": 379,
+      "cutoff_eligible_months": 208,
+      "cutoff_missing_months": 9
+    },
+    {
+      "currency": "SEK",
+      "symbol": "USDSEK",
+      "orientation": "INVERSE",
+      "rows": 112388,
+      "missing_market_hours": 823,
+      "cutoff_eligible_months": 207,
+      "cutoff_missing_months": 10
+    }
+  ]
+}
