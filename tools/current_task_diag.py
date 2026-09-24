@@ -105,14 +105,8 @@ def print_jetta_metadata(path: Path, side: str) -> None:
 
 def available_formats(symbol: str, month: datetime) -> list[tuple[str, dict[str, Path]]]:
     formats: list[tuple[str, dict[str, Path]]] = []
-    jetta = {
-        side: prep.jetta_raw_path(symbol, month, side)
-        for side in ("BID", "ASK")
-    }
-    legacy = {
-        side: prep.raw_path(symbol, month, side)
-        for side in ("BID", "ASK")
-    }
+    jetta = {side: prep.jetta_raw_path(symbol, month, side) for side in ("BID", "ASK")}
+    legacy = {side: prep.raw_path(symbol, month, side) for side in ("BID", "ASK")}
     if any(path.exists() for path in jetta.values()):
         formats.append((prep.SOURCE_FORMAT_JETTA_JSON, jetta))
     if any(path.exists() for path in legacy.values()):
@@ -249,8 +243,7 @@ def main() -> int:
     for source_format, paths in formats:
         try:
             decoded_any = (
-                diagnose_format(symbol, month, target, source_format, paths)
-                or decoded_any
+                diagnose_format(symbol, month, target, source_format, paths) or decoded_any
             )
         except (OSError, ValueError, json.JSONDecodeError, prep.DevelopmentDataPrepError) as exc:
             print(f"Diagnostic decode blocked for {source_format}: {exc}")
