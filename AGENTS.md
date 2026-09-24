@@ -180,7 +180,13 @@ Canonical policy: `governance/program/LOCAL_CI_GATE.md`. Full gate включа�
 
 При прямой записи Python через remote repository API нельзя утверждать, что Ruff format preflight пройден, если pinned Ruff фактически не запускался на exact content. При изменении `tools/validate_repo.py` агент обязан сверить каждый новый/изменённый `CONTENT_MARKERS` marker с фактическим target file, а не выборочную часть. При изменении любого файла, который уже является target для `CONTENT_MARKERS`, агент обязан повторно сверить все markers, привязанные к этому файлу, даже если validator-код не менялся.
 
-Для OWNER на Windows стандартный task-completion interface — стабильный корневой `ATS_TASK_CHECK.bat`. Не менять BAT под каждую задачу; task-specific проверки размещать в `tools/current_task_check.py` и обновлять этот Python-файл при смене текущего work package. Не заставлять OWNER вручную копировать цепочки local-CI команд, если launcher может выполнить их сам. После material step просить OWNER запустить `ATS_TASK_CHECK.bat` и прислать `reports/local_ci/CURRENT_TASK_REPORT.txt` для подтверждения или диагностики.
+Для OWNER на Windows стандартный task-completion interface — стабильный корневой `ATS_TASK_CHECK.bat`. Не менять BAT под каждую задачу; task-specific проверки размещать в `tools/current_task_check.py` и обновлять этот Python-файл при смене текущего work package.
+
+Для удалённо написанных material/Python изменений обязательна промежуточная `agent/*` ветка. До merge в `main` OWNER запускает `ATS_AGENT_PREFLIGHT.bat`; только exact-agent-commit PASS разрешает squash/merge. После merge final completion всё равно требует `ATS_TASK_CHECK.bat` на exact `main` HEAD.
+
+Если первый failure находится в task-runtime/data stage и root cause ещё не доказан, production-код не менять по гипотезе. Сначала использовать `ATS_TASK_DIAG.bat` / `tools/current_task_diag.py` и получить targeted diagnostic evidence.
+
+Не заставлять OWNER вручную копировать цепочки local-CI команд, если launcher может выполнить их сам. Shareable reports: `AGENT_PREFLIGHT_REPORT.txt`, `CURRENT_TASK_DIAG_REPORT.txt`, `CURRENT_TASK_REPORT.txt`.
 
 ## 17. Принцип безопасности
 
