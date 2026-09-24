@@ -175,7 +175,8 @@ Default policy:
 
 - duplicate timestamp: blocking for that source object until resolved;
 - malformed/non-positive quote: blocking;
-- ASK below BID after normalization: blocking;
+- synchronized scalar/tick ASK below BID after normalization: blocking;
+- component-wise crossing between separately aggregated BID/ASK OHLC extrema is not by itself a bad-data signal; each side must remain internally valid and source/timestamp coherent;
 - unexplained BID/ASK timestamp mismatch: blocking;
 - closed-market weekend/session gaps: declared, not filled;
 - missing tradable-hour bars: reported explicitly, not silently interpolated;
@@ -361,7 +362,9 @@ For inverse `USDCURRENCY` pairs, normalized OHLC is frozen as:
 - normalized ASK high = `1 / source BID low`;
 - normalized ASK low = `1 / source BID high`.
 
-All normalized quote fields must be finite and positive, with executable ASK/BID ordering preserved.
+All normalized quote fields must be finite and positive. Each side's OHLC must remain internally valid.
+
+**RF-008 diagnostic correction (2026-09-24):** Dukascopy non-tick candles are side-specific BID or ASK aggregates. Corresponding BID/ASK high and low values are not guaranteed to represent the same intra-bar instant. Therefore component-wise `ASK >= BID` across separately aggregated H1 OHLC fields is not a valid candle-quality invariant and is superseded for RF-008 preparation. This does not authorize synthetic spread repair, forward fill, source mixing or relaxed timestamp alignment.
 
 Time semantics remain:
 
