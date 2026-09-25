@@ -97,11 +97,11 @@ model:
   strategy_3_prototype_test: "tests/test_hyp0003_proto01.py"
 
 current:
-  focus: "Freeze HYP-0003 PROTO-01 implementation before development reveal"
-  last_completed_task_id: "ATS2-RF-009"
-  last_completed_artifact: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"
-  next_artifact: "research/reviews/HYP-0003-PROTOTYPE-01.md"
-  next_task_id: "ATS2-RF-010"
+  focus: "Reveal the exact frozen HYP-0003 PROTO-01 development surface once"
+  last_completed_task_id: "ATS2-RF-010"
+  last_completed_artifact: "research/reviews/HYP-0003-PROTOTYPE-01.md"
+  next_artifact: "reports/research/HYP-0003-PROTOTYPE-01-result.json"
+  next_task_id: "ATS2-RF-011"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -346,6 +346,7 @@ research_factory:
     - "ATS2-RF-007"
     - "ATS2-RF-008"
     - "ATS2-RF-009"
+    - "ATS2-RF-010"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -359,9 +360,12 @@ research_factory:
     - "reports/research/HYP-0003-DEVELOPMENT-DATA-PREP-result.json"
     - "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"
     - "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json"
-  current_task: "ATS2-RF-010"
+    - "research/reviews/HYP-0003-PROTOTYPE-01.md"
+    - "tools/hyp0003_proto01.py"
+    - "tests/test_hyp0003_proto01.py"
+  current_task: "ATS2-RF-011"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-011"
+  next_task: "TO_BE_SELECTED_AFTER_RF011_REVEAL"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -404,14 +408,16 @@ research_factory:
   protected_tail_end_exclusive: "2026-09-01T00:00:00Z"
   information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
   prototype_id: "PROTO-01"
-  prototype_freeze_status: "PENDING_RF010_OWNER_LAUNCHER"
+  prototype_freeze_status: "FROZEN_RF010"
+  rf010_verified_commit: "dbb93b2510334561c7c38aa14b859aa42a420bbc"
+  prototype_runner_git_blob: "d65746f39476ba3fee8cf59acfd0b2f82af9c663"
   prototype_result_status: "NOT_REVEALED"
   confirmatory_hypothesis_required_after_development_pass: true
   candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-010"
+  current_ready_task: "ATS2-RF-011"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:

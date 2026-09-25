@@ -10,47 +10,46 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-009 closure
+## Verified RF-010 closure
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`74057ebcb6d43fbb66a275c74fbd2081b148f9a2`
+`dbb93b2510334561c7c38aa14b859aa42a420bbc`
 
 Canonical last completed artifact:
 
-`data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml`
-
-RF-009 froze:
-
-- dataset `DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001@1.0.0`;
-- prepared CSV SHA-256 `8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2`;
-- source bundle SHA-256 `9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a`;
-- `1,014,509` rows;
-- `207` >=6-currency monthly ranking points;
-- `184` longest 12/12 geometry points;
-- protected-tail source requests `0`;
-- information boundary `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
-
-## RF-010 HYP-0003 PROTO-01 freeze
-
-Current task:
-
-`ATS2-RF-010 — HYP-0003 PROTO-01 freeze`
-
-Canonical next artifact:
-
 `research/reviews/HYP-0003-PROTOTYPE-01.md`
 
-RF-010 freezes the complete 25-cell runner and synthetic contract tests without executing the runner on the frozen development CSV.
+RF-010 froze the complete HYP-0003 PROTO-01 25-cell formation/ranking/basket/execution/metrics/breadth contract without evaluating the development dataset.
 
 Frozen runner:
 
 `tools/hyp0003_proto01.py`
 
-Synthetic tests:
+Frozen runner Git blob:
 
-`tests/test_hyp0003_proto01.py`
+`d65746f39476ba3fee8cf59acfd0b2f82af9c663`
 
-The result remains `PENDING_RF011_REVEAL`. Protected data remain closed.
+Information boundary at RF-010 closure:
 
-Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
+## RF-011 HYP-0003 PROTO-01 reveal
+
+Current task:
+
+`ATS2-RF-011 — HYP-0003 PROTO-01 reveal`
+
+Canonical next artifact after result review:
+
+`reports/research/HYP-0003-PROTOTYPE-01-result.json`
+
+RF-011 verifies the exact frozen runner, frozen dataset identity and full Local CI before executing the runner once. It retains all 25 cells and applies the pre-written breadth decision rule.
+
+If the result is positive under all breadth criteria, HYP-0003 still cannot enter R4 directly; the frozen next-action is `CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4`.
+
+If the breadth rule fails, HYP-0003 is rejected at R3.
+
+Protected tail remains unavailable.
+
+Run `ATS_AGENT_PREFLIGHT.bat` on the reveal agent branch and return `AGENT_PREFLIGHT_REPORT.txt`. The reveal itself occurs only after merge to exact `main`.
