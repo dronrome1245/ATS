@@ -77,6 +77,8 @@ HYP0003_PROTOTYPE_TEST = "tests/test_hyp0003_proto01.py"
 HYP0003_PROTOTYPE_RESULT = "reports/research/HYP-0003-PROTOTYPE-01-result.json"
 STRATEGY_3_CLOSEOUT = "governance/program/STRATEGY_3_CLOSEOUT.md"
 STRATEGY_4_IDEA_SOURCING = "governance/program/STRATEGY_4_IDEA_SOURCING.md"
+STRATEGY_4_FAMILY_SELECTION = "governance/program/STRATEGY_4_FAMILY_SELECTION.md"
+STRATEGY_4_IDEA = "research/ideas/IDEA-0004.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -248,6 +250,8 @@ def configure() -> None:
         HYP0003_PROTOTYPE_RESULT,
         STRATEGY_3_CLOSEOUT,
         STRATEGY_4_IDEA_SOURCING,
+        STRATEGY_4_FAMILY_SELECTION,
+        STRATEGY_4_IDEA,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -298,6 +302,8 @@ def configure() -> None:
         "strategy_3_prototype_result",
         "strategy_3_closeout",
         "strategy_4_idea_sourcing",
+        "strategy_4_family_selection",
+        "strategy_4_idea",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -905,6 +911,28 @@ def configure() -> None:
         "No family is ranked.",
         "No family is selected.",
         "ATS2-RF-014 - Strategy #4 family selection and Idea intake",
+    )
+    core.CONTENT_MARKERS[STRATEGY_4_FAMILY_SELECTION] = (
+        "ATS2-RF-014",
+        "S4-FAM-03 — INTRADAY_TIME_SESSION_EFFECT",
+        "Distinct mechanism",
+        "Reproducible data path",
+        "Cheap falsification path",
+        "Research-freedom boundary",
+        "research/ideas/IDEA-0004.md",
+        "`SCREEN`",
+        "ATS2-RF-015 — HYP-0004 formation",
+        "No claim is made that any unselected family is inferior",
+    )
+    core.CONTENT_MARKERS[STRATEGY_4_IDEA] = (
+        "Idea ID: `IDEA-0004`",
+        "Status: `SCREENING`",
+        "LITERATURE_INFORMED_RESEARCH_FACTORY_SOURCING",
+        "CLOCK_SESSION_CONDITIONAL_FX_DISTRIBUTION_SHIFT",
+        "FX_SPOT_OTC",
+        "Decision: `SCREEN`",
+        "research/hypotheses/HYP-0004.md",
+        "No directional sign, session boundary, instrument, bucket width, threshold or target magnitude is fixed by this Idea.",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
@@ -1591,14 +1619,13 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-013"',
-        "RF-013 Strategy #4 sourcing artifact",
-        "STRATEGY_4_IDEA_SOURCING.md",
-        "S4-FAM-01 - Currency carry / interest-rate differential",
-        "S4-FAM-05 - Customer/order-flow prediction",
-        "RF-013 must not create IDEA-0004",
-        "bounded shortlist retained without winner selection",
-        "full ATS Local CI for RF-013 Strategy #4 sourcing",
+        'TASK_ID = "ATS2-RF-014"',
+        "RF-014 Strategy #4 family selection / Idea Intake",
+        "STRATEGY_4_FAMILY_SELECTION.md",
+        "IDEA-0004.md",
+        "RF-014 must not create HYP-0004",
+        "selected one family and screened IDEA-0004 without parameter fixation",
+        "full ATS Local CI for RF-014 Strategy #4 family selection",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1964,6 +1991,8 @@ def main() -> int:
         'strategy_3_prototype_result: "reports/research/HYP-0003-PROTOTYPE-01-result.json"',
         'strategy_3_closeout: "governance/program/STRATEGY_3_CLOSEOUT.md"',
         'strategy_4_idea_sourcing: "governance/program/STRATEGY_4_IDEA_SOURCING.md"',
+        'strategy_4_family_selection: "governance/program/STRATEGY_4_FAMILY_SELECTION.md"',
+        'strategy_4_idea: "research/ideas/IDEA-0004.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1976,9 +2005,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-012"',
-        'current_task: "ATS2-RF-013"', 'current_ready_task: "ATS2-RF-013"',
-        'next_task: "ATS2-RF-014"',
+        'last_completed_task_id: "ATS2-RF-013"',
+        'current_task: "ATS2-RF-014"', 'current_ready_task: "ATS2-RF-014"',
+        'next_task: "ATS2-RF-015"',
         'current_wbs: "WBS-RF.1"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2010,11 +2039,15 @@ def main() -> int:
         'prototype_result_sha256: "a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620"',
         'prototype_reveal_commit: "f974b9bb60a6cc295cb8aaba4a263499c14769c0"',
         'research_line_status: "REJECTED_AT_R3"',
-        'strategy_4_sourcing_status: "RF013_SHORTLIST_IN_PROGRESS"',
+        'strategy_4_sourcing_status: "RF013_SHORTLIST_COMPLETE"',
         'strategy_4_families_reviewed: 5',
         'strategy_4_families_shortlisted: 4',
-        'strategy_4_selected_family: null',
-        'active_idea_id: null',
+        'rf013_verified_commit: "d8ba5544111ff05fc48c59939acccb337b220e99"',
+        'strategy_4_selected_family: "S4-FAM-03"',
+        'strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"',
+        'strategy_4_idea_id: "IDEA-0004"',
+        'strategy_4_idea_status: "SCREENING"',
+        'active_idea_id: "IDEA-0004"',
         'active_hypothesis_id: null',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
@@ -2023,7 +2056,7 @@ def main() -> int:
         'prototype_id: "PROTO-01"', 'prototype_status: "REJECTED"',
         'prototype_outcome: "REJECT"', 'research_line_status: "REJECTED_AT_R3"',
         'selected_market_context: "FX_SPOT_OTC"',
-        'selected_instrument: "EURUSD"', "ideas_registered: 3",
+        'selected_instrument: "EURUSD"', "ideas_registered: 4",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -2117,11 +2150,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-012") != "DONE / PASS":
         core.fail("RF-012 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-013") != "READY":
-        core.fail("RF-013 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-013") != "DONE / PASS":
+        core.fail("RF-013 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-014") != "BLOCKED":
-        core.fail("RF-014 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-014") != "READY":
+        core.fail("RF-014 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-015") != "BLOCKED":
+        core.fail("RF-015 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

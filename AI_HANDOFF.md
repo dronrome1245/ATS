@@ -11,42 +11,44 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-012 closure
+## Verified RF-013 closure
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`90d8f4f44f84d6116fa7ee1e815ecc827b213bcf`
+`d8ba5544111ff05fc48c59939acccb337b220e99`
 
 Canonical last completed artifact:
 
-`governance/program/STRATEGY_3_CLOSEOUT.md`
+`governance/program/STRATEGY_4_IDEA_SOURCING.md`
 
-HYP-0003 remains terminal negative evidence and is not reopened.
+RF-013 retained a denominator of five reviewed families and a four-family immediate shortlist without ranking or selecting a winner.
 
-## RF-013 Strategy #4 idea sourcing
+## RF-014 Strategy #4 family selection and Idea Intake
 
 Current task:
 
-`ATS2-RF-013 — Strategy #4 idea sourcing`
+`ATS2-RF-014 — Strategy #4 family selection and Idea intake`
 
 Canonical next artifact:
 
-`governance/program/STRATEGY_4_IDEA_SOURCING.md`
+`governance/program/STRATEGY_4_FAMILY_SELECTION.md`
 
-RF-013 reviews five research families:
+Companion Idea:
 
-1. currency carry / interest-rate differential;
-2. macroeconomic announcement response;
-3. intraday time/session effect;
-4. currency value / PPP / REER;
-5. customer/order-flow prediction.
+`research/ideas/IDEA-0004.md`
 
-The immediate shortlist contains the first four. Order flow is retained but not immediately shortlisted because no reproducible acquisition path is confirmed.
+Current selected family for admission:
 
-No family is ranked or selected. No `IDEA-0004` exists yet.
+`S4-FAM-03 — INTRADAY_TIME_SESSION_EFFECT`
 
-After RF-013 exact-head PASS:
+Selection basis is research-process value: distinct mechanism, falsifiability, existing-class granular BID/ASK data path and cheap bounded first test. It is not based on reported headline returns and is not evidence of edge.
 
-`ATS2-RF-014 — Strategy #4 family selection and Idea intake`
+IDEA-0004 receives `SCREEN / SCREENING`. RF-014 selects no instrument, provider, session bucket, DST rule, direction, horizon, threshold or performance target.
 
-may select at most one family or park all four.
+The other immediate-shortlist families remain research-relevant and are not declared inferior or rejected.
+
+After RF-014 exact-head PASS:
+
+`ATS2-RF-015 — HYP-0004 formation`
+
+must define one bounded falsifiable intraday/session claim before material performance testing.
