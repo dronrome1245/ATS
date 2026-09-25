@@ -11,22 +11,13 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-RF-011"
-TASK_NAME = "HYP-0003 PROTO-01 reveal"
-RUNNER = Path("tools/hyp0003_proto01.py")
+TASK_ID = "ATS2-RF-012"
+TASK_NAME = "Strategy #3 early-rejection closeout"
+RESULT = Path("reports/research/HYP-0003-PROTOTYPE-01-result.json")
 PROTO = Path("research/reviews/HYP-0003-PROTOTYPE-01.md")
-DATA = Path("data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv")
-RESULT = Path("reports/local_ci/HYP0003_PROTO01_RESULT.json")
-EXPECTED_RUNNER_GIT_BLOB = "d65746f39476ba3fee8cf59acfd0b2f82af9c663"
-EXPECTED_DATASET_SHA256 = "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"
-EXPECTED_SOURCE_BUNDLE_SHA256 = "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"
-FORMATION_MONTHS = [1, 3, 6, 9, 12]
-HOLDING_MONTHS = [1, 3, 6, 9, 12]
-VALID_DECISIONS = {
-    "ADVANCE_TO_ECONOMIC_SCREEN": "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
-    "REJECT": "STOP_HYP0003",
-    "PARK": "PARK",
-}
+CLOSEOUT = Path("governance/program/STRATEGY_3_CLOSEOUT.md")
+EXPECTED_RESULT_SHA256 = "a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620"
+EXPECTED_REVEAL_COMMIT = "f974b9bb60a6cc295cb8aaba4a263499c14769c0"
 
 
 def sha256_file(path: Path) -> str:
@@ -35,17 +26,6 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
-
-
-def git_output(*args: str) -> str:
-    completed = subprocess.run(
-        ["git", *args],
-        cwd=ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return completed.stdout.strip()
 
 
 def emit_progress(percent: int) -> None:
@@ -61,156 +41,139 @@ def run(name: str, command: list[str]) -> bool:
     return passed
 
 
-def check_frozen_inputs() -> bool:
-    print("\n== RF-011 frozen reveal inputs ==", flush=True)
-    for path in (RUNNER, PROTO, DATA):
-        if not (ROOT / path).is_file():
-            print(f"[FAIL] missing frozen input: {path}", flush=True)
-            return False
-    runner_blob = git_output("hash-object", str(RUNNER))
-    if runner_blob != EXPECTED_RUNNER_GIT_BLOB:
+def load_result() -> dict[str, Any] | None:
+    if not (ROOT / RESULT).is_file():
+        print(f"[FAIL] canonical result missing: {RESULT}", flush=True)
+        return None
+    actual_sha = sha256_file(ROOT / RESULT)
+    if actual_sha != EXPECTED_RESULT_SHA256:
         print(
-            f"[FAIL] frozen runner blob mismatch: {runner_blob} != {EXPECTED_RUNNER_GIT_BLOB}",
+            f"[FAIL] canonical result SHA256 mismatch: {actual_sha} != {EXPECTED_RESULT_SHA256}",
             flush=True,
         )
-        return False
-    if sha256_file(ROOT / DATA) != EXPECTED_DATASET_SHA256:
-        print("[FAIL] frozen development CSV SHA256 mismatch", flush=True)
-        return False
-    proto_text = (ROOT / PROTO).read_text(encoding="utf-8")
-    for marker in ("FROZEN_PRE_REVEAL", "PENDING_RF011_REVEAL", "25 / 25"):
-        if marker not in proto_text:
-            print(f"[FAIL] frozen prototype marker missing: {marker}", flush=True)
-            return False
-    print("[PASS] exact RF-010 frozen runner/protocol/data identity", flush=True)
-    return True
+        return None
+    try:
+        payload = json.loads((ROOT / RESULT).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"[FAIL] cannot load canonical result: {exc}", flush=True)
+        return None
+    if not isinstance(payload, dict):
+        print("[FAIL] canonical result top level must be a mapping", flush=True)
+        return None
+    return payload
 
 
-def validate_result(payload: dict[str, Any], commit: str) -> bool:
-    checks = {
+def check_closeout() -> bool:
+    print("\n== RF-012 HYP-0003 terminal result / closeout ==", flush=True)
+    payload = load_result()
+    if payload is None:
+        return False
+
+    expected = {
         "schema_version": "hyp0003-proto01-result-1",
         "hypothesis_id": "HYP-0003",
         "prototype_sequence": "PROTO-01",
         "evidence_class": "EXPLORATORY_PROTOTYPE",
         "economic_label": "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+        "decision": "REJECT",
+        "decision_reason": "ONE_OR_MORE_BROAD_REGION_CRITERIA_FAILED",
+        "next_action": "STOP_HYP0003",
     }
-    for key, expected in checks.items():
-        if payload.get(key) != expected:
+    for key, value in expected.items():
+        if payload.get(key) != value:
             print(f"[FAIL] result mismatch for {key}: {payload.get(key)!r}", flush=True)
             return False
 
-    grid = payload.get("grid")
-    if not isinstance(grid, dict):
-        print("[FAIL] result grid missing", flush=True)
-        return False
-    if grid.get("formation_months") != FORMATION_MONTHS:
-        print("[FAIL] formation grid mismatch", flush=True)
-        return False
-    if grid.get("holding_months") != HOLDING_MONTHS:
-        print("[FAIL] holding grid mismatch", flush=True)
-        return False
-    if grid.get("declared_cell_count") != 25:
-        print("[FAIL] declared cell count mismatch", flush=True)
+    run_context = payload.get("run_context")
+    if not isinstance(run_context, dict) or run_context.get("git_commit") != EXPECTED_REVEAL_COMMIT:
+        print("[FAIL] canonical result reveal commit mismatch", flush=True)
         return False
 
     cells = payload.get("cells")
-    expected_pairs = [(f, h) for f in FORMATION_MONTHS for h in HOLDING_MONTHS]
     if not isinstance(cells, list) or len(cells) != 25:
-        print("[FAIL] result must retain exactly 25 cells", flush=True)
-        return False
-    actual_pairs = [
-        (cell.get("formation_months"), cell.get("holding_months"))
-        for cell in cells
-        if isinstance(cell, dict)
-    ]
-    if actual_pairs != expected_pairs:
-        print("[FAIL] result cell grid/order mismatch", flush=True)
-        return False
-
-    dataset = payload.get("dataset")
-    if not isinstance(dataset, dict):
-        print("[FAIL] result dataset identity missing", flush=True)
-        return False
-    if dataset.get("prepared_csv_sha256") != EXPECTED_DATASET_SHA256:
-        print("[FAIL] result dataset SHA256 mismatch", flush=True)
-        return False
-    if dataset.get("source_bundle_sha256") != EXPECTED_SOURCE_BUNDLE_SHA256:
-        print("[FAIL] result source bundle SHA256 mismatch", flush=True)
-        return False
-
-    run_context = payload.get("run_context")
-    if not isinstance(run_context, dict) or run_context.get("git_commit") != commit:
-        print("[FAIL] result does not belong to exact current commit", flush=True)
-        return False
-
-    decision = payload.get("decision")
-    if decision not in VALID_DECISIONS:
-        print(f"[FAIL] invalid prototype decision: {decision!r}", flush=True)
-        return False
-    if payload.get("next_action") != VALID_DECISIONS[decision]:
-        print("[FAIL] result next_action inconsistent with frozen decision", flush=True)
+        print("[FAIL] canonical result must retain all 25 cells", flush=True)
         return False
 
     breadth = payload.get("breadth")
     if not isinstance(breadth, dict):
         print("[FAIL] breadth summary missing", flush=True)
         return False
-
-    print(f"[PASS] RF-011 reveal result contract ({decision})", flush=True)
-    print(f"Result SHA-256: {sha256_file(ROOT / RESULT)}", flush=True)
-    return True
-
-
-def reveal_once(commit: str) -> bool:
-    print("\n== RF-011 one-time HYP-0003 PROTO-01 reveal ==", flush=True)
-    if (ROOT / RESULT).is_file():
-        print("Existing local result found; validating without recomputation.", flush=True)
-    else:
-        if not run("exact frozen HYP-0003 PROTO-01 runner", [sys.executable, str(RUNNER)]):
+    breadth_checks = {
+        "all_cells_observed": True,
+        "median_cell_mean": -0.0013404354655954772,
+        "median_positive": False,
+        "positive_cell_count_pass": False,
+        "positive_mean_cell_count": 8,
+        "positive_formation_period_count": 4,
+        "positive_holding_period_count": 4,
+    }
+    for key, value in breadth_checks.items():
+        if breadth.get(key) != value:
+            print(f"[FAIL] breadth mismatch for {key}: {breadth.get(key)!r}", flush=True)
             return False
-    try:
-        payload = json.loads((ROOT / RESULT).read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        print(f"[FAIL] cannot load reveal result: {exc}", flush=True)
-        return False
-    if not isinstance(payload, dict):
-        print("[FAIL] reveal result top level must be a mapping", flush=True)
-        return False
-    return validate_result(payload, commit)
+
+    for path, markers in (
+        (
+            PROTO,
+            (
+                "COMPLETED / REJECT",
+                "DEVELOPMENT_REVEALED_PROTOTYPE_REJECTED",
+                EXPECTED_RESULT_SHA256,
+                "STOP_HYP0003",
+            ),
+        ),
+        (
+            CLOSEOUT,
+            (
+                "REJECTED_AT_R3",
+                EXPECTED_RESULT_SHA256,
+                "NEGATIVE_EVIDENCE_PRESERVED_WITHOUT_RESCUE",
+                "ATS2-RF-013 — Strategy #4 idea sourcing",
+            ),
+        ),
+    ):
+        text = (ROOT / path).read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in text:
+                print(f"[FAIL] {path} missing marker: {marker}", flush=True)
+                return False
+
+    print("[PASS] RF-012 canonical negative result and closeout", flush=True)
+    return True
 
 
 def main() -> int:
     print("ATS CURRENT TASK CHECK")
     print(f"Task: {TASK_ID} — {TASK_NAME}")
-    commit = git_output("rev-parse", "HEAD")
+    commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
     print(f"Commit: {commit}")
 
     emit_progress(45)
-    frozen = check_frozen_inputs()
+    closeout = check_closeout()
 
-    emit_progress(60)
+    emit_progress(65)
     governance = run(
-        "RF-011 HYP-0003 reveal governance validation",
+        "RF-012 Strategy #3 closeout governance validation",
         [sys.executable, "tools/validate_repo.py"],
     )
 
-    emit_progress(75)
+    emit_progress(80)
     full_ci = run(
-        "full ATS Local CI before RF-011 reveal",
+        "full ATS Local CI for RF-012 Strategy #3 closeout",
         [sys.executable, "tools/verify_repo.py"],
     )
 
-    if not all((frozen, governance, full_ci)):
-        print("\nATS CURRENT TASK CHECK: FAIL", flush=True)
-        return 1
-
-    emit_progress(90)
-    revealed = reveal_once(commit)
-
-    if revealed:
+    passed = all((closeout, governance, full_ci))
+    if passed:
         emit_progress(100)
-    print(f"\nATS CURRENT TASK CHECK: {'PASS' if revealed else 'FAIL'}", flush=True)
-    return 0 if revealed else 1
+    print(f"\nATS CURRENT TASK CHECK: {'PASS' if passed else 'FAIL'}", flush=True)
+    return 0 if passed else 1
 
 
 if __name__ == "__main__":

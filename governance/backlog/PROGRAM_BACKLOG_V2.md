@@ -60,9 +60,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 45. `ATS2-RF-008` — HYP-0003 development data preparation — `DONE / PASS`.
 46. `ATS2-RF-009` — HYP-0003 development data freeze — `DONE / PASS`.
 47. `ATS2-RF-010` — HYP-0003 PROTO-01 freeze — `DONE / PASS`.
-48. `ATS2-RF-011` — HYP-0003 PROTO-01 reveal — `READY`.
+48. `ATS2-RF-011` — HYP-0003 PROTO-01 reveal — `DONE / PASS`.
+49. `ATS2-RF-012` — Strategy #3 early-rejection closeout — `READY`.
+50. `ATS2-RF-013` — Strategy #4 idea sourcing — `BLOCKED` pending RF-012 exact-head PASS.
 
-Program-level current next task — `ATS2-RF-011`.
+Program-level current next task — `ATS2-RF-012`.
 
 ## 3. M0 / M1
 
@@ -147,18 +149,20 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-008` | `WBS-RF.2` | P1 | DONE / PASS | RF-007 PASS | `research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md` + `tools/hyp0003_development_data.py` + tests + local preparation report | Exact-head OWNER launcher PASS on `63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3` acquired `3906 / 3906` source objects, prepared `1,014,509` rows, emitted frozen source/data hashes and requested zero protected-tail source objects without computing a HYP-0003 momentum cell |
 | `ATS2-RF-009` | `WBS-RF.2` | P1 | DONE / PASS | RF-008 PASS | canonical RF-008 result + development Dataset Manifest/schema + updated Data Feasibility freeze | Exact-main OWNER launcher PASS on `74057ebcb6d43fbb66a275c74fbd2081b148f9a2` froze the prepared dataset identity, schema, source/data hashes and quality facts with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-010` | `WBS-RF.2` | P1 | DONE / PASS | RF-009 PASS | `research/reviews/HYP-0003-PROTOTYPE-01.md` + frozen runner + synthetic tests | Exact-main OWNER launcher PASS on `dbb93b2510334561c7c38aa14b859aa42a420bbc` froze the complete 25-cell runner/decision contract with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
-| `ATS2-RF-011` | `WBS-RF.2` | P1 | READY | RF-010 PASS | local/canonical HYP-0003 PROTO-01 result + updated prototype record | Execute the exact RF-010 frozen runner once, retain all 25 cells, apply the pre-written breadth rule and classify the exploratory R3 outcome without retuning |
+| `ATS2-RF-011` | `WBS-RF.2` | P1 | DONE / PASS | RF-010 PASS | `reports/research/HYP-0003-PROTOTYPE-01-result.json` + updated prototype evidence | Exact-main OWNER reveal on `f974b9bb60a6cc295cb8aaba4a263499c14769c0` retained all 25 cells and returned `REJECT / STOP_HYP0003`: median cell mean `-0.0013404354655954772`, positive cells `8/25`, formation span `4/5`, holding span `4/5` |
+| `ATS2-RF-012` | `WBS-RF.2` | P1 | READY | RF-011 REJECT | `governance/program/STRATEGY_3_CLOSEOUT.md` + updated prototype/state/backlog | Preserve the full negative result, close HYP-0003 as `REJECTED_AT_R3`, prohibit post-result cell selection/rescue and hand the continuous Research Factory to Strategy #4 sourcing |
+| `ATS2-RF-013` | `WBS-RF.1` | P1 | BLOCKED | RF-012 PASS | Strategy #4 idea-sourcing artifact(s) | Source the next materially new research line without rebranding or retuning positive HYP-0003 cells and without consuming HYP-0003 protected data to rescue the rejected claim |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-011 — HYP-0003 PROTO-01 reveal`.
+`ATS2-RF-012 — Strategy #3 early-rejection closeout`.
 
-Frozen runner identity:
+Canonical artifact:
 
-`tools/hyp0003_proto01.py` Git blob `d65746f39476ba3fee8cf59acfd0b2f82af9c663`.
+`governance/program/STRATEGY_3_CLOSEOUT.md`
 
-Current activity is **execute the exact frozen 25-cell development screen once and retain the complete result**.
+RF-011 revealed `REJECT / STOP_HYP0003` on the exact frozen runner and dataset. RF-012 preserves that negative evidence, records the complete result SHA-256 `a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620`, and closes HYP-0003 without selecting isolated favorable cells.
 
-RF-011 may not alter the frozen runner, dataset, 25-cell grid or breadth rule. If the broad-region rule passes, the next action remains creation of a new fixed confirmatory Hypothesis before R4; if it fails, HYP-0003 is rejected at R3.
+After RF-012 exact-head PASS, `ATS2-RF-013 — Strategy #4 idea sourcing` becomes the next continuous Research Factory task.
