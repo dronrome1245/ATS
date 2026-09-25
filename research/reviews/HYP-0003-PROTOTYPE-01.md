@@ -183,6 +183,10 @@ No best-cell ranking or automatic winner selection is produced.
 
 HYP-0003 adds a stricter mandatory routing rule to the standard R3 outcome vocabulary: even if PROTO-01 returns `ADVANCE_TO_ECONOMIC_SCREEN`, ATS must first create a new fixed confirmatory Hypothesis ID and test it on a previously unseen block. HYP-0003 itself may not enter R4 Economic Pre-Screen directly from the development surface.
 
+Frozen positive-result next-action label:
+
+`CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4`
+
 `ITERATE` is reserved only for a correctable data/implementation defect identified before a valid interpretable reveal. It is not available to rescue an unfavorable breadth result.
 
 ## Implementation references
