@@ -1540,16 +1540,17 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-010"',
-        "RF-010 HYP-0003 PROTO-01 frozen artifacts",
-        "HYP-0003-PROTOTYPE-01.md",
-        "hyp0003_proto01.py",
-        "test_hyp0003_proto01.py",
-        "EXPECTED_DATASET_SHA256",
-        "PENDING_RF011_REVEAL",
-        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
-        "full ATS Local CI for RF-010 PROTO-01 freeze",
+        'TASK_ID = "ATS2-RF-011"',
+        "RF-011 frozen reveal inputs",
+        "EXPECTED_RUNNER_GIT_BLOB",
+        "d65746f39476ba3fee8cf59acfd0b2f82af9c663",
+        "Existing local result found; validating without recomputation.",
+        "exact frozen HYP-0003 PROTO-01 runner",
+        "result must retain exactly 25 cells",
+        "result does not belong to exact current commit",
+        "RF-011 reveal result contract",
+        "Result SHA-256:",
+        "full ATS Local CI before RF-011 reveal",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1924,9 +1925,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-009"',
-        'current_task: "ATS2-RF-010"', 'current_ready_task: "ATS2-RF-010"',
-        'next_task: "ATS2-RF-011"',
+        'last_completed_task_id: "ATS2-RF-010"',
+        'current_task: "ATS2-RF-011"', 'current_ready_task: "ATS2-RF-011"',
+        'next_task: "TO_BE_SELECTED_AFTER_RF011_REVEAL"',
         'current_wbs: "WBS-RF.2"',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
         'preparation_decision: "READY_FOR_FREEZE_REVIEW"',
@@ -1949,7 +1950,9 @@ def main() -> int:
         'development_eligible_longest_12_12_geometry_points: 184',
         'protected_tail_source_objects_requested: 0',
         'prototype_id: "PROTO-01"',
-        'prototype_freeze_status: "PENDING_RF010_OWNER_LAUNCHER"',
+        'prototype_freeze_status: "FROZEN_RF010"',
+        'rf010_verified_commit: "dbb93b2510334561c7c38aa14b859aa42a420bbc"',
+        'prototype_runner_git_blob: "d65746f39476ba3fee8cf59acfd0b2f82af9c663"',
         'prototype_result_status: "NOT_REVEALED"',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
@@ -2043,11 +2046,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-009") != "DONE / PASS":
         core.fail("RF-009 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-010") != "READY":
-        core.fail("RF-010 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-010") != "DONE / PASS":
+        core.fail("RF-010 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-011") != "BLOCKED":
-        core.fail("RF-011 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-011") != "READY":
+        core.fail("RF-011 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
