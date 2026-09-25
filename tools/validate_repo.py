@@ -841,6 +841,46 @@ def configure() -> None:
         '"ask_close"',
         '"additionalProperties": false',
     )
+    core.CONTENT_MARKERS[HYP0003_PROTOTYPE] = (
+        "HYP-0003",
+        "PROTO-01",
+        "FROZEN_PRE_REVEAL",
+        "25 / 25",
+        "basket_size = max(1, ceil(eligible_currency_count / 6))",
+        "winner_long_returns",
+        "loser_short_returns",
+        "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
+        "PENDING_RF011_REVEAL",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "RF-011",
+    )
+    core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
+        "HYP-0003",
+        "PROTO-01",
+        "FORMATION_MONTHS = (1, 3, 6, 9, 12)",
+        "HOLDING_MONTHS = (1, 3, 6, 9, 12)",
+        "EXPECTED_DATASET_SHA256",
+        "EXPECTED_SOURCE_BUNDLE_SHA256",
+        "basket_size",
+        "select_baskets",
+        "winner_long_return",
+        "loser_short_return",
+        "cell_observations",
+        "breadth_summary",
+        "prototype_decision",
+        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
+        "HYP0003_PROTO01_RESULT.json",
+    )
+    core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TEST] = (
+        "test_basket_size_uses_frozen_one_sixth_ceiling",
+        "test_basket_selection_uses_currency_code_tie_break",
+        "test_executable_winner_and_loser_side_conventions",
+        "test_observation_turnover_is_zero_for_same_baskets_and_one_for_replacement",
+        "test_breadth_and_decision_contract",
+        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
+    )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
         "ATS2-M2-000 — Reference Consumer Profile", "Pipeline counters intentionally remain zero",
@@ -1500,19 +1540,16 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-009"',
-        "RF-009 HYP-0003 development data freeze artifacts",
-        "HYP-0003-DEVELOPMENT-DATA-PREP-result.json",
-        "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml",
-        "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json",
-        'SRC_ROOT = ROOT / "src"',
-        'import_module("ats.schemas.dataset_manifest")',
-        "EXPECTED_RF008_COMMIT",
-        "EXPECTED_SOURCE_SHA256",
-        "EXPECTED_PREPARED_SHA256",
-        "load_dataset_manifest",
-        "RF-009 canonical freeze matches RF-008 OWNER PASS evidence",
-        "full ATS Local CI for RF-009 development data freeze",
+        'TASK_ID = "ATS2-RF-010"',
+        "RF-010 HYP-0003 PROTO-01 frozen artifacts",
+        "HYP-0003-PROTOTYPE-01.md",
+        "hyp0003_proto01.py",
+        "test_hyp0003_proto01.py",
+        "EXPECTED_DATASET_SHA256",
+        "PENDING_RF011_REVEAL",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
+        "full ATS Local CI for RF-010 PROTO-01 freeze",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1540,6 +1577,8 @@ def configure() -> None:
         "LATEST.json",
         "LOCAL_CI_GATE.md",
         "LOCAL_CI_TROUBLESHOOTING.md",
+        "HYP0003_PROTO01_RESULT.json",
+        "HYP0003_PROTO01_RESULT_REPORT.txt",
         "reports/local_ci/*.lnk",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
@@ -1730,6 +1769,8 @@ def validate_environment(repo: Path) -> int:
         "reports/local_ci/HYP0003_DATA_FEASIBILITY_REPORT.txt",
         "reports/local_ci/HYP0003_DEVELOPMENT_DATA.json",
         "reports/local_ci/HYP0003_DEVELOPMENT_DATA_REPORT.txt",
+        "reports/local_ci/HYP0003_PROTO01_RESULT.json",
+        "reports/local_ci/HYP0003_PROTO01_RESULT_REPORT.txt",
         "data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv*",
         "reports/local_ci/*.lnk",
     ):
@@ -1773,6 +1814,7 @@ def validate_environment(repo: Path) -> int:
         "tools/hyp0002_proto01.py",
         "tools/hyp0003_data_feasibility.py",
         "tools/hyp0003_development_data.py",
+        "tools/hyp0003_proto01.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -1791,6 +1833,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_hyp0002_proto01.py",
         "tests/test_hyp0003_data_feasibility.py",
         "tests/test_hyp0003_development_data.py",
+        "tests/test_hyp0003_proto01.py",
     ):
         path = repo / relative
         try:
