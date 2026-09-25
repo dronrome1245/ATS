@@ -71,6 +71,9 @@ HYP0003_DEVELOPMENT_MANIFEST = (
 HYP0003_DEVELOPMENT_SCHEMA = (
     "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json"
 )
+HYP0003_PROTOTYPE = "research/reviews/HYP-0003-PROTOTYPE-01.md"
+HYP0003_PROTOTYPE_TOOL = "tools/hyp0003_proto01.py"
+HYP0003_PROTOTYPE_TEST = "tests/test_hyp0003_proto01.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -236,6 +239,9 @@ def configure() -> None:
         HYP0003_DEVELOPMENT_DATA_PREP_RESULT,
         HYP0003_DEVELOPMENT_MANIFEST,
         HYP0003_DEVELOPMENT_SCHEMA,
+        HYP0003_PROTOTYPE,
+        HYP0003_PROTOTYPE_TOOL,
+        HYP0003_PROTOTYPE_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -280,6 +286,9 @@ def configure() -> None:
         "strategy_3_data_feasibility_tool",
         "strategy_3_development_data_prep",
         "strategy_3_development_data_tool",
+        "strategy_3_prototype",
+        "strategy_3_prototype_runner",
+        "strategy_3_prototype_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -831,6 +840,46 @@ def configure() -> None:
         '"bid_open"',
         '"ask_close"',
         '"additionalProperties": false',
+    )
+    core.CONTENT_MARKERS[HYP0003_PROTOTYPE] = (
+        "HYP-0003",
+        "PROTO-01",
+        "FROZEN_PRE_REVEAL",
+        "25 / 25",
+        "basket_size = max(1, ceil(eligible_currency_count / 6))",
+        "winner_long_returns",
+        "loser_short_returns",
+        "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
+        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
+        "PENDING_RF011_REVEAL",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "RF-011",
+    )
+    core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
+        "HYP-0003",
+        "PROTO-01",
+        "FORMATION_MONTHS = (1, 3, 6, 9, 12)",
+        "HOLDING_MONTHS = (1, 3, 6, 9, 12)",
+        "EXPECTED_DATASET_SHA256",
+        "EXPECTED_SOURCE_BUNDLE_SHA256",
+        "basket_size",
+        "select_baskets",
+        "winner_long_return",
+        "loser_short_return",
+        "cell_observations",
+        "breadth_summary",
+        "prototype_decision",
+        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
+        "HYP0003_PROTO01_RESULT.json",
+    )
+    core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TEST] = (
+        "test_basket_size_uses_frozen_one_sixth_ceiling",
+        "test_basket_selection_uses_currency_code_tie_break",
+        "test_executable_winner_and_loser_side_conventions",
+        "test_observation_turnover_is_zero_for_same_baskets_and_one_for_replacement",
+        "test_breadth_and_decision_contract",
+        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
     )
     core.CONTENT_MARKERS[M1_EXIT] = (
         "Decision:** `PASS`", "M1_RESEARCH_METHODOLOGY = COMPLETED / PASS",
@@ -1491,19 +1540,16 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-009"',
-        "RF-009 HYP-0003 development data freeze artifacts",
-        "HYP-0003-DEVELOPMENT-DATA-PREP-result.json",
-        "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml",
-        "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json",
-        'SRC_ROOT = ROOT / "src"',
-        'import_module("ats.schemas.dataset_manifest")',
-        "EXPECTED_RF008_COMMIT",
-        "EXPECTED_SOURCE_SHA256",
-        "EXPECTED_PREPARED_SHA256",
-        "load_dataset_manifest",
-        "RF-009 canonical freeze matches RF-008 OWNER PASS evidence",
-        "full ATS Local CI for RF-009 development data freeze",
+        'TASK_ID = "ATS2-RF-010"',
+        "RF-010 HYP-0003 PROTO-01 frozen artifacts",
+        "HYP-0003-PROTOTYPE-01.md",
+        "hyp0003_proto01.py",
+        "test_hyp0003_proto01.py",
+        "EXPECTED_DATASET_SHA256",
+        "PENDING_RF011_REVEAL",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
+        "full ATS Local CI for RF-010 PROTO-01 freeze",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1520,6 +1566,7 @@ def configure() -> None:
         "pytest collection", "pytest", "environment fingerprint",
         "ATS LOCAL CI:", "LATEST.json",
         "tools/agent_preflight.py", "tools/current_task_diag.py",
+        "tools/hyp0003_proto01.py",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
@@ -1531,6 +1578,8 @@ def configure() -> None:
         "LATEST.json",
         "LOCAL_CI_GATE.md",
         "LOCAL_CI_TROUBLESHOOTING.md",
+        "HYP0003_PROTO01_RESULT.json",
+        "HYP0003_PROTO01_RESULT_REPORT.txt",
         "reports/local_ci/*.lnk",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
@@ -1721,6 +1770,8 @@ def validate_environment(repo: Path) -> int:
         "reports/local_ci/HYP0003_DATA_FEASIBILITY_REPORT.txt",
         "reports/local_ci/HYP0003_DEVELOPMENT_DATA.json",
         "reports/local_ci/HYP0003_DEVELOPMENT_DATA_REPORT.txt",
+        "reports/local_ci/HYP0003_PROTO01_RESULT.json",
+        "reports/local_ci/HYP0003_PROTO01_RESULT_REPORT.txt",
         "data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv*",
         "reports/local_ci/*.lnk",
     ):
@@ -1764,6 +1815,7 @@ def validate_environment(repo: Path) -> int:
         "tools/hyp0002_proto01.py",
         "tools/hyp0003_data_feasibility.py",
         "tools/hyp0003_development_data.py",
+        "tools/hyp0003_proto01.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -1782,6 +1834,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_hyp0002_proto01.py",
         "tests/test_hyp0003_data_feasibility.py",
         "tests/test_hyp0003_development_data.py",
+        "tests/test_hyp0003_proto01.py",
     ):
         path = repo / relative
         try:
@@ -1856,6 +1909,9 @@ def main() -> int:
         'strategy_3_development_data_prep_result: "reports/research/HYP-0003-DEVELOPMENT-DATA-PREP-result.json"',
         'strategy_3_development_dataset_manifest: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"',
         'strategy_3_development_dataset_schema: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json"',
+        'strategy_3_prototype: "research/reviews/HYP-0003-PROTOTYPE-01.md"',
+        'strategy_3_prototype_runner: "tools/hyp0003_proto01.py"',
+        'strategy_3_prototype_test: "tests/test_hyp0003_proto01.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1868,9 +1924,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-008"',
-        'current_task: "ATS2-RF-009"', 'current_ready_task: "ATS2-RF-009"',
-        'next_task: "TO_BE_SELECTED_AFTER_RF009_PASS"',
+        'last_completed_task_id: "ATS2-RF-009"',
+        'current_task: "ATS2-RF-010"', 'current_ready_task: "ATS2-RF-010"',
+        'next_task: "ATS2-RF-011"',
         'current_wbs: "WBS-RF.2"',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
         'preparation_decision: "READY_FOR_FREEZE_REVIEW"',
@@ -1882,6 +1938,8 @@ def main() -> int:
         'development_data_acquisition_contract_status: "FROZEN_RF007"',
         'development_data_preparation_status: "RF008_OWNER_PASS_READY_FOR_FREEZE"',
         'rf008_verified_commit: "63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3"',
+        'development_data_freeze_status: "FROZEN_RF009"',
+        'rf009_verified_commit: "74057ebcb6d43fbb66a275c74fbd2081b148f9a2"',
         'development_source_objects_acquired: 3906',
         'development_source_objects_missing: 0',
         'development_source_bundle_sha256: "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"',
@@ -1890,6 +1948,9 @@ def main() -> int:
         'development_eligible_monthly_points_ge6: 207',
         'development_eligible_longest_12_12_geometry_points: 184',
         'protected_tail_source_objects_requested: 0',
+        'prototype_id: "PROTO-01"',
+        'prototype_freeze_status: "PENDING_RF010_OWNER_LAUNCHER"',
+        'prototype_result_status: "NOT_REVEALED"',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -1979,8 +2040,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-008") != "DONE / PASS":
         core.fail("RF-008 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-009") != "READY":
-        core.fail("RF-009 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-009") != "DONE / PASS":
+        core.fail("RF-009 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-010") != "READY":
+        core.fail("RF-010 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-011") != "BLOCKED":
+        core.fail("RF-011 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

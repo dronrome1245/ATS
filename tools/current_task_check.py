@@ -4,45 +4,18 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import subprocess
 import sys
-from importlib import import_module
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SRC_ROOT = ROOT / "src"
-if str(SRC_ROOT) not in sys.path:
-    sys.path.insert(0, str(SRC_ROOT))
-load_dataset_manifest = import_module("ats.schemas.dataset_manifest").load_dataset_manifest
-TASK_ID = "ATS2-RF-009"
-TASK_NAME = "HYP-0003 development data freeze"
-RF008_RESULT = Path("reports/research/HYP-0003-DEVELOPMENT-DATA-PREP-result.json")
-MANIFEST_PATH = Path("data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml")
-SCHEMA_PATH = Path("data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json")
-PREPARED_PATH = Path("data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv")
-DATA_FEASIBILITY_PATH = Path("research/reviews/HYP-0003-DATA-FEASIBILITY.md")
-EXPECTED_RF008_COMMIT = "63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3"
-EXPECTED_SOURCE_SHA256 = "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"
-EXPECTED_PREPARED_SHA256 = "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"
-EXPECTED_DATASET_ID = "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001"
-EXPECTED_DATASET_VERSION = "1.0.0"
-EXPECTED_SCHEMA_FIELDS = (
-    "event_time",
-    "availability_time",
-    "currency",
-    "source_symbol",
-    "source_orientation",
-    "sequence",
-    "bid_open",
-    "bid_high",
-    "bid_low",
-    "bid_close",
-    "ask_open",
-    "ask_high",
-    "ask_low",
-    "ask_close",
-)
+TASK_ID = "ATS2-RF-010"
+TASK_NAME = "HYP-0003 PROTO-01 freeze"
+PROTO = Path("research/reviews/HYP-0003-PROTOTYPE-01.md")
+RUNNER = Path("tools/hyp0003_proto01.py")
+TESTS = Path("tests/test_hyp0003_proto01.py")
+DATA = Path("data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv")
+EXPECTED_DATASET_SHA256 = "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"
 
 
 def sha256_file(path: Path) -> str:
@@ -66,97 +39,50 @@ def run(name: str, command: list[str]) -> bool:
     return passed
 
 
-def check_freeze_artifacts() -> bool:
-    print("\n== RF-009 HYP-0003 development data freeze artifacts ==", flush=True)
-    required = (RF008_RESULT, MANIFEST_PATH, SCHEMA_PATH, DATA_FEASIBILITY_PATH, PREPARED_PATH)
+def check_proto_freeze() -> bool:
+    print("\n== RF-010 HYP-0003 PROTO-01 frozen artifacts ==", flush=True)
+    required = (PROTO, RUNNER, TESTS, DATA)
     missing = [str(path) for path in required if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
             print(f"[FAIL] missing required artifact: {path}", flush=True)
         return False
-    print("[PASS] RF-009 HYP-0003 development data freeze artifacts", flush=True)
-    return True
 
-
-def check_canonical_freeze() -> bool:
-    print("\n== RF-009 canonical RF-008 result / manifest / schema / bytes ==", flush=True)
-    try:
-        result = json.loads((ROOT / RF008_RESULT).read_text(encoding="utf-8"))
-        schema = json.loads((ROOT / SCHEMA_PATH).read_text(encoding="utf-8"))
-        manifest = load_dataset_manifest(ROOT / MANIFEST_PATH)
-    except (OSError, json.JSONDecodeError, ValueError, TypeError) as exc:
-        print(f"[FAIL] cannot load RF-009 freeze artifacts: {exc}", flush=True)
-        return False
-
-    checks = {
-        "task_id": "ATS2-RF-008",
-        "hypothesis_id": "HYP-0003",
-        "preparation_commit": EXPECTED_RF008_COMMIT,
-        "launcher_status": "PASS",
-        "preparation_decision": "READY_FOR_DEVELOPMENT_DATA_FREEZE",
-        "development_dataset_id": EXPECTED_DATASET_ID,
-        "development_dataset_version": EXPECTED_DATASET_VERSION,
-        "source_objects_expected": 3906,
-        "source_objects_acquired": 3906,
-        "source_objects_missing": 0,
-        "source_bundle_sha256": EXPECTED_SOURCE_SHA256,
-        "prepared_csv_sha256": EXPECTED_PREPARED_SHA256,
-        "prepared_rows": 1014509,
-        "eligible_monthly_ranking_points_ge6": 207,
-        "eligible_longest_12_12_geometry_points": 184,
-        "protected_tail_source_objects_requested": 0,
-        "information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-    }
-    for key, expected in checks.items():
-        actual = result.get(key)
-        if actual != expected:
-            print(
-                f"[FAIL] canonical RF-008 result mismatch for {key}: {actual!r} != {expected!r}",
-                flush=True,
-            )
-            return False
-
-    if (
-        manifest.dataset_id != EXPECTED_DATASET_ID
-        or manifest.dataset_version != EXPECTED_DATASET_VERSION
-    ):
-        print("[FAIL] Dataset Manifest identity mismatch", flush=True)
-        return False
-    if manifest.storage.location != PREPARED_PATH.as_posix():
-        print("[FAIL] Dataset Manifest storage path mismatch", flush=True)
-        return False
-    if manifest.integrity.digest != EXPECTED_PREPARED_SHA256:
-        print("[FAIL] Dataset Manifest prepared-data digest mismatch", flush=True)
-        return False
-    if manifest.source.snapshot_reference != f"source-bundle-sha256:{EXPECTED_SOURCE_SHA256}":
-        print("[FAIL] Dataset Manifest source snapshot mismatch", flush=True)
-        return False
-
-    if tuple(schema.get("required", ())) != EXPECTED_SCHEMA_FIELDS:
-        print("[FAIL] development schema required fields mismatch", flush=True)
-        return False
-    if schema.get("additionalProperties") is not False:
-        print("[FAIL] development schema must reject additional properties", flush=True)
-        return False
-
-    actual_prepared_sha = sha256_file(ROOT / PREPARED_PATH)
-    if actual_prepared_sha != EXPECTED_PREPARED_SHA256:
-        print(f"[FAIL] prepared CSV SHA256 mismatch: {actual_prepared_sha}", flush=True)
-        return False
-
-    feasibility = (ROOT / DATA_FEASIBILITY_PATH).read_text(encoding="utf-8")
-    for marker in (
-        "RF-009 development data freeze update",
-        "FREEZE_DEVELOPMENT_DATASET",
-        EXPECTED_SOURCE_SHA256,
-        EXPECTED_PREPARED_SHA256,
+    proto_text = (ROOT / PROTO).read_text(encoding="utf-8")
+    runner_text = (ROOT / RUNNER).read_text(encoding="utf-8")
+    required_proto_markers = (
+        "FROZEN_PRE_REVEAL",
+        "25 / 25",
+        "basket_size = max(1, ceil(eligible_currency_count / 6))",
+        "PENDING_RF011_REVEAL",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-    ):
-        if marker not in feasibility:
-            print(f"[FAIL] Data Feasibility freeze marker missing: {marker}", flush=True)
+        "RF-011",
+    )
+    for marker in required_proto_markers:
+        if marker not in proto_text:
+            print(f"[FAIL] prototype freeze marker missing: {marker}", flush=True)
             return False
 
-    print("[PASS] RF-009 canonical freeze matches RF-008 OWNER PASS evidence", flush=True)
+    for marker in (
+        "FORMATION_MONTHS = (1, 3, 6, 9, 12)",
+        "HOLDING_MONTHS = (1, 3, 6, 9, 12)",
+        "select_baskets",
+        "winner_long_return",
+        "loser_short_return",
+        "breadth_summary",
+        "prototype_decision",
+        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
+    ):
+        if marker not in runner_text:
+            print(f"[FAIL] frozen runner marker missing: {marker}", flush=True)
+            return False
+
+    actual_sha = sha256_file(ROOT / DATA)
+    if actual_sha != EXPECTED_DATASET_SHA256:
+        print(f"[FAIL] frozen development CSV SHA256 mismatch: {actual_sha}", flush=True)
+        return False
+
+    print("[PASS] RF-010 frozen protocol/runner/tests and dataset identity", flush=True)
     return True
 
 
@@ -173,24 +99,21 @@ def main() -> int:
     print(f"Commit: {commit}")
 
     emit_progress(45)
-    artifacts = check_freeze_artifacts()
+    artifacts = check_proto_freeze()
 
-    emit_progress(60)
-    canonical = artifacts and check_canonical_freeze()
-
-    emit_progress(75)
+    emit_progress(65)
     governance = run(
-        "RF-009 HYP-0003 freeze governance validation",
+        "RF-010 HYP-0003 PROTO-01 freeze governance validation",
         [sys.executable, "tools/validate_repo.py"],
     )
 
-    emit_progress(85)
+    emit_progress(80)
     full_ci = run(
-        "full ATS Local CI for RF-009 development data freeze",
+        "full ATS Local CI for RF-010 PROTO-01 freeze",
         [sys.executable, "tools/verify_repo.py"],
     )
 
-    passed = all((artifacts, canonical, governance, full_ci))
+    passed = all((artifacts, governance, full_ci))
     if passed:
         emit_progress(100)
     print(f"\nATS CURRENT TASK CHECK: {'PASS' if passed else 'FAIL'}", flush=True)

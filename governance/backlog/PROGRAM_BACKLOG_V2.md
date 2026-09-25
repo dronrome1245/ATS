@@ -58,9 +58,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 43. `ATS2-RF-006` — HYP-0003 Data Feasibility preparation — `DONE`.
 44. `ATS2-RF-007` — HYP-0003 Data Feasibility freeze — `DONE`.
 45. `ATS2-RF-008` — HYP-0003 development data preparation — `DONE / PASS`.
-46. `ATS2-RF-009` — HYP-0003 development data freeze — `READY`.
+46. `ATS2-RF-009` — HYP-0003 development data freeze — `DONE / PASS`.
+47. `ATS2-RF-010` — HYP-0003 PROTO-01 freeze — `READY`.
+48. `ATS2-RF-011` — HYP-0003 PROTO-01 reveal — `BLOCKED` pending RF-010 exact-head PASS.
 
-Program-level current next task — `ATS2-RF-009`.
+Program-level current next task — `ATS2-RF-010`.
 
 ## 3. M0 / M1
 
@@ -143,20 +145,22 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-006` | `WBS-RF.2` | P1 | DONE | RF-005 PASS | `research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md` + probe tool/tests + local feasibility report | Exact-head OWNER launcher PASS recorded 9/9 source-qualified currencies, common possible development start and probe hashes without computing momentum |
 | `ATS2-RF-007` | `WBS-RF.2` | P1 | DONE | RF-006 PASS | `reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json` + updated `research/reviews/HYP-0003-DATA-FEASIBILITY.md` | Exact-head OWNER launcher PASS froze the 9-currency source universe, common possible coverage and full development-data acquisition contract without revealing the protected tail |
 | `ATS2-RF-008` | `WBS-RF.2` | P1 | DONE / PASS | RF-007 PASS | `research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md` + `tools/hyp0003_development_data.py` + tests + local preparation report | Exact-head OWNER launcher PASS on `63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3` acquired `3906 / 3906` source objects, prepared `1,014,509` rows, emitted frozen source/data hashes and requested zero protected-tail source objects without computing a HYP-0003 momentum cell |
-| `ATS2-RF-009` | `WBS-RF.2` | P1 | READY | RF-008 PASS | canonical RF-008 result + development Dataset Manifest/schema + updated Data Feasibility freeze | Canonically freeze or reject the prepared development dataset identity/quality result before any HYP-0003 development outcome is calculated |
+| `ATS2-RF-009` | `WBS-RF.2` | P1 | DONE / PASS | RF-008 PASS | canonical RF-008 result + development Dataset Manifest/schema + updated Data Feasibility freeze | Exact-main OWNER launcher PASS on `74057ebcb6d43fbb66a275c74fbd2081b148f9a2` froze the prepared dataset identity, schema, source/data hashes and quality facts with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
+| `ATS2-RF-010` | `WBS-RF.2` | P1 | READY | RF-009 PASS | `research/reviews/HYP-0003-PROTOTYPE-01.md` + frozen runner + synthetic tests | Freeze the exact 25-cell formation/ranking/basket/execution/metrics/breadth-decision implementation without executing it on the frozen development dataset |
+| `ATS2-RF-011` | `WBS-RF.2` | P1 | BLOCKED | RF-010 PASS | local/canonical HYP-0003 PROTO-01 result + updated prototype record | Execute the exact frozen runner once, retain all 25 cells, apply the pre-written breadth rule and classify the exploratory R3 outcome without retuning |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-009 — HYP-0003 development data freeze`.
+`ATS2-RF-010 — HYP-0003 PROTO-01 freeze`.
 
 Canonical artifact:
 
-`data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml`
+`research/reviews/HYP-0003-PROTOTYPE-01.md`
 
-Current activity is **freeze the exact RF-008 prepared dataset identity, schema, hashes, coverage and quality result**, not Strategy #3 profitability.
+Current activity is **freeze the exact 25-cell development-screen implementation and decision rule before result reveal**.
 
-RF-009 must not reacquire/tune the development dataset, inspect the protected tail, or calculate momentum, ranks, baskets, holding returns or any of the 25 development cells.
+RF-010 may use synthetic tests and verify frozen dataset identity, but it must not execute `tools/hyp0003_proto01.py` on the frozen development CSV.
 
-A later development-execution work package is selected only after RF-009 exact-head PASS.
+After RF-010 exact-head PASS, `ATS2-RF-011` performs the separate one-time reveal.
