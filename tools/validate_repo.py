@@ -1566,6 +1566,7 @@ def configure() -> None:
         "pytest collection", "pytest", "environment fingerprint",
         "ATS LOCAL CI:", "LATEST.json",
         "tools/agent_preflight.py", "tools/current_task_diag.py",
+        "tools/hyp0003_proto01.py",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
