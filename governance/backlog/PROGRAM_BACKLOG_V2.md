@@ -61,10 +61,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 46. `ATS2-RF-009` — HYP-0003 development data freeze — `DONE / PASS`.
 47. `ATS2-RF-010` — HYP-0003 PROTO-01 freeze — `DONE / PASS`.
 48. `ATS2-RF-011` — HYP-0003 PROTO-01 reveal — `DONE / PASS`.
-49. `ATS2-RF-012` — Strategy #3 early-rejection closeout — `READY`.
-50. `ATS2-RF-013` — Strategy #4 idea sourcing — `BLOCKED` pending RF-012 exact-head PASS.
+49. `ATS2-RF-012` — Strategy #3 early-rejection closeout — `DONE / PASS`.
+50. `ATS2-RF-013` — Strategy #4 idea sourcing — `READY`.
+51. `ATS2-RF-014` — Strategy #4 family selection and Idea intake — `BLOCKED` pending RF-013 exact-head PASS.
 
-Program-level current next task — `ATS2-RF-012`.
+Program-level current next task — `ATS2-RF-013`.
 
 ## 3. M0 / M1
 
@@ -150,19 +151,20 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-009` | `WBS-RF.2` | P1 | DONE / PASS | RF-008 PASS | canonical RF-008 result + development Dataset Manifest/schema + updated Data Feasibility freeze | Exact-main OWNER launcher PASS on `74057ebcb6d43fbb66a275c74fbd2081b148f9a2` froze the prepared dataset identity, schema, source/data hashes and quality facts with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-010` | `WBS-RF.2` | P1 | DONE / PASS | RF-009 PASS | `research/reviews/HYP-0003-PROTOTYPE-01.md` + frozen runner + synthetic tests | Exact-main OWNER launcher PASS on `dbb93b2510334561c7c38aa14b859aa42a420bbc` froze the complete 25-cell runner/decision contract with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-011` | `WBS-RF.2` | P1 | DONE / PASS | RF-010 PASS | `reports/research/HYP-0003-PROTOTYPE-01-result.json` + updated prototype evidence | Exact-main OWNER reveal on `f974b9bb60a6cc295cb8aaba4a263499c14769c0` retained all 25 cells and returned `REJECT / STOP_HYP0003`: median cell mean `-0.0013404354655954772`, positive cells `8/25`, formation span `4/5`, holding span `4/5` |
-| `ATS2-RF-012` | `WBS-RF.2` | P1 | READY | RF-011 REJECT | `governance/program/STRATEGY_3_CLOSEOUT.md` + updated prototype/state/backlog | Preserve the full negative result, close HYP-0003 as `REJECTED_AT_R3`, prohibit post-result cell selection/rescue and hand the continuous Research Factory to Strategy #4 sourcing |
-| `ATS2-RF-013` | `WBS-RF.1` | P1 | BLOCKED | RF-012 PASS | Strategy #4 idea-sourcing artifact(s) | Source the next materially new research line without rebranding or retuning positive HYP-0003 cells and without consuming HYP-0003 protected data to rescue the rejected claim |
+| `ATS2-RF-012` | `WBS-RF.2` | P1 | DONE / PASS | RF-011 REJECT | `governance/program/STRATEGY_3_CLOSEOUT.md` + updated prototype/state/backlog | Exact-main OWNER launcher PASS on `90d8f4f44f84d6116fa7ee1e815ecc827b213bcf` preserved the complete HYP-0003 negative result and closed Strategy #3 as `REJECTED_AT_R3` without rescue |
+| `ATS2-RF-013` | `WBS-RF.1` | P1 | READY | RF-012 PASS | `governance/program/STRATEGY_4_IDEA_SOURCING.md` | Review a bounded literature-informed set of materially new research families, retain the full denominator, shortlist without ranking, and create no Idea or winner |
+| `ATS2-RF-014` | `WBS-RF.1` | P1 | BLOCKED | RF-013 PASS | Strategy #4 family-selection artifact + optional `research/ideas/IDEA-0004.md` | Select at most one immediate-shortlist family for Idea Intake or explicitly park all; selection must be based on mechanism/data/cheap-test value rather than historical headline returns |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-012 — Strategy #3 early-rejection closeout`.
+`ATS2-RF-013 — Strategy #4 idea sourcing`.
 
 Canonical artifact:
 
-`governance/program/STRATEGY_3_CLOSEOUT.md`
+`governance/program/STRATEGY_4_IDEA_SOURCING.md`
 
-RF-011 revealed `REJECT / STOP_HYP0003` on the exact frozen runner and dataset. RF-012 preserves that negative evidence, records the complete result SHA-256 `a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620`, and closes HYP-0003 without selecting isolated favorable cells.
+RF-013 reviews five research families and places four into an immediate shortlist without ranking or selecting a winner. It creates no `IDEA-0004`, chooses no final parameters and performs no market-data backtest.
 
-After RF-012 exact-head PASS, `ATS2-RF-013 — Strategy #4 idea sourcing` becomes the next continuous Research Factory task.
+After RF-013 exact-head PASS, `ATS2-RF-014 — Strategy #4 family selection and Idea intake` may select at most one family or park all four.
