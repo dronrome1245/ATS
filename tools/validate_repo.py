@@ -76,6 +76,7 @@ HYP0003_PROTOTYPE_TOOL = "tools/hyp0003_proto01.py"
 HYP0003_PROTOTYPE_TEST = "tests/test_hyp0003_proto01.py"
 HYP0003_PROTOTYPE_RESULT = "reports/research/HYP-0003-PROTOTYPE-01-result.json"
 STRATEGY_3_CLOSEOUT = "governance/program/STRATEGY_3_CLOSEOUT.md"
+STRATEGY_4_IDEA_SOURCING = "governance/program/STRATEGY_4_IDEA_SOURCING.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -246,6 +247,7 @@ def configure() -> None:
         HYP0003_PROTOTYPE_TEST,
         HYP0003_PROTOTYPE_RESULT,
         STRATEGY_3_CLOSEOUT,
+        STRATEGY_4_IDEA_SOURCING,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -295,6 +297,7 @@ def configure() -> None:
         "strategy_3_prototype_test",
         "strategy_3_prototype_result",
         "strategy_3_closeout",
+        "strategy_4_idea_sourcing",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -885,6 +888,23 @@ def configure() -> None:
         "4 / 5",
         "NEGATIVE_EVIDENCE_PRESERVED_WITHOUT_RESCUE",
         "ATS2-RF-013 — Strategy #4 idea sourcing",
+    )
+    core.CONTENT_MARKERS[STRATEGY_4_IDEA_SOURCING] = (
+        "ATS2-RF-013",
+        "SOURCING_SHORTLIST_READY",
+        "S4-FAM-01 - Currency carry / interest-rate differential",
+        "S4-FAM-02 - Macroeconomic announcement response",
+        "S4-FAM-03 - Intraday time/session effect",
+        "S4-FAM-04 - Currency value / PPP / real-exchange-rate deviation",
+        "S4-FAM-05 - Customer/order-flow prediction",
+        "BIS Bulletin 124",
+        "NBER Working Paper 8959",
+        "BIS Working Paper 405",
+        "Families reviewed: `5`",
+        "Immediate shortlist for RF-014 family selection: `4`",
+        "No family is ranked.",
+        "No family is selected.",
+        "ATS2-RF-014 - Strategy #4 family selection and Idea intake",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
@@ -1571,15 +1591,14 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-012"',
-        "RF-012 HYP-0003 terminal result / closeout",
-        "EXPECTED_RESULT_SHA256",
-        "EXPECTED_REVEAL_COMMIT",
-        "canonical result must retain all 25 cells",
-        "ONE_OR_MORE_BROAD_REGION_CRITERIA_FAILED",
-        "NEGATIVE_EVIDENCE_PRESERVED_WITHOUT_RESCUE",
-        "ATS2-RF-013 — Strategy #4 idea sourcing",
-        "full ATS Local CI for RF-012 Strategy #3 closeout",
+        'TASK_ID = "ATS2-RF-013"',
+        "RF-013 Strategy #4 sourcing artifact",
+        "STRATEGY_4_IDEA_SOURCING.md",
+        "S4-FAM-01 - Currency carry / interest-rate differential",
+        "S4-FAM-05 - Customer/order-flow prediction",
+        "RF-013 must not create IDEA-0004",
+        "bounded shortlist retained without winner selection",
+        "full ATS Local CI for RF-013 Strategy #4 sourcing",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1944,6 +1963,7 @@ def main() -> int:
         'strategy_3_prototype_test: "tests/test_hyp0003_proto01.py"',
         'strategy_3_prototype_result: "reports/research/HYP-0003-PROTOTYPE-01-result.json"',
         'strategy_3_closeout: "governance/program/STRATEGY_3_CLOSEOUT.md"',
+        'strategy_4_idea_sourcing: "governance/program/STRATEGY_4_IDEA_SOURCING.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1956,10 +1976,11 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-011"',
-        'current_task: "ATS2-RF-012"', 'current_ready_task: "ATS2-RF-012"',
-        'next_task: "ATS2-RF-013"',
-        'current_wbs: "WBS-RF.2"',
+        'last_completed_task_id: "ATS2-RF-012"',
+        'current_task: "ATS2-RF-013"', 'current_ready_task: "ATS2-RF-013"',
+        'next_task: "ATS2-RF-014"',
+        'current_wbs: "WBS-RF.1"',
+        'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
         'preparation_decision: "READY_FOR_FREEZE_REVIEW"',
         'source_qualified_currency_count: 9',
@@ -1989,6 +2010,12 @@ def main() -> int:
         'prototype_result_sha256: "a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620"',
         'prototype_reveal_commit: "f974b9bb60a6cc295cb8aaba4a263499c14769c0"',
         'research_line_status: "REJECTED_AT_R3"',
+        'strategy_4_sourcing_status: "RF013_SHORTLIST_IN_PROGRESS"',
+        'strategy_4_families_reviewed: 5',
+        'strategy_4_families_shortlisted: 4',
+        'strategy_4_selected_family: null',
+        'active_idea_id: null',
+        'active_hypothesis_id: null',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -2087,11 +2114,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-011") != "DONE / PASS":
         core.fail("RF-011 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-012") != "READY":
-        core.fail("RF-012 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-012") != "DONE / PASS":
+        core.fail("RF-012 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-013") != "BLOCKED":
-        core.fail("RF-013 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-013") != "READY":
+        core.fail("RF-013 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-014") != "BLOCKED":
+        core.fail("RF-014 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
