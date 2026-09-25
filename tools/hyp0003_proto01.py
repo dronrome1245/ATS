@@ -184,8 +184,7 @@ def side_turnover(previous: tuple[str, ...], current: tuple[str, ...]) -> float:
     previous_weight = 1.0 / len(previous)
     current_weight = 1.0 / len(current)
     retained = sum(
-        min(previous_weight, current_weight)
-        for currency in set(previous).intersection(current)
+        min(previous_weight, current_weight) for currency in set(previous).intersection(current)
     )
     return 1.0 - retained
 
