@@ -531,7 +531,7 @@ Do not change research/data semantics. Make the affected tool explicit about the
 2. Do not rely on pytest `pythonpath` to make a direct `python tools/file.py` launcher work.
 3. Do not rely on script-directory-only imports for modules that pytest imports as `tools.*`.
 4. Fast Local CI must retain `pytest --collect-only -q` for pytest/package-context failures.
-5. Agent preflight must execute the current task checker in import-only mode using the same direct-script path before the full Local CI gate.
+5. Agent preflight must run a `current task checker import smoke` in import-only mode using the same direct-script path before the full Local CI gate.
 6. Tools that need the `src/ats` package under direct execution must expose that package root deterministically without changing research semantics.
 7. Import-context fixes must not alter frozen research parameters, dataset identity or outcome rules.
 
