@@ -5,53 +5,48 @@
 - M0–M3: `COMPLETED / PASS`.
 - M4 reusable baseline WBS-4.1…4.8: `COMPLETED`; M4.9/M4.10 wait for an eligible S05 PASS Candidate.
 - M6: `COMPLETED / PASS`.
-- Strategy #1: rejected at R3.
-- Strategy #2: rejected at R3.
+- Strategy #1: `REJECTED_AT_R3`.
+- Strategy #2: `REJECTED_AT_R3`.
 - Strategy #3 / HYP-0003: `REJECTED_AT_R3`.
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-011 reveal
+## Verified RF-012 closure
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`f974b9bb60a6cc295cb8aaba4a263499c14769c0`
+`90d8f4f44f84d6116fa7ee1e815ecc827b213bcf`
 
 Canonical last completed artifact:
 
-`reports/research/HYP-0003-PROTOTYPE-01-result.json`
+`governance/program/STRATEGY_3_CLOSEOUT.md`
 
-Canonical result SHA-256:
+HYP-0003 remains terminal negative evidence and is not reopened.
 
-`a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620`
-
-Frozen reveal result:
-
-- decision: `REJECT`;
-- reason: `ONE_OR_MORE_BROAD_REGION_CRITERIA_FAILED`;
-- next action: `STOP_HYP0003`;
-- all cells observed: `true`;
-- median cell mean: `-0.0013404354655954772`;
-- positive mean cells: `8 / 25`;
-- positive formation span: `4 / 5`;
-- positive holding span: `4 / 5`.
-
-The median and positive-cell-count criteria failed. HYP-0003 therefore cannot enter R4 or be rescued by selecting isolated favorable cells.
-
-## RF-012 Strategy #3 closeout
+## RF-013 Strategy #4 idea sourcing
 
 Current task:
 
-`ATS2-RF-012 — Strategy #3 early-rejection closeout`
+`ATS2-RF-013 — Strategy #4 idea sourcing`
 
 Canonical next artifact:
 
-`governance/program/STRATEGY_3_CLOSEOUT.md`
+`governance/program/STRATEGY_4_IDEA_SOURCING.md`
 
-RF-012 preserves the full negative result, updates the prototype/state/backlog to `REJECTED_AT_R3`, records methodological/platform learnings, and keeps all live/capital permissions false.
+RF-013 reviews five research families:
 
-After RF-012 exact-head PASS:
+1. currency carry / interest-rate differential;
+2. macroeconomic announcement response;
+3. intraday time/session effect;
+4. currency value / PPP / REER;
+5. customer/order-flow prediction.
 
-`ATS2-RF-013 — Strategy #4 idea sourcing`
+The immediate shortlist contains the first four. Order flow is retained but not immediately shortlisted because no reproducible acquisition path is confirmed.
 
-becomes the next continuous Research Factory task.
+No family is ranked or selected. No `IDEA-0004` exists yet.
+
+After RF-013 exact-head PASS:
+
+`ATS2-RF-014 — Strategy #4 family selection and Idea intake`
+
+may select at most one family or park all four.

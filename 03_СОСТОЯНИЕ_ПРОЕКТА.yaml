@@ -97,13 +97,14 @@ model:
   strategy_3_prototype_test: "tests/test_hyp0003_proto01.py"
   strategy_3_prototype_result: "reports/research/HYP-0003-PROTOTYPE-01-result.json"
   strategy_3_closeout: "governance/program/STRATEGY_3_CLOSEOUT.md"
+  strategy_4_idea_sourcing: "governance/program/STRATEGY_4_IDEA_SOURCING.md"
 
 current:
-  focus: "Close out rejected HYP-0003 and preserve the full negative result"
-  last_completed_task_id: "ATS2-RF-011"
-  last_completed_artifact: "reports/research/HYP-0003-PROTOTYPE-01-result.json"
-  next_artifact: "governance/program/STRATEGY_3_CLOSEOUT.md"
-  next_task_id: "ATS2-RF-012"
+  focus: "Build a bounded Strategy #4 research-family shortlist without selecting a winner"
+  last_completed_task_id: "ATS2-RF-012"
+  last_completed_artifact: "governance/program/STRATEGY_3_CLOSEOUT.md"
+  next_artifact: "governance/program/STRATEGY_4_IDEA_SOURCING.md"
+  next_task_id: "ATS2-RF-013"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -337,7 +338,7 @@ m6:
 research_factory:
   objective: "Continuously source and screen new strategy ideas until a future Candidate earns S05 PASS"
   status: IN_PROGRESS
-  current_strategy_sequence: 3
+  current_strategy_sequence: 4
   completed_tasks:
     - "ATS2-RF-001"
     - "ATS2-RF-002"
@@ -350,6 +351,7 @@ research_factory:
     - "ATS2-RF-009"
     - "ATS2-RF-010"
     - "ATS2-RF-011"
+    - "ATS2-RF-012"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -367,9 +369,10 @@ research_factory:
     - "tools/hyp0003_proto01.py"
     - "tests/test_hyp0003_proto01.py"
     - "reports/research/HYP-0003-PROTOTYPE-01-result.json"
-  current_task: "ATS2-RF-012"
-  current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-013"
+    - "governance/program/STRATEGY_3_CLOSEOUT.md"
+  current_task: "ATS2-RF-013"
+  current_wbs: "WBS-RF.1"
+  next_task: "ATS2-RF-014"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -421,12 +424,18 @@ research_factory:
   prototype_reveal_commit: "f974b9bb60a6cc295cb8aaba4a263499c14769c0"
   research_line_status: "REJECTED_AT_R3"
   confirmatory_hypothesis_required_after_development_pass: true
+  strategy_4_sourcing_status: "RF013_SHORTLIST_IN_PROGRESS"
+  strategy_4_families_reviewed: 5
+  strategy_4_families_shortlisted: 4
+  strategy_4_selected_family: null
+  active_idea_id: null
+  active_hypothesis_id: null
   candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-012"
-  current_ready_wbs: "WBS-RF.2"
+  current_ready_task: "ATS2-RF-013"
+  current_ready_wbs: "WBS-RF.1"
 
 handoff_policy:
   update_after_material_step: true
