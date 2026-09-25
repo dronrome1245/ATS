@@ -43,10 +43,8 @@ def check_hypothesis() -> bool:
         "TRANSITION",
         "OFF_HOURS",
         "EURUSD",
-        "median(abs_next_1h_return | CORE_ACTIVE) > "
-        "median(abs_next_1h_return | OFF_HOURS)",
-        "median(relative_spread | CORE_ACTIVE) <= "
-        "median(relative_spread | OFF_HOURS)",
+        "median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)",
+        "median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)",
         "DATA_FEASIBILITY",
         "No HYP-0004 outcome may be computed",
     )
