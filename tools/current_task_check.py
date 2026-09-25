@@ -8,10 +8,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-RF-014"
-TASK_NAME = "Strategy #4 family selection and Idea intake"
-SELECTION = Path("governance/program/STRATEGY_4_FAMILY_SELECTION.md")
-IDEA = Path("research/ideas/IDEA-0004.md")
+TASK_ID = "ATS2-RF-015"
+TASK_NAME = "HYP-0004 formation"
+HYPOTHESIS = Path("research/hypotheses/HYP-0004.md")
+DATA_FEASIBILITY = Path("research/reviews/HYP-0004-DATA_FEASIBILITY.md")
 
 
 def emit_progress(percent: int) -> None:
@@ -27,53 +27,40 @@ def run(name: str, command: list[str]) -> bool:
     return passed
 
 
-def check_selection() -> bool:
-    print("\n== RF-014 Strategy #4 family selection / Idea Intake ==", flush=True)
-    selection_path = ROOT / SELECTION
-    idea_path = ROOT / IDEA
-    if not selection_path.is_file():
-        print(f"[FAIL] missing family-selection artifact: {SELECTION}", flush=True)
-        return False
-    if not idea_path.is_file():
-        print(f"[FAIL] missing Idea artifact: {IDEA}", flush=True)
+def check_hypothesis() -> bool:
+    print("\n== RF-015 HYP-0004 formation artifact ==", flush=True)
+    path = ROOT / HYPOTHESIS
+    if not path.is_file():
+        print(f"[FAIL] missing Hypothesis artifact: {HYPOTHESIS}", flush=True)
         return False
 
-    selection = selection_path.read_text(encoding="utf-8")
-    selection_markers = (
-        "ATS2-RF-014",
-        "S4-FAM-03 — INTRADAY_TIME_SESSION_EFFECT",
-        "`SELECT`",
-        "research/ideas/IDEA-0004.md",
-        "`SCREEN`",
-        "ATS2-RF-015 — HYP-0004 formation",
-        "does not claim that an intraday/session effect is profitable",
-        "No claim is made that any unselected family is inferior",
+    text = path.read_text(encoding="utf-8")
+    markers = (
+        "HYP-0004",
+        "IDEA-0004",
+        "READY_FOR_DATA_FEASIBILITY",
+        "CORE_ACTIVE",
+        "TRANSITION",
+        "OFF_HOURS",
+        "EURUSD",
+        "median(abs_next_1h_return | CORE_ACTIVE) > "
+        "median(abs_next_1h_return | OFF_HOURS)",
+        "median(relative_spread | CORE_ACTIVE) <= "
+        "median(relative_spread | OFF_HOURS)",
+        "DATA_FEASIBILITY",
+        "No HYP-0004 outcome may be computed",
     )
-    for marker in selection_markers:
-        if marker not in selection:
-            print(f"[FAIL] family-selection marker missing: {marker}", flush=True)
+    for marker in markers:
+        if marker not in text:
+            print(f"[FAIL] HYP-0004 marker missing: {marker}", flush=True)
             return False
 
-    idea = idea_path.read_text(encoding="utf-8")
-    idea_markers = (
-        "Idea ID: `IDEA-0004`",
-        "Status: `SCREENING`",
-        "CLOCK_SESSION_CONDITIONAL_FX_DISTRIBUTION_SHIFT",
-        "Decision: `SCREEN`",
-        "research/hypotheses/HYP-0004.md",
-        "No directional sign, session boundary, instrument, bucket width, threshold or target magnitude is fixed by this Idea.",
-    )
-    for marker in idea_markers:
-        if marker not in idea:
-            print(f"[FAIL] IDEA-0004 marker missing: {marker}", flush=True)
-            return False
-
-    if (ROOT / "research/hypotheses/HYP-0004.md").exists():
-        print("[FAIL] RF-014 must not create HYP-0004", flush=True)
+    if (ROOT / DATA_FEASIBILITY).exists():
+        print("[FAIL] RF-015 must not create the HYP-0004 Data Feasibility review", flush=True)
         return False
 
     print(
-        "[PASS] RF-014 selected one family and screened IDEA-0004 without parameter fixation",
+        "[PASS] RF-015 registered a bounded HYP-0004 before outcome inspection",
         flush=True,
     )
     return True
@@ -92,21 +79,21 @@ def main() -> int:
     print(f"Commit: {commit}")
 
     emit_progress(45)
-    selection = check_selection()
+    hypothesis = check_hypothesis()
 
     emit_progress(65)
     governance = run(
-        "RF-014 Strategy #4 family-selection governance validation",
+        "RF-015 HYP-0004 formation governance validation",
         [sys.executable, "tools/validate_repo.py"],
     )
 
     emit_progress(80)
     full_ci = run(
-        "full ATS Local CI for RF-014 Strategy #4 family selection",
+        "full ATS Local CI for RF-015 HYP-0004 formation",
         [sys.executable, "tools/verify_repo.py"],
     )
 
-    passed = all((selection, governance, full_ci))
+    passed = all((hypothesis, governance, full_ci))
     if passed:
         emit_progress(100)
     print(f"\nATS CURRENT TASK CHECK: {'PASS' if passed else 'FAIL'}", flush=True)
