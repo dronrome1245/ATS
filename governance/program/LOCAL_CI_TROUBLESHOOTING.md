@@ -505,38 +505,37 @@ Apply only the pinned-Ruff lint correction on the same `agent/*` branch and do n
 
 **Scope:** agents and any tooling that writes Python through remote repository APIs.
 
-### LCI-010 — Tool imports under script context but not pytest package context
+### LCI-010 — Python tool import context differs from its actual execution context
 
 **First observed:** 2026-09-22 on `199e81861b6aab5c5844a76cadfb183f4fc693a8`  
-**Class:** `TEST_IMPORT`
+**Repeat observed:** 2026-09-25 on `927eb6349142bb9cea0007e5290a421fe3c0fc7a` during RF-009 current-task launch  
+**Class:** `IMPORT_CONTEXT`
 
 **Symptom**
 
-Fast validator, Ruff lint and Ruff format all pass. Full pytest then fails during collection before any test runs:
+A Python tool passes syntax/Ruff and can even pass the full pytest suite, but fails when executed through its real launcher because its import path differs from the test/import context.
 
-`ModuleNotFoundError: No module named 'proto01_eurusd'`
-
-The test imports `tools.hyp0002_proto01`, while that module used a script-context sibling import:
-
-`from proto01_eurusd import ...`
+The first occurrence was a pytest-package import failure for `tools.hyp0002_proto01`. The repeat occurred after agent preflight and `167/167` pytest passed: direct `python tools/current_task_check.py` failed with `ModuleNotFoundError: No module named 'ats'` because pytest exposes `src` through configuration while direct script execution exposes `tools/`.
 
 **Root cause**
 
-A Python tool was authored to run correctly as `python tools/file.py` but was not import-safe under the namespace used by pytest. Syntax compilation and Ruff do not execute imports, so the defect escaped the previous pre-push checks.
+Python importability is context-dependent in the current repository: pytest adds `src` through its configured `pythonpath`, while direct script execution sets the script directory as the leading path. Static compilation and Ruff do not execute imports, and a pytest-only check cannot prove direct-launch importability.
 
 **Correct response**
 
-Do not change the frozen research protocol. Remove the script-only sibling import from the runner and make the trivial file/time helpers self-contained. Verify the module can be imported as `tools.hyp0002_proto01`.
+Do not change research/data semantics. Make the affected tool explicit about the package root required by its actual launcher, or remove context-dependent sibling imports. Verify both the pytest namespace and the exact direct-launch top-level import context before proceeding.
 
 **Preventive rule**
 
-1. New Python tools that tests import must be importable in the exact pytest namespace/context.
-2. Do not rely on script-directory-only imports for such tools.
-3. Fast Local CI must run `pytest --collect-only -q` so collection/import failures stop before the full suite.
-4. Agent pre-push checks for new Python tools must include an actual import smoke, not only syntax compilation.
-5. Import-context fixes must not alter frozen research parameters or outcome rules.
+1. Python tools must be importable in every execution context actually used by repository launchers/tests.
+2. Do not rely on pytest `pythonpath` to make a direct `python tools/file.py` launcher work.
+3. Do not rely on script-directory-only imports for modules that pytest imports as `tools.*`.
+4. Fast Local CI must retain `pytest --collect-only -q` for pytest/package-context failures.
+5. Agent preflight must execute the current task checker in import-only mode using the same direct-script path before the full Local CI gate.
+6. Tools that need the `src/ats` package under direct execution must expose that package root deterministically without changing research semantics.
+7. Import-context fixes must not alter frozen research parameters, dataset identity or outcome rules.
 
-**Scope:** agents and research/development tooling.
+**Scope:** agents, task launchers and research/development tooling.
 
 ### LCI-008 — Serialized row passed to typed continuity helper
 

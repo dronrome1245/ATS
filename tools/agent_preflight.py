@@ -33,6 +33,24 @@ def ref_exists(ref: str) -> bool:
     return completed.returncode == 0
 
 
+def run_current_task_import_smoke() -> int:
+    smoke_code = (
+        "import runpy; "
+        "runpy.run_path('tools/current_task_check.py', "
+        "run_name='agent_preflight_import_smoke')"
+    )
+    command = [sys.executable, "-c", smoke_code]
+    print("\n== current task checker import smoke ==", flush=True)
+    print("$ " + " ".join(command), flush=True)
+    completed = subprocess.run(command, cwd=ROOT, text=True)
+    passed = completed.returncode == 0
+    print(
+        f"[{'PASS' if passed else 'FAIL'}] current task checker import smoke",
+        flush=True,
+    )
+    return completed.returncode
+
+
 def run_full_gate() -> int:
     command = [sys.executable, "tools/verify_repo.py"]
     print("\n== full ATS Local CI on agent branch ==", flush=True)
@@ -93,6 +111,10 @@ def main() -> int:
     if not changed:
         print("[FAIL] agent branch has no changes relative to main", flush=True)
         return 1
+
+    import_smoke = run_current_task_import_smoke()
+    if import_smoke != 0:
+        return import_smoke
 
     return run_full_gate()
 

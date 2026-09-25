@@ -28,7 +28,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | `LCI-007` | `DATA_SOURCE_NETWORK` | 7 | REPEAT_AFTER_CONTROL_THRESHOLD | cache + current Dukascopy Jetta H1 path + legacy BI5 fallback + metadata fallback + retry batches; normalize direct OSError/socket resets |
 | `LCI-008` | `TEST` | 2 | RECURRING | task-specific tests must isolate representation and filesystem/cache state; cache-aware network tests use temp paths |
 | `LCI-009` | `LINT` | 2 | RECURRING | pinned Ruff lint runs on exact `agent/*` content before merge; apply the reported lint fix without changing research/runtime logic |
-| `LCI-010` | `TEST_IMPORT` | 1 | OBSERVED | fast pytest collection plus same-context import smoke for new Python tools; avoid script-only sibling imports |
+| `LCI-010` | `IMPORT_CONTEXT` | 2 | RECURRING | agent preflight executes the current task checker in its direct-script import context before full Local CI; pytest collection remains mandatory |
 | `LCI-011` | `DATA_SOURCE_DISCOVERY_PROTOCOL` | 1 | OBSERVED | use Dukascopy HistoryStart metadata for first H1 availability; content URLs only verify required boundary data |
 | `LCI-012` | `DATA_SOURCE_REQUEST_PROTOCOL` | 1 | OBSERVED | send the provider-required freeserv Referer and regression-test the constructed request |
 | `LCI-013` | `DATA_SOURCE_COHERENCE` | 1 | OBSERVED | require one source format for both BID and ASK of each symbol/month; mixed Jetta/BI5 pairs are blocked |
@@ -85,6 +85,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-24 | `LCI-009` | `4675d472efc016e92deeb886ab171d3cf8e79cfa` on `agent/rf008-jetta-geometry-diag` | agent preflight lint | Ruff F541 rejected an f-string with no placeholders in the diagnostic scanner before merge; `main` remained unchanged |
 | 2026-09-22 | `LCI-009` | `213fb1116e7ca2fc866fc7281b57215d3908cb64` | lint | Ruff I001 rejected a blank line between `import yaml` and sibling-tool import `from proto01_eurusd ...`; format itself passed |
 | 2026-09-22 | `LCI-010` | `199e81861b6aab5c5844a76cadfb183f4fc693a8` | pytest collection | `tools.hyp0002_proto01` imported a sibling tool with script-only `from proto01_eurusd ...`, causing ModuleNotFoundError when pytest imported it as `tools.*` |
+| 2026-09-25 | `LCI-010` | `927eb6349142bb9cea0007e5290a421fe3c0fc7a` on `agent/rf009-development-data-freeze` | current task launcher import | agent preflight and 167/167 pytest passed, but direct `python tools/current_task_check.py` could not import `ats` because the repository uses a `src/` layout and the direct script context did not expose `src` |
 
 ## 4. Rule-conversion discipline
 

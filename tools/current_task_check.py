@@ -7,11 +7,14 @@ import hashlib
 import json
 import subprocess
 import sys
+from importlib import import_module
 from pathlib import Path
 
-from ats.schemas.dataset_manifest import load_dataset_manifest
-
 ROOT = Path(__file__).resolve().parents[1]
+SRC_ROOT = ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+load_dataset_manifest = import_module("ats.schemas.dataset_manifest").load_dataset_manifest
 TASK_ID = "ATS2-RF-009"
 TASK_NAME = "HYP-0003 development data freeze"
 RF008_RESULT = Path("reports/research/HYP-0003-DEVELOPMENT-DATA-PREP-result.json")
