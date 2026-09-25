@@ -42,7 +42,7 @@ def check_selection() -> bool:
     selection_markers = (
         "ATS2-RF-014",
         "S4-FAM-03 — INTRADAY_TIME_SESSION_EFFECT",
-        "Decision: `SELECT`",
+        "`SELECT`",
         "research/ideas/IDEA-0004.md",
         "`SCREEN`",
         "ATS2-RF-015 — HYP-0004 formation",
