@@ -62,10 +62,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 47. `ATS2-RF-010` — HYP-0003 PROTO-01 freeze — `DONE / PASS`.
 48. `ATS2-RF-011` — HYP-0003 PROTO-01 reveal — `DONE / PASS`.
 49. `ATS2-RF-012` — Strategy #3 early-rejection closeout — `DONE / PASS`.
-50. `ATS2-RF-013` — Strategy #4 idea sourcing — `READY`.
-51. `ATS2-RF-014` — Strategy #4 family selection and Idea intake — `BLOCKED` pending RF-013 exact-head PASS.
+50. `ATS2-RF-013` — Strategy #4 idea sourcing — `DONE / PASS`.
+51. `ATS2-RF-014` — Strategy #4 family selection and Idea intake — `READY`.
+52. `ATS2-RF-015` — HYP-0004 formation — `BLOCKED` pending RF-014 exact-head PASS.
 
-Program-level current next task — `ATS2-RF-013`.
+Program-level current next task — `ATS2-RF-014`.
 
 ## 3. M0 / M1
 
@@ -152,19 +153,28 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-010` | `WBS-RF.2` | P1 | DONE / PASS | RF-009 PASS | `research/reviews/HYP-0003-PROTOTYPE-01.md` + frozen runner + synthetic tests | Exact-main OWNER launcher PASS on `dbb93b2510334561c7c38aa14b859aa42a420bbc` froze the complete 25-cell runner/decision contract with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-011` | `WBS-RF.2` | P1 | DONE / PASS | RF-010 PASS | `reports/research/HYP-0003-PROTOTYPE-01-result.json` + updated prototype evidence | Exact-main OWNER reveal on `f974b9bb60a6cc295cb8aaba4a263499c14769c0` retained all 25 cells and returned `REJECT / STOP_HYP0003`: median cell mean `-0.0013404354655954772`, positive cells `8/25`, formation span `4/5`, holding span `4/5` |
 | `ATS2-RF-012` | `WBS-RF.2` | P1 | DONE / PASS | RF-011 REJECT | `governance/program/STRATEGY_3_CLOSEOUT.md` + updated prototype/state/backlog | Exact-main OWNER launcher PASS on `90d8f4f44f84d6116fa7ee1e815ecc827b213bcf` preserved the complete HYP-0003 negative result and closed Strategy #3 as `REJECTED_AT_R3` without rescue |
-| `ATS2-RF-013` | `WBS-RF.1` | P1 | READY | RF-012 PASS | `governance/program/STRATEGY_4_IDEA_SOURCING.md` | Review a bounded literature-informed set of materially new research families, retain the full denominator, shortlist without ranking, and create no Idea or winner |
-| `ATS2-RF-014` | `WBS-RF.1` | P1 | BLOCKED | RF-013 PASS | Strategy #4 family-selection artifact + optional `research/ideas/IDEA-0004.md` | Select at most one immediate-shortlist family for Idea Intake or explicitly park all; selection must be based on mechanism/data/cheap-test value rather than historical headline returns |
+| `ATS2-RF-013` | `WBS-RF.1` | P1 | DONE / PASS | RF-012 PASS | `governance/program/STRATEGY_4_IDEA_SOURCING.md` | Exact-main OWNER launcher PASS on `d8ba5544111ff05fc48c59939acccb337b220e99` retained five reviewed families and a four-family shortlist without ranking, selection or IDEA-0004 |
+| `ATS2-RF-014` | `WBS-RF.1` | P1 | READY | RF-013 PASS | `governance/program/STRATEGY_4_FAMILY_SELECTION.md` + `research/ideas/IDEA-0004.md` | Select at most one immediate-shortlist family for Idea Intake or explicitly park all; current admission selects S4-FAM-03 based on mechanism/data/cheap-test value without fixing strategy parameters |
+| `ATS2-RF-015` | `WBS-RF.2` | P1 | BLOCKED | RF-014 PASS | `research/hypotheses/HYP-0004.md` | Turn IDEA-0004 into one falsifiable intraday/session claim with bounded material degrees of freedom before data/prototype outcome inspection |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-013 — Strategy #4 idea sourcing`.
+`ATS2-RF-014 — Strategy #4 family selection and Idea intake`.
 
 Canonical artifact:
 
-`governance/program/STRATEGY_4_IDEA_SOURCING.md`
+`governance/program/STRATEGY_4_FAMILY_SELECTION.md`
 
-RF-013 reviews five research families and places four into an immediate shortlist without ranking or selecting a winner. It creates no `IDEA-0004`, chooses no final parameters and performs no market-data backtest.
+Companion Idea:
 
-After RF-013 exact-head PASS, `ATS2-RF-014 — Strategy #4 family selection and Idea intake` may select at most one family or park all four.
+`research/ideas/IDEA-0004.md`
+
+RF-013 is closed with exact-main OWNER PASS on `d8ba5544111ff05fc48c59939acccb337b220e99`.
+
+RF-014 may select at most one of the four immediate-shortlist families or park all. The current selection admits `S4-FAM-03 — INTRADAY_TIME_SESSION_EFFECT` for Idea Intake because of its distinct mechanism, reproducible existing-class quote-data path and cheap bounded falsification route.
+
+RF-014 creates no performance evidence and fixes no session bucket, instrument, provider, direction, horizon or threshold.
+
+After RF-014 exact-head PASS, `ATS2-RF-015 — HYP-0004 formation` becomes ready.
