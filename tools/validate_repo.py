@@ -71,6 +71,9 @@ HYP0003_DEVELOPMENT_MANIFEST = (
 HYP0003_DEVELOPMENT_SCHEMA = (
     "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json"
 )
+HYP0003_PROTOTYPE = "research/reviews/HYP-0003-PROTOTYPE-01.md"
+HYP0003_PROTOTYPE_TOOL = "tools/hyp0003_proto01.py"
+HYP0003_PROTOTYPE_TEST = "tests/test_hyp0003_proto01.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -236,6 +239,9 @@ def configure() -> None:
         HYP0003_DEVELOPMENT_DATA_PREP_RESULT,
         HYP0003_DEVELOPMENT_MANIFEST,
         HYP0003_DEVELOPMENT_SCHEMA,
+        HYP0003_PROTOTYPE,
+        HYP0003_PROTOTYPE_TOOL,
+        HYP0003_PROTOTYPE_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -280,6 +286,9 @@ def configure() -> None:
         "strategy_3_data_feasibility_tool",
         "strategy_3_development_data_prep",
         "strategy_3_development_data_tool",
+        "strategy_3_prototype",
+        "strategy_3_prototype_runner",
+        "strategy_3_prototype_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
