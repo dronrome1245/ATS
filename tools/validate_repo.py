@@ -915,7 +915,7 @@ def configure() -> None:
     core.CONTENT_MARKERS[STRATEGY_4_FAMILY_SELECTION] = (
         "ATS2-RF-014",
         "S4-FAM-03 — INTRADAY_TIME_SESSION_EFFECT",
-        "distinct mechanism",
+        "Distinct mechanism",
         "Reproducible data path",
         "Cheap falsification path",
         "Research-freedom boundary",
@@ -1619,14 +1619,13 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-013"',
-        "RF-013 Strategy #4 sourcing artifact",
-        "STRATEGY_4_IDEA_SOURCING.md",
-        "S4-FAM-01 - Currency carry / interest-rate differential",
-        "S4-FAM-05 - Customer/order-flow prediction",
-        "RF-013 must not create IDEA-0004",
-        "bounded shortlist retained without winner selection",
-        "full ATS Local CI for RF-013 Strategy #4 sourcing",
+        'TASK_ID = "ATS2-RF-014"',
+        "RF-014 Strategy #4 family selection / Idea Intake",
+        "STRATEGY_4_FAMILY_SELECTION.md",
+        "IDEA-0004.md",
+        "RF-014 must not create HYP-0004",
+        "selected one family and screened IDEA-0004 without parameter fixation",
+        "full ATS Local CI for RF-014 Strategy #4 family selection",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
