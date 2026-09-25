@@ -108,8 +108,7 @@ def check_canonical_freeze() -> bool:
         actual = result.get(key)
         if actual != expected:
             print(
-                f"[FAIL] canonical RF-008 result mismatch for {key}: "
-                f"{actual!r} != {expected!r}",
+                f"[FAIL] canonical RF-008 result mismatch for {key}: {actual!r} != {expected!r}",
                 flush=True,
             )
             return False
