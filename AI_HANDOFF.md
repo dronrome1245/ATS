@@ -11,44 +11,48 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-013 closure
+## Verified RF-014 closure
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`d8ba5544111ff05fc48c59939acccb337b220e99`
+`b1392ad843c57bf0ca4c2d0575f4095957b80e82`
 
 Canonical last completed artifact:
 
-`governance/program/STRATEGY_4_IDEA_SOURCING.md`
-
-RF-013 retained a denominator of five reviewed families and a four-family immediate shortlist without ranking or selecting a winner.
-
-## RF-014 Strategy #4 family selection and Idea Intake
-
-Current task:
-
-`ATS2-RF-014 — Strategy #4 family selection and Idea intake`
-
-Canonical next artifact:
-
 `governance/program/STRATEGY_4_FAMILY_SELECTION.md`
 
-Companion Idea:
+Companion completed Idea:
 
 `research/ideas/IDEA-0004.md`
 
-Current selected family for admission:
+RF-014 selected `S4-FAM-03 — INTRADAY_TIME_SESSION_EFFECT` for Idea Intake and screened IDEA-0004 without fixing performance-selected parameters.
 
-`S4-FAM-03 — INTRADAY_TIME_SESSION_EFFECT`
+## RF-015 HYP-0004 formation
 
-Selection basis is research-process value: distinct mechanism, falsifiability, existing-class granular BID/ASK data path and cheap bounded first test. It is not based on reported headline returns and is not evidence of edge.
-
-IDEA-0004 receives `SCREEN / SCREENING`. RF-014 selects no instrument, provider, session bucket, DST rule, direction, horizon, threshold or performance target.
-
-The other immediate-shortlist families remain research-relevant and are not declared inferior or rejected.
-
-After RF-014 exact-head PASS:
+Current task:
 
 `ATS2-RF-015 — HYP-0004 formation`
 
-must define one bounded falsifiable intraday/session claim before material performance testing.
+Canonical next artifact:
+
+`research/hypotheses/HYP-0004.md`
+
+HYP-0004 is a bounded structural EUR/USD fixed-UTC claim. It fixes:
+
+- `CORE_ACTIVE`: UTC hours 07–16;
+- `TRANSITION`: UTC hours 17–20, retained but not part of the primary decision;
+- `OFF_HOURS`: UTC hours 21–23 and 00–06;
+- next-hour absolute midpoint return as the movement outcome;
+- boundary relative BID/ASK spread as the friction diagnostic;
+- two primary inequalities that must both pass;
+- a rule forbidding post-result clock-window search inside HYP-0004.
+
+HYP-0004 status is `READY_FOR_DATA_FEASIBILITY` with decision `DATA_FEASIBILITY`.
+
+The exact provider, coverage dates and permissible boundary-lag tolerance remain unknown and must be verified before quantitative testing.
+
+After RF-015 exact-head PASS:
+
+`ATS2-RF-016 — HYP-0004 Data Feasibility`
+
+must determine whether the required synchronized BID/ASK hourly-boundary information can be represented honestly and reproducibly. No HYP-0004 outcome is computed during RF-015.
