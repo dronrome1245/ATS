@@ -14,15 +14,17 @@ GitHub remains the remote source-control repository. Repository correctness is v
 
 For task completion, the stable owner launcher is:
 
-```bat
-ATS_TASK_CHECK.bat
+```powershell
+.\\ATS_TASK_CHECK.bat
 ```
+
+When commands are shown for Windows PowerShell, repository-local BAT launchers must always include the explicit current-directory prefix `.\\`. PowerShell does not search the current directory for commands by default. Use `.\\ATS_TASK_CHECK.bat`, `.\\ATS_AGENT_PREFLIGHT.bat` and `.\\ATS_TASK_DIAG.bat`; do not instruct OWNER to run the bare BAT filename from PowerShell.
 
 It performs repository update, frozen environment sync and the task-specific package in `tools/current_task_check.py`, then writes `reports/local_ci/CURRENT_TASK_REPORT.txt`.
 
 The agent updates `tools/current_task_check.py` when the active task changes; the BAT remains stable.
 
-OWNER should use `ATS_TASK_CHECK.bat` and send `CURRENT_TASK_REPORT.txt` instead of manually copying console commands/output.
+OWNER should use `.\\ATS_TASK_CHECK.bat` in PowerShell and send `CURRENT_TASK_REPORT.txt` instead of manually copying console commands/output.
 
 ## Agent staging workflow before main
 
@@ -30,7 +32,7 @@ Material changes authored through remote repository APIs are staged on an `agent
 
 The OWNER pre-merge launcher is:
 
-`ATS_AGENT_PREFLIGHT.bat`
+`.\\ATS_AGENT_PREFLIGHT.bat`
 
 It:
 
@@ -48,7 +50,7 @@ An agent branch may be squash-merged to `main` only after `ATS AGENT PREFLIGHT: 
 
 When the first failing stage is task runtime and the root cause is not yet proven, use:
 
-`ATS_TASK_DIAG.bat`
+`.\\ATS_TASK_DIAG.bat`
 
 It invokes `tools/current_task_diag.py` and writes:
 
