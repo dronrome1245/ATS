@@ -7,49 +7,51 @@
 - M6: `COMPLETED / PASS`.
 - Strategy #1: rejected at R3.
 - Strategy #2: rejected at R3.
+- Strategy #3 / HYP-0003: `REJECTED_AT_R3`.
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-010 closure
+## Verified RF-011 reveal
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`dbb93b2510334561c7c38aa14b859aa42a420bbc`
+`f974b9bb60a6cc295cb8aaba4a263499c14769c0`
 
 Canonical last completed artifact:
 
-`research/reviews/HYP-0003-PROTOTYPE-01.md`
+`reports/research/HYP-0003-PROTOTYPE-01-result.json`
 
-RF-010 froze the complete HYP-0003 PROTO-01 25-cell formation/ranking/basket/execution/metrics/breadth contract without evaluating the development dataset.
+Canonical result SHA-256:
 
-Frozen runner:
+`a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620`
 
-`tools/hyp0003_proto01.py`
+Frozen reveal result:
 
-Frozen runner Git blob:
+- decision: `REJECT`;
+- reason: `ONE_OR_MORE_BROAD_REGION_CRITERIA_FAILED`;
+- next action: `STOP_HYP0003`;
+- all cells observed: `true`;
+- median cell mean: `-0.0013404354655954772`;
+- positive mean cells: `8 / 25`;
+- positive formation span: `4 / 5`;
+- positive holding span: `4 / 5`.
 
-`d65746f39476ba3fee8cf59acfd0b2f82af9c663`
+The median and positive-cell-count criteria failed. HYP-0003 therefore cannot enter R4 or be rescued by selecting isolated favorable cells.
 
-Information boundary at RF-010 closure:
-
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
-
-## RF-011 HYP-0003 PROTO-01 reveal
+## RF-012 Strategy #3 closeout
 
 Current task:
 
-`ATS2-RF-011 — HYP-0003 PROTO-01 reveal`
+`ATS2-RF-012 — Strategy #3 early-rejection closeout`
 
-Canonical next artifact after result review:
+Canonical next artifact:
 
-`reports/research/HYP-0003-PROTOTYPE-01-result.json`
+`governance/program/STRATEGY_3_CLOSEOUT.md`
 
-RF-011 verifies the exact frozen runner, frozen dataset identity and full Local CI before executing the runner once. It retains all 25 cells and applies the pre-written breadth decision rule.
+RF-012 preserves the full negative result, updates the prototype/state/backlog to `REJECTED_AT_R3`, records methodological/platform learnings, and keeps all live/capital permissions false.
 
-If the result is positive under all breadth criteria, HYP-0003 still cannot enter R4 directly; the frozen next-action is `CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4`.
+After RF-012 exact-head PASS:
 
-If the breadth rule fails, HYP-0003 is rejected at R3.
+`ATS2-RF-013 — Strategy #4 idea sourcing`
 
-Protected tail remains unavailable.
-
-Run `ATS_AGENT_PREFLIGHT.bat` on the reveal agent branch and return `AGENT_PREFLIGHT_REPORT.txt`. The reveal itself occurs only after merge to exact `main`.
+becomes the next continuous Research Factory task.

@@ -74,6 +74,8 @@ HYP0003_DEVELOPMENT_SCHEMA = (
 HYP0003_PROTOTYPE = "research/reviews/HYP-0003-PROTOTYPE-01.md"
 HYP0003_PROTOTYPE_TOOL = "tools/hyp0003_proto01.py"
 HYP0003_PROTOTYPE_TEST = "tests/test_hyp0003_proto01.py"
+HYP0003_PROTOTYPE_RESULT = "reports/research/HYP-0003-PROTOTYPE-01-result.json"
+STRATEGY_3_CLOSEOUT = "governance/program/STRATEGY_3_CLOSEOUT.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -242,6 +244,8 @@ def configure() -> None:
         HYP0003_PROTOTYPE,
         HYP0003_PROTOTYPE_TOOL,
         HYP0003_PROTOTYPE_TEST,
+        HYP0003_PROTOTYPE_RESULT,
+        STRATEGY_3_CLOSEOUT,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -289,6 +293,8 @@ def configure() -> None:
         "strategy_3_prototype",
         "strategy_3_prototype_runner",
         "strategy_3_prototype_test",
+        "strategy_3_prototype_result",
+        "strategy_3_closeout",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -844,17 +850,41 @@ def configure() -> None:
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE] = (
         "HYP-0003",
         "PROTO-01",
-        "FROZEN_PRE_REVEAL",
+        "COMPLETED / REJECT",
         "25 / 25",
         "basket_size = max(1, ceil(eligible_currency_count / 6))",
         "winner_long_returns",
         "loser_short_returns",
         "QUOTE_EXECUTABLE_AFTER_SPREAD_BEFORE_FINANCING",
-        "ADVANCE_TO_ECONOMIC_SCREEN",
-        "CREATE_NEW_CONFIRMATORY_HYPOTHESIS_BEFORE_R4",
-        "PENDING_RF011_REVEAL",
-        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-        "RF-011",
+        "ONE_OR_MORE_BROAD_REGION_CRITERIA_FAILED",
+        "DEVELOPMENT_REVEALED_PROTOTYPE_REJECTED",
+        "a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620",
+        "STOP_HYP0003",
+    )
+    core.CONTENT_MARKERS[HYP0003_PROTOTYPE_RESULT] = (
+        '"schema_version": "hyp0003-proto01-result-1"',
+        '"hypothesis_id": "HYP-0003"',
+        '"prototype_sequence": "PROTO-01"',
+        '"declared_cell_count": 25',
+        '"all_cells_observed": true',
+        '"median_cell_mean": -0.0013404354655954772',
+        '"positive_mean_cell_count": 8',
+        '"positive_formation_period_count": 4',
+        '"positive_holding_period_count": 4',
+        '"decision": "REJECT"',
+        '"decision_reason": "ONE_OR_MORE_BROAD_REGION_CRITERIA_FAILED"',
+        '"next_action": "STOP_HYP0003"',
+        '"git_commit": "f974b9bb60a6cc295cb8aaba4a263499c14769c0"',
+    )
+    core.CONTENT_MARKERS[STRATEGY_3_CLOSEOUT] = (
+        "ATS2-RF-012",
+        "REJECTED_AT_R3",
+        "reports/research/HYP-0003-PROTOTYPE-01-result.json",
+        "a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620",
+        "8 / 25",
+        "4 / 5",
+        "NEGATIVE_EVIDENCE_PRESERVED_WITHOUT_RESCUE",
+        "ATS2-RF-013 — Strategy #4 idea sourcing",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
@@ -1078,6 +1108,7 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[".gitattributes"] = (
         "tests/fixtures/datasets/*.csv text eol=lf",
+        "reports/research/HYP-0003-PROTOTYPE-01-result.json -text",
     )
     core.CONTENT_MARKERS["src/ats/data/loader.py"] = (
         "class DatasetLoadError",
@@ -1540,17 +1571,15 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-011"',
-        "RF-011 frozen reveal inputs",
-        "EXPECTED_RUNNER_GIT_BLOB",
-        "d65746f39476ba3fee8cf59acfd0b2f82af9c663",
-        "Existing local result found; validating without recomputation.",
-        "exact frozen HYP-0003 PROTO-01 runner",
-        "result must retain exactly 25 cells",
-        "result does not belong to exact current commit",
-        "RF-011 reveal result contract",
-        "Result SHA-256:",
-        "full ATS Local CI before RF-011 reveal",
+        'TASK_ID = "ATS2-RF-012"',
+        "RF-012 HYP-0003 terminal result / closeout",
+        "EXPECTED_RESULT_SHA256",
+        "EXPECTED_REVEAL_COMMIT",
+        "canonical result must retain all 25 cells",
+        "ONE_OR_MORE_BROAD_REGION_CRITERIA_FAILED",
+        "NEGATIVE_EVIDENCE_PRESERVED_WITHOUT_RESCUE",
+        "ATS2-RF-013 — Strategy #4 idea sourcing",
+        "full ATS Local CI for RF-012 Strategy #3 closeout",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1913,6 +1942,8 @@ def main() -> int:
         'strategy_3_prototype: "research/reviews/HYP-0003-PROTOTYPE-01.md"',
         'strategy_3_prototype_runner: "tools/hyp0003_proto01.py"',
         'strategy_3_prototype_test: "tests/test_hyp0003_proto01.py"',
+        'strategy_3_prototype_result: "reports/research/HYP-0003-PROTOTYPE-01-result.json"',
+        'strategy_3_closeout: "governance/program/STRATEGY_3_CLOSEOUT.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1925,9 +1956,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-010"',
-        'current_task: "ATS2-RF-011"', 'current_ready_task: "ATS2-RF-011"',
-        'next_task: "TO_BE_SELECTED_AFTER_RF011_REVEAL"',
+        'last_completed_task_id: "ATS2-RF-011"',
+        'current_task: "ATS2-RF-012"', 'current_ready_task: "ATS2-RF-012"',
+        'next_task: "ATS2-RF-013"',
         'current_wbs: "WBS-RF.2"',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
         'preparation_decision: "READY_FOR_FREEZE_REVIEW"',
@@ -1953,7 +1984,11 @@ def main() -> int:
         'prototype_freeze_status: "FROZEN_RF010"',
         'rf010_verified_commit: "dbb93b2510334561c7c38aa14b859aa42a420bbc"',
         'prototype_runner_git_blob: "d65746f39476ba3fee8cf59acfd0b2f82af9c663"',
-        'prototype_result_status: "NOT_REVEALED"',
+        'prototype_result_status: "REVEALED_REJECTED"',
+        'prototype_outcome: "REJECT"',
+        'prototype_result_sha256: "a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620"',
+        'prototype_reveal_commit: "f974b9bb60a6cc295cb8aaba4a263499c14769c0"',
+        'research_line_status: "REJECTED_AT_R3"',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -2049,8 +2084,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-010") != "DONE / PASS":
         core.fail("RF-010 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-011") != "READY":
-        core.fail("RF-011 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-011") != "DONE / PASS":
+        core.fail("RF-011 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-012") != "READY":
+        core.fail("RF-012 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-013") != "BLOCKED":
+        core.fail("RF-013 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

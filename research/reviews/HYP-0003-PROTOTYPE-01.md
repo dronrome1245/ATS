@@ -6,7 +6,7 @@
 - Data Feasibility review: `research/reviews/HYP-0003-DATA-FEASIBILITY.md`
 - Prototype sequence: `PROTO-01`
 - Created on: `2026-09-25`
-- Status: `FROZEN_PRE_REVEAL`
+- Status: `COMPLETED / REJECT`
 
 ## Prototype question
 
@@ -195,45 +195,78 @@ Frozen positive-result next-action label:
 - Synthetic contract tests: `tests/test_hyp0003_proto01.py`
 - Local result: `reports/local_ci/HYP0003_PROTO01_RESULT.json`
 - Local result report: `reports/local_ci/HYP0003_PROTO01_RESULT_REPORT.txt`
-- Future canonical result: `reports/research/HYP-0003-PROTOTYPE-01-result.json`
+- Canonical result: `reports/research/HYP-0003-PROTOTYPE-01-result.json`
+- Result file SHA-256: `a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620`
+- Reveal commit: `f974b9bb60a6cc295cb8aaba4a263499c14769c0`
 
-RF-010 freezes these artifacts and must not execute the runner against the frozen development CSV.
+RF-010 froze the protocol and runner without executing the development dataset.
 
-RF-011 is the separate reveal task.
+RF-011 then executed the exact frozen runner once after full Local CI PASS.
 
 ## Search and iteration accounting
 
-- Prototype iterations inspected before reveal: `0 results`
-- Declared parameter variants: `25`
+- Prototype iterations inspected: `1 result`
+- Declared parameter variants retained: `25 / 25`
 - Markets/universe inspected: `1 frozen nine-currency FX universe`
 - Material data-source changes after RF-009 freeze: `0`
+- Frozen-runner changes after RF-010 freeze: `0`
+- Reveal reruns used for the decision: `0`
 - Hidden or discarded variants: `0`
 
 ## Information boundary
 
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+`DEVELOPMENT_REVEALED_PROTOTYPE_REJECTED`
 
-RF-010 freezes protocol/code only. The frozen development CSV is not evaluated in this task.
+The protected tail beginning `2021-09-01T00:00:00Z` remained unavailable to HYP-0003.
 
 ## Result summary
 
-`PENDING_RF011_REVEAL`
+PROTO-01 was revealed once on the frozen development dataset.
+
+Breadth summary:
+
+- all declared cells observed: `true`;
+- median of 25 cell mean returns: `-0.0013404354655954772`;
+- median-positive criterion: `FAIL`;
+- positive-mean cells: `8 / 25`;
+- minimum positive-cell requirement: `13 / 25`;
+- positive-cell-count criterion: `FAIL`;
+- positive formation-period span: `4 / 5` — `PASS`;
+- positive holding-period span: `4 / 5` — `PASS`.
+
+Because HYP-0003 required all breadth conditions simultaneously, the broad-region claim failed.
+
+The complete machine result is retained at:
+
+`reports/research/HYP-0003-PROTOTYPE-01-result.json`
+
+Result SHA-256:
+
+`a1feee3d6495afdcc46f81ce0ee8e137896a77a3bd52de8baf6cbf53da1a7620`
 
 ## Data / implementation anomalies
 
-`NONE_REVEALED — runner has not been executed on the frozen development dataset`
+No blocking data or implementation defect was reported by the valid reveal.
+
+All 25 cells had valid observations. Observation counts ranged from `166` to `180`.
+
+For holding periods longer than one month, forward windows are heavily overlapping; many cells have overlap shares near `0.99`. This remains a dependence limitation and is not filtered away.
 
 ## Interpretation
 
-No HYP-0003 development outcome is known at RF-010 freeze.
+The frozen development surface does not support HYP-0003's pre-written claim of a broad positive cross-sectional currency-momentum region.
+
+Some individual cells have positive mean returns, but HYP-0003 explicitly prohibited using isolated favorable cells to rescue failure of the full breadth rule.
+
+This is negative exploratory prototype evidence only. It is not a statement that every possible currency-momentum formulation is false, and it is not formal validation or live-trading evidence.
 
 ## Outcome
 
-- Decision: `PENDING_RF011_REVEAL`
-- Reason: `PROTO01_FROZEN_NOT_EXECUTED`
-- Resulting action: execute the exact frozen runner once under RF-011 after exact-head OWNER PASS.
+- Decision: `REJECT`
+- Reason: `ONE_OR_MORE_BROAD_REGION_CRITERIA_FAILED`
+- Resulting action: `STOP_HYP0003`. Do not enter Economic Pre-Screen, do not create a confirmatory HYP-0003 formulation, and do not retune the 25-cell grid to rescue the line.
 
 ## Evidence classification
 
-- Evidence class after reveal: `EXPLORATORY_PROTOTYPE`
+- Evidence class: `EXPLORATORY_PROTOTYPE`
 - Registered Experiment ID: `NOT_APPLICABLE`
