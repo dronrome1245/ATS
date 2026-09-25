@@ -205,6 +205,12 @@ RF-011 is the separate reveal task.
 - Material data-source changes after RF-009 freeze: `0`
 - Hidden or discarded variants: `0`
 
+## Information boundary
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
+RF-010 freezes protocol/code only. The frozen development CSV is not evaluated in this task.
+
 ## Result summary
 
 `PENDING_RF011_REVEAL`
