@@ -1108,6 +1108,7 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[".gitattributes"] = (
         "tests/fixtures/datasets/*.csv text eol=lf",
+        "reports/research/HYP-0003-PROTOTYPE-01-result.json -text",
     )
     core.CONTENT_MARKERS["src/ats/data/loader.py"] = (
         "class DatasetLoadError",
