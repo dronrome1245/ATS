@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-24"
+  updated_on: "2026-09-25"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -92,13 +92,16 @@ model:
   strategy_3_development_data_prep_result: "reports/research/HYP-0003-DEVELOPMENT-DATA-PREP-result.json"
   strategy_3_development_dataset_manifest: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"
   strategy_3_development_dataset_schema: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json"
+  strategy_3_prototype: "research/reviews/HYP-0003-PROTOTYPE-01.md"
+  strategy_3_prototype_runner: "tools/hyp0003_proto01.py"
+  strategy_3_prototype_test: "tests/test_hyp0003_proto01.py"
 
 current:
-  focus: "Freeze the exact RF-008 HYP-0003 development dataset identity before outcome calculation"
-  last_completed_task_id: "ATS2-RF-008"
-  last_completed_artifact: "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
-  next_artifact: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"
-  next_task_id: "ATS2-RF-009"
+  focus: "Freeze HYP-0003 PROTO-01 implementation before development reveal"
+  last_completed_task_id: "ATS2-RF-009"
+  last_completed_artifact: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"
+  next_artifact: "research/reviews/HYP-0003-PROTOTYPE-01.md"
+  next_task_id: "ATS2-RF-010"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -342,6 +345,7 @@ research_factory:
     - "ATS2-RF-006"
     - "ATS2-RF-007"
     - "ATS2-RF-008"
+    - "ATS2-RF-009"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -352,9 +356,12 @@ research_factory:
     - "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"
     - "reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json"
     - "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
-  current_task: "ATS2-RF-009"
+    - "reports/research/HYP-0003-DEVELOPMENT-DATA-PREP-result.json"
+    - "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"
+    - "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json"
+  current_task: "ATS2-RF-010"
   current_wbs: "WBS-RF.2"
-  next_task: "TO_BE_SELECTED_AFTER_RF009_PASS"
+  next_task: "ATS2-RF-011"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -377,6 +384,8 @@ research_factory:
   development_data_acquisition_contract_status: "FROZEN_RF007"
   development_data_preparation_status: "RF008_OWNER_PASS_READY_FOR_FREEZE"
   rf008_verified_commit: "63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3"
+  development_data_freeze_status: "FROZEN_RF009"
+  rf009_verified_commit: "74057ebcb6d43fbb66a275c74fbd2081b148f9a2"
   development_source_objects_expected: 3906
   development_source_objects_acquired: 3906
   development_source_objects_missing: 0
@@ -394,12 +403,15 @@ research_factory:
   protected_tail_start: "2021-09-01T00:00:00Z"
   protected_tail_end_exclusive: "2026-09-01T00:00:00Z"
   information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
+  prototype_id: "PROTO-01"
+  prototype_freeze_status: "PENDING_RF010_OWNER_LAUNCHER"
+  prototype_result_status: "NOT_REVEALED"
   confirmatory_hypothesis_required_after_development_pass: true
   candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-009"
+  current_ready_task: "ATS2-RF-010"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
