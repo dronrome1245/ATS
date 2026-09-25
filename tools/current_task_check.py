@@ -72,7 +72,10 @@ def check_selection() -> bool:
         print("[FAIL] RF-014 must not create HYP-0004", flush=True)
         return False
 
-    print("[PASS] RF-014 selected one family and screened IDEA-0004 without parameter fixation", flush=True)
+    print(
+        "[PASS] RF-014 selected one family and screened IDEA-0004 without parameter fixation",
+        flush=True,
+    )
     return True
 
 
