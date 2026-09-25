@@ -1908,6 +1908,9 @@ def main() -> int:
         'strategy_3_development_data_prep_result: "reports/research/HYP-0003-DEVELOPMENT-DATA-PREP-result.json"',
         'strategy_3_development_dataset_manifest: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"',
         'strategy_3_development_dataset_schema: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json"',
+        'strategy_3_prototype: "research/reviews/HYP-0003-PROTOTYPE-01.md"',
+        'strategy_3_prototype_runner: "tools/hyp0003_proto01.py"',
+        'strategy_3_prototype_test: "tests/test_hyp0003_proto01.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -1920,9 +1923,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-008"',
-        'current_task: "ATS2-RF-009"', 'current_ready_task: "ATS2-RF-009"',
-        'next_task: "TO_BE_SELECTED_AFTER_RF009_PASS"',
+        'last_completed_task_id: "ATS2-RF-009"',
+        'current_task: "ATS2-RF-010"', 'current_ready_task: "ATS2-RF-010"',
+        'next_task: "ATS2-RF-011"',
         'current_wbs: "WBS-RF.2"',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
         'preparation_decision: "READY_FOR_FREEZE_REVIEW"',
@@ -1934,6 +1937,8 @@ def main() -> int:
         'development_data_acquisition_contract_status: "FROZEN_RF007"',
         'development_data_preparation_status: "RF008_OWNER_PASS_READY_FOR_FREEZE"',
         'rf008_verified_commit: "63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3"',
+        'development_data_freeze_status: "FROZEN_RF009"',
+        'rf009_verified_commit: "74057ebcb6d43fbb66a275c74fbd2081b148f9a2"',
         'development_source_objects_acquired: 3906',
         'development_source_objects_missing: 0',
         'development_source_bundle_sha256: "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"',
@@ -1942,6 +1947,9 @@ def main() -> int:
         'development_eligible_monthly_points_ge6: 207',
         'development_eligible_longest_12_12_geometry_points: 184',
         'protected_tail_source_objects_requested: 0',
+        'prototype_id: "PROTO-01"',
+        'prototype_freeze_status: "PENDING_RF010_OWNER_LAUNCHER"',
+        'prototype_result_status: "NOT_REVEALED"',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -2031,8 +2039,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-008") != "DONE / PASS":
         core.fail("RF-008 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-009") != "READY":
-        core.fail("RF-009 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-009") != "DONE / PASS":
+        core.fail("RF-009 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-010") != "READY":
+        core.fail("RF-010 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-011") != "BLOCKED":
+        core.fail("RF-011 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
