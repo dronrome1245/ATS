@@ -98,13 +98,15 @@ model:
   strategy_3_prototype_result: "reports/research/HYP-0003-PROTOTYPE-01-result.json"
   strategy_3_closeout: "governance/program/STRATEGY_3_CLOSEOUT.md"
   strategy_4_idea_sourcing: "governance/program/STRATEGY_4_IDEA_SOURCING.md"
+  strategy_4_family_selection: "governance/program/STRATEGY_4_FAMILY_SELECTION.md"
+  strategy_4_idea: "research/ideas/IDEA-0004.md"
 
 current:
-  focus: "Build a bounded Strategy #4 research-family shortlist without selecting a winner"
-  last_completed_task_id: "ATS2-RF-012"
-  last_completed_artifact: "governance/program/STRATEGY_3_CLOSEOUT.md"
-  next_artifact: "governance/program/STRATEGY_4_IDEA_SOURCING.md"
-  next_task_id: "ATS2-RF-013"
+  focus: "Select at most one Strategy #4 family for Idea Intake without fixing strategy parameters"
+  last_completed_task_id: "ATS2-RF-013"
+  last_completed_artifact: "governance/program/STRATEGY_4_IDEA_SOURCING.md"
+  next_artifact: "governance/program/STRATEGY_4_FAMILY_SELECTION.md"
+  next_task_id: "ATS2-RF-014"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -352,6 +354,7 @@ research_factory:
     - "ATS2-RF-010"
     - "ATS2-RF-011"
     - "ATS2-RF-012"
+    - "ATS2-RF-013"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -370,9 +373,10 @@ research_factory:
     - "tests/test_hyp0003_proto01.py"
     - "reports/research/HYP-0003-PROTOTYPE-01-result.json"
     - "governance/program/STRATEGY_3_CLOSEOUT.md"
-  current_task: "ATS2-RF-013"
+    - "governance/program/STRATEGY_4_IDEA_SOURCING.md"
+  current_task: "ATS2-RF-014"
   current_wbs: "WBS-RF.1"
-  next_task: "ATS2-RF-014"
+  next_task: "ATS2-RF-015"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -424,17 +428,21 @@ research_factory:
   prototype_reveal_commit: "f974b9bb60a6cc295cb8aaba4a263499c14769c0"
   research_line_status: "REJECTED_AT_R3"
   confirmatory_hypothesis_required_after_development_pass: true
-  strategy_4_sourcing_status: "RF013_SHORTLIST_IN_PROGRESS"
+  strategy_4_sourcing_status: "RF013_SHORTLIST_COMPLETE"
   strategy_4_families_reviewed: 5
   strategy_4_families_shortlisted: 4
-  strategy_4_selected_family: null
-  active_idea_id: null
+  rf013_verified_commit: "d8ba5544111ff05fc48c59939acccb337b220e99"
+  strategy_4_selected_family: "S4-FAM-03"
+  strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"
+  strategy_4_idea_id: "IDEA-0004"
+  strategy_4_idea_status: "SCREENING"
+  active_idea_id: "IDEA-0004"
   active_hypothesis_id: null
   candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-013"
+  current_ready_task: "ATS2-RF-014"
   current_ready_wbs: "WBS-RF.1"
 
 handoff_policy:
@@ -469,7 +477,7 @@ safety:
   emergency_stop_required_before_live: true
 
 strategy_pipeline:
-  ideas_registered: 3
+  ideas_registered: 4
   prototypes_active: 0
   candidates_active: 0
   experiments_registered: 0
