@@ -253,7 +253,9 @@ def read_relevant_bars() -> dict[str, dict[datetime, Bar]]:
             if timestamp not in targets:
                 continue
             if timestamp in bars[currency]:
-                raise Proto03Error(f"duplicate relevant timestamp for {currency}: {iso_z(timestamp)}")
+                raise Proto03Error(
+                    f"duplicate relevant timestamp for {currency}: {iso_z(timestamp)}"
+                )
             bars[currency][timestamp] = (
                 float(row["bid_open"]),
                 float(row["bid_close"]),
