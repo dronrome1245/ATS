@@ -59,10 +59,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 44. `ATS2-RF-007` — HYP-0003 Data Feasibility freeze — `DONE`.
 45. `ATS2-RF-008` — HYP-0003 development data preparation — `DONE / PASS`.
 46. `ATS2-RF-009` — HYP-0003 development data freeze — `DONE / PASS`.
-47. `ATS2-RF-010` — HYP-0003 PROTO-01 freeze — `READY`.
-48. `ATS2-RF-011` — HYP-0003 PROTO-01 reveal — `BLOCKED` pending RF-010 exact-head PASS.
+47. `ATS2-RF-010` — HYP-0003 PROTO-01 freeze — `DONE / PASS`.
+48. `ATS2-RF-011` — HYP-0003 PROTO-01 reveal — `READY`.
 
-Program-level current next task — `ATS2-RF-010`.
+Program-level current next task — `ATS2-RF-011`.
 
 ## 3. M0 / M1
 
@@ -146,21 +146,19 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-007` | `WBS-RF.2` | P1 | DONE | RF-006 PASS | `reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json` + updated `research/reviews/HYP-0003-DATA-FEASIBILITY.md` | Exact-head OWNER launcher PASS froze the 9-currency source universe, common possible coverage and full development-data acquisition contract without revealing the protected tail |
 | `ATS2-RF-008` | `WBS-RF.2` | P1 | DONE / PASS | RF-007 PASS | `research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md` + `tools/hyp0003_development_data.py` + tests + local preparation report | Exact-head OWNER launcher PASS on `63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3` acquired `3906 / 3906` source objects, prepared `1,014,509` rows, emitted frozen source/data hashes and requested zero protected-tail source objects without computing a HYP-0003 momentum cell |
 | `ATS2-RF-009` | `WBS-RF.2` | P1 | DONE / PASS | RF-008 PASS | canonical RF-008 result + development Dataset Manifest/schema + updated Data Feasibility freeze | Exact-main OWNER launcher PASS on `74057ebcb6d43fbb66a275c74fbd2081b148f9a2` froze the prepared dataset identity, schema, source/data hashes and quality facts with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
-| `ATS2-RF-010` | `WBS-RF.2` | P1 | READY | RF-009 PASS | `research/reviews/HYP-0003-PROTOTYPE-01.md` + frozen runner + synthetic tests | Freeze the exact 25-cell formation/ranking/basket/execution/metrics/breadth-decision implementation without executing it on the frozen development dataset |
-| `ATS2-RF-011` | `WBS-RF.2` | P1 | BLOCKED | RF-010 PASS | local/canonical HYP-0003 PROTO-01 result + updated prototype record | Execute the exact frozen runner once, retain all 25 cells, apply the pre-written breadth rule and classify the exploratory R3 outcome without retuning |
+| `ATS2-RF-010` | `WBS-RF.2` | P1 | DONE / PASS | RF-009 PASS | `research/reviews/HYP-0003-PROTOTYPE-01.md` + frozen runner + synthetic tests | Exact-main OWNER launcher PASS on `dbb93b2510334561c7c38aa14b859aa42a420bbc` froze the complete 25-cell runner/decision contract with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
+| `ATS2-RF-011` | `WBS-RF.2` | P1 | READY | RF-010 PASS | local/canonical HYP-0003 PROTO-01 result + updated prototype record | Execute the exact RF-010 frozen runner once, retain all 25 cells, apply the pre-written breadth rule and classify the exploratory R3 outcome without retuning |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-010 — HYP-0003 PROTO-01 freeze`.
+`ATS2-RF-011 — HYP-0003 PROTO-01 reveal`.
 
-Canonical artifact:
+Frozen runner identity:
 
-`research/reviews/HYP-0003-PROTOTYPE-01.md`
+`tools/hyp0003_proto01.py` Git blob `d65746f39476ba3fee8cf59acfd0b2f82af9c663`.
 
-Current activity is **freeze the exact 25-cell development-screen implementation and decision rule before result reveal**.
+Current activity is **execute the exact frozen 25-cell development screen once and retain the complete result**.
 
-RF-010 may use synthetic tests and verify frozen dataset identity, but it must not execute `tools/hyp0003_proto01.py` on the frozen development CSV.
-
-After RF-010 exact-head PASS, `ATS2-RF-011` performs the separate one-time reveal.
+RF-011 may not alter the frozen runner, dataset, 25-cell grid or breadth rule. If the broad-region rule passes, the next action remains creation of a new fixed confirmatory Hypothesis before R4; if it fails, HYP-0003 is rejected at R3.
