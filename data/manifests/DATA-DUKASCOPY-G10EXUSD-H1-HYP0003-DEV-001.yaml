@@ -1,0 +1,64 @@
+schema_version: "2.0"
+
+dataset_id: "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001"
+dataset_version: "1.0.0"
+description: "Frozen pre-protected nine-currency normalized H1 BID/ASK development dataset for HYP-0003; contains no HYP-0003 momentum outcomes."
+
+source:
+  source_reference: "Dukascopy monthly H1 BID/ASK source objects for AUDUSD, USDCAD, USDCHF, EURUSD, GBPUSD, USDJPY, USDNOK, NZDUSD and USDSEK under the RF-007/RF-008 contract; 3906 source objects."
+  snapshot_reference: "source-bundle-sha256:9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"
+
+storage:
+  format: "CSV"
+  location: "data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv"
+  schema_reference: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json"
+
+coverage:
+  start: "2003-08-03T21:00:00Z"
+  end: "2021-08-31T23:00:00Z"
+  scope: "Nine-currency G10-ex-USD normalized H1 BID/ASK rows; 1,014,509 rows; 207 monthly anchors with at least six cutoff-eligible currencies; 184 anchors support the declared longest 12-month formation / 12-month holding geometry."
+
+time_semantics:
+  timezone: "UTC"
+  timestamp_representation: "RFC3339"
+  event_time_field: "event_time"
+  availability_time_field: "availability_time"
+  availability_mode: "EXPLICIT_FIELD"
+
+ordering:
+  keys:
+    - "event_time"
+  tie_break_keys:
+    - "sequence"
+  direction: "ASCENDING"
+
+quality_policy:
+  duplicates: "REJECT"
+  missing: "ALLOW_DECLARED_GAPS"
+  malformed: "REJECT"
+  out_of_order: "REJECT"
+
+transformation_lineage:
+  parent_datasets: []
+  preparation_reference: "tools/hyp0003_development_data.py@63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3"
+  steps:
+    - "Acquire the 217 pre-protected calendar source months from August 2003 through August 2021 for the nine frozen Dukascopy USD pairs, BID and ASK, with coherent source format within each symbol/month pair."
+    - "Decode provider-native Jetta compact JSON or coherent legacy BI5 without filling provider gaps; preserve provider Jetta OHLC values and apply strict legacy BI5 geometry validation."
+    - "Normalize direct CURRENCYUSD pairs directly and inverse USDCURRENCY pairs by reciprocal side-aware OHLC mapping."
+    - "Set event_time to the H1 bar-open timestamp and availability_time to one hour later."
+    - "Write rows in ascending event_time and frozen currency order with a deterministic monotonic sequence tie-break."
+    - "Do not forward-fill/interpolate gaps and do not calculate formation returns, ranks, baskets, holding returns or any HYP-0003 development cell."
+
+integrity:
+  algorithm: "SHA256"
+  digest: "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"
+  reason: null
+
+known_limitations:
+  - "Raw Dukascopy source files and prepared market bytes remain local/external and are not committed to Git."
+  - "Missing expected market hours remain explicit; no interpolation or forward fill is applied."
+  - "Jetta internal high/low geometry discrepancies are diagnostic-only under provider-native compact-candle semantics; reconstructed values are preserved rather than clipped or repaired."
+  - "Commission, financing/rollover and live-fill slippage are not modeled; multi-month financing remains materially relevant before economic claims or Candidate promotion."
+  - "The protected tail beginning 2021-09-01T00:00:00Z is not part of this dataset and no protected-tail source object was requested during RF-008."
+  - "This is development data only; it is not validation, independent-examination or profitability evidence."
+  - "Information boundary: NO_HYPOTHESIS_OUTCOME_COMPUTED."

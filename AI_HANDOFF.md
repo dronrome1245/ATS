@@ -5,55 +5,47 @@
 - M0–M3: `COMPLETED / PASS`.
 - M4 reusable baseline WBS-4.1…4.8: `COMPLETED`; M4.9/M4.10 wait for an eligible S05 PASS Candidate.
 - M6: `COMPLETED / PASS`.
-- Strategy #1: отклонена на R3.
-- Strategy #2: отклонена на R3.
+- Strategy #1: rejected at R3.
+- Strategy #2: rejected at R3.
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-007 closure
+## Verified RF-008 closure
 
-OWNER launcher PASS was confirmed on exact commit:
+OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`21942dccc1985bfc422579c185e9836610627b8b`
-
-Evidence included pinned Ruff lint/format, pytest collection `149 tests`, full pytest `149 passed`, canonical RF-006 result validation, full Local CI, current task PASS and launcher PASS.
+`63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3`
 
 Canonical last completed artifact:
 
-`research/reviews/HYP-0003-DATA-FEASIBILITY.md`
+`research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md`
 
-RF-007 froze all nine source-qualified currencies, common possible development start `2003-08-03T21:00:00Z`, and the pre-protected development-data acquisition/normalization/quality contract.
+RF-008 completed all `217` source months and acquired `3906 / 3906` expected Dukascopy H1 BID/ASK source objects with `0` missing. The preparation decision was `READY_FOR_DEVELOPMENT_DATA_FREEZE`.
 
-Data Feasibility remains `CONDITIONAL` and information boundary remains `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+Frozen RF-008 evidence to canonicalize in RF-009:
 
-## RF-008 HYP-0003 development data preparation
+- dataset: `DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001@1.0.0`;
+- prepared rows: `1,014,509`;
+- prepared CSV SHA-256: `8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2`;
+- source bundle SHA-256: `9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a`;
+- common usable interval: `2003-08-03T21:00:00Z` through `2021-08-31T23:00:00Z`;
+- monthly ranking points with at least six currencies: `207`;
+- longest declared 12/12 geometry points: `184`;
+- protected-tail source objects requested: `0`;
+- information boundary: `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+
+## RF-009 HYP-0003 development data freeze
 
 Current task:
 
-`ATS2-RF-008 — HYP-0003 development data preparation`
+`ATS2-RF-009 — HYP-0003 development data freeze`
 
 Canonical next artifact:
 
-`research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md`
+`data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml`
 
-Runner:
+RF-009 creates the canonical RF-008 result, Dataset Manifest/schema and Data Feasibility freeze update. It verifies the local prepared CSV against the exact RF-008 SHA and does not rerun acquisition or calculate any HYP-0003 momentum outcome.
 
-`tools/hyp0003_development_data.py`
-
-RF-008 attempts `217` source months × `9` source pairs × `2` sides = `3906` Dukascopy monthly H1 source objects. Acquisition is resumable from local frozen source files.
-
-Local outputs:
-
-- `data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv`;
-- `reports/local_ci/HYP0003_DEVELOPMENT_DATA.json`;
-- `reports/local_ci/HYP0003_DEVELOPMENT_DATA_REPORT.txt`.
-
-RF-008 records source/data hashes, coverage, missing-market-hour and monthly-cutoff eligibility statistics. It does not calculate formation returns, ranks, baskets, holding returns or any HYP-0003 cell.
-
-Protected-tail months at or after `2021-09-01T00:00:00Z` are prohibited.
+Protected tail at or after `2021-09-01T00:00:00Z` remains prohibited.
 
 Run `ATS_TASK_CHECK.bat` and return `reports/local_ci/CURRENT_TASK_REPORT.txt`.
-
-After exact-head PASS and report review:
-
-`ATS2-RF-009 — HYP-0003 development data freeze`.

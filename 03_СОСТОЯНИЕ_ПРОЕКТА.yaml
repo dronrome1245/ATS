@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-23"
+  updated_on: "2026-09-24"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -89,13 +89,16 @@ model:
   strategy_3_data_feasibility_tool: "tools/hyp0003_data_feasibility.py"
   strategy_3_development_data_prep: "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
   strategy_3_development_data_tool: "tools/hyp0003_development_data.py"
+  strategy_3_development_data_prep_result: "reports/research/HYP-0003-DEVELOPMENT-DATA-PREP-result.json"
+  strategy_3_development_dataset_manifest: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"
+  strategy_3_development_dataset_schema: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV.schema.json"
 
 current:
-  focus: "Prepare full pre-protected HYP-0003 development dataset"
-  last_completed_task_id: "ATS2-RF-007"
-  last_completed_artifact: "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
-  next_artifact: "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
-  next_task_id: "ATS2-RF-008"
+  focus: "Freeze the exact RF-008 HYP-0003 development dataset identity before outcome calculation"
+  last_completed_task_id: "ATS2-RF-008"
+  last_completed_artifact: "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
+  next_artifact: "data/manifests/DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001.yaml"
+  next_task_id: "ATS2-RF-009"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -338,6 +341,7 @@ research_factory:
     - "ATS2-RF-005"
     - "ATS2-RF-006"
     - "ATS2-RF-007"
+    - "ATS2-RF-008"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -347,9 +351,10 @@ research_factory:
     - "research/reviews/HYP-0003-DATA-FEASIBILITY.md"
     - "research/reviews/HYP-0003-DATA-FEASIBILITY-PREP.md"
     - "reports/research/HYP-0003-DATA-FEASIBILITY-PREP-result.json"
-  current_task: "ATS2-RF-008"
+    - "research/reviews/HYP-0003-DEVELOPMENT-DATA-PREP.md"
+  current_task: "ATS2-RF-009"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-009"
+  next_task: "TO_BE_SELECTED_AFTER_RF009_PASS"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -370,7 +375,19 @@ research_factory:
   development_dataset_version: "1.0.0"
   rf007_verified_commit: "21942dccc1985bfc422579c185e9836610627b8b"
   development_data_acquisition_contract_status: "FROZEN_RF007"
-  development_data_preparation_status: "PENDING_RF008_OWNER_LAUNCHER"
+  development_data_preparation_status: "RF008_OWNER_PASS_READY_FOR_FREEZE"
+  rf008_verified_commit: "63e1bc9c7e1ba2e001ecdd9918244d83db0e58c3"
+  development_source_objects_expected: 3906
+  development_source_objects_acquired: 3906
+  development_source_objects_missing: 0
+  development_source_bundle_sha256: "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"
+  development_prepared_rows: 1014509
+  development_prepared_csv_sha256: "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"
+  development_common_usable_start: "2003-08-03T21:00:00Z"
+  development_common_usable_end: "2021-08-31T23:00:00Z"
+  development_eligible_monthly_points_ge6: 207
+  development_eligible_longest_12_12_geometry_points: 184
+  protected_tail_source_objects_requested: 0
   development_grid_variants: 25
   candidate_currency_count: 9
   minimum_feasible_currency_count: 6
@@ -382,7 +399,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-008"
+  current_ready_task: "ATS2-RF-009"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
