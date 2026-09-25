@@ -24,7 +24,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | `LCI-003` | `ENVIRONMENT` | 1 | OBSERVED | pinned uv/Python bootstrap procedure |
 | `LCI-004` | `VALIDATOR` | 4 | REPEAT_AFTER_CONTROL_THRESHOLD | extract and audit the complete current marker tuple for every changed validator-targeted file |
 | `LCI-005` | `DIRTY_TREE` | 2 | RECURRING | narrow ignore patterns for known `reports/local_ci/` runtime outputs; task-runner outputs must be covered before closure |
-| `LCI-006` | `HANDOFF_SYNC` | 1 | OBSERVED | exact canonical `last_completed_artifact`/`next_artifact`/`next_task_id` values must appear in handoff/next-step |
+| `LCI-006` | `HANDOFF_SYNC` | 2 | RECURRING | mechanically require exact canonical `last_completed_artifact`/`next_artifact`/`next_task_id` values in their required handoff/next-step surfaces before preflight |
 | `LCI-007` | `DATA_SOURCE_NETWORK` | 7 | REPEAT_AFTER_CONTROL_THRESHOLD | cache + current Dukascopy Jetta H1 path + legacy BI5 fallback + metadata fallback + retry batches; normalize direct OSError/socket resets |
 | `LCI-008` | `TEST` | 2 | RECURRING | task-specific tests must isolate representation and filesystem/cache state; cache-aware network tests use temp paths |
 | `LCI-009` | `LINT` | 2 | RECURRING | pinned Ruff lint runs on exact `agent/*` content before merge; apply the reported lint fix without changing research/runtime logic |
@@ -54,6 +54,7 @@ A new occurrence increments the existing cause. Do not create a new ID merely be
 | 2026-09-22 | `LCI-002` | `f989e6d77c94aaaa93df9bf6fdd994708b570404` | format | independent-exam checker tuple layout was stopped by fast preflight before full pytest |
 | 2026-09-22 | `LCI-002` | `2048d3c9cd7162e3e71429331bd2b5979534b1d6` | format | M4-008 checker repeated the same one-element tuple layout failure; fast preflight stopped before full pytest |
 | 2026-09-22 | `LCI-006` | `2048d3c9cd7162e3e71429331bd2b5979534b1d6` | validator | AI handoff omitted the exact canonical `last_completed_artifact` path |
+| 2026-09-25 | `LCI-006` | `efe9b920fbf0980154b1a64761fc3f6c68d5393e` on `agent/rf011-hyp0003-proto01-reveal` | agent preflight validator | `02_СЛЕДУЮЩИЙ_ШАГ.md` omitted the exact canonical `next_artifact` path `reports/research/HYP-0003-PROTOTYPE-01-result.json`; handoff/state were otherwise synchronized and 172/172 tests passed |
 | 2026-09-22 | `LCI-002` | `feb146aa0a65b3909b13efabbfe2c9097c0b74c0` | format | Ruff preferred the one-line contiguous-hour comparison in `src/ats/discovery/eurusd_h1.py`; fast preflight stopped before discovery execution |
 | 2026-09-22 | `LCI-005` | `4f51123578b7d790fce98ef329da512286fe6649` | clean tree | successful discovery run created two unignored `reports/local_ci/SEARCH-*` runtime files before full gate |
 | 2026-09-22 | `LCI-004` | `5beb1e5060e0d92427f7971759215f0916e90b7d` | validator | manual marker audit omitted the existing `Windows shortcut artifact makes Local CI tree dirty` literal after the troubleshooting heading was renamed |

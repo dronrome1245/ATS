@@ -574,6 +574,7 @@ Do not change the frozen dataset, Hypothesis, provider, cache-first production b
 ### LCI-006 — Canonical state/handoff reconciliation drift
 
 **First observed:** 2026-09-22 on `2048d3c9cd7162e3e71429331bd2b5979534b1d6`  
+**Repeat observed:** 2026-09-25 on `efe9b920fbf0980154b1a64761fc3f6c68d5393e` during RF-011 agent preflight  
 **Class:** `HANDOFF_SYNC`
 
 **Symptom**
