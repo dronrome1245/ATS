@@ -64,10 +64,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 49. `ATS2-RF-012` — Strategy #3 early-rejection closeout — `DONE / PASS`.
 50. `ATS2-RF-013` — Strategy #4 idea sourcing — `DONE / PASS`.
 51. `ATS2-RF-014` — Strategy #4 family selection and Idea intake — `DONE / PASS`.
-52. `ATS2-RF-015` — HYP-0004 formation — `READY`.
-53. `ATS2-RF-016` — HYP-0004 Data Feasibility — `BLOCKED` pending RF-015 exact-head PASS.
+52. `ATS2-RF-015` — HYP-0004 formation — `DONE / PASS`.
+53. `ATS2-RF-016` — HYP-0004 Data Feasibility — `READY`.
+54. `ATS2-RF-017` — HYP-0004 development data preparation — `BLOCKED` pending RF-016 exact-head PASS.
 
-Program-level current next task — `ATS2-RF-015`.
+Program-level current next task — `ATS2-RF-016`.
 
 ## 3. M0 / M1
 
@@ -156,31 +157,24 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-012` | `WBS-RF.2` | P1 | DONE / PASS | RF-011 REJECT | `governance/program/STRATEGY_3_CLOSEOUT.md` + updated prototype/state/backlog | Exact-main OWNER launcher PASS on `90d8f4f44f84d6116fa7ee1e815ecc827b213bcf` preserved the complete HYP-0003 negative result and closed Strategy #3 as `REJECTED_AT_R3` without rescue |
 | `ATS2-RF-013` | `WBS-RF.1` | P1 | DONE / PASS | RF-012 PASS | `governance/program/STRATEGY_4_IDEA_SOURCING.md` | Exact-main OWNER launcher PASS on `d8ba5544111ff05fc48c59939acccb337b220e99` retained five reviewed families and a four-family shortlist without ranking, selection or IDEA-0004 |
 | `ATS2-RF-014` | `WBS-RF.1` | P1 | DONE / PASS | RF-013 PASS | `governance/program/STRATEGY_4_FAMILY_SELECTION.md` + `research/ideas/IDEA-0004.md` | Exact-main OWNER launcher PASS on `b1392ad843c57bf0ca4c2d0575f4095957b80e82` selected S4-FAM-03 for Idea Intake and screened IDEA-0004 without performance-selected parameter fixation |
-| `ATS2-RF-015` | `WBS-RF.2` | P1 | READY | RF-014 PASS | `research/hypotheses/HYP-0004.md` | Register one falsifiable EUR/USD fixed-UTC intraday-activity claim with predeclared clock buckets, next-1H outcome semantics and two primary structural inequalities before outcome inspection |
-| `ATS2-RF-016` | `WBS-RF.2` | P1 | BLOCKED | RF-015 PASS | `research/reviews/HYP-0004-DATA_FEASIBILITY.md` | Verify a reproducible EUR/USD BID/ASK source, UTC/boundary semantics, exact-one-hour continuity, source coherence, coverage and dataset identity before any HYP-0004 prototype outcome |
+| `ATS2-RF-015` | `WBS-RF.2` | P1 | DONE / PASS | RF-014 PASS | `research/hypotheses/HYP-0004.md` | Exact-main OWNER launcher PASS on `79d83a5fb900e00f510c4348cc6dcb8a5489c5c0` registered the bounded fixed-UTC EUR/USD structural claim before outcome inspection |
+| `ATS2-RF-016` | `WBS-RF.2` | P1 | READY | RF-015 PASS | `research/reviews/HYP-0004-DATA-FEASIBILITY.md` | Record CONDITIONAL feasibility using the frozen HYP-0003 parent dataset as a reproducible development source; require parent-hash verification, paired bar-open coherence and exact-next-hour geometry before any HYP-0004 outcome |
+| `ATS2-RF-017` | `WBS-RF.2` | P1 | BLOCKED | RF-016 PASS | HYP-0004 development data preparation artifact + local preparation result | Verify the frozen parent identity, derive the EUR/USD H1 subset, report quality/clock-bucket geometry and freeze a dedicated HYP-0004 development dataset candidate under NO_HYPOTHESIS_OUTCOME_COMPUTED |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-015 — HYP-0004 formation`.
+`ATS2-RF-016 — HYP-0004 Data Feasibility`.
 
 Canonical artifact:
 
-`research/hypotheses/HYP-0004.md`
+`research/reviews/HYP-0004-DATA-FEASIBILITY.md`
 
-RF-014 is closed with exact-main OWNER PASS on `b1392ad843c57bf0ca4c2d0575f4095957b80e82`.
+RF-015 is closed with exact-main OWNER PASS on `79d83a5fb900e00f510c4348cc6dcb8a5489c5c0`.
 
-HYP-0004 fixes one EUR/USD fixed-UTC structural claim before outcome inspection:
+RF-016 records `CONDITIONAL` feasibility. The bounded development path reuses the frozen parent dataset `DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001` and requires a deterministic EUR/USD derivation before any HYP-0004 outcome.
 
-- `CORE_ACTIVE`: UTC hours 07–16;
-- `TRANSITION`: UTC hours 17–20, reported but not part of the primary decision;
-- `OFF_HOURS`: UTC hours 21–23 and 00–06;
-- next exact 1H absolute midpoint return as the movement outcome;
-- relative BID/ASK spread at the decision boundary as the friction diagnostic;
-- both primary inequalities must pass;
-- no alternative clock-window search is allowed inside HYP-0004 after reveal.
+The next preparation must verify the frozen parent SHA-256, paired `bid_open/ask_open` coherence, exact-next-hour continuity, full denominator and bucket/year geometry. It may not calculate return/spread distribution summaries or either primary HYP-0004 inequality.
 
-RF-015 computes no HYP-0004 outcome.
-
-After RF-015 exact-head PASS, `ATS2-RF-016 — HYP-0004 Data Feasibility` becomes ready.
+After RF-016 exact-head PASS, `ATS2-RF-017 — HYP-0004 development data preparation` becomes ready.

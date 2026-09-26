@@ -8,10 +8,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-RF-015"
-TASK_NAME = "HYP-0004 formation"
-HYPOTHESIS = Path("research/hypotheses/HYP-0004.md")
-DATA_FEASIBILITY = Path("research/reviews/HYP-0004-DATA_FEASIBILITY.md")
+TASK_ID = "ATS2-RF-016"
+TASK_NAME = "HYP-0004 Data Feasibility"
+REVIEW = Path("research/reviews/HYP-0004-DATA-FEASIBILITY.md")
+PREPARATION = Path("research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md")
 
 
 def emit_progress(percent: int) -> None:
@@ -27,38 +27,38 @@ def run(name: str, command: list[str]) -> bool:
     return passed
 
 
-def check_hypothesis() -> bool:
-    print("\n== RF-015 HYP-0004 formation artifact ==", flush=True)
-    path = ROOT / HYPOTHESIS
+def check_review() -> bool:
+    print("\n== RF-016 HYP-0004 Data Feasibility artifact ==", flush=True)
+    path = ROOT / REVIEW
     if not path.is_file():
-        print(f"[FAIL] missing Hypothesis artifact: {HYPOTHESIS}", flush=True)
+        print(f"[FAIL] missing Data Feasibility review: {REVIEW}", flush=True)
         return False
 
     text = path.read_text(encoding="utf-8")
     markers = (
-        "HYP-0004",
-        "IDEA-0004",
-        "READY_FOR_DATA_FEASIBILITY",
-        "CORE_ACTIVE",
-        "TRANSITION",
-        "OFF_HOURS",
-        "EURUSD",
-        "median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)",
-        "median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)",
-        "DATA_FEASIBILITY",
-        "No HYP-0004 outcome may be computed",
+        "ATS2-RF-016",
+        "Hypothesis ID: `HYP-0004`",
+        "Review status: `CONDITIONAL`",
+        "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001",
+        "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2",
+        "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001",
+        "ask_open >= bid_open",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "Prototype authorization:",
+        "`NOT_YET_AUTHORIZED`",
+        "ATS2-RF-017 — HYP-0004 development data preparation",
     )
     for marker in markers:
         if marker not in text:
-            print(f"[FAIL] HYP-0004 marker missing: {marker}", flush=True)
+            print(f"[FAIL] HYP-0004 Data Feasibility marker missing: {marker}", flush=True)
             return False
 
-    if (ROOT / DATA_FEASIBILITY).exists():
-        print("[FAIL] RF-015 must not create the HYP-0004 Data Feasibility review", flush=True)
+    if (ROOT / PREPARATION).exists():
+        print("[FAIL] RF-016 must not create the RF-017 preparation artifact", flush=True)
         return False
 
     print(
-        "[PASS] RF-015 registered a bounded HYP-0004 before outcome inspection",
+        "[PASS] RF-016 recorded CONDITIONAL feasibility without HYP-0004 outcome computation",
         flush=True,
     )
     return True
@@ -77,21 +77,21 @@ def main() -> int:
     print(f"Commit: {commit}")
 
     emit_progress(45)
-    hypothesis = check_hypothesis()
+    review = check_review()
 
     emit_progress(65)
     governance = run(
-        "RF-015 HYP-0004 formation governance validation",
+        "RF-016 HYP-0004 Data Feasibility governance validation",
         [sys.executable, "tools/validate_repo.py"],
     )
 
     emit_progress(80)
     full_ci = run(
-        "full ATS Local CI for RF-015 HYP-0004 formation",
+        "full ATS Local CI for RF-016 HYP-0004 Data Feasibility",
         [sys.executable, "tools/verify_repo.py"],
     )
 
-    passed = all((hypothesis, governance, full_ci))
+    passed = all((review, governance, full_ci))
     if passed:
         emit_progress(100)
     print(f"\nATS CURRENT TASK CHECK: {'PASS' if passed else 'FAIL'}", flush=True)
