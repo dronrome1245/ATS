@@ -11,48 +11,50 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-014 closure
+## Verified RF-015 closure
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`b1392ad843c57bf0ca4c2d0575f4095957b80e82`
+`79d83a5fb900e00f510c4348cc6dcb8a5489c5c0`
 
 Canonical last completed artifact:
 
-`governance/program/STRATEGY_4_FAMILY_SELECTION.md`
+`research/hypotheses/HYP-0004.md`
 
-Companion completed Idea:
+HYP-0004 remains `READY_FOR_DATA_FEASIBILITY` and fixes EUR/USD, the three UTC buckets, next exact 1H movement outcome and the two primary structural inequalities before outcome inspection.
 
-`research/ideas/IDEA-0004.md`
-
-RF-014 selected `S4-FAM-03 — INTRADAY_TIME_SESSION_EFFECT` for Idea Intake and screened IDEA-0004 without fixing performance-selected parameters.
-
-## RF-015 HYP-0004 formation
+## RF-016 HYP-0004 Data Feasibility
 
 Current task:
 
-`ATS2-RF-015 — HYP-0004 formation`
+`ATS2-RF-016 — HYP-0004 Data Feasibility`
 
 Canonical next artifact:
 
-`research/hypotheses/HYP-0004.md`
+`research/reviews/HYP-0004-DATA-FEASIBILITY.md`
 
-HYP-0004 is a bounded structural EUR/USD fixed-UTC claim. It fixes:
+Current feasibility decision:
 
-- `CORE_ACTIVE`: UTC hours 07–16;
-- `TRANSITION`: UTC hours 17–20, retained but not part of the primary decision;
-- `OFF_HOURS`: UTC hours 21–23 and 00–06;
-- next-hour absolute midpoint return as the movement outcome;
-- boundary relative BID/ASK spread as the friction diagnostic;
-- two primary inequalities that must both pass;
-- a rule forbidding post-result clock-window search inside HYP-0004.
+`CONDITIONAL`
 
-HYP-0004 status is `READY_FOR_DATA_FEASIBILITY` with decision `DATA_FEASIBILITY`.
+The preferred development path reuses the frozen HYP-0003 parent dataset:
 
-The exact provider, coverage dates and permissible boundary-lag tolerance remain unknown and must be verified before quantitative testing.
+`DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001`
 
-After RF-015 exact-head PASS:
+Prepared-data SHA-256:
 
-`ATS2-RF-016 — HYP-0004 Data Feasibility`
+`8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2`
 
-must determine whether the required synchronized BID/ASK hourly-boundary information can be represented honestly and reproducibly. No HYP-0004 outcome is computed during RF-015.
+Source-bundle SHA-256:
+
+`9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a`
+
+RF-016 permits a preparation step only. It does not authorize the HYP-0004 structural reveal.
+
+RF-017 must verify the parent identity on the OWNER host, derive only the fixed EUR/USD rows, check paired bar-open BID/ASK coherence, enforce exact-next-hour continuity and freeze a dedicated dataset identity under `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+
+Planned development dataset ID:
+
+`DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001`
+
+No HYP-0004 absolute-return/spread distribution summary or primary inequality is computed during RF-016.
