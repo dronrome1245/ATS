@@ -151,9 +151,9 @@ def load_manifest() -> dict[str, Any]:
         raise Proto04Error("development manifest prepared CSV SHA-256 mismatch")
     if sha256_file(DATA_PATH) != EXPECTED_DATASET_SHA256:
         raise Proto04Error("development prepared CSV SHA-256 mismatch")
-    limitations = manifest.get("known_limitations", [])
-    if not any(BOUNDARY_AVAILABILITY_MODE in str(item) for item in limitations):
-        raise Proto04Error("boundary availability limitation missing from manifest")
+    lineage_steps = manifest.get("transformation_lineage", {}).get("steps", [])
+    if not any(BOUNDARY_AVAILABILITY_MODE in str(item) for item in lineage_steps):
+        raise Proto04Error("boundary availability mode missing from manifest lineage")
     return manifest
 
 
