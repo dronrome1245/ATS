@@ -19,9 +19,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data/derived/HYP-0004-DEV-01-EURUSD-H1.csv"
-MANIFEST_PATH = (
-    ROOT / "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml"
-)
+MANIFEST_PATH = ROOT / "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml"
 RESULT_PATH = ROOT / "reports/local_ci/HYP0004_PROTO01_RESULT.json"
 RESULT_REPORT_PATH = ROOT / "reports/local_ci/HYP0004_PROTO01_RESULT_REPORT.txt"
 
@@ -183,9 +181,7 @@ def read_rows() -> dict[datetime, Row]:
             if availability_time != event_time:
                 raise Proto04Error(f"derived availability_time mismatch at line {line_no}")
             if parent_availability != event_time + timedelta(hours=1):
-                raise Proto04Error(
-                    f"parent_row_availability_time mismatch at line {line_no}"
-                )
+                raise Proto04Error(f"parent_row_availability_time mismatch at line {line_no}")
             if raw["source_symbol"] != "EURUSD":
                 raise Proto04Error(f"unexpected source_symbol at line {line_no}")
             if raw["utc_bucket"] != bucket_for_hour(event_time.hour):
@@ -363,13 +359,10 @@ def primary_summary(metrics: dict[str, Any]) -> dict[str, Any]:
             "both_primary_inequalities_pass": False,
         }
 
-    movement_pass = (
-        float(core["median_abs_next_1h_return"])
-        > float(off["median_abs_next_1h_return"])
+    movement_pass = float(core["median_abs_next_1h_return"]) > float(
+        off["median_abs_next_1h_return"]
     )
-    spread_pass = float(core["median_relative_spread"]) <= float(
-        off["median_relative_spread"]
-    )
+    spread_pass = float(core["median_relative_spread"]) <= float(off["median_relative_spread"])
     return {
         "movement_inequality_pass": movement_pass,
         "spread_inequality_pass": spread_pass,
