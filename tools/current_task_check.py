@@ -241,7 +241,10 @@ def validate_result(payload: dict[str, Any], commit: str) -> bool:
             print(f"[FAIL] calendar-year count sum mismatch for {bucket}", flush=True)
             return False
         if not math.isclose(sum(shares), 1.0, rel_tol=0.0, abs_tol=1e-12):
-            print(f"[FAIL] calendar-year observation shares do not sum to one for {bucket}", flush=True)
+            print(
+                f"[FAIL] calendar-year observation shares do not sum to one for {bucket}",
+                flush=True,
+            )
             return False
         max_share = item.get("max_calendar_year_observation_share")
         if not finite_nonnegative(max_share, f"{bucket}.max_calendar_year_observation_share"):
@@ -255,9 +258,7 @@ def validate_result(payload: dict[str, Any], commit: str) -> bool:
     expected_movement = float(core["median_abs_next_1h_return"]) > float(
         off["median_abs_next_1h_return"]
     )
-    expected_spread = float(core["median_relative_spread"]) <= float(
-        off["median_relative_spread"]
-    )
+    expected_spread = float(core["median_relative_spread"]) <= float(off["median_relative_spread"])
     expected_both = expected_movement and expected_spread
 
     primary = payload.get("primary")
@@ -308,13 +309,11 @@ def validate_result(payload: dict[str, Any], commit: str) -> bool:
 
     print(f"[PASS] RF-020 reveal result contract ({payload['decision']})", flush=True)
     print(
-        "CORE_ACTIVE median abs next-1h return: "
-        f"{core['median_abs_next_1h_return']}",
+        f"CORE_ACTIVE median abs next-1h return: {core['median_abs_next_1h_return']}",
         flush=True,
     )
     print(
-        "OFF_HOURS median abs next-1h return: "
-        f"{off['median_abs_next_1h_return']}",
+        f"OFF_HOURS median abs next-1h return: {off['median_abs_next_1h_return']}",
         flush=True,
     )
     print(f"Movement inequality pass: {expected_movement}", flush=True)
