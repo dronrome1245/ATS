@@ -8,7 +8,7 @@ import hashlib
 import json
 import math
 import subprocess
-from collections import Counter, defaultdict
+from collections import Counter
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -42,6 +42,7 @@ PARENT_REQUIRED_FIELDS = (
 DERIVED_FIELDNAMES = (
     "event_time",
     "availability_time",
+    "parent_row_availability_time",
     "sequence",
     "parent_sequence",
     "source_symbol",
@@ -80,11 +81,13 @@ def sha256_file(path: Path) -> str:
 
 
 def parse_utc_hour(value: str) -> datetime:
+    if not isinstance(value, str):
+        raise DevelopmentDataPrepError(f"timestamp must be text: {value!r}")
     if not value.endswith("Z"):
         raise DevelopmentDataPrepError(f"timestamp must use UTC Z suffix: {value!r}")
     try:
         parsed = datetime.fromisoformat(value[:-1] + "+00:00")
-    except ValueError as exc:
+    except (TypeError, ValueError) as exc:
         raise DevelopmentDataPrepError(f"invalid RFC3339 timestamp: {value!r}") from exc
     if parsed.tzinfo is None or parsed.utcoffset() != timedelta(0):
         raise DevelopmentDataPrepError(f"timestamp is not UTC: {value!r}")
@@ -227,7 +230,8 @@ def load_eurusd_rows(parent_path: Path) -> list[dict[str, Any]]:
                 {
                     "event_time": event_time,
                     "event_time_text": iso_z(event_time),
-                    "availability_time_text": iso_z(availability_time),
+                    "availability_time_text": iso_z(event_time),
+                    "parent_row_availability_time_text": iso_z(availability_time),
                     "parent_sequence": parent_sequence,
                     "source_symbol": "EURUSD",
                     "bid_open_text": row["bid_open"],
@@ -311,6 +315,9 @@ def write_derived_csv(rows: list[dict[str, Any]], destination: Path) -> str:
                 {
                     "event_time": row["event_time_text"],
                     "availability_time": row["availability_time_text"],
+                    "parent_row_availability_time": row[
+                        "parent_row_availability_time_text"
+                    ],
                     "sequence": sequence,
                     "parent_sequence": row["parent_sequence"],
                     "source_symbol": row["source_symbol"],
@@ -353,6 +360,8 @@ def build_result(
         "out_of_order_event_time_count": 0,
         "malformed_boundary_row_count": 0,
         "boundary_open_crossing_count": 0,
+        "boundary_availability_mode": "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "exact_tick_boundary_time_known": False,
         "outcome_metrics_computed": False,
         "primary_claim_evaluated": False,
         "information_boundary": INFORMATION_BOUNDARY,
@@ -393,6 +402,8 @@ def write_reports(result: dict[str, Any]) -> None:
         ),
         f"Ineligible dataset end: {result['ineligible_dataset_end_count']}",
         f"Eligible by bucket: {json.dumps(result['eligible_rows_by_bucket'], sort_keys=True)}",
+        f"Boundary availability mode: {result['boundary_availability_mode']}",
+        f"Exact tick boundary time known: {result['exact_tick_boundary_time_known']}",
         f"Outcome metrics computed: {result['outcome_metrics_computed']}",
         f"Primary claim evaluated: {result['primary_claim_evaluated']}",
         f"Information boundary: {result['information_boundary']}",
