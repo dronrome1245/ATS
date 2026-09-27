@@ -1,0 +1,65 @@
+schema_version: "2.0"
+
+dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001"
+dataset_version: "1.0.0"
+description: "Frozen EUR/USD H1 bar-open BID/ASK development dataset for HYP-0004; contains UTC bucket labels and no HYP-0004 outcome metrics."
+
+source:
+  source_reference: "Derived deterministically from frozen parent dataset DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001@1.0.0; retain only EUR / EURUSD / DIRECT rows."
+  snapshot_reference: "parent-dataset-sha256:8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2; parent-source-bundle-sha256:9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"
+
+storage:
+  format: "CSV"
+  location: "data/derived/HYP-0004-DEV-01-EURUSD-H1.csv"
+  schema_reference: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json"
+
+coverage:
+  start: "2003-08-03T21:00:00Z"
+  end: "2021-08-31T23:00:00Z"
+  scope: "112,900 fixed EUR/USD H1 boundary rows; 111,938 have an exact-next-hour eligible pair. Eligible counts: CORE_ACTIVE 47,012; TRANSITION 18,189; OFF_HOURS 46,737."
+
+time_semantics:
+  timezone: "UTC"
+  timestamp_representation: "RFC3339"
+  event_time_field: "event_time"
+  availability_time_field: "availability_time"
+  availability_mode: "EXPLICIT_FIELD"
+
+ordering:
+  keys:
+    - "event_time"
+  tie_break_keys:
+    - "sequence"
+  direction: "ASCENDING"
+
+quality_policy:
+  duplicates: "REJECT"
+  missing: "ALLOW_DECLARED_GAPS"
+  malformed: "REJECT"
+  out_of_order: "REJECT"
+
+transformation_lineage:
+  parent_datasets:
+    - "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001@1.0.0"
+  preparation_reference: "tools/hyp0004_development_data.py@ae9767a71b3860e55d345afb34b2f9c18b5dd063"
+  steps:
+    - "Verify the frozen parent prepared CSV SHA-256 before reading research rows."
+    - "Retain only currency=EUR, source_symbol=EURUSD and source_orientation=DIRECT rows."
+    - "Require exact UTC-hour event timestamps, parent_row_availability_time equal to event_time plus one hour, positive finite bid_open/ask_open, and ask_open >= bid_open."
+    - "Set derived availability_time equal to event_time under the declared H1_OPEN_PROXY_AT_EVENT_TIME development approximation while retaining parent_row_availability_time separately."
+    - "Assign CORE_ACTIVE for UTC hours 07-16, TRANSITION for 17-20, and OFF_HOURS for 21-23 and 00-06."
+    - "Do not interpolate or forward-fill gaps and do not calculate midpoint returns, relative spreads, bucket distribution summaries or either HYP-0004 primary inequality."
+
+integrity:
+  algorithm: "SHA256"
+  digest: "3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6"
+  reason: null
+
+known_limitations:
+  - "availability_time = event_time is a declared H1 bar-open development proxy, not a claim that the exact first quote inside the H1 bucket is timestamped at the boundary."
+  - "Exact tick-level boundary time is unknown; exact_tick_boundary_time_known = false."
+  - "The frozen geometry contains 940 rows whose next hour is a declared closed-market hour, 21 rows missing an expected tradable next hour, and one right-edge row; none is filled or shifted."
+  - "Raw provider bytes, the frozen parent CSV and this derived CSV remain local/external and are not committed to Git."
+  - "Commission, financing and live-fill slippage are not modeled because HYP-0004 is currently a structural distribution claim rather than a trading P&L rule."
+  - "This is development data only; it is not validation, independent-examination, profitability or live-trading evidence."
+  - "Information boundary: NO_HYPOTHESIS_OUTCOME_COMPUTED."
