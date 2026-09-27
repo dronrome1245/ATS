@@ -93,6 +93,9 @@ HYP0004_DEVELOPMENT_MANIFEST = (
 HYP0004_DEVELOPMENT_SCHEMA = (
     "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json"
 )
+HYP0004_PROTOTYPE = "research/reviews/HYP-0004-PROTOTYPE-01.md"
+HYP0004_PROTOTYPE_TOOL = "tools/hyp0004_proto01.py"
+HYP0004_PROTOTYPE_TEST = "tests/test_hyp0004_proto01.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -274,6 +277,9 @@ def configure() -> None:
         HYP0004_DEVELOPMENT_DATA_PREP_RESULT,
         HYP0004_DEVELOPMENT_MANIFEST,
         HYP0004_DEVELOPMENT_SCHEMA,
+        HYP0004_PROTOTYPE,
+        HYP0004_PROTOTYPE_TOOL,
+        HYP0004_PROTOTYPE_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -334,6 +340,9 @@ def configure() -> None:
         "strategy_4_development_data_prep_result",
         "strategy_4_development_dataset_manifest",
         "strategy_4_development_dataset_schema",
+        "strategy_4_prototype",
+        "strategy_4_prototype_runner",
+        "strategy_4_prototype_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -1064,6 +1073,48 @@ def configure() -> None:
         '"TRANSITION"',
         '"OFF_HOURS"',
     )
+    core.CONTENT_MARKERS[HYP0004_PROTOTYPE] = (
+        "HYP-0004 / PROTO-01",
+        "FROZEN / NOT_REVEALED",
+        "ATS2-RF-019",
+        "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0",
+        "111938 + 940 + 21 + 1 = 112900",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)",
+        "median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)",
+        "BOTH_PRIMARY_INEQUALITIES_MET",
+        "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
+        "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
+        "STRUCTURAL_H1_OPEN_PROXY_NO_TRADING_PNL",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "ATS2-RF-020 — HYP-0004 PROTO-01 reveal",
+    )
+    core.CONTENT_MARKERS[HYP0004_PROTOTYPE_TOOL] = (
+        "HYP-0004 PROTO-01",
+        "EXPECTED_DATASET_SHA256",
+        "EXPECTED_ELIGIBLE = 111_938",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "abs_next_1h_return",
+        "relative_spread",
+        "bucket_metrics",
+        "calendar_year_diagnostics",
+        "movement_inequality_pass",
+        "spread_inequality_pass",
+        "both_primary_inequalities_pass",
+        "BOTH_PRIMARY_INEQUALITIES_MET",
+        "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
+        "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
+        "HYP0004_PROTO01_RESULT.json",
+    )
+    core.CONTENT_MARKERS[HYP0004_PROTOTYPE_TEST] = (
+        "test_midpoint_spread_and_absolute_return_contract",
+        "test_bucket_metrics_use_median_primary_statistics",
+        "test_primary_decision_requires_both_inequalities",
+        "test_primary_decision_parks_when_primary_bucket_is_empty",
+        "test_calendar_year_diagnostics_are_reporting_only",
+        "test_exact_next_hour_geometry_does_not_bridge_closed_or_missing_hours",
+        "test_adjacent_exact_hour_rows_form_one_observation_per_start_boundary",
+    )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
         "PROTO-01",
@@ -1749,15 +1800,16 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-018"',
-        "RF-018 HYP-0004 development data freeze artifacts",
-        "HYP-0004-DEVELOPMENT-DATA-PREP-result.json",
-        "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml",
-        "4902235ce2e01ef12a325b327ef43027c95fd709ed7c4239ab08897a6575f6ea",
-        "FREEZE_DEVELOPMENT_DATASET",
-        "RF-018 must not create the RF-019 prototype artifact",
-        "froze the exact HYP-0004 development dataset without outcome computation",
-        "full ATS Local CI for RF-018 HYP-0004 development data freeze",
+        'TASK_ID = "ATS2-RF-019"',
+        "RF-019 HYP-0004 PROTO-01 frozen protocol",
+        "HYP-0004-PROTOTYPE-01.md",
+        "hyp0004_proto01.py",
+        "a42da4454249cf124e7664e1efc3632efcad002d",
+        "RF-019 must not reveal HYP-0004 outcome",
+        "BOTH_PRIMARY_INEQUALITIES_MET",
+        "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
+        "froze HYP-0004 PROTO-01 without revealing development outcomes",
+        "full ATS Local CI for RF-019 HYP-0004 PROTO-01 freeze",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1775,6 +1827,7 @@ def configure() -> None:
         "ATS LOCAL CI:", "LATEST.json",
         "tools/agent_preflight.py", "tools/current_task_diag.py",
         "tools/hyp0003_proto01.py", "tools/hyp0004_development_data.py",
+        "tools/hyp0004_proto01.py",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
@@ -1788,6 +1841,10 @@ def configure() -> None:
         "LOCAL_CI_TROUBLESHOOTING.md",
         "HYP0003_PROTO01_RESULT.json",
         "HYP0003_PROTO01_RESULT_REPORT.txt",
+        "HYP0004_DEVELOPMENT_DATA.json",
+        "HYP0004_DEVELOPMENT_DATA_REPORT.txt",
+        "HYP0004_PROTO01_RESULT.json",
+        "HYP0004_PROTO01_RESULT_REPORT.txt",
         "reports/local_ci/*.lnk",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
@@ -1982,6 +2039,8 @@ def validate_environment(repo: Path) -> int:
         "reports/local_ci/HYP0003_PROTO01_RESULT_REPORT.txt",
         "reports/local_ci/HYP0004_DEVELOPMENT_DATA.json",
         "reports/local_ci/HYP0004_DEVELOPMENT_DATA_REPORT.txt",
+        "reports/local_ci/HYP0004_PROTO01_RESULT.json",
+        "reports/local_ci/HYP0004_PROTO01_RESULT_REPORT.txt",
         "data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv*",
         "data/derived/HYP-0004-DEV-01-EURUSD-H1.csv*",
         "reports/local_ci/*.lnk",
@@ -2028,6 +2087,7 @@ def validate_environment(repo: Path) -> int:
         "tools/hyp0003_development_data.py",
         "tools/hyp0003_proto01.py",
         "tools/hyp0004_development_data.py",
+        "tools/hyp0004_proto01.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -2048,6 +2108,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_hyp0003_development_data.py",
         "tests/test_hyp0003_proto01.py",
         "tests/test_hyp0004_development_data.py",
+        "tests/test_hyp0004_proto01.py",
     ):
         path = repo / relative
         try:
@@ -2138,6 +2199,9 @@ def main() -> int:
         'strategy_4_development_data_prep_result: "reports/research/HYP-0004-DEVELOPMENT-DATA-PREP-result.json"',
         'strategy_4_development_dataset_manifest: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml"',
         'strategy_4_development_dataset_schema: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json"',
+        'strategy_4_prototype: "research/reviews/HYP-0004-PROTOTYPE-01.md"',
+        'strategy_4_prototype_runner: "tools/hyp0004_proto01.py"',
+        'strategy_4_prototype_test: "tests/test_hyp0004_proto01.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -2150,9 +2214,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-017"',
-        'current_task: "ATS2-RF-018"', 'current_ready_task: "ATS2-RF-018"',
-        'next_task: "ATS2-RF-019"',
+        'last_completed_task_id: "ATS2-RF-018"',
+        'current_task: "ATS2-RF-019"', 'current_ready_task: "ATS2-RF-019"',
+        'next_task: "ATS2-RF-020"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2192,6 +2256,7 @@ def main() -> int:
         'rf015_verified_commit: "79d83a5fb900e00f510c4348cc6dcb8a5489c5c0"',
         'rf016_verified_commit: "3628010fc04045de040794c482e57ccd2639f99b"',
         'rf017_verified_commit: "ae9767a71b3860e55d345afb34b2f9c18b5dd063"',
+        'rf018_verified_commit: "6d388c500d2c5e1671e11700966b713b95a395b8"',
         'strategy_4_selected_family: "S4-FAM-03"',
         'strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"',
         'strategy_4_idea_id: "IDEA-0004"',
@@ -2222,6 +2287,11 @@ def main() -> int:
         'strategy_4_development_ineligible_dataset_end_count: 1',
         'strategy_4_boundary_availability_mode: "H1_OPEN_PROXY_AT_EVENT_TIME"',
         'strategy_4_exact_tick_boundary_time_known: false',
+        'strategy_4_prototype_id: "PROTO-01"',
+        'strategy_4_prototype_freeze_status: "FROZEN_RF019"',
+        'strategy_4_prototype_runner_git_blob: "a42da4454249cf124e7664e1efc3632efcad002d"',
+        'strategy_4_prototype_result_status: "NOT_REVEALED"',
+        'strategy_4_prototype_positive_route: "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4"',
         'strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
         'active_idea_id: "IDEA-0004"',
         'active_hypothesis_id: "HYP-0004"',
@@ -2341,11 +2411,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-017") != "DONE / PASS":
         core.fail("RF-017 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-018") != "READY":
-        core.fail("RF-018 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-018") != "DONE / PASS":
+        core.fail("RF-018 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-019") != "BLOCKED":
-        core.fail("RF-019 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-019") != "READY":
+        core.fail("RF-019 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-020") != "BLOCKED":
+        core.fail("RF-020 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
