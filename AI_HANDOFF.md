@@ -11,58 +11,54 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-016 closure
+## Verified RF-017 closure
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`3628010fc04045de040794c482e57ccd2639f99b`
+`ae9767a71b3860e55d345afb34b2f9c18b5dd063`
 
 Canonical last completed artifact:
 
-`research/reviews/HYP-0004-DATA-FEASIBILITY.md`
+`research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md`
 
-RF-016 recorded `CONDITIONAL` feasibility with `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+RF-017 returned `READY_FOR_DEVELOPMENT_DATA_FREEZE` with:
 
-## RF-017 HYP-0004 development data preparation
+- derived dataset `DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0`;
+- `112900` rows;
+- derived SHA-256 `3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6`;
+- `111938` exact-next-hour eligible rows;
+- `CORE_ACTIVE=47012`, `TRANSITION=18189`, `OFF_HOURS=46737` eligible rows;
+- zero duplicate/out-of-order/malformed/boundary-crossing violations;
+- `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+
+## RF-018 HYP-0004 development data freeze
 
 Current task:
 
-`ATS2-RF-017 — HYP-0004 development data preparation`
-
-Canonical next artifact:
-
-`research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md`
-
-Canonical tool:
-
-`tools/hyp0004_development_data.py`
-
-Synthetic tests:
-
-`tests/test_hyp0004_development_data.py`
-
-RF-017 verifies the frozen HYP-0003 parent dataset SHA-256, filters only the preselected EUR/USD rows, validates exact UTC hour semantics and paired `bid_open/ask_open`, assigns the fixed UTC buckets, and counts exact-next-hour data geometry.
-
-Planned derived dataset:
-
-`DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001`
-
-Local path:
-
-`data/derived/HYP-0004-DEV-01-EURUSD-H1.csv`
-
-Runtime result:
-
-`reports/local_ci/HYP0004_DEVELOPMENT_DATA.json`
-
-Information boundary:
-
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
-
-RF-017 does not calculate absolute-return or relative-spread distributions and does not evaluate either primary HYP-0004 inequality.
-
-After exact-main RF-017 PASS:
-
 `ATS2-RF-018 — HYP-0004 development data freeze`
 
-must canonicalize the local preparation result before prototype work.
+Canonical result:
+
+`reports/research/HYP-0004-DEVELOPMENT-DATA-PREP-result.json`
+
+Canonical Dataset Manifest:
+
+`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml`
+
+Canonical row schema:
+
+`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json`
+
+Data Feasibility remains `CONDITIONAL`. The prototype-relevant timing condition is encoded as a frozen limitation:
+
+`H1_OPEN_PROXY_AT_EVENT_TIME`
+
+Exact tick boundary time remains unknown.
+
+RF-018 freezes data identity/geometry only and does not compute any HYP-0004 outcome.
+
+After exact-main RF-018 PASS:
+
+`ATS2-RF-019 — HYP-0004 PROTO-01 freeze`
+
+must freeze the structural prototype contract before first reveal.
