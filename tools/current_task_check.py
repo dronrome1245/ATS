@@ -62,7 +62,7 @@ def check_frozen_protocol() -> bool:
             print(f"[FAIL] RF-019 must not reveal HYP-0004 outcome: {path}", flush=True)
         return False
 
-    runner_blob = git_output("hash-object", str(RUNNER))
+    runner_blob = git_output("rev-parse", f"HEAD:{RUNNER.as_posix()}")
     if runner_blob != EXPECTED_RUNNER_GIT_BLOB:
         print(
             f"[FAIL] frozen runner git blob mismatch: "
