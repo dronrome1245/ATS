@@ -51,7 +51,7 @@ Synthetic contract tests:
 
 Runner Git blob:
 
-`a42da4454249cf124e7664e1efc3632efcad002d`
+`1bf672db5e27dab80ffc217b9ab8bc76de25b6f5`
 
 The prototype decision requires both:
 
