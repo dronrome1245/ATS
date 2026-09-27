@@ -73,6 +73,8 @@ def check_local_preparation_result(commit: str) -> bool:
         "out_of_order_event_time_count": 0,
         "malformed_boundary_row_count": 0,
         "boundary_open_crossing_count": 0,
+        "boundary_availability_mode": "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "exact_tick_boundary_time_known": False,
     }
     for key, expected in checks.items():
         actual = payload.get(key)
