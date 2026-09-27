@@ -154,12 +154,10 @@ def test_calendar_year_diagnostics_are_reporting_only() -> None:
 
     assert result["CORE_ACTIVE"]["max_calendar_year_observation_share"] == pytest.approx(2 / 3)
     assert result["CORE_ACTIVE"]["years"]["2020"]["observation_count"] == 2
-    assert result["CORE_ACTIVE"]["years"]["2020"][
-        "median_abs_next_1h_return"
-    ] == pytest.approx(0.004)
-    assert result["CORE_ACTIVE"]["years"]["2020"]["median_relative_spread"] == pytest.approx(
-        0.0002
+    assert result["CORE_ACTIVE"]["years"]["2020"]["median_abs_next_1h_return"] == pytest.approx(
+        0.004
     )
+    assert result["CORE_ACTIVE"]["years"]["2020"]["median_relative_spread"] == pytest.approx(0.0002)
 
 
 def test_exact_next_hour_geometry_does_not_bridge_closed_or_missing_hours() -> None:
