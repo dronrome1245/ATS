@@ -1801,16 +1801,17 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-019"',
-        "RF-019 HYP-0004 PROTO-01 frozen protocol",
+        'TASK_ID = "ATS2-RF-020"',
+        "RF-020 frozen reveal inputs",
         "HYP-0004-PROTOTYPE-01.md",
         "hyp0004_proto01.py",
         "cbc9a46bf5e5296615f51c0ea564153968bc2a55",
-        "RF-019 must not reveal HYP-0004 outcome",
-        "BOTH_PRIMARY_INEQUALITIES_MET",
+        "canonical HYP-0004 result exists before RF-020 reveal",
+        "exact RF-019 frozen runner/protocol/data identity",
+        "RF-020 reveal result contract",
         "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
-        "froze HYP-0004 PROTO-01 without revealing development outcomes",
-        "full ATS Local CI for RF-019 HYP-0004 PROTO-01 freeze",
+        "full ATS Local CI before RF-020 HYP-0004 reveal",
+        "RF-020 one-time HYP-0004 PROTO-01 reveal",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -2215,9 +2216,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-018"',
-        'current_task: "ATS2-RF-019"', 'current_ready_task: "ATS2-RF-019"',
-        'next_task: "ATS2-RF-020"',
+        'last_completed_task_id: "ATS2-RF-019"',
+        'current_task: "ATS2-RF-020"', 'current_ready_task: "ATS2-RF-020"',
+        'next_task: "ATS2-RF-021"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2258,6 +2259,7 @@ def main() -> int:
         'rf016_verified_commit: "3628010fc04045de040794c482e57ccd2639f99b"',
         'rf017_verified_commit: "ae9767a71b3860e55d345afb34b2f9c18b5dd063"',
         'rf018_verified_commit: "6d388c500d2c5e1671e11700966b713b95a395b8"',
+        'rf019_verified_commit: "95174c2922fd5882c995ff14b3031d690ecc80bf"',
         'strategy_4_selected_family: "S4-FAM-03"',
         'strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"',
         'strategy_4_idea_id: "IDEA-0004"',
@@ -2291,7 +2293,7 @@ def main() -> int:
         'strategy_4_prototype_id: "PROTO-01"',
         'strategy_4_prototype_freeze_status: "FROZEN_RF019"',
         'strategy_4_prototype_runner_git_blob: "cbc9a46bf5e5296615f51c0ea564153968bc2a55"',
-        'strategy_4_prototype_result_status: "NOT_REVEALED"',
+        'strategy_4_prototype_result_status: "PENDING_RF020_REVEAL"',
         'strategy_4_prototype_positive_route: "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4"',
         'strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
         'active_idea_id: "IDEA-0004"',
@@ -2415,11 +2417,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-018") != "DONE / PASS":
         core.fail("RF-018 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-019") != "READY":
-        core.fail("RF-019 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-019") != "DONE / PASS":
+        core.fail("RF-019 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-020") != "BLOCKED":
-        core.fail("RF-020 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-020") != "READY":
+        core.fail("RF-020 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-021") != "BLOCKED":
+        core.fail("RF-021 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
