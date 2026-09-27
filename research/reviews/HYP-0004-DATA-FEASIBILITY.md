@@ -339,3 +339,144 @@ RF-017 must materialize/freeze the HYP-0004 development-data candidate and repor
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
 A later task must review/freeze that prepared dataset before the HYP-0004 structural prototype can be revealed.
+
+## 18. RF-018 development data freeze update
+
+Task: `ATS2-RF-018`
+
+This update canonicalizes the exact RF-017 OWNER PASS result before any HYP-0004 outcome is calculated. It supersedes the unresolved development-data facts in Sections 12, 14, 16 and 17 while preserving the historical `CONDITIONAL` review decision and its limitations.
+
+### 18.1 Canonical RF-017 preparation result
+
+Exact-main OWNER launcher PASS was obtained on:
+
+`ae9767a71b3860e55d345afb34b2f9c18b5dd063`
+
+Canonical result:
+
+`reports/research/HYP-0004-DEVELOPMENT-DATA-PREP-result.json`
+
+RF-017 recorded:
+
+- preparation decision: `READY_FOR_DEVELOPMENT_DATA_FREEZE`;
+- parent dataset: `DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001`;
+- verified parent dataset SHA-256: `8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2`;
+- parent source-bundle SHA-256: `9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a`;
+- derived dataset: `DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0`;
+- derived rows: `112900`;
+- derived CSV SHA-256: `3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6`;
+- first event time: `2003-08-03T21:00:00Z`;
+- last event time: `2021-08-31T23:00:00Z`;
+- exact-next-hour eligible rows: `111938`;
+- boundary-open crossings: `0`;
+- duplicate timestamps: `0`;
+- out-of-order timestamps: `0`;
+- malformed boundary rows: `0`;
+- information boundary: `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+
+No HYP-0004 primary claim was evaluated.
+
+### 18.2 Frozen exact-next-hour geometry
+
+Total retained rows by UTC bucket:
+
+| Bucket | Total rows | Exact-next-hour eligible |
+|---|---:|---:|
+| `CORE_ACTIVE` | 47021 | 47012 |
+| `TRANSITION` | 18806 | 18189 |
+| `OFF_HOURS` | 47073 | 46737 |
+
+Ineligible denominator:
+
+- declared closed-market next hour: `940`;
+- missing expected tradable next hour: `21`;
+- right-edge dataset boundary: `1`.
+
+The totals reconcile exactly:
+
+`111938 + 940 + 21 + 1 = 112900`
+
+No ineligible row is shifted to another horizon or filled synthetically.
+
+### 18.3 Frozen development dataset identity
+
+Dataset:
+
+`DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0`
+
+Canonical manifest:
+
+`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml`
+
+Canonical row schema:
+
+`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json`
+
+Prepared local bytes:
+
+`data/derived/HYP-0004-DEV-01-EURUSD-H1.csv`
+
+A change to the parent dataset identity, derived digest, coverage, UTC bucket mapping, exact-next-hour eligibility rule, boundary availability mode or row schema is a material dataset change and may not silently replace this version.
+
+### 18.4 Frozen boundary timing limitation
+
+Boundary availability mode:
+
+`H1_OPEN_PROXY_AT_EVENT_TIME`
+
+Exact tick boundary time known:
+
+`false`
+
+The parent completed-H1 lineage still records parent-row availability at `event_time + 1 hour`, while the derived development dataset treats the H1 open as a boundary proxy available at `event_time`.
+
+This is an explicit approximation, not a claim that the first executable tick is known to occur exactly at the hourly boundary.
+
+Any HYP-0004 prototype conclusion must therefore be limited to the frozen H1 bar-open proxy. A later trading/execution claim would require a separate timing/execution assessment and may require finer-grained data.
+
+### 18.5 RF-018 freeze decision
+
+Freeze decision:
+
+`FREEZE_DEVELOPMENT_DATASET`
+
+Reason:
+
+RF-017 verified the exact frozen parent identity, deterministically retained the preselected EUR/USD rows, found no duplicate/out-of-order/malformed/boundary-crossing violations, exposed the full exact-next-hour denominator and produced a stable derived-data digest with substantial eligible geometry in both primary HYP-0004 buckets.
+
+The Data Feasibility decision remains:
+
+`CONDITIONAL`
+
+The condition is now encoded as a frozen limitation rather than an unresolved preparation blocker: HYP-0004 development uses `H1_OPEN_PROXY_AT_EVENT_TIME`, while exact tick boundary timing remains unknown.
+
+Prototype protocol freeze is authorized on this exact dataset and timing approximation.
+
+Prototype outcome calculation is **not** authorized during RF-018.
+
+Hypothesis reformulation required:
+
+`NO`
+
+### 18.6 Information boundary
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
+RF-018 freezes metadata, bytes identity, quality counts and time/bucket geometry only.
+
+It does not calculate:
+
+- `abs_next_1h_return`;
+- `relative_spread`;
+- any return/spread mean, median or quantile by bucket;
+- either primary HYP-0004 inequality;
+- any trading P&L.
+
+### 18.7 Next task
+
+After exact-main OWNER launcher PASS for RF-018:
+
+`ATS2-RF-019 — HYP-0004 PROTO-01 freeze`
+
+RF-019 must freeze one pre-written structural prototype question, exact metrics and the two primary HYP-0004 inequalities before the first development reveal.
+
