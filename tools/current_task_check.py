@@ -15,7 +15,7 @@ RUNNER = Path("tools/hyp0004_proto01.py")
 RUNNER_TEST = Path("tests/test_hyp0004_proto01.py")
 DATA_FEASIBILITY = Path("research/reviews/HYP-0004-DATA-FEASIBILITY.md")
 MANIFEST = Path("data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml")
-EXPECTED_RUNNER_GIT_BLOB = "a42da4454249cf124e7664e1efc3632efcad002d"
+EXPECTED_RUNNER_GIT_BLOB = "1bf672db5e27dab80ffc217b9ab8bc76de25b6f5"
 FORBIDDEN_RESULTS = (
     Path("reports/local_ci/HYP0004_PROTO01_RESULT.json"),
     Path("reports/local_ci/HYP0004_PROTO01_RESULT_REPORT.txt"),
