@@ -64,16 +64,25 @@ Required parent fields for HYP-0004 preparation:
 - `bid_open`;
 - `ask_open`.
 
-For every retained row:
+For every retained parent row:
 
 - event time must be an exact UTC hourly boundary;
-- availability time must equal `event_time + 1 hour`;
+- parent-row availability time must equal `event_time + 1 hour`, preserving the completed-H1 lineage contract;
 - BID/ASK must be finite and positive;
 - `ask_open >= bid_open`;
 - retained event times must be unique and strictly increasing;
 - source identity must remain `EURUSD / DIRECT`.
 
 No high/low/close field is used by RF-017.
+
+For the derived open-only dataset, the frozen development proxy is:
+
+- `availability_time = event_time`;
+- `parent_row_availability_time = event_time + 1 hour`;
+- availability mode: `H1_OPEN_PROXY_AT_EVENT_TIME`;
+- exact tick-level timestamp of the first quote inside the H1 bucket remains unknown.
+
+This is a declared development approximation for the bar-open proxy admitted by RF-016. It does not claim tick-exact boundary latency and must remain visible in RF-018 limitations.
 
 ## Frozen UTC bucket mapping
 
@@ -118,7 +127,8 @@ Local path:
 The derived CSV contains only:
 
 - `event_time`;
-- `availability_time`;
+- derived open-proxy `availability_time`;
+- `parent_row_availability_time`;
 - deterministic derived `sequence`;
 - original `parent_sequence`;
 - `source_symbol`;
@@ -154,6 +164,7 @@ The machine result must record at minimum:
 - derived row count and SHA-256;
 - first/last retained event time;
 - duplicate/out-of-order/malformed/boundary-crossing counts;
+- boundary availability mode and the fact that exact tick boundary time is unknown;
 - eligible/ineligible exact-next-hour counts;
 - total and eligible counts by UTC bucket;
 - total and eligible counts by calendar year;
