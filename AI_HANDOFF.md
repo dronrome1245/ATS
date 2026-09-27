@@ -11,54 +11,74 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-017 closure
+## Verified RF-018 closure
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`ae9767a71b3860e55d345afb34b2f9c18b5dd063`
+`6d388c500d2c5e1671e11700966b713b95a395b8`
 
 Canonical last completed artifact:
 
-`research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md`
+`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml`
 
-RF-017 returned `READY_FOR_DEVELOPMENT_DATA_FREEZE` with:
+RF-018 froze:
 
-- derived dataset `DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0`;
+- `DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0`;
 - `112900` rows;
-- derived SHA-256 `3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6`;
 - `111938` exact-next-hour eligible rows;
-- `CORE_ACTIVE=47012`, `TRANSITION=18189`, `OFF_HOURS=46737` eligible rows;
-- zero duplicate/out-of-order/malformed/boundary-crossing violations;
+- derived SHA-256 `3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6`;
+- `H1_OPEN_PROXY_AT_EVENT_TIME`;
+- exact tick boundary time unknown;
 - `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
 
-## RF-018 HYP-0004 development data freeze
+## RF-019 HYP-0004 PROTO-01 freeze
 
 Current task:
 
-`ATS2-RF-018 — HYP-0004 development data freeze`
-
-Canonical result:
-
-`reports/research/HYP-0004-DEVELOPMENT-DATA-PREP-result.json`
-
-Canonical Dataset Manifest:
-
-`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml`
-
-Canonical row schema:
-
-`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json`
-
-Data Feasibility remains `CONDITIONAL`. The prototype-relevant timing condition is encoded as a frozen limitation:
-
-`H1_OPEN_PROXY_AT_EVENT_TIME`
-
-Exact tick boundary time remains unknown.
-
-RF-018 freezes data identity/geometry only and does not compute any HYP-0004 outcome.
-
-After exact-main RF-018 PASS:
-
 `ATS2-RF-019 — HYP-0004 PROTO-01 freeze`
 
-must freeze the structural prototype contract before first reveal.
+Canonical prototype artifact:
+
+`research/reviews/HYP-0004-PROTOTYPE-01.md`
+
+Frozen runner:
+
+`tools/hyp0004_proto01.py`
+
+Synthetic contract tests:
+
+`tests/test_hyp0004_proto01.py`
+
+Runner Git blob:
+
+`cbc9a46bf5e5296615f51c0ea564153968bc2a55`
+
+The prototype decision requires both:
+
+`median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)`
+
+and:
+
+`median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)`
+
+`TRANSITION` is reporting-only.
+
+A positive structural result is routed to:
+
+`CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4`
+
+A failed primary inequality routes to:
+
+`STOP_HYP0004`
+
+Information boundary:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
+RF-019 freezes code and decision logic but does not run the development dataset.
+
+After exact-main RF-019 PASS:
+
+`ATS2-RF-020 — HYP-0004 PROTO-01 reveal`
+
+may execute the exact frozen runner once.
