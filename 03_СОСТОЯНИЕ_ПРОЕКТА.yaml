@@ -495,7 +495,7 @@ research_factory:
   strategy_4_exact_tick_boundary_time_known: false
   strategy_4_prototype_id: "PROTO-01"
   strategy_4_prototype_freeze_status: "FROZEN_RF019"
-  strategy_4_prototype_runner_git_blob: "1bf672db5e27dab80ffc217b9ab8bc76de25b6f5"
+  strategy_4_prototype_runner_git_blob: "cbc9a46bf5e5296615f51c0ea564153968bc2a55"
   strategy_4_prototype_result_status: "NOT_REVEALED"
   strategy_4_prototype_positive_route: "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4"
   strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
