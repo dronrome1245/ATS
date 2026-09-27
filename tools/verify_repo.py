@@ -29,6 +29,7 @@ LINT_PATHS = (
     "tools/hyp0002_proto01.py",
     "tools/hyp0003_development_data.py",
     "tools/hyp0003_proto01.py",
+    "tools/hyp0004_development_data.py",
     "src",
     "tests",
 )
@@ -45,6 +46,7 @@ FORMAT_PATHS = (
     "tools/hyp0002_proto01.py",
     "tools/hyp0003_development_data.py",
     "tools/hyp0003_proto01.py",
+    "tools/hyp0004_development_data.py",
     "src",
     "tests",
 )
