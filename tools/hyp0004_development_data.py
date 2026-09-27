@@ -140,7 +140,7 @@ def is_fx_market_hour(value: datetime) -> bool:
 def _positive_finite(value: str, field: str, line_no: int) -> float:
     try:
         parsed = float(value)
-    except ValueError as exc:
+    except (TypeError, ValueError) as exc:
         raise DevelopmentDataPrepError(
             f"invalid {field} at parent CSV line {line_no}: {value!r}"
         ) from exc
@@ -196,7 +196,7 @@ def load_eurusd_rows(parent_path: Path) -> list[dict[str, Any]]:
 
             try:
                 parent_sequence = int(row["sequence"])
-            except ValueError as exc:
+            except (TypeError, ValueError) as exc:
                 raise DevelopmentDataPrepError(
                     f"invalid parent sequence at parent CSV line {line_no}"
                 ) from exc
