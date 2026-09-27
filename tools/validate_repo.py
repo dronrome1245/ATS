@@ -1080,6 +1080,7 @@ def configure() -> None:
         "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0",
         "111938 + 940 + 21 + 1 = 112900",
         "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "1bf672db5e27dab80ffc217b9ab8bc76de25b6f5",
         "median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)",
         "median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)",
         "BOTH_PRIMARY_INEQUALITIES_MET",
