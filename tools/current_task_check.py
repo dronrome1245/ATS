@@ -65,8 +65,7 @@ def check_frozen_protocol() -> bool:
     runner_blob = git_output("rev-parse", f"HEAD:{RUNNER.as_posix()}")
     if runner_blob != EXPECTED_RUNNER_GIT_BLOB:
         print(
-            f"[FAIL] frozen runner git blob mismatch: "
-            f"{runner_blob} != {EXPECTED_RUNNER_GIT_BLOB}",
+            f"[FAIL] frozen runner git blob mismatch: {runner_blob} != {EXPECTED_RUNNER_GIT_BLOB}",
             flush=True,
         )
         return False
