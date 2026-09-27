@@ -158,8 +158,7 @@ def load_eurusd_rows(parent_path: Path) -> list[dict[str, Any]]:
     actual_sha256 = sha256_file(parent_path)
     if actual_sha256 != EXPECTED_PARENT_SHA256:
         raise DevelopmentDataPrepError(
-            "frozen parent dataset SHA-256 mismatch: "
-            f"{actual_sha256} != {EXPECTED_PARENT_SHA256}"
+            f"frozen parent dataset SHA-256 mismatch: {actual_sha256} != {EXPECTED_PARENT_SHA256}"
         )
 
     rows: list[dict[str, Any]] = []
@@ -212,9 +211,7 @@ def load_eurusd_rows(parent_path: Path) -> list[dict[str, Any]]:
             bid_open = _positive_finite(row["bid_open"], "bid_open", line_no)
             ask_open = _positive_finite(row["ask_open"], "ask_open", line_no)
             if ask_open < bid_open:
-                raise DevelopmentDataPrepError(
-                    f"ask_open < bid_open at parent CSV line {line_no}"
-                )
+                raise DevelopmentDataPrepError(f"ask_open < bid_open at parent CSV line {line_no}")
 
             if previous_event is not None:
                 if event_time == previous_event:
@@ -291,9 +288,7 @@ def geometry_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "ineligible_dataset_end_count": dataset_end_next,
         "total_rows_by_bucket": dict(sorted(total_by_bucket.items())),
         "eligible_rows_by_bucket": dict(sorted(eligible_by_bucket.items())),
-        "total_rows_by_year": {
-            str(year): count for year, count in sorted(total_by_year.items())
-        },
+        "total_rows_by_year": {str(year): count for year, count in sorted(total_by_year.items())},
         "eligible_rows_by_year": {
             str(year): count for year, count in sorted(eligible_by_year.items())
         },
@@ -315,9 +310,7 @@ def write_derived_csv(rows: list[dict[str, Any]], destination: Path) -> str:
                 {
                     "event_time": row["event_time_text"],
                     "availability_time": row["availability_time_text"],
-                    "parent_row_availability_time": row[
-                        "parent_row_availability_time_text"
-                    ],
+                    "parent_row_availability_time": row["parent_row_availability_time_text"],
                     "sequence": sequence,
                     "parent_sequence": row["parent_sequence"],
                     "source_symbol": row["source_symbol"],
