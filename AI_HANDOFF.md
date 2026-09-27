@@ -11,49 +11,49 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-018 closure
+## Verified RF-019 closure
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`6d388c500d2c5e1671e11700966b713b95a395b8`
+`95174c2922fd5882c995ff14b3031d690ecc80bf`
 
 Canonical last completed artifact:
 
-`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml`
-
-RF-018 froze:
-
-- `DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0`;
-- `112900` rows;
-- `111938` exact-next-hour eligible rows;
-- derived SHA-256 `3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6`;
-- `H1_OPEN_PROXY_AT_EVENT_TIME`;
-- exact tick boundary time unknown;
-- `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
-
-## RF-019 HYP-0004 PROTO-01 freeze
-
-Current task:
-
-`ATS2-RF-019 — HYP-0004 PROTO-01 freeze`
-
-Canonical prototype artifact:
-
 `research/reviews/HYP-0004-PROTOTYPE-01.md`
+
+RF-019 froze HYP-0004 / PROTO-01 without revealing a development outcome.
 
 Frozen runner:
 
 `tools/hyp0004_proto01.py`
 
-Synthetic contract tests:
-
-`tests/test_hyp0004_proto01.py`
-
-Runner Git blob:
+Frozen runner Git blob:
 
 `cbc9a46bf5e5296615f51c0ea564153968bc2a55`
 
-The prototype decision requires both:
+Frozen dataset:
+
+`DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0`
+
+Prepared CSV SHA-256:
+
+`3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6`
+
+## RF-020 HYP-0004 PROTO-01 reveal
+
+Current task:
+
+`ATS2-RF-020 — HYP-0004 PROTO-01 reveal`
+
+The exact-main task checker must:
+
+1. verify the frozen runner Git blob and frozen dataset SHA-256;
+2. run governance validation and full Local CI;
+3. execute the exact frozen runner only after those gates pass;
+4. validate the resulting dataset identity, geometry, bucket metrics, primary Booleans and frozen decision routing;
+5. retain an existing valid result for the exact reveal commit without recomputation.
+
+Frozen primary inequalities:
 
 `median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)`
 
@@ -61,24 +61,26 @@ and:
 
 `median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)`
 
-`TRANSITION` is reporting-only.
+Both must pass for the positive route.
 
-A positive structural result is routed to:
+Positive route:
 
 `CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4`
 
-A failed primary inequality routes to:
+Negative route:
 
 `STOP_HYP0004`
 
-Information boundary:
+Before reveal, information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
-RF-019 freezes code and decision logic but does not run the development dataset.
+Future canonical result:
 
-After exact-main RF-019 PASS:
+`reports/research/HYP-0004-PROTOTYPE-01-result.json`
 
-`ATS2-RF-020 — HYP-0004 PROTO-01 reveal`
+After exact-main RF-020 PASS:
 
-may execute the exact frozen runner once.
+`ATS2-RF-021 — HYP-0004 PROTO-01 result canonicalization and routing`
+
+must canonicalize the exact local result without changing the frozen research contract.
