@@ -237,6 +237,10 @@ Frozen runner:
 
 `tools/hyp0004_proto01.py`
 
+Frozen runner Git blob:
+
+`1bf672db5e27dab80ffc217b9ab8bc76de25b6f5`
+
 Synthetic contract tests:
 
 `tests/test_hyp0004_proto01.py`
