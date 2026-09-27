@@ -78,9 +78,7 @@ def check_freeze_artifacts() -> bool:
         "development_dataset_id": "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001",
         "development_dataset_version": "1.0.0",
         "derived_row_count": 112900,
-        "derived_csv_sha256": (
-            "3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6"
-        ),
+        "derived_csv_sha256": ("3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6"),
         "eligible_exact_next_hour_count": 111938,
         "ineligible_closed_market_next_hour_count": 940,
         "ineligible_missing_expected_next_hour_count": 21,
