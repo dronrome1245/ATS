@@ -105,13 +105,16 @@ model:
   strategy_4_development_data_prep: "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"
   strategy_4_development_data_tool: "tools/hyp0004_development_data.py"
   strategy_4_development_data_test: "tests/test_hyp0004_development_data.py"
+  strategy_4_development_data_prep_result: "reports/research/HYP-0004-DEVELOPMENT-DATA-PREP-result.json"
+  strategy_4_development_dataset_manifest: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml"
+  strategy_4_development_dataset_schema: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json"
 
 current:
-  focus: "Prepare HYP-0004 EUR/USD development data without computing hypothesis outcomes"
-  last_completed_task_id: "ATS2-RF-016"
-  last_completed_artifact: "research/reviews/HYP-0004-DATA-FEASIBILITY.md"
-  next_artifact: "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"
-  next_task_id: "ATS2-RF-017"
+  focus: "Freeze the exact RF-017 HYP-0004 development dataset identity before outcome calculation"
+  last_completed_task_id: "ATS2-RF-017"
+  last_completed_artifact: "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"
+  next_artifact: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml"
+  next_task_id: "ATS2-RF-018"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -363,6 +366,7 @@ research_factory:
     - "ATS2-RF-014"
     - "ATS2-RF-015"
     - "ATS2-RF-016"
+    - "ATS2-RF-017"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -386,9 +390,12 @@ research_factory:
     - "research/ideas/IDEA-0004.md"
     - "research/hypotheses/HYP-0004.md"
     - "research/reviews/HYP-0004-DATA-FEASIBILITY.md"
-  current_task: "ATS2-RF-017"
+    - "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"
+    - "tools/hyp0004_development_data.py"
+    - "tests/test_hyp0004_development_data.py"
+  current_task: "ATS2-RF-018"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-018"
+  next_task: "ATS2-RF-019"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -447,6 +454,7 @@ research_factory:
   rf014_verified_commit: "b1392ad843c57bf0ca4c2d0575f4095957b80e82"
   rf015_verified_commit: "79d83a5fb900e00f510c4348cc6dcb8a5489c5c0"
   rf016_verified_commit: "3628010fc04045de040794c482e57ccd2639f99b"
+  rf017_verified_commit: "ae9767a71b3860e55d345afb34b2f9c18b5dd063"
   strategy_4_selected_family: "S4-FAM-03"
   strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"
   strategy_4_idea_id: "IDEA-0004"
@@ -460,7 +468,21 @@ research_factory:
   strategy_4_parent_dataset_sha256: "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"
   strategy_4_parent_source_bundle_sha256: "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"
   strategy_4_planned_development_dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001"
-  strategy_4_development_data_preparation_status: "RF017_PENDING_OWNER_PREPARATION"
+  strategy_4_development_data_preparation_status: "RF017_OWNER_PASS_READY_FOR_FREEZE"
+  strategy_4_development_data_freeze_status: "FROZEN_RF018"
+  strategy_4_development_dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001"
+  strategy_4_development_dataset_version: "1.0.0"
+  strategy_4_development_prepared_rows: 112900
+  strategy_4_development_csv_sha256: "3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6"
+  strategy_4_development_first_event_time: "2003-08-03T21:00:00Z"
+  strategy_4_development_last_event_time: "2021-08-31T23:00:00Z"
+  strategy_4_development_eligible_exact_next_hour_count: 111938
+  strategy_4_development_eligible_core_active_count: 47012
+  strategy_4_development_eligible_transition_count: 18189
+  strategy_4_development_eligible_off_hours_count: 46737
+  strategy_4_development_ineligible_closed_market_next_hour_count: 940
+  strategy_4_development_ineligible_missing_expected_next_hour_count: 21
+  strategy_4_development_ineligible_dataset_end_count: 1
   strategy_4_boundary_availability_mode: "H1_OPEN_PROXY_AT_EVENT_TIME"
   strategy_4_exact_tick_boundary_time_known: false
   strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
@@ -470,7 +492,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-017"
+  current_ready_task: "ATS2-RF-018"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
