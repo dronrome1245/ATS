@@ -113,11 +113,11 @@ model:
   strategy_4_prototype_test: "tests/test_hyp0004_proto01.py"
 
 current:
-  focus: "Freeze HYP-0004 PROTO-01 question, runner and decision rule before reveal"
-  last_completed_task_id: "ATS2-RF-018"
-  last_completed_artifact: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml"
-  next_artifact: "research/reviews/HYP-0004-PROTOTYPE-01.md"
-  next_task_id: "ATS2-RF-019"
+  focus: "Reveal the exact frozen HYP-0004 PROTO-01 development result once"
+  last_completed_task_id: "ATS2-RF-019"
+  last_completed_artifact: "research/reviews/HYP-0004-PROTOTYPE-01.md"
+  next_artifact: "reports/research/HYP-0004-PROTOTYPE-01-result.json"
+  next_task_id: "ATS2-RF-020"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -371,6 +371,7 @@ research_factory:
     - "ATS2-RF-016"
     - "ATS2-RF-017"
     - "ATS2-RF-018"
+    - "ATS2-RF-019"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -400,9 +401,12 @@ research_factory:
     - "reports/research/HYP-0004-DEVELOPMENT-DATA-PREP-result.json"
     - "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml"
     - "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json"
-  current_task: "ATS2-RF-019"
+    - "research/reviews/HYP-0004-PROTOTYPE-01.md"
+    - "tools/hyp0004_proto01.py"
+    - "tests/test_hyp0004_proto01.py"
+  current_task: "ATS2-RF-020"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-020"
+  next_task: "ATS2-RF-021"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -463,6 +467,7 @@ research_factory:
   rf016_verified_commit: "3628010fc04045de040794c482e57ccd2639f99b"
   rf017_verified_commit: "ae9767a71b3860e55d345afb34b2f9c18b5dd063"
   rf018_verified_commit: "6d388c500d2c5e1671e11700966b713b95a395b8"
+  rf019_verified_commit: "95174c2922fd5882c995ff14b3031d690ecc80bf"
   strategy_4_selected_family: "S4-FAM-03"
   strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"
   strategy_4_idea_id: "IDEA-0004"
@@ -496,7 +501,7 @@ research_factory:
   strategy_4_prototype_id: "PROTO-01"
   strategy_4_prototype_freeze_status: "FROZEN_RF019"
   strategy_4_prototype_runner_git_blob: "cbc9a46bf5e5296615f51c0ea564153968bc2a55"
-  strategy_4_prototype_result_status: "NOT_REVEALED"
+  strategy_4_prototype_result_status: "PENDING_RF020_REVEAL"
   strategy_4_prototype_positive_route: "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4"
   strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
   active_idea_id: "IDEA-0004"
@@ -505,7 +510,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-019"
+  current_ready_task: "ATS2-RF-020"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
