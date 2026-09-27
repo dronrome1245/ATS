@@ -80,8 +80,7 @@ def check_local_preparation_result(commit: str) -> bool:
         actual = payload.get(key)
         if actual != expected:
             print(
-                f"[FAIL] local preparation result mismatch for {key}: "
-                f"{actual!r} != {expected!r}",
+                f"[FAIL] local preparation result mismatch for {key}: {actual!r} != {expected!r}",
                 flush=True,
             )
             return False
