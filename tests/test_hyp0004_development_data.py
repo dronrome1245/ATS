@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import csv
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -12,7 +12,8 @@ def synthetic_row(timestamp: datetime, bucket: str | None = None) -> dict[str, o
     return {
         "event_time": timestamp,
         "event_time_text": prep.iso_z(timestamp),
-        "availability_time_text": prep.iso_z(timestamp.replace(tzinfo=UTC) + prep.timedelta(hours=1)),
+        "availability_time_text": prep.iso_z(timestamp),
+        "parent_row_availability_time_text": prep.iso_z(timestamp + timedelta(hours=1)),
         "parent_sequence": 1,
         "source_symbol": "EURUSD",
         "bid_open_text": "1.1000",
@@ -167,6 +168,8 @@ def test_load_eurusd_rows_verifies_parent_identity_and_filters(
     assert len(rows) == 1
     assert rows[0]["source_symbol"] == "EURUSD"
     assert rows[0]["parent_sequence"] == 10
+    assert rows[0]["availability_time_text"] == "2021-08-02T07:00:00Z"
+    assert rows[0]["parent_row_availability_time_text"] == "2021-08-02T08:00:00Z"
     assert rows[0]["utc_bucket"] == "CORE_ACTIVE"
 
 
