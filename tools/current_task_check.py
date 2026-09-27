@@ -3,25 +3,21 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-RF-017"
-TASK_NAME = "HYP-0004 development data preparation"
-LOCAL_RESULT = Path("reports/local_ci/HYP0004_DEVELOPMENT_DATA.json")
-REQUIRED_ARTIFACTS = (
-    Path("research/reviews/HYP-0004-DATA-FEASIBILITY.md"),
-    Path("research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"),
-    Path("tools/hyp0004_development_data.py"),
-    Path("tests/test_hyp0004_development_data.py"),
-)
-VALID_PREPARATION_DECISIONS = {
-    "READY_FOR_DEVELOPMENT_DATA_FREEZE",
-    "INSUFFICIENT_DEVELOPMENT_DATA",
-}
+TASK_ID = "ATS2-RF-018"
+TASK_NAME = "HYP-0004 development data freeze"
+CANONICAL_RESULT = Path("reports/research/HYP-0004-DEVELOPMENT-DATA-PREP-result.json")
+MANIFEST = Path("data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml")
+SCHEMA = Path("data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json")
+DATA_FEASIBILITY = Path("research/reviews/HYP-0004-DATA-FEASIBILITY.md")
+PROTOTYPE = Path("research/reviews/HYP-0004-PROTOTYPE-01.md")
+EXPECTED_RESULT_SHA256 = "4902235ce2e01ef12a325b327ef43027c95fd709ed7c4239ab08897a6575f6ea"
 
 
 def emit_progress(percent: int) -> None:
@@ -37,76 +33,123 @@ def run(name: str, command: list[str]) -> bool:
     return passed
 
 
-def check_required_artifacts() -> bool:
-    print("\n== RF-017 HYP-0004 development data preparation artifacts ==", flush=True)
-    missing = [str(path) for path in REQUIRED_ARTIFACTS if not (ROOT / path).is_file()]
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def check_freeze_artifacts() -> bool:
+    print("\n== RF-018 HYP-0004 development data freeze artifacts ==", flush=True)
+    required = (CANONICAL_RESULT, MANIFEST, SCHEMA, DATA_FEASIBILITY)
+    missing = [str(path) for path in required if not (ROOT / path).is_file()]
     if missing:
         for path in missing:
-            print(f"[FAIL] missing required artifact: {path}", flush=True)
+            print(f"[FAIL] missing required freeze artifact: {path}", flush=True)
         return False
-    print("[PASS] RF-017 development data preparation artifacts", flush=True)
-    return True
 
+    if (ROOT / PROTOTYPE).exists():
+        print("[FAIL] RF-018 must not create the RF-019 prototype artifact", flush=True)
+        return False
 
-def check_local_preparation_result(commit: str) -> bool:
-    print("\n== RF-017 local HYP-0004 development-data result ==", flush=True)
+    result_path = ROOT / CANONICAL_RESULT
+    actual_result_sha256 = sha256_file(result_path)
+    if actual_result_sha256 != EXPECTED_RESULT_SHA256:
+        print(
+            f"[FAIL] canonical RF-017 result SHA-256 mismatch: "
+            f"{actual_result_sha256} != {EXPECTED_RESULT_SHA256}",
+            flush=True,
+        )
+        return False
+
     try:
-        payload = json.loads((ROOT / LOCAL_RESULT).read_text(encoding="utf-8"))
+        payload = json.loads(result_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
-        print(f"[FAIL] cannot load local preparation result: {exc}", flush=True)
+        print(f"[FAIL] cannot load canonical RF-017 result: {exc}", flush=True)
         return False
 
     checks = {
-        "task_id": TASK_ID,
+        "task_id": "ATS2-RF-017",
         "hypothesis_id": "HYP-0004",
-        "git_commit": commit,
-        "parent_dataset_id": "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001",
-        "parent_dataset_sha256": (
-            "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"
-        ),
+        "git_commit": "ae9767a71b3860e55d345afb34b2f9c18b5dd063",
+        "preparation_decision": "READY_FOR_DEVELOPMENT_DATA_FREEZE",
         "development_dataset_id": "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001",
         "development_dataset_version": "1.0.0",
-        "outcome_metrics_computed": False,
-        "primary_claim_evaluated": False,
-        "information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "derived_row_count": 112900,
+        "derived_csv_sha256": ("3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6"),
+        "eligible_exact_next_hour_count": 111938,
+        "ineligible_closed_market_next_hour_count": 940,
+        "ineligible_missing_expected_next_hour_count": 21,
+        "ineligible_dataset_end_count": 1,
+        "boundary_open_crossing_count": 0,
         "duplicate_event_time_count": 0,
         "out_of_order_event_time_count": 0,
         "malformed_boundary_row_count": 0,
-        "boundary_open_crossing_count": 0,
         "boundary_availability_mode": "H1_OPEN_PROXY_AT_EVENT_TIME",
         "exact_tick_boundary_time_known": False,
+        "outcome_metrics_computed": False,
+        "primary_claim_evaluated": False,
+        "information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED",
     }
     for key, expected in checks.items():
         actual = payload.get(key)
         if actual != expected:
             print(
-                f"[FAIL] local preparation result mismatch for {key}: {actual!r} != {expected!r}",
+                f"[FAIL] canonical result mismatch for {key}: {actual!r} != {expected!r}",
                 flush=True,
             )
             return False
 
-    decision = payload.get("preparation_decision")
-    if decision not in VALID_PREPARATION_DECISIONS:
-        print(f"[FAIL] invalid preparation decision: {decision!r}", flush=True)
+    if payload.get("eligible_rows_by_bucket") != {
+        "CORE_ACTIVE": 47012,
+        "OFF_HOURS": 46737,
+        "TRANSITION": 18189,
+    }:
+        print("[FAIL] frozen eligible bucket counts changed", flush=True)
         return False
 
-    if not payload.get("derived_csv_sha256") or not payload.get("derived_row_count"):
-        print("[FAIL] local result is missing derived dataset identity", flush=True)
+    denominator = (
+        payload["eligible_exact_next_hour_count"]
+        + payload["ineligible_closed_market_next_hour_count"]
+        + payload["ineligible_missing_expected_next_hour_count"]
+        + payload["ineligible_dataset_end_count"]
+    )
+    if denominator != payload["derived_row_count"]:
+        print("[FAIL] exact-next-hour denominator does not reconcile", flush=True)
         return False
 
-    forbidden_keys = {
-        "abs_next_1h_return",
-        "relative_spread",
-        "core_active_median_abs_return",
-        "off_hours_median_abs_return",
-        "core_active_median_relative_spread",
-        "off_hours_median_relative_spread",
-    }
-    if forbidden_keys.intersection(payload):
-        print("[FAIL] local preparation result contains HYP-0004 outcome metrics", flush=True)
-        return False
+    manifest = (ROOT / MANIFEST).read_text(encoding="utf-8")
+    for marker in (
+        "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001",
+        "3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6",
+        "112,900",
+        "111,938",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+    ):
+        if marker not in manifest:
+            print(f"[FAIL] frozen manifest marker missing: {marker}", flush=True)
+            return False
 
-    print(f"[PASS] RF-017 local preparation result ({decision})", flush=True)
+    review = (ROOT / DATA_FEASIBILITY).read_text(encoding="utf-8")
+    for marker in (
+        "RF-018 development data freeze update",
+        "FREEZE_DEVELOPMENT_DATASET",
+        "111938 + 940 + 21 + 1 = 112900",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "ATS2-RF-019 — HYP-0004 PROTO-01 freeze",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+    ):
+        if marker not in review:
+            print(f"[FAIL] Data Feasibility freeze marker missing: {marker}", flush=True)
+            return False
+
+    print(
+        "[PASS] RF-018 froze the exact HYP-0004 development dataset without outcome computation",
+        flush=True,
+    )
     return True
 
 
@@ -122,39 +165,26 @@ def main() -> int:
     ).stdout.strip()
     print(f"Commit: {commit}")
 
-    emit_progress(40)
-    artifacts = check_required_artifacts()
+    emit_progress(45)
+    artifacts = check_freeze_artifacts()
 
-    emit_progress(55)
+    emit_progress(65)
     governance = run(
-        "RF-017 HYP-0004 preparation governance validation",
+        "RF-018 HYP-0004 development data freeze governance validation",
         [sys.executable, "tools/validate_repo.py"],
     )
 
-    emit_progress(70)
+    emit_progress(80)
     full_ci = run(
-        "full ATS Local CI before RF-017 local data preparation",
+        "full ATS Local CI for RF-018 HYP-0004 development data freeze",
         [sys.executable, "tools/verify_repo.py"],
     )
 
-    if not all((artifacts, governance, full_ci)):
-        print("\nATS CURRENT TASK CHECK: FAIL", flush=True)
-        return 1
-
-    emit_progress(80)
-    prepared = run(
-        "RF-017 HYP-0004 development-data preparation",
-        [sys.executable, "tools/hyp0004_development_data.py"],
-    )
-    local_result = prepared and check_local_preparation_result(commit)
-
-    if local_result:
+    passed = all((artifacts, governance, full_ci))
+    if passed:
         emit_progress(100)
-    print(
-        f"\nATS CURRENT TASK CHECK: {'PASS' if local_result else 'FAIL'}",
-        flush=True,
-    )
-    return 0 if local_result else 1
+    print(f"\nATS CURRENT TASK CHECK: {'PASS' if passed else 'FAIL'}", flush=True)
+    return 0 if passed else 1
 
 
 if __name__ == "__main__":

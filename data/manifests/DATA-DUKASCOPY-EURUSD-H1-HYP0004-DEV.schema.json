@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HYP-0004 frozen EUR/USD H1 bar-open development rows",
+  "type": "object",
+  "required": [
+    "event_time",
+    "availability_time",
+    "parent_row_availability_time",
+    "sequence",
+    "parent_sequence",
+    "source_symbol",
+    "bid_open",
+    "ask_open",
+    "utc_bucket"
+  ],
+  "properties": {
+    "event_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "availability_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "parent_row_availability_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "parent_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source_symbol": {
+      "type": "string",
+      "const": "EURUSD"
+    },
+    "bid_open": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "ask_open": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "utc_bucket": {
+      "type": "string",
+      "enum": [
+        "CORE_ACTIVE",
+        "TRANSITION",
+        "OFF_HOURS"
+      ]
+    }
+  },
+  "additionalProperties": false
+}
