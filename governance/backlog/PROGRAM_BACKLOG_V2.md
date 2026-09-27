@@ -65,10 +65,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 50. `ATS2-RF-013` — Strategy #4 idea sourcing — `DONE / PASS`.
 51. `ATS2-RF-014` — Strategy #4 family selection and Idea intake — `DONE / PASS`.
 52. `ATS2-RF-015` — HYP-0004 formation — `DONE / PASS`.
-53. `ATS2-RF-016` — HYP-0004 Data Feasibility — `READY`.
-54. `ATS2-RF-017` — HYP-0004 development data preparation — `BLOCKED` pending RF-016 exact-head PASS.
+53. `ATS2-RF-016` — HYP-0004 Data Feasibility — `DONE / PASS`.
+54. `ATS2-RF-017` — HYP-0004 development data preparation — `READY`.
+55. `ATS2-RF-018` — HYP-0004 development data freeze — `BLOCKED` pending RF-017 exact-main PASS.
 
-Program-level current next task — `ATS2-RF-016`.
+Program-level current next task — `ATS2-RF-017`.
 
 ## 3. M0 / M1
 
@@ -158,23 +159,24 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-013` | `WBS-RF.1` | P1 | DONE / PASS | RF-012 PASS | `governance/program/STRATEGY_4_IDEA_SOURCING.md` | Exact-main OWNER launcher PASS on `d8ba5544111ff05fc48c59939acccb337b220e99` retained five reviewed families and a four-family shortlist without ranking, selection or IDEA-0004 |
 | `ATS2-RF-014` | `WBS-RF.1` | P1 | DONE / PASS | RF-013 PASS | `governance/program/STRATEGY_4_FAMILY_SELECTION.md` + `research/ideas/IDEA-0004.md` | Exact-main OWNER launcher PASS on `b1392ad843c57bf0ca4c2d0575f4095957b80e82` selected S4-FAM-03 for Idea Intake and screened IDEA-0004 without performance-selected parameter fixation |
 | `ATS2-RF-015` | `WBS-RF.2` | P1 | DONE / PASS | RF-014 PASS | `research/hypotheses/HYP-0004.md` | Exact-main OWNER launcher PASS on `79d83a5fb900e00f510c4348cc6dcb8a5489c5c0` registered the bounded fixed-UTC EUR/USD structural claim before outcome inspection |
-| `ATS2-RF-016` | `WBS-RF.2` | P1 | READY | RF-015 PASS | `research/reviews/HYP-0004-DATA-FEASIBILITY.md` | Record CONDITIONAL feasibility using the frozen HYP-0003 parent dataset as a reproducible development source; require parent-hash verification, paired bar-open coherence and exact-next-hour geometry before any HYP-0004 outcome |
-| `ATS2-RF-017` | `WBS-RF.2` | P1 | BLOCKED | RF-016 PASS | HYP-0004 development data preparation artifact + local preparation result | Verify the frozen parent identity, derive the EUR/USD H1 subset, report quality/clock-bucket geometry and freeze a dedicated HYP-0004 development dataset candidate under NO_HYPOTHESIS_OUTCOME_COMPUTED |
+| `ATS2-RF-016` | `WBS-RF.2` | P1 | DONE / PASS | RF-015 PASS | `research/reviews/HYP-0004-DATA-FEASIBILITY.md` | Exact-main OWNER launcher PASS on `3628010fc04045de040794c482e57ccd2639f99b` recorded CONDITIONAL feasibility without computing a HYP-0004 outcome |
+| `ATS2-RF-017` | `WBS-RF.2` | P1 | READY | RF-016 PASS | `research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md` + `tools/hyp0004_development_data.py` + synthetic tests + local preparation result | Verify the frozen parent identity, derive the fixed EUR/USD H1 subset, validate paired boundary opens and exact-next-hour geometry, and emit a dedicated development-data hash under NO_HYPOTHESIS_OUTCOME_COMPUTED |
+| `ATS2-RF-018` | `WBS-RF.2` | P1 | BLOCKED | RF-017 PASS | canonical RF-017 result + HYP-0004 development Dataset Manifest/schema + Data Feasibility freeze update | Freeze the derived dataset identity, quality/geometry facts and information boundary before any HYP-0004 prototype calculation |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-016 — HYP-0004 Data Feasibility`.
+`ATS2-RF-017 — HYP-0004 development data preparation`.
 
 Canonical artifact:
 
-`research/reviews/HYP-0004-DATA-FEASIBILITY.md`
+`research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md`
 
-RF-015 is closed with exact-main OWNER PASS on `79d83a5fb900e00f510c4348cc6dcb8a5489c5c0`.
+RF-016 is closed with exact-main OWNER PASS on `3628010fc04045de040794c482e57ccd2639f99b`.
 
-RF-016 records `CONDITIONAL` feasibility. The bounded development path reuses the frozen parent dataset `DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001` and requires a deterministic EUR/USD derivation before any HYP-0004 outcome.
+RF-017 verifies the frozen HYP-0003 parent dataset identity, deterministically derives the fixed EUR/USD H1 subset, validates paired bar-open BID/ASK coherence and reports exact-next-hour clock-bucket/year geometry.
 
-The next preparation must verify the frozen parent SHA-256, paired `bid_open/ask_open` coherence, exact-next-hour continuity, full denominator and bucket/year geometry. It may not calculate return/spread distribution summaries or either primary HYP-0004 inequality.
+The task must emit `DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001` identity under `NO_HYPOTHESIS_OUTCOME_COMPUTED`. No return/spread distribution summary or primary HYP-0004 inequality is permitted.
 
-After RF-016 exact-head PASS, `ATS2-RF-017 — HYP-0004 development data preparation` becomes ready.
+After RF-017 exact-main PASS, `ATS2-RF-018 — HYP-0004 development data freeze` becomes ready.

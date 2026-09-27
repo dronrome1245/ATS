@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-26"
+  updated_on: "2026-09-27"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -102,13 +102,16 @@ model:
   strategy_4_idea: "research/ideas/IDEA-0004.md"
   strategy_4_hypothesis: "research/hypotheses/HYP-0004.md"
   strategy_4_data_feasibility: "research/reviews/HYP-0004-DATA-FEASIBILITY.md"
+  strategy_4_development_data_prep: "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"
+  strategy_4_development_data_tool: "tools/hyp0004_development_data.py"
+  strategy_4_development_data_test: "tests/test_hyp0004_development_data.py"
 
 current:
-  focus: "Review HYP-0004 data feasibility without computing a HYP-0004 outcome"
-  last_completed_task_id: "ATS2-RF-015"
-  last_completed_artifact: "research/hypotheses/HYP-0004.md"
-  next_artifact: "research/reviews/HYP-0004-DATA-FEASIBILITY.md"
-  next_task_id: "ATS2-RF-016"
+  focus: "Prepare HYP-0004 EUR/USD development data without computing hypothesis outcomes"
+  last_completed_task_id: "ATS2-RF-016"
+  last_completed_artifact: "research/reviews/HYP-0004-DATA-FEASIBILITY.md"
+  next_artifact: "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"
+  next_task_id: "ATS2-RF-017"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -359,6 +362,7 @@ research_factory:
     - "ATS2-RF-013"
     - "ATS2-RF-014"
     - "ATS2-RF-015"
+    - "ATS2-RF-016"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -381,9 +385,10 @@ research_factory:
     - "governance/program/STRATEGY_4_FAMILY_SELECTION.md"
     - "research/ideas/IDEA-0004.md"
     - "research/hypotheses/HYP-0004.md"
-  current_task: "ATS2-RF-016"
+    - "research/reviews/HYP-0004-DATA-FEASIBILITY.md"
+  current_task: "ATS2-RF-017"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-017"
+  next_task: "ATS2-RF-018"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -441,6 +446,7 @@ research_factory:
   rf013_verified_commit: "d8ba5544111ff05fc48c59939acccb337b220e99"
   rf014_verified_commit: "b1392ad843c57bf0ca4c2d0575f4095957b80e82"
   rf015_verified_commit: "79d83a5fb900e00f510c4348cc6dcb8a5489c5c0"
+  rf016_verified_commit: "3628010fc04045de040794c482e57ccd2639f99b"
   strategy_4_selected_family: "S4-FAM-03"
   strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"
   strategy_4_idea_id: "IDEA-0004"
@@ -454,6 +460,9 @@ research_factory:
   strategy_4_parent_dataset_sha256: "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"
   strategy_4_parent_source_bundle_sha256: "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"
   strategy_4_planned_development_dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001"
+  strategy_4_development_data_preparation_status: "RF017_PENDING_OWNER_PREPARATION"
+  strategy_4_boundary_availability_mode: "H1_OPEN_PROXY_AT_EVENT_TIME"
+  strategy_4_exact_tick_boundary_time_known: false
   strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
   active_idea_id: "IDEA-0004"
   active_hypothesis_id: "HYP-0004"
@@ -461,7 +470,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-016"
+  current_ready_task: "ATS2-RF-017"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:

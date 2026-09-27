@@ -81,6 +81,9 @@ STRATEGY_4_FAMILY_SELECTION = "governance/program/STRATEGY_4_FAMILY_SELECTION.md
 STRATEGY_4_IDEA = "research/ideas/IDEA-0004.md"
 STRATEGY_4_HYPOTHESIS = "research/hypotheses/HYP-0004.md"
 STRATEGY_4_DATA_FEASIBILITY = "research/reviews/HYP-0004-DATA-FEASIBILITY.md"
+STRATEGY_4_DEVELOPMENT_DATA_PREP = "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"
+HYP0004_DEVELOPMENT_DATA_TOOL = "tools/hyp0004_development_data.py"
+HYP0004_DEVELOPMENT_DATA_TEST = "tests/test_hyp0004_development_data.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -256,6 +259,9 @@ def configure() -> None:
         STRATEGY_4_IDEA,
         STRATEGY_4_HYPOTHESIS,
         STRATEGY_4_DATA_FEASIBILITY,
+        STRATEGY_4_DEVELOPMENT_DATA_PREP,
+        HYP0004_DEVELOPMENT_DATA_TOOL,
+        HYP0004_DEVELOPMENT_DATA_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -310,6 +316,9 @@ def configure() -> None:
         "strategy_4_idea",
         "strategy_4_hypothesis",
         "strategy_4_data_feasibility",
+        "strategy_4_development_data_prep",
+        "strategy_4_development_data_tool",
+        "strategy_4_development_data_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -965,6 +974,39 @@ def configure() -> None:
         "Prototype authorization:",
         "`NOT_YET_AUTHORIZED`",
         "ATS2-RF-017 — HYP-0004 development data preparation",
+    )
+    core.CONTENT_MARKERS[STRATEGY_4_DEVELOPMENT_DATA_PREP] = (
+        "ATS2-RF-017",
+        "PREPARATION_PROTOCOL_FROZEN",
+        "DATA-DUKASCOPY-G10EXUSD-H1-HYP0003-DEV-001",
+        "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2",
+        "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001",
+        "ask_open >= bid_open",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "exact-next-hour",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "ATS2-RF-018 — HYP-0004 development data freeze",
+    )
+    core.CONTENT_MARKERS[HYP0004_DEVELOPMENT_DATA_TOOL] = (
+        'TASK_ID = "ATS2-RF-017"',
+        "EXPECTED_PARENT_SHA256",
+        "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001",
+        "bucket_for_hour",
+        "ask_open < bid_open",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "eligible_exact_next_hour_count",
+        "outcome_metrics_computed",
+        "primary_claim_evaluated",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "READY_FOR_DEVELOPMENT_DATA_FREEZE",
+    )
+    core.CONTENT_MARKERS[HYP0004_DEVELOPMENT_DATA_TEST] = (
+        "test_bucket_mapping_is_frozen",
+        "test_geometry_summary_counts_exact_next_hour_without_outcomes",
+        "test_geometry_summary_distinguishes_closed_and_missing_hours",
+        "test_load_eurusd_rows_verifies_parent_identity_and_filters",
+        "test_load_eurusd_rows_rejects_boundary_crossing",
+        "test_derived_csv_contains_no_hypothesis_outcome_columns",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
@@ -1651,13 +1693,14 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-016"',
-        "RF-016 HYP-0004 Data Feasibility artifact",
-        "HYP-0004-DATA-FEASIBILITY.md",
-        "HYP-0004-DEVELOPMENT-DATA-PREP.md",
-        "RF-016 must not create the RF-017 preparation artifact",
-        "recorded CONDITIONAL feasibility without HYP-0004 outcome computation",
-        "full ATS Local CI for RF-016 HYP-0004 Data Feasibility",
+        'TASK_ID = "ATS2-RF-017"',
+        "RF-017 HYP-0004 development data preparation artifacts",
+        "HYP0004_DEVELOPMENT_DATA.json",
+        "hyp0004_development_data.py",
+        "READY_FOR_DEVELOPMENT_DATA_FREEZE",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "full ATS Local CI before RF-017 local data preparation",
+        "RF-017 HYP-0004 development-data preparation",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1674,7 +1717,7 @@ def configure() -> None:
         "pytest collection", "pytest", "environment fingerprint",
         "ATS LOCAL CI:", "LATEST.json",
         "tools/agent_preflight.py", "tools/current_task_diag.py",
-        "tools/hyp0003_proto01.py",
+        "tools/hyp0003_proto01.py", "tools/hyp0004_development_data.py",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
@@ -1880,7 +1923,10 @@ def validate_environment(repo: Path) -> int:
         "reports/local_ci/HYP0003_DEVELOPMENT_DATA_REPORT.txt",
         "reports/local_ci/HYP0003_PROTO01_RESULT.json",
         "reports/local_ci/HYP0003_PROTO01_RESULT_REPORT.txt",
+        "reports/local_ci/HYP0004_DEVELOPMENT_DATA.json",
+        "reports/local_ci/HYP0004_DEVELOPMENT_DATA_REPORT.txt",
         "data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv*",
+        "data/derived/HYP-0004-DEV-01-EURUSD-H1.csv*",
         "reports/local_ci/*.lnk",
     ):
         if ignored_report not in gitignore:
@@ -1924,6 +1970,7 @@ def validate_environment(repo: Path) -> int:
         "tools/hyp0003_data_feasibility.py",
         "tools/hyp0003_development_data.py",
         "tools/hyp0003_proto01.py",
+        "tools/hyp0004_development_data.py",
         "tests/test_environment_baseline.py",
         "tests/test_dataset_manifest.py",
         "tests/test_data_loader.py",
@@ -1943,6 +1990,7 @@ def validate_environment(repo: Path) -> int:
         "tests/test_hyp0003_data_feasibility.py",
         "tests/test_hyp0003_development_data.py",
         "tests/test_hyp0003_proto01.py",
+        "tests/test_hyp0004_development_data.py",
     ):
         path = repo / relative
         try:
@@ -2027,6 +2075,9 @@ def main() -> int:
         'strategy_4_idea: "research/ideas/IDEA-0004.md"',
         'strategy_4_hypothesis: "research/hypotheses/HYP-0004.md"',
         'strategy_4_data_feasibility: "research/reviews/HYP-0004-DATA-FEASIBILITY.md"',
+        'strategy_4_development_data_prep: "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"',
+        'strategy_4_development_data_tool: "tools/hyp0004_development_data.py"',
+        'strategy_4_development_data_test: "tests/test_hyp0004_development_data.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -2039,9 +2090,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-015"',
-        'current_task: "ATS2-RF-016"', 'current_ready_task: "ATS2-RF-016"',
-        'next_task: "ATS2-RF-017"',
+        'last_completed_task_id: "ATS2-RF-016"',
+        'current_task: "ATS2-RF-017"', 'current_ready_task: "ATS2-RF-017"',
+        'next_task: "ATS2-RF-018"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2079,6 +2130,7 @@ def main() -> int:
         'rf013_verified_commit: "d8ba5544111ff05fc48c59939acccb337b220e99"',
         'rf014_verified_commit: "b1392ad843c57bf0ca4c2d0575f4095957b80e82"',
         'rf015_verified_commit: "79d83a5fb900e00f510c4348cc6dcb8a5489c5c0"',
+        'rf016_verified_commit: "3628010fc04045de040794c482e57ccd2639f99b"',
         'strategy_4_selected_family: "S4-FAM-03"',
         'strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"',
         'strategy_4_idea_id: "IDEA-0004"',
@@ -2092,6 +2144,9 @@ def main() -> int:
         'strategy_4_parent_dataset_sha256: "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"',
         'strategy_4_parent_source_bundle_sha256: "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"',
         'strategy_4_planned_development_dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001"',
+        'strategy_4_development_data_preparation_status: "RF017_PENDING_OWNER_PREPARATION"',
+        'strategy_4_boundary_availability_mode: "H1_OPEN_PROXY_AT_EVENT_TIME"',
+        'strategy_4_exact_tick_boundary_time_known: false',
         'strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
         'active_idea_id: "IDEA-0004"',
         'active_hypothesis_id: "HYP-0004"',
@@ -2205,11 +2260,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-015") != "DONE / PASS":
         core.fail("RF-015 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-016") != "READY":
-        core.fail("RF-016 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-016") != "DONE / PASS":
+        core.fail("RF-016 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-017") != "BLOCKED":
-        core.fail("RF-017 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-017") != "READY":
+        core.fail("RF-017 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-018") != "BLOCKED":
+        core.fail("RF-018 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
