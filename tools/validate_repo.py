@@ -84,6 +84,15 @@ STRATEGY_4_DATA_FEASIBILITY = "research/reviews/HYP-0004-DATA-FEASIBILITY.md"
 STRATEGY_4_DEVELOPMENT_DATA_PREP = "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"
 HYP0004_DEVELOPMENT_DATA_TOOL = "tools/hyp0004_development_data.py"
 HYP0004_DEVELOPMENT_DATA_TEST = "tests/test_hyp0004_development_data.py"
+HYP0004_DEVELOPMENT_DATA_PREP_RESULT = (
+    "reports/research/HYP-0004-DEVELOPMENT-DATA-PREP-result.json"
+)
+HYP0004_DEVELOPMENT_MANIFEST = (
+    "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml"
+)
+HYP0004_DEVELOPMENT_SCHEMA = (
+    "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json"
+)
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -262,6 +271,9 @@ def configure() -> None:
         STRATEGY_4_DEVELOPMENT_DATA_PREP,
         HYP0004_DEVELOPMENT_DATA_TOOL,
         HYP0004_DEVELOPMENT_DATA_TEST,
+        HYP0004_DEVELOPMENT_DATA_PREP_RESULT,
+        HYP0004_DEVELOPMENT_MANIFEST,
+        HYP0004_DEVELOPMENT_SCHEMA,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -319,6 +331,9 @@ def configure() -> None:
         "strategy_4_development_data_prep",
         "strategy_4_development_data_tool",
         "strategy_4_development_data_test",
+        "strategy_4_development_data_prep_result",
+        "strategy_4_development_dataset_manifest",
+        "strategy_4_development_dataset_schema",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -974,6 +989,12 @@ def configure() -> None:
         "Prototype authorization:",
         "`NOT_YET_AUTHORIZED`",
         "ATS2-RF-017 — HYP-0004 development data preparation",
+        "RF-018 development data freeze update",
+        "FREEZE_DEVELOPMENT_DATASET",
+        "3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6",
+        "111938 + 940 + 21 + 1 = 112900",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "ATS2-RF-019 — HYP-0004 PROTO-01 freeze",
     )
     core.CONTENT_MARKERS[STRATEGY_4_DEVELOPMENT_DATA_PREP] = (
         "ATS2-RF-017",
@@ -1007,6 +1028,41 @@ def configure() -> None:
         "test_load_eurusd_rows_verifies_parent_identity_and_filters",
         "test_load_eurusd_rows_rejects_boundary_crossing",
         "test_derived_csv_contains_no_hypothesis_outcome_columns",
+    )
+    core.CONTENT_MARKERS[HYP0004_DEVELOPMENT_DATA_PREP_RESULT] = (
+        '"boundary_availability_mode": "H1_OPEN_PROXY_AT_EVENT_TIME"',
+        '"derived_row_count": 112900',
+        '"eligible_exact_next_hour_count": 111938',
+        '"CORE_ACTIVE": 47012',
+        '"OFF_HOURS": 46737',
+        '"TRANSITION": 18189',
+        '"derived_csv_sha256": "3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6"',
+        '"git_commit": "ae9767a71b3860e55d345afb34b2f9c18b5dd063"',
+        '"information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
+        '"preparation_decision": "READY_FOR_DEVELOPMENT_DATA_FREEZE"',
+        '"primary_claim_evaluated": false',
+    )
+    core.CONTENT_MARKERS[HYP0004_DEVELOPMENT_MANIFEST] = (
+        'dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001"',
+        'dataset_version: "1.0.0"',
+        "112,900",
+        "111,938",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "parent_row_availability_time",
+        "3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+    )
+    core.CONTENT_MARKERS[HYP0004_DEVELOPMENT_SCHEMA] = (
+        "HYP-0004 frozen EUR/USD H1 bar-open development rows",
+        '"parent_row_availability_time"',
+        '"source_symbol"',
+        '"const": "EURUSD"',
+        '"bid_open"',
+        '"ask_open"',
+        '"utc_bucket"',
+        '"CORE_ACTIVE"',
+        '"TRANSITION"',
+        '"OFF_HOURS"',
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
@@ -1693,14 +1749,15 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-017"',
-        "RF-017 HYP-0004 development data preparation artifacts",
-        "HYP0004_DEVELOPMENT_DATA.json",
-        "hyp0004_development_data.py",
-        "READY_FOR_DEVELOPMENT_DATA_FREEZE",
-        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-        "full ATS Local CI before RF-017 local data preparation",
-        "RF-017 HYP-0004 development-data preparation",
+        'TASK_ID = "ATS2-RF-018"',
+        "RF-018 HYP-0004 development data freeze artifacts",
+        "HYP-0004-DEVELOPMENT-DATA-PREP-result.json",
+        "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml",
+        "4902235ce2e01ef12a325b327ef43027c95fd709ed7c4239ab08897a6575f6ea",
+        "FREEZE_DEVELOPMENT_DATASET",
+        "RF-018 must not create the RF-019 prototype artifact",
+        "froze the exact HYP-0004 development dataset without outcome computation",
+        "full ATS Local CI for RF-018 HYP-0004 development data freeze",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -2078,6 +2135,9 @@ def main() -> int:
         'strategy_4_development_data_prep: "research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md"',
         'strategy_4_development_data_tool: "tools/hyp0004_development_data.py"',
         'strategy_4_development_data_test: "tests/test_hyp0004_development_data.py"',
+        'strategy_4_development_data_prep_result: "reports/research/HYP-0004-DEVELOPMENT-DATA-PREP-result.json"',
+        'strategy_4_development_dataset_manifest: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml"',
+        'strategy_4_development_dataset_schema: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV.schema.json"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -2090,9 +2150,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-016"',
-        'current_task: "ATS2-RF-017"', 'current_ready_task: "ATS2-RF-017"',
-        'next_task: "ATS2-RF-018"',
+        'last_completed_task_id: "ATS2-RF-017"',
+        'current_task: "ATS2-RF-018"', 'current_ready_task: "ATS2-RF-018"',
+        'next_task: "ATS2-RF-019"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2131,6 +2191,7 @@ def main() -> int:
         'rf014_verified_commit: "b1392ad843c57bf0ca4c2d0575f4095957b80e82"',
         'rf015_verified_commit: "79d83a5fb900e00f510c4348cc6dcb8a5489c5c0"',
         'rf016_verified_commit: "3628010fc04045de040794c482e57ccd2639f99b"',
+        'rf017_verified_commit: "ae9767a71b3860e55d345afb34b2f9c18b5dd063"',
         'strategy_4_selected_family: "S4-FAM-03"',
         'strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"',
         'strategy_4_idea_id: "IDEA-0004"',
@@ -2144,7 +2205,21 @@ def main() -> int:
         'strategy_4_parent_dataset_sha256: "8933379ed936367fca55e3f5db4d50a3da9f4fbaeca58b28906cdafa90e35dd2"',
         'strategy_4_parent_source_bundle_sha256: "9fa05651dd6253d843685460d0c549284432f51573568ecf206939e789fccc5a"',
         'strategy_4_planned_development_dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001"',
-        'strategy_4_development_data_preparation_status: "RF017_PENDING_OWNER_PREPARATION"',
+        'strategy_4_development_data_preparation_status: "RF017_OWNER_PASS_READY_FOR_FREEZE"',
+        'strategy_4_development_data_freeze_status: "FROZEN_RF018"',
+        'strategy_4_development_dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001"',
+        'strategy_4_development_dataset_version: "1.0.0"',
+        'strategy_4_development_prepared_rows: 112900',
+        'strategy_4_development_csv_sha256: "3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6"',
+        'strategy_4_development_first_event_time: "2003-08-03T21:00:00Z"',
+        'strategy_4_development_last_event_time: "2021-08-31T23:00:00Z"',
+        'strategy_4_development_eligible_exact_next_hour_count: 111938',
+        'strategy_4_development_eligible_core_active_count: 47012',
+        'strategy_4_development_eligible_transition_count: 18189',
+        'strategy_4_development_eligible_off_hours_count: 46737',
+        'strategy_4_development_ineligible_closed_market_next_hour_count: 940',
+        'strategy_4_development_ineligible_missing_expected_next_hour_count: 21',
+        'strategy_4_development_ineligible_dataset_end_count: 1',
         'strategy_4_boundary_availability_mode: "H1_OPEN_PROXY_AT_EVENT_TIME"',
         'strategy_4_exact_tick_boundary_time_known: false',
         'strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
@@ -2263,11 +2338,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-016") != "DONE / PASS":
         core.fail("RF-016 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-017") != "READY":
-        core.fail("RF-017 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-017") != "DONE / PASS":
+        core.fail("RF-017 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-018") != "BLOCKED":
-        core.fail("RF-018 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-018") != "READY":
+        core.fail("RF-018 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-019") != "BLOCKED":
+        core.fail("RF-019 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
