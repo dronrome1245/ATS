@@ -1,0 +1,425 @@
+{
+  "bucket_metrics": {
+    "CORE_ACTIVE": {
+      "mean_abs_next_1h_return": 0.0010144509590124767,
+      "median_abs_next_1h_return": 0.0006982268977376305,
+      "median_relative_spread": 4.018781312113313e-05,
+      "observation_count": 47012
+    },
+    "OFF_HOURS": {
+      "mean_abs_next_1h_return": 0.0005365493476091728,
+      "median_abs_next_1h_return": 0.0003493061509638462,
+      "median_relative_spread": 6.690913261869393e-05,
+      "observation_count": 46737
+    },
+    "TRANSITION": {
+      "mean_abs_next_1h_return": 0.0006733276512628805,
+      "median_abs_next_1h_return": 0.00042706056723695873,
+      "median_relative_spread": 4.4924638918176495e-05,
+      "observation_count": 18189
+    }
+  },
+  "calendar_year_diagnostics": {
+    "CORE_ACTIVE": {
+      "max_calendar_year_observation_share": 0.055730451799540545,
+      "years": {
+        "2003": {
+          "median_abs_next_1h_return": 0.0008478118867287221,
+          "median_relative_spread": 8.832127750650626e-05,
+          "observation_count": 1080,
+          "observation_share": 0.022972857993703737
+        },
+        "2004": {
+          "median_abs_next_1h_return": 0.0008222690570954816,
+          "median_relative_spread": 8.229741466154727e-05,
+          "observation_count": 2620,
+          "observation_share": 0.055730451799540545
+        },
+        "2005": {
+          "median_abs_next_1h_return": 0.0006796184762487556,
+          "median_relative_spread": 8.298755186721077e-05,
+          "observation_count": 2597,
+          "observation_share": 0.05524121500893389
+        },
+        "2006": {
+          "median_abs_next_1h_return": 0.0005810965277170954,
+          "median_relative_spread": 8.139146874036412e-05,
+          "observation_count": 2600,
+          "observation_share": 0.055305028503360845
+        },
+        "2007": {
+          "median_abs_next_1h_return": 0.0004982209557508055,
+          "median_relative_spread": 7.594225404037344e-05,
+          "observation_count": 2610,
+          "observation_share": 0.055517740151450695
+        },
+        "2008": {
+          "median_abs_next_1h_return": 0.000992871563964881,
+          "median_relative_spread": 6.965801733413435e-05,
+          "observation_count": 2620,
+          "observation_share": 0.055730451799540545
+        },
+        "2009": {
+          "median_abs_next_1h_return": 0.0010208984705099011,
+          "median_relative_spread": 6.910325788281964e-05,
+          "observation_count": 2600,
+          "observation_share": 0.055305028503360845
+        },
+        "2010": {
+          "median_abs_next_1h_return": 0.0010196530697099693,
+          "median_relative_spread": 6.128393011264961e-05,
+          "observation_count": 2610,
+          "observation_share": 0.055517740151450695
+        },
+        "2011": {
+          "median_abs_next_1h_return": 0.001035876820774162,
+          "median_relative_spread": 5.835092980505702e-05,
+          "observation_count": 2600,
+          "observation_share": 0.055305028503360845
+        },
+        "2012": {
+          "median_abs_next_1h_return": 0.0007240958639957995,
+          "median_relative_spread": 6.05890773041496e-05,
+          "observation_count": 2605,
+          "observation_share": 0.05541138432740577
+        },
+        "2013": {
+          "median_abs_next_1h_return": 0.0005953718273906672,
+          "median_relative_spread": 2.29046099374774e-05,
+          "observation_count": 2590,
+          "observation_share": 0.055092316855270995
+        },
+        "2014": {
+          "median_abs_next_1h_return": 0.0004614330338934547,
+          "median_relative_spread": 1.578214363024046e-05,
+          "observation_count": 2590,
+          "observation_share": 0.055092316855270995
+        },
+        "2015": {
+          "median_abs_next_1h_return": 0.0010344978131029414,
+          "median_relative_spread": 2.6494394235997814e-05,
+          "observation_count": 2590,
+          "observation_share": 0.055092316855270995
+        },
+        "2016": {
+          "median_abs_next_1h_return": 0.00070754933669398,
+          "median_relative_spread": 1.8042643788979484e-05,
+          "observation_count": 2600,
+          "observation_share": 0.055305028503360845
+        },
+        "2017": {
+          "median_abs_next_1h_return": 0.000614190706414941,
+          "median_relative_spread": 1.890421706193436e-05,
+          "observation_count": 2590,
+          "observation_share": 0.055092316855270995
+        },
+        "2018": {
+          "median_abs_next_1h_return": 0.000672418785958695,
+          "median_relative_spread": 2.5098407519701513e-05,
+          "observation_count": 2590,
+          "observation_share": 0.055092316855270995
+        },
+        "2019": {
+          "median_abs_next_1h_return": 0.00046269614073629617,
+          "median_relative_spread": 2.6373626386343293e-05,
+          "observation_count": 2590,
+          "observation_share": 0.055092316855270995
+        },
+        "2020": {
+          "median_abs_next_1h_return": 0.000692826286795678,
+          "median_relative_spread": 2.5450581482040082e-05,
+          "observation_count": 2600,
+          "observation_share": 0.055305028503360845
+        },
+        "2021": {
+          "median_abs_next_1h_return": 0.0005536808664268755,
+          "median_relative_spread": 2.4696947870603342e-05,
+          "observation_count": 1730,
+          "observation_share": 0.036799115119543944
+        }
+      }
+    },
+    "OFF_HOURS": {
+      "max_calendar_year_observation_share": 0.05560904636583435,
+      "years": {
+        "2003": {
+          "median_abs_next_1h_return": 0.00047024623803015864,
+          "median_relative_spread": 0.0001344754783965991,
+          "observation_count": 1073,
+          "observation_share": 0.02295825577165843
+        },
+        "2004": {
+          "median_abs_next_1h_return": 0.00046105020357523063,
+          "median_relative_spread": 0.00012649871841245724,
+          "observation_count": 2596,
+          "observation_share": 0.0555448573934998
+        },
+        "2005": {
+          "median_abs_next_1h_return": 0.00043704656418963594,
+          "median_relative_spread": 0.00012425929809024174,
+          "observation_count": 2581,
+          "observation_share": 0.055223912531827034
+        },
+        "2006": {
+          "median_abs_next_1h_return": 0.00034874938561996194,
+          "median_relative_spread": 0.0001251608512980591,
+          "observation_count": 2580,
+          "observation_share": 0.05520251620771551
+        },
+        "2007": {
+          "median_abs_next_1h_return": 0.00028089035003942,
+          "median_relative_spread": 0.0001116362151359682,
+          "observation_count": 2592,
+          "observation_share": 0.05545927209705372
+        },
+        "2008": {
+          "median_abs_next_1h_return": 0.0005364998748165206,
+          "median_relative_spread": 0.00013543162057475688,
+          "observation_count": 2599,
+          "observation_share": 0.05560904636583435
+        },
+        "2009": {
+          "median_abs_next_1h_return": 0.0006264182898650938,
+          "median_relative_spread": 8.367529812916436e-05,
+          "observation_count": 2580,
+          "observation_share": 0.05520251620771551
+        },
+        "2010": {
+          "median_abs_next_1h_return": 0.000575610558342321,
+          "median_relative_spread": 8.29061364359481e-05,
+          "observation_count": 2589,
+          "observation_share": 0.05539508312471917
+        },
+        "2011": {
+          "median_abs_next_1h_return": 0.0005182479359595593,
+          "median_relative_spread": 7.711830568858105e-05,
+          "observation_count": 2582,
+          "observation_share": 0.05524530885593855
+        },
+        "2012": {
+          "median_abs_next_1h_return": 0.0003487188039421607,
+          "median_relative_spread": 7.191370374966079e-05,
+          "observation_count": 2592,
+          "observation_share": 0.05545927209705372
+        },
+        "2013": {
+          "median_abs_next_1h_return": 0.00028531313116153534,
+          "median_relative_spread": 3.061122972965693e-05,
+          "observation_count": 2581,
+          "observation_share": 0.055223912531827034
+        },
+        "2014": {
+          "median_abs_next_1h_return": 0.0001818737748597865,
+          "median_relative_spread": 2.208651287568509e-05,
+          "observation_count": 2580,
+          "observation_share": 0.05520251620771551
+        },
+        "2015": {
+          "median_abs_next_1h_return": 0.00043843521059028223,
+          "median_relative_spread": 3.513178812022098e-05,
+          "observation_count": 2581,
+          "observation_share": 0.055223912531827034
+        },
+        "2016": {
+          "median_abs_next_1h_return": 0.0003274580413709094,
+          "median_relative_spread": 2.768881467071557e-05,
+          "observation_count": 2582,
+          "observation_share": 0.05524530885593855
+        },
+        "2017": {
+          "median_abs_next_1h_return": 0.000300147088992897,
+          "median_relative_spread": 3.348695483738765e-05,
+          "observation_count": 2580,
+          "observation_share": 0.05520251620771551
+        },
+        "2018": {
+          "median_abs_next_1h_return": 0.00029431247720068665,
+          "median_relative_spread": 3.247240875478811e-05,
+          "observation_count": 2580,
+          "observation_share": 0.05520251620771551
+        },
+        "2019": {
+          "median_abs_next_1h_return": 0.0001935767710273817,
+          "median_relative_spread": 2.7200768880075077e-05,
+          "observation_count": 2580,
+          "observation_share": 0.05520251620771551
+        },
+        "2020": {
+          "median_abs_next_1h_return": 0.00029092645495903957,
+          "median_relative_spread": 3.38418067179006e-05,
+          "observation_count": 2590,
+          "observation_share": 0.05541647944883069
+        },
+        "2021": {
+          "median_abs_next_1h_return": 0.00023491016783494523,
+          "median_relative_spread": 3.276352109564491e-05,
+          "observation_count": 1719,
+          "observation_share": 0.03678028114769882
+        }
+      }
+    },
+    "TRANSITION": {
+      "max_calendar_year_observation_share": 0.05563802298092253,
+      "years": {
+        "2003": {
+          "median_abs_next_1h_return": 0.0005778185649705225,
+          "median_relative_spread": 8.739119795853198e-05,
+          "observation_count": 419,
+          "observation_share": 0.023035900819176426
+        },
+        "2004": {
+          "median_abs_next_1h_return": 0.0005188577470280897,
+          "median_relative_spread": 8.205498504685113e-05,
+          "observation_count": 1012,
+          "observation_share": 0.05563802298092253
+        },
+        "2005": {
+          "median_abs_next_1h_return": 0.0004531774467256833,
+          "median_relative_spread": 8.27448110375064e-05,
+          "observation_count": 1006,
+          "observation_share": 0.05530815327945462
+        },
+        "2006": {
+          "median_abs_next_1h_return": 0.0004079467347954946,
+          "median_relative_spread": 7.993190246718661e-05,
+          "observation_count": 1006,
+          "observation_share": 0.05530815327945462
+        },
+        "2007": {
+          "median_abs_next_1h_return": 0.0002899227752717892,
+          "median_relative_spread": 7.614000624347213e-05,
+          "observation_count": 1010,
+          "observation_share": 0.055528066413766564
+        },
+        "2008": {
+          "median_abs_next_1h_return": 0.0006565775223825177,
+          "median_relative_spread": 0.00010182467258279245,
+          "observation_count": 1010,
+          "observation_share": 0.055528066413766564
+        },
+        "2009": {
+          "median_abs_next_1h_return": 0.0007272456038935893,
+          "median_relative_spread": 8.007794253066182e-05,
+          "observation_count": 1009,
+          "observation_share": 0.05547308813018858
+        },
+        "2010": {
+          "median_abs_next_1h_return": 0.0006199655396443848,
+          "median_relative_spread": 7.701549552225777e-05,
+          "observation_count": 1010,
+          "observation_share": 0.055528066413766564
+        },
+        "2011": {
+          "median_abs_next_1h_return": 0.0006200953048502988,
+          "median_relative_spread": 6.146961118053441e-05,
+          "observation_count": 1006,
+          "observation_share": 0.05530815327945462
+        },
+        "2012": {
+          "median_abs_next_1h_return": 0.00037304342529997925,
+          "median_relative_spread": 5.8058763763049325e-05,
+          "observation_count": 1009,
+          "observation_share": 0.05547308813018858
+        },
+        "2013": {
+          "median_abs_next_1h_return": 0.00034842038031696054,
+          "median_relative_spread": 2.2763059382415105e-05,
+          "observation_count": 1002,
+          "observation_share": 0.055088240145142665
+        },
+        "2014": {
+          "median_abs_next_1h_return": 0.0002509932523913627,
+          "median_relative_spread": 1.5787003808588478e-05,
+          "observation_count": 1002,
+          "observation_share": 0.055088240145142665
+        },
+        "2015": {
+          "median_abs_next_1h_return": 0.0006068225317019116,
+          "median_relative_spread": 2.5976856025510815e-05,
+          "observation_count": 1002,
+          "observation_share": 0.055088240145142665
+        },
+        "2016": {
+          "median_abs_next_1h_return": 0.00046542948001526696,
+          "median_relative_spread": 1.810987393344057e-05,
+          "observation_count": 1006,
+          "observation_share": 0.05530815327945462
+        },
+        "2017": {
+          "median_abs_next_1h_return": 0.0003943226014434531,
+          "median_relative_spread": 1.889252058782811e-05,
+          "observation_count": 1002,
+          "observation_share": 0.055088240145142665
+        },
+        "2018": {
+          "median_abs_next_1h_return": 0.00041952869071154586,
+          "median_relative_spread": 2.5508578234681904e-05,
+          "observation_count": 1002,
+          "observation_share": 0.055088240145142665
+        },
+        "2019": {
+          "median_abs_next_1h_return": 0.00027667738496539585,
+          "median_relative_spread": 2.642182482865435e-05,
+          "observation_count": 1002,
+          "observation_share": 0.055088240145142665
+        },
+        "2020": {
+          "median_abs_next_1h_return": 0.0003675699453206116,
+          "median_relative_spread": 2.5325860008529783e-05,
+          "observation_count": 1006,
+          "observation_share": 0.05530815327945462
+        },
+        "2021": {
+          "median_abs_next_1h_return": 0.00026108796701418413,
+          "median_relative_spread": 2.467247293236978e-05,
+          "observation_count": 668,
+          "observation_share": 0.03672549343009511
+        }
+      }
+    }
+  },
+  "dataset": {
+    "boundary_availability_mode": "H1_OPEN_PROXY_AT_EVENT_TIME",
+    "dataset_id": "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001",
+    "dataset_version": "1.0.0",
+    "eligible_exact_next_hour_count": 111938,
+    "exact_tick_boundary_time_known": false,
+    "prepared_csv_sha256": "3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6"
+  },
+  "decision": "ADVANCE_TO_ECONOMIC_SCREEN",
+  "decision_reason": "BOTH_PRIMARY_INEQUALITIES_MET",
+  "evidence_class": "EXPLORATORY_PROTOTYPE",
+  "geometry": {
+    "eligible_by_bucket": {
+      "CORE_ACTIVE": 47012,
+      "OFF_HOURS": 46737,
+      "TRANSITION": 18189
+    },
+    "eligible_count": 111938,
+    "ineligible_closed_market_next_hour_count": 940,
+    "ineligible_dataset_end_count": 1,
+    "ineligible_missing_expected_next_hour_count": 21
+  },
+  "hypothesis_id": "HYP-0004",
+  "limitations": [
+    "H1_OPEN_PROXY_AT_EVENT_TIME is a development approximation.",
+    "Exact tick-level boundary time is unknown.",
+    "The result is a structural distribution test, not a directional trading rule.",
+    "Commission, financing and live-fill slippage are not modeled.",
+    "Development data are exploratory and are not validation or independent evidence.",
+    "A positive result requires a separate fixed confirmatory or trading Hypothesis before R4."
+  ],
+  "measurement_label": "STRUCTURAL_H1_OPEN_PROXY_NO_TRADING_PNL",
+  "next_action": "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
+  "primary": {
+    "both_primary_inequalities_pass": true,
+    "movement_inequality_pass": true,
+    "spread_inequality_pass": true
+  },
+  "prototype_sequence": "PROTO-01",
+  "run_context": {
+    "completed_at": "2026-09-27T18:07:44.370550+00:00",
+    "git_commit": "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"
+  },
+  "schema_version": "hyp0004-proto01-result-1"
+}
