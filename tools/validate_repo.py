@@ -101,6 +101,8 @@ HYP0005_HYPOTHESIS = "research/hypotheses/HYP-0005.md"
 HYP0005_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"
 HYP0005_DATA_FEASIBILITY_TOOL = "tools/hyp0005_data_feasibility.py"
 HYP0005_DATA_FEASIBILITY_TEST = "tests/test_hyp0005_data_feasibility.py"
+STRATEGY_5_IDEA = "research/ideas/IDEA-0005.md"
+HYP0006_HYPOTHESIS = "research/hypotheses/HYP-0006.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -290,6 +292,8 @@ def configure() -> None:
         HYP0005_DATA_FEASIBILITY_PREP,
         HYP0005_DATA_FEASIBILITY_TOOL,
         HYP0005_DATA_FEASIBILITY_TEST,
+        STRATEGY_5_IDEA,
+        HYP0006_HYPOTHESIS,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -358,6 +362,8 @@ def configure() -> None:
         "strategy_4_confirmatory_data_feasibility_prep",
         "strategy_4_confirmatory_data_feasibility_tool",
         "strategy_4_confirmatory_data_feasibility_test",
+        "strategy_5_idea",
+        "strategy_5_hypothesis",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -1197,6 +1203,35 @@ def configure() -> None:
         "test_geometry_counts_each_segment_without_bridging_gap",
         "test_preparation_decision_requires_both_segments_and_primary_buckets",
         "test_derived_csv_contains_no_hypothesis_outcome_columns",
+    )
+    core.CONTENT_MARKERS[STRATEGY_5_IDEA] = (
+        "Idea ID: `IDEA-0005`",
+        "Status: `SCREENING`",
+        "RETAINED_RESEARCH_FACTORY_FAMILY",
+        "S4-FAM-02 - Macroeconomic announcement response",
+        "EVENT_CONDITIONAL_ABSOLUTE_RETURN_SHIFT",
+        "FX_SPOT_OTC",
+        "Instrument or universe: `EURUSD`",
+        "Decision: `SCREEN`",
+        "two new Material Research Attempts",
+        "The frozen HYP-0005 unseen segments are unavailable",
+        "research/hypotheses/HYP-0006.md",
+    )
+    core.CONTENT_MARKERS[HYP0006_HYPOTHESIS] = (
+        "Hypothesis ID: `HYP-0006`",
+        "Parent Idea ID: `IDEA-0005`",
+        "Status: `READY_FOR_DATA_FEASIBILITY`",
+        "scheduled U.S. Consumer Price Index",
+        "pre_abs_60m_return",
+        "post_abs_60m_return",
+        "median(post_abs_60m_return) > median(pre_abs_60m_return)",
+        "No quote timestamp at or after `t` may serve as `PRE_RELEASE_ANCHOR`",
+        "PREVIOUS_60_MINUTES",
+        "NEXT_60_MINUTES",
+        "HYP-0005 frozen unseen segments used by HYP-0006 formation: `0`",
+        "HYP-0006 market outcomes inspected before formation: `0`",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "ATS2-RF-026 — HYP-0006 Data Feasibility",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
@@ -2295,10 +2330,10 @@ def main() -> int:
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
         'last_completed_task_id: "ATS2-RF-022"',
-        'current_task: "ATS2-RF-023"', 'current_ready_task: "ATS2-RF-023"',
-        'next_task: "ATS2-RF-024"',
+        'current_task: "ATS2-RF-025"', 'current_ready_task: "ATS2-RF-025"',
+        'next_task: "ATS2-RF-026"',
         'current_wbs: "WBS-RF.2"',
-        'current_strategy_sequence: 4',
+        'current_strategy_sequence: 5',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
         'preparation_decision: "READY_FOR_FREEZE_REVIEW"',
         'source_qualified_currency_count: 9',
@@ -2400,8 +2435,25 @@ def main() -> int:
         'strategy_4_direct_r4_allowed: false',
         'strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATORY_HYPOTHESIS_FORMED"',
         'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
+        'strategy_5_source_family: "S4-FAM-02"',
+        'strategy_5_family_class: "MACROECONOMIC_ANNOUNCEMENT_RESPONSE"',
+        'strategy_5_lineage_type: "NEW_IDEA_FROM_RETAINED_RESEARCH_FAMILY"',
+        'strategy_5_idea_id: "IDEA-0005"',
+        'strategy_5_idea_status: "SCREENING"',
+        'strategy_5_hypothesis_id: "HYP-0006"',
+        'strategy_5_hypothesis_status: "READY_FOR_DATA_FEASIBILITY"',
+        'strategy_5_hypothesis_instrument: "EURUSD"',
+        'strategy_5_event_class: "SCHEDULED_US_CPI_RELEASE"',
+        'strategy_5_primary_horizon: "PRE_60M_VS_POST_60M"',
+        'strategy_5_material_research_attempts_registered: 2',
+        'strategy_5_hyp0005_protected_segments_consumed: false',
+        'strategy_5_outcome_computed: false',
+        'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
+        'strategy_5_research_line_status: "HYPOTHESIS_FORMED_READY_FOR_DATA_FEASIBILITY"',
         'active_idea_id: "IDEA-0004"',
         'active_hypothesis_id: "HYP-0005"',
+        'parallel_active_idea_id: "IDEA-0005"',
+        'parallel_active_hypothesis_id: "HYP-0006"',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -2409,7 +2461,7 @@ def main() -> int:
         'prototype_id: "PROTO-01"', 'prototype_status: "REJECTED"',
         'prototype_outcome: "REJECT"', 'research_line_status: "REJECTED_AT_R3"',
         'selected_market_context: "FX_SPOT_OTC"',
-        'selected_instrument: "EURUSD"', "ideas_registered: 4",
+        'selected_instrument: "EURUSD"', "ideas_registered: 5",
         'primary_local_host: WINDOWS_X86_64', 'WINDOWS_X86_64', 'LINUX_X86_64',
         'python: "3.13.15"', 'uv: "0.12.13"',
         "mode: LOCAL", "github_actions_required: false",
@@ -2538,6 +2590,12 @@ def main() -> int:
         blocking += 1
     if core.backlog_status(backlog, "ATS2-RF-024") != "BLOCKED":
         core.fail("RF-024 must be BLOCKED in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-025") != "READY":
+        core.fail("RF-025 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-026") != "BLOCKED":
+        core.fail("RF-026 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
