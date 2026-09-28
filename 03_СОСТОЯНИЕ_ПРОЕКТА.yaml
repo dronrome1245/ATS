@@ -113,13 +113,16 @@ model:
   strategy_4_prototype_test: "tests/test_hyp0004_proto01.py"
   strategy_4_prototype_result: "reports/research/HYP-0004-PROTOTYPE-01-result.json"
   strategy_4_confirmatory_hypothesis: "research/hypotheses/HYP-0005.md"
+  strategy_4_confirmatory_data_feasibility_prep: "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"
+  strategy_4_confirmatory_data_feasibility_tool: "tools/hyp0005_data_feasibility.py"
+  strategy_4_confirmatory_data_feasibility_test: "tests/test_hyp0005_data_feasibility.py"
 
 current:
-  focus: "Register HYP-0005 as a fixed confirmatory structural replication before any confirmatory data outcome"
-  last_completed_task_id: "ATS2-RF-021"
-  last_completed_artifact: "reports/research/HYP-0004-PROTOTYPE-01-result.json"
-  next_artifact: "research/hypotheses/HYP-0005.md"
-  next_task_id: "ATS2-RF-022"
+  focus: "Prepare exact unseen HYP-0005 confirmatory data identity without computing any confirmatory outcome"
+  last_completed_task_id: "ATS2-RF-022"
+  last_completed_artifact: "research/hypotheses/HYP-0005.md"
+  next_artifact: "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"
+  next_task_id: "ATS2-RF-023"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -376,6 +379,7 @@ research_factory:
     - "ATS2-RF-019"
     - "ATS2-RF-020"
     - "ATS2-RF-021"
+    - "ATS2-RF-022"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -409,9 +413,10 @@ research_factory:
     - "tools/hyp0004_proto01.py"
     - "tests/test_hyp0004_proto01.py"
     - "reports/research/HYP-0004-PROTOTYPE-01-result.json"
-  current_task: "ATS2-RF-022"
+    - "research/hypotheses/HYP-0005.md"
+  current_task: "ATS2-RF-023"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-023"
+  next_task: "ATS2-RF-024"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -475,6 +480,7 @@ research_factory:
   rf019_verified_commit: "95174c2922fd5882c995ff14b3031d690ecc80bf"
   rf020_verified_commit: "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"
   rf021_verified_commit: "79cb1d36bd544cc14db49ea5f6e85ef138a579eb"
+  rf022_verified_commit: "136b62b52922abc1556396377c6cd6fca88fba75"
   strategy_4_selected_family: "S4-FAM-03"
   strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"
   strategy_4_idea_id: "IDEA-0004"
@@ -526,6 +532,15 @@ research_factory:
   strategy_4_confirmatory_parent_idea_id: "IDEA-0004"
   strategy_4_confirmatory_development_predecessor: "HYP-0004"
   strategy_4_confirmatory_dataset_selected: false
+  strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"
+  strategy_4_confirmatory_dataset_candidate_version: "1.0.0"
+  strategy_4_confirmatory_prep_status: "RF023_PROTOCOL_FROZEN_PENDING_OWNER_PREPARATION"
+  strategy_4_confirmatory_left_segment_start: "2003-05-04T21:00:00Z"
+  strategy_4_confirmatory_left_segment_end_exclusive: "2003-08-03T21:00:00Z"
+  strategy_4_confirmatory_right_segment_start: "2026-09-01T00:00:00Z"
+  strategy_4_confirmatory_right_segment_end_exclusive: "2026-09-26T00:00:00Z"
+  strategy_4_confirmatory_consumed_interval_start: "2003-08-03T21:00:00Z"
+  strategy_4_confirmatory_consumed_interval_end_exclusive: "2026-09-01T00:00:00Z"
   strategy_4_confirmatory_outcome_computed: false
   strategy_4_direct_r4_allowed: false
   strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATORY_HYPOTHESIS_FORMED"
@@ -536,7 +551,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-022"
+  current_ready_task: "ATS2-RF-023"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:

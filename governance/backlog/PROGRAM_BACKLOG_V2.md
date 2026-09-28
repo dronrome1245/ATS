@@ -71,10 +71,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 56. `ATS2-RF-019` — HYP-0004 PROTO-01 freeze — `DONE / PASS`.
 57. `ATS2-RF-020` — HYP-0004 PROTO-01 reveal — `DONE / PASS`.
 58. `ATS2-RF-021` — HYP-0004 PROTO-01 result canonicalization and routing — `DONE / PASS`.
-59. `ATS2-RF-022` — HYP-0005 confirmatory hypothesis formation — `READY`.
-60. `ATS2-RF-023` — HYP-0005 confirmatory Data Feasibility — `BLOCKED` pending RF-022 exact-main PASS.
+59. `ATS2-RF-022` — HYP-0005 confirmatory hypothesis formation — `DONE / PASS`.
+60. `ATS2-RF-023` — HYP-0005 confirmatory Data Feasibility preparation — `READY`.
+61. `ATS2-RF-024` — HYP-0005 confirmatory Data Feasibility freeze — `BLOCKED` pending RF-023 exact-main preparation result.
 
-Program-level current next task — `ATS2-RF-022`.
+Program-level current next task — `ATS2-RF-023`.
 
 ## 3. M0 / M1
 
@@ -170,37 +171,39 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-019` | `WBS-RF.2` | P1 | DONE / PASS | RF-018 PASS | `research/reviews/HYP-0004-PROTOTYPE-01.md` + `tools/hyp0004_proto01.py` + synthetic tests | Exact-main OWNER launcher PASS on `95174c2922fd5882c995ff14b3031d690ecc80bf` froze the exact structural calculations, calendar-year diagnostics, both primary inequalities, decision routing and runner blob `cbc9a46bf5e5296615f51c0ea564153968bc2a55` without revealing a development outcome |
 | `ATS2-RF-020` | `WBS-RF.2` | P1 | DONE / PASS | RF-019 PASS | exact local `HYP0004_PROTO01_RESULT.json` + shareable report | Exact-main OWNER reveal on `60371d16b71c1e7d1fb0ccd83c5104984e4b740a` executed the exact frozen runner once after full Local CI PASS and returned `ADVANCE_TO_ECONOMIC_SCREEN / BOTH_PRIMARY_INEQUALITIES_MET`; both primary inequalities passed and the result SHA-256 is `1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230` |
 | `ATS2-RF-021` | `WBS-RF.2` | P1 | DONE / PASS | RF-020 PASS | `reports/research/HYP-0004-PROTOTYPE-01-result.json` + updated prototype/state/backlog | Exact-main OWNER launcher PASS on `79cb1d36bd544cc14db49ea5f6e85ef138a579eb` preserved the exact RF-020 result and selected the confirmatory structural branch; direct R4 remains blocked |
-| `ATS2-RF-022` | `WBS-RF.2` | P1 | READY | RF-021 PASS | `research/hypotheses/HYP-0005.md` | Register HYP-0005 before any confirmatory outcome is inspected, inherit EURUSD/fixed UTC buckets/NEXT_1H/two primary inequalities, retain `NO_CONFIRMATORY_OUTCOME_COMPUTED`, and leave provider/snapshot/coverage/dataset identity to Data Feasibility |
-| `ATS2-RF-023` | `WBS-RF.2` | P1 | BLOCKED | RF-022 PASS | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` | Establish and freeze the exact unseen confirmatory source/snapshot/coverage, non-overlap lineage, timing semantics, continuity policy and hashes without computing a HYP-0005 outcome |
+| `ATS2-RF-022` | `WBS-RF.2` | P1 | DONE / PASS | RF-021 PASS | `research/hypotheses/HYP-0005.md` | Exact-main OWNER launcher PASS on `136b62b52922abc1556396377c6cd6fca88fba75` registered HYP-0005 with EURUSD/fixed UTC buckets/NEXT_1H/two primary inequalities and retained `NO_CONFIRMATORY_OUTCOME_COMPUTED` |
+| `ATS2-RF-023` | `WBS-RF.2` | P1 | READY | RF-022 PASS | `research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md` + `tools/hyp0005_data_feasibility.py` + synthetic tests + local machine result | Freeze a pre-result acquisition/preparation contract, acquire only the mechanically defined unseen EUR/USD segments, emit source/derived hashes and geometry, and prohibit spread/return outcome metrics or primary-claim evaluation |
+| `ATS2-RF-024` | `WBS-RF.2` | P1 | BLOCKED | RF-023 exact-main preparation result | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest/schema when permitted | Canonicalize the exact RF-023 machine result and freeze the Data Feasibility decision/dataset identity; do not compute HYP-0005 primary outcome |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-022 — HYP-0005 confirmatory hypothesis formation`.
+`ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility preparation`.
 
-RF-021 exact-main OWNER PASS:
+RF-022 exact-main OWNER PASS:
 
-`79cb1d36bd544cc14db49ea5f6e85ef138a579eb`
+`136b62b52922abc1556396377c6cd6fca88fba75`
 
-Canonical HYP-0004 development result remains:
-
-`reports/research/HYP-0004-PROTOTYPE-01-result.json`
-
-with SHA-256:
-
-`1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230`.
-
-RF-022 registers:
+Canonical confirmatory Hypothesis:
 
 `research/hypotheses/HYP-0005.md`
 
-as a confirmatory structural replication linked to `IDEA-0004` and development predecessor `HYP-0004`.
+RF-023 freezes and executes only data-feasibility preparation. It must not compute HYP-0005 spread/return medians or either primary inequality.
 
-RF-022 must not select a confirmatory provider, snapshot, exact coverage block, dataset identity or inspect a confirmatory outcome.
+The pre-result unseen segments are:
 
-After RF-022 exact-main PASS:
+- `LEFT_UNSEEN: 2003-05-04T21:00:00Z <= event_time < 2003-08-03T21:00:00Z`;
+- `RIGHT_UNSEEN: 2026-09-01T00:00:00Z <= event_time < 2026-09-26T00:00:00Z`.
 
-`ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility`
+The already consumed project interval between those segments is excluded from confirmatory evidence.
 
-becomes ready. RF-023 must establish a genuinely unseen confirmatory block and freeze its timing/lineage before any HYP-0005 outcome calculation.
+RF-023 exact-main task execution must emit the exact source-bundle hash, prepared CSV hash, row/eligibility geometry and preparation decision while retaining:
+
+`NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+
+After RF-023 exact-main PASS and review of the local machine result:
+
+`ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze`
+
+becomes ready.

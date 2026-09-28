@@ -98,6 +98,9 @@ HYP0004_PROTOTYPE_TOOL = "tools/hyp0004_proto01.py"
 HYP0004_PROTOTYPE_TEST = "tests/test_hyp0004_proto01.py"
 HYP0004_PROTOTYPE_RESULT = "reports/research/HYP-0004-PROTOTYPE-01-result.json"
 HYP0005_HYPOTHESIS = "research/hypotheses/HYP-0005.md"
+HYP0005_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"
+HYP0005_DATA_FEASIBILITY_TOOL = "tools/hyp0005_data_feasibility.py"
+HYP0005_DATA_FEASIBILITY_TEST = "tests/test_hyp0005_data_feasibility.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -284,6 +287,9 @@ def configure() -> None:
         HYP0004_PROTOTYPE_TEST,
         HYP0004_PROTOTYPE_RESULT,
         HYP0005_HYPOTHESIS,
+        HYP0005_DATA_FEASIBILITY_PREP,
+        HYP0005_DATA_FEASIBILITY_TOOL,
+        HYP0005_DATA_FEASIBILITY_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -349,6 +355,9 @@ def configure() -> None:
         "strategy_4_prototype_test",
         "strategy_4_prototype_result",
         "strategy_4_confirmatory_hypothesis",
+        "strategy_4_confirmatory_data_feasibility_prep",
+        "strategy_4_confirmatory_data_feasibility_tool",
+        "strategy_4_confirmatory_data_feasibility_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -1149,10 +1158,45 @@ def configure() -> None:
         "No minimum effect-size threshold is added after the HYP-0004 reveal.",
         "Confirmatory datasets inspected by RF-022: `0`",
         "Confirmatory outcomes inspected by RF-022: `0`",
-        "Exact provider, coverage dates, row count and source hashes are intentionally unknown",
         "If a genuinely unseen confirmatory block cannot be established",
-        "ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility",
+        "ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility preparation",
+        "ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze",
         "Direct R4 entry remains blocked",
+    )
+    core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_PREP] = (
+        "PREPARATION_PROTOCOL_FROZEN",
+        "2003-05-04T21:00:00Z <= event_time < 2003-08-03T21:00:00Z",
+        "2026-09-01T00:00:00Z <= event_time < 2026-09-26T00:00:00Z",
+        "2003-08-03T21:00:00Z <= event_time < 2026-09-01T00:00:00Z",
+        "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0",
+        "5 months × 2 sides = 10 objects",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE",
+        "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY",
+        "ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze",
+    )
+    core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_TOOL] = (
+        'TASK_ID = "ATS2-RF-023"',
+        'HYPOTHESIS_ID = "HYP-0005"',
+        'DATASET_ID = "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
+        "LEFT_UNSEEN",
+        "RIGHT_UNSEEN",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        "outcome_metrics_computed",
+        "primary_claim_evaluated",
+        "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE",
+        "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY",
+        "HYP0005_DATA_FEASIBILITY_PREP.json",
+    )
+    core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_TEST] = (
+        "test_frozen_segments_do_not_overlap_consumed_project_interval",
+        "test_source_months_are_exactly_predeclared",
+        "test_bucket_mapping_is_inherited_without_change",
+        "test_geometry_counts_each_segment_without_bridging_gap",
+        "test_preparation_decision_requires_both_segments_and_primary_buckets",
+        "test_derived_csv_contains_no_hypothesis_outcome_columns",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
@@ -1839,17 +1883,19 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-022"',
-        "HYP-0005 confirmatory hypothesis formation",
-        "research/hypotheses/HYP-0005.md",
-        "1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230",
-        "RF-022 must not create confirmatory data/review/result artifact",
-        "Confirmatory datasets inspected by RF-022",
-        "Confirmatory outcomes inspected by RF-022",
-        "If a genuinely unseen confirmatory block cannot be established",
-        "ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility",
-        "RF-022 registered HYP-0005 without selecting or revealing confirmatory data",
-        "full ATS Local CI for RF-022 HYP-0005 formation",
+        'TASK_ID = "ATS2-RF-023"',
+        "HYP-0005 confirmatory Data Feasibility preparation",
+        "HYP-0005-DATA-FEASIBILITY-PREP.md",
+        "HYP0005_DATA_FEASIBILITY_PREP.json",
+        "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001",
+        "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE",
+        "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY",
+        "RF-023 staged contract preserves the confirmatory information boundary",
+        "full ATS Local CI before RF-023 source acquisition",
+        "RF-023 HYP-0005 source acquisition and confirmatory preparation",
+        "Existing exact-commit local preparation result found",
+        "Local result SHA-256",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -1868,6 +1914,7 @@ def configure() -> None:
         "tools/agent_preflight.py", "tools/current_task_diag.py",
         "tools/hyp0003_proto01.py", "tools/hyp0004_development_data.py",
         "tools/hyp0004_proto01.py",
+        "tools/hyp0005_data_feasibility.py",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
@@ -1885,6 +1932,8 @@ def configure() -> None:
         "HYP0004_DEVELOPMENT_DATA_REPORT.txt",
         "HYP0004_PROTO01_RESULT.json",
         "HYP0004_PROTO01_RESULT_REPORT.txt",
+        "HYP0005_DATA_FEASIBILITY_PREP.json",
+        "HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt",
         "reports/local_ci/*.lnk",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
@@ -2244,6 +2293,9 @@ def main() -> int:
         'strategy_4_prototype_test: "tests/test_hyp0004_proto01.py"',
         'strategy_4_prototype_result: "reports/research/HYP-0004-PROTOTYPE-01-result.json"',
         'strategy_4_confirmatory_hypothesis: "research/hypotheses/HYP-0005.md"',
+        'strategy_4_confirmatory_data_feasibility_prep: "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"',
+        'strategy_4_confirmatory_data_feasibility_tool: "tools/hyp0005_data_feasibility.py"',
+        'strategy_4_confirmatory_data_feasibility_test: "tests/test_hyp0005_data_feasibility.py"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -2256,9 +2308,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-021"',
-        'current_task: "ATS2-RF-022"', 'current_ready_task: "ATS2-RF-022"',
-        'next_task: "ATS2-RF-023"',
+        'last_completed_task_id: "ATS2-RF-022"',
+        'current_task: "ATS2-RF-023"', 'current_ready_task: "ATS2-RF-023"',
+        'next_task: "ATS2-RF-024"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2302,6 +2354,7 @@ def main() -> int:
         'rf019_verified_commit: "95174c2922fd5882c995ff14b3031d690ecc80bf"',
         'rf020_verified_commit: "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"',
         'rf021_verified_commit: "79cb1d36bd544cc14db49ea5f6e85ef138a579eb"',
+        'rf022_verified_commit: "136b62b52922abc1556396377c6cd6fca88fba75"',
         'strategy_4_selected_family: "S4-FAM-03"',
         'strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"',
         'strategy_4_idea_id: "IDEA-0004"',
@@ -2348,6 +2401,15 @@ def main() -> int:
         'strategy_4_confirmatory_parent_idea_id: "IDEA-0004"',
         'strategy_4_confirmatory_development_predecessor: "HYP-0004"',
         'strategy_4_confirmatory_dataset_selected: false',
+        'strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
+        'strategy_4_confirmatory_dataset_candidate_version: "1.0.0"',
+        'strategy_4_confirmatory_prep_status: "RF023_PROTOCOL_FROZEN_PENDING_OWNER_PREPARATION"',
+        'strategy_4_confirmatory_left_segment_start: "2003-05-04T21:00:00Z"',
+        'strategy_4_confirmatory_left_segment_end_exclusive: "2003-08-03T21:00:00Z"',
+        'strategy_4_confirmatory_right_segment_start: "2026-09-01T00:00:00Z"',
+        'strategy_4_confirmatory_right_segment_end_exclusive: "2026-09-26T00:00:00Z"',
+        'strategy_4_confirmatory_consumed_interval_start: "2003-08-03T21:00:00Z"',
+        'strategy_4_confirmatory_consumed_interval_end_exclusive: "2026-09-01T00:00:00Z"',
         'strategy_4_confirmatory_outcome_computed: false',
         'strategy_4_direct_r4_allowed: false',
         'strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATORY_HYPOTHESIS_FORMED"',
@@ -2482,11 +2544,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-021") != "DONE / PASS":
         core.fail("RF-021 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-022") != "READY":
-        core.fail("RF-022 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-022") != "DONE / PASS":
+        core.fail("RF-022 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-023") != "BLOCKED":
-        core.fail("RF-023 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-023") != "READY":
+        core.fail("RF-023 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-024") != "BLOCKED":
+        core.fail("RF-024 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

@@ -88,6 +88,8 @@ Current patterns include:
 - `reports/local_ci/HYP0004_DEVELOPMENT_DATA_REPORT.txt` — RF-017 HYP-0004 preparation summary;
 - `reports/local_ci/HYP0004_PROTO01_RESULT.json` — HYP-0004 PROTO-01 local machine result after RF-020 reveal;
 - `reports/local_ci/HYP0004_PROTO01_RESULT_REPORT.txt` — HYP-0004 PROTO-01 local result summary after RF-020 reveal;
+- `reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP.json` — RF-023 HYP-0005 local confirmatory data-feasibility preparation result;
+- `reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt` — RF-023 shareable confirmatory data-feasibility preparation summary;
 - `reports/local_ci/*.lnk` — disposable Windows Explorer shortcuts.
 
 The rules are deliberately directory-scoped and filename-scoped so unrelated untracked files still make the full clean-tree gate fail.
