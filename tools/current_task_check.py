@@ -1,57 +1,41 @@
 #!/usr/bin/env python3
-"""Run the verification package for the currently closing ATS task."""
+"""Run the verification package for ATS2-RF-025 on exact main."""
 
 from __future__ import annotations
 
-import csv
-import hashlib
-import json
-import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-RF-023"
-TASK_NAME = "HYP-0005 confirmatory Data Feasibility preparation"
+TASK_ID = "ATS2-RF-025"
+TASK_NAME = "Parallel Strategy #5 Idea Intake + HYP-0006 formation"
 
-HYPOTHESIS = Path("research/hypotheses/HYP-0005.md")
-PREP_PROTOCOL = Path("research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md")
-PREP_TOOL = Path("tools/hyp0005_data_feasibility.py")
-PREP_TEST = Path("tests/test_hyp0005_data_feasibility.py")
-LOCAL_RESULT = Path("reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP.json")
-DERIVED_DATA = Path("data/derived/HYP-0005-CONF-01-EURUSD-H1.csv")
-FUTURE_REVIEW = Path("research/reviews/HYP-0005-DATA-FEASIBILITY.md")
-FUTURE_MANIFEST = Path("data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml")
+IDEA = Path("research/ideas/IDEA-0005.md")
+HYPOTHESIS = Path("research/hypotheses/HYP-0006.md")
+STATE = Path("03_СОСТОЯНИЕ_ПРОЕКТА.yaml")
+BACKLOG = Path("governance/backlog/PROGRAM_BACKLOG_V2.md")
+HANDOFF = Path("AI_HANDOFF.md")
+NEXT_STEP = Path("02_СЛЕДУЮЩИЙ_ШАГ.md")
+STATUS = Path("01_СТАТУС_ПРОЕКТА.md")
 
-EXPECTED_DATASET_ID = "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"
-EXPECTED_DATASET_VERSION = "1.0.0"
-EXPECTED_SEGMENTS = [
-    {
-        "segment_id": "LEFT_UNSEEN",
-        "start": "2003-05-04T21:00:00Z",
-        "end_exclusive": "2003-08-03T21:00:00Z",
-    },
-    {
-        "segment_id": "RIGHT_UNSEEN",
-        "start": "2026-09-01T00:00:00Z",
-        "end_exclusive": "2026-09-26T00:00:00Z",
-    },
-]
-VALID_DECISIONS = {
-    "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE",
-    "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY",
+HYP0005_FROZEN_BLOBS = {
+    "research/hypotheses/HYP-0005.md": "ebbbc89187c911485c1568dc11f5f2f9e703718a",
+    "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md": "c15b2b67700dd46fc592f1208731ce6b42f6905c",
+    "tools/hyp0005_data_feasibility.py": "310b23213876304ade674ef36ba17ce6d457353f",
+    "tests/test_hyp0005_data_feasibility.py": "12697882da682eab699bf5b7debd7c358e56aca9",
 }
-SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+PROHIBITED_RF025_OUTPUT_PATTERNS = (
+    "research/reviews/HYP-0006*",
+    "reports/research/HYP-0006*",
+    "data/manifests/*HYP0006*",
+    "data/manifests/*HYP-0006*",
+    "data/derived/*HYP0006*",
+    "data/derived/*HYP-0006*",
+    "tools/hyp0006*",
+    "tests/test_hyp0006*",
+)
 
 
 def git_output(*args: str) -> str:
@@ -78,267 +62,197 @@ def run(name: str, command: list[str]) -> bool:
     return passed
 
 
-def check_staged_contract() -> bool:
-    print("\n== RF-023 staged confirmatory Data Feasibility contract ==", flush=True)
-
-    for path in (HYPOTHESIS, PREP_PROTOCOL, PREP_TOOL, PREP_TEST):
-        if not (ROOT / path).is_file():
-            print(f"[FAIL] missing RF-023 artifact: {path}", flush=True)
-            return False
-
-    for path in (FUTURE_REVIEW, FUTURE_MANIFEST):
-        if (ROOT / path).exists():
-            print(f"[FAIL] RF-023 must not pre-create RF-024 freeze artifact: {path}", flush=True)
-            return False
-
-    protocol = (ROOT / PREP_PROTOCOL).read_text(encoding="utf-8")
-    markers = (
-        "PREPARATION_PROTOCOL_FROZEN",
-        "2003-05-04T21:00:00Z <= event_time < 2003-08-03T21:00:00Z",
-        "2026-09-01T00:00:00Z <= event_time < 2026-09-26T00:00:00Z",
-        "2003-08-03T21:00:00Z <= event_time < 2026-09-01T00:00:00Z",
-        "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0",
-        "H1_OPEN_PROXY_AT_EVENT_TIME",
-        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
-        "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE",
-        "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY",
-        "ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze",
-    )
+def require_markers(path: Path, markers: tuple[str, ...]) -> bool:
+    full_path = ROOT / path
+    if not full_path.is_file():
+        print(f"[FAIL] missing RF-025 artifact: {path}", flush=True)
+        return False
+    content = full_path.read_text(encoding="utf-8")
     for marker in markers:
-        if marker not in protocol:
-            print(f"[FAIL] RF-023 protocol marker missing: {marker}", flush=True)
+        if marker not in content:
+            print(f"[FAIL] RF-025 marker missing in {path}: {marker}", flush=True)
             return False
-
-    print(
-        "[PASS] RF-023 staged contract preserves the confirmatory information boundary",
-        flush=True,
-    )
     return True
 
 
-def _valid_nonnegative_int(value: object) -> bool:
-    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
-
-
-def validate_local_result(payload: dict[str, Any], commit: str) -> bool:
-    fixed = {
-        "schema_version": "hyp0005-data-feasibility-prep-1",
-        "task_id": TASK_ID,
-        "hypothesis_id": "HYP-0005",
-        "git_commit": commit,
-        "confirmatory_dataset_id": EXPECTED_DATASET_ID,
-        "confirmatory_dataset_version": EXPECTED_DATASET_VERSION,
-        "source_provider": "DUKASCOPY",
-        "source_symbol": "EURUSD",
-        "source_orientation": "DIRECT",
-        "source_month_count": 5,
-        "source_object_count": 10,
-        "segments": EXPECTED_SEGMENTS,
-        "consumed_project_interval_start": "2003-08-03T21:00:00Z",
-        "consumed_project_interval_end_exclusive": "2026-09-01T00:00:00Z",
-        "boundary_availability_mode": "H1_OPEN_PROXY_AT_EVENT_TIME",
-        "exact_tick_boundary_time_known": False,
-        "outcome_metrics_computed": False,
-        "primary_claim_evaluated": False,
-        "information_boundary": "NO_CONFIRMATORY_OUTCOME_COMPUTED",
-    }
-    for key, expected in fixed.items():
-        if payload.get(key) != expected:
+def check_hyp0005_immutability() -> bool:
+    print("\n== HYP-0005 frozen-line immutability ==", flush=True)
+    passed = True
+    for relative, expected_blob in HYP0005_FROZEN_BLOBS.items():
+        path = ROOT / relative
+        if not path.is_file():
+            print(f"[FAIL] frozen HYP-0005 artifact missing: {relative}", flush=True)
+            passed = False
+            continue
+        actual_blob = git_output("rev-parse", f"HEAD:{relative}")
+        if actual_blob != expected_blob:
             print(
-                f"[FAIL] RF-023 local result mismatch for {key}: "
-                f"{payload.get(key)!r} != {expected!r}",
+                f"[FAIL] frozen HYP-0005 artifact changed: {relative} "
+                f"({actual_blob} != {expected_blob})",
                 flush=True,
             )
-            return False
-
-    decision = payload.get("preparation_decision")
-    if decision not in VALID_DECISIONS:
-        print(f"[FAIL] invalid RF-023 preparation decision: {decision!r}", flush=True)
-        return False
-
-    for key in ("source_bundle_sha256", "derived_csv_sha256"):
-        value = payload.get(key)
-        if not isinstance(value, str) or not SHA256_RE.fullmatch(value):
-            print(f"[FAIL] invalid/missing {key}", flush=True)
-            return False
-
-    if not _valid_nonnegative_int(payload.get("derived_row_count")):
-        print("[FAIL] invalid derived_row_count", flush=True)
-        return False
-    if payload["derived_row_count"] <= 0:
-        print("[FAIL] RF-023 produced zero confirmatory rows", flush=True)
-        return False
-
-    source_files = payload.get("source_files")
-    if not isinstance(source_files, list) or len(source_files) != 10:
-        print("[FAIL] RF-023 source file inventory must contain exactly 10 objects", flush=True)
-        return False
-    identities: set[tuple[str, str]] = set()
-    for item in source_files:
-        if not isinstance(item, dict):
-            print("[FAIL] invalid source-file inventory entry", flush=True)
-            return False
-        side = item.get("side")
-        month = item.get("month")
-        digest = item.get("sha256")
-        relative_path = item.get("relative_path")
-        if side not in {"BID", "ASK"} or not isinstance(month, str):
-            print("[FAIL] invalid source-file side/month identity", flush=True)
-            return False
-        if not isinstance(digest, str) or not SHA256_RE.fullmatch(digest):
-            print("[FAIL] invalid source-file SHA-256", flush=True)
-            return False
-        if not isinstance(relative_path, str):
-            print("[FAIL] invalid source-file relative path", flush=True)
-            return False
-        source_path = ROOT / relative_path
-        if not source_path.is_file() or sha256_file(source_path) != digest:
-            print(f"[FAIL] local frozen source object mismatch: {relative_path}", flush=True)
-            return False
-        identities.add((month, side))
-    if len(identities) != 10:
-        print("[FAIL] duplicate source month/side identities", flush=True)
-        return False
-
-    geometry = payload.get("geometry")
-    if not isinstance(geometry, dict):
-        print("[FAIL] RF-023 geometry missing", flush=True)
-        return False
-    for key in (
-        "eligible_exact_next_hour_count",
-        "ineligible_closed_market_next_hour_count",
-        "ineligible_missing_expected_next_hour_count",
-        "ineligible_segment_end_count",
-    ):
-        if not _valid_nonnegative_int(geometry.get(key)):
-            print(f"[FAIL] invalid geometry field: {key}", flush=True)
-            return False
-
-    eligible_by_bucket = geometry.get("eligible_rows_by_bucket")
-    eligible_by_segment = geometry.get("eligible_rows_by_segment")
-    if not isinstance(eligible_by_bucket, dict) or set(eligible_by_bucket) != {
-        "CORE_ACTIVE",
-        "TRANSITION",
-        "OFF_HOURS",
-    }:
-        print("[FAIL] eligible bucket geometry mismatch", flush=True)
-        return False
-    if not isinstance(eligible_by_segment, dict) or set(eligible_by_segment) != {
-        "LEFT_UNSEEN",
-        "RIGHT_UNSEEN",
-    }:
-        print("[FAIL] eligible segment geometry mismatch", flush=True)
-        return False
-    if any(not _valid_nonnegative_int(value) for value in eligible_by_bucket.values()):
-        print("[FAIL] invalid eligible bucket counts", flush=True)
-        return False
-    if any(not _valid_nonnegative_int(value) for value in eligible_by_segment.values()):
-        print("[FAIL] invalid eligible segment counts", flush=True)
-        return False
-
-    if decision == "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE":
-        if eligible_by_bucket["CORE_ACTIVE"] <= 0 or eligible_by_bucket["OFF_HOURS"] <= 0:
-            print("[FAIL] ready decision lacks primary-bucket geometry", flush=True)
-            return False
-        if any(eligible_by_segment[name] <= 0 for name in ("LEFT_UNSEEN", "RIGHT_UNSEEN")):
-            print("[FAIL] ready decision lacks both unseen segments", flush=True)
-            return False
-
-    if not (ROOT / DERIVED_DATA).is_file():
-        print("[FAIL] RF-023 derived CSV missing", flush=True)
-        return False
-    if sha256_file(ROOT / DERIVED_DATA) != payload["derived_csv_sha256"]:
-        print("[FAIL] RF-023 derived CSV SHA-256 mismatch", flush=True)
-        return False
-
-    with (ROOT / DERIVED_DATA).open("r", encoding="utf-8", newline="") as handle:
-        reader = csv.reader(handle)
-        header = next(reader, [])
-    if "abs_next_1h_return" in header or "relative_spread" in header:
-        print("[FAIL] derived CSV contains prohibited HYP-0005 outcome columns", flush=True)
-        return False
-    for required in ("confirmatory_segment", "utc_bucket", "bid_open", "ask_open"):
-        if required not in header:
-            print(f"[FAIL] derived CSV missing required field: {required}", flush=True)
-            return False
-
-    return True
+            passed = False
+        else:
+            print(f"[PASS] unchanged: {relative}", flush=True)
+    return passed
 
 
-def prepare_or_validate(commit: str) -> bool:
-    print("\n== RF-023 exact confirmatory data preparation ==", flush=True)
-
-    existing: dict[str, Any] | None = None
-    if (ROOT / LOCAL_RESULT).is_file():
-        try:
-            loaded = json.loads((ROOT / LOCAL_RESULT).read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            loaded = None
-        if isinstance(loaded, dict) and loaded.get("git_commit") == commit:
-            existing = loaded
-
-    if existing is not None:
-        print(
-            "Existing exact-commit local preparation result found; validating without acquisition."
+def check_no_hyp0006_outcome_artifacts() -> bool:
+    print("\n== HYP-0006 pre-result information boundary ==", flush=True)
+    matches: list[str] = []
+    for pattern in PROHIBITED_RF025_OUTPUT_PATTERNS:
+        matches.extend(
+            str(path.relative_to(ROOT))
+            for path in ROOT.glob(pattern)
+            if path.is_file()
         )
-        payload = existing
-    else:
-        if not run(
-            "RF-023 HYP-0005 source acquisition and confirmatory preparation",
-            [sys.executable, str(PREP_TOOL)],
-        ):
-            return False
-        try:
-            payload = json.loads((ROOT / LOCAL_RESULT).read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            print(f"[FAIL] cannot load RF-023 local preparation result: {exc}", flush=True)
-            return False
-
-    if not isinstance(payload, dict) or not validate_local_result(payload, commit):
+    if matches:
+        for relative in sorted(set(matches)):
+            print(f"[FAIL] RF-025 must not create downstream/outcome artifact: {relative}", flush=True)
         return False
-
-    result_sha = sha256_file(ROOT / LOCAL_RESULT)
-    print(f"[PASS] RF-023 local preparation result ({payload['preparation_decision']})", flush=True)
-    print(f"Local result SHA-256: {result_sha}", flush=True)
-    print(f"Source bundle SHA-256: {payload['source_bundle_sha256']}", flush=True)
-    print(f"Derived CSV SHA-256: {payload['derived_csv_sha256']}", flush=True)
-    print(f"Derived rows: {payload['derived_row_count']}", flush=True)
-    print(f"Information boundary: {payload['information_boundary']}", flush=True)
+    print("[PASS] no HYP-0006 Data Feasibility, runner, dataset or outcome artifact exists", flush=True)
     return True
+
+
+def check_rf025_contract() -> bool:
+    print("\n== RF-025 staged lineage and hypothesis contract ==", flush=True)
+
+    idea_ok = require_markers(
+        IDEA,
+        (
+            "Idea ID: `IDEA-0005`",
+            "Status: `SCREENING`",
+            "S4-FAM-02 - Macroeconomic announcement response",
+            "EVENT_CONDITIONAL_ABSOLUTE_RETURN_SHIFT",
+            "Decision: `SCREEN`",
+            "2 new Material Research Attempts",
+            "HYP-0005 frozen unseen segments are unavailable",
+            "research/hypotheses/HYP-0006.md",
+        ),
+    )
+    hypothesis_ok = require_markers(
+        HYPOTHESIS,
+        (
+            "Hypothesis ID: `HYP-0006`",
+            "Parent Idea ID: `IDEA-0005`",
+            "Status: `READY_FOR_DATA_FEASIBILITY`",
+            "scheduled U.S. Consumer Price Index",
+            "PREVIOUS_60_MINUTES",
+            "NEXT_60_MINUTES",
+            "median(post_abs_60m_return) > median(pre_abs_60m_return)",
+            "HYP-0005 frozen unseen segments used by HYP-0006 formation: `0`",
+            "HYP-0006 market outcomes inspected before formation: `0`",
+            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+            "ATS2-RF-026 — HYP-0006 Data Feasibility",
+        ),
+    )
+    state_ok = require_markers(
+        STATE,
+        (
+            'next_task_id: "ATS2-RF-025"',
+            'current_task: "ATS2-RF-025"',
+            'next_task: "ATS2-RF-026"',
+            'current_strategy_sequence: 5',
+            'strategy_5_idea_id: "IDEA-0005"',
+            'strategy_5_hypothesis_id: "HYP-0006"',
+            'strategy_5_material_research_attempts_registered: 2',
+            'strategy_5_hyp0005_protected_segments_consumed: false',
+            'strategy_5_outcome_computed: false',
+            'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
+            'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
+        ),
+    )
+    backlog_ok = require_markers(
+        BACKLOG,
+        (
+            "`ATS2-RF-023`",
+            "`ATS2-RF-024`",
+            "`ATS2-RF-025`",
+            "`ATS2-RF-026`",
+            "2 Material Research Attempts",
+            "preserve all HYP-0005 frozen artifacts",
+        ),
+    )
+    handoff_ok = require_markers(
+        HANDOFF,
+        (
+            "ATS2-RF-025",
+            "IDEA-0005",
+            "HYP-0006",
+            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+            "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+            "RF-023 remains separately open",
+        ),
+    )
+    next_ok = require_markers(
+        NEXT_STEP,
+        (
+            "ATS2-RF-025",
+            "ATS2-RF-026",
+            ".\\ATS_AGENT_PREFLIGHT.bat",
+            ".\\ATS_TASK_CHECK.bat",
+            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+            "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        ),
+    )
+    status_ok = require_markers(
+        STATUS,
+        (
+            "ATS2-RF-025",
+            "IDEA-0005",
+            "HYP-0006",
+            "NEW_IDEA_FROM_RETAINED_RESEARCH_FAMILY",
+            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+            "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        ),
+    )
+
+    return all(
+        (
+            idea_ok,
+            hypothesis_ok,
+            state_ok,
+            backlog_ok,
+            handoff_ok,
+            next_ok,
+            status_ok,
+            check_hyp0005_immutability(),
+            check_no_hyp0006_outcome_artifacts(),
+        )
+    )
 
 
 def main() -> int:
     print("ATS CURRENT TASK CHECK")
     print(f"Task: {TASK_ID} — {TASK_NAME}")
     commit = git_output("rev-parse", "HEAD")
+    branch = git_output("branch", "--show-current")
+    print(f"Branch: {branch or '<detached>'}")
     print(f"Commit: {commit}")
 
     emit_progress(40)
-    staged = check_staged_contract()
+    staged = check_rf025_contract()
 
-    emit_progress(55)
+    emit_progress(60)
     governance = run(
-        "RF-023 HYP-0005 preparation governance validation",
+        "RF-025 repository governance validation",
         [sys.executable, "tools/validate_repo.py"],
     )
 
-    emit_progress(70)
+    emit_progress(80)
     full_ci = run(
-        "full ATS Local CI before RF-023 source acquisition",
+        "full ATS Local CI for RF-025",
         [sys.executable, "tools/verify_repo.py"],
     )
 
-    if not all((staged, governance, full_ci)):
-        print("\nATS CURRENT TASK CHECK: FAIL", flush=True)
-        return 1
-
-    emit_progress(85)
-    prepared = prepare_or_validate(commit)
-
-    if prepared:
+    passed = all((staged, governance, full_ci))
+    if passed:
         emit_progress(100)
-    print(f"\nATS CURRENT TASK CHECK: {'PASS' if prepared else 'FAIL'}", flush=True)
-    return 0 if prepared else 1
+
+    print("\nHYP-0005 outcome computed by RF-025: NO", flush=True)
+    print("HYP-0006 outcome computed by RF-025: NO", flush=True)
+    print(f"\nATS CURRENT TASK CHECK: {'PASS' if passed else 'FAIL'}", flush=True)
+    return 0 if passed else 1
 
 
 if __name__ == "__main__":
