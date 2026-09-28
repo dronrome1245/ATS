@@ -73,9 +73,7 @@ def check_hypothesis_formation() -> bool:
         ROOT / "data/manifests",
         ROOT / "reports/research",
     ):
-        future_artifacts.extend(
-            path for path in base.glob("*HYP*0005*") if path.is_file()
-        )
+        future_artifacts.extend(path for path in base.glob("*HYP*0005*") if path.is_file())
     if future_artifacts:
         for path in sorted(future_artifacts):
             print(
