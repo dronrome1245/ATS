@@ -2353,7 +2353,7 @@ def main() -> int:
         'strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATORY_HYPOTHESIS_FORMED"',
         'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
         'active_idea_id: "IDEA-0004"',
-        'active_hypothesis_id: "HYP-0004"',
+        'active_hypothesis_id: "HYP-0005"',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
