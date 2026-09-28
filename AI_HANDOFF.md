@@ -102,7 +102,7 @@ HYP-0006 fixes:
 - event class: scheduled U.S. CPI publication;
 - pre-event horizon: previous 60 minutes;
 - post-event horizon: next 60 minutes;
-- primary ordering: `median(post_abs_60m_return) > median(pre_abs_60m_return)`;
+- event anchor: `PRE_RELEASE_ANCHOR` is the last eligible synchronized BID/ASK quote strictly before public release time;\n- primary ordering: `median(post_abs_60m_return) > median(pre_abs_60m_return)`;
 - no directional EUR/USD sign;
 - no trading P&L or profitability claim;
 - exact event-calendar and quote providers remain Data Feasibility questions.
