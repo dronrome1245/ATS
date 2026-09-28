@@ -96,6 +96,7 @@ HYP0004_DEVELOPMENT_SCHEMA = (
 HYP0004_PROTOTYPE = "research/reviews/HYP-0004-PROTOTYPE-01.md"
 HYP0004_PROTOTYPE_TOOL = "tools/hyp0004_proto01.py"
 HYP0004_PROTOTYPE_TEST = "tests/test_hyp0004_proto01.py"
+HYP0004_PROTOTYPE_RESULT = "reports/research/HYP-0004-PROTOTYPE-01-result.json"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -280,6 +281,7 @@ def configure() -> None:
         HYP0004_PROTOTYPE,
         HYP0004_PROTOTYPE_TOOL,
         HYP0004_PROTOTYPE_TEST,
+        HYP0004_PROTOTYPE_RESULT,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -343,6 +345,7 @@ def configure() -> None:
         "strategy_4_prototype",
         "strategy_4_prototype_runner",
         "strategy_4_prototype_test",
+        "strategy_4_prototype_result",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -1075,20 +1078,19 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[HYP0004_PROTOTYPE] = (
         "HYP-0004 / PROTO-01",
-        "FROZEN / NOT_REVEALED",
-        "ATS2-RF-019",
+        "COMPLETED / DEVELOPMENT_PASS",
         "DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0",
         "111938 + 940 + 21 + 1 = 112900",
         "H1_OPEN_PROXY_AT_EVENT_TIME",
         "cbc9a46bf5e5296615f51c0ea564153968bc2a55",
-        "median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)",
-        "median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)",
+        "1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230",
+        "60371d16b71c1e7d1fb0ccd83c5104984e4b740a",
+        "ADVANCE_TO_ECONOMIC_SCREEN",
         "BOTH_PRIMARY_INEQUALITIES_MET",
-        "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
         "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
-        "STRUCTURAL_H1_OPEN_PROXY_NO_TRADING_PNL",
-        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-        "ATS2-RF-020 — HYP-0004 PROTO-01 reveal",
+        "HYP-0005 — EUR/USD Fixed-UTC Intraday Activity Contrast Confirmatory Replication",
+        "DEVELOPMENT_REVEALED_STRUCTURAL_PASS_CONFIRMATION_REQUIRED",
+        "ATS2-RF-022 — HYP-0005 confirmatory hypothesis formation",
     )
     core.CONTENT_MARKERS[HYP0004_PROTOTYPE_TOOL] = (
         "HYP-0004 PROTO-01",
@@ -1115,6 +1117,21 @@ def configure() -> None:
         "test_calendar_year_diagnostics_are_reporting_only",
         "test_exact_next_hour_geometry_does_not_bridge_closed_or_missing_hours",
         "test_adjacent_exact_hour_rows_form_one_observation_per_start_boundary",
+    )
+    core.CONTENT_MARKERS[HYP0004_PROTOTYPE_RESULT] = (
+        '"decision": "ADVANCE_TO_ECONOMIC_SCREEN"',
+        '"decision_reason": "BOTH_PRIMARY_INEQUALITIES_MET"',
+        '"evidence_class": "EXPLORATORY_PROTOTYPE"',
+        '"measurement_label": "STRUCTURAL_H1_OPEN_PROXY_NO_TRADING_PNL"',
+        '"next_action": "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4"',
+        '"both_primary_inequalities_pass": true',
+        '"movement_inequality_pass": true',
+        '"spread_inequality_pass": true',
+        '"median_abs_next_1h_return": 0.0006982268977376305',
+        '"median_abs_next_1h_return": 0.0003493061509638462',
+        '"median_relative_spread": 4.018781312113313e-05',
+        '"median_relative_spread": 6.690913261869393e-05',
+        '"git_commit": "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"',
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
@@ -1801,17 +1818,17 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-020"',
-        "RF-020 frozen reveal inputs",
-        "HYP-0004-PROTOTYPE-01.md",
-        "hyp0004_proto01.py",
-        "cbc9a46bf5e5296615f51c0ea564153968bc2a55",
-        "canonical HYP-0004 result exists before RF-020 reveal",
-        "exact RF-019 frozen runner/protocol/data identity",
-        "RF-020 reveal result contract",
-        "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
-        "full ATS Local CI before RF-020 HYP-0004 reveal",
-        "RF-020 one-time HYP-0004 PROTO-01 reveal",
+        'TASK_ID = "ATS2-RF-021"',
+        "HYP-0004 PROTO-01 result canonicalization and routing",
+        "HYP-0004-PROTOTYPE-01-result.json",
+        "1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230",
+        "60371d16b71c1e7d1fb0ccd83c5104984e4b740a",
+        "RF-021 must not create HYP-0005 before RF-022",
+        "frozen HYP-0004 runner changed after reveal",
+        "canonical result exact-byte Git attribute missing",
+        "HYP-0005 — EUR/USD Fixed-UTC Intraday Activity Contrast Confirmatory Replication",
+        "RF-021 preserved the exact HYP-0004 result and selected confirmatory routing",
+        "full ATS Local CI for RF-021 HYP-0004 result canonicalization",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -2204,6 +2221,7 @@ def main() -> int:
         'strategy_4_prototype: "research/reviews/HYP-0004-PROTOTYPE-01.md"',
         'strategy_4_prototype_runner: "tools/hyp0004_proto01.py"',
         'strategy_4_prototype_test: "tests/test_hyp0004_proto01.py"',
+        'strategy_4_prototype_result: "reports/research/HYP-0004-PROTOTYPE-01-result.json"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -2216,9 +2234,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-019"',
-        'current_task: "ATS2-RF-020"', 'current_ready_task: "ATS2-RF-020"',
-        'next_task: "ATS2-RF-021"',
+        'last_completed_task_id: "ATS2-RF-020"',
+        'current_task: "ATS2-RF-021"', 'current_ready_task: "ATS2-RF-021"',
+        'next_task: "ATS2-RF-022"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2260,12 +2278,13 @@ def main() -> int:
         'rf017_verified_commit: "ae9767a71b3860e55d345afb34b2f9c18b5dd063"',
         'rf018_verified_commit: "6d388c500d2c5e1671e11700966b713b95a395b8"',
         'rf019_verified_commit: "95174c2922fd5882c995ff14b3031d690ecc80bf"',
+        'rf020_verified_commit: "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"',
         'strategy_4_selected_family: "S4-FAM-03"',
         'strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"',
         'strategy_4_idea_id: "IDEA-0004"',
         'strategy_4_idea_status: "SCREENING"',
         'strategy_4_hypothesis_id: "HYP-0004"',
-        'strategy_4_hypothesis_status: "READY_FOR_DATA_FEASIBILITY"',
+        'strategy_4_hypothesis_status: "DEVELOPMENT_PASS_CONFIRMATION_REQUIRED"',
         'strategy_4_hypothesis_instrument: "EURUSD"',
         'strategy_4_data_feasibility_decision: "CONDITIONAL"',
         'strategy_4_data_feasibility_status: "CONDITIONAL"',
@@ -2293,9 +2312,17 @@ def main() -> int:
         'strategy_4_prototype_id: "PROTO-01"',
         'strategy_4_prototype_freeze_status: "FROZEN_RF019"',
         'strategy_4_prototype_runner_git_blob: "cbc9a46bf5e5296615f51c0ea564153968bc2a55"',
-        'strategy_4_prototype_result_status: "PENDING_RF020_REVEAL"',
-        'strategy_4_prototype_positive_route: "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4"',
-        'strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
+        'strategy_4_prototype_result_status: "REVEALED_ADVANCE_CONFIRMATION_REQUIRED"',
+        'strategy_4_prototype_outcome: "ADVANCE_TO_ECONOMIC_SCREEN"',
+        'strategy_4_prototype_decision_reason: "BOTH_PRIMARY_INEQUALITIES_MET"',
+        'strategy_4_prototype_result_sha256: "1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230"',
+        'strategy_4_prototype_reveal_commit: "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"',
+        'strategy_4_route_selected: "CONFIRMATORY_STRUCTURAL_HYPOTHESIS"',
+        'strategy_4_next_hypothesis_id: "HYP-0005"',
+        'strategy_4_next_hypothesis_role: "CONFIRMATORY_STRUCTURAL_REPLICATION"',
+        'strategy_4_direct_r4_allowed: false',
+        'strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATION_REQUIRED"',
+        'strategy_4_information_boundary: "DEVELOPMENT_REVEALED_STRUCTURAL_PASS_CONFIRMATION_REQUIRED"',
         'active_idea_id: "IDEA-0004"',
         'active_hypothesis_id: "HYP-0004"',
         "reference_strategy_selection_allowed: true",
@@ -2420,11 +2447,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-019") != "DONE / PASS":
         core.fail("RF-019 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-020") != "READY":
-        core.fail("RF-020 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-020") != "DONE / PASS":
+        core.fail("RF-020 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-021") != "BLOCKED":
-        core.fail("RF-021 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-021") != "READY":
+        core.fail("RF-021 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-022") != "BLOCKED":
+        core.fail("RF-022 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
