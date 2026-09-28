@@ -109,7 +109,7 @@ def check_staged_contract() -> bool:
             print(f"[FAIL] RF-023 protocol marker missing: {marker}", flush=True)
             return False
 
-    print("[PASS] RF-023 staged contract preserves the confirmatory information boundary", flush=True)
+    print(\n        "[PASS] RF-023 staged contract preserves the confirmatory information boundary",\n        flush=True,\n    )
     return True
 
 
@@ -275,7 +275,7 @@ def prepare_or_validate(commit: str) -> bool:
             existing = loaded
 
     if existing is not None:
-        print("Existing exact-commit local preparation result found; validating without acquisition.")
+        print(\n            "Existing exact-commit local preparation result found; validating without acquisition."\n        )
         payload = existing
     else:
         if not run(
