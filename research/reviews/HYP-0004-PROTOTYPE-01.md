@@ -6,7 +6,7 @@
 - Data Feasibility review: `research/reviews/HYP-0004-DATA-FEASIBILITY.md`
 - Prototype sequence: `PROTO-01`
 - Created on: `2026-09-27`
-- Status: `FROZEN / NOT_REVEALED`
+- Status: `COMPLETED / DEVELOPMENT_PASS`
 - Task: `ATS2-RF-019`
 - Evidence class after reveal: `EXPLORATORY_PROTOTYPE`
 
@@ -245,43 +245,125 @@ Synthetic contract tests:
 
 `tests/test_hyp0004_proto01.py`
 
-Future local result:
+Local reveal result:
 
 `reports/local_ci/HYP0004_PROTO01_RESULT.json`
 
-Future shareable result:
+Local shareable result:
 
 `reports/local_ci/HYP0004_PROTO01_RESULT_REPORT.txt`
 
-Future canonical result after reveal:
+Canonical machine result:
 
 `reports/research/HYP-0004-PROTOTYPE-01-result.json`
 
-RF-019 must not execute the frozen development dataset and must not create any of those result files.
+Canonical result SHA-256:
 
-## Search and iteration accounting before reveal
+`1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230`
 
-- Prototype results inspected: `0`
+Reveal commit:
+
+`60371d16b71c1e7d1fb0ccd83c5104984e4b740a`
+
+RF-019 froze the protocol without outcome computation. RF-020 then executed the exact frozen runner once after full Local CI PASS.
+
+## RF-020 reveal result
+
+RF-020 executed the exact frozen runner once on exact-main commit:
+
+`60371d16b71c1e7d1fb0ccd83c5104984e4b740a`
+
+The exact local result was retained and canonicalized without recomputation.
+
+Result SHA-256:
+
+`1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230`
+
+Frozen eligible observations:
+
+`111938`
+
+Bucket metrics:
+
+| Bucket | Observations | Mean abs next-1h return | Median abs next-1h return | Median relative spread |
+|---|---:|---:|---:|---:|
+| `CORE_ACTIVE` | 47012 | 0.0010144509590124767 | 0.0006982268977376305 | 4.018781312113313e-05 |
+| `TRANSITION` | 18189 | 0.0006733276512628805 | 0.00042706056723695873 | 4.4924638918176495e-05 |
+| `OFF_HOURS` | 46737 | 0.0005365493476091728 | 0.0003493061509638462 | 6.690913261869393e-05 |
+
+Primary movement inequality:
+
+`0.0006982268977376305 > 0.0003493061509638462`
+
+Result:
+
+`PASS`
+
+Primary spread inequality:
+
+`4.018781312113313e-05 <= 6.690913261869393e-05`
+
+Result:
+
+`PASS`
+
+Combined primary result:
+
+`both_primary_inequalities_pass = true`
+
+Frozen machine decision:
+
+`ADVANCE_TO_ECONOMIC_SCREEN`
+
+Decision reason:
+
+`BOTH_PRIMARY_INEQUALITIES_MET`
+
+Frozen mandatory next action:
+
+`CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4`
+
+This result is development evidence only. It does not convert the structural pattern into a directional trading rule and does not authorize direct entry into R4.
+
+## RF-021 routing decision
+
+RF-021 preserves the frozen positive result and selects the confirmatory branch of the already-frozen positive routing.
+
+Reason:
+
+- HYP-0004 is explicitly structural and non-directional;
+- PROTO-01 produces no trading P&L or directional sign;
+- creating a trading rule directly from this result would introduce a materially new claim after observing development data;
+- a fixed confirmatory structural Hypothesis is the lower-research-freedom continuation and can test the same predeclared structural ordering on a newly frozen unseen block.
+
+Therefore the next research object is:
+
+`HYP-0005 — EUR/USD Fixed-UTC Intraday Activity Contrast Confirmatory Replication`
+
+HYP-0005 must be registered before any confirmatory HYP-0004-family outcome is observed. It must preserve the fixed UTC buckets and the two primary inequalities unless it explicitly declares and justifies a new claim under a new Hypothesis identity.
+
+No confirmatory dataset or unseen boundary is selected by RF-021 itself.
+
+## Search and iteration accounting
+
+- Prototype results inspected: `1 valid RF-020 reveal`
 - Alternative UTC bucket definitions inspected inside PROTO-01: `0`
 - Alternative horizons inspected inside PROTO-01: `0`
 - Alternative instruments inspected inside PROTO-01: `0`
 - Post-freeze data-source changes: `0`
+- Reveal reruns used for the decision: `0`
 - Hidden/discarded PROTO-01 variants: `0`
 
 ## Information boundary
 
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+`DEVELOPMENT_REVEALED_STRUCTURAL_PASS_CONFIRMATION_REQUIRED`
 
-RF-019 freezes code and decision logic only.
-
-The runner may be imported by synthetic tests, but `run_result()` must not be executed against the frozen development CSV during RF-019.
+The HYP-0004 development outcome is consumed and preserved. No later task may relabel this development block as unseen confirmatory evidence.
 
 ## Next task
 
-After exact-main OWNER launcher PASS for RF-019:
+After exact-main OWNER launcher PASS for RF-021:
 
-`ATS2-RF-020 — HYP-0004 PROTO-01 reveal`
+`ATS2-RF-022 — HYP-0005 confirmatory hypothesis formation`
 
-RF-020 may execute the exact frozen runner once after the full Local CI gate passes on the reveal commit.
-
-No runner, metric, decision threshold, bucket definition or dataset identity may change after the first valid reveal merely because the outcome is unattractive.
+RF-022 must register the new confirmatory structural Hypothesis before any confirmatory outcome is inspected. It may not reinterpret the RF-020 development result as trading profitability or as independent evidence.
