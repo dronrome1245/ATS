@@ -27,6 +27,23 @@ OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
 HYP-0005 is now the active confirmatory structural Hypothesis.
 
+## RF-023 current blocker
+
+RF-023 is still the active task, but exact-main source acquisition is temporarily blocked by provider availability.
+
+OWNER diagnostic on 28 September 2026 showed:
+
+- September 2026 Jetta EUR/USD BID and ASK each returned HTTP 400 with `From time is too late`;
+- August 2026 Jetta BID and ASK controls each returned HTTP 200;
+- September BI5 requests returned HTTP 503 during the diagnostic;
+- hypothesis outcome fields requested: `0`.
+
+Classification:
+
+`SOURCE_AVAILABILITY_BLOCKER / NO_CONFIRMATORY_OUTCOME_COMPUTED`
+
+Do not change the frozen unseen segments, provider family or HYP-0005 decision rules in response to this blocker. Retry the same RF-023 acquisition only after a coherent September 2026 BID/ASK source pair becomes available.
+
 ## RF-023 preparation contract
 
 Current task:
