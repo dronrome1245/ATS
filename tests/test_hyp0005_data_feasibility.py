@@ -1,8 +1,32 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from pathlib import Path
+import subprocess
+import sys
 
 import tools.hyp0005_data_feasibility as prep
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_direct_script_import_mode_resolves_sibling_tool() -> None:
+    code = (
+        "import os; "
+        "os.chdir('tools'); "
+        "import hyp0005_data_feasibility; "
+        "print('IMPORT_OK')"
+    )
+    completed = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    assert completed.stdout.strip() == "IMPORT_OK"
 
 
 def synthetic_row(timestamp: datetime, segment: str) -> dict[str, object]:
