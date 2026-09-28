@@ -15,7 +15,12 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-source = importlib.import_module("tools.hyp0003_development_data")
+try:
+    source = importlib.import_module("tools.hyp0003_development_data")
+except ModuleNotFoundError as exc:
+    if exc.name != "tools":
+        raise
+    source = importlib.import_module("hyp0003_development_data")
 
 TASK_ID = "ATS2-RF-023"
 HYPOTHESIS_ID = "HYP-0005"
