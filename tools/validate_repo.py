@@ -1214,7 +1214,7 @@ def configure() -> None:
         "Instrument or universe: `EURUSD`",
         "Decision: `SCREEN`",
         "2 new Material Research Attempts",
-        "HYP-0005 frozen unseen segments are unavailable",
+        "The frozen HYP-0005 unseen segments are unavailable",
         "research/hypotheses/HYP-0006.md",
     )
     core.CONTENT_MARKERS[HYP0006_HYPOTHESIS] = (
