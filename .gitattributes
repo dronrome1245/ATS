@@ -1,3 +1,4 @@
 # Deterministic byte-level fixtures
 tests/fixtures/datasets/*.csv text eol=lf
 reports/research/HYP-0003-PROTOTYPE-01-result.json -text
+reports/research/HYP-0004-PROTOTYPE-01-result.json -text

@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-27"
+  updated_on: "2026-09-28"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -111,13 +111,14 @@ model:
   strategy_4_prototype: "research/reviews/HYP-0004-PROTOTYPE-01.md"
   strategy_4_prototype_runner: "tools/hyp0004_proto01.py"
   strategy_4_prototype_test: "tests/test_hyp0004_proto01.py"
+  strategy_4_prototype_result: "reports/research/HYP-0004-PROTOTYPE-01-result.json"
 
 current:
-  focus: "Reveal the exact frozen HYP-0004 PROTO-01 development result once"
-  last_completed_task_id: "ATS2-RF-019"
+  focus: "Canonicalize the exact HYP-0004 development pass and route to a fixed confirmatory Hypothesis"
+  last_completed_task_id: "ATS2-RF-020"
   last_completed_artifact: "research/reviews/HYP-0004-PROTOTYPE-01.md"
   next_artifact: "reports/research/HYP-0004-PROTOTYPE-01-result.json"
-  next_task_id: "ATS2-RF-020"
+  next_task_id: "ATS2-RF-021"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -372,6 +373,7 @@ research_factory:
     - "ATS2-RF-017"
     - "ATS2-RF-018"
     - "ATS2-RF-019"
+    - "ATS2-RF-020"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -404,9 +406,9 @@ research_factory:
     - "research/reviews/HYP-0004-PROTOTYPE-01.md"
     - "tools/hyp0004_proto01.py"
     - "tests/test_hyp0004_proto01.py"
-  current_task: "ATS2-RF-020"
+  current_task: "ATS2-RF-021"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-021"
+  next_task: "ATS2-RF-022"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -468,12 +470,13 @@ research_factory:
   rf017_verified_commit: "ae9767a71b3860e55d345afb34b2f9c18b5dd063"
   rf018_verified_commit: "6d388c500d2c5e1671e11700966b713b95a395b8"
   rf019_verified_commit: "95174c2922fd5882c995ff14b3031d690ecc80bf"
+  rf020_verified_commit: "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"
   strategy_4_selected_family: "S4-FAM-03"
   strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"
   strategy_4_idea_id: "IDEA-0004"
   strategy_4_idea_status: "SCREENING"
   strategy_4_hypothesis_id: "HYP-0004"
-  strategy_4_hypothesis_status: "READY_FOR_DATA_FEASIBILITY"
+  strategy_4_hypothesis_status: "DEVELOPMENT_PASS_CONFIRMATION_REQUIRED"
   strategy_4_hypothesis_instrument: "EURUSD"
   strategy_4_data_feasibility_decision: "CONDITIONAL"
   strategy_4_data_feasibility_status: "CONDITIONAL"
@@ -501,16 +504,29 @@ research_factory:
   strategy_4_prototype_id: "PROTO-01"
   strategy_4_prototype_freeze_status: "FROZEN_RF019"
   strategy_4_prototype_runner_git_blob: "cbc9a46bf5e5296615f51c0ea564153968bc2a55"
-  strategy_4_prototype_result_status: "PENDING_RF020_REVEAL"
+  strategy_4_prototype_result_status: "REVEALED_ADVANCE_CONFIRMATION_REQUIRED"
+  strategy_4_prototype_outcome: "ADVANCE_TO_ECONOMIC_SCREEN"
+  strategy_4_prototype_decision_reason: "BOTH_PRIMARY_INEQUALITIES_MET"
+  strategy_4_prototype_result_sha256: "1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230"
+  strategy_4_prototype_reveal_commit: "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"
+  strategy_4_core_median_abs_next_1h_return: 0.0006982268977376305
+  strategy_4_off_hours_median_abs_next_1h_return: 0.0003493061509638462
+  strategy_4_core_median_relative_spread: 0.00004018781312113313
+  strategy_4_off_hours_median_relative_spread: 0.00006690913261869393
   strategy_4_prototype_positive_route: "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4"
-  strategy_4_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
+  strategy_4_route_selected: "CONFIRMATORY_STRUCTURAL_HYPOTHESIS"
+  strategy_4_next_hypothesis_id: "HYP-0005"
+  strategy_4_next_hypothesis_role: "CONFIRMATORY_STRUCTURAL_REPLICATION"
+  strategy_4_direct_r4_allowed: false
+  strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATION_REQUIRED"
+  strategy_4_information_boundary: "DEVELOPMENT_REVEALED_STRUCTURAL_PASS_CONFIRMATION_REQUIRED"
   active_idea_id: "IDEA-0004"
   active_hypothesis_id: "HYP-0004"
   candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-020"
+  current_ready_task: "ATS2-RF-021"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
