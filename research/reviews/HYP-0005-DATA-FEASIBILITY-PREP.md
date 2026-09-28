@@ -205,6 +205,28 @@ is a valid data-feasibility result if the frozen unseen segments cannot provide 
 
 Technical download/decode/integrity failure is not reclassified as an unfavorable research result.
 
+## Observed source-availability blocker
+
+On 28 September 2026, the exact-main RF-023 preparation reached source acquisition without computing any HYP-0005 outcome.
+
+A targeted OWNER diagnostic then established:
+
+- the Jetta September 2026 EUR/USD BID request returned HTTP 400 with `From time is too late`;
+- the Jetta September 2026 EUR/USD ASK request returned the same source-side rejection;
+- the Jetta August 2026 BID and ASK control requests both returned HTTP 200;
+- BI5 September requests were unavailable with HTTP 503 during the same diagnostic;
+- no HYP-0005 outcome field was requested or computed.
+
+This is a source-availability blocker, not `INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY` and not a HYP-0005 research result.
+
+The frozen `LEFT_UNSEEN`, `RIGHT_UNSEEN`, provider family, bucket mapping and decision rules are unchanged. RF-023 must not replace September with a previously consumed block or select another period after this availability observation.
+
+The next permitted action is to retry the same frozen RF-023 acquisition only after a coherent September 2026 BID/ASK source pair becomes available. Month-end is an earliest sensible retry point, not a guarantee of provider publication.
+
+Information boundary remains:
+
+`NO_CONFIRMATORY_OUTCOME_COMPUTED`
+
 ## Next task
 
 After RF-023 exact-main OWNER PASS and upload of the exact local machine result:
