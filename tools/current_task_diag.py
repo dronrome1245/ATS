@@ -6,28 +6,12 @@ from __future__ import annotations
 import urllib.error
 import urllib.request
 
-CURRENT_JETTA = (
-    "https://jetta.dukascopy.com/v1/candles/hour/EUR-USD/{side}/2026/9"
-)
-CONTROL_JETTA = (
-    "https://jetta.dukascopy.com/v1/candles/hour/EUR-USD/{side}/2026/8"
-)
-CURRENT_BI5 = (
-    "https://datafeed.dukascopy.com/datafeed/"
-    "EURUSD/2026/08/{side}_candles_hour_1.bi5"
-)
-CONTROL_BI5 = (
-    "https://datafeed.dukascopy.com/datafeed/"
-    "EURUSD/2026/07/{side}_candles_hour_1.bi5"
-)
-ALT_CURRENT_BI5 = (
-    "https://www.dukascopy.com/datafeed/"
-    "EURUSD/2026/08/{side}_candles_hour_1.bi5"
-)
-ALT_CONTROL_BI5 = (
-    "https://www.dukascopy.com/datafeed/"
-    "EURUSD/2026/07/{side}_candles_hour_1.bi5"
-)
+CURRENT_JETTA = "https://jetta.dukascopy.com/v1/candles/hour/EUR-USD/{side}/2026/9"
+CONTROL_JETTA = "https://jetta.dukascopy.com/v1/candles/hour/EUR-USD/{side}/2026/8"
+CURRENT_BI5 = "https://datafeed.dukascopy.com/datafeed/EURUSD/2026/08/{side}_candles_hour_1.bi5"
+CONTROL_BI5 = "https://datafeed.dukascopy.com/datafeed/EURUSD/2026/07/{side}_candles_hour_1.bi5"
+ALT_CURRENT_BI5 = "https://www.dukascopy.com/datafeed/EURUSD/2026/08/{side}_candles_hour_1.bi5"
+ALT_CONTROL_BI5 = "https://www.dukascopy.com/datafeed/EURUSD/2026/07/{side}_candles_hour_1.bi5"
 USER_AGENT = "ATS-Research/1.0"
 
 
@@ -50,8 +34,7 @@ def probe(label: str, url: str) -> None:
     except urllib.error.HTTPError as exc:
         body = exc.read(256)
         print(
-            f"{label}: HTTP {exc.code}; reason={exc.reason!r}; "
-            f"body_sample={body!r}",
+            f"{label}: HTTP {exc.code}; reason={exc.reason!r}; body_sample={body!r}",
             flush=True,
         )
     except urllib.error.URLError as exc:
