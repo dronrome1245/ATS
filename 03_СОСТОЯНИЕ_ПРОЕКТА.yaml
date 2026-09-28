@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-09-28"
+  updated_on: "2026-09-29"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -116,13 +116,15 @@ model:
   strategy_4_confirmatory_data_feasibility_prep: "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"
   strategy_4_confirmatory_data_feasibility_tool: "tools/hyp0005_data_feasibility.py"
   strategy_4_confirmatory_data_feasibility_test: "tests/test_hyp0005_data_feasibility.py"
+  strategy_5_idea: "research/ideas/IDEA-0005.md"
+  strategy_5_hypothesis: "research/hypotheses/HYP-0006.md"
 
 current:
-  focus: "RF-023 awaits source availability for the frozen 2026-09 EURUSD block; no confirmatory outcome has been computed"
+  focus: "RF-023 remains externally source-blocked; RF-025 is the executable parallel Strategy #5 lineage-registration task; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-022"
   last_completed_artifact: "research/hypotheses/HYP-0005.md"
-  next_artifact: "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"
-  next_task_id: "ATS2-RF-023"
+  next_artifact: "research/hypotheses/HYP-0006.md"
+  next_task_id: "ATS2-RF-025"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -356,7 +358,7 @@ m6:
 research_factory:
   objective: "Continuously source and screen new strategy ideas until a future Candidate earns S05 PASS"
   status: IN_PROGRESS
-  current_strategy_sequence: 4
+  current_strategy_sequence: 5
   completed_tasks:
     - "ATS2-RF-001"
     - "ATS2-RF-002"
@@ -414,9 +416,9 @@ research_factory:
     - "tests/test_hyp0004_proto01.py"
     - "reports/research/HYP-0004-PROTOTYPE-01-result.json"
     - "research/hypotheses/HYP-0005.md"
-  current_task: "ATS2-RF-023"
+  current_task: "ATS2-RF-025"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-024"
+  next_task: "ATS2-RF-026"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -550,13 +552,30 @@ research_factory:
   strategy_4_direct_r4_allowed: false
   strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATORY_HYPOTHESIS_FORMED"
   strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"
+  strategy_5_source_family: "S4-FAM-02"
+  strategy_5_family_class: "MACROECONOMIC_ANNOUNCEMENT_RESPONSE"
+  strategy_5_lineage_type: "NEW_IDEA_FROM_RETAINED_RESEARCH_FAMILY"
+  strategy_5_idea_id: "IDEA-0005"
+  strategy_5_idea_status: "SCREENING"
+  strategy_5_hypothesis_id: "HYP-0006"
+  strategy_5_hypothesis_status: "READY_FOR_DATA_FEASIBILITY"
+  strategy_5_hypothesis_instrument: "EURUSD"
+  strategy_5_event_class: "SCHEDULED_US_CPI_RELEASE"
+  strategy_5_primary_horizon: "PRE_60M_VS_POST_60M"
+  strategy_5_material_research_attempts_registered: 2
+  strategy_5_hyp0005_protected_segments_consumed: false
+  strategy_5_outcome_computed: false
+  strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
+  strategy_5_research_line_status: "HYPOTHESIS_FORMED_READY_FOR_DATA_FEASIBILITY"
   active_idea_id: "IDEA-0004"
   active_hypothesis_id: "HYP-0005"
+  parallel_active_idea_id: "IDEA-0005"
+  parallel_active_hypothesis_id: "HYP-0006"
   candidate_target: "FIRST_FUTURE_S05_PASS_CANDIDATE"
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-023"
+  current_ready_task: "ATS2-RF-025"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
@@ -591,7 +610,7 @@ safety:
   emergency_stop_required_before_live: true
 
 strategy_pipeline:
-  ideas_registered: 4
+  ideas_registered: 5
   prototypes_active: 0
   candidates_active: 0
   experiments_registered: 0
