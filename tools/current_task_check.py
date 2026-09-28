@@ -21,7 +21,9 @@ STATUS = Path("01_СТАТУС_ПРОЕКТА.md")
 
 HYP0005_FROZEN_BLOBS = {
     "research/hypotheses/HYP-0005.md": "ebbbc89187c911485c1568dc11f5f2f9e703718a",
-    "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md": "c15b2b67700dd46fc592f1208731ce6b42f6905c",
+    "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md": (
+        "c15b2b67700dd46fc592f1208731ce6b42f6905c"
+    ),
     "tools/hyp0005_data_feasibility.py": "310b23213876304ade674ef36ba17ce6d457353f",
     "tests/test_hyp0005_data_feasibility.py": "12697882da682eab699bf5b7debd7c358e56aca9",
 }
@@ -108,9 +110,15 @@ def check_no_hyp0006_outcome_artifacts() -> bool:
         )
     if matches:
         for relative in sorted(set(matches)):
-            print(f"[FAIL] RF-025 must not create downstream/outcome artifact: {relative}", flush=True)
+            print(
+                f"[FAIL] RF-025 must not create downstream/outcome artifact: {relative}",
+                flush=True,
+            )
         return False
-    print("[PASS] no HYP-0006 Data Feasibility, runner, dataset or outcome artifact exists", flush=True)
+    print(
+        "[PASS] no HYP-0006 Data Feasibility, runner, dataset or outcome artifact exists",
+        flush=True,
+    )
     return True
 
 
