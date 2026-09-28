@@ -11,21 +11,17 @@
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
-## Verified RF-019 closure
+## Current stage
+
+`Research Factory → Strategy #4 → HYP-0004 → R3 Cheap Prototype → ATS2-RF-021`
+
+## Verified RF-020 reveal
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`95174c2922fd5882c995ff14b3031d690ecc80bf`
+`60371d16b71c1e7d1fb0ccd83c5104984e4b740a`
 
-Canonical last completed artifact:
-
-`research/reviews/HYP-0004-PROTOTYPE-01.md`
-
-RF-019 froze HYP-0004 / PROTO-01 without revealing a development outcome.
-
-Frozen runner:
-
-`tools/hyp0004_proto01.py`
+The exact frozen HYP-0004 runner was executed once after full Local CI PASS.
 
 Frozen runner Git blob:
 
@@ -35,52 +31,64 @@ Frozen dataset:
 
 `DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001@1.0.0`
 
-Prepared CSV SHA-256:
+Dataset SHA-256:
 
 `3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6`
 
-## RF-020 HYP-0004 PROTO-01 reveal
-
-Current task:
-
-`ATS2-RF-020 — HYP-0004 PROTO-01 reveal`
-
-The exact-main task checker must:
-
-1. verify the frozen runner Git blob and frozen dataset SHA-256;
-2. run governance validation and full Local CI;
-3. execute the exact frozen runner only after those gates pass;
-4. validate the resulting dataset identity, geometry, bucket metrics, primary Booleans and frozen decision routing;
-5. retain an existing valid result for the exact reveal commit without recomputation.
-
-Frozen primary inequalities:
-
-`median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)`
-
-and:
-
-`median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)`
-
-Both must pass for the positive route.
-
-Positive route:
-
-`CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4`
-
-Negative route:
-
-`STOP_HYP0004`
-
-Before reveal, information boundary:
-
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
-
-Future canonical result:
+Canonical machine result:
 
 `reports/research/HYP-0004-PROTOTYPE-01-result.json`
 
-After exact-main RF-020 PASS:
+Exact result SHA-256:
+
+`1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230`
+
+Result:
+
+- movement inequality: `PASS`;
+- spread inequality: `PASS`;
+- both primary inequalities: `PASS`;
+- machine decision: `ADVANCE_TO_ECONOMIC_SCREEN`;
+- decision reason: `BOTH_PRIMARY_INEQUALITIES_MET`;
+- frozen next action: `CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4`.
+
+Primary medians:
+
+- CORE_ACTIVE abs next-1h return: `0.0006982268977376305`;
+- OFF_HOURS abs next-1h return: `0.0003493061509638462`;
+- CORE_ACTIVE relative spread: `4.018781312113313e-05`;
+- OFF_HOURS relative spread: `6.690913261869393e-05`.
+
+The result remains:
+
+`EXPLORATORY_PROTOTYPE / STRUCTURAL_H1_OPEN_PROXY_NO_TRADING_PNL`
+
+Exact tick-level boundary time remains unknown.
+
+## RF-021 routing
+
+Current task:
 
 `ATS2-RF-021 — HYP-0004 PROTO-01 result canonicalization and routing`
 
-must canonicalize the exact local result without changing the frozen research contract.
+RF-021 preserves the exact result and selects the confirmatory branch of the frozen positive route.
+
+Reason:
+
+- HYP-0004 is structural and non-directional;
+- no directional trading rule was tested;
+- no trading P&L was computed;
+- moving directly to a trading formulation would introduce additional research freedom after observing development data;
+- a fixed confirmatory structural replication is the lower-freedom continuation.
+
+Next task after RF-021 exact-main PASS:
+
+`ATS2-RF-022 — HYP-0005 confirmatory hypothesis formation`
+
+Planned Hypothesis:
+
+`HYP-0005 — EUR/USD Fixed-UTC Intraday Activity Contrast Confirmatory Replication`
+
+No confirmatory dataset or unseen boundary is selected by RF-021. HYP-0005 must be registered before any confirmatory outcome is observed.
+
+Direct R4 entry remains blocked.
