@@ -15,6 +15,10 @@
 
 `Research Factory → Strategy #4 → HYP-0004 → R3 Cheap Prototype → ATS2-RF-021`
 
+## Canonical last completed artifact
+
+`research/reviews/HYP-0004-PROTOTYPE-01.md`
+
 ## Verified RF-020 reveal
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
