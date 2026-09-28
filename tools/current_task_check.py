@@ -125,7 +125,7 @@ def check_rf025_contract() -> bool:
             "S4-FAM-02 - Macroeconomic announcement response",
             "EVENT_CONDITIONAL_ABSOLUTE_RETURN_SHIFT",
             "Decision: `SCREEN`",
-            "2 new Material Research Attempts",
+            "two new Material Research Attempts",
             "The frozen HYP-0005 unseen segments are unavailable",
             "research/hypotheses/HYP-0006.md",
         ),
