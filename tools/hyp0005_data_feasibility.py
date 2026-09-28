@@ -297,10 +297,7 @@ def expected_market_count(start: datetime, end: datetime) -> int:
 
 
 def geometry_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
-    event_times = {
-        (str(row["confirmatory_segment"]), row["event_time"])
-        for row in rows
-    }
+    event_times = {(str(row["confirmatory_segment"]), row["event_time"]) for row in rows}
     total_by_bucket = Counter({bucket: 0 for bucket in BUCKETS})
     eligible_by_bucket = Counter({bucket: 0 for bucket in BUCKETS})
     total_by_segment = Counter({name: 0 for name, _, _ in SEGMENTS})
@@ -339,8 +336,7 @@ def geometry_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
         eligible_by_segment[segment] += 1
 
     missing_market_by_segment = {
-        name: expected_by_segment[name] - total_by_segment[name]
-        for name, _, _ in SEGMENTS
+        name: expected_by_segment[name] - total_by_segment[name] for name, _, _ in SEGMENTS
     }
     if any(value < 0 for value in missing_market_by_segment.values()):
         raise ConfirmatoryDataPrepError("source rows exceed frozen expected market-hour geometry")
