@@ -1213,7 +1213,7 @@ def configure() -> None:
         "FX_SPOT_OTC",
         "Instrument or universe: `EURUSD`",
         "Decision: `SCREEN`",
-        "2 new Material Research Attempts",
+        "two new Material Research Attempts",
         "The frozen HYP-0005 unseen segments are unavailable",
         "research/hypotheses/HYP-0006.md",
     )
