@@ -5,6 +5,22 @@ from datetime import UTC, datetime
 import tools.hyp0005_data_feasibility as prep
 
 
+def test_direct_script_import_mode_resolves_sibling_tool() -> None:
+    import subprocess
+    import sys
+
+    code = "import os; os.chdir('tools'); import hyp0005_data_feasibility; print('IMPORT_OK')"
+    completed = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=prep.ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    assert completed.stdout.strip() == "IMPORT_OK"
+
+
 def synthetic_row(timestamp: datetime, segment: str) -> dict[str, object]:
     return {
         "event_time": timestamp,
