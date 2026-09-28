@@ -97,6 +97,7 @@ HYP0004_PROTOTYPE = "research/reviews/HYP-0004-PROTOTYPE-01.md"
 HYP0004_PROTOTYPE_TOOL = "tools/hyp0004_proto01.py"
 HYP0004_PROTOTYPE_TEST = "tests/test_hyp0004_proto01.py"
 HYP0004_PROTOTYPE_RESULT = "reports/research/HYP-0004-PROTOTYPE-01-result.json"
+HYP0005_HYPOTHESIS = "research/hypotheses/HYP-0005.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -282,6 +283,7 @@ def configure() -> None:
         HYP0004_PROTOTYPE_TOOL,
         HYP0004_PROTOTYPE_TEST,
         HYP0004_PROTOTYPE_RESULT,
+        HYP0005_HYPOTHESIS,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -346,6 +348,7 @@ def configure() -> None:
         "strategy_4_prototype_runner",
         "strategy_4_prototype_test",
         "strategy_4_prototype_result",
+        "strategy_4_confirmatory_hypothesis",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -1133,6 +1136,24 @@ def configure() -> None:
         '"median_relative_spread": 6.690913261869393e-05',
         '"git_commit": "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"',
     )
+    core.CONTENT_MARKERS[HYP0005_HYPOTHESIS] = (
+        "Hypothesis ID: `HYP-0005`",
+        "Parent Idea ID: `IDEA-0004`",
+        "Development predecessor: `HYP-0004`",
+        "Status: `READY_FOR_DATA_FEASIBILITY`",
+        "`CORE_ACTIVE`: UTC hours `07` through `16` inclusive",
+        "`TRANSITION`: UTC hours `17` through `20` inclusive",
+        "`OFF_HOURS`: UTC hours `21`, `22`, `23`, and `00` through `06` inclusive",
+        "median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)",
+        "median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)",
+        "No minimum effect-size threshold is added after the HYP-0004 reveal.",
+        "Confirmatory datasets inspected by RF-022: `0`",
+        "Confirmatory outcomes inspected by RF-022: `0`",
+        "Exact provider, coverage dates, row count and source hashes are intentionally unknown",
+        "If a genuinely unseen confirmatory block cannot be established",
+        "ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility",
+        "Direct R4 entry remains blocked",
+    )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
         "PROTO-01",
@@ -1818,17 +1839,17 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-021"',
-        "HYP-0004 PROTO-01 result canonicalization and routing",
-        "HYP-0004-PROTOTYPE-01-result.json",
+        'TASK_ID = "ATS2-RF-022"',
+        "HYP-0005 confirmatory hypothesis formation",
+        "research/hypotheses/HYP-0005.md",
         "1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230",
-        "60371d16b71c1e7d1fb0ccd83c5104984e4b740a",
-        "RF-021 must not create HYP-0005 before RF-022",
-        "frozen HYP-0004 runner changed after reveal",
-        "canonical result exact-byte Git attribute missing",
-        "HYP-0005 — EUR/USD Fixed-UTC Intraday Activity Contrast Confirmatory Replication",
-        "RF-021 preserved the exact HYP-0004 result and selected confirmatory routing",
-        "full ATS Local CI for RF-021 HYP-0004 result canonicalization",
+        "RF-022 must not create confirmatory data/review/result artifact",
+        "Confirmatory datasets inspected by RF-022",
+        "Confirmatory outcomes inspected by RF-022",
+        "If a genuinely unseen confirmatory block cannot be established",
+        "ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility",
+        "RF-022 registered HYP-0005 without selecting or revealing confirmatory data",
+        "full ATS Local CI for RF-022 HYP-0005 formation",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -2222,6 +2243,7 @@ def main() -> int:
         'strategy_4_prototype_runner: "tools/hyp0004_proto01.py"',
         'strategy_4_prototype_test: "tests/test_hyp0004_proto01.py"',
         'strategy_4_prototype_result: "reports/research/HYP-0004-PROTOTYPE-01-result.json"',
+        'strategy_4_confirmatory_hypothesis: "research/hypotheses/HYP-0005.md"',
         'reference_strategy_1_selection: "governance/program/REFERENCE_STRATEGY_1_SELECTION.md"',
         'reference_strategy_1_idea: "research/ideas/IDEA-0001.md"',
         'reference_strategy_1_hypothesis: "research/hypotheses/HYP-0001.md"',
@@ -2234,9 +2256,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-020"',
-        'current_task: "ATS2-RF-021"', 'current_ready_task: "ATS2-RF-021"',
-        'next_task: "ATS2-RF-022"',
+        'last_completed_task_id: "ATS2-RF-021"',
+        'current_task: "ATS2-RF-022"', 'current_ready_task: "ATS2-RF-022"',
+        'next_task: "ATS2-RF-023"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2279,6 +2301,7 @@ def main() -> int:
         'rf018_verified_commit: "6d388c500d2c5e1671e11700966b713b95a395b8"',
         'rf019_verified_commit: "95174c2922fd5882c995ff14b3031d690ecc80bf"',
         'rf020_verified_commit: "60371d16b71c1e7d1fb0ccd83c5104984e4b740a"',
+        'rf021_verified_commit: "79cb1d36bd544cc14db49ea5f6e85ef138a579eb"',
         'strategy_4_selected_family: "S4-FAM-03"',
         'strategy_4_selected_family_class: "INTRADAY_TIME_SESSION_EFFECT"',
         'strategy_4_idea_id: "IDEA-0004"',
@@ -2320,11 +2343,17 @@ def main() -> int:
         'strategy_4_route_selected: "CONFIRMATORY_STRUCTURAL_HYPOTHESIS"',
         'strategy_4_next_hypothesis_id: "HYP-0005"',
         'strategy_4_next_hypothesis_role: "CONFIRMATORY_STRUCTURAL_REPLICATION"',
+        'strategy_4_confirmatory_hypothesis_id: "HYP-0005"',
+        'strategy_4_confirmatory_hypothesis_status: "READY_FOR_DATA_FEASIBILITY"',
+        'strategy_4_confirmatory_parent_idea_id: "IDEA-0004"',
+        'strategy_4_confirmatory_development_predecessor: "HYP-0004"',
+        'strategy_4_confirmatory_dataset_selected: false',
+        'strategy_4_confirmatory_outcome_computed: false',
         'strategy_4_direct_r4_allowed: false',
-        'strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATION_REQUIRED"',
-        'strategy_4_information_boundary: "DEVELOPMENT_REVEALED_STRUCTURAL_PASS_CONFIRMATION_REQUIRED"',
+        'strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATORY_HYPOTHESIS_FORMED"',
+        'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
         'active_idea_id: "IDEA-0004"',
-        'active_hypothesis_id: "HYP-0004"',
+        'active_hypothesis_id: "HYP-0005"',
         "reference_strategy_selection_allowed: true",
         'selected_reference_strategy: "SINGLE_INSTRUMENT_1H_LONG_FLAT_TREND_BREAKOUT"',
         'idea_id: "IDEA-0001"', 'hypothesis_id: "HYP-0001"',
@@ -2450,11 +2479,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-020") != "DONE / PASS":
         core.fail("RF-020 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-021") != "READY":
-        core.fail("RF-021 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-021") != "DONE / PASS":
+        core.fail("RF-021 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-022") != "BLOCKED":
-        core.fail("RF-022 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-022") != "READY":
+        core.fail("RF-022 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-023") != "BLOCKED":
+        core.fail("RF-023 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
