@@ -118,7 +118,7 @@ model:
   strategy_4_confirmatory_data_feasibility_test: "tests/test_hyp0005_data_feasibility.py"
 
 current:
-  focus: "Prepare exact unseen HYP-0005 confirmatory data identity without computing any confirmatory outcome"
+  focus: "RF-023 awaits source availability for the frozen 2026-09 EURUSD block; no confirmatory outcome has been computed"
   last_completed_task_id: "ATS2-RF-022"
   last_completed_artifact: "research/hypotheses/HYP-0005.md"
   next_artifact: "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"
@@ -535,6 +535,11 @@ research_factory:
   strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"
   strategy_4_confirmatory_dataset_candidate_version: "1.0.0"
   strategy_4_confirmatory_prep_status: "RF023_PROTOCOL_FROZEN_PENDING_OWNER_PREPARATION"
+  strategy_4_confirmatory_source_availability_status: "BLOCKED_2026_09_SOURCE_NOT_YET_AVAILABLE"
+  strategy_4_confirmatory_source_diagnostic_observed_on: "2026-09-28"
+  strategy_4_confirmatory_source_diagnostic_jetta_2026_09: "HTTP_400_FROM_TIME_IS_TOO_LATE_BID_AND_ASK"
+  strategy_4_confirmatory_source_diagnostic_jetta_2026_08_control: "HTTP_200_BID_AND_ASK"
+  strategy_4_confirmatory_source_retry_rule: "RETRY_SAME_FROZEN_RF023_ONLY_AFTER_2026_09_COHERENT_BID_ASK_SOURCE_IS_AVAILABLE"
   strategy_4_confirmatory_left_segment_start: "2003-05-04T21:00:00Z"
   strategy_4_confirmatory_left_segment_end_exclusive: "2003-08-03T21:00:00Z"
   strategy_4_confirmatory_right_segment_start: "2026-09-01T00:00:00Z"
