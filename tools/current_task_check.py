@@ -126,7 +126,7 @@ def check_rf025_contract() -> bool:
             "EVENT_CONDITIONAL_ABSOLUTE_RETURN_SHIFT",
             "Decision: `SCREEN`",
             "2 new Material Research Attempts",
-            "HYP-0005 frozen unseen segments are unavailable",
+            "The frozen HYP-0005 unseen segments are unavailable",
             "research/hypotheses/HYP-0006.md",
         ),
     )
@@ -169,7 +169,7 @@ def check_rf025_contract() -> bool:
             "`ATS2-RF-024`",
             "`ATS2-RF-025`",
             "`ATS2-RF-026`",
-            "2 Material Research Attempts",
+            "two Material Research Attempts",
             "preserve all HYP-0005 frozen artifacts",
         ),
     )
