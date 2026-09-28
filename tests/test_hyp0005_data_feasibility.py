@@ -120,10 +120,7 @@ def test_preparation_decision_requires_both_segments_and_primary_buckets() -> No
     }
 
     assert prep.preparation_decision(ready) == "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE"
-    assert (
-        prep.preparation_decision(insufficient)
-        == "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY"
-    )
+    assert prep.preparation_decision(insufficient) == "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY"
 
 
 def test_derived_csv_contains_no_hypothesis_outcome_columns(tmp_path) -> None:
