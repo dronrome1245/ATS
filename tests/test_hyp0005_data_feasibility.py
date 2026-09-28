@@ -1,26 +1,18 @@
 from __future__ import annotations
 
-import subprocess
-import sys
 from datetime import UTC, datetime
-from pathlib import Path
 
 import tools.hyp0005_data_feasibility as prep
 
 
-ROOT = Path(__file__).resolve().parents[1]
-
-
 def test_direct_script_import_mode_resolves_sibling_tool() -> None:
-    code = (
-        "import os; "
-        "os.chdir('tools'); "
-        "import hyp0005_data_feasibility; "
-        "print('IMPORT_OK')"
-    )
+    import subprocess
+    import sys
+
+    code = "import os; os.chdir('tools'); import hyp0005_data_feasibility; print('IMPORT_OK')"
     completed = subprocess.run(
         [sys.executable, "-c", code],
-        cwd=ROOT,
+        cwd=prep.ROOT,
         check=True,
         capture_output=True,
         text=True,
