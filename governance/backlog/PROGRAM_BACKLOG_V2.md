@@ -69,10 +69,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 54. `ATS2-RF-017` — HYP-0004 development data preparation — `DONE / PASS`.
 55. `ATS2-RF-018` — HYP-0004 development data freeze — `DONE / PASS`.
 56. `ATS2-RF-019` — HYP-0004 PROTO-01 freeze — `DONE / PASS`.
-57. `ATS2-RF-020` — HYP-0004 PROTO-01 reveal — `READY`.
-58. `ATS2-RF-021` — HYP-0004 PROTO-01 result canonicalization and routing — `BLOCKED` pending RF-020 exact-main reveal.
+57. `ATS2-RF-020` — HYP-0004 PROTO-01 reveal — `DONE / PASS`.
+58. `ATS2-RF-021` — HYP-0004 PROTO-01 result canonicalization and routing — `READY`.
+59. `ATS2-RF-022` — HYP-0005 confirmatory hypothesis formation — `BLOCKED` pending RF-021 exact-main PASS.
 
-Program-level current next task — `ATS2-RF-020`.
+Program-level current next task — `ATS2-RF-021`.
 
 ## 3. M0 / M1
 
@@ -166,25 +167,42 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-017` | `WBS-RF.2` | P1 | DONE / PASS | RF-016 PASS | `research/reviews/HYP-0004-DEVELOPMENT-DATA-PREP.md` + `tools/hyp0004_development_data.py` + synthetic tests + local preparation result | Exact-main OWNER launcher PASS on `ae9767a71b3860e55d345afb34b2f9c18b5dd063` verified the frozen parent, prepared `112900` EUR/USD rows, emitted derived SHA-256 `3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6` and retained `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-018` | `WBS-RF.2` | P1 | DONE / PASS | RF-017 PASS | canonical RF-017 result + `data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0004-DEV-001.yaml` + schema + Data Feasibility freeze update | Exact-main OWNER launcher PASS on `6d388c500d2c5e1671e11700966b713b95a395b8` froze the exact `112900`-row dataset identity, `111938` exact-next-hour denominator, bucket geometry and `H1_OPEN_PROXY_AT_EVENT_TIME` limitation without outcome calculation |
 | `ATS2-RF-019` | `WBS-RF.2` | P1 | DONE / PASS | RF-018 PASS | `research/reviews/HYP-0004-PROTOTYPE-01.md` + `tools/hyp0004_proto01.py` + synthetic tests | Exact-main OWNER launcher PASS on `95174c2922fd5882c995ff14b3031d690ecc80bf` froze the exact structural calculations, calendar-year diagnostics, both primary inequalities, decision routing and runner blob `cbc9a46bf5e5296615f51c0ea564153968bc2a55` without revealing a development outcome |
-| `ATS2-RF-020` | `WBS-RF.2` | P1 | READY | RF-019 PASS | exact local `HYP0004_PROTO01_RESULT.json` + shareable report | After full Local CI PASS, execute or validate the exact frozen runner once on the frozen dataset, bind the result to the exact reveal commit and preserve the pre-written decision without alternative UTC-window/horizon search |
-| `ATS2-RF-021` | `WBS-RF.2` | P1 | BLOCKED | RF-020 exact-main reveal | `reports/research/HYP-0004-PROTOTYPE-01-result.json` + updated prototype/state/backlog | Canonicalize the exact RF-020 local result and route HYP-0004 strictly by the frozen outcome: `STOP_HYP0004` after failure or a separate confirmatory/trading Hypothesis path after a positive structural result |
+| `ATS2-RF-020` | `WBS-RF.2` | P1 | DONE / PASS | RF-019 PASS | exact local `HYP0004_PROTO01_RESULT.json` + shareable report | Exact-main OWNER reveal on `60371d16b71c1e7d1fb0ccd83c5104984e4b740a` executed the exact frozen runner once after full Local CI PASS and returned `ADVANCE_TO_ECONOMIC_SCREEN / BOTH_PRIMARY_INEQUALITIES_MET`; both primary inequalities passed and the result SHA-256 is `1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230` |
+| `ATS2-RF-021` | `WBS-RF.2` | P1 | READY | RF-020 PASS | `reports/research/HYP-0004-PROTOTYPE-01-result.json` + updated prototype/state/backlog | Preserve the exact RF-020 result byte-for-byte and select the confirmatory branch of the frozen positive route because HYP-0004 is structural/non-directional; direct R4 remains blocked |
+| `ATS2-RF-022` | `WBS-RF.2` | P1 | BLOCKED | RF-021 PASS | `research/hypotheses/HYP-0005.md` | Register one fixed confirmatory structural Hypothesis before any confirmatory outcome is inspected; preserve the fixed UTC buckets and primary inequalities or explicitly define any material new claim under the new Hypothesis ID; do not select or reveal confirmatory data in RF-021 |
 
 ## 8. Следующий шаг
 
 Current program-level ready task:
 
-`ATS2-RF-020 — HYP-0004 PROTO-01 reveal`.
+`ATS2-RF-021 — HYP-0004 PROTO-01 result canonicalization and routing`.
 
-Frozen prototype:
+Canonical RF-020 result:
 
-`research/reviews/HYP-0004-PROTOTYPE-01.md`
+`reports/research/HYP-0004-PROTOTYPE-01-result.json`
 
-RF-019 is closed with exact-main OWNER PASS on `95174c2922fd5882c995ff14b3031d690ecc80bf`.
+Exact reveal commit:
 
-RF-020 must verify frozen runner blob `cbc9a46bf5e5296615f51c0ea564153968bc2a55` and dataset SHA-256 `3a3a9b5ba99cc504c5bcb66536886113b2f6659a66718a0f122e9982fbc8a9d6`, pass full Local CI, then execute the exact runner once.
+`60371d16b71c1e7d1fb0ccd83c5104984e4b740a`
 
-The decision remains the pre-written conjunction of the movement and spread inequalities. `TRANSITION` and calendar-year diagnostics cannot alter routing.
+Exact result SHA-256:
 
-RF-020 must not retune or replace the frozen runner after reveal.
+`1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230`
 
-After RF-020 exact-main PASS, `ATS2-RF-021 — HYP-0004 PROTO-01 result canonicalization and routing` becomes ready.
+RF-020 returned:
+
+`ADVANCE_TO_ECONOMIC_SCREEN / BOTH_PRIMARY_INEQUALITIES_MET`
+
+with frozen mandatory next action:
+
+`CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4`.
+
+RF-021 selects the confirmatory structural branch. HYP-0004 is non-directional and its development result does not itself define a trading rule or authorize direct R4 entry.
+
+After RF-021 exact-main PASS:
+
+`ATS2-RF-022 — HYP-0005 confirmatory hypothesis formation`
+
+becomes ready.
+
+RF-022 must register HYP-0005 before any confirmatory outcome is inspected. No confirmatory dataset or unseen boundary is selected by RF-021.
