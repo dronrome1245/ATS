@@ -173,6 +173,8 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-021` | `WBS-RF.2` | P1 | DONE / PASS | RF-020 PASS | `reports/research/HYP-0004-PROTOTYPE-01-result.json` + updated prototype/state/backlog | Exact-main OWNER launcher PASS on `79cb1d36bd544cc14db49ea5f6e85ef138a579eb` preserved the exact RF-020 result and selected the confirmatory structural branch; direct R4 remains blocked |
 | `ATS2-RF-022` | `WBS-RF.2` | P1 | DONE / PASS | RF-021 PASS | `research/hypotheses/HYP-0005.md` | Exact-main OWNER launcher PASS on `136b62b52922abc1556396377c6cd6fca88fba75` registered HYP-0005 with EURUSD/fixed UTC buckets/NEXT_1H/two primary inequalities and retained `NO_CONFIRMATORY_OUTCOME_COMPUTED` |
 | `ATS2-RF-023` | `WBS-RF.2` | P1 | READY | RF-022 PASS | `research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md` + `tools/hyp0005_data_feasibility.py` + synthetic tests + local machine result | Freeze a pre-result acquisition/preparation contract, acquire only the mechanically defined unseen EUR/USD segments, emit source/derived hashes and geometry, and prohibit spread/return outcome metrics or primary-claim evaluation |
+
+RF-023 is structurally `READY` but execution is temporarily blocked by external September 2026 source availability. The 28 September diagnostic showed Jetta September BID/ASK HTTP 400 `From time is too late` while August Jetta BID/ASK controls returned HTTP 200. This does not change the frozen periods and is not a HYP-0005 result.
 | `ATS2-RF-024` | `WBS-RF.2` | P1 | BLOCKED | RF-023 exact-main preparation result | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest/schema when permitted | Canonicalize the exact RF-023 machine result and freeze the Data Feasibility decision/dataset identity; do not compute HYP-0005 primary outcome |
 
 ## 8. Следующий шаг
@@ -201,6 +203,8 @@ The already consumed project interval between those segments is excluded from co
 RF-023 exact-main task execution must emit the exact source-bundle hash, prepared CSV hash, row/eligibility geometry and preparation decision while retaining:
 
 `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+
+Current external gate: retry the same frozen RF-023 only after a coherent September 2026 BID/ASK source pair becomes available. Use `\.\ATS_TASK_DIAG.bat` to demonstrate availability before rerunning `\.\ATS_TASK_CHECK.bat`.
 
 After RF-023 exact-main PASS and review of the local machine result:
 
