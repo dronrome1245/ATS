@@ -20,7 +20,7 @@ The completion BAT remains task-agnostic. It automatically performs:
 
 `ATS_AGENT_PREFLIGHT.bat` runs only on an `agent/*` branch. It refreshes `origin/main`, synchronizes the frozen environment, then runs the full normal Local CI gate on the exact agent commit. It does not run task-specific acquisition. The agent may merge the branch to `main` only after this preflight returns PASS.
 
-`ATS_TASK_DIAG.bat` runs `tools/current_task_diag.py`. For RF-008 it reads only already cached source objects and does not request market data from the network. Its default diagnostic target is the latest confirmed failing candle, and optional command-line arguments can select another target.
+`ATS_TASK_DIAG.bat` runs the task-specific `tools/current_task_diag.py`. Diagnostic behavior must match the active failure class. For RF-023 it performs bounded provider-access probes only, comparing the failing September 2026 EUR/USD source paths with August 2026 controls; it does not compute any HYP-0005 outcome.
 
 `tools/current_task_check.py` and `tools/current_task_diag.py` are task-specific surfaces and are updated by the agent when the active work package changes.
 
