@@ -13,72 +13,73 @@
 
 ## Current stage
 
-`Research Factory → Strategy #4 → HYP-0005 → Hypothesis Formation → ATS2-RF-022`
+`Research Factory → Strategy #4 → HYP-0005 → Data Feasibility preparation → ATS2-RF-023`
 
 ## Canonical last completed artifact
 
-`reports/research/HYP-0004-PROTOTYPE-01-result.json`
+`research/hypotheses/HYP-0005.md`
 
-## Verified RF-021 closure
+## Verified RF-022 closure
 
 OWNER `ATS_TASK_CHECK.bat` PASS was confirmed on exact main commit:
 
-`79cb1d36bd544cc14db49ea5f6e85ef138a579eb`
+`136b62b52922abc1556396377c6cd6fca88fba75`
 
-RF-021 preserved the exact HYP-0004 result and selected confirmatory structural routing.
+HYP-0005 is now the active confirmatory structural Hypothesis.
 
-HYP-0004 result SHA-256:
-
-`1c9b2cb1a1628599e935ee61fd8c9b152d7bd3447969b065c920c8d13e3e5230`
-
-The HYP-0004 development result remains exploratory structural evidence only.
-
-## RF-022 HYP-0005 formation
+## RF-023 preparation contract
 
 Current task:
 
-`ATS2-RF-022 — HYP-0005 confirmatory hypothesis formation`
+`ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility preparation`
 
-Canonical artifact:
+Protocol:
 
-`research/hypotheses/HYP-0005.md`
+`research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md`
 
-HYP-0005:
+Tool:
 
-- parent Idea: `IDEA-0004`;
-- development predecessor: `HYP-0004`;
-- role: `CONFIRMATORY_STRUCTURAL_REPLICATION`;
-- status: `READY_FOR_DATA_FEASIBILITY`;
-- market: `FX_SPOT_OTC`;
-- instrument: `EURUSD`;
-- horizon: `NEXT_1H`.
+`tools/hyp0005_data_feasibility.py`
 
-Fixed UTC buckets:
+Tests:
 
-- CORE_ACTIVE: `07–16`;
-- TRANSITION: `17–20`;
-- OFF_HOURS: `21–23` and `00–06`.
+`tests/test_hyp0005_data_feasibility.py`
 
-Primary HYP-0005 claim requires BOTH:
+Dataset candidate:
 
-`median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)`
+`DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0`
 
-and:
+Prepared local CSV:
 
-`median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)`.
+`data/derived/HYP-0005-CONF-01-EURUSD-H1.csv`
 
-No magnitude threshold is imported from the HYP-0004 result.
+Frozen unseen segments:
 
-RF-022 selects no confirmatory provider, snapshot, exact coverage or dataset identity and computes no confirmatory outcome.
+- `LEFT_UNSEEN = [2003-05-04T21:00:00Z, 2003-08-03T21:00:00Z)`;
+- `RIGHT_UNSEEN = [2026-09-01T00:00:00Z, 2026-09-26T00:00:00Z)`.
+
+Consumed project interval excluded from HYP-0005 confirmatory evidence:
+
+`[2003-08-03T21:00:00Z, 2026-09-01T00:00:00Z)`.
+
+Boundary semantics:
+
+`H1_OPEN_PROXY_AT_EVENT_TIME`
+
+Exact tick boundary known:
+
+`false`
+
+RF-023 may prepare source/data identity and geometry only. It may not calculate HYP-0005 spread/return medians or primary inequalities.
 
 Information boundary:
 
 `NO_CONFIRMATORY_OUTCOME_COMPUTED`
 
-Next task after RF-022 exact-main PASS:
+After RF-023 exact-main PASS and upload of the exact local machine result:
 
-`ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility`
+`ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze`
 
-RF-023 must establish and freeze one genuinely unseen confirmatory block before any HYP-0005 outcome calculation.
+must canonicalize the exact preparation result and freeze/route the Data Feasibility decision.
 
-Direct R4 entry remains blocked.
+Direct R4 remains blocked.
