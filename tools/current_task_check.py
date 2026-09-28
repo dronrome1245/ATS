@@ -140,6 +140,7 @@ def check_rf025_contract() -> bool:
             "PREVIOUS_60_MINUTES",
             "NEXT_60_MINUTES",
             "median(post_abs_60m_return) > median(pre_abs_60m_return)",
+            "No quote timestamp at or after `t` may serve as `PRE_RELEASE_ANCHOR`",
             "HYP-0005 frozen unseen segments used by HYP-0006 formation: `0`",
             "HYP-0006 market outcomes inspected before formation: `0`",
             "NO_HYPOTHESIS_OUTCOME_COMPUTED",
