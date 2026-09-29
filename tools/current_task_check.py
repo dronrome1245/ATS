@@ -212,7 +212,8 @@ def check_rf027_contract() -> bool:
             'strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"',
             'rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"',
             'strategy_5_source_access_blocker: "BLS_HTTP_403_AUTOMATED_RETRIEVAL"',
-            'strategy_5_source_access_correction: "CONTACTABLE_USER_AGENT_RATE_LIMIT_FAIL_FAST_403"',
+            "strategy_5_source_access_correction: "
+            '"CONTACTABLE_USER_AGENT_RATE_LIMIT_FAIL_FAST_403"',
             "strategy_5_required_protected_hyp0005_source_requests: 0",
             "strategy_5_outcome_computed: false",
             'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
