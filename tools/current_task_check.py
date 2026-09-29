@@ -103,11 +103,7 @@ def check_no_hyp0006_outcome_artifacts() -> bool:
     print("\n== HYP-0006 pre-result information boundary ==", flush=True)
     matches: list[str] = []
     for pattern in PROHIBITED_RF025_OUTPUT_PATTERNS:
-        matches.extend(
-            str(path.relative_to(ROOT))
-            for path in ROOT.glob(pattern)
-            if path.is_file()
-        )
+        matches.extend(str(path.relative_to(ROOT)) for path in ROOT.glob(pattern) if path.is_file())
     if matches:
         for relative in sorted(set(matches)):
             print(
@@ -161,12 +157,12 @@ def check_rf025_contract() -> bool:
             'next_task_id: "ATS2-RF-025"',
             'current_task: "ATS2-RF-025"',
             'next_task: "ATS2-RF-026"',
-            'current_strategy_sequence: 5',
+            "current_strategy_sequence: 5",
             'strategy_5_idea_id: "IDEA-0005"',
             'strategy_5_hypothesis_id: "HYP-0006"',
-            'strategy_5_material_research_attempts_registered: 2',
-            'strategy_5_hyp0005_protected_segments_consumed: false',
-            'strategy_5_outcome_computed: false',
+            "strategy_5_material_research_attempts_registered: 2",
+            "strategy_5_hyp0005_protected_segments_consumed: false",
+            "strategy_5_outcome_computed: false",
             'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
             'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
         ),
