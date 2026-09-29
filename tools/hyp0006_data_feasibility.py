@@ -235,6 +235,16 @@ class TableRowParser(HTMLParser):
             self._cell_parts = None
 
 
+class ScheduleTextParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.parts: list[str] = []
+
+    def handle_data(self, data: str) -> None:
+        if data:
+            self.parts.append(data)
+
+
 def progress(message: str) -> None:
     print(message, flush=True)
 
