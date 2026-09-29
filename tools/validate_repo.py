@@ -2048,6 +2048,18 @@ def configure() -> None:
         "tools/hyp0005_data_feasibility.py",
         "tools/hyp0006_data_feasibility.py",
     )
+    core.CONTENT_MARKERS[PROJECT_GPT_SYSTEM_INSTRUCTION] = (
+        "ATS Project GPT — системная инструкция",
+        "Source of truth",
+        "ПЛАН HYP-xxxx",
+        "ПЕРЕСМОТР ПЛАНА HYP-xxxx",
+        "техническая ошибка, диагностика, форматирование, retry",
+        "Source blockers",
+        "OWNER input discipline",
+        "GitHub workflow",
+        "RUFF_LINT_UNVERIFIED_UNTIL_PINNED_RUFF",
+        "Task закрывается только после exact-main PASS",
+    )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
