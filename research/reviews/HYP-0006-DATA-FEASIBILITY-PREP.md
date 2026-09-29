@@ -261,3 +261,50 @@ This correction changes source-access mechanics only. It does not change the HYP
 event class, development interval, event denominator, timestamp semantics, quote source, anchor
 geometry or any outcome rule.
 
+## RF-027 official annual-schedule fallback after repeated BLS archive-index 403
+
+A second exact-main RF-027 attempt on:
+
+`2ce019bb51b0e45e900c0555ed44be5a3433e23a`
+
+again passed Local CI and again received HTTP 403 from the official CPI archive-index page before
+event acquisition.
+
+This remains:
+
+`TECHNICAL_SOURCE_ACCESS_FAILURE`
+
+and not a HYP-0006 result.
+
+The event denominator is unchanged: every official BLS CPI release whose public release timestamp is
+inside the frozen development interval.
+
+The acquisition route is corrected as follows:
+
+1. obtain the CPI denominator from official BLS annual release schedules
+   `https://www.bls.gov/schedule/{YEAR}/home.htm` for 2003 through 2021;
+2. derive each CPI archive URL deterministically from the official scheduled release date;
+3. prefer the archived CPI release embargo/publication header when that direct archive page is
+   accessible and parseable;
+4. when direct archived-release access is denied or the archive timestamp is unavailable, use the
+   official annual-schedule date/time as the predeclared fallback;
+5. annual-schedule times are interpreted as U.S. Eastern Time using the already frozen historical
+   DST rules;
+6. if an accessible archive header disagrees with the official annual schedule, record
+   `OFFICIAL_TIME_CROSSCHECK_MISMATCH` and do not silently choose a favorable timestamp;
+7. same-time BLS releases remain
+   `FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION`;
+8. no third-party calendar or event source is introduced.
+
+Result provenance must report:
+
+`event_inventory_source = BLS_OFFICIAL_ANNUAL_SCHEDULES`
+
+and:
+
+`event_time_source_order = ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK`
+
+This correction changes only official-source acquisition mechanics after a proven network/access
+blocker. It does not change the HYP-0006 statement, event class, development interval, event
+denominator, quote source, horizons, anchor definitions or outcome rule.
+
