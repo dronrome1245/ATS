@@ -693,14 +693,8 @@ def cpi_schedule_candidates(
             release_utc = eastern_local_to_utc(local_dt, "ET")
             if not DEVELOPMENT_START <= release_utc < DEVELOPMENT_END:
                 continue
-            existing = by_date.get(local_dt.date())
-            if existing is not None and existing["clock"] != entry["clock"]:
-                raise PreparationError(
-                    "conflicting official CPI schedule times for "
-                    f"{local_dt.date().isoformat()}: "
-                    f"{existing['clock']} != {entry['clock']}"
-                )
-            by_date[local_dt.date()] = {
+
+            candidate = {
                 "date": local_dt.date(),
                 "clock": str(entry["clock"]),
                 "label": str(entry["label"]),
@@ -710,6 +704,24 @@ def cpi_schedule_candidates(
                 "source_snapshot_relative_path": source.relative_path,
                 "source_snapshot_sha256": source.sha256,
             }
+            existing = by_date.get(local_dt.date())
+            if existing is None:
+                by_date[local_dt.date()] = candidate
+                continue
+            if existing["clock"] != candidate["clock"]:
+                raise PreparationError(
+                    "conflicting official CPI schedule times for "
+                    f"{local_dt.date().isoformat()}: "
+                    f"{existing['clock']} != {candidate['clock']}"
+                )
+
+            existing_year = int(existing["source_year"])
+            preferred_year = local_dt.date().year
+            existing_rank = (existing_year != preferred_year, existing_year)
+            candidate_rank = (year != preferred_year, year)
+            if candidate_rank < existing_rank:
+                by_date[local_dt.date()] = candidate
+
     return [by_date[key] for key in sorted(by_date)]
 
 def same_time_schedule_labels(
