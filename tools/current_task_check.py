@@ -229,7 +229,8 @@ def check_rf027_contract() -> bool:
             'current_task: "ATS2-RF-027"',
             'next_task: "ATS2-RF-028"',
             'rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"',
-            'strategy_5_data_feasibility_prep_status: "RF027_OFFLINE_BLS_SNAPSHOT_ARCHITECTURE_STAGED"',
+            "strategy_5_data_feasibility_prep_status: "
+            '"RF027_OFFLINE_BLS_SNAPSHOT_ARCHITECTURE_STAGED"',
             'strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"',
             'strategy_5_bls_runtime_network_mode: "PROHIBITED"',
             'strategy_5_bls_snapshot_years: "2003..2021"',
