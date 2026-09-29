@@ -42,7 +42,9 @@ DUKASCOPY_BASES = (
 )
 SOURCE_SYMBOL = "EURUSD"
 PRICE_DIVISOR = 100_000
-USER_AGENT = "Mozilla/5.0 ATS-Research/1.0"
+BLS_CONTACT_URL = "https://github.com/dronrome1245/ATS"
+BLS_REQUEST_DELAY_SECONDS = 1.0
+USER_AGENT = f"ATS-Research/1.0 (+{BLS_CONTACT_URL})"
 RETRY_DELAYS = (2.0, 5.0, 10.0)
 
 RAW_BLS_ROOT = ROOT / "data" / "raw" / "bls" / "hyp0006"
@@ -126,6 +128,10 @@ FORBIDDEN_OUTPUT_FIELDS = {
 
 class PreparationError(RuntimeError):
     """Raised for technical/data integrity failures in RF-027."""
+
+
+class SourceAccessDeniedError(PreparationError):
+    """Raised when an official source explicitly denies automated access."""
 
 
 @dataclass(frozen=True)
@@ -260,14 +266,29 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def is_bls_url(url: str) -> bool:
+    return url.startswith("https://www.bls.gov/")
+
+
+def request_headers(url: str) -> dict[str, str]:
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "text/html,application/octet-stream,*/*",
+    }
+    if is_bls_url(url):
+        headers.update(
+            {
+                "Accept-Language": "en-US,en;q=0.9",
+                "Referer": "https://www.bls.gov/",
+            }
+        )
+    return headers
+
+
 def fetch_bytes(url: str, timeout: int = 45) -> tuple[bytes, dict[str, str]]:
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": USER_AGENT,
-            "Accept": "text/html,application/octet-stream,*/*",
-        },
-    )
+    if is_bls_url(url):
+        time.sleep(BLS_REQUEST_DELAY_SECONDS)
+    request = urllib.request.Request(url, headers=request_headers(url))
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             body = response.read()
@@ -278,6 +299,10 @@ def fetch_bytes(url: str, timeout: int = 45) -> tuple[bytes, dict[str, str]]:
     except urllib.error.HTTPError as exc:
         if exc.code in {404, 410}:
             raise FileNotFoundError(url) from exc
+        if exc.code == 403 and is_bls_url(url):
+            raise SourceAccessDeniedError(
+                f"BLS HTTP 403 while fetching {url}; automated access denied"
+            ) from exc
         raise PreparationError(f"HTTP {exc.code} while fetching {url}") from exc
     except (urllib.error.URLError, OSError) as exc:
         raise PreparationError(f"network error while fetching {url}: {exc}") from exc
@@ -315,6 +340,8 @@ def cached_or_fetch_any(
                 return destination, headers
             except FileNotFoundError:
                 missing_urls.add(url)
+            except SourceAccessDeniedError:
+                raise
             except PreparationError as exc:
                 last_error = exc
         if len(missing_urls) == len(urls):
