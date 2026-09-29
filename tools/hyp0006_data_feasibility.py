@@ -276,6 +276,95 @@ def sha256_file(path: Path) -> str:
             digest.update(chunk)
     return digest.hexdigest()
 
+def load_bls_snapshot_manifest() -> list[dict[str, str]]:
+    if not BLS_SNAPSHOT_MANIFEST.is_file():
+        raise PreparationError(f"missing BLS snapshot manifest: {BLS_SNAPSHOT_MANIFEST}")
+
+    with BLS_SNAPSHOT_MANIFEST.open("r", encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        expected_header = ("year", "source_url", "snapshot_relative_path")
+        if tuple(reader.fieldnames or ()) != expected_header:
+            raise PreparationError("invalid BLS snapshot manifest header")
+        rows = [dict(row) for row in reader]
+
+    expected_years = list(range(2003, 2022))
+    actual_years: list[int] = []
+    for row in rows:
+        try:
+            year = int(row["year"])
+        except (TypeError, ValueError) as exc:
+            raise PreparationError("invalid BLS snapshot manifest year") from exc
+        expected_url = f"https://www.bls.gov/schedule/{year}/home.htm"
+        expected_path = f"data/raw/bls/hyp0006/schedules/{year}.html"
+        if row["source_url"] != expected_url:
+            raise PreparationError(f"unexpected BLS source URL for {year}")
+        if row["snapshot_relative_path"] != expected_path:
+            raise PreparationError(f"unexpected BLS snapshot path for {year}")
+        actual_years.append(year)
+
+    if actual_years != expected_years:
+        raise PreparationError(
+            f"BLS snapshot manifest years mismatch: {actual_years} != {expected_years}"
+        )
+    return rows
+
+
+def load_bls_schedule_snapshots(
+    manifest_rows: list[dict[str, str]],
+) -> tuple[dict[int, list[dict[str, Any]]], dict[int, SourceObject]]:
+    missing: list[str] = []
+    schedule_by_year: dict[int, list[dict[str, Any]]] = {}
+    source_by_year: dict[int, SourceObject] = {}
+
+    for row in manifest_rows:
+        year = int(row["year"])
+        snapshot_path = ROOT / row["snapshot_relative_path"]
+        if not snapshot_path.is_file() or snapshot_path.stat().st_size <= 0:
+            missing.append(row["snapshot_relative_path"])
+            continue
+
+        entries = schedule_entries(snapshot_path.read_bytes(), year)
+        cpi_entries = [
+            item
+            for item in entries
+            if "consumer price index" in str(item["label"]).lower()
+        ]
+        if not cpi_entries:
+            raise PreparationError(
+                f"BLS snapshot {year} contains no parseable CPI schedule rows"
+            )
+
+        schedule_by_year[year] = entries
+        source_by_year[year] = SourceObject(
+            category="BLS_SCHEDULE_SNAPSHOT",
+            identity=str(year),
+            relative_path=row["snapshot_relative_path"],
+            source_url=row["source_url"],
+            sha256=sha256_file(snapshot_path),
+        )
+
+    if missing:
+        joined = ", ".join(missing)
+        raise OwnerInputRequiredError(
+            "OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS: " + joined
+        )
+
+    return schedule_by_year, source_by_year
+
+
+def bls_snapshot_bundle_hash(source_by_year: dict[int, SourceObject]) -> str:
+    payload = [
+        {
+            "year": year,
+            "source_url": source_by_year[year].source_url,
+            "relative_path": source_by_year[year].relative_path,
+            "sha256": source_by_year[year].sha256,
+        }
+        for year in sorted(source_by_year)
+    ]
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
 
 def is_bls_url(url: str) -> bool:
     return url.startswith("https://www.bls.gov/")
