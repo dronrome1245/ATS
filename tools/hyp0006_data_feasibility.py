@@ -317,6 +317,7 @@ def cached_or_fetch_any(
     label: str,
     *,
     missing_ok: bool,
+    access_denied_ok: bool = False,
 ) -> tuple[Path, dict[str, str]] | None:
     if destination.exists() and destination.stat().st_size > 0:
         return destination, {
@@ -341,6 +342,8 @@ def cached_or_fetch_any(
             except FileNotFoundError:
                 missing_urls.add(url)
             except SourceAccessDeniedError:
+                if access_denied_ok:
+                    return None
                 raise
             except PreparationError as exc:
                 last_error = exc
