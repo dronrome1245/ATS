@@ -35,9 +35,7 @@ def test_parse_archive_index_extracts_release_dates() -> None:
 def test_bls_request_headers_identify_research_owner() -> None:
     headers = feasibility.request_headers(feasibility.BLS_ARCHIVE_INDEX_URL)
 
-    assert headers["User-Agent"] == (
-        "ATS-Research/1.0 (+https://github.com/dronrome1245/ATS)"
-    )
+    assert headers["User-Agent"] == ("ATS-Research/1.0 (+https://github.com/dronrome1245/ATS)")
     assert headers["Referer"] == "https://www.bls.gov/"
     assert headers["Accept-Language"] == "en-US,en;q=0.9"
 
