@@ -205,7 +205,7 @@ def check_rf027_contract() -> bool:
             'rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"',
             'strategy_5_data_feasibility_prep_status: "RF027_PROTOCOL_FROZEN_PENDING_OWNER_PREPARATION"',
             'strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"',
-            "strategy_5_protected_hyp0005_source_requests: 0",
+            "strategy_5_required_protected_hyp0005_source_requests: 0",
             'strategy_5_outcome_computed: false',
             'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
             'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
