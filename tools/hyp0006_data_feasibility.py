@@ -1038,20 +1038,13 @@ def write_geometry_csv(events: list[EventRecord]) -> str:
 
 def preparation_decision(
     candidate_event_count: int,
-    unresolved_event_time_count: int,
-    schedule_mismatch_count: int,
     complete_geometry_count: int,
 ) -> str:
     if candidate_event_count <= 0:
         return "UNRESOLVED_OFFICIAL_EVENT_TIMES"
-    if unresolved_event_time_count > 0:
-        return "UNRESOLVED_OFFICIAL_EVENT_TIMES"
-    if schedule_mismatch_count > 0:
-        return "OFFICIAL_TIME_CROSSCHECK_MISMATCH"
     if complete_geometry_count <= 0:
         return "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY"
     return "READY_FOR_DATA_FEASIBILITY_FREEZE"
-
 
 def prepare() -> dict[str, Any]:
     source_objects: list[SourceObject] = []
@@ -1151,31 +1144,33 @@ def prepare() -> dict[str, Any]:
     geometry_sha256 = write_geometry_csv(event_records)
     decision = preparation_decision(
         candidate_event_count=len(event_records),
-        unresolved_event_time_count=unresolved_event_time_count,
-        schedule_mismatch_count=schedule_mismatch_count,
         complete_geometry_count=complete_geometry_count,
     )
     emit_progress(98)
 
     result = {
-        "schema_version": "hyp0006-data-feasibility-prep-1",
+        "schema_version": "hyp0006-data-feasibility-prep-2",
         "task_id": TASK_ID,
         "hypothesis_id": HYPOTHESIS_ID,
         "git_commit": git_head(),
         "development_start": iso_z(DEVELOPMENT_START),
         "development_end_exclusive": iso_z(DEVELOPMENT_END),
         "evidence_classification": "DEVELOPMENT_EXPLORATORY_ONLY",
-        "event_inventory_source": "BLS_OFFICIAL_ANNUAL_SCHEDULES",
-        "event_time_source_order": "ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK",
+        "event_inventory_source": "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
+        "event_time_source": "BLS_ANNUAL_SCHEDULE_US_EASTERN",
+        "bls_snapshot_manifest_relative_path": str(
+            BLS_SNAPSHOT_MANIFEST.relative_to(ROOT)
+        ).replace("\\", "/"),
+        "bls_snapshot_manifest_sha256": sha256_file(BLS_SNAPSHOT_MANIFEST),
+        "bls_snapshot_count": len(source_by_year),
+        "bls_snapshot_bundle_sha256": bls_snapshot_sha256,
+        "bls_calendar_csv_relative_path": str(
+            BLS_CALENDAR_CSV.relative_to(ROOT)
+        ).replace("\\", "/"),
+        "bls_calendar_csv_sha256": bls_calendar_sha256,
         "quote_source": "DUKASCOPY_HOURLY_TICK_BI5",
         "candidate_event_count": len(event_records),
-        "resolved_event_time_count": len(event_records) - unresolved_event_time_count,
-        "unresolved_event_time_count": unresolved_event_time_count,
-        "archive_header_event_count": archive_header_count,
-        "schedule_fallback_event_count": schedule_fallback_count,
-        "archive_access_denied_count": archive_access_denied_count,
-        "schedule_match_count": schedule_match_count,
-        "schedule_mismatch_count": schedule_mismatch_count,
+        "resolved_event_time_count": len(event_records),
         "same_time_bls_cluster_count": same_time_cluster_count,
         "requested_tick_object_count": len(requested_hours),
         "acquired_tick_object_count": len(tick_objects),
@@ -1208,14 +1203,11 @@ def write_reports(result: dict[str, Any]) -> None:
         f"Task: {result['task_id']}",
         f"Commit: {result['git_commit']}",
         f"Decision: {result['preparation_decision']}",
+        f"BLS snapshots: {result['bls_snapshot_count']}",
+        f"BLS snapshot bundle SHA-256: {result['bls_snapshot_bundle_sha256']}",
+        f"BLS calendar SHA-256: {result['bls_calendar_csv_sha256']}",
         f"Candidate CPI events: {result['candidate_event_count']}",
         f"Resolved event times: {result['resolved_event_time_count']}",
-        f"Unresolved event times: {result['unresolved_event_time_count']}",
-        f"Archive-header event times: {result['archive_header_event_count']}",
-        f"Schedule-fallback event times: {result['schedule_fallback_event_count']}",
-        f"Archive access denied: {result['archive_access_denied_count']}",
-        f"Schedule matches: {result['schedule_match_count']}",
-        f"Schedule mismatches: {result['schedule_mismatch_count']}",
         f"Same-time BLS clusters: {result['same_time_bls_cluster_count']}",
         f"Requested tick objects: {result['requested_tick_object_count']}",
         f"Acquired tick objects: {result['acquired_tick_object_count']}",
@@ -1238,7 +1230,6 @@ def write_reports(result: dict[str, Any]) -> None:
     ]
     REPORT_TEXT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines), flush=True)
-
 
 def main() -> int:
     print("ATS HYP-0006 DATA FEASIBILITY PREPARATION", flush=True)
