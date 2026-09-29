@@ -278,7 +278,7 @@ def check_rf027_contract() -> bool:
                 STATUS,
                 (
                     "ATS2-RF-027",
-                    "offline BLS",
+                    "offline-схему",
                     "NO_HYPOTHESIS_OUTCOME_COMPUTED",
                     "NO_CONFIRMATORY_OUTCOME_COMPUTED",
                 ),
