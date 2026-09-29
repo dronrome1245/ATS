@@ -1058,186 +1058,83 @@ def prepare() -> dict[str, Any]:
     tick_objects: list[TickObject] = []
 
     emit_progress(82)
-    schedule_by_year: dict[int, list[dict[str, Any]]] = {}
-    for year in range(DEVELOPMENT_START.year, DEVELOPMENT_END.year + 1):
-        destination = RAW_BLS_ROOT / "schedules" / f"{year}.htm"
-        url = BLS_SCHEDULE_URL_TEMPLATE.format(year=year)
-        downloaded = cached_or_fetch_any(
-            (url,),
-            destination,
-            f"BLS schedule {year}",
-            missing_ok=False,
-        )
-        assert downloaded is not None
-        schedule_path, headers = downloaded
-        entries = schedule_entries(schedule_path.read_bytes(), year)
-        if not entries:
-            raise PreparationError(f"BLS schedule {year} produced no parseable release rows")
-        schedule_by_year[year] = entries
-        source_objects.append(
-            SourceObject(
-                category="BLS_SCHEDULE",
-                identity=str(year),
-                relative_path=str(schedule_path.relative_to(ROOT)).replace("\\", "/"),
-                source_url=headers["source_url"],
-                sha256=sha256_file(schedule_path),
-            )
-        )
+    manifest_rows = load_bls_snapshot_manifest()
+    schedule_by_year, source_by_year = load_bls_schedule_snapshots(manifest_rows)
+    source_objects.extend(source_by_year[year] for year in sorted(source_by_year))
 
-    candidates = cpi_schedule_candidates(schedule_by_year)
+    candidates = cpi_schedule_candidates(schedule_by_year, source_by_year)
     if not candidates:
-        raise PreparationError("official BLS annual schedules produced no CPI events")
+        raise PreparationError("frozen BLS schedule snapshots produced no CPI events")
+
+    bls_calendar_sha256 = write_bls_calendar_csv(candidates, schedule_by_year)
+    bls_snapshot_sha256 = bls_snapshot_bundle_hash(source_by_year)
 
     event_records: list[EventRecord] = []
     requested_hours: set[datetime] = set()
     missing_hour_count_total = 0
     protected_source_requests = 0
-    schedule_mismatch_count = 0
-    schedule_match_count = 0
-    schedule_fallback_count = 0
-    archive_header_count = 0
-    archive_access_denied_count = 0
     same_time_cluster_count = 0
-    unresolved_event_time_count = 0
     complete_geometry_count = 0
-    archive_access_denied = False
-
     tick_cache: dict[datetime, tuple[TickObject, list[datetime]] | None] = {}
 
     total = len(candidates)
     for index, candidate in enumerate(candidates, start=1):
         release_date = candidate["date"]
-        if not isinstance(release_date, date):
-            raise PreparationError("CPI candidate release date has invalid type")
-        archive_url = str(candidate["archive_url"])
+        release_utc = candidate["release_time_utc"]
+        if not isinstance(release_date, date) or not isinstance(release_utc, datetime):
+            raise PreparationError("invalid frozen BLS calendar event type")
+
         schedule_clock = str(candidate["clock"])
-        schedule_entries_for_year = schedule_by_year.get(release_date.year, [])
-        schedule_local_dt = schedule_local_datetime(candidate)
-        schedule_release_utc = eastern_local_to_utc(schedule_local_dt, "ET")
-        schedule_local_text = schedule_local_dt.strftime("%Y-%m-%d %H:%M")
-
-        progress(f"[event {index}/{total}] {release_date.isoformat()}")
-        archive_name = Path(archive_url).name
-        archive_path = RAW_BLS_ROOT / "releases" / archive_name
-        archive_download: tuple[Path, dict[str, str]] | None = None
-        if not archive_access_denied:
-            try:
-                archive_download = cached_or_fetch_any(
-                    (archive_url,),
-                    archive_path,
-                    f"BLS CPI archive {archive_name}",
-                    missing_ok=True,
-                )
-            except SourceAccessDeniedError:
-                archive_access_denied = True
-                archive_access_denied_count += 1
-                progress(
-                    "[BLS] archived release pages denied automated access; "
-                    "using official annual schedule fallback"
-                )
-
-        archive_sha: str | None = None
-        zone_label = "ET"
-        archive_local_time = schedule_local_text
-        release_utc: datetime | None = schedule_release_utc
-        release_status = "RESOLVED_OFFICIAL_SCHEDULE_FALLBACK"
-        crosscheck_status = "SCHEDULE_OFFICIAL_FALLBACK"
+        schedule_entries_for_year = schedule_by_year[int(candidate["source_year"])]
         same_time_labels = same_time_schedule_labels(
             schedule_entries_for_year,
             release_date,
             schedule_clock,
         )
-        schedule_fallback_count += 1
-        required_count = 0
-        missing_count = 0
-        geometry_values: dict[str, int | None | str] = {
-            "pre60_prev_gap_ms": None,
-            "pre60_next_gap_ms": None,
-            "pre_release_last_gap_ms": None,
-            "post60_prev_gap_ms": None,
-            "post60_next_gap_ms": None,
-            "quote_geometry_status": "UNRESOLVED_EVENT_TIME",
-        }
-
-        if archive_download is not None:
-            page_path, page_headers = archive_download
-            archive_sha = sha256_file(page_path)
-            source_objects.append(
-                SourceObject(
-                    category="BLS_CPI_RELEASE",
-                    identity=archive_name,
-                    relative_path=str(page_path.relative_to(ROOT)).replace("\\", "/"),
-                    source_url=page_headers["source_url"],
-                    sha256=archive_sha,
-                )
-            )
-            parsed = parse_archive_release_time(page_path.read_bytes(), release_date)
-            if parsed is not None:
-                archive_release_utc, archive_zone_label, archive_time_text = parsed
-                if not DEVELOPMENT_START <= archive_release_utc < DEVELOPMENT_END:
-                    raise PreparationError(
-                        f"resolved event outside frozen interval: {iso_z(archive_release_utc)}"
-                    )
-                crosscheck_status, same_time_labels = schedule_crosscheck(
-                    schedule_entries_for_year,
-                    release_date,
-                    archive_time_text,
-                )
-                if crosscheck_status == "MATCH":
-                    schedule_match_count += 1
-                elif crosscheck_status == "SCHEDULE_TIME_MISMATCH":
-                    schedule_mismatch_count += 1
-                release_utc = archive_release_utc
-                zone_label = archive_zone_label
-                archive_local_time = archive_time_text
-                release_status = "RESOLVED_OFFICIAL_ARCHIVE_TIME"
-                archive_header_count += 1
-                schedule_fallback_count -= 1
-            else:
-                crosscheck_status = "ARCHIVE_TIMESTAMP_UNPARSEABLE_SCHEDULE_FALLBACK"
-
         if same_time_labels:
             same_time_cluster_count += 1
 
-        if release_utc is None:
-            unresolved_event_time_count += 1
-        else:
-            hours = required_tick_hours(release_utc)
-            required_count = len(hours)
-            requested_hours.update(hours)
-            event_times: list[datetime] = []
-            for hour_start in hours:
-                if inside_hyp0005_protected(hour_start):
-                    protected_source_requests += 1
-                    raise PreparationError("HYP-0005 protected source request attempted")
-                if hour_start not in tick_cache:
-                    tick_cache[hour_start] = download_tick_hour(hour_start)
-                    if tick_cache[hour_start] is not None:
-                        metadata, _times = tick_cache[hour_start]
-                        tick_objects.append(metadata)
-                downloaded_tick = tick_cache[hour_start]
-                if downloaded_tick is None:
-                    missing_count += 1
-                    missing_hour_count_total += 1
-                    continue
-                _metadata, times = downloaded_tick
-                event_times.extend(times)
+        progress(f"[event {index}/{total}] {release_date.isoformat()}")
 
-            geometry_values = event_geometry(event_times, release_utc)
-            if geometry_values["quote_geometry_status"] == "COMPLETE_TIMESTAMP_GEOMETRY":
-                complete_geometry_count += 1
+        hours = required_tick_hours(release_utc)
+        required_count = len(hours)
+        requested_hours.update(hours)
+        event_times: list[datetime] = []
+        missing_count = 0
 
+        for hour_start in hours:
+            if inside_hyp0005_protected(hour_start):
+                protected_source_requests += 1
+                raise PreparationError("HYP-0005 protected source request attempted")
+            if hour_start not in tick_cache:
+                tick_cache[hour_start] = download_tick_hour(hour_start)
+                if tick_cache[hour_start] is not None:
+                    metadata, _times = tick_cache[hour_start]
+                    tick_objects.append(metadata)
+            downloaded_tick = tick_cache[hour_start]
+            if downloaded_tick is None:
+                missing_count += 1
+                missing_hour_count_total += 1
+                continue
+            _metadata, times = downloaded_tick
+            event_times.extend(times)
+
+        geometry_values = event_geometry(event_times, release_utc)
+        if geometry_values["quote_geometry_status"] == "COMPLETE_TIMESTAMP_GEOMETRY":
+            complete_geometry_count += 1
+
+        source_sha = str(candidate["source_snapshot_sha256"])
         event_records.append(
             EventRecord(
-                event_id=archive_name.removesuffix(".htm"),
+                event_id=f"BLS-CPI-{release_date:%Y%m%d}",
                 archive_release_date=release_date.isoformat(),
-                archive_url=archive_url,
-                archive_sha256=archive_sha,
-                archive_zone_label=zone_label,
-                archive_local_time=archive_local_time,
-                release_time_utc=iso_z(release_utc) if release_utc else None,
-                release_time_status=release_status,
-                schedule_crosscheck_status=crosscheck_status,
+                archive_url=str(candidate["source_url"]),
+                archive_sha256=source_sha,
+                archive_zone_label="ET",
+                archive_local_time=f"{release_date.isoformat()} {schedule_clock}",
+                release_time_utc=iso_z(release_utc),
+                release_time_status="RESOLVED_FROZEN_BLS_SCHEDULE_SNAPSHOT",
+                schedule_crosscheck_status="FROZEN_OFFICIAL_SCHEDULE",
                 same_time_bls_labels=same_time_labels,
                 required_tick_object_count=required_count,
                 missing_tick_object_count=missing_count,
