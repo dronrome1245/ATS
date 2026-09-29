@@ -107,6 +107,8 @@ HYP0006_DATA_FEASIBILITY = "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
 HYP0006_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
 HYP0006_DATA_FEASIBILITY_TOOL = "tools/hyp0006_data_feasibility.py"
 HYP0006_DATA_FEASIBILITY_TEST = "tests/test_hyp0006_data_feasibility.py"
+HYP0006_BLS_SNAPSHOT_MANIFEST = "data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
+HYP0006_BLS_SNAPSHOT_INTAKE = "research/reviews/HYP-0006-BLS-SNAPSHOT-INTAKE.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -302,6 +304,8 @@ def configure() -> None:
         HYP0006_DATA_FEASIBILITY_PREP,
         HYP0006_DATA_FEASIBILITY_TOOL,
         HYP0006_DATA_FEASIBILITY_TEST,
+        HYP0006_BLS_SNAPSHOT_MANIFEST,
+        HYP0006_BLS_SNAPSHOT_INTAKE,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -376,6 +380,8 @@ def configure() -> None:
         "strategy_5_data_feasibility_prep",
         "strategy_5_data_feasibility_tool",
         "strategy_5_data_feasibility_test",
+        "strategy_5_bls_snapshot_manifest",
+        "strategy_5_bls_snapshot_intake",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
