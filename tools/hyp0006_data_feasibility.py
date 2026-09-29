@@ -944,31 +944,60 @@ def prepare() -> dict[str, Any]:
     protected_source_requests = 0
     schedule_mismatch_count = 0
     schedule_match_count = 0
+    schedule_fallback_count = 0
+    archive_header_count = 0
+    archive_access_denied_count = 0
     same_time_cluster_count = 0
     unresolved_event_time_count = 0
     complete_geometry_count = 0
+    archive_access_denied = False
 
     tick_cache: dict[datetime, tuple[TickObject, list[datetime]] | None] = {}
 
     total = len(candidates)
-    for index, (release_date, archive_url) in enumerate(candidates, start=1):
+    for index, candidate in enumerate(candidates, start=1):
+        release_date = candidate["date"]
+        if not isinstance(release_date, date):
+            raise PreparationError("CPI candidate release date has invalid type")
+        archive_url = str(candidate["archive_url"])
+        schedule_clock = str(candidate["clock"])
+        schedule_entries_for_year = schedule_by_year.get(release_date.year, [])
+        schedule_local_dt = schedule_local_datetime(candidate)
+        schedule_release_utc = eastern_local_to_utc(schedule_local_dt, "ET")
+        schedule_local_text = schedule_local_dt.strftime("%Y-%m-%d %H:%M")
+
         progress(f"[event {index}/{total}] {release_date.isoformat()}")
         archive_name = Path(archive_url).name
         archive_path = RAW_BLS_ROOT / "releases" / archive_name
-        archive_download = cached_or_fetch_any(
-            (archive_url,),
-            archive_path,
-            f"BLS CPI archive {archive_name}",
-            missing_ok=True,
-        )
+        archive_download: tuple[Path, dict[str, str]] | None = None
+        if not archive_access_denied:
+            try:
+                archive_download = cached_or_fetch_any(
+                    (archive_url,),
+                    archive_path,
+                    f"BLS CPI archive {archive_name}",
+                    missing_ok=True,
+                )
+            except SourceAccessDeniedError:
+                archive_access_denied = True
+                archive_access_denied_count += 1
+                progress(
+                    "[BLS] archived release pages denied automated access; "
+                    "using official annual schedule fallback"
+                )
 
         archive_sha: str | None = None
-        zone_label: str | None = None
-        archive_local_time: str | None = None
-        release_utc: datetime | None = None
-        release_status = "ARCHIVE_PAGE_UNAVAILABLE"
-        crosscheck_status = "NOT_RUN"
-        same_time_labels: tuple[str, ...] = ()
+        zone_label = "ET"
+        archive_local_time = schedule_local_text
+        release_utc: datetime | None = schedule_release_utc
+        release_status = "RESOLVED_OFFICIAL_SCHEDULE_FALLBACK"
+        crosscheck_status = "SCHEDULE_OFFICIAL_FALLBACK"
+        same_time_labels = same_time_schedule_labels(
+            schedule_entries_for_year,
+            release_date,
+            schedule_clock,
+        )
+        schedule_fallback_count += 1
         required_count = 0
         missing_count = 0
         geometry_values: dict[str, int | None | str] = {
@@ -994,53 +1023,59 @@ def prepare() -> dict[str, Any]:
             )
             parsed = parse_archive_release_time(page_path.read_bytes(), release_date)
             if parsed is not None:
-                release_utc, zone_label, archive_local_time = parsed
-                if not DEVELOPMENT_START <= release_utc < DEVELOPMENT_END:
+                archive_release_utc, archive_zone_label, archive_time_text = parsed
+                if not DEVELOPMENT_START <= archive_release_utc < DEVELOPMENT_END:
                     raise PreparationError(
-                        f"resolved event outside frozen interval: {iso_z(release_utc)}"
+                        f"resolved event outside frozen interval: {iso_z(archive_release_utc)}"
                     )
-                release_status = "RESOLVED_OFFICIAL_ARCHIVE_TIME"
                 crosscheck_status, same_time_labels = schedule_crosscheck(
-                    schedule_by_year.get(release_date.year, []),
+                    schedule_entries_for_year,
                     release_date,
-                    archive_local_time,
+                    archive_time_text,
                 )
                 if crosscheck_status == "MATCH":
                     schedule_match_count += 1
                 elif crosscheck_status == "SCHEDULE_TIME_MISMATCH":
                     schedule_mismatch_count += 1
-                if same_time_labels:
-                    same_time_cluster_count += 1
-
-                hours = required_tick_hours(release_utc)
-                required_count = len(hours)
-                requested_hours.update(hours)
-                event_times: list[datetime] = []
-                for hour_start in hours:
-                    if inside_hyp0005_protected(hour_start):
-                        protected_source_requests += 1
-                        raise PreparationError("HYP-0005 protected source request attempted")
-                    if hour_start not in tick_cache:
-                        tick_cache[hour_start] = download_tick_hour(hour_start)
-                        if tick_cache[hour_start] is not None:
-                            metadata, _times = tick_cache[hour_start]
-                            tick_objects.append(metadata)
-                    downloaded_tick = tick_cache[hour_start]
-                    if downloaded_tick is None:
-                        missing_count += 1
-                        missing_hour_count_total += 1
-                        continue
-                    _metadata, times = downloaded_tick
-                    event_times.extend(times)
-
-                geometry_values = event_geometry(event_times, release_utc)
-                if geometry_values["quote_geometry_status"] == "COMPLETE_TIMESTAMP_GEOMETRY":
-                    complete_geometry_count += 1
+                release_utc = archive_release_utc
+                zone_label = archive_zone_label
+                archive_local_time = archive_time_text
+                release_status = "RESOLVED_OFFICIAL_ARCHIVE_TIME"
+                archive_header_count += 1
+                schedule_fallback_count -= 1
             else:
-                release_status = "UNRESOLVED_ARCHIVE_TIMESTAMP"
+                crosscheck_status = "ARCHIVE_TIMESTAMP_UNPARSEABLE_SCHEDULE_FALLBACK"
+
+        if same_time_labels:
+            same_time_cluster_count += 1
 
         if release_utc is None:
             unresolved_event_time_count += 1
+        else:
+            hours = required_tick_hours(release_utc)
+            required_count = len(hours)
+            requested_hours.update(hours)
+            event_times: list[datetime] = []
+            for hour_start in hours:
+                if inside_hyp0005_protected(hour_start):
+                    protected_source_requests += 1
+                    raise PreparationError("HYP-0005 protected source request attempted")
+                if hour_start not in tick_cache:
+                    tick_cache[hour_start] = download_tick_hour(hour_start)
+                    if tick_cache[hour_start] is not None:
+                        metadata, _times = tick_cache[hour_start]
+                        tick_objects.append(metadata)
+                downloaded_tick = tick_cache[hour_start]
+                if downloaded_tick is None:
+                    missing_count += 1
+                    missing_hour_count_total += 1
+                    continue
+                _metadata, times = downloaded_tick
+                event_times.extend(times)
+
+            geometry_values = event_geometry(event_times, release_utc)
+            if geometry_values["quote_geometry_status"] == "COMPLETE_TIMESTAMP_GEOMETRY":
+                complete_geometry_count += 1
 
         event_records.append(
             EventRecord(
