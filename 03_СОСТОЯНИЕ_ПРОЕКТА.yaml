@@ -119,13 +119,16 @@ model:
   strategy_5_idea: "research/ideas/IDEA-0005.md"
   strategy_5_hypothesis: "research/hypotheses/HYP-0006.md"
   strategy_5_data_feasibility: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
+  strategy_5_data_feasibility_prep: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
+  strategy_5_data_feasibility_tool: "tools/hyp0006_data_feasibility.py"
+  strategy_5_data_feasibility_test: "tests/test_hyp0006_data_feasibility.py"
 
 current:
-  focus: "RF-023 remains externally source-blocked; RF-025 closed exact-main PASS; RF-026 is HYP-0006 conditional Data Feasibility; no HYP-0005 or HYP-0006 outcome has been computed"
-  last_completed_task_id: "ATS2-RF-025"
-  last_completed_artifact: "research/hypotheses/HYP-0006.md"
-  next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
-  next_task_id: "ATS2-RF-026"
+  focus: "RF-026 closed exact-main PASS; RF-027 is HYP-0006 event/tick geometry preparation; no HYP-0005 or HYP-0006 outcome has been computed"
+  last_completed_task_id: "ATS2-RF-026"
+  last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
+  next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
+  next_task_id: "ATS2-RF-027"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -384,6 +387,7 @@ research_factory:
     - "ATS2-RF-021"
     - "ATS2-RF-022"
     - "ATS2-RF-025"
+    - "ATS2-RF-026"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -420,9 +424,10 @@ research_factory:
     - "research/hypotheses/HYP-0005.md"
     - "research/ideas/IDEA-0005.md"
     - "research/hypotheses/HYP-0006.md"
-  current_task: "ATS2-RF-026"
+    - "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
+  current_task: "ATS2-RF-027"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-027"
+  next_task: "ATS2-RF-028"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -580,6 +585,10 @@ research_factory:
   strategy_5_quote_source_candidate: "DUKASCOPY_EURUSD_TICK"
   strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"
   strategy_5_prototype_authorized: false
+  rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"
+  strategy_5_data_feasibility_prep_status: "RF027_PROTOCOL_FROZEN_PENDING_OWNER_PREPARATION"
+  strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"
+  strategy_5_protected_hyp0005_source_requests: 0
   active_idea_id: "IDEA-0004"
   active_hypothesis_id: "HYP-0005"
   parallel_active_idea_id: "IDEA-0005"
@@ -588,7 +597,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-026"
+  current_ready_task: "ATS2-RF-027"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
