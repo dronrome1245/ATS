@@ -168,6 +168,28 @@ def test_schedule_candidates_preserve_frozen_development_interval() -> None:
     assert candidates[1]["source_snapshot_relative_path"].endswith("2021.html")
 
 
+def test_duplicate_schedule_event_prefers_release_calendar_year() -> None:
+    duplicate = {
+        "date": date(2004, 1, 15),
+        "clock": "08:30",
+        "label": "Consumer Price Index, December 2003",
+    }
+    schedule_by_year = {
+        2003: [dict(duplicate)],
+        2004: [dict(duplicate)],
+    }
+    source_by_year = {
+        2003: source_object(2003),
+        2004: source_object(2004),
+    }
+
+    candidates = feasibility.cpi_schedule_candidates(schedule_by_year, source_by_year)
+
+    assert len(candidates) == 1
+    assert candidates[0]["source_year"] == 2004
+    assert candidates[0]["source_snapshot_relative_path"].endswith("2004.html")
+
+
 def test_bls_calendar_csv_contains_only_event_identity_and_provenance(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
