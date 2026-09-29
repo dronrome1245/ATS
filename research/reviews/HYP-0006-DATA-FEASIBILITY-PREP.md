@@ -29,15 +29,28 @@ independent evidence for HYP-0006.
 
 ## Official event denominator
 
-Primary inventory source:
+Canonical inventory source after the proven archive-index access blocker:
 
-`https://www.bls.gov/bls/news-release/cpi.htm`
+`https://www.bls.gov/schedule/{YEAR}/home.htm`
 
-RF-027 parses every archived CPI HTML release link whose release date falls inside the frozen
+for calendar years 2003 through 2021.
+
+RF-027 parses every official CPI schedule row whose release timestamp falls inside the frozen
 development interval. No event is removed because of future EUR/USD behavior.
 
-For each candidate event RF-027 fetches the linked archived CPI release and extracts the
-embargo/publication timestamp from the release header.
+For each scheduled CPI event RF-027 deterministically derives the official archived-release URL from
+the release date and attempts to read the archived CPI embargo/publication header.
+
+Timestamp source order:
+
+`ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK`
+
+- if the direct archived CPI release is accessible and its timestamp is unambiguous, that timestamp
+  is used;
+- if direct archived-release access is denied or the timestamp is unavailable, the official annual
+  schedule date/time is used;
+- if an accessible archive header disagrees with the annual schedule, the event is flagged as
+  `OFFICIAL_TIME_CROSSCHECK_MISMATCH`.
 
 Allowed archive time-zone labels:
 
@@ -46,6 +59,8 @@ Allowed archive time-zone labels:
 - `ET`.
 
 `EST` is converted at UTC-05:00 and `EDT` at UTC-04:00.
+
+Annual-schedule times are interpreted as U.S. Eastern Time.
 
 For generic `ET`, RF-027 applies the historical U.S. Eastern DST rule:
 
@@ -56,20 +71,9 @@ For generic `ET`, RF-027 applies the historical U.S. Eastern DST rule:
 
 The archived release date must agree with the date encoded in its official archive URL.
 
-## BLS schedule cross-check and same-time releases
+## BLS same-time releases
 
-For every calendar year represented by the event inventory, RF-027 also fetches:
-
-`https://www.bls.gov/schedule/{YEAR}/home.htm`
-
-The schedule is a cross-check, not a performance filter.
-
-RF-027 records:
-
-- whether the CPI schedule row is found;
-- schedule local release time;
-- whether schedule time agrees with the archive header;
-- other BLS release labels on the same date and local clock time.
+RF-027 records other official BLS release labels scheduled for the same date and local clock time.
 
 Same-time policy remains:
 
@@ -148,10 +152,13 @@ pre-reveal freeze task.
 
 ## Missing and failure semantics
 
-- BLS archive index network failure: technical blocker.
-- Archive link present but release page unavailable: event remains in denominator and time is unresolved.
-- Archive timestamp cannot be parsed unambiguously: event remains unresolved.
-- Schedule page unavailable/unparseable: cross-check is unresolved; archive timestamp remains primary.
+- Annual BLS schedule page unavailable/unparseable: technical blocker for the affected year.
+- Direct archived CPI release HTTP 403/404/410: retain the event and use the official annual-schedule
+  timestamp fallback.
+- Direct archive timestamp unavailable/unparseable: retain the event and use the official annual-
+  schedule timestamp fallback.
+- Accessible archive timestamp that disagrees with the schedule: blocking
+  `OFFICIAL_TIME_CROSSCHECK_MISMATCH`.
 - Dukascopy `404/410` or an empty tick object: source object is recorded missing.
 - Timeout, reset, `5xx`, decompression failure or malformed binary structure: technical blocker.
 - Out-of-order tick timestamp: blocking source-integrity failure.
@@ -184,9 +191,9 @@ The geometry CSV must contain no BID, ASK, midpoint, return or P&L field.
 
 `READY_FOR_DATA_FEASIBILITY_FREEZE`
 
-The event denominator is non-empty, every candidate archive release time is resolved, no official
-schedule-time mismatch is found, source acquisition completed without technical ambiguity, and at
-least one event has complete timestamp geometry around all three HYP-0006 anchors.
+The event denominator is non-empty, every candidate event has an official BLS release timestamp,
+no accessible archive/schedule mismatch is found, source acquisition completed without technical
+ambiguity, and at least one event has complete timestamp geometry around all three HYP-0006 anchors.
 
 This decision authorizes only the next pre-reveal freeze review.
 
