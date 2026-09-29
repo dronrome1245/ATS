@@ -46,6 +46,14 @@ Frozen before outcome inspection:
 
 ## RF-026 closure
 
+Canonical completed artifact:
+
+`research/reviews/HYP-0006-DATA-FEASIBILITY.md`
+
+Current next artifact:
+
+`research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md`
+
 RF-026 closed exact-main PASS on:
 
 `5e0ff9e4481e5dc28c14a73adcf32433715973a3`
