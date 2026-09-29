@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the verification package for ATS2-RF-025 on exact main."""
+"""Run the verification package for ATS2-RF-026 on exact main."""
 
 from __future__ import annotations
 
@@ -8,35 +8,34 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TASK_ID = "ATS2-RF-025"
-TASK_NAME = "Parallel Strategy #5 Idea Intake + HYP-0006 formation"
+TASK_ID = "ATS2-RF-026"
+TASK_NAME = "HYP-0006 Data Feasibility"
 
-IDEA = Path("research/ideas/IDEA-0005.md")
 HYPOTHESIS = Path("research/hypotheses/HYP-0006.md")
+REVIEW = Path("research/reviews/HYP-0006-DATA-FEASIBILITY.md")
 STATE = Path("03_СОСТОЯНИЕ_ПРОЕКТА.yaml")
 BACKLOG = Path("governance/backlog/PROGRAM_BACKLOG_V2.md")
 HANDOFF = Path("AI_HANDOFF.md")
 NEXT_STEP = Path("02_СЛЕДУЮЩИЙ_ШАГ.md")
 STATUS = Path("01_СТАТУС_ПРОЕКТА.md")
 
-HYP0005_FROZEN_BLOBS = {
+FROZEN_BLOBS = {
     "research/hypotheses/HYP-0005.md": "ebbbc89187c911485c1568dc11f5f2f9e703718a",
     "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md": (
         "c15b2b67700dd46fc592f1208731ce6b42f6905c"
     ),
     "tools/hyp0005_data_feasibility.py": "310b23213876304ade674ef36ba17ce6d457353f",
     "tests/test_hyp0005_data_feasibility.py": "12697882da682eab699bf5b7debd7c358e56aca9",
+    "research/hypotheses/HYP-0006.md": "6b3f260ceacd98adf7a6aa44205404e68e4fd4ca",
 }
 
-PROHIBITED_RF025_OUTPUT_PATTERNS = (
-    "research/reviews/HYP-0006*",
-    "reports/research/HYP-0006*",
-    "data/manifests/*HYP0006*",
-    "data/manifests/*HYP-0006*",
-    "data/derived/*HYP0006*",
-    "data/derived/*HYP-0006*",
-    "tools/hyp0006*",
-    "tests/test_hyp0006*",
+PROHIBITED_RF026_PATHS = (
+    Path("research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"),
+    Path("data/manifests/DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001.yaml"),
+    Path("data/derived/HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv"),
+    Path("tools/hyp0006_data_feasibility.py"),
+    Path("tests/test_hyp0006_data_feasibility.py"),
+    Path("reports/research/HYP-0006-DATA-FEASIBILITY-PREP-result.json"),
 )
 
 
@@ -67,30 +66,29 @@ def run(name: str, command: list[str]) -> bool:
 def require_markers(path: Path, markers: tuple[str, ...]) -> bool:
     full_path = ROOT / path
     if not full_path.is_file():
-        print(f"[FAIL] missing RF-025 artifact: {path}", flush=True)
+        print(f"[FAIL] missing RF-026 artifact: {path}", flush=True)
         return False
     content = full_path.read_text(encoding="utf-8")
     for marker in markers:
         if marker not in content:
-            print(f"[FAIL] RF-025 marker missing in {path}: {marker}", flush=True)
+            print(f"[FAIL] RF-026 marker missing in {path}: {marker}", flush=True)
             return False
     return True
 
 
-def check_hyp0005_immutability() -> bool:
-    print("\n== HYP-0005 frozen-line immutability ==", flush=True)
+def check_frozen_lineage() -> bool:
+    print("\n== RF-026 frozen HYP-0005/HYP-0006 lineage ==", flush=True)
     passed = True
-    for relative, expected_blob in HYP0005_FROZEN_BLOBS.items():
+    for relative, expected_blob in FROZEN_BLOBS.items():
         path = ROOT / relative
         if not path.is_file():
-            print(f"[FAIL] frozen HYP-0005 artifact missing: {relative}", flush=True)
+            print(f"[FAIL] frozen artifact missing: {relative}", flush=True)
             passed = False
             continue
         actual_blob = git_output("rev-parse", f"HEAD:{relative}")
         if actual_blob != expected_blob:
             print(
-                f"[FAIL] frozen HYP-0005 artifact changed: {relative} "
-                f"({actual_blob} != {expected_blob})",
+                f"[FAIL] frozen artifact changed: {relative} ({actual_blob} != {expected_blob})",
                 flush=True,
             )
             passed = False
@@ -99,69 +97,52 @@ def check_hyp0005_immutability() -> bool:
     return passed
 
 
-def check_no_hyp0006_outcome_artifacts() -> bool:
-    print("\n== HYP-0006 pre-result information boundary ==", flush=True)
-    matches: list[str] = []
-    for pattern in PROHIBITED_RF025_OUTPUT_PATTERNS:
-        matches.extend(str(path.relative_to(ROOT)) for path in ROOT.glob(pattern) if path.is_file())
-    if matches:
-        for relative in sorted(set(matches)):
+def check_no_premature_rf027_artifacts() -> bool:
+    print("\n== HYP-0006 RF-026 information boundary ==", flush=True)
+    found = [str(path) for path in PROHIBITED_RF026_PATHS if (ROOT / path).exists()]
+    if found:
+        for relative in found:
             print(
-                f"[FAIL] RF-025 must not create downstream/outcome artifact: {relative}",
+                f"[FAIL] RF-026 must not pre-create RF-027/outcome artifact: {relative}",
                 flush=True,
             )
         return False
-    print(
-        "[PASS] no HYP-0006 Data Feasibility, runner, dataset or outcome artifact exists",
-        flush=True,
-    )
+    print("[PASS] no RF-027 dataset/runner/result artifact exists", flush=True)
     return True
 
 
-def check_rf025_contract() -> bool:
-    print("\n== RF-025 staged lineage and hypothesis contract ==", flush=True)
+def check_rf026_contract() -> bool:
+    print("\n== RF-026 conditional Data Feasibility contract ==", flush=True)
 
-    idea_ok = require_markers(
-        IDEA,
+    review_ok = require_markers(
+        REVIEW,
         (
-            "Idea ID: `IDEA-0005`",
-            "Status: `SCREENING`",
-            "S4-FAM-02 - Macroeconomic announcement response",
-            "EVENT_CONDITIONAL_ABSOLUTE_RETURN_SHIFT",
-            "Decision: `SCREEN`",
-            "two new Material Research Attempts",
-            "The frozen HYP-0005 unseen segments are unavailable",
-            "research/hypotheses/HYP-0006.md",
-        ),
-    )
-    hypothesis_ok = require_markers(
-        HYPOTHESIS,
-        (
+            "Task: `ATS2-RF-026`",
             "Hypothesis ID: `HYP-0006`",
-            "Parent Idea ID: `IDEA-0005`",
-            "Status: `READY_FOR_DATA_FEASIBILITY`",
-            "scheduled U.S. Consumer Price Index",
-            "PREVIOUS_60_MINUTES",
-            "NEXT_60_MINUTES",
-            "median(post_abs_60m_return) > median(pre_abs_60m_return)",
-            "No quote timestamp at or after `t` may serve as `PRE_RELEASE_ANCHOR`",
-            "HYP-0005 frozen unseen segments used by HYP-0006 formation: `0`",
-            "HYP-0006 market outcomes inspected before formation: `0`",
+            "Review status: `CONDITIONAL`",
+            "U.S. Bureau of Labor Statistics",
+            "Dukascopy historical EUR/USD tick data",
+            "2003-08-03T21:00:00Z <= release_time < 2021-09-01T00:00:00Z",
+            "DEVELOPMENT / EXPLORATORY ONLY",
+            "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
             "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-            "ATS2-RF-026 — HYP-0006 Data Feasibility",
+            "Prototype authorization:",
+            "`NOT_YET_AUTHORIZED`",
+            "ATS2-RF-027 — HYP-0006 Data Feasibility preparation",
         ),
     )
     state_ok = require_markers(
         STATE,
         (
-            'next_task_id: "ATS2-RF-025"',
-            'current_task: "ATS2-RF-025"',
-            'next_task: "ATS2-RF-026"',
-            "current_strategy_sequence: 5",
-            'strategy_5_idea_id: "IDEA-0005"',
-            'strategy_5_hypothesis_id: "HYP-0006"',
-            "strategy_5_material_research_attempts_registered: 2",
-            "strategy_5_hyp0005_protected_segments_consumed: false",
+            'last_completed_task_id: "ATS2-RF-025"',
+            'next_task_id: "ATS2-RF-026"',
+            'current_task: "ATS2-RF-026"',
+            'next_task: "ATS2-RF-027"',
+            'rf025_verified_commit: "9b0a6c8898a7ebf9b03167a871ad02af96ca2807"',
+            'strategy_5_data_feasibility_decision: "CONDITIONAL"',
+            'strategy_5_development_start: "2003-08-03T21:00:00Z"',
+            'strategy_5_development_end_exclusive: "2021-09-01T00:00:00Z"',
+            "strategy_5_prototype_authorized: false",
             "strategy_5_outcome_computed: false",
             'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
             'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
@@ -170,59 +151,55 @@ def check_rf025_contract() -> bool:
     backlog_ok = require_markers(
         BACKLOG,
         (
-            "`ATS2-RF-023`",
-            "`ATS2-RF-024`",
             "`ATS2-RF-025`",
+            "DONE / PASS",
             "`ATS2-RF-026`",
-            "two Material Research Attempts",
-            "preserve all HYP-0005 frozen artifacts",
+            "`ATS2-RF-027`",
+            "Data Feasibility preparation",
+            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         ),
     )
-    handoff_ok = require_markers(
-        HANDOFF,
+    docs_ok = all(
         (
-            "ATS2-RF-025",
-            "IDEA-0005",
-            "HYP-0006",
-            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-            "NO_CONFIRMATORY_OUTCOME_COMPUTED",
-            "RF-023 remains separately open",
-        ),
-    )
-    next_ok = require_markers(
-        NEXT_STEP,
-        (
-            "ATS2-RF-025",
-            "ATS2-RF-026",
-            ".\\ATS_AGENT_PREFLIGHT.bat",
-            ".\\ATS_TASK_CHECK.bat",
-            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-            "NO_CONFIRMATORY_OUTCOME_COMPUTED",
-        ),
-    )
-    status_ok = require_markers(
-        STATUS,
-        (
-            "ATS2-RF-025",
-            "IDEA-0005",
-            "HYP-0006",
-            "NEW_IDEA_FROM_RETAINED_RESEARCH_FAMILY",
-            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-            "NO_CONFIRMATORY_OUTCOME_COMPUTED",
-        ),
+            require_markers(
+                HANDOFF,
+                (
+                    "ATS2-RF-026",
+                    "HYP-0006-DATA-FEASIBILITY.md",
+                    "CONDITIONAL",
+                    "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+                    "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+                ),
+            ),
+            require_markers(
+                NEXT_STEP,
+                (
+                    "ATS2-RF-026",
+                    "ATS2-RF-027",
+                    "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+                    "agent/rf026-hyp0006-data-feasibility",
+                ),
+            ),
+            require_markers(
+                STATUS,
+                (
+                    "ATS2-RF-026",
+                    "CONDITIONAL",
+                    "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+                    "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+                ),
+            ),
+        )
     )
 
     return all(
         (
-            idea_ok,
-            hypothesis_ok,
+            review_ok,
             state_ok,
             backlog_ok,
-            handoff_ok,
-            next_ok,
-            status_ok,
-            check_hyp0005_immutability(),
-            check_no_hyp0006_outcome_artifacts(),
+            docs_ok,
+            check_frozen_lineage(),
+            check_no_premature_rf027_artifacts(),
         )
     )
 
@@ -230,23 +207,23 @@ def check_rf025_contract() -> bool:
 def main() -> int:
     print("ATS CURRENT TASK CHECK")
     print(f"Task: {TASK_ID} — {TASK_NAME}")
-    commit = git_output("rev-parse", "HEAD")
     branch = git_output("branch", "--show-current")
+    commit = git_output("rev-parse", "HEAD")
     print(f"Branch: {branch or '<detached>'}")
     print(f"Commit: {commit}")
 
     emit_progress(40)
-    staged = check_rf025_contract()
+    staged = check_rf026_contract()
 
     emit_progress(60)
     governance = run(
-        "RF-025 repository governance validation",
+        "RF-026 repository governance validation",
         [sys.executable, "tools/validate_repo.py"],
     )
 
     emit_progress(80)
     full_ci = run(
-        "full ATS Local CI for RF-025",
+        "full ATS Local CI for RF-026",
         [sys.executable, "tools/verify_repo.py"],
     )
 
@@ -254,8 +231,8 @@ def main() -> int:
     if passed:
         emit_progress(100)
 
-    print("\nHYP-0005 outcome computed by RF-025: NO", flush=True)
-    print("HYP-0006 outcome computed by RF-025: NO", flush=True)
+    print("\nHYP-0005 outcome computed by RF-026: NO", flush=True)
+    print("HYP-0006 outcome computed by RF-026: NO", flush=True)
     print(f"\nATS CURRENT TASK CHECK: {'PASS' if passed else 'FAIL'}", flush=True)
     return 0 if passed else 1
 

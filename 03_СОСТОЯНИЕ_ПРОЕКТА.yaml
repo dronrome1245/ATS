@@ -118,13 +118,14 @@ model:
   strategy_4_confirmatory_data_feasibility_test: "tests/test_hyp0005_data_feasibility.py"
   strategy_5_idea: "research/ideas/IDEA-0005.md"
   strategy_5_hypothesis: "research/hypotheses/HYP-0006.md"
+  strategy_5_data_feasibility: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
 
 current:
-  focus: "RF-023 remains externally source-blocked; RF-025 is the executable parallel Strategy #5 lineage-registration task; no HYP-0005 or HYP-0006 outcome has been computed"
-  last_completed_task_id: "ATS2-RF-022"
-  last_completed_artifact: "research/hypotheses/HYP-0005.md"
-  next_artifact: "research/hypotheses/HYP-0006.md"
-  next_task_id: "ATS2-RF-025"
+  focus: "RF-023 remains externally source-blocked; RF-025 closed exact-main PASS; RF-026 is HYP-0006 conditional Data Feasibility; no HYP-0005 or HYP-0006 outcome has been computed"
+  last_completed_task_id: "ATS2-RF-025"
+  last_completed_artifact: "research/hypotheses/HYP-0006.md"
+  next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
+  next_task_id: "ATS2-RF-026"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -382,6 +383,7 @@ research_factory:
     - "ATS2-RF-020"
     - "ATS2-RF-021"
     - "ATS2-RF-022"
+    - "ATS2-RF-025"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -416,9 +418,11 @@ research_factory:
     - "tests/test_hyp0004_proto01.py"
     - "reports/research/HYP-0004-PROTOTYPE-01-result.json"
     - "research/hypotheses/HYP-0005.md"
-  current_task: "ATS2-RF-025"
+    - "research/ideas/IDEA-0005.md"
+    - "research/hypotheses/HYP-0006.md"
+  current_task: "ATS2-RF-026"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-026"
+  next_task: "ATS2-RF-027"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -566,7 +570,16 @@ research_factory:
   strategy_5_hyp0005_protected_segments_consumed: false
   strategy_5_outcome_computed: false
   strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"
-  strategy_5_research_line_status: "HYPOTHESIS_FORMED_READY_FOR_DATA_FEASIBILITY"
+  strategy_5_research_line_status: "HYPOTHESIS_FORMED_DATA_FEASIBILITY_CONDITIONAL"
+  rf025_verified_commit: "9b0a6c8898a7ebf9b03167a871ad02af96ca2807"
+  strategy_5_data_feasibility_decision: "CONDITIONAL"
+  strategy_5_data_feasibility_status: "CONDITIONAL"
+  strategy_5_development_start: "2003-08-03T21:00:00Z"
+  strategy_5_development_end_exclusive: "2021-09-01T00:00:00Z"
+  strategy_5_event_source_candidate: "BLS_OFFICIAL_CPI_RELEASE_SCHEDULE_AND_ARCHIVE"
+  strategy_5_quote_source_candidate: "DUKASCOPY_EURUSD_TICK"
+  strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"
+  strategy_5_prototype_authorized: false
   active_idea_id: "IDEA-0004"
   active_hypothesis_id: "HYP-0005"
   parallel_active_idea_id: "IDEA-0005"
@@ -575,7 +588,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-025"
+  current_ready_task: "ATS2-RF-026"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
