@@ -81,6 +81,12 @@ Backlog превращает Program WBS в исполнимую очередь 
 
 Program-level current next task — `ATS2-RF-027`.
 
+
+RF-027 exact-main attempt on `a4c6331949e9c71fc68eb1baa870d20a03518d48` passed Local CI but was
+technically blocked before event acquisition by official BLS HTTP 403. This is not a HYP-0006
+result. The same RF-027 line is correcting only BLS automated-access mechanics under the unchanged
+official source/event-denominator contract.
+
 RF-023 remains separately open under Strategy #4 and retains its frozen HYP-0005 contract. Its external source-availability blocker is not treated as a negative HYP-0005 result and is not bypassed by RF-025.
 
 ## 3. M0 / M1
