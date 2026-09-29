@@ -82,6 +82,12 @@ Backlog превращает Program WBS в исполнимую очередь 
 Program-level current next task — `ATS2-RF-027`.
 
 
+RF-027 second exact-main attempt on `2ce019bb51b0e45e900c0555ed44be5a3433e23a` again hit
+official BLS archive-index HTTP 403 before event acquisition. The same RF-027 line now stages an
+official annual-schedule inventory fallback with archive-header timestamp preferred and no
+third-party event source.
+
+
 RF-027 exact-main attempt on `a4c6331949e9c71fc68eb1baa870d20a03518d48` passed Local CI but was
 technically blocked before event acquisition by official BLS HTTP 403. This is not a HYP-0006
 result. The same RF-027 line is correcting only BLS automated-access mechanics under the unchanged
