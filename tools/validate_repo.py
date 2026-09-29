@@ -129,6 +129,7 @@ ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
 LOCAL_CI_GATE = "governance/program/LOCAL_CI_GATE.md"
 LOCAL_CI_TROUBLESHOOTING = "governance/program/LOCAL_CI_TROUBLESHOOTING.md"
 LOCAL_CI_FAILURE_REGISTRY = "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"
+PROJECT_GPT_SYSTEM_INSTRUCTION = "governance/program/PROJECT_GPT_SYSTEM_INSTRUCTION.md"
 AGENT_PRE_PUSH_CHECKLIST = "governance/program/AGENT_PRE_PUSH_CHECKLIST.md"
 DATASET_MANIFEST_SPEC = "governance/program/DATASET_MANIFEST_SPEC.md"
 DATASET_MANIFEST_FILES = (
@@ -314,7 +315,8 @@ def configure() -> None:
         CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
-        LOCAL_CI_TROUBLESHOOTING, LOCAL_CI_FAILURE_REGISTRY, AGENT_PRE_PUSH_CHECKLIST,
+        LOCAL_CI_TROUBLESHOOTING, LOCAL_CI_FAILURE_REGISTRY, PROJECT_GPT_SYSTEM_INSTRUCTION,
+        AGENT_PRE_PUSH_CHECKLIST,
         DATASET_MANIFEST_SPEC,
         *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
@@ -388,6 +390,7 @@ def configure() -> None:
         "reference_strategy_1_dataset_manifest", "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
         "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
         "local_ci_failure_registry",
+        "project_gpt_system_instruction",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
