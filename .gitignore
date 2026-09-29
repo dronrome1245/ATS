@@ -39,6 +39,8 @@ reports/local_ci/HYP0004_PROTO01_RESULT.json
 reports/local_ci/HYP0004_PROTO01_RESULT_REPORT.txt
 reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP.json
 reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt
+reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP.json
+reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP_REPORT.txt
 reports/local_ci/*.lnk
 
 # Raw or licensed market data
@@ -51,6 +53,7 @@ data/derived/HYP-0002-CONFIRM-01-EURUSD-H1.csv
 data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv*
 data/derived/HYP-0004-DEV-01-EURUSD-H1.csv*
 data/derived/HYP-0005-CONF-01-EURUSD-H1.csv*
+data/derived/HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv*
 
 # Python tooling
 __pycache__/

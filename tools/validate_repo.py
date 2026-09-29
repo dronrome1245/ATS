@@ -104,6 +104,9 @@ HYP0005_DATA_FEASIBILITY_TEST = "tests/test_hyp0005_data_feasibility.py"
 STRATEGY_5_IDEA = "research/ideas/IDEA-0005.md"
 HYP0006_HYPOTHESIS = "research/hypotheses/HYP-0006.md"
 HYP0006_DATA_FEASIBILITY = "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
+HYP0006_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
+HYP0006_DATA_FEASIBILITY_TOOL = "tools/hyp0006_data_feasibility.py"
+HYP0006_DATA_FEASIBILITY_TEST = "tests/test_hyp0006_data_feasibility.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -296,6 +299,9 @@ def configure() -> None:
         STRATEGY_5_IDEA,
         HYP0006_HYPOTHESIS,
         HYP0006_DATA_FEASIBILITY,
+        HYP0006_DATA_FEASIBILITY_PREP,
+        HYP0006_DATA_FEASIBILITY_TOOL,
+        HYP0006_DATA_FEASIBILITY_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -367,6 +373,9 @@ def configure() -> None:
         "strategy_5_idea",
         "strategy_5_hypothesis",
         "strategy_5_data_feasibility",
+        "strategy_5_data_feasibility_prep",
+        "strategy_5_data_feasibility_tool",
+        "strategy_5_data_feasibility_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -1251,6 +1260,50 @@ def configure() -> None:
         "`NOT_YET_AUTHORIZED`",
         "ATS2-RF-027 — HYP-0006 Data Feasibility preparation",
     )
+    core.CONTENT_MARKERS[HYP0006_DATA_FEASIBILITY_PREP] = (
+        "Task: `ATS2-RF-027`",
+        "Status: `PREPARATION_PROTOCOL_FROZEN`",
+        "https://www.bls.gov/bls/news-release/cpi.htm",
+        "DUKASCOPY_HOURLY_TICK_BI5",
+        "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
+        "READY_FOR_DATA_FEASIBILITY_FREEZE",
+        "UNRESOLVED_OFFICIAL_EVENT_TIMES",
+        "OFFICIAL_TIME_CROSSCHECK_MISMATCH",
+        "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze",
+    )
+    core.CONTENT_MARKERS[HYP0006_DATA_FEASIBILITY_TOOL] = (
+        'TASK_ID = "ATS2-RF-027"',
+        'HYPOTHESIS_ID = "HYP-0006"',
+        'BLS_ARCHIVE_INDEX_URL = "https://www.bls.gov/bls/news-release/cpi.htm"',
+        'SOURCE_SYMBOL = "EURUSD"',
+        "HYP0005_LEFT_START",
+        "HYP0005_RIGHT_START",
+        "parse_archive_release_time",
+        "required_tick_hours",
+        "decode_tick_object",
+        "event_geometry",
+        "READY_FOR_DATA_FEASIBILITY_FREEZE",
+        "UNRESOLVED_OFFICIAL_EVENT_TIMES",
+        "OFFICIAL_TIME_CROSSCHECK_MISMATCH",
+        "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY",
+        '"outcome_metrics_computed": False',
+        '"primary_claim_evaluated": False',
+        '"information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
+    )
+    core.CONTENT_MARKERS[HYP0006_DATA_FEASIBILITY_TEST] = (
+        "test_parse_archive_index_extracts_release_dates",
+        "test_parse_archive_release_time_handles_historical_edt",
+        "test_et_conversion_uses_pre_and_post_2007_dst_rules",
+        "test_schedule_entries_and_same_time_flags",
+        "test_tick_source_url_uses_zero_based_month_and_hour_bucket",
+        "test_decode_tick_object_validates_coherent_bid_ask",
+        "test_required_tick_hours_are_bounded_and_exclude_hyp0005",
+        "test_event_geometry_uses_timestamps_only_and_requires_strict_pre_release",
+        "test_geometry_output_schema_contains_no_price_or_outcome_fields",
+        "test_preparation_decision_is_non_market_geometry_gate",
+    )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
         "PROTO-01",
@@ -1922,18 +1975,19 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-026"',
-        'TASK_NAME = "HYP-0006 Data Feasibility"',
-        "research/reviews/HYP-0006-DATA-FEASIBILITY.md",
+        'TASK_ID = "ATS2-RF-027"',
+        'TASK_NAME = "HYP-0006 Data Feasibility preparation"',
+        "HYP0006_DATA_FEASIBILITY_PREP.json",
+        "HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv",
         "FROZEN_BLOBS",
-        "PROHIBITED_RF026_PATHS",
-        "RF-026 frozen HYP-0005/HYP-0006 lineage",
-        "HYP-0006 RF-026 information boundary",
-        "RF-026 conditional Data Feasibility contract",
-        "full ATS Local CI for RF-026",
-        "HYP-0005 outcome computed by RF-026: NO",
-        "HYP-0006 outcome computed by RF-026: NO",
-        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        "ALLOWED_DECISIONS",
+        "RF-027 frozen HYP-0005/HYP-0006 lineage",
+        "RF-027 frozen preparation contract",
+        "RF-027 machine preparation result",
+        "RF-027 HYP-0006 official-event and tick geometry preparation",
+        "full ATS Local CI before RF-027 source preparation",
+        "HYP-0005 outcome computed by RF-027: NO",
+        "HYP-0006 outcome computed by RF-027: NO",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         "ATS CURRENT TASK CHECK:",
     )
@@ -1954,6 +2008,7 @@ def configure() -> None:
         "tools/hyp0003_proto01.py", "tools/hyp0004_development_data.py",
         "tools/hyp0004_proto01.py",
         "tools/hyp0005_data_feasibility.py",
+        "tools/hyp0006_data_feasibility.py",
     )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
@@ -1973,6 +2028,8 @@ def configure() -> None:
         "HYP0004_PROTO01_RESULT_REPORT.txt",
         "HYP0005_DATA_FEASIBILITY_PREP.json",
         "HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt",
+        "HYP0006_DATA_FEASIBILITY_PREP.json",
+        "HYP0006_DATA_FEASIBILITY_PREP_REPORT.txt",
         "reports/local_ci/*.lnk",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
@@ -2347,9 +2404,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-025"',
-        'current_task: "ATS2-RF-026"', 'current_ready_task: "ATS2-RF-026"',
-        'next_task: "ATS2-RF-027"',
+        'last_completed_task_id: "ATS2-RF-026"',
+        'current_task: "ATS2-RF-027"', 'current_ready_task: "ATS2-RF-027"',
+        'next_task: "ATS2-RF-028"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 5',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2477,6 +2534,10 @@ def main() -> int:
         'strategy_5_quote_source_candidate: "DUKASCOPY_EURUSD_TICK"',
         'strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"',
         'strategy_5_prototype_authorized: false',
+        'rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"',
+        'strategy_5_data_feasibility_prep_status: "RF027_PROTOCOL_FROZEN_PENDING_OWNER_PREPARATION"',
+        'strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"',
+        'strategy_5_required_protected_hyp0005_source_requests: 0',
         'active_idea_id: "IDEA-0004"',
         'active_hypothesis_id: "HYP-0005"',
         'parallel_active_idea_id: "IDEA-0005"',
@@ -2621,11 +2682,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-025") != "DONE / PASS":
         core.fail("RF-025 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-026") != "READY":
-        core.fail("RF-026 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-026") != "DONE / PASS":
+        core.fail("RF-026 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-027") != "BLOCKED":
-        core.fail("RF-027 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-027") != "READY":
+        core.fail("RF-027 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-028") != "BLOCKED":
+        core.fail("RF-028 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
