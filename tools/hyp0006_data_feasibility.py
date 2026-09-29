@@ -34,6 +34,7 @@ HYP0005_LEFT_END = datetime(2003, 8, 3, 21, tzinfo=UTC)
 HYP0005_RIGHT_START = datetime(2026, 9, 1, tzinfo=UTC)
 HYP0005_RIGHT_END = datetime(2026, 9, 26, tzinfo=UTC)
 
+BLS_ARCHIVE_INDEX_URL = "https://www.bls.gov/bls/news-release/cpi.htm"
 BLS_SNAPSHOT_MANIFEST = (
     ROOT / "data" / "reference" / "HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
 )
@@ -297,7 +298,9 @@ def request_headers(url: str) -> dict[str, str]:
 
 def fetch_bytes(url: str, timeout: int = 45) -> tuple[bytes, dict[str, str]]:
     if is_bls_url(url):
-        time.sleep(BLS_REQUEST_DELAY_SECONDS)
+        raise PreparationError(
+            "live BLS network access is disabled; use frozen local schedule snapshots"
+        )
     request = urllib.request.Request(url, headers=request_headers(url))
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
@@ -309,10 +312,6 @@ def fetch_bytes(url: str, timeout: int = 45) -> tuple[bytes, dict[str, str]]:
     except urllib.error.HTTPError as exc:
         if exc.code in {404, 410}:
             raise FileNotFoundError(url) from exc
-        if exc.code == 403 and is_bls_url(url):
-            raise SourceAccessDeniedError(
-                f"BLS HTTP 403 while fetching {url}; automated access denied"
-            ) from exc
         raise PreparationError(f"HTTP {exc.code} while fetching {url}") from exc
     except (urllib.error.URLError, OSError) as exc:
         raise PreparationError(f"network error while fetching {url}: {exc}") from exc
@@ -320,14 +319,12 @@ def fetch_bytes(url: str, timeout: int = 45) -> tuple[bytes, dict[str, str]]:
         raise FileNotFoundError(url)
     return body, headers
 
-
 def cached_or_fetch_any(
     urls: tuple[str, ...],
     destination: Path,
     label: str,
     *,
     missing_ok: bool,
-    access_denied_ok: bool = False,
 ) -> tuple[Path, dict[str, str]] | None:
     if destination.exists() and destination.stat().st_size > 0:
         return destination, {
@@ -351,10 +348,6 @@ def cached_or_fetch_any(
                 return destination, headers
             except FileNotFoundError:
                 missing_urls.add(url)
-            except SourceAccessDeniedError:
-                if access_denied_ok:
-                    return None
-                raise
             except PreparationError as exc:
                 last_error = exc
         if len(missing_urls) == len(urls):
@@ -371,7 +364,6 @@ def cached_or_fetch_any(
     if missing_ok:
         return None
     raise PreparationError(f"required source object missing: {label}")
-
 
 def visible_text(payload: bytes) -> str:
     parser = VisibleTextParser()
