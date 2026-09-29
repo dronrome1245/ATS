@@ -35,9 +35,7 @@ HYP0005_RIGHT_START = datetime(2026, 9, 1, tzinfo=UTC)
 HYP0005_RIGHT_END = datetime(2026, 9, 26, tzinfo=UTC)
 
 BLS_ARCHIVE_INDEX_URL = "https://www.bls.gov/bls/news-release/cpi.htm"
-BLS_SNAPSHOT_MANIFEST = (
-    ROOT / "data" / "reference" / "HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
-)
+BLS_SNAPSHOT_MANIFEST = ROOT / "data" / "reference" / "HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
 BLS_CALENDAR_CSV = ROOT / "data" / "derived" / "HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"
 DUKASCOPY_BASES = (
     "https://datafeed.dukascopy.com/datafeed",
@@ -290,6 +288,7 @@ def sha256_file(path: Path) -> str:
             digest.update(chunk)
     return digest.hexdigest()
 
+
 def load_bls_snapshot_manifest() -> list[dict[str, str]]:
     if not BLS_SNAPSHOT_MANIFEST.is_file():
         raise PreparationError(f"missing BLS snapshot manifest: {BLS_SNAPSHOT_MANIFEST}")
@@ -339,14 +338,10 @@ def load_bls_schedule_snapshots(
 
         entries = schedule_entries(snapshot_path.read_bytes(), year)
         cpi_entries = [
-            item
-            for item in entries
-            if "consumer price index" in str(item["label"]).lower()
+            item for item in entries if "consumer price index" in str(item["label"]).lower()
         ]
         if not cpi_entries:
-            raise PreparationError(
-                f"BLS snapshot {year} contains no parseable CPI schedule rows"
-            )
+            raise PreparationError(f"BLS snapshot {year} contains no parseable CPI schedule rows")
 
         schedule_by_year[year] = entries
         source_by_year[year] = SourceObject(
@@ -359,9 +354,7 @@ def load_bls_schedule_snapshots(
 
     if missing:
         joined = ", ".join(missing)
-        raise OwnerInputRequiredError(
-            "OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS: " + joined
-        )
+        raise OwnerInputRequiredError("OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS: " + joined)
 
     return schedule_by_year, source_by_year
 
@@ -422,6 +415,7 @@ def fetch_bytes(url: str, timeout: int = 45) -> tuple[bytes, dict[str, str]]:
         raise FileNotFoundError(url)
     return body, headers
 
+
 def cached_or_fetch_any(
     urls: tuple[str, ...],
     destination: Path,
@@ -467,6 +461,7 @@ def cached_or_fetch_any(
     if missing_ok:
         return None
     raise PreparationError(f"required source object missing: {label}")
+
 
 def visible_text(payload: bytes) -> str:
     parser = VisibleTextParser()
@@ -724,6 +719,7 @@ def cpi_schedule_candidates(
 
     return [by_date[key] for key in sorted(by_date)]
 
+
 def same_time_schedule_labels(
     entries: list[dict[str, Any]],
     release_date: date,
@@ -740,6 +736,7 @@ def same_time_schedule_labels(
             }
         )
     )
+
 
 def write_bls_calendar_csv(
     candidates: list[dict[str, Any]],
@@ -1058,6 +1055,7 @@ def preparation_decision(
         return "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY"
     return "READY_FOR_DATA_FEASIBILITY_FREEZE"
 
+
 def prepare() -> dict[str, Any]:
     source_objects: list[SourceObject] = []
     tick_objects: list[TickObject] = []
@@ -1170,15 +1168,15 @@ def prepare() -> dict[str, Any]:
         "evidence_classification": "DEVELOPMENT_EXPLORATORY_ONLY",
         "event_inventory_source": "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
         "event_time_source": "BLS_ANNUAL_SCHEDULE_US_EASTERN",
-        "bls_snapshot_manifest_relative_path": str(
-            BLS_SNAPSHOT_MANIFEST.relative_to(ROOT)
-        ).replace("\\", "/"),
+        "bls_snapshot_manifest_relative_path": str(BLS_SNAPSHOT_MANIFEST.relative_to(ROOT)).replace(
+            "\\", "/"
+        ),
         "bls_snapshot_manifest_sha256": sha256_file(BLS_SNAPSHOT_MANIFEST),
         "bls_snapshot_count": len(source_by_year),
         "bls_snapshot_bundle_sha256": bls_snapshot_sha256,
-        "bls_calendar_csv_relative_path": str(
-            BLS_CALENDAR_CSV.relative_to(ROOT)
-        ).replace("\\", "/"),
+        "bls_calendar_csv_relative_path": str(BLS_CALENDAR_CSV.relative_to(ROOT)).replace(
+            "\\", "/"
+        ),
         "bls_calendar_csv_sha256": bls_calendar_sha256,
         "quote_source": "DUKASCOPY_HOURLY_TICK_BI5",
         "candidate_event_count": len(event_records),
@@ -1242,6 +1240,7 @@ def write_reports(result: dict[str, Any]) -> None:
     ]
     REPORT_TEXT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines), flush=True)
+
 
 def main() -> int:
     print("ATS HYP-0006 DATA FEASIBILITY PREPARATION", flush=True)
