@@ -74,10 +74,11 @@ Backlog превращает Program WBS в исполнимую очередь 
 59. `ATS2-RF-022` — HYP-0005 confirmatory hypothesis formation — `DONE / PASS`.
 60. `ATS2-RF-023` — HYP-0005 confirmatory Data Feasibility preparation — `READY`.
 61. `ATS2-RF-024` — HYP-0005 confirmatory Data Feasibility freeze — `BLOCKED` pending RF-023 exact-main preparation result.
-62. `ATS2-RF-025` — Parallel Strategy #5 Idea Intake + HYP-0006 formation — `READY`.
-63. `ATS2-RF-026` — HYP-0006 Data Feasibility — `BLOCKED` pending RF-025 exact-main PASS.
+62. `ATS2-RF-025` — Parallel Strategy #5 Idea Intake + HYP-0006 formation — `DONE / PASS`.
+63. `ATS2-RF-026` — HYP-0006 Data Feasibility — `READY`.
+64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation — `BLOCKED` pending RF-026 exact-main PASS.
 
-Program-level current next task — `ATS2-RF-025`.
+Program-level current next task — `ATS2-RF-026`.
 
 RF-023 remains separately open under Strategy #4 and retains its frozen HYP-0005 contract. Its external source-availability blocker is not treated as a negative HYP-0005 result and is not bypassed by RF-025.
 
@@ -180,41 +181,57 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 RF-023 is structurally `READY` but execution is temporarily blocked by external September 2026 source availability. The 28 September diagnostic showed Jetta September BID/ASK HTTP 400 `From time is too late` while August Jetta BID/ASK controls returned HTTP 200. This does not change the frozen periods and is not a HYP-0005 result.
 | `ATS2-RF-024` | `WBS-RF.2` | P1 | BLOCKED | RF-023 exact-main preparation result | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest/schema when permitted | Canonicalize the exact RF-023 machine result and freeze the Data Feasibility decision/dataset identity; do not compute HYP-0005 primary outcome |
-| `ATS2-RF-025` | `WBS-RF.2` | P1 | READY | RF-022 PASS; retained `S4-FAM-02` sourcing provenance; RF-023 may remain externally blocked | `research/ideas/IDEA-0005.md` + `research/hypotheses/HYP-0006.md` + synchronized state/backlog/handoff/current-task gate | Register a new Idea because the mechanism changes from fixed-UTC session structure to scheduled macro information arrival; record IDEA-0005 and HYP-0006 as two Material Research Attempts; freeze one EUR/USD U.S.-CPI pre/post-60m structural claim before any HYP-0006 outcome; preserve all HYP-0005 frozen artifacts and `NO_CONFIRMATORY_OUTCOME_COMPUTED` |
-| `ATS2-RF-026` | `WBS-RF.2` | P1 | BLOCKED | RF-025 exact-main PASS | HYP-0006 Data Feasibility review and any pre-result source/timing preparation explicitly authorized by that task | Establish event-calendar and granular BID/ASK feasibility, exact publication-time semantics, overlap/development classification and HYP-0005 protected-segment exclusion before any HYP-0006 market outcome |
+| `ATS2-RF-025` | `WBS-RF.2` | P1 | DONE / PASS | RF-022 PASS; retained `S4-FAM-02` sourcing provenance; RF-023 may remain externally blocked | `research/ideas/IDEA-0005.md` + `research/hypotheses/HYP-0006.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `9b0a6c8898a7ebf9b03167a871ad02af96ca2807` registered IDEA-0005/HYP-0006 as two Material Research Attempts while preserving HYP-0005 and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
+| `ATS2-RF-026` | `WBS-RF.2` | P1 | READY | RF-025 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY.md` + synchronized state/backlog/handoff/current-task gate | Record `CONDITIONAL` feasibility from official BLS release-calendar/archive and Dukascopy tick-source classes; freeze development interval `[2003-08-03T21:00:00Z, 2021-09-01T00:00:00Z)`, event-denominator rule, timestamp semantics, same-time cluster policy and HYP-0005 exclusion without computing HYP-0006 returns |
+| `ATS2-RF-027` | `WBS-RF.2` | P1 | BLOCKED | RF-026 exact-main PASS | HYP-0006 Data Feasibility preparation protocol + tool/tests + local machine result | Machine-verify full BLS event denominator, exact publication-time conversion, Dukascopy tick acquisition/coverage, quote coherence and anchor geometry; compute no HYP-0006 return or primary inequality |
 
 ## 8. Следующий шаг
 
 Current executable program-level task:
 
-`ATS2-RF-025 — Parallel Strategy #5 Idea Intake + HYP-0006 formation`.
-
-This is a governance/research-definition task. It does not compute a market result.
-
-Lineage:
-
-- source family provenance: retained `S4-FAM-02 — MACROECONOMIC_ANNOUNCEMENT_RESPONSE`;
-- new Idea: `IDEA-0005`;
-- new Hypothesis: `HYP-0006`;
-- multiple-research accounting: two new Material Research Attempts;
-- HYP-0005 outcome used: none.
-
-HYP-0006 fixes one structural question before any outcome inspection: for the frozen eligible inventory of scheduled U.S. CPI releases, does median absolute EUR/USD movement in the next 60 minutes exceed median absolute movement in the preceding 60 minutes?
-
-The next task after RF-025 exact-main PASS is:
-
 `ATS2-RF-026 — HYP-0006 Data Feasibility`.
 
-RF-026 must establish exact event-publication timing, granular BID/ASK source semantics, development coverage and overlap classification before any HYP-0006 outcome.
+RF-025 exact-main OWNER PASS:
 
-Strategy #4 remains separate:
+`9b0a6c8898a7ebf9b03167a871ad02af96ca2807`
 
-`ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility preparation`
+Canonical HYP-0006:
 
-is still open but externally blocked by September 2026 source availability. Its frozen periods, provider family, rules and decision criteria remain unchanged. The HYP-0005 information boundary remains:
+`research/hypotheses/HYP-0006.md`
 
-`NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+RF-026 records a pre-result `CONDITIONAL` Data Feasibility decision.
 
-The HYP-0005 frozen unseen segments must not be used to tune or evaluate HYP-0006.
+Frozen RF-026 development boundary:
 
-For RF-025, OWNER runs `.\ATS_AGENT_PREFLIGHT.bat` on the exact agent branch and sends `AGENT_PREFLIGHT_REPORT.txt`. After merge to exact main, OWNER runs `.\ATS_TASK_CHECK.bat`.
+`2003-08-03T21:00:00Z <= release_time < 2021-09-01T00:00:00Z`
+
+Evidence classification:
+
+`DEVELOPMENT / EXPLORATORY ONLY`
+
+Source candidates:
+
+- official U.S. BLS CPI release schedules and archived CPI releases for event identity/publication time;
+- Dukascopy historical EUR/USD tick data for quote anchors.
+
+RF-026 freezes only source/timing/coverage/quality rules. It does **not** calculate:
+
+- `pre_abs_60m_return`;
+- `post_abs_60m_return`;
+- any pre/post return distribution;
+- the primary HYP-0006 inequality;
+- any trading P&L.
+
+Information boundary:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
+Strategy #4 / HYP-0005 remains separate and unchanged:
+
+`NO_CONFIRMATORY_OUTCOME_COMPUTED`
+
+After RF-026 exact-main PASS:
+
+`ATS2-RF-027 — HYP-0006 Data Feasibility preparation`
+
+becomes ready and must machine-verify the full event denominator, historical publication-time conversion, exact Dukascopy tick access/coverage, BID/ASK coherence and pre-result anchor geometry before any HYP-0006 outcome computation.
