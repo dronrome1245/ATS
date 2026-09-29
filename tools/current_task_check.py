@@ -26,9 +26,7 @@ NEXT_STEP = Path("02_СЛЕДУЮЩИЙ_ШАГ.md")
 STATUS = Path("01_СТАТУС_ПРОЕКТА.md")
 
 LOCAL_RESULT = Path("reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP.json")
-BLS_SNAPSHOT_MANIFEST = Path(
-    "data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
-)
+BLS_SNAPSHOT_MANIFEST = Path("data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv")
 BLS_CALENDAR_CSV = Path("data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv")
 GEOMETRY_CSV = Path("data/derived/HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv")
 
@@ -297,6 +295,7 @@ def check_rf027_contract() -> bool:
             check_frozen_lineage(),
         )
     )
+
 
 def validate_bls_calendar(payload: dict[str, Any]) -> bool:
     path = ROOT / BLS_CALENDAR_CSV
