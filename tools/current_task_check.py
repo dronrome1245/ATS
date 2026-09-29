@@ -151,6 +151,8 @@ def check_rf027_contract() -> bool:
             "PREPARATION_PROTOCOL_FROZEN",
             "https://www.bls.gov/bls/news-release/cpi.htm",
             "TECHNICAL_SOURCE_ACCESS_FAILURE",
+            "BLS_OFFICIAL_ANNUAL_SCHEDULES",
+            "ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK",
             "ATS-Research/1.0 (+https://github.com/dronrome1245/ATS)",
             "DUKASCOPY_HOURLY_TICK_BI5",
             "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
@@ -172,6 +174,9 @@ def check_rf027_contract() -> bool:
             "BLS_REQUEST_DELAY_SECONDS",
             "SourceAccessDeniedError",
             "request_headers",
+            "cpi_schedule_candidates",
+            "archive_url_for_release_date",
+            "same_time_schedule_labels",
             'SOURCE_SYMBOL = "EURUSD"',
             "HYP0005_LEFT_START",
             "HYP0005_RIGHT_START",
@@ -193,6 +198,9 @@ def check_rf027_contract() -> bool:
             "test_parse_archive_release_time_handles_historical_edt",
             "test_et_conversion_uses_pre_and_post_2007_dst_rules",
             "test_schedule_entries_and_same_time_flags",
+            "test_legacy_schedule_text_parses_cpi_and_same_time_release",
+            "test_schedule_candidates_preserve_frozen_development_interval",
+            "test_archive_page_403_can_use_explicit_schedule_fallback",
             "test_decode_tick_object_validates_coherent_bid_ask",
             "test_required_tick_hours_are_bounded_and_exclude_hyp0005",
             "test_event_geometry_uses_timestamps_only_and_requires_strict_pre_release",
@@ -208,12 +216,13 @@ def check_rf027_contract() -> bool:
             'current_task: "ATS2-RF-027"',
             'next_task: "ATS2-RF-028"',
             'rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"',
-            'strategy_5_data_feasibility_prep_status: "RF027_SOURCE_ACCESS_CORRECTION_STAGED"',
+            'strategy_5_data_feasibility_prep_status: "RF027_OFFICIAL_SCHEDULE_FALLBACK_STAGED"',
             'strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"',
             'rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"',
+            'rf027_second_failed_exact_main_commit: "2ce019bb51b0e45e900c0555ed44be5a3433e23a"',
             'strategy_5_source_access_blocker: "BLS_HTTP_403_AUTOMATED_RETRIEVAL"',
             "strategy_5_source_access_correction: "
-            '"CONTACTABLE_USER_AGENT_RATE_LIMIT_FAIL_FAST_403"',
+            '"BLS_ANNUAL_SCHEDULE_INVENTORY_ARCHIVE_HEADER_PREFERRED"',
             "strategy_5_required_protected_hyp0005_source_requests: 0",
             "strategy_5_outcome_computed: false",
             'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
@@ -316,7 +325,11 @@ def validate_local_result(payload: dict[str, Any], commit: str) -> bool:
         ("hypothesis_id", "HYP-0006"),
         ("git_commit", commit),
         ("evidence_classification", "DEVELOPMENT_EXPLORATORY_ONLY"),
-        ("event_inventory_source", "BLS_CPI_ARCHIVE_INDEX"),
+        ("event_inventory_source", "BLS_OFFICIAL_ANNUAL_SCHEDULES"),
+        (
+            "event_time_source_order",
+            "ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK",
+        ),
         ("quote_source", "DUKASCOPY_HOURLY_TICK_BI5"),
         ("protected_hyp0005_source_requests", 0),
         ("outcome_metrics_computed", False),
@@ -340,6 +353,9 @@ def validate_local_result(payload: dict[str, Any], commit: str) -> bool:
         "candidate_event_count",
         "resolved_event_time_count",
         "unresolved_event_time_count",
+        "archive_header_event_count",
+        "schedule_fallback_event_count",
+        "archive_access_denied_count",
         "schedule_match_count",
         "schedule_mismatch_count",
         "same_time_bls_cluster_count",
@@ -364,6 +380,17 @@ def validate_local_result(payload: dict[str, Any], commit: str) -> bool:
         and candidate_count != resolved_count + unresolved_count
     ):
         print("[FAIL] RF-027 event denominator does not reconcile", flush=True)
+        passed = False
+
+    archive_count = payload.get("archive_header_event_count")
+    fallback_count = payload.get("schedule_fallback_event_count")
+    if (
+        isinstance(resolved_count, int)
+        and isinstance(archive_count, int)
+        and isinstance(fallback_count, int)
+        and resolved_count != archive_count + fallback_count
+    ):
+        print("[FAIL] RF-027 timestamp source counts do not reconcile", flush=True)
         passed = False
 
     source_digest = payload.get("source_bundle_sha256")
