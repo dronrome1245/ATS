@@ -103,6 +103,7 @@ HYP0005_DATA_FEASIBILITY_TOOL = "tools/hyp0005_data_feasibility.py"
 HYP0005_DATA_FEASIBILITY_TEST = "tests/test_hyp0005_data_feasibility.py"
 STRATEGY_5_IDEA = "research/ideas/IDEA-0005.md"
 HYP0006_HYPOTHESIS = "research/hypotheses/HYP-0006.md"
+HYP0006_DATA_FEASIBILITY = "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -294,6 +295,7 @@ def configure() -> None:
         HYP0005_DATA_FEASIBILITY_TEST,
         STRATEGY_5_IDEA,
         HYP0006_HYPOTHESIS,
+        HYP0006_DATA_FEASIBILITY,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -364,6 +366,7 @@ def configure() -> None:
         "strategy_4_confirmatory_data_feasibility_test",
         "strategy_5_idea",
         "strategy_5_hypothesis",
+        "strategy_5_data_feasibility",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -1233,6 +1236,21 @@ def configure() -> None:
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         "ATS2-RF-026 — HYP-0006 Data Feasibility",
     )
+    core.CONTENT_MARKERS[HYP0006_DATA_FEASIBILITY] = (
+        "Task: `ATS2-RF-026`",
+        "Hypothesis ID: `HYP-0006`",
+        "Review status: `CONDITIONAL`",
+        "U.S. Bureau of Labor Statistics",
+        "Dukascopy historical EUR/USD tick data",
+        "2003-08-03T21:00:00Z <= release_time < 2021-09-01T00:00:00Z",
+        "DEVELOPMENT / EXPLORATORY ONLY",
+        "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
+        "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001@1.0.0",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "Prototype authorization:",
+        "`NOT_YET_AUTHORIZED`",
+        "ATS2-RF-027 — HYP-0006 Data Feasibility preparation",
+    )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
         "PROTO-01",
@@ -1904,18 +1922,17 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-025"',
-        "Parallel Strategy #5 Idea Intake + HYP-0006 formation",
-        "research/ideas/IDEA-0005.md",
-        "research/hypotheses/HYP-0006.md",
-        "HYP0005_FROZEN_BLOBS",
-        "PROHIBITED_RF025_OUTPUT_PATTERNS",
-        "HYP-0005 frozen-line immutability",
-        "HYP-0006 pre-result information boundary",
-        "RF-025 staged lineage and hypothesis contract",
-        "full ATS Local CI for RF-025",
-        "HYP-0005 outcome computed by RF-025: NO",
-        "HYP-0006 outcome computed by RF-025: NO",
+        'TASK_ID = "ATS2-RF-026"',
+        'TASK_NAME = "HYP-0006 Data Feasibility"',
+        "research/reviews/HYP-0006-DATA-FEASIBILITY.md",
+        "FROZEN_BLOBS",
+        "PROHIBITED_RF026_PATHS",
+        "RF-026 frozen HYP-0005/HYP-0006 lineage",
+        "HYP-0006 RF-026 information boundary",
+        "RF-026 conditional Data Feasibility contract",
+        "full ATS Local CI for RF-026",
+        "HYP-0005 outcome computed by RF-026: NO",
+        "HYP-0006 outcome computed by RF-026: NO",
         "NO_CONFIRMATORY_OUTCOME_COMPUTED",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         "ATS CURRENT TASK CHECK:",
@@ -2330,9 +2347,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-022"',
-        'current_task: "ATS2-RF-025"', 'current_ready_task: "ATS2-RF-025"',
-        'next_task: "ATS2-RF-026"',
+        'last_completed_task_id: "ATS2-RF-025"',
+        'current_task: "ATS2-RF-026"', 'current_ready_task: "ATS2-RF-026"',
+        'next_task: "ATS2-RF-027"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 5',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2450,7 +2467,16 @@ def main() -> int:
         'strategy_5_hyp0005_protected_segments_consumed: false',
         'strategy_5_outcome_computed: false',
         'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
-        'strategy_5_research_line_status: "HYPOTHESIS_FORMED_READY_FOR_DATA_FEASIBILITY"',
+        'strategy_5_research_line_status: "HYPOTHESIS_FORMED_DATA_FEASIBILITY_CONDITIONAL"',
+        'rf025_verified_commit: "9b0a6c8898a7ebf9b03167a871ad02af96ca2807"',
+        'strategy_5_data_feasibility_decision: "CONDITIONAL"',
+        'strategy_5_data_feasibility_status: "CONDITIONAL"',
+        'strategy_5_development_start: "2003-08-03T21:00:00Z"',
+        'strategy_5_development_end_exclusive: "2021-09-01T00:00:00Z"',
+        'strategy_5_event_source_candidate: "BLS_OFFICIAL_CPI_RELEASE_SCHEDULE_AND_ARCHIVE"',
+        'strategy_5_quote_source_candidate: "DUKASCOPY_EURUSD_TICK"',
+        'strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"',
+        'strategy_5_prototype_authorized: false',
         'active_idea_id: "IDEA-0004"',
         'active_hypothesis_id: "HYP-0005"',
         'parallel_active_idea_id: "IDEA-0005"',
@@ -2592,11 +2618,14 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-024") != "BLOCKED":
         core.fail("RF-024 must be BLOCKED in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-025") != "READY":
-        core.fail("RF-025 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-025") != "DONE / PASS":
+        core.fail("RF-025 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-026") != "BLOCKED":
-        core.fail("RF-026 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-026") != "READY":
+        core.fail("RF-026 must be READY in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-027") != "BLOCKED":
+        core.fail("RF-027 must be BLOCKED in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
