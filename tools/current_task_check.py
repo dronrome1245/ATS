@@ -103,7 +103,10 @@ def check_no_premature_rf027_artifacts() -> bool:
     found = [str(path) for path in PROHIBITED_RF026_PATHS if (ROOT / path).exists()]
     if found:
         for relative in found:
-            print(f"[FAIL] RF-026 must not pre-create RF-027/outcome artifact: {relative}", flush=True)
+            print(
+                f"[FAIL] RF-026 must not pre-create RF-027/outcome artifact: {relative}",
+                flush=True,
+            )
         return False
     print("[PASS] no RF-027 dataset/runner/result artifact exists", flush=True)
     return True
