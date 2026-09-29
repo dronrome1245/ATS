@@ -36,9 +36,7 @@ FROZEN_BLOBS = {
     "tools/hyp0005_data_feasibility.py": "310b23213876304ade674ef36ba17ce6d457353f",
     "tests/test_hyp0005_data_feasibility.py": "12697882da682eab699bf5b7debd7c358e56aca9",
     "research/hypotheses/HYP-0006.md": "6b3f260ceacd98adf7a6aa44205404e68e4fd4ca",
-    "research/reviews/HYP-0006-DATA-FEASIBILITY.md": (
-        "ae58099a05daec4be385c18177c74f1f22d1eb30"
-    ),
+    "research/reviews/HYP-0006-DATA-FEASIBILITY.md": ("ae58099a05daec4be385c18177c74f1f22d1eb30"),
 }
 
 ALLOWED_DECISIONS = {
@@ -134,8 +132,7 @@ def check_frozen_lineage() -> bool:
         actual_blob = git_output("rev-parse", f"HEAD:{relative}")
         if actual_blob != expected_blob:
             print(
-                f"[FAIL] frozen artifact changed: {relative} "
-                f"({actual_blob} != {expected_blob})",
+                f"[FAIL] frozen artifact changed: {relative} ({actual_blob} != {expected_blob})",
                 flush=True,
             )
             passed = False
@@ -206,7 +203,7 @@ def check_rf027_contract() -> bool:
             'strategy_5_data_feasibility_prep_status: "RF027_PROTOCOL_FROZEN_PENDING_OWNER_PREPARATION"',
             'strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"',
             "strategy_5_required_protected_hyp0005_source_requests: 0",
-            'strategy_5_outcome_computed: false',
+            "strategy_5_outcome_computed: false",
             'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
             'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
         ),
