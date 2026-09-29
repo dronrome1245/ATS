@@ -121,6 +121,103 @@ def test_schedule_entries_and_same_time_flags() -> None:
     assert labels == ("Real Earnings, July 2003",)
 
 
+def test_legacy_schedule_text_parses_cpi_and_same_time_release() -> None:
+    payload = b"""
+    <html><body><pre>
+    Consumer Price Index, July 2003                 Aug. 15, 2003    8:30 am
+    Real Earnings, July 2003                        Aug. 15           8:30 am
+    Consumer Price Index, December 2003             Jan. 15, 2004    8:30 am
+    Real Earnings, December 2003                    Jan. 15           8:30 am
+    </pre></body></html>
+    """
+    entries = feasibility.schedule_entries(payload, 2003)
+
+    cpi_rows = [
+        item
+        for item in entries
+        if "consumer price index" in str(item["label"]).lower()
+    ]
+    assert [(item["date"], item["clock"]) for item in cpi_rows] == [
+        (date(2003, 8, 15), "08:30"),
+        (date(2004, 1, 15), "08:30"),
+    ]
+    assert feasibility.same_time_schedule_labels(
+        entries,
+        date(2003, 8, 15),
+        "08:30",
+    ) == ("Real Earnings, July 2003",)
+
+
+def test_schedule_candidates_preserve_frozen_development_interval() -> None:
+    schedule_by_year = {
+        2003: [
+            {
+                "date": date(2003, 7, 16),
+                "clock": "08:30",
+                "label": "Consumer Price Index, June 2003",
+            },
+            {
+                "date": date(2003, 8, 15),
+                "clock": "08:30",
+                "label": "Consumer Price Index, July 2003",
+            },
+        ],
+        2021: [
+            {
+                "date": date(2021, 8, 11),
+                "clock": "08:30",
+                "label": "Consumer Price Index for July 2021",
+            },
+            {
+                "date": date(2021, 9, 14),
+                "clock": "08:30",
+                "label": "Consumer Price Index for August 2021",
+            },
+        ],
+    }
+
+    candidates = feasibility.cpi_schedule_candidates(schedule_by_year)
+
+    assert [item["date"] for item in candidates] == [
+        date(2003, 8, 15),
+        date(2021, 8, 11),
+    ]
+    assert candidates[0]["archive_url"].endswith("cpi_08152003.htm")
+    assert candidates[1]["archive_url"].endswith("cpi_08112021.htm")
+
+
+def test_archive_page_403_can_use_explicit_schedule_fallback(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    calls = 0
+
+    def denied(*_args: object, **_kwargs: object) -> object:
+        nonlocal calls
+        calls += 1
+        raise feasibility.urllib.error.HTTPError(
+            "https://www.bls.gov/news.release/archives/cpi_08152003.htm",
+            403,
+            "Forbidden",
+            hdrs=None,
+            fp=None,
+        )
+
+    monkeypatch.setattr(feasibility.urllib.request, "urlopen", denied)
+    monkeypatch.setattr(feasibility.time, "sleep", lambda _delay: None)
+
+    result = feasibility.cached_or_fetch_any(
+        ("https://www.bls.gov/news.release/archives/cpi_08152003.htm",),
+        tmp_path / "cpi_08152003.htm",
+        "BLS CPI archive cpi_08152003.htm",
+        missing_ok=True,
+        access_denied_ok=True,
+    )
+
+    assert result is None
+    assert calls == 1
+
+
 def test_tick_source_url_uses_zero_based_month_and_hour_bucket() -> None:
     hour = datetime(2021, 8, 11, 12, tzinfo=UTC)
     url = feasibility.tick_source_url(
