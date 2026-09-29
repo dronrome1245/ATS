@@ -34,17 +34,17 @@ HYP0005_LEFT_END = datetime(2003, 8, 3, 21, tzinfo=UTC)
 HYP0005_RIGHT_START = datetime(2026, 9, 1, tzinfo=UTC)
 HYP0005_RIGHT_END = datetime(2026, 9, 26, tzinfo=UTC)
 
-BLS_ARCHIVE_INDEX_URL = "https://www.bls.gov/bls/news-release/cpi.htm"
-BLS_SCHEDULE_URL_TEMPLATE = "https://www.bls.gov/schedule/{year}/home.htm"
+BLS_SNAPSHOT_MANIFEST = (
+    ROOT / "data" / "reference" / "HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
+)
+BLS_CALENDAR_CSV = ROOT / "data" / "derived" / "HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"
 DUKASCOPY_BASES = (
     "https://datafeed.dukascopy.com/datafeed",
     "https://www.dukascopy.com/datafeed",
 )
 SOURCE_SYMBOL = "EURUSD"
 PRICE_DIVISOR = 100_000
-BLS_CONTACT_URL = "https://github.com/dronrome1245/ATS"
-BLS_REQUEST_DELAY_SECONDS = 1.0
-USER_AGENT = f"ATS-Research/1.0 (+{BLS_CONTACT_URL})"
+USER_AGENT = "ATS-Research/1.0"
 RETRY_DELAYS = (2.0, 5.0, 10.0)
 
 RAW_BLS_ROOT = ROOT / "data" / "raw" / "bls" / "hyp0006"
@@ -130,8 +130,8 @@ class PreparationError(RuntimeError):
     """Raised for technical/data integrity failures in RF-027."""
 
 
-class SourceAccessDeniedError(PreparationError):
-    """Raised when an official source explicitly denies automated access."""
+class OwnerInputRequiredError(PreparationError):
+    """Raised when the one-time local BLS snapshot bundle is incomplete."""
 
 
 @dataclass(frozen=True)
