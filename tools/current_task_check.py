@@ -88,8 +88,7 @@ def check_frozen_lineage() -> bool:
         actual_blob = git_output("rev-parse", f"HEAD:{relative}")
         if actual_blob != expected_blob:
             print(
-                f"[FAIL] frozen artifact changed: {relative} "
-                f"({actual_blob} != {expected_blob})",
+                f"[FAIL] frozen artifact changed: {relative} ({actual_blob} != {expected_blob})",
                 flush=True,
             )
             passed = False
@@ -143,8 +142,8 @@ def check_rf026_contract() -> bool:
             'strategy_5_data_feasibility_decision: "CONDITIONAL"',
             'strategy_5_development_start: "2003-08-03T21:00:00Z"',
             'strategy_5_development_end_exclusive: "2021-09-01T00:00:00Z"',
-            'strategy_5_prototype_authorized: false',
-            'strategy_5_outcome_computed: false',
+            "strategy_5_prototype_authorized: false",
+            "strategy_5_outcome_computed: false",
             'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
             'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
         ),
