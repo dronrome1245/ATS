@@ -95,11 +95,7 @@ def test_legacy_schedule_text_parses_cpi_and_same_time_release() -> None:
     """
     entries = feasibility.schedule_entries(payload, 2003)
 
-    cpi_rows = [
-        item
-        for item in entries
-        if "consumer price index" in str(item["label"]).lower()
-    ]
+    cpi_rows = [item for item in entries if "consumer price index" in str(item["label"]).lower()]
     assert [(item["date"], item["clock"]) for item in cpi_rows] == [
         (date(2003, 8, 15), "08:30"),
         (date(2004, 1, 15), "08:30"),
