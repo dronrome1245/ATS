@@ -177,6 +177,8 @@ def check_rf027_contract() -> bool:
             "cpi_schedule_candidates",
             "archive_url_for_release_date",
             "same_time_schedule_labels",
+            "BLS_OFFICIAL_ANNUAL_SCHEDULES",
+            "ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK",
             'SOURCE_SYMBOL = "EURUSD"',
             "HYP0005_LEFT_START",
             "HYP0005_RIGHT_START",
