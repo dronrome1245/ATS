@@ -153,6 +153,28 @@ Corrective source-access mechanics are staged on the same RF-027 agent line:
 - BLS HTTP 403 fails immediately and is not repeatedly retried;
 - no third-party event-calendar fallback.
 
+## RF-027 official BLS annual-schedule fallback
+
+A second exact-main attempt on:
+
+`2ce019bb51b0e45e900c0555ed44be5a3433e23a`
+
+again received HTTP 403 from the CPI archive-index page before event acquisition.
+
+The official-source fallback now staged for RF-027 keeps the same CPI denominator but acquires it from
+official annual BLS schedules for 2003–2021.
+
+Timestamp source order:
+
+`ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK`
+
+Event inventory source:
+
+`BLS_OFFICIAL_ANNUAL_SCHEDULES`
+
+An accessible archive header remains preferred. If it disagrees with the official annual schedule,
+RF-027 records `OFFICIAL_TIME_CROSSCHECK_MISMATCH`. No third-party calendar is allowed.
+
 ## Next gate
 
 Current task:
