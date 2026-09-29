@@ -97,6 +97,20 @@ MONTHS = {
     "december": 12,
 }
 
+BLS_CALENDAR_FIELDS = (
+    "event_id",
+    "release_date_local",
+    "release_time_local",
+    "release_time_utc",
+    "timezone_semantics",
+    "schedule_label",
+    "same_time_bls_labels",
+    "source_year",
+    "source_url",
+    "source_snapshot_relative_path",
+    "source_snapshot_sha256",
+)
+
 GEOMETRY_FIELDS = (
     "event_id",
     "archive_release_date",
@@ -714,6 +728,54 @@ def same_time_schedule_labels(
             }
         )
     )
+
+def write_bls_calendar_csv(
+    candidates: list[dict[str, Any]],
+    schedule_by_year: dict[int, list[dict[str, Any]]],
+) -> str:
+    BLS_CALENDAR_CSV.parent.mkdir(parents=True, exist_ok=True)
+    temporary = BLS_CALENDAR_CSV.with_suffix(BLS_CALENDAR_CSV.suffix + ".part")
+
+    with temporary.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=BLS_CALENDAR_FIELDS,
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        for candidate in candidates:
+            release_date = candidate["date"]
+            if not isinstance(release_date, date):
+                raise PreparationError("CPI candidate date has invalid type")
+            release_utc = candidate["release_time_utc"]
+            if not isinstance(release_utc, datetime):
+                raise PreparationError("CPI candidate UTC time has invalid type")
+            clock = str(candidate["clock"])
+            same_time_labels = same_time_schedule_labels(
+                schedule_by_year[int(candidate["source_year"])],
+                release_date,
+                clock,
+            )
+            writer.writerow(
+                {
+                    "event_id": f"BLS-CPI-{release_date:%Y%m%d}",
+                    "release_date_local": release_date.isoformat(),
+                    "release_time_local": clock,
+                    "release_time_utc": iso_z(release_utc),
+                    "timezone_semantics": "US_EASTERN_HISTORICAL_DST",
+                    "schedule_label": str(candidate["label"]),
+                    "same_time_bls_labels": "|".join(same_time_labels),
+                    "source_year": int(candidate["source_year"]),
+                    "source_url": str(candidate["source_url"]),
+                    "source_snapshot_relative_path": str(
+                        candidate["source_snapshot_relative_path"]
+                    ),
+                    "source_snapshot_sha256": str(candidate["source_snapshot_sha256"]),
+                }
+            )
+
+    temporary.replace(BLS_CALENDAR_CSV)
+    return sha256_file(BLS_CALENDAR_CSV)
 
 
 def schedule_crosscheck(
