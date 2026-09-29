@@ -35,16 +35,15 @@ HYP0005_RIGHT_START = datetime(2026, 9, 1, tzinfo=UTC)
 HYP0005_RIGHT_END = datetime(2026, 9, 26, tzinfo=UTC)
 
 BLS_ARCHIVE_INDEX_URL = "https://www.bls.gov/bls/news-release/cpi.htm"
-BLS_SCHEDULE_URL_TEMPLATE = "https://www.bls.gov/schedule/{year}/home.htm"
+BLS_SNAPSHOT_MANIFEST = ROOT / "data" / "reference" / "HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
+BLS_CALENDAR_CSV = ROOT / "data" / "derived" / "HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"
 DUKASCOPY_BASES = (
     "https://datafeed.dukascopy.com/datafeed",
     "https://www.dukascopy.com/datafeed",
 )
 SOURCE_SYMBOL = "EURUSD"
 PRICE_DIVISOR = 100_000
-BLS_CONTACT_URL = "https://github.com/dronrome1245/ATS"
-BLS_REQUEST_DELAY_SECONDS = 1.0
-USER_AGENT = f"ATS-Research/1.0 (+{BLS_CONTACT_URL})"
+USER_AGENT = "ATS-Research/1.0"
 RETRY_DELAYS = (2.0, 5.0, 10.0)
 
 RAW_BLS_ROOT = ROOT / "data" / "raw" / "bls" / "hyp0006"
@@ -96,6 +95,20 @@ MONTHS = {
     "december": 12,
 }
 
+BLS_CALENDAR_FIELDS = (
+    "event_id",
+    "release_date_local",
+    "release_time_local",
+    "release_time_utc",
+    "timezone_semantics",
+    "schedule_label",
+    "same_time_bls_labels",
+    "source_year",
+    "source_url",
+    "source_snapshot_relative_path",
+    "source_snapshot_sha256",
+)
+
 GEOMETRY_FIELDS = (
     "event_id",
     "archive_release_date",
@@ -130,8 +143,8 @@ class PreparationError(RuntimeError):
     """Raised for technical/data integrity failures in RF-027."""
 
 
-class SourceAccessDeniedError(PreparationError):
-    """Raised when an official source explicitly denies automated access."""
+class OwnerInputRequiredError(PreparationError):
+    """Raised when the one-time local BLS snapshot bundle is incomplete."""
 
 
 @dataclass(frozen=True)
@@ -235,6 +248,16 @@ class TableRowParser(HTMLParser):
             self._cell_parts = None
 
 
+class ScheduleTextParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.parts: list[str] = []
+
+    def handle_data(self, data: str) -> None:
+        if data:
+            self.parts.append(data)
+
+
 def progress(message: str) -> None:
     print(message, flush=True)
 
@@ -266,6 +289,90 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def load_bls_snapshot_manifest() -> list[dict[str, str]]:
+    if not BLS_SNAPSHOT_MANIFEST.is_file():
+        raise PreparationError(f"missing BLS snapshot manifest: {BLS_SNAPSHOT_MANIFEST}")
+
+    with BLS_SNAPSHOT_MANIFEST.open("r", encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        expected_header = ("year", "source_url", "snapshot_relative_path")
+        if tuple(reader.fieldnames or ()) != expected_header:
+            raise PreparationError("invalid BLS snapshot manifest header")
+        rows = [dict(row) for row in reader]
+
+    expected_years = list(range(2003, 2022))
+    actual_years: list[int] = []
+    for row in rows:
+        try:
+            year = int(row["year"])
+        except (TypeError, ValueError) as exc:
+            raise PreparationError("invalid BLS snapshot manifest year") from exc
+        expected_url = f"https://www.bls.gov/schedule/{year}/home.htm"
+        expected_path = f"data/raw/bls/hyp0006/schedules/{year}.html"
+        if row["source_url"] != expected_url:
+            raise PreparationError(f"unexpected BLS source URL for {year}")
+        if row["snapshot_relative_path"] != expected_path:
+            raise PreparationError(f"unexpected BLS snapshot path for {year}")
+        actual_years.append(year)
+
+    if actual_years != expected_years:
+        raise PreparationError(
+            f"BLS snapshot manifest years mismatch: {actual_years} != {expected_years}"
+        )
+    return rows
+
+
+def load_bls_schedule_snapshots(
+    manifest_rows: list[dict[str, str]],
+) -> tuple[dict[int, list[dict[str, Any]]], dict[int, SourceObject]]:
+    missing: list[str] = []
+    schedule_by_year: dict[int, list[dict[str, Any]]] = {}
+    source_by_year: dict[int, SourceObject] = {}
+
+    for row in manifest_rows:
+        year = int(row["year"])
+        snapshot_path = ROOT / row["snapshot_relative_path"]
+        if not snapshot_path.is_file() or snapshot_path.stat().st_size <= 0:
+            missing.append(row["snapshot_relative_path"])
+            continue
+
+        entries = schedule_entries(snapshot_path.read_bytes(), year)
+        cpi_entries = [
+            item for item in entries if "consumer price index" in str(item["label"]).lower()
+        ]
+        if not cpi_entries:
+            raise PreparationError(f"BLS snapshot {year} contains no parseable CPI schedule rows")
+
+        schedule_by_year[year] = entries
+        source_by_year[year] = SourceObject(
+            category="BLS_SCHEDULE_SNAPSHOT",
+            identity=str(year),
+            relative_path=row["snapshot_relative_path"],
+            source_url=row["source_url"],
+            sha256=sha256_file(snapshot_path),
+        )
+
+    if missing:
+        joined = ", ".join(missing)
+        raise OwnerInputRequiredError("OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS: " + joined)
+
+    return schedule_by_year, source_by_year
+
+
+def bls_snapshot_bundle_hash(source_by_year: dict[int, SourceObject]) -> str:
+    payload = [
+        {
+            "year": year,
+            "source_url": source_by_year[year].source_url,
+            "relative_path": source_by_year[year].relative_path,
+            "sha256": source_by_year[year].sha256,
+        }
+        for year in sorted(source_by_year)
+    ]
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def is_bls_url(url: str) -> bool:
     return url.startswith("https://www.bls.gov/")
 
@@ -287,7 +394,9 @@ def request_headers(url: str) -> dict[str, str]:
 
 def fetch_bytes(url: str, timeout: int = 45) -> tuple[bytes, dict[str, str]]:
     if is_bls_url(url):
-        time.sleep(BLS_REQUEST_DELAY_SECONDS)
+        raise PreparationError(
+            "live BLS network access is disabled; use frozen local schedule snapshots"
+        )
     request = urllib.request.Request(url, headers=request_headers(url))
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
@@ -299,10 +408,6 @@ def fetch_bytes(url: str, timeout: int = 45) -> tuple[bytes, dict[str, str]]:
     except urllib.error.HTTPError as exc:
         if exc.code in {404, 410}:
             raise FileNotFoundError(url) from exc
-        if exc.code == 403 and is_bls_url(url):
-            raise SourceAccessDeniedError(
-                f"BLS HTTP 403 while fetching {url}; automated access denied"
-            ) from exc
         raise PreparationError(f"HTTP {exc.code} while fetching {url}") from exc
     except (urllib.error.URLError, OSError) as exc:
         raise PreparationError(f"network error while fetching {url}: {exc}") from exc
@@ -340,8 +445,6 @@ def cached_or_fetch_any(
                 return destination, headers
             except FileNotFoundError:
                 missing_urls.add(url)
-            except SourceAccessDeniedError:
-                raise
             except PreparationError as exc:
                 last_error = exc
         if len(missing_urls) == len(urls):
@@ -488,34 +591,200 @@ def parse_schedule_clock(text: str) -> str | None:
 
 
 def schedule_entries(payload: bytes, year: int) -> list[dict[str, Any]]:
-    parser = TableRowParser()
-    parser.feed(payload.decode("utf-8", errors="replace"))
+    text = payload.decode("utf-8", errors="replace")
     entries: list[dict[str, Any]] = []
-    for cells in parser.rows:
+    seen: set[tuple[date, str, str]] = set()
+
+    def append_entry(row_date: date, row_clock: str, label: str) -> None:
+        normalized_label = re.sub(r"\s+", " ", label).strip()
+        if not normalized_label or not re.search(r"[A-Za-z]", normalized_label):
+            return
+        key = (row_date, row_clock, normalized_label)
+        if key in seen:
+            return
+        seen.add(key)
+        entries.append(
+            {
+                "date": row_date,
+                "clock": row_clock,
+                "label": normalized_label,
+            }
+        )
+
+    table_parser = TableRowParser()
+    table_parser.feed(text)
+    for cells in table_parser.rows:
         row_text = " ".join(cells)
         row_date = parse_schedule_date(row_text, year)
         row_clock = parse_schedule_clock(row_text)
         if row_date is None or row_clock is None:
             continue
-
         candidates = [
             cell
             for cell in cells
             if parse_schedule_date(cell, year) is None and parse_schedule_clock(cell) is None
         ]
-        if not candidates:
+        if candidates:
+            append_entry(row_date, row_clock, max(candidates, key=len))
+
+    text_parser = ScheduleTextParser()
+    text_parser.feed(text)
+    current_year = year
+    for raw_line in "\n".join(text_parser.parts).splitlines():
+        line = re.sub(r"[ \t]+", " ", raw_line).strip()
+        clock_match = CLOCK_RE.search(line)
+        if clock_match is None:
             continue
-        label = max(candidates, key=len).strip()
-        if not re.search(r"[A-Za-z]", label):
+        date_matches = list(MONTH_RE.finditer(line[: clock_match.start()]))
+        if not date_matches:
             continue
-        entries.append(
+        date_match = date_matches[-1]
+        month_key = date_match.group(1).lower().rstrip(".")
+        month = MONTHS.get(month_key)
+        if month is None:
+            continue
+        if date_match.group(3):
+            current_year = int(date_match.group(3))
+        try:
+            row_date = date(current_year, month, int(date_match.group(2)))
+        except ValueError:
+            continue
+        row_clock = parse_schedule_clock(clock_match.group(0))
+        if row_clock is None:
+            continue
+        append_entry(row_date, row_clock, line[: date_match.start()])
+
+    entries.sort(key=lambda item: (item["date"], item["clock"], item["label"]))
+    return entries
+
+
+def schedule_local_datetime(entry: dict[str, Any]) -> datetime:
+    row_date = entry["date"]
+    if not isinstance(row_date, date):
+        raise PreparationError("schedule entry date has invalid type")
+    clock = str(entry["clock"])
+    hour_text, minute_text = clock.split(":", 1)
+    return datetime.combine(row_date, dt_time(int(hour_text), int(minute_text)))
+
+
+def archive_url_for_release_date(release_date: date) -> str:
+    stamp = release_date.strftime("%m%d%Y")
+    return f"https://www.bls.gov/news.release/archives/cpi_{stamp}.htm"
+
+
+def cpi_schedule_candidates(
+    schedule_by_year: dict[int, list[dict[str, Any]]],
+    source_by_year: dict[int, SourceObject],
+) -> list[dict[str, Any]]:
+    by_date: dict[date, dict[str, Any]] = {}
+    for year, entries in schedule_by_year.items():
+        source = source_by_year.get(year)
+        if source is None:
+            raise PreparationError(f"missing BLS snapshot source identity for {year}")
+        for entry in entries:
+            if "consumer price index" not in str(entry["label"]).lower():
+                continue
+            local_dt = schedule_local_datetime(entry)
+            release_utc = eastern_local_to_utc(local_dt, "ET")
+            if not DEVELOPMENT_START <= release_utc < DEVELOPMENT_END:
+                continue
+
+            candidate = {
+                "date": local_dt.date(),
+                "clock": str(entry["clock"]),
+                "label": str(entry["label"]),
+                "release_time_utc": release_utc,
+                "source_year": year,
+                "source_url": source.source_url,
+                "source_snapshot_relative_path": source.relative_path,
+                "source_snapshot_sha256": source.sha256,
+            }
+            existing = by_date.get(local_dt.date())
+            if existing is None:
+                by_date[local_dt.date()] = candidate
+                continue
+            if existing["clock"] != candidate["clock"]:
+                raise PreparationError(
+                    "conflicting official CPI schedule times for "
+                    f"{local_dt.date().isoformat()}: "
+                    f"{existing['clock']} != {candidate['clock']}"
+                )
+
+            existing_year = int(existing["source_year"])
+            preferred_year = local_dt.date().year
+            existing_rank = (existing_year != preferred_year, existing_year)
+            candidate_rank = (year != preferred_year, year)
+            if candidate_rank < existing_rank:
+                by_date[local_dt.date()] = candidate
+
+    return [by_date[key] for key in sorted(by_date)]
+
+
+def same_time_schedule_labels(
+    entries: list[dict[str, Any]],
+    release_date: date,
+    clock: str,
+) -> tuple[str, ...]:
+    return tuple(
+        sorted(
             {
-                "date": row_date,
-                "clock": row_clock,
-                "label": label,
+                str(item["label"])
+                for item in entries
+                if item["date"] == release_date
+                and item["clock"] == clock
+                and "consumer price index" not in str(item["label"]).lower()
             }
         )
-    return entries
+    )
+
+
+def write_bls_calendar_csv(
+    candidates: list[dict[str, Any]],
+    schedule_by_year: dict[int, list[dict[str, Any]]],
+) -> str:
+    BLS_CALENDAR_CSV.parent.mkdir(parents=True, exist_ok=True)
+    temporary = BLS_CALENDAR_CSV.with_suffix(BLS_CALENDAR_CSV.suffix + ".part")
+
+    with temporary.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=BLS_CALENDAR_FIELDS,
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        for candidate in candidates:
+            release_date = candidate["date"]
+            if not isinstance(release_date, date):
+                raise PreparationError("CPI candidate date has invalid type")
+            release_utc = candidate["release_time_utc"]
+            if not isinstance(release_utc, datetime):
+                raise PreparationError("CPI candidate UTC time has invalid type")
+            clock = str(candidate["clock"])
+            same_time_labels = same_time_schedule_labels(
+                schedule_by_year[int(candidate["source_year"])],
+                release_date,
+                clock,
+            )
+            writer.writerow(
+                {
+                    "event_id": f"BLS-CPI-{release_date:%Y%m%d}",
+                    "release_date_local": release_date.isoformat(),
+                    "release_time_local": clock,
+                    "release_time_utc": iso_z(release_utc),
+                    "timezone_semantics": "US_EASTERN_HISTORICAL_DST",
+                    "schedule_label": str(candidate["label"]),
+                    "same_time_bls_labels": "|".join(same_time_labels),
+                    "source_year": int(candidate["source_year"]),
+                    "source_url": str(candidate["source_url"]),
+                    "source_snapshot_relative_path": str(
+                        candidate["source_snapshot_relative_path"]
+                    ),
+                    "source_snapshot_sha256": str(candidate["source_snapshot_sha256"]),
+                }
+            )
+
+    temporary.replace(BLS_CALENDAR_CSV)
+    return sha256_file(BLS_CALENDAR_CSV)
 
 
 def schedule_crosscheck(
@@ -778,16 +1047,10 @@ def write_geometry_csv(events: list[EventRecord]) -> str:
 
 def preparation_decision(
     candidate_event_count: int,
-    unresolved_event_time_count: int,
-    schedule_mismatch_count: int,
     complete_geometry_count: int,
 ) -> str:
     if candidate_event_count <= 0:
         return "UNRESOLVED_OFFICIAL_EVENT_TIMES"
-    if unresolved_event_time_count > 0:
-        return "UNRESOLVED_OFFICIAL_EVENT_TIMES"
-    if schedule_mismatch_count > 0:
-        return "OFFICIAL_TIME_CROSSCHECK_MISMATCH"
     if complete_geometry_count <= 0:
         return "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY"
     return "READY_FOR_DATA_FEASIBILITY_FREEZE"
@@ -798,174 +1061,83 @@ def prepare() -> dict[str, Any]:
     tick_objects: list[TickObject] = []
 
     emit_progress(82)
-    archive_index_path = RAW_BLS_ROOT / "cpi_archive_index.htm"
-    fetched_index = cached_or_fetch_any(
-        (BLS_ARCHIVE_INDEX_URL,),
-        archive_index_path,
-        "BLS CPI archive index",
-        missing_ok=False,
-    )
-    assert fetched_index is not None
-    index_path, index_headers = fetched_index
-    source_objects.append(
-        SourceObject(
-            category="BLS_ARCHIVE_INDEX",
-            identity="cpi_archive_index",
-            relative_path=str(index_path.relative_to(ROOT)).replace("\\", "/"),
-            source_url=index_headers["source_url"],
-            sha256=sha256_file(index_path),
-        )
-    )
+    manifest_rows = load_bls_snapshot_manifest()
+    schedule_by_year, source_by_year = load_bls_schedule_snapshots(manifest_rows)
+    source_objects.extend(source_by_year[year] for year in sorted(source_by_year))
 
-    candidates = [
-        (release_date, url)
-        for release_date, url in parse_archive_index(index_path.read_bytes())
-        if DEVELOPMENT_START.date() <= release_date < DEVELOPMENT_END.date()
-    ]
+    candidates = cpi_schedule_candidates(schedule_by_year, source_by_year)
     if not candidates:
-        raise PreparationError("BLS CPI archive index produced no events in frozen interval")
+        raise PreparationError("frozen BLS schedule snapshots produced no CPI events")
 
-    years = sorted({release_date.year for release_date, _ in candidates})
-    schedule_by_year: dict[int, list[dict[str, Any]]] = {}
-    for year in years:
-        destination = RAW_BLS_ROOT / "schedules" / f"{year}.htm"
-        url = BLS_SCHEDULE_URL_TEMPLATE.format(year=year)
-        downloaded = cached_or_fetch_any(
-            (url,),
-            destination,
-            f"BLS schedule {year}",
-            missing_ok=True,
-        )
-        if downloaded is None:
-            schedule_by_year[year] = []
-            continue
-        path, headers = downloaded
-        schedule_by_year[year] = schedule_entries(path.read_bytes(), year)
-        source_objects.append(
-            SourceObject(
-                category="BLS_SCHEDULE",
-                identity=str(year),
-                relative_path=str(path.relative_to(ROOT)).replace("\\", "/"),
-                source_url=headers["source_url"],
-                sha256=sha256_file(path),
-            )
-        )
+    bls_calendar_sha256 = write_bls_calendar_csv(candidates, schedule_by_year)
+    bls_snapshot_sha256 = bls_snapshot_bundle_hash(source_by_year)
 
     event_records: list[EventRecord] = []
     requested_hours: set[datetime] = set()
     missing_hour_count_total = 0
     protected_source_requests = 0
-    schedule_mismatch_count = 0
-    schedule_match_count = 0
     same_time_cluster_count = 0
-    unresolved_event_time_count = 0
     complete_geometry_count = 0
-
     tick_cache: dict[datetime, tuple[TickObject, list[datetime]] | None] = {}
 
     total = len(candidates)
-    for index, (release_date, archive_url) in enumerate(candidates, start=1):
-        progress(f"[event {index}/{total}] {release_date.isoformat()}")
-        archive_name = Path(archive_url).name
-        archive_path = RAW_BLS_ROOT / "releases" / archive_name
-        archive_download = cached_or_fetch_any(
-            (archive_url,),
-            archive_path,
-            f"BLS CPI archive {archive_name}",
-            missing_ok=True,
+    for index, candidate in enumerate(candidates, start=1):
+        release_date = candidate["date"]
+        release_utc = candidate["release_time_utc"]
+        if not isinstance(release_date, date) or not isinstance(release_utc, datetime):
+            raise PreparationError("invalid frozen BLS calendar event type")
+
+        schedule_clock = str(candidate["clock"])
+        schedule_entries_for_year = schedule_by_year[int(candidate["source_year"])]
+        same_time_labels = same_time_schedule_labels(
+            schedule_entries_for_year,
+            release_date,
+            schedule_clock,
         )
+        if same_time_labels:
+            same_time_cluster_count += 1
 
-        archive_sha: str | None = None
-        zone_label: str | None = None
-        archive_local_time: str | None = None
-        release_utc: datetime | None = None
-        release_status = "ARCHIVE_PAGE_UNAVAILABLE"
-        crosscheck_status = "NOT_RUN"
-        same_time_labels: tuple[str, ...] = ()
-        required_count = 0
+        progress(f"[event {index}/{total}] {release_date.isoformat()}")
+
+        hours = required_tick_hours(release_utc)
+        required_count = len(hours)
+        requested_hours.update(hours)
+        event_times: list[datetime] = []
         missing_count = 0
-        geometry_values: dict[str, int | None | str] = {
-            "pre60_prev_gap_ms": None,
-            "pre60_next_gap_ms": None,
-            "pre_release_last_gap_ms": None,
-            "post60_prev_gap_ms": None,
-            "post60_next_gap_ms": None,
-            "quote_geometry_status": "UNRESOLVED_EVENT_TIME",
-        }
 
-        if archive_download is not None:
-            page_path, page_headers = archive_download
-            archive_sha = sha256_file(page_path)
-            source_objects.append(
-                SourceObject(
-                    category="BLS_CPI_RELEASE",
-                    identity=archive_name,
-                    relative_path=str(page_path.relative_to(ROOT)).replace("\\", "/"),
-                    source_url=page_headers["source_url"],
-                    sha256=archive_sha,
-                )
-            )
-            parsed = parse_archive_release_time(page_path.read_bytes(), release_date)
-            if parsed is not None:
-                release_utc, zone_label, archive_local_time = parsed
-                if not DEVELOPMENT_START <= release_utc < DEVELOPMENT_END:
-                    raise PreparationError(
-                        f"resolved event outside frozen interval: {iso_z(release_utc)}"
-                    )
-                release_status = "RESOLVED_OFFICIAL_ARCHIVE_TIME"
-                crosscheck_status, same_time_labels = schedule_crosscheck(
-                    schedule_by_year.get(release_date.year, []),
-                    release_date,
-                    archive_local_time,
-                )
-                if crosscheck_status == "MATCH":
-                    schedule_match_count += 1
-                elif crosscheck_status == "SCHEDULE_TIME_MISMATCH":
-                    schedule_mismatch_count += 1
-                if same_time_labels:
-                    same_time_cluster_count += 1
+        for hour_start in hours:
+            if inside_hyp0005_protected(hour_start):
+                protected_source_requests += 1
+                raise PreparationError("HYP-0005 protected source request attempted")
+            if hour_start not in tick_cache:
+                tick_cache[hour_start] = download_tick_hour(hour_start)
+                if tick_cache[hour_start] is not None:
+                    metadata, _times = tick_cache[hour_start]
+                    tick_objects.append(metadata)
+            downloaded_tick = tick_cache[hour_start]
+            if downloaded_tick is None:
+                missing_count += 1
+                missing_hour_count_total += 1
+                continue
+            _metadata, times = downloaded_tick
+            event_times.extend(times)
 
-                hours = required_tick_hours(release_utc)
-                required_count = len(hours)
-                requested_hours.update(hours)
-                event_times: list[datetime] = []
-                for hour_start in hours:
-                    if inside_hyp0005_protected(hour_start):
-                        protected_source_requests += 1
-                        raise PreparationError("HYP-0005 protected source request attempted")
-                    if hour_start not in tick_cache:
-                        tick_cache[hour_start] = download_tick_hour(hour_start)
-                        if tick_cache[hour_start] is not None:
-                            metadata, _times = tick_cache[hour_start]
-                            tick_objects.append(metadata)
-                    downloaded_tick = tick_cache[hour_start]
-                    if downloaded_tick is None:
-                        missing_count += 1
-                        missing_hour_count_total += 1
-                        continue
-                    _metadata, times = downloaded_tick
-                    event_times.extend(times)
+        geometry_values = event_geometry(event_times, release_utc)
+        if geometry_values["quote_geometry_status"] == "COMPLETE_TIMESTAMP_GEOMETRY":
+            complete_geometry_count += 1
 
-                geometry_values = event_geometry(event_times, release_utc)
-                if geometry_values["quote_geometry_status"] == "COMPLETE_TIMESTAMP_GEOMETRY":
-                    complete_geometry_count += 1
-            else:
-                release_status = "UNRESOLVED_ARCHIVE_TIMESTAMP"
-
-        if release_utc is None:
-            unresolved_event_time_count += 1
-
+        source_sha = str(candidate["source_snapshot_sha256"])
         event_records.append(
             EventRecord(
-                event_id=archive_name.removesuffix(".htm"),
+                event_id=f"BLS-CPI-{release_date:%Y%m%d}",
                 archive_release_date=release_date.isoformat(),
-                archive_url=archive_url,
-                archive_sha256=archive_sha,
-                archive_zone_label=zone_label,
-                archive_local_time=archive_local_time,
-                release_time_utc=iso_z(release_utc) if release_utc else None,
-                release_time_status=release_status,
-                schedule_crosscheck_status=crosscheck_status,
+                archive_url=str(candidate["source_url"]),
+                archive_sha256=source_sha,
+                archive_zone_label="ET",
+                archive_local_time=f"{release_date.isoformat()} {schedule_clock}",
+                release_time_utc=iso_z(release_utc),
+                release_time_status="RESOLVED_FROZEN_BLS_SCHEDULE_SNAPSHOT",
+                schedule_crosscheck_status="FROZEN_OFFICIAL_SCHEDULE",
                 same_time_bls_labels=same_time_labels,
                 required_tick_object_count=required_count,
                 missing_tick_object_count=missing_count,
@@ -982,27 +1154,33 @@ def prepare() -> dict[str, Any]:
     geometry_sha256 = write_geometry_csv(event_records)
     decision = preparation_decision(
         candidate_event_count=len(event_records),
-        unresolved_event_time_count=unresolved_event_time_count,
-        schedule_mismatch_count=schedule_mismatch_count,
         complete_geometry_count=complete_geometry_count,
     )
     emit_progress(98)
 
     result = {
-        "schema_version": "hyp0006-data-feasibility-prep-1",
+        "schema_version": "hyp0006-data-feasibility-prep-2",
         "task_id": TASK_ID,
         "hypothesis_id": HYPOTHESIS_ID,
         "git_commit": git_head(),
         "development_start": iso_z(DEVELOPMENT_START),
         "development_end_exclusive": iso_z(DEVELOPMENT_END),
         "evidence_classification": "DEVELOPMENT_EXPLORATORY_ONLY",
-        "event_inventory_source": "BLS_CPI_ARCHIVE_INDEX",
+        "event_inventory_source": "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
+        "event_time_source": "BLS_ANNUAL_SCHEDULE_US_EASTERN",
+        "bls_snapshot_manifest_relative_path": str(BLS_SNAPSHOT_MANIFEST.relative_to(ROOT)).replace(
+            "\\", "/"
+        ),
+        "bls_snapshot_manifest_sha256": sha256_file(BLS_SNAPSHOT_MANIFEST),
+        "bls_snapshot_count": len(source_by_year),
+        "bls_snapshot_bundle_sha256": bls_snapshot_sha256,
+        "bls_calendar_csv_relative_path": str(BLS_CALENDAR_CSV.relative_to(ROOT)).replace(
+            "\\", "/"
+        ),
+        "bls_calendar_csv_sha256": bls_calendar_sha256,
         "quote_source": "DUKASCOPY_HOURLY_TICK_BI5",
         "candidate_event_count": len(event_records),
-        "resolved_event_time_count": len(event_records) - unresolved_event_time_count,
-        "unresolved_event_time_count": unresolved_event_time_count,
-        "schedule_match_count": schedule_match_count,
-        "schedule_mismatch_count": schedule_mismatch_count,
+        "resolved_event_time_count": len(event_records),
         "same_time_bls_cluster_count": same_time_cluster_count,
         "requested_tick_object_count": len(requested_hours),
         "acquired_tick_object_count": len(tick_objects),
@@ -1035,11 +1213,11 @@ def write_reports(result: dict[str, Any]) -> None:
         f"Task: {result['task_id']}",
         f"Commit: {result['git_commit']}",
         f"Decision: {result['preparation_decision']}",
+        f"BLS snapshots: {result['bls_snapshot_count']}",
+        f"BLS snapshot bundle SHA-256: {result['bls_snapshot_bundle_sha256']}",
+        f"BLS calendar SHA-256: {result['bls_calendar_csv_sha256']}",
         f"Candidate CPI events: {result['candidate_event_count']}",
         f"Resolved event times: {result['resolved_event_time_count']}",
-        f"Unresolved event times: {result['unresolved_event_time_count']}",
-        f"Schedule matches: {result['schedule_match_count']}",
-        f"Schedule mismatches: {result['schedule_mismatch_count']}",
         f"Same-time BLS clusters: {result['same_time_bls_cluster_count']}",
         f"Requested tick objects: {result['requested_tick_object_count']}",
         f"Acquired tick objects: {result['acquired_tick_object_count']}",
@@ -1069,6 +1247,9 @@ def main() -> int:
     try:
         result = prepare()
         write_reports(result)
+    except OwnerInputRequiredError as exc:
+        print(f"[OWNER INPUT REQUIRED] RF-027 preparation: {exc}", flush=True)
+        return 1
     except (PreparationError, OSError, subprocess.CalledProcessError, ValueError) as exc:
         print(f"[FAIL] RF-027 preparation: {exc}", flush=True)
         return 1

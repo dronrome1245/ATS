@@ -76,10 +76,44 @@ Backlog превращает Program WBS в исполнимую очередь 
 61. `ATS2-RF-024` — HYP-0005 confirmatory Data Feasibility freeze — `BLOCKED` pending RF-023 exact-main preparation result.
 62. `ATS2-RF-025` — Parallel Strategy #5 Idea Intake + HYP-0006 formation — `DONE / PASS`.
 63. `ATS2-RF-026` — HYP-0006 Data Feasibility — `DONE / PASS`.
-64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation — `READY`.
+64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation with frozen local BLS schedule snapshots — `READY`.
 65. `ATS2-RF-028` — HYP-0006 pre-reveal data/tolerance freeze — `BLOCKED` pending RF-027 exact-main preparation result.
 
 Program-level current next task — `ATS2-RF-027`.
+
+
+RF-027 source architecture is now frozen to local official BLS schedule snapshots rather than live
+BLS HTTP access.
+
+Canonical inputs:
+
+- `data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv`;
+- `data/raw/bls/hyp0006/schedules/YYYY.html` for 2003–2021.
+
+Generated local event calendar:
+
+`data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv`
+
+Normal runtime live BLS access is prohibited.
+
+Missing snapshot input is classified:
+
+`OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS`
+
+and is not a HYP-0006 result.
+
+OWNER snapshot collection is intentionally deferred until the corrective RF-027 agent branch passes
+exact-head preflight.
+
+Information boundary remains:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
+
+RF-027 second exact-main attempt on `2ce019bb51b0e45e900c0555ed44be5a3433e23a` again hit
+official BLS archive-index HTTP 403 before event acquisition. The same RF-027 line now stages an
+official annual-schedule inventory fallback with archive-header timestamp preferred and no
+third-party event source.
 
 
 RF-027 exact-main attempt on `a4c6331949e9c71fc68eb1baa870d20a03518d48` passed Local CI but was

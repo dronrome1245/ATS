@@ -107,6 +107,8 @@ HYP0006_DATA_FEASIBILITY = "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
 HYP0006_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
 HYP0006_DATA_FEASIBILITY_TOOL = "tools/hyp0006_data_feasibility.py"
 HYP0006_DATA_FEASIBILITY_TEST = "tests/test_hyp0006_data_feasibility.py"
+HYP0006_BLS_SNAPSHOT_MANIFEST = "data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
+HYP0006_BLS_SNAPSHOT_INTAKE = "research/reviews/HYP-0006-BLS-SNAPSHOT-INTAKE.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -127,6 +129,7 @@ ENVIRONMENT_SPEC = "governance/program/RESEARCH_ENVIRONMENT_SPEC.md"
 LOCAL_CI_GATE = "governance/program/LOCAL_CI_GATE.md"
 LOCAL_CI_TROUBLESHOOTING = "governance/program/LOCAL_CI_TROUBLESHOOTING.md"
 LOCAL_CI_FAILURE_REGISTRY = "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"
+PROJECT_GPT_SYSTEM_INSTRUCTION = "governance/program/PROJECT_GPT_SYSTEM_INSTRUCTION.md"
 AGENT_PRE_PUSH_CHECKLIST = "governance/program/AGENT_PRE_PUSH_CHECKLIST.md"
 DATASET_MANIFEST_SPEC = "governance/program/DATASET_MANIFEST_SPEC.md"
 DATASET_MANIFEST_FILES = (
@@ -302,6 +305,8 @@ def configure() -> None:
         HYP0006_DATA_FEASIBILITY_PREP,
         HYP0006_DATA_FEASIBILITY_TOOL,
         HYP0006_DATA_FEASIBILITY_TEST,
+        HYP0006_BLS_SNAPSHOT_MANIFEST,
+        HYP0006_BLS_SNAPSHOT_INTAKE,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -310,7 +315,8 @@ def configure() -> None:
         CONSUMER_PROFILE,
         RESEARCH_STACK_ADR, ENVIRONMENT_SPEC,
         LOCAL_CI_GATE,
-        LOCAL_CI_TROUBLESHOOTING, LOCAL_CI_FAILURE_REGISTRY, AGENT_PRE_PUSH_CHECKLIST,
+        LOCAL_CI_TROUBLESHOOTING, LOCAL_CI_FAILURE_REGISTRY, PROJECT_GPT_SYSTEM_INSTRUCTION,
+        AGENT_PRE_PUSH_CHECKLIST,
         DATASET_MANIFEST_SPEC,
         *DATASET_MANIFEST_FILES, *BASE_LOADER_FILES,
         *STRATEGY_INTERFACE_FILES, *REPLAY_FILES, *COST_INTERFACE_FILES,
@@ -376,12 +382,15 @@ def configure() -> None:
         "strategy_5_data_feasibility_prep",
         "strategy_5_data_feasibility_tool",
         "strategy_5_data_feasibility_test",
+        "strategy_5_bls_snapshot_manifest",
+        "strategy_5_bls_snapshot_intake",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
         "reference_strategy_1_dataset_manifest", "reference_consumer_profile", "research_stack_adr", "research_environment_spec",
         "dataset_manifest_spec", "local_ci_gate", "local_ci_troubleshooting",
         "local_ci_failure_registry",
+        "project_gpt_system_instruction",
     )
     core.REGISTRY_HEADER = HEADER
     core.CONTENT_MARKERS[TAXONOMY] = (
@@ -1262,15 +1271,16 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[HYP0006_DATA_FEASIBILITY_PREP] = (
         "Task: `ATS2-RF-027`",
-        "Status: `PREPARATION_PROTOCOL_FROZEN`",
-        "https://www.bls.gov/bls/news-release/cpi.htm",
-        "TECHNICAL_SOURCE_ACCESS_FAILURE",
-        "ATS-Research/1.0 (+https://github.com/dronrome1245/ATS)",
+        "PREPARATION_PROTOCOL_FROZEN_OFFLINE_BLS_SNAPSHOTS",
+        "OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS",
+        "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
+        "BLS_ANNUAL_SCHEDULE_US_EASTERN",
+        "Live BLS network access during normal RF-027 runtime is:",
+        "`PROHIBITED`",
         "DUKASCOPY_HOURLY_TICK_BI5",
         "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
         "READY_FOR_DATA_FEASIBILITY_FREEZE",
         "UNRESOLVED_OFFICIAL_EVENT_TIMES",
-        "OFFICIAL_TIME_CROSSCHECK_MISMATCH",
         "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         "ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze",
@@ -1278,39 +1288,59 @@ def configure() -> None:
     core.CONTENT_MARKERS[HYP0006_DATA_FEASIBILITY_TOOL] = (
         'TASK_ID = "ATS2-RF-027"',
         'HYPOTHESIS_ID = "HYP-0006"',
-        'BLS_ARCHIVE_INDEX_URL = "https://www.bls.gov/bls/news-release/cpi.htm"',
-        "BLS_CONTACT_URL",
-        "BLS_REQUEST_DELAY_SECONDS",
-        "SourceAccessDeniedError",
-        "request_headers",
+        "BLS_SNAPSHOT_MANIFEST",
+        "BLS_CALENDAR_CSV",
+        "OwnerInputRequiredError",
+        "load_bls_snapshot_manifest",
+        "load_bls_schedule_snapshots",
+        "bls_snapshot_bundle_hash",
+        "write_bls_calendar_csv",
+        "live BLS network access is disabled",
+        "cpi_schedule_candidates",
         'SOURCE_SYMBOL = "EURUSD"',
         "HYP0005_LEFT_START",
         "HYP0005_RIGHT_START",
-        "parse_archive_release_time",
         "required_tick_hours",
         "decode_tick_object",
         "event_geometry",
+        "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
+        "BLS_ANNUAL_SCHEDULE_US_EASTERN",
         "READY_FOR_DATA_FEASIBILITY_FREEZE",
         "UNRESOLVED_OFFICIAL_EVENT_TIMES",
-        "OFFICIAL_TIME_CROSSCHECK_MISMATCH",
         "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY",
         '"outcome_metrics_computed": False',
         '"primary_claim_evaluated": False',
         '"information_boundary": "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
     )
     core.CONTENT_MARKERS[HYP0006_DATA_FEASIBILITY_TEST] = (
-        "test_parse_archive_index_extracts_release_dates",
-        "test_bls_request_headers_identify_research_owner",
-        "test_bls_403_fails_fast_without_retry",
-        "test_parse_archive_release_time_handles_historical_edt",
+        "test_live_bls_network_access_is_prohibited",
+        "test_snapshot_manifest_requires_exact_2003_2021_contract",
+        "test_missing_snapshot_bundle_is_owner_input_not_hypothesis_failure",
+        "test_legacy_schedule_text_parses_cpi_and_same_time_release",
         "test_et_conversion_uses_pre_and_post_2007_dst_rules",
-        "test_schedule_entries_and_same_time_flags",
+        "test_schedule_candidates_preserve_frozen_development_interval",
+        "test_bls_calendar_csv_contains_only_event_identity_and_provenance",
         "test_tick_source_url_uses_zero_based_month_and_hour_bucket",
         "test_decode_tick_object_validates_coherent_bid_ask",
         "test_required_tick_hours_are_bounded_and_exclude_hyp0005",
         "test_event_geometry_uses_timestamps_only_and_requires_strict_pre_release",
         "test_geometry_output_schema_contains_no_price_or_outcome_fields",
         "test_preparation_decision_is_non_market_geometry_gate",
+    )
+    core.CONTENT_MARKERS[HYP0006_BLS_SNAPSHOT_MANIFEST] = (
+        "year,source_url,snapshot_relative_path",
+        "2003,https://www.bls.gov/schedule/2003/home.htm",
+        "2021,https://www.bls.gov/schedule/2021/home.htm",
+        "data/raw/bls/hyp0006/schedules/2003.html",
+        "data/raw/bls/hyp0006/schedules/2021.html",
+    )
+    core.CONTENT_MARKERS[HYP0006_BLS_SNAPSHOT_INTAKE] = (
+        "HYP-0006 BLS Schedule Snapshot Intake",
+        "one-time capture of official BLS annual release schedules",
+        "data/raw/bls/hyp0006/schedules/YYYY.html",
+        "OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS",
+        "Do this only when GPT explicitly says",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
@@ -2018,6 +2048,18 @@ def configure() -> None:
         "tools/hyp0005_data_feasibility.py",
         "tools/hyp0006_data_feasibility.py",
     )
+    core.CONTENT_MARKERS[PROJECT_GPT_SYSTEM_INSTRUCTION] = (
+        "ATS Project GPT — системная инструкция",
+        "Source of truth",
+        "ПЛАН HYP-xxxx",
+        "ПЕРЕСМОТР ПЛАНА HYP-xxxx",
+        "техническая ошибка, диагностика, форматирование, retry",
+        "Source blockers",
+        "OWNER input discipline",
+        "GitHub workflow",
+        "RUFF_LINT_UNVERIFIED_UNTIL_PINNED_RUFF",
+        "Task закрывается только после exact-main PASS",
+    )
     core.CONTENT_MARKERS["reports/local_ci/README.md"] = (
         "ATS_TASK_CHECK.bat",
         "CURRENT_TASK_REPORT.txt",
@@ -2543,12 +2585,17 @@ def main() -> int:
         'strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"',
         'strategy_5_prototype_authorized: false',
         'rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"',
-        'strategy_5_data_feasibility_prep_status: "RF027_SOURCE_ACCESS_CORRECTION_STAGED"',
+        'strategy_5_data_feasibility_prep_status: "RF027_OFFLINE_BLS_SNAPSHOT_ARCHITECTURE_STAGED"',
         'strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"',
         'rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"',
+        'rf027_second_failed_exact_main_commit: "2ce019bb51b0e45e900c0555ed44be5a3433e23a"',
         'strategy_5_source_access_blocker: "BLS_HTTP_403_AUTOMATED_RETRIEVAL"',
-        'strategy_5_source_access_correction: "CONTACTABLE_USER_AGENT_RATE_LIMIT_FAIL_FAST_403"',
+        'strategy_5_source_access_correction: "FROZEN_LOCAL_BLS_SNAPSHOT_BUNDLE"',
         'strategy_5_required_protected_hyp0005_source_requests: 0',
+        'strategy_5_bls_runtime_network_mode: "PROHIBITED"',
+        'strategy_5_bls_snapshot_years: "2003..2021"',
+        'strategy_5_bls_snapshot_intake_status: "WAITING_UNTIL_POST_PREFLIGHT_REQUEST"',
+        'strategy_5_bls_calendar_candidate: "data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"',
         'active_idea_id: "IDEA-0004"',
         'active_hypothesis_id: "HYP-0005"',
         'parallel_active_idea_id: "IDEA-0005"',

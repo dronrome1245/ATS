@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import lzma
 import struct
 from datetime import UTC, date, datetime, timedelta
@@ -10,81 +11,100 @@ import pytest
 import tools.hyp0006_data_feasibility as feasibility
 
 
-def test_parse_archive_index_extracts_release_dates() -> None:
-    payload = b"""
-    <html><body>
-    <a href="/news.release/archives/cpi_08152003.htm">July 2003 CPI</a>
-    <a href="/news.release/archives/cpi_08112021.htm">July 2021 CPI</a>
-    <a href="/news.release/archives/cpi_09142021.pdf">PDF</a>
-    </body></html>
-    """
-    records = feasibility.parse_archive_index(payload)
-
-    assert records == [
-        (
-            date(2003, 8, 15),
-            "https://www.bls.gov/news.release/archives/cpi_08152003.htm",
-        ),
-        (
-            date(2021, 8, 11),
-            "https://www.bls.gov/news.release/archives/cpi_08112021.htm",
-        ),
-    ]
+def source_object(year: int) -> feasibility.SourceObject:
+    return feasibility.SourceObject(
+        category="BLS_SCHEDULE_SNAPSHOT",
+        identity=str(year),
+        relative_path=f"data/raw/bls/hyp0006/schedules/{year}.html",
+        source_url=f"https://www.bls.gov/schedule/{year}/home.htm",
+        sha256=f"{year:064x}"[-64:],
+    )
 
 
-def test_bls_request_headers_identify_research_owner() -> None:
-    headers = feasibility.request_headers(feasibility.BLS_ARCHIVE_INDEX_URL)
+def test_live_bls_network_access_is_prohibited(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    called = False
 
-    assert headers["User-Agent"] == ("ATS-Research/1.0 (+https://github.com/dronrome1245/ATS)")
-    assert headers["Referer"] == "https://www.bls.gov/"
-    assert headers["Accept-Language"] == "en-US,en;q=0.9"
+    def should_not_call(*_args: object, **_kwargs: object) -> object:
+        nonlocal called
+        called = True
+        raise AssertionError("urlopen must not be called for BLS")
+
+    monkeypatch.setattr(feasibility.urllib.request, "urlopen", should_not_call)
+
+    with pytest.raises(feasibility.PreparationError, match="live BLS network access is disabled"):
+        feasibility.fetch_bytes("https://www.bls.gov/schedule/2003/home.htm")
+
+    assert called is False
 
 
-def test_bls_403_fails_fast_without_retry(
+def test_snapshot_manifest_requires_exact_2003_2021_contract(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
-    calls = 0
+    manifest = tmp_path / "manifest.csv"
+    with manifest.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerow(("year", "source_url", "snapshot_relative_path"))
+        for year in range(2003, 2022):
+            writer.writerow(
+                (
+                    year,
+                    f"https://www.bls.gov/schedule/{year}/home.htm",
+                    f"data/raw/bls/hyp0006/schedules/{year}.html",
+                )
+            )
 
-    def denied(*_args: object, **_kwargs: object) -> object:
-        nonlocal calls
-        calls += 1
-        raise feasibility.urllib.error.HTTPError(
-            feasibility.BLS_ARCHIVE_INDEX_URL,
-            403,
-            "Forbidden",
-            hdrs=None,
-            fp=None,
-        )
+    monkeypatch.setattr(feasibility, "BLS_SNAPSHOT_MANIFEST", manifest)
+    rows = feasibility.load_bls_snapshot_manifest()
 
-    monkeypatch.setattr(feasibility.urllib.request, "urlopen", denied)
-    monkeypatch.setattr(feasibility.time, "sleep", lambda _delay: None)
-
-    with pytest.raises(feasibility.SourceAccessDeniedError, match="BLS HTTP 403"):
-        feasibility.cached_or_fetch_any(
-            (feasibility.BLS_ARCHIVE_INDEX_URL,),
-            tmp_path / "index.htm",
-            "BLS CPI archive index",
-            missing_ok=False,
-        )
-
-    assert calls == 1
+    assert len(rows) == 19
+    assert rows[0]["year"] == "2003"
+    assert rows[-1]["year"] == "2021"
 
 
-def test_parse_archive_release_time_handles_historical_edt() -> None:
+def test_missing_snapshot_bundle_is_owner_input_not_hypothesis_failure(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    rows = [
+        {
+            "year": "2003",
+            "source_url": "https://www.bls.gov/schedule/2003/home.htm",
+            "snapshot_relative_path": "data/raw/bls/hyp0006/schedules/2003.html",
+        }
+    ]
+    monkeypatch.setattr(feasibility, "ROOT", tmp_path)
+
+    with pytest.raises(
+        feasibility.OwnerInputRequiredError,
+        match="OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS",
+    ):
+        feasibility.load_bls_schedule_snapshots(rows)
+
+
+def test_legacy_schedule_text_parses_cpi_and_same_time_release() -> None:
     payload = b"""
-    <html><body>
-    Transmission of material in this release is embargoed until
-    8:30 A.M. (EDT), Friday, August 15, 2003
-    </body></html>
+    <html><body><pre>
+    Consumer Price Index, July 2003                 Aug. 15, 2003    8:30 am
+    Real Earnings, July 2003                        Aug. 15           8:30 am
+    Consumer Price Index, December 2003             Jan. 15, 2004    8:30 am
+    Real Earnings, December 2003                    Jan. 15           8:30 am
+    </pre></body></html>
     """
-    parsed = feasibility.parse_archive_release_time(payload, date(2003, 8, 15))
+    entries = feasibility.schedule_entries(payload, 2003)
 
-    assert parsed is not None
-    utc_time, zone, local_text = parsed
-    assert utc_time == datetime(2003, 8, 15, 12, 30, tzinfo=UTC)
-    assert zone == "EDT"
-    assert local_text == "2003-08-15 08:30"
+    cpi_rows = [item for item in entries if "consumer price index" in str(item["label"]).lower()]
+    assert [(item["date"], item["clock"]) for item in cpi_rows] == [
+        (date(2003, 8, 15), "08:30"),
+        (date(2004, 1, 15), "08:30"),
+    ]
+    assert feasibility.same_time_schedule_labels(
+        entries,
+        date(2003, 8, 15),
+        "08:30",
+    ) == ("Real Earnings, July 2003",)
 
 
 def test_et_conversion_uses_pre_and_post_2007_dst_rules() -> None:
@@ -102,23 +122,106 @@ def test_et_conversion_uses_pre_and_post_2007_dst_rules() -> None:
     ) == datetime(2007, 3, 12, 12, 30, tzinfo=UTC)
 
 
-def test_schedule_entries_and_same_time_flags() -> None:
-    payload = b"""
-    <table>
-      <tr><td>Aug. 15</td><td>8:30 am</td><td>Consumer Price Index, July 2003</td></tr>
-      <tr><td>Aug. 15</td><td>8:30 am</td><td>Real Earnings, July 2003</td></tr>
-      <tr><td>Aug. 19</td><td>10:00 am</td><td>State Employment</td></tr>
-    </table>
-    """
-    entries = feasibility.schedule_entries(payload, 2003)
-    status, labels = feasibility.schedule_crosscheck(
-        entries,
+def test_schedule_candidates_preserve_frozen_development_interval() -> None:
+    schedule_by_year = {
+        2003: [
+            {
+                "date": date(2003, 7, 16),
+                "clock": "08:30",
+                "label": "Consumer Price Index, June 2003",
+            },
+            {
+                "date": date(2003, 8, 15),
+                "clock": "08:30",
+                "label": "Consumer Price Index, July 2003",
+            },
+        ],
+        2021: [
+            {
+                "date": date(2021, 8, 11),
+                "clock": "08:30",
+                "label": "Consumer Price Index for July 2021",
+            },
+            {
+                "date": date(2021, 9, 14),
+                "clock": "08:30",
+                "label": "Consumer Price Index for August 2021",
+            },
+        ],
+    }
+    source_by_year = {
+        2003: source_object(2003),
+        2021: source_object(2021),
+    }
+
+    candidates = feasibility.cpi_schedule_candidates(schedule_by_year, source_by_year)
+
+    assert [item["date"] for item in candidates] == [
         date(2003, 8, 15),
-        "2003-08-15 08:30",
+        date(2021, 8, 11),
+    ]
+    assert candidates[0]["source_snapshot_relative_path"].endswith("2003.html")
+    assert candidates[1]["source_snapshot_relative_path"].endswith("2021.html")
+
+
+def test_duplicate_schedule_event_prefers_release_calendar_year() -> None:
+    duplicate = {
+        "date": date(2004, 1, 15),
+        "clock": "08:30",
+        "label": "Consumer Price Index, December 2003",
+    }
+    schedule_by_year = {
+        2003: [dict(duplicate)],
+        2004: [dict(duplicate)],
+    }
+    source_by_year = {
+        2003: source_object(2003),
+        2004: source_object(2004),
+    }
+
+    candidates = feasibility.cpi_schedule_candidates(schedule_by_year, source_by_year)
+
+    assert len(candidates) == 1
+    assert candidates[0]["source_year"] == 2004
+    assert candidates[0]["source_snapshot_relative_path"].endswith("2004.html")
+
+
+def test_bls_calendar_csv_contains_only_event_identity_and_provenance(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    calendar = tmp_path / "calendar.csv"
+    monkeypatch.setattr(feasibility, "BLS_CALENDAR_CSV", calendar)
+
+    schedule_by_year = {
+        2003: [
+            {
+                "date": date(2003, 8, 15),
+                "clock": "08:30",
+                "label": "Consumer Price Index, July 2003",
+            },
+            {
+                "date": date(2003, 8, 15),
+                "clock": "08:30",
+                "label": "Real Earnings, July 2003",
+            },
+        ]
+    }
+    candidates = feasibility.cpi_schedule_candidates(
+        schedule_by_year,
+        {2003: source_object(2003)},
     )
 
-    assert status == "MATCH"
-    assert labels == ("Real Earnings, July 2003",)
+    digest = feasibility.write_bls_calendar_csv(candidates, schedule_by_year)
+
+    assert len(digest) == 64
+    header = calendar.read_text(encoding="utf-8").splitlines()[0].split(",")
+    assert tuple(header) == feasibility.BLS_CALENDAR_FIELDS
+    lowered = {field.lower() for field in header}
+    assert "bid" not in lowered
+    assert "ask" not in lowered
+    assert "return" not in lowered
+    assert "pnl" not in lowered
 
 
 def test_tick_source_url_uses_zero_based_month_and_hour_bucket() -> None:
@@ -214,8 +317,6 @@ def test_preparation_decision_is_non_market_geometry_gate() -> None:
     assert (
         feasibility.preparation_decision(
             candidate_event_count=10,
-            unresolved_event_time_count=0,
-            schedule_mismatch_count=0,
             complete_geometry_count=8,
         )
         == "READY_FOR_DATA_FEASIBILITY_FREEZE"
@@ -223,9 +324,7 @@ def test_preparation_decision_is_non_market_geometry_gate() -> None:
     assert (
         feasibility.preparation_decision(
             candidate_event_count=10,
-            unresolved_event_time_count=1,
-            schedule_mismatch_count=0,
-            complete_geometry_count=8,
+            complete_geometry_count=0,
         )
-        == "UNRESOLVED_OFFICIAL_EVENT_TIMES"
+        == "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY"
     )

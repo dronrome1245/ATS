@@ -2,19 +2,36 @@
 
 Task: `ATS2-RF-027`  
 Hypothesis ID: `HYP-0006`  
-Status: `PREPARATION_PROTOCOL_FROZEN`  
+Status: `PREPARATION_PROTOCOL_FROZEN_OFFLINE_BLS_SNAPSHOTS`  
 Date: 29 September 2026
 
 ## Purpose
 
-RF-027 machine-verifies the official U.S. CPI event denominator and granular EUR/USD
-BID/ASK source geometry required by HYP-0006.
+RF-027 machine-verifies the official U.S. CPI event denominator and granular EUR/USD BID/ASK
+timestamp geometry required by HYP-0006.
 
 RF-027 computes **no HYP-0006 return, pre/post distribution, primary inequality or trading P&L**.
 
+## Why the source architecture changed
+
+Two exact-main RF-027 attempts passed Local CI and then failed before event acquisition because the
+official BLS website returned HTTP 403 to the automated client:
+
+- `a4c6331949e9c71fc68eb1baa870d20a03518d48`;
+- `2ce019bb51b0e45e900c0555ed44be5a3433e23a`.
+
+Both failures are classified:
+
+`TECHNICAL_SOURCE_ACCESS_FAILURE`
+
+They are not HYP-0006 negative results.
+
+The repeated access failure proves that normal RF-027 execution must not depend on live BLS HTTP
+availability.
+
 ## Frozen development interval
 
-Only events with official BLS public release time inside:
+Only CPI events with official BLS scheduled release timestamp inside:
 
 `2003-08-03T21:00:00Z <= release_time < 2021-09-01T00:00:00Z`
 
@@ -24,66 +41,120 @@ Evidence classification:
 
 `DEVELOPMENT / EXPLORATORY ONLY`
 
-The interval is already consumed by ATS development work and cannot later be described as
-independent evidence for HYP-0006.
+## Canonical BLS source architecture
 
-## Official event denominator
+The official source class remains the U.S. Bureau of Labor Statistics.
 
-Primary inventory source:
+Live BLS network access during normal RF-027 runtime is:
 
-`https://www.bls.gov/bls/news-release/cpi.htm`
+`PROHIBITED`
 
-RF-027 parses every archived CPI HTML release link whose release date falls inside the frozen
-development interval. No event is removed because of future EUR/USD behavior.
+Canonical source intake is a one-time set of official annual BLS schedule snapshots.
 
-For each candidate event RF-027 fetches the linked archived CPI release and extracts the
-embargo/publication timestamp from the release header.
+Manifest:
 
-Allowed archive time-zone labels:
+`data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv`
 
-- `EST`;
-- `EDT`;
-- `ET`.
+Required years:
 
-`EST` is converted at UTC-05:00 and `EDT` at UTC-04:00.
+`2003..2021`
 
-For generic `ET`, RF-027 applies the historical U.S. Eastern DST rule:
+Required raw snapshot location:
 
-- through 2006: DST from the first Sunday in April at 02:00 local until the last Sunday in
-  October at 02:00 local;
-- from 2007 onward: DST from the second Sunday in March at 02:00 local until the first Sunday
-  in November at 02:00 local.
+`data/raw/bls/hyp0006/schedules/YYYY.html`
 
-The archived release date must agree with the date encoded in its official archive URL.
+OWNER intake instructions:
 
-## BLS schedule cross-check and same-time releases
+`research/reviews/HYP-0006-BLS-SNAPSHOT-INTAKE.md`
 
-For every calendar year represented by the event inventory, RF-027 also fetches:
+Raw snapshots are not committed to Git.
 
-`https://www.bls.gov/schedule/{YEAR}/home.htm`
+For every snapshot RF-027 records:
 
-The schedule is a cross-check, not a performance filter.
+- official source URL;
+- local raw snapshot path;
+- SHA-256;
+- calendar year.
 
-RF-027 records:
+## Frozen local CPI calendar
 
-- whether the CPI schedule row is found;
-- schedule local release time;
-- whether schedule time agrees with the archive header;
-- other BLS release labels on the same date and local clock time.
+RF-027 derives a local event calendar from the 19 official schedule snapshots:
 
-Same-time policy remains:
+`data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv`
+
+The calendar contains only:
+
+- event identity;
+- local release date;
+- local release clock time;
+- UTC release timestamp;
+- historical U.S. Eastern timezone semantics;
+- official BLS schedule label;
+- same-time BLS release labels;
+- source year;
+- official source URL;
+- raw snapshot identity and SHA-256.
+
+It contains no market price, return or P&L field.
+
+Result source identity:
+
+`BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS`
+
+Timestamp semantics:
+
+`BLS_ANNUAL_SCHEDULE_US_EASTERN`
+
+## Historical U.S. Eastern conversion
+
+Annual BLS schedule clock times are interpreted as U.S. Eastern Time.
+
+Historical DST rule:
+
+- through 2006: first Sunday in April through last Sunday in October;
+- from 2007 onward: second Sunday in March through first Sunday in November.
+
+UTC conversion is deterministic and is performed before any EUR/USD observation is selected.
+
+## Event denominator
+
+The denominator is every official BLS schedule row identifying the Consumer Price Index whose
+converted release timestamp lies inside the frozen development interval.
+
+No event may be removed because of future EUR/USD behavior.
+
+Duplicate CPI rows for the same date are allowed only if their official release clock is identical.
+Conflicting official clock times are blocking.
+
+Same-time BLS event policy:
 
 `FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION`
 
-A same-time release never removes a CPI event during RF-027.
+## Missing source inputs
+
+If one or more required BLS annual snapshot files are absent, RF-027 must stop with:
+
+`OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS`
+
+This is an OWNER input requirement, not a Hypothesis result and not a data-feasibility rejection.
+
+Malformed/unparseable official snapshot content is a technical/source-integrity blocker.
+
+RF-027 must never silently fall back to:
+
+- a third-party economic calendar;
+- inferred monthly dates;
+- current BLS pages substituted for missing historical snapshots;
+- manually typed event dates;
+- live BLS HTTP retrieval.
 
 ## Granular EUR/USD source
 
-Frozen preparation source path:
+Quote source remains:
 
 `DUKASCOPY_HOURLY_TICK_BI5`
 
-Candidate endpoints, tried in this order:
+Candidate endpoints:
 
 1. `https://datafeed.dukascopy.com/datafeed`
 2. `https://www.dukascopy.com/datafeed`
@@ -96,168 +167,109 @@ Each object is LZMA-compressed and must decode into 20-byte big-endian records:
 
 `>IIIff`
 
-with:
+RF-027 validates:
 
-- millisecond offset from UTC hour start;
-- ASK integer price;
-- BID integer price;
-- ASK volume;
-- BID volume.
+- ordered millisecond timestamps;
+- finite positive BID/ASK;
+- `ASK >= BID`;
+- finite non-negative volume fields.
 
-EUR/USD price divisor:
+Quote prices are inspected only for source integrity and are not written to the BLS calendar or
+geometry dataset.
 
-`100000`
+## Bounded tick-object rule
 
-RF-027 validates timestamp ordering, positive finite BID/ASK values and `ASK >= BID`.
-Quote prices are used only for source-quality validation and are **not written to the preparation
-geometry dataset**.
-
-## Bounded tick-object request rule
-
-For each resolved event timestamp `t`, RF-027 requests only hourly tick objects spanning:
+For each frozen CPI timestamp `t`, RF-027 requests only hourly objects spanning:
 
 `floor(t - 60m) - 1h` through `floor(t + 60m) + 1h`
 
 inclusive.
 
-This bounded window is sufficient to measure timestamp geometry around:
+This permits timestamp-only geometry around:
 
 - `t - 60m`;
 - strictly before `t`;
-- `t + 60m`;
+- `t + 60m`.
 
-without calculating market returns.
+RF-027 must reject any request outside the development interval or inside either frozen HYP-0005
+unseen segment.
 
-RF-027 must refuse any source request outside the frozen HYP-0006 development interval or inside
-either frozen HYP-0005 unseen segment.
+Required invariant:
+
+`protected_hyp0005_source_requests = 0`
 
 ## Geometry only
 
-For each event, RF-027 may calculate only timestamp-distance facts:
+RF-027 may calculate only timestamp/source geometry:
 
-- previous/next tick distance around `t - 60m`;
+- nearest previous/next tick distance around `t - 60m`;
 - last tick distance strictly before `t`;
-- previous/next tick distance around `t + 60m`;
-- source-object missing count;
-- quote-order/coherence violation count;
-- duplicate-timestamp count;
-- same-time BLS release flags.
+- nearest previous/next tick distance around `t + 60m`;
+- missing tick-object count;
+- duplicate tick-timestamp count;
+- source object hashes;
+- event counts;
+- same-time BLS flags.
 
-RF-027 does **not** freeze a numeric anchor tolerance. The observed geometry is input to the next
-pre-reveal freeze task.
-
-## Missing and failure semantics
-
-- BLS archive index network failure: technical blocker.
-- Archive link present but release page unavailable: event remains in denominator and time is unresolved.
-- Archive timestamp cannot be parsed unambiguously: event remains unresolved.
-- Schedule page unavailable/unparseable: cross-check is unresolved; archive timestamp remains primary.
-- Dukascopy `404/410` or an empty tick object: source object is recorded missing.
-- Timeout, reset, `5xx`, decompression failure or malformed binary structure: technical blocker.
-- Out-of-order tick timestamp: blocking source-integrity failure.
-- `ASK < BID` or non-positive/non-finite quote: blocking source-integrity failure.
-- Forward fill, interpolation and synthetic quote repair: prohibited.
-
-Network/source technical failure is not a HYP-0006 negative result.
+RF-027 does not freeze the final numeric anchor tolerance. That is RF-028 work.
 
 ## Local outputs
 
-Canonical tool:
+Machine result:
 
-`tools/hyp0006_data_feasibility.py`
+`reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP.json`
 
-Synthetic contract tests:
+Shareable summary:
 
-`tests/test_hyp0006_data_feasibility.py`
+`reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP_REPORT.txt`
 
-Local runtime outputs:
+Frozen-calendar candidate:
 
-- `reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP.json`
-- `reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP_REPORT.txt`
-- `data/derived/HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv`
+`data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv`
 
-Raw BLS and Dukascopy source bytes remain under ignored `data/raw/`.
+Tick geometry:
 
-The geometry CSV must contain no BID, ASK, midpoint, return or P&L field.
+`data/derived/HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv`
 
 ## Valid preparation decisions
 
 `READY_FOR_DATA_FEASIBILITY_FREEZE`
 
-The event denominator is non-empty, every candidate archive release time is resolved, no official
-schedule-time mismatch is found, source acquisition completed without technical ambiguity, and at
-least one event has complete timestamp geometry around all three HYP-0006 anchors.
-
-This decision authorizes only the next pre-reveal freeze review.
+Meaning: all required official BLS snapshots are present and parseable, the CPI denominator is
+non-empty, event times are deterministic, HYP-0005 protected requests are zero, and at least one
+event has complete granular tick timestamp geometry.
 
 `UNRESOLVED_OFFICIAL_EVENT_TIMES`
 
-At least one candidate CPI event remains without an unambiguous official publication timestamp.
-
-`OFFICIAL_TIME_CROSSCHECK_MISMATCH`
-
-At least one available BLS annual schedule disagrees with its CPI archive release time.
+Meaning: official snapshot content cannot produce an unambiguous CPI release timestamp.
 
 `INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY`
 
-The full source pass completes but no event has complete granular tick geometry around all three
-required anchors.
+Meaning: BLS calendar preparation succeeds but the bounded Dukascopy pass produces no event with
+complete timestamp geometry.
 
-These are Data Feasibility preparation outcomes, not HYP-0006 market outcomes.
+These are Data Feasibility preparation decisions, not HYP-0006 market outcomes.
 
-## Information boundary
+## Explicitly prohibited RF-027 output
 
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
-
-RF-027 is prohibited from calculating or writing:
+RF-027 must not calculate or write:
 
 - `pre_abs_60m_return`;
 - `post_abs_60m_return`;
-- any return mean, median, quantile or distribution;
-- the primary HYP-0006 Boolean;
+- return mean/median/quantile/distribution;
+- the primary HYP-0006 inequality;
 - directional event returns;
 - trading P&L.
 
+Information boundary:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
 ## Next step
 
-After exact-main RF-027 PASS and OWNER delivery of the preparation JSON:
+After exact-main RF-027 PASS and review of the preparation JSON:
 
 `ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`
 
-must canonicalize the exact event/source identities, decide the mechanical eligible-event denominator,
-freeze numeric anchor-selection tolerances and keep the outcome boundary closed.
-
-## RF-027 source-access correction after exact-main technical failure
-
-Exact-main RF-027 on commit:
-
-`a4c6331949e9c71fc68eb1baa870d20a03518d48`
-
-passed repository validation and the full local CI gate, then failed before event acquisition because
-the official BLS CPI archive index returned HTTP 403.
-
-This is classified as:
-
-`TECHNICAL_SOURCE_ACCESS_FAILURE`
-
-It is not a HYP-0006 negative result and did not compute any HYP-0006 outcome.
-
-The official BLS event source, URL and event-denominator rule remain unchanged.
-
-To conform to the BLS automated-retrieval policy, the corrective acquisition contract freezes:
-
-- contactable User-Agent:
-  `ATS-Research/1.0 (+https://github.com/dronrome1245/ATS)`;
-- BLS Referer:
-  `https://www.bls.gov/`;
-- BLS Accept-Language:
-  `en-US,en;q=0.9`;
-- minimum delay before each BLS request:
-  `1.0 second`;
-- a BLS HTTP 403 fails immediately and is not repeatedly retried;
-- no non-BLS mirror or third-party event calendar may silently replace the official source.
-
-This correction changes source-access mechanics only. It does not change the HYP-0006 statement,
-event class, development interval, event denominator, timestamp semantics, quote source, anchor
-geometry or any outcome rule.
-
+must freeze the exact BLS calendar SHA-256, source snapshot bundle SHA-256, eligible-event rules,
+Dukascopy source identity and numeric anchor tolerances before any HYP-0006 outcome calculation.
