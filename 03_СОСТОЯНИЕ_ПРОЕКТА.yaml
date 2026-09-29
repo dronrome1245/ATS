@@ -67,6 +67,7 @@ model:
   program_wbs: "governance/program/PROGRAM_WBS_V2.md"
   repository_structure: "governance/program/REPOSITORY_STRUCTURE_V2.md"
   program_backlog: "governance/backlog/PROGRAM_BACKLOG_V2.md"
+  project_gpt_system_instruction: "governance/program/PROJECT_GPT_SYSTEM_INSTRUCTION.md"
   research_templates: "governance/methodology/templates/README.md"
   m0_exit_review: "governance/program/M0_EXIT_REVIEW.md"
   m1_exit_review: "governance/program/M1_EXIT_REVIEW.md"
