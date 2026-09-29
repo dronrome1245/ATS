@@ -908,58 +908,35 @@ def prepare() -> dict[str, Any]:
     tick_objects: list[TickObject] = []
 
     emit_progress(82)
-    archive_index_path = RAW_BLS_ROOT / "cpi_archive_index.htm"
-    fetched_index = cached_or_fetch_any(
-        (BLS_ARCHIVE_INDEX_URL,),
-        archive_index_path,
-        "BLS CPI archive index",
-        missing_ok=False,
-    )
-    assert fetched_index is not None
-    index_path, index_headers = fetched_index
-    source_objects.append(
-        SourceObject(
-            category="BLS_ARCHIVE_INDEX",
-            identity="cpi_archive_index",
-            relative_path=str(index_path.relative_to(ROOT)).replace("\\", "/"),
-            source_url=index_headers["source_url"],
-            sha256=sha256_file(index_path),
-        )
-    )
-
-    candidates = [
-        (release_date, url)
-        for release_date, url in parse_archive_index(index_path.read_bytes())
-        if DEVELOPMENT_START.date() <= release_date < DEVELOPMENT_END.date()
-    ]
-    if not candidates:
-        raise PreparationError("BLS CPI archive index produced no events in frozen interval")
-
-    years = sorted({release_date.year for release_date, _ in candidates})
     schedule_by_year: dict[int, list[dict[str, Any]]] = {}
-    for year in years:
+    for year in range(DEVELOPMENT_START.year, DEVELOPMENT_END.year + 1):
         destination = RAW_BLS_ROOT / "schedules" / f"{year}.htm"
         url = BLS_SCHEDULE_URL_TEMPLATE.format(year=year)
         downloaded = cached_or_fetch_any(
             (url,),
             destination,
             f"BLS schedule {year}",
-            missing_ok=True,
+            missing_ok=False,
         )
-        if downloaded is None:
-            schedule_by_year[year] = []
-            continue
-        path, headers = downloaded
-        schedule_by_year[year] = schedule_entries(path.read_bytes(), year)
+        assert downloaded is not None
+        schedule_path, headers = downloaded
+        entries = schedule_entries(schedule_path.read_bytes(), year)
+        if not entries:
+            raise PreparationError(f"BLS schedule {year} produced no parseable release rows")
+        schedule_by_year[year] = entries
         source_objects.append(
             SourceObject(
                 category="BLS_SCHEDULE",
                 identity=str(year),
-                relative_path=str(path.relative_to(ROOT)).replace("\\", "/"),
+                relative_path=str(schedule_path.relative_to(ROOT)).replace("\\", "/"),
                 source_url=headers["source_url"],
-                sha256=sha256_file(path),
+                sha256=sha256_file(schedule_path),
             )
         )
+
+    candidates = cpi_schedule_candidates(schedule_by_year)
+    if not candidates:
+        raise PreparationError("official BLS annual schedules produced no CPI events")
 
     event_records: list[EventRecord] = []
     requested_hours: set[datetime] = set()
