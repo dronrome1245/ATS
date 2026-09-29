@@ -226,3 +226,38 @@ After exact-main RF-027 PASS and OWNER delivery of the preparation JSON:
 
 must canonicalize the exact event/source identities, decide the mechanical eligible-event denominator,
 freeze numeric anchor-selection tolerances and keep the outcome boundary closed.
+
+## RF-027 source-access correction after exact-main technical failure
+
+Exact-main RF-027 on commit:
+
+`a4c6331949e9c71fc68eb1baa870d20a03518d48`
+
+passed repository validation and the full local CI gate, then failed before event acquisition because
+the official BLS CPI archive index returned HTTP 403.
+
+This is classified as:
+
+`TECHNICAL_SOURCE_ACCESS_FAILURE`
+
+It is not a HYP-0006 negative result and did not compute any HYP-0006 outcome.
+
+The official BLS event source, URL and event-denominator rule remain unchanged.
+
+To conform to the BLS automated-retrieval policy, the corrective acquisition contract freezes:
+
+- contactable User-Agent:
+  `ATS-Research/1.0 (+https://github.com/dronrome1245/ATS)`;
+- BLS Referer:
+  `https://www.bls.gov/`;
+- BLS Accept-Language:
+  `en-US,en;q=0.9`;
+- minimum delay before each BLS request:
+  `1.0 second`;
+- a BLS HTTP 403 fails immediately and is not repeatedly retried;
+- no non-BLS mirror or third-party event calendar may silently replace the official source.
+
+This correction changes source-access mechanics only. It does not change the HYP-0006 statement,
+event class, development interval, event denominator, timestamp semantics, quote source, anchor
+geometry or any outcome rule.
+

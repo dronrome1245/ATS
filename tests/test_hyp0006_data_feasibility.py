@@ -32,6 +32,45 @@ def test_parse_archive_index_extracts_release_dates() -> None:
     ]
 
 
+def test_bls_request_headers_identify_research_owner() -> None:
+    headers = feasibility.request_headers(feasibility.BLS_ARCHIVE_INDEX_URL)
+
+    assert headers["User-Agent"] == ("ATS-Research/1.0 (+https://github.com/dronrome1245/ATS)")
+    assert headers["Referer"] == "https://www.bls.gov/"
+    assert headers["Accept-Language"] == "en-US,en;q=0.9"
+
+
+def test_bls_403_fails_fast_without_retry(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    calls = 0
+
+    def denied(*_args: object, **_kwargs: object) -> object:
+        nonlocal calls
+        calls += 1
+        raise feasibility.urllib.error.HTTPError(
+            feasibility.BLS_ARCHIVE_INDEX_URL,
+            403,
+            "Forbidden",
+            hdrs=None,
+            fp=None,
+        )
+
+    monkeypatch.setattr(feasibility.urllib.request, "urlopen", denied)
+    monkeypatch.setattr(feasibility.time, "sleep", lambda _delay: None)
+
+    with pytest.raises(feasibility.SourceAccessDeniedError, match="BLS HTTP 403"):
+        feasibility.cached_or_fetch_any(
+            (feasibility.BLS_ARCHIVE_INDEX_URL,),
+            tmp_path / "index.htm",
+            "BLS CPI archive index",
+            missing_ok=False,
+        )
+
+    assert calls == 1
+
+
 def test_parse_archive_release_time_handles_historical_edt() -> None:
     payload = b"""
     <html><body>
