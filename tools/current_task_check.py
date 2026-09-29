@@ -297,6 +297,38 @@ def check_rf027_contract() -> bool:
         )
     )
 
+def validate_bls_calendar(payload: dict[str, Any]) -> bool:
+    path = ROOT / BLS_CALENDAR_CSV
+    if not path.is_file():
+        print("[FAIL] RF-027 BLS calendar CSV missing", flush=True)
+        return False
+
+    expected_digest = payload.get("bls_calendar_csv_sha256")
+    if not isinstance(expected_digest, str) or not SHA256_RE.fullmatch(expected_digest):
+        print("[FAIL] invalid RF-027 BLS calendar SHA-256 field", flush=True)
+        return False
+    if sha256_file(path) != expected_digest:
+        print("[FAIL] RF-027 BLS calendar SHA-256 mismatch", flush=True)
+        return False
+
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        reader = csv.reader(handle)
+        header = tuple(next(reader, []))
+
+    if header != EXPECTED_BLS_CALENDAR_HEADER:
+        print(f"[FAIL] RF-027 BLS calendar header mismatch: {header}", flush=True)
+        return False
+
+    lowered = {name.lower() for name in header}
+    for field in PROHIBITED_OUTCOME_FIELDS:
+        if field in lowered:
+            print(f"[FAIL] prohibited field in RF-027 BLS calendar: {field}", flush=True)
+            return False
+
+    print("[PASS] RF-027 frozen BLS calendar identity and outcome-free schema", flush=True)
+    return True
+
+
 def validate_geometry_csv(payload: dict[str, Any]) -> bool:
     path = ROOT / GEOMETRY_CSV
     if not path.is_file():
@@ -338,12 +370,13 @@ def validate_local_result(payload: dict[str, Any], commit: str) -> bool:
         ("hypothesis_id", "HYP-0006"),
         ("git_commit", commit),
         ("evidence_classification", "DEVELOPMENT_EXPLORATORY_ONLY"),
-        ("event_inventory_source", "BLS_OFFICIAL_ANNUAL_SCHEDULES"),
         (
-            "event_time_source_order",
-            "ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK",
+            "event_inventory_source",
+            "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
         ),
+        ("event_time_source", "BLS_ANNUAL_SCHEDULE_US_EASTERN"),
         ("quote_source", "DUKASCOPY_HOURLY_TICK_BI5"),
+        ("bls_snapshot_count", 19),
         ("protected_hyp0005_source_requests", 0),
         ("outcome_metrics_computed", False),
         ("primary_claim_evaluated", False),
@@ -365,12 +398,6 @@ def validate_local_result(payload: dict[str, Any], commit: str) -> bool:
     count_keys = (
         "candidate_event_count",
         "resolved_event_time_count",
-        "unresolved_event_time_count",
-        "archive_header_event_count",
-        "schedule_fallback_event_count",
-        "archive_access_denied_count",
-        "schedule_match_count",
-        "schedule_mismatch_count",
         "same_time_bls_cluster_count",
         "requested_tick_object_count",
         "acquired_tick_object_count",
@@ -385,34 +412,44 @@ def validate_local_result(payload: dict[str, Any], commit: str) -> bool:
 
     candidate_count = payload.get("candidate_event_count")
     resolved_count = payload.get("resolved_event_time_count")
-    unresolved_count = payload.get("unresolved_event_time_count")
     if (
         isinstance(candidate_count, int)
         and isinstance(resolved_count, int)
-        and isinstance(unresolved_count, int)
-        and candidate_count != resolved_count + unresolved_count
+        and candidate_count != resolved_count
     ):
         print("[FAIL] RF-027 event denominator does not reconcile", flush=True)
         passed = False
 
-    archive_count = payload.get("archive_header_event_count")
-    fallback_count = payload.get("schedule_fallback_event_count")
-    if (
-        isinstance(resolved_count, int)
-        and isinstance(archive_count, int)
-        and isinstance(fallback_count, int)
-        and resolved_count != archive_count + fallback_count
+    manifest_path = str(BLS_SNAPSHOT_MANIFEST).replace("\\", "/")
+    if payload.get("bls_snapshot_manifest_relative_path") != manifest_path:
+        print("[FAIL] unexpected RF-027 BLS snapshot manifest path", flush=True)
+        passed = False
+    manifest_digest = payload.get("bls_snapshot_manifest_sha256")
+    if not isinstance(manifest_digest, str) or not SHA256_RE.fullmatch(manifest_digest):
+        print("[FAIL] invalid RF-027 BLS manifest SHA-256", flush=True)
+        passed = False
+    elif sha256_file(ROOT / BLS_SNAPSHOT_MANIFEST) != manifest_digest:
+        print("[FAIL] RF-027 BLS manifest SHA-256 mismatch", flush=True)
+        passed = False
+
+    for key in (
+        "bls_snapshot_bundle_sha256",
+        "bls_calendar_csv_sha256",
+        "source_bundle_sha256",
+        "geometry_csv_sha256",
     ):
-        print("[FAIL] RF-027 timestamp source counts do not reconcile", flush=True)
+        value = payload.get(key)
+        if not isinstance(value, str) or not SHA256_RE.fullmatch(value):
+            print(f"[FAIL] invalid RF-027 SHA-256 field {key}: {value!r}", flush=True)
+            passed = False
+
+    expected_calendar_path = str(BLS_CALENDAR_CSV).replace("\\", "/")
+    if payload.get("bls_calendar_csv_relative_path") != expected_calendar_path:
+        print("[FAIL] unexpected RF-027 BLS calendar path", flush=True)
         passed = False
 
-    source_digest = payload.get("source_bundle_sha256")
-    if not isinstance(source_digest, str) or not SHA256_RE.fullmatch(source_digest):
-        print("[FAIL] invalid RF-027 source bundle SHA-256", flush=True)
-        passed = False
-
-    expected_path = str(GEOMETRY_CSV).replace("\\", "/")
-    if payload.get("geometry_csv_relative_path") != expected_path:
+    expected_geometry_path = str(GEOMETRY_CSV).replace("\\", "/")
+    if payload.get("geometry_csv_relative_path") != expected_geometry_path:
         print("[FAIL] unexpected RF-027 geometry CSV path", flush=True)
         passed = False
 
@@ -426,6 +463,8 @@ def validate_local_result(payload: dict[str, Any], commit: str) -> bool:
             print(f"[FAIL] prohibited outcome key in RF-027 result: {forbidden}", flush=True)
             passed = False
 
+    if not validate_bls_calendar(payload):
+        passed = False
     if not validate_geometry_csv(payload):
         passed = False
 
