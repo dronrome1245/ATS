@@ -152,7 +152,7 @@ def check_rf027_contract() -> bool:
         (
             "ATS2-RF-027",
             "PREPARATION_PROTOCOL_FROZEN",
-            "BLS CPI archive index",
+            "https://www.bls.gov/bls/news-release/cpi.htm",
             "DUKASCOPY_HOURLY_TICK_BI5",
             "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
             "READY_FOR_DATA_FEASIBILITY_FREEZE",
