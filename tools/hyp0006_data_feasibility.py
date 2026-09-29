@@ -501,34 +501,131 @@ def parse_schedule_clock(text: str) -> str | None:
 
 
 def schedule_entries(payload: bytes, year: int) -> list[dict[str, Any]]:
-    parser = TableRowParser()
-    parser.feed(payload.decode("utf-8", errors="replace"))
+    text = payload.decode("utf-8", errors="replace")
     entries: list[dict[str, Any]] = []
-    for cells in parser.rows:
+    seen: set[tuple[date, str, str]] = set()
+
+    def append_entry(row_date: date, row_clock: str, label: str) -> None:
+        normalized_label = re.sub(r"\s+", " ", label).strip()
+        if not normalized_label or not re.search(r"[A-Za-z]", normalized_label):
+            return
+        key = (row_date, row_clock, normalized_label)
+        if key in seen:
+            return
+        seen.add(key)
+        entries.append(
+            {
+                "date": row_date,
+                "clock": row_clock,
+                "label": normalized_label,
+            }
+        )
+
+    table_parser = TableRowParser()
+    table_parser.feed(text)
+    for cells in table_parser.rows:
         row_text = " ".join(cells)
         row_date = parse_schedule_date(row_text, year)
         row_clock = parse_schedule_clock(row_text)
         if row_date is None or row_clock is None:
             continue
-
         candidates = [
             cell
             for cell in cells
             if parse_schedule_date(cell, year) is None and parse_schedule_clock(cell) is None
         ]
-        if not candidates:
+        if candidates:
+            append_entry(row_date, row_clock, max(candidates, key=len))
+
+    text_parser = ScheduleTextParser()
+    text_parser.feed(text)
+    current_year = year
+    for raw_line in "\n".join(text_parser.parts).splitlines():
+        line = re.sub(r"[ \t]+", " ", raw_line).strip()
+        clock_match = CLOCK_RE.search(line)
+        if clock_match is None:
             continue
-        label = max(candidates, key=len).strip()
-        if not re.search(r"[A-Za-z]", label):
+        date_matches = list(MONTH_RE.finditer(line[: clock_match.start()]))
+        if not date_matches:
             continue
-        entries.append(
+        date_match = date_matches[-1]
+        month_key = date_match.group(1).lower().rstrip(".")
+        month = MONTHS.get(month_key)
+        if month is None:
+            continue
+        if date_match.group(3):
+            current_year = int(date_match.group(3))
+        try:
+            row_date = date(current_year, month, int(date_match.group(2)))
+        except ValueError:
+            continue
+        row_clock = parse_schedule_clock(clock_match.group(0))
+        if row_clock is None:
+            continue
+        append_entry(row_date, row_clock, line[: date_match.start()])
+
+    entries.sort(key=lambda item: (item["date"], item["clock"], item["label"]))
+    return entries
+
+
+def schedule_local_datetime(entry: dict[str, Any]) -> datetime:
+    row_date = entry["date"]
+    if not isinstance(row_date, date):
+        raise PreparationError("schedule entry date has invalid type")
+    clock = str(entry["clock"])
+    hour_text, minute_text = clock.split(":", 1)
+    return datetime.combine(row_date, dt_time(int(hour_text), int(minute_text)))
+
+
+def archive_url_for_release_date(release_date: date) -> str:
+    stamp = release_date.strftime("%m%d%Y")
+    return f"https://www.bls.gov/news.release/archives/cpi_{stamp}.htm"
+
+
+def cpi_schedule_candidates(
+    schedule_by_year: dict[int, list[dict[str, Any]]],
+) -> list[dict[str, Any]]:
+    by_date: dict[date, dict[str, Any]] = {}
+    for entries in schedule_by_year.values():
+        for entry in entries:
+            if "consumer price index" not in str(entry["label"]).lower():
+                continue
+            local_dt = schedule_local_datetime(entry)
+            release_utc = eastern_local_to_utc(local_dt, "ET")
+            if not DEVELOPMENT_START <= release_utc < DEVELOPMENT_END:
+                continue
+            existing = by_date.get(local_dt.date())
+            if existing is not None and existing["clock"] != entry["clock"]:
+                raise PreparationError(
+                    "conflicting official CPI schedule times for "
+                    f"{local_dt.date().isoformat()}: "
+                    f"{existing['clock']} != {entry['clock']}"
+                )
+            by_date[local_dt.date()] = {
+                "date": local_dt.date(),
+                "clock": str(entry["clock"]),
+                "label": str(entry["label"]),
+                "archive_url": archive_url_for_release_date(local_dt.date()),
+            }
+    return [by_date[key] for key in sorted(by_date)]
+
+
+def same_time_schedule_labels(
+    entries: list[dict[str, Any]],
+    release_date: date,
+    clock: str,
+) -> tuple[str, ...]:
+    return tuple(
+        sorted(
             {
-                "date": row_date,
-                "clock": row_clock,
-                "label": label,
+                str(item["label"])
+                for item in entries
+                if item["date"] == release_date
+                and item["clock"] == clock
+                and "consumer price index" not in str(item["label"]).lower()
             }
         )
-    return entries
+    )
 
 
 def schedule_crosscheck(
