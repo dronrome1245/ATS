@@ -1236,6 +1236,9 @@ def main() -> int:
     try:
         result = prepare()
         write_reports(result)
+    except OwnerInputRequiredError as exc:
+        print(f"[OWNER INPUT REQUIRED] RF-027 preparation: {exc}", flush=True)
+        return 1
     except (PreparationError, OSError, subprocess.CalledProcessError, ValueError) as exc:
         print(f"[FAIL] RF-027 preparation: {exc}", flush=True)
         return 1
