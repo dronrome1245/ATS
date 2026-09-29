@@ -126,6 +126,33 @@ RF-027 must retain:
 
 `protected_hyp0005_source_requests = 0`
 
+## RF-027 exact-main source-access failure and correction
+
+Exact-main RF-027 on:
+
+`a4c6331949e9c71fc68eb1baa870d20a03518d48`
+
+passed repository validation and full Local CI, then failed before event acquisition because the
+official BLS CPI archive index returned HTTP 403.
+
+Classification:
+
+`TECHNICAL_SOURCE_ACCESS_FAILURE`
+
+HYP-0006 outcome computed:
+
+`NO`
+
+The official BLS URL and event-denominator rule remain unchanged.
+
+Corrective source-access mechanics are staged on the same RF-027 agent line:
+
+- contactable automated User-Agent identifying the ATS repository;
+- BLS Referer and English Accept-Language headers;
+- one-second minimum delay before each BLS request;
+- BLS HTTP 403 fails immediately and is not repeatedly retried;
+- no third-party event-calendar fallback.
+
 ## Next gate
 
 Current task:
