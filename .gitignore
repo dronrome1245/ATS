@@ -54,6 +54,7 @@ data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv*
 data/derived/HYP-0004-DEV-01-EURUSD-H1.csv*
 data/derived/HYP-0005-CONF-01-EURUSD-H1.csv*
 data/derived/HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv*
+data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv*
 
 # Python tooling
 __pycache__/
