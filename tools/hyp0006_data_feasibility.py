@@ -16,7 +16,8 @@ import time
 import urllib.error
 import urllib.request
 from dataclasses import asdict, dataclass
-from datetime import UTC, date, datetime, time as dt_time, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta, timezone
+from datetime import time as dt_time
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
@@ -605,9 +606,14 @@ def decode_tick_object(
 
         times.append(hour_start + timedelta(milliseconds=ms))
 
+    try:
+        relative_path = str(path.relative_to(ROOT)).replace("\\", "/")
+    except ValueError:
+        relative_path = str(path).replace("\\", "/")
+
     metadata = TickObject(
         hour_start=iso_z(hour_start),
-        relative_path=str(path.relative_to(ROOT)).replace("\\", "/"),
+        relative_path=relative_path,
         source_url=source_url,
         sha256=sha256_file(path),
         record_count=len(times),
@@ -668,9 +674,7 @@ def event_geometry(times: list[datetime], release_time: datetime) -> dict[str, i
         "post60_next_gap_ms": gap_ms(post60_next, post60) if post60_next else None,
     }
     complete = all(value is not None for value in values.values())
-    values["quote_geometry_status"] = (
-        "COMPLETE_TIMESTAMP_GEOMETRY" if complete else "INCOMPLETE"
-    )
+    values["quote_geometry_status"] = "COMPLETE_TIMESTAMP_GEOMETRY" if complete else "INCOMPLETE"
     return values
 
 
