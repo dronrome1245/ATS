@@ -665,9 +665,13 @@ def archive_url_for_release_date(release_date: date) -> str:
 
 def cpi_schedule_candidates(
     schedule_by_year: dict[int, list[dict[str, Any]]],
+    source_by_year: dict[int, SourceObject],
 ) -> list[dict[str, Any]]:
     by_date: dict[date, dict[str, Any]] = {}
-    for entries in schedule_by_year.values():
+    for year, entries in schedule_by_year.items():
+        source = source_by_year.get(year)
+        if source is None:
+            raise PreparationError(f"missing BLS snapshot source identity for {year}")
         for entry in entries:
             if "consumer price index" not in str(entry["label"]).lower():
                 continue
@@ -686,10 +690,13 @@ def cpi_schedule_candidates(
                 "date": local_dt.date(),
                 "clock": str(entry["clock"]),
                 "label": str(entry["label"]),
-                "archive_url": archive_url_for_release_date(local_dt.date()),
+                "release_time_utc": release_utc,
+                "source_year": year,
+                "source_url": source.source_url,
+                "source_snapshot_relative_path": source.relative_path,
+                "source_snapshot_sha256": source.sha256,
             }
     return [by_date[key] for key in sorted(by_date)]
-
 
 def same_time_schedule_labels(
     entries: list[dict[str, Any]],
