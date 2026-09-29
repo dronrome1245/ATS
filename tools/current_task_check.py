@@ -26,6 +26,10 @@ NEXT_STEP = Path("02_СЛЕДУЮЩИЙ_ШАГ.md")
 STATUS = Path("01_СТАТУС_ПРОЕКТА.md")
 
 LOCAL_RESULT = Path("reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP.json")
+BLS_SNAPSHOT_MANIFEST = Path(
+    "data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
+)
+BLS_CALENDAR_CSV = Path("data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv")
 GEOMETRY_CSV = Path("data/derived/HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv")
 
 FROZEN_BLOBS = {
@@ -42,10 +46,22 @@ FROZEN_BLOBS = {
 ALLOWED_DECISIONS = {
     "READY_FOR_DATA_FEASIBILITY_FREEZE",
     "UNRESOLVED_OFFICIAL_EVENT_TIMES",
-    "OFFICIAL_TIME_CROSSCHECK_MISMATCH",
     "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY",
 }
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+EXPECTED_BLS_CALENDAR_HEADER = (
+    "event_id",
+    "release_date_local",
+    "release_time_local",
+    "release_time_utc",
+    "timezone_semantics",
+    "schedule_label",
+    "same_time_bls_labels",
+    "source_year",
+    "source_url",
+    "source_snapshot_relative_path",
+    "source_snapshot_sha256",
+)
 EXPECTED_GEOMETRY_HEADER = (
     "event_id",
     "archive_release_date",
@@ -148,17 +164,14 @@ def check_rf027_contract() -> bool:
         PROTOCOL,
         (
             "ATS2-RF-027",
-            "PREPARATION_PROTOCOL_FROZEN",
-            "https://www.bls.gov/bls/news-release/cpi.htm",
-            "TECHNICAL_SOURCE_ACCESS_FAILURE",
-            "BLS_OFFICIAL_ANNUAL_SCHEDULES",
-            "ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK",
-            "ATS-Research/1.0 (+https://github.com/dronrome1245/ATS)",
+            "PREPARATION_PROTOCOL_FROZEN_OFFLINE_BLS_SNAPSHOTS",
+            "OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS",
+            "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
+            "BLS_ANNUAL_SCHEDULE_US_EASTERN",
             "DUKASCOPY_HOURLY_TICK_BI5",
             "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
             "READY_FOR_DATA_FEASIBILITY_FREEZE",
             "UNRESOLVED_OFFICIAL_EVENT_TIMES",
-            "OFFICIAL_TIME_CROSSCHECK_MISMATCH",
             "INSUFFICIENT_GRANULAR_SOURCE_GEOMETRY",
             "NO_HYPOTHESIS_OUTCOME_COMPUTED",
             "ATS2-RF-028",
@@ -169,23 +182,23 @@ def check_rf027_contract() -> bool:
         (
             'TASK_ID = "ATS2-RF-027"',
             'HYPOTHESIS_ID = "HYP-0006"',
-            "https://www.bls.gov/bls/news-release/cpi.htm",
-            "BLS_CONTACT_URL",
-            "BLS_REQUEST_DELAY_SECONDS",
-            "SourceAccessDeniedError",
-            "request_headers",
+            "BLS_SNAPSHOT_MANIFEST",
+            "BLS_CALENDAR_CSV",
+            "OwnerInputRequiredError",
+            "load_bls_snapshot_manifest",
+            "load_bls_schedule_snapshots",
+            "bls_snapshot_bundle_hash",
+            "write_bls_calendar_csv",
+            "live BLS network access is disabled",
             "cpi_schedule_candidates",
-            "archive_url_for_release_date",
-            "same_time_schedule_labels",
-            "BLS_OFFICIAL_ANNUAL_SCHEDULES",
-            "ARCHIVE_HEADER_PREFERRED_SCHEDULE_FALLBACK",
             'SOURCE_SYMBOL = "EURUSD"',
             "HYP0005_LEFT_START",
             "HYP0005_RIGHT_START",
             "required_tick_hours",
-            "parse_archive_release_time",
             "decode_tick_object",
             "event_geometry",
+            "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
+            "BLS_ANNUAL_SCHEDULE_US_EASTERN",
             "outcome_metrics_computed",
             "primary_claim_evaluated",
             "NO_HYPOTHESIS_OUTCOME_COMPUTED",
@@ -194,15 +207,13 @@ def check_rf027_contract() -> bool:
     test_ok = require_markers(
         TEST,
         (
-            "test_parse_archive_index_extracts_release_dates",
-            "test_bls_request_headers_identify_research_owner",
-            "test_bls_403_fails_fast_without_retry",
-            "test_parse_archive_release_time_handles_historical_edt",
-            "test_et_conversion_uses_pre_and_post_2007_dst_rules",
-            "test_schedule_entries_and_same_time_flags",
+            "test_live_bls_network_access_is_prohibited",
+            "test_snapshot_manifest_requires_exact_2003_2021_contract",
+            "test_missing_snapshot_bundle_is_owner_input_not_hypothesis_failure",
             "test_legacy_schedule_text_parses_cpi_and_same_time_release",
+            "test_et_conversion_uses_pre_and_post_2007_dst_rules",
             "test_schedule_candidates_preserve_frozen_development_interval",
-            "test_archive_page_403_can_use_explicit_schedule_fallback",
+            "test_bls_calendar_csv_contains_only_event_identity_and_provenance",
             "test_decode_tick_object_validates_coherent_bid_ask",
             "test_required_tick_hours_are_bounded_and_exclude_hyp0005",
             "test_event_geometry_uses_timestamps_only_and_requires_strict_pre_release",
@@ -218,13 +229,11 @@ def check_rf027_contract() -> bool:
             'current_task: "ATS2-RF-027"',
             'next_task: "ATS2-RF-028"',
             'rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"',
-            'strategy_5_data_feasibility_prep_status: "RF027_OFFICIAL_SCHEDULE_FALLBACK_STAGED"',
+            'strategy_5_data_feasibility_prep_status: "RF027_OFFLINE_BLS_SNAPSHOT_ARCHITECTURE_STAGED"',
             'strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"',
-            'rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"',
-            'rf027_second_failed_exact_main_commit: "2ce019bb51b0e45e900c0555ed44be5a3433e23a"',
-            'strategy_5_source_access_blocker: "BLS_HTTP_403_AUTOMATED_RETRIEVAL"',
-            "strategy_5_source_access_correction: "
-            '"BLS_ANNUAL_SCHEDULE_INVENTORY_ARCHIVE_HEADER_PREFERRED"',
+            'strategy_5_bls_runtime_network_mode: "PROHIBITED"',
+            'strategy_5_bls_snapshot_years: "2003..2021"',
+            'strategy_5_bls_snapshot_intake_status: "WAITING_UNTIL_POST_PREFLIGHT_REQUEST"',
             "strategy_5_required_protected_hyp0005_source_requests: 0",
             "strategy_5_outcome_computed: false",
             'strategy_5_information_boundary: "NO_HYPOTHESIS_OUTCOME_COMPUTED"',
@@ -238,7 +247,7 @@ def check_rf027_contract() -> bool:
             "DONE / PASS",
             "ATS2-RF-027",
             "ATS2-RF-028",
-            "HYP-0006 Data Feasibility preparation",
+            "frozen local BLS schedule snapshots",
             "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         ),
     )
@@ -248,7 +257,8 @@ def check_rf027_contract() -> bool:
                 HANDOFF,
                 (
                     "ATS2-RF-027",
-                    "HYP-0006-DATA-FEASIBILITY-PREP.md",
+                    "HYP-0006-BLS-SNAPSHOT-INTAKE.md",
+                    "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
                     "NO_HYPOTHESIS_OUTCOME_COMPUTED",
                     "NO_CONFIRMATORY_OUTCOME_COMPUTED",
                 ),
@@ -259,6 +269,7 @@ def check_rf027_contract() -> bool:
                     "ATS2-RF-027",
                     "ATS2-RF-028",
                     "agent/rf027-hyp0006-data-feasibility-prep",
+                    "OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS",
                     "NO_HYPOTHESIS_OUTCOME_COMPUTED",
                 ),
             ),
@@ -266,6 +277,7 @@ def check_rf027_contract() -> bool:
                 STATUS,
                 (
                     "ATS2-RF-027",
+                    "offline BLS",
                     "NO_HYPOTHESIS_OUTCOME_COMPUTED",
                     "NO_CONFIRMATORY_OUTCOME_COMPUTED",
                 ),
@@ -284,7 +296,6 @@ def check_rf027_contract() -> bool:
             check_frozen_lineage(),
         )
     )
-
 
 def validate_geometry_csv(payload: dict[str, Any]) -> bool:
     path = ROOT / GEOMETRY_CSV
