@@ -126,18 +126,22 @@ Timestamp semantics:
 
 The calendar is hashed before any EUR/USD outcome is computed.
 
-## OWNER input timing
+## OWNER input status
 
-Do **not** ask OWNER to collect BLS snapshots before the corrective agent branch has exact-head
-preflight PASS.
+The one-time official BLS snapshot intake has now been completed locally.
 
-After exact-head PASS and merge, GPT will explicitly request the one-time snapshot bundle.
+Canonical local bundle:
 
-Missing snapshots must produce:
+- years: `2003..2021`;
+- count: `19`;
+- path: `data/raw/bls/hyp0006/schedules/YYYY.html`;
+- content preserved during normalization;
+- extra 2022–2025 pages moved outside the canonical schedule directory without deletion.
 
-`OWNER_INPUT_REQUIRED_BLS_SCHEDULE_SNAPSHOTS`
+Latest exact-main task check stopped before source preparation because `01_СТАТУС_ПРОЕКТА.md`
+did not contain the required `ATS2-RF-027` marker.
 
-That condition is not a negative Hypothesis result.
+That is a governance synchronization failure, not a HYP-0006 result.
 
 ## EUR/USD source geometry
 
@@ -164,19 +168,20 @@ Information boundary:
 
 ## Next gate
 
-Current Git branch:
+Current corrective Git branch:
 
-`agent/rf027-hyp0006-data-feasibility-prep`
+`agent/rf027-governance-marker-sync`
 
-Current task:
+Current task remains:
 
 `ATS2-RF-027`
 
-First gate: OWNER exact-head `.\ATS_AGENT_PREFLIGHT.bat`.
+Next gate: exact-head preflight of the governance synchronization correction.
 
-Only after exact-head PASS and merge will OWNER be asked for the 19 official BLS HTML snapshots.
+After exact-head PASS, GPT merges the correction. OWNER then reruns exact-main
+`ATS_TASK_CHECK.bat` with the already prepared 19-file BLS snapshot bundle.
 
-After exact-main RF-027 preparation PASS:
+Only after exact-main RF-027 preparation PASS:
 
 `ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`
 
