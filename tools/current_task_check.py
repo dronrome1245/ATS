@@ -232,7 +232,7 @@ def check_rf027_contract() -> bool:
             'strategy_5_data_feasibility_prep_decision: "PENDING_EXACT_MAIN_SOURCE_PREPARATION"',
             'strategy_5_bls_runtime_network_mode: "PROHIBITED"',
             'strategy_5_bls_snapshot_years: "2003..2021"',
-            'strategy_5_bls_snapshot_canonical_count: 19',
+            "strategy_5_bls_snapshot_canonical_count: 19",
             'rf027_offline_architecture_merged_commit: "79a01623c3fef4deb3757e4d2940b8cd16b9bff3"',
             'rf027_latest_exact_main_blocker: "GOVERNANCE_STATUS_MARKER_MISSING_BEFORE_SOURCE_PREPARATION"',
             'strategy_5_bls_snapshot_intake_status: "CANONICAL_19_READY_LOCAL"',
