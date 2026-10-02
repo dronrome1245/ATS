@@ -1278,6 +1278,7 @@ def configure() -> None:
         "Live BLS network access during normal RF-027 runtime is:",
         "`PROHIBITED`",
         "DUKASCOPY_HOURLY_TICK_BI5",
+        "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
         "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
         "READY_FOR_DATA_FEASIBILITY_FREEZE",
         "UNRESOLVED_OFFICIAL_EVENT_TIMES",
@@ -1298,6 +1299,8 @@ def configure() -> None:
         "live BLS network access is disabled",
         "cpi_schedule_candidates",
         'SOURCE_SYMBOL = "EURUSD"',
+        "EXTERNAL_SOURCE_FAILURE_POLICY",
+        "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
         "HYP0005_LEFT_START",
         "HYP0005_RIGHT_START",
         "required_tick_hours",
@@ -1314,6 +1317,7 @@ def configure() -> None:
     )
     core.CONTENT_MARKERS[HYP0006_DATA_FEASIBILITY_TEST] = (
         "test_live_bls_network_access_is_prohibited",
+        "test_external_source_failure_hands_off_after_first_attempt",
         "test_snapshot_manifest_requires_exact_2003_2021_contract",
         "test_missing_snapshot_bundle_is_owner_input_not_hypothesis_failure",
         "test_legacy_schedule_text_parses_cpi_and_same_time_release",
@@ -1824,6 +1828,7 @@ def configure() -> None:
         "ATS_AGENT_PREFLIGHT.bat",
         "AGENT_PREFLIGHT_REPORT.txt",
         "ATS_TASK_DIAG.bat",
+        "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
         "CURRENT_TASK_DIAG_REPORT.txt",
         "agent/*",
         "uv run --frozen python tools/verify_repo.py",
@@ -2048,6 +2053,12 @@ def configure() -> None:
         "tools/hyp0005_data_feasibility.py",
         "tools/hyp0006_data_feasibility.py",
     )
+    core.CONTENT_MARKERS["governance/methodology/DATA_FEASIBILITY_REVIEW.md"] = (
+        "Data Feasibility Review",
+        "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
+        "After the first proven HTTP/network/access failure",
+        "explicit OWNER authorization",
+    )
     core.CONTENT_MARKERS[PROJECT_GPT_SYSTEM_INSTRUCTION] = (
         "ATS Project GPT — системная инструкция",
         "Source of truth",
@@ -2055,6 +2066,7 @@ def configure() -> None:
         "ПЕРЕСМОТР ПЛАНА HYP-xxxx",
         "техническая ошибка, диагностика, форматирование, retry",
         "Source blockers",
+        "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
         "OWNER input discipline",
         "GitHub workflow",
         "RUFF_LINT_UNVERIFIED_UNTIL_PINNED_RUFF",
@@ -2602,7 +2614,8 @@ def main() -> int:
         'strategy_5_bls_calendar_observed_sha256: "646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9"',
         'strategy_5_dukascopy_failed_hour: "2004-03-17T12:00:00Z"',
         "strategy_5_dukascopy_http_status: 503",
-        'strategy_5_dukascopy_retry_rule: "NO_IMMEDIATE_RETRY_WAIT_SOURCE_RECOVERY_AND_OWNER_AUTHORIZATION"',
+        'strategy_5_external_source_failure_policy: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"',
+        'strategy_5_dukascopy_retry_rule: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF_REQUIRES_OWNER_AUTHORIZATION"',
         'strategy_5_geometry_output_status: "NOT_CREATED_SOURCE_BLOCKED"',
         'strategy_5_bls_calendar_candidate: "data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"',
         'active_idea_id: "IDEA-0004"',
