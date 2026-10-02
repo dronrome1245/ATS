@@ -19,6 +19,8 @@ TASK_NAME = "HYP-0006 Data Feasibility preparation"
 PROTOCOL = Path("research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md")
 TOOL = Path("tools/hyp0006_data_feasibility.py")
 TEST = Path("tests/test_hyp0006_data_feasibility.py")
+CONTROLLED_DOWNLOAD_TOOL = Path("tools/hyp0006_dukascopy_controlled_download.py")
+CONTROLLED_DOWNLOAD_TEST = Path("tests/test_hyp0006_dukascopy_controlled_download.py")
 STATE = Path("03_СОСТОЯНИЕ_ПРОЕКТА.yaml")
 BACKLOG = Path("governance/backlog/PROGRAM_BACKLOG_V2.md")
 HANDOFF = Path("AI_HANDOFF.md")
@@ -164,6 +166,9 @@ def check_rf027_contract() -> bool:
             "ATS2-RF-027",
             "PREPARATION_PROTOCOL_FROZEN_OFFLINE_BLS_SNAPSHOTS",
             "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
+            "OWNER-authorized controlled Dukascopy preload",
+            "1085",
+            "NOT_YET_AUTHORIZED",
             "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
             "BLS_ANNUAL_SCHEDULE_US_EASTERN",
             "DUKASCOPY_HOURLY_TICK_BI5",
@@ -222,6 +227,34 @@ def check_rf027_contract() -> bool:
             "test_preparation_decision_is_non_market_geometry_gate",
         ),
     )
+    controlled_tool_ok = require_markers(
+        CONTROLLED_DOWNLOAD_TOOL,
+        (
+            'TASK_ID = "ATS2-RF-027"',
+            'SUBSTAGE = "DUKASCOPY_CONTROLLED_PRELOAD"',
+            'SOURCE_POLICY = "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"',
+            'CANONICAL_BASE = "https://datafeed.dukascopy.com/datafeed"',
+            "AUTHORIZED_EVENT_COUNT = 217",
+            "AUTHORIZED_REQUIRED_OBJECT_COUNT = 1085",
+            "AUTHORIZED_CALENDAR_SHA256",
+            "OWNER_AUTHORIZATION_REQUIRED",
+            "DRY_RUN_READY",
+            "SOURCE_BLOCKED",
+            '"outcome_metrics_computed": False',
+            '"primary_claim_evaluated": False',
+            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        ),
+    )
+    controlled_test_ok = require_markers(
+        CONTROLLED_DOWNLOAD_TEST,
+        (
+            "test_inventory_uses_frozen_required_hours_and_canonical_base",
+            "test_controlled_download_stops_after_first_external_failure",
+            "test_controlled_download_does_not_overwrite_existing_file",
+            "test_execute_requires_explicit_owner_authorization",
+            "test_dry_run_never_starts_controlled_download",
+        ),
+    )
     state_ok = require_markers(
         STATE,
         (
@@ -244,6 +277,13 @@ def check_rf027_contract() -> bool:
             "strategy_5_dukascopy_http_status: 503",
             'strategy_5_external_source_failure_policy: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"',
             'strategy_5_dukascopy_retry_rule: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF_REQUIRES_OWNER_AUTHORIZATION"',
+            'rf027_first_failure_policy_merged_commit: "367976fa7510d0fe8c3662d5b33a9889fc824c94"',
+            "strategy_5_dukascopy_inventory_required_object_count: 1085",
+            "strategy_5_dukascopy_inventory_existing_object_count: 37",
+            "strategy_5_dukascopy_inventory_missing_object_count: 1048",
+            'strategy_5_dukascopy_controlled_downloader_status: "PREPARATION_AUTHORIZED_STAGED"',
+            'strategy_5_dukascopy_controlled_downloader_branch: "agent/rf027-dukascopy-controlled-downloader"',
+            'strategy_5_dukascopy_controlled_execution_status: "NOT_YET_AUTHORIZED"',
             'strategy_5_geometry_output_status: "NOT_CREATED_SOURCE_BLOCKED"',
             "strategy_5_required_protected_hyp0005_source_requests: 0",
             "strategy_5_outcome_computed: false",
@@ -259,6 +299,9 @@ def check_rf027_contract() -> bool:
             "ATS2-RF-027",
             "ATS2-RF-028",
             "frozen local BLS schedule snapshots",
+            "controlled preload",
+            "1085",
+            "NOT_YET_AUTHORIZED",
             "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         ),
     )
@@ -271,6 +314,8 @@ def check_rf027_contract() -> bool:
                     "HYP-0006-BLS-SNAPSHOT-INTAKE.md",
                     "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
                     "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
+                    "hyp0006_dukascopy_controlled_download.py",
+                    "NOT_YET_AUTHORIZED",
                     "NO_HYPOTHESIS_OUTCOME_COMPUTED",
                     "NO_CONFIRMATORY_OUTCOME_COMPUTED",
                 ),
@@ -280,8 +325,10 @@ def check_rf027_contract() -> bool:
                 (
                     "ATS2-RF-027",
                     "ATS2-RF-028",
-                    "agent/rf027-dukascopy-source-blocker",
+                    "agent/rf027-dukascopy-controlled-downloader",
                     "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
+                    "hyp0006_dukascopy_controlled_download.py",
+                    "NOT_YET_AUTHORIZED",
                     "NO_HYPOTHESIS_OUTCOME_COMPUTED",
                 ),
             ),
@@ -291,6 +338,8 @@ def check_rf027_contract() -> bool:
                     "ATS2-RF-027",
                     "TECHNICAL_SOURCE_ACCESS_FAILURE",
                     "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
+                    "hyp0006_dukascopy_controlled_download.py",
+                    "NOT_YET_AUTHORIZED",
                     "NO_HYPOTHESIS_OUTCOME_COMPUTED",
                     "NO_CONFIRMATORY_OUTCOME_COMPUTED",
                 ),
@@ -303,6 +352,8 @@ def check_rf027_contract() -> bool:
             protocol_ok,
             tool_ok,
             test_ok,
+            controlled_tool_ok,
+            controlled_test_ok,
             state_ok,
             backlog_ok,
             docs_ok,

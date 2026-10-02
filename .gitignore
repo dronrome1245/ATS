@@ -41,6 +41,9 @@ reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP.json
 reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt
 reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP.json
 reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP_REPORT.txt
+reports/local_ci/HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD.json
+reports/local_ci/HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_REPORT.txt
+reports/local_ci/HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_INVENTORY.csv
 reports/local_ci/*.lnk
 
 # Raw or licensed market data

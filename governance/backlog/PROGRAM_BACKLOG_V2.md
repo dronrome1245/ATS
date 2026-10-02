@@ -109,12 +109,8 @@ OWNER snapshot intake is complete locally: all 19 canonical files for 2003–202
 `data/raw/bls/hyp0006/schedules/YYYY.html`, with content preserved during filename normalization.
 Extra 2022–2025 pages are retained outside the canonical schedule directory.
 
-The latest exact-main RF-027 task check stopped before source preparation because the human status
-file lacked the required `ATS2-RF-027` marker. The governance synchronization correction is staged
-on `agent/rf027-governance-marker-sync`.
-
-The latest exact-main RF-027 run subsequently passed governance and full Local CI, built the
-local BLS CPI calendar with `217` events and calendar SHA-256
+The latest exact-main RF-027 run passed governance and full Local CI, built the local BLS CPI
+calendar with `217` events and calendar SHA-256
 `646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9`, then stopped on
 Dukascopy tick acquisition for `2004-03-17T12:00:00Z` with HTTP 503.
 
@@ -125,10 +121,33 @@ Repository-wide policy:
 
 `FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF`
 
+The policy correction passed exact-head preflight and was squash-merged to `main` at
+`367976fa7510d0fe8c3662d5b33a9889fc824c94`.
+
 After the first proven external HTTP/network/access failure, ATS must stop automatic retries,
 alternate endpoints and fallbacks and report the blocker to OWNER. A new external attempt requires
-explicit OWNER authorization. Persistent source failure requires a Data Feasibility
-source-architecture decision preserving the original data semantics.
+explicit OWNER authorization.
+
+A later offline inventory using the same calendar SHA-256 found `1085` unique required Dukascopy
+hourly BI5 objects: `37` existed locally, `1048` were missing, duplicate required hours were
+`0`, and the first inventory-time missing hour was `2004-03-17T13:00:00Z`.
+
+OWNER authorized preparation, but not network execution, of a controlled preload tool:
+
+`tools/hyp0006_dukascopy_controlled_download.py`
+
+Current preparation branch:
+
+`agent/rf027-dukascopy-controlled-downloader`
+
+The tool must default to zero-network inventory, require `--execute --owner-authorized` for a later
+network run, use only the canonical `datafeed.dukascopy.com` endpoint, never overwrite existing
+objects, validate new BI5 content before atomic promotion, and stop on the first HTTP/network/access
+failure without retry or fallback.
+
+Network execution status:
+
+`NOT_YET_AUTHORIZED`
 
 Information boundary remains:
 

@@ -160,6 +160,25 @@ Repository-wide source discipline:
 
 After the first proven external HTTP/network/access failure, automatic retries, alternate endpoints and fallbacks stop immediately. A new external attempt requires explicit OWNER authorization after that first failure is reported.
 
+
+The first-failure policy correction passed exact-head preflight and was squash-merged to `main` at:
+
+`367976fa7510d0fe8c3662d5b33a9889fc824c94`
+
+A later offline inventory of the frozen RF-027 timestamp geometry, using the same BLS calendar
+SHA-256, found:
+
+- CPI events: `217`;
+- required unique Dukascopy hourly BI5 objects: `1085`;
+- local files present at inventory time: `37`;
+- missing files at inventory time: `1048`;
+- duplicate required hours: `0`;
+- first missing hour at inventory time: `2004-03-17T13:00:00Z`.
+
+The previously failing `2004-03-17T12:00:00Z` object now exists locally, but its content has not
+yet been decode-validated by the controlled preload. These are source-acquisition observations, not
+a HYP-0006 result.
+
 ## EUR/USD source geometry
 
 Quote source remains:
@@ -185,29 +204,48 @@ Information boundary:
 
 ## Next gate
 
-Current corrective Git branch:
+Current agent branch:
 
-`agent/rf027-dukascopy-source-blocker`
+`agent/rf027-dukascopy-controlled-downloader`
 
 Current task remains:
 
 `ATS2-RF-027`
 
-Next gate: exact-head preflight of governance synchronization for the Dukascopy source blocker.
+OWNER authorized preparation of a controlled Dukascopy preload tool on 2026-10-02.
 
-After exact-head PASS, GPT merges the correction.
+Tool:
 
-Do **not** immediately rerun the full RF-027 launcher. One controlled retry of the same frozen RF-027
-is allowed only after separate evidence that the Dukascopy source has recovered and OWNER authorizes
-that retry.
+`tools/hyp0006_dukascopy_controlled_download.py`
 
-If HTTP 503 repeats persistently, stop retries and open a Data Feasibility source-architecture
-decision that preserves Dukascopy/tick semantics. Do not substitute a third-party event or quote
-source automatically.
+Preparation authorization does **not** authorize network execution.
 
-Only after exact-main RF-027 preparation PASS:
+Network execution status:
+
+`NOT_YET_AUTHORIZED`
+
+Current gate: exact-head preflight of the controlled downloader branch.
+
+The downloader contract is:
+
+- offline inventory by default;
+- execute mode requires `--execute --owner-authorized`;
+- exact observed calendar SHA-256, 217 events and 1085 unique required objects must match before
+  network access;
+- only `datafeed.dukascopy.com` is used;
+- existing local files are not overwritten;
+- new BI5 content is source-integrity checked before atomic promotion;
+- first HTTP/network/access failure stops execution immediately;
+- no retry, alternate endpoint, mirror, proxy or provider fallback;
+- no HYP-0006 outcome fields are computed.
+
+After exact-head PASS GPT merges the branch. A later execute-run requires a separate explicit OWNER
+authorization. If execution stops on a source failure, report that first blocker and do not retry.
+
+Only after the controlled preload is complete enough for RF-027 and exact-main
+`ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS`:
 
 `ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`
 
-will freeze the exact BLS calendar SHA-256, source snapshot bundle SHA-256, eligible-event rules and
-numeric anchor tolerances before any market reveal.
+will freeze the exact admissible source/data rules and numeric anchor tolerances before any market
+reveal.
