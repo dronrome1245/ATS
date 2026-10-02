@@ -102,8 +102,16 @@ Missing snapshot input is classified:
 
 and is not a HYP-0006 result.
 
-OWNER snapshot collection is intentionally deferred until the corrective RF-027 agent branch passes
-exact-head preflight.
+The corrective offline-BLS architecture passed exact-head preflight and was merged to `main` at
+`79a01623c3fef4deb3757e4d2940b8cd16b9bff3`.
+
+OWNER snapshot intake is complete locally: all 19 canonical files for 2003–2021 are present under
+`data/raw/bls/hyp0006/schedules/YYYY.html`, with content preserved during filename normalization.
+Extra 2022–2025 pages are retained outside the canonical schedule directory.
+
+The latest exact-main RF-027 task check stopped before source preparation because the human status
+file lacked the required `ATS2-RF-027` marker. The governance synchronization correction is staged
+on `agent/rf027-governance-marker-sync`.
 
 Information boundary remains:
 

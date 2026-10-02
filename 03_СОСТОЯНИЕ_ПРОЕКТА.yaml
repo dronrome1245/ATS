@@ -127,7 +127,7 @@ model:
   strategy_5_bls_snapshot_intake: "research/reviews/HYP-0006-BLS-SNAPSHOT-INTAKE.md"
 
 current:
-  focus: "RF-027 is being reworked to use frozen local official BLS schedule snapshots plus Dukascopy tick geometry; OWNER snapshot intake is not requested until exact-head preflight passes; no HYP-0005 or HYP-0006 outcome has been computed"
+  focus: "RF-027 offline BLS architecture is merged; 19 canonical official BLS snapshots are ready locally; exact-main source preparation is blocked only by a missing ATS2-RF-027 marker in project status; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-026"
   last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
@@ -589,16 +589,19 @@ research_factory:
   strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"
   strategy_5_prototype_authorized: false
   rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"
-  strategy_5_data_feasibility_prep_status: "RF027_OFFLINE_BLS_SNAPSHOT_ARCHITECTURE_STAGED"
-  strategy_5_data_feasibility_prep_decision: "PENDING_OWNER_RUNTIME"
+  strategy_5_data_feasibility_prep_status: "RF027_OFFLINE_BLS_SNAPSHOT_ARCHITECTURE_MERGED_AWAITING_EXACT_MAIN_SOURCE_PREP"
+  strategy_5_data_feasibility_prep_decision: "PENDING_EXACT_MAIN_SOURCE_PREPARATION"
   rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"
   rf027_second_failed_exact_main_commit: "2ce019bb51b0e45e900c0555ed44be5a3433e23a"
+  rf027_offline_architecture_merged_commit: "79a01623c3fef4deb3757e4d2940b8cd16b9bff3"
+  rf027_latest_exact_main_blocker: "GOVERNANCE_STATUS_MARKER_MISSING_BEFORE_SOURCE_PREPARATION"
   strategy_5_source_access_blocker: "BLS_HTTP_403_AUTOMATED_RETRIEVAL"
   strategy_5_source_access_correction: "FROZEN_LOCAL_BLS_SNAPSHOT_BUNDLE"
   strategy_5_required_protected_hyp0005_source_requests: 0
   strategy_5_bls_runtime_network_mode: "PROHIBITED"
   strategy_5_bls_snapshot_years: "2003..2021"
-  strategy_5_bls_snapshot_intake_status: "WAITING_UNTIL_POST_PREFLIGHT_REQUEST"
+  strategy_5_bls_snapshot_canonical_count: 19
+  strategy_5_bls_snapshot_intake_status: "CANONICAL_19_READY_LOCAL"
   strategy_5_bls_calendar_candidate: "data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"
   active_idea_id: "IDEA-0004"
   active_hypothesis_id: "HYP-0005"
