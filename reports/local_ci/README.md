@@ -92,6 +92,9 @@ Current patterns include:
 - `reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt` — RF-023 shareable confirmatory data-feasibility preparation summary;
 - `reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP.json` — RF-027 HYP-0006 event/tick geometry preparation result;
 - `reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP_REPORT.txt` — RF-027 shareable event/tick geometry preparation summary;
+- `reports/local_ci/HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD.json` — RF-027 controlled Dukascopy preload machine report;
+- `reports/local_ci/HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_REPORT.txt` — RF-027 controlled preload shareable summary;
+- `reports/local_ci/HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_INVENTORY.csv` — deterministic 1,085-object local/network inventory with no price or outcome fields;
 - `reports/local_ci/*.lnk` — disposable Windows Explorer shortcuts.
 
 The rules are deliberately directory-scoped and filename-scoped so unrelated untracked files still make the full clean-tree gate fail.
