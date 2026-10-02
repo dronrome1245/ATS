@@ -167,7 +167,6 @@ def check_rf027_contract() -> bool:
             "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
             "BLS_ANNUAL_SCHEDULE_US_EASTERN",
             "DUKASCOPY_HOURLY_TICK_BI5",
-            "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
             "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
             "READY_FOR_DATA_FEASIBILITY_FREEZE",
             "UNRESOLVED_OFFICIAL_EVENT_TIMES",
@@ -272,6 +271,7 @@ def check_rf027_contract() -> bool:
                     "ATS2-RF-027",
                     "HYP-0006-BLS-SNAPSHOT-INTAKE.md",
                     "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
+                    "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
                     "NO_HYPOTHESIS_OUTCOME_COMPUTED",
                     "NO_CONFIRMATORY_OUTCOME_COMPUTED",
                 ),
@@ -291,6 +291,7 @@ def check_rf027_contract() -> bool:
                 (
                     "ATS2-RF-027",
                     "TECHNICAL_SOURCE_ACCESS_FAILURE",
+                    "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
                     "NO_HYPOTHESIS_OUTCOME_COMPUTED",
                     "NO_CONFIRMATORY_OUTCOME_COMPUTED",
                 ),
