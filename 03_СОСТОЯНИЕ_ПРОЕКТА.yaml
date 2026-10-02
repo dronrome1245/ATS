@@ -606,7 +606,8 @@ research_factory:
   strategy_5_bls_calendar_observed_sha256: "646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9"
   strategy_5_dukascopy_failed_hour: "2004-03-17T12:00:00Z"
   strategy_5_dukascopy_http_status: 503
-  strategy_5_dukascopy_retry_rule: "NO_IMMEDIATE_RETRY_WAIT_SOURCE_RECOVERY_AND_OWNER_AUTHORIZATION"
+  strategy_5_external_source_failure_policy: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"
+  strategy_5_dukascopy_retry_rule: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF_REQUIRES_OWNER_AUTHORIZATION"
   strategy_5_geometry_output_status: "NOT_CREATED_SOURCE_BLOCKED"
   strategy_5_bls_calendar_candidate: "data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"
   active_idea_id: "IDEA-0004"
