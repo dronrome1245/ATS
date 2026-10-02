@@ -136,7 +136,7 @@ OWNER authorized preparation, but not network execution, of a controlled preload
 
 `tools/hyp0006_dukascopy_controlled_download.py`
 
-Current preparation branch:
+Merged preparation branch:
 
 `agent/rf027-dukascopy-controlled-downloader`
 
