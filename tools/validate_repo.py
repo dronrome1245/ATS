@@ -1828,7 +1828,6 @@ def configure() -> None:
         "ATS_AGENT_PREFLIGHT.bat",
         "AGENT_PREFLIGHT_REPORT.txt",
         "ATS_TASK_DIAG.bat",
-        "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
         "CURRENT_TASK_DIAG_REPORT.txt",
         "agent/*",
         "uv run --frozen python tools/verify_repo.py",
@@ -1867,6 +1866,7 @@ def configure() -> None:
         "agent/*",
         "ATS_AGENT_PREFLIGHT.bat",
         "ATS_TASK_DIAG.bat",
+        "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
     )
     core.CONTENT_MARKERS[LOCAL_CI_TROUBLESHOOTING] = (
         "LCI-001",
