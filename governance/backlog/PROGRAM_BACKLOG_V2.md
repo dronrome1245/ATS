@@ -119,9 +119,16 @@ local BLS CPI calendar with `217` events and calendar SHA-256
 Dukascopy tick acquisition for `2004-03-17T12:00:00Z` with HTTP 503.
 
 This is `TECHNICAL_SOURCE_ACCESS_FAILURE`, not a HYP-0006 result. No geometry CSV or final RF-027
-result JSON was emitted. Immediate retry is prohibited; the same frozen RF-027 may be retried once
-only after source recovery is separately confirmed and OWNER authorizes the retry. Persistent 503
-requires a Data Feasibility source-architecture decision preserving Dukascopy/tick semantics.
+result JSON was emitted.
+
+Repository-wide policy:
+
+`FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF`
+
+After the first proven external HTTP/network/access failure, ATS must stop automatic retries,
+alternate endpoints and fallbacks and report the blocker to OWNER. A new external attempt requires
+explicit OWNER authorization. Persistent source failure requires a Data Feasibility
+source-architecture decision preserving the original data semantics.
 
 Information boundary remains:
 
