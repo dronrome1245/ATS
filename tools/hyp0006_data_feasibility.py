@@ -12,7 +12,6 @@ import math
 import re
 import struct
 import subprocess
-import time
 import urllib.error
 import urllib.request
 from dataclasses import asdict, dataclass
@@ -44,7 +43,7 @@ DUKASCOPY_BASES = (
 SOURCE_SYMBOL = "EURUSD"
 PRICE_DIVISOR = 100_000
 USER_AGENT = "ATS-Research/1.0"
-RETRY_DELAYS = (2.0, 5.0, 10.0)
+EXTERNAL_SOURCE_FAILURE_POLICY = "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"
 
 RAW_BLS_ROOT = ROOT / "data" / "raw" / "bls" / "hyp0006"
 RAW_DUKASCOPY_ROOT = ROOT / "data" / "raw" / "dukascopy" / "hyp0006" / SOURCE_SYMBOL
@@ -430,37 +429,27 @@ def cached_or_fetch_any(
             "etag": "",
         }
 
-    attempts = len(RETRY_DELAYS) + 1
-    last_error: PreparationError | None = None
-    missing_urls: set[str] = set()
-    for batch in range(attempts):
-        for url in urls:
-            try:
-                body, headers = fetch_bytes(url)
-                destination.parent.mkdir(parents=True, exist_ok=True)
-                temporary = destination.with_suffix(destination.suffix + ".part")
-                temporary.write_bytes(body)
-                temporary.replace(destination)
-                headers["source_url"] = url
-                return destination, headers
-            except FileNotFoundError:
-                missing_urls.add(url)
-            except PreparationError as exc:
-                last_error = exc
-        if len(missing_urls) == len(urls):
-            if missing_ok:
-                return None
-            raise PreparationError(f"required source object missing: {label}")
-        if batch < attempts - 1 and last_error is not None:
-            delay = RETRY_DELAYS[batch]
-            progress(f"[network] {label} retrying in {delay:.0f}s")
-            time.sleep(delay)
+    if not urls:
+        raise PreparationError(f"no source URL configured for {label}")
 
-    if last_error is not None:
-        raise PreparationError(f"{label} failed after retries: {last_error}")
-    if missing_ok:
-        return None
-    raise PreparationError(f"required source object missing: {label}")
+    url = urls[0]
+    try:
+        body, headers = fetch_bytes(url)
+    except FileNotFoundError:
+        if missing_ok:
+            return None
+        raise PreparationError(f"required source object missing: {label}") from None
+    except PreparationError as exc:
+        raise PreparationError(
+            f"{EXTERNAL_SOURCE_FAILURE_POLICY}: {label}: {exc}"
+        ) from exc
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_suffix(destination.suffix + ".part")
+    temporary.write_bytes(body)
+    temporary.replace(destination)
+    headers["source_url"] = url
+    return destination, headers
 
 
 def visible_text(payload: bytes) -> str:
