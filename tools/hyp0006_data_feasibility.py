@@ -440,9 +440,7 @@ def cached_or_fetch_any(
             return None
         raise PreparationError(f"required source object missing: {label}") from None
     except PreparationError as exc:
-        raise PreparationError(
-            f"{EXTERNAL_SOURCE_FAILURE_POLICY}: {label}: {exc}"
-        ) from exc
+        raise PreparationError(f"{EXTERNAL_SOURCE_FAILURE_POLICY}: {label}: {exc}") from exc
 
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_suffix(destination.suffix + ".part")
