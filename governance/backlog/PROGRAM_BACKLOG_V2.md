@@ -145,9 +145,23 @@ network run, use only the canonical `datafeed.dukascopy.com` endpoint, never ove
 objects, validate new BI5 content before atomic promotion, and stop on the first HTTP/network/access
 failure without retry or fallback.
 
+The controlled downloader passed exact-head preflight, was squash-merged to `main`, and an
+exact-main offline dry-run completed on:
+
+`a638e49108e05e9618208ca577c6ebd0c74aa4e1`
+
+Dry-run status:
+
+`DRY_RUN_READY`
+
+Observed values remained `217` events / `1085` required BI5 objects / `37` existing /
+`1048` missing / `0` network requests, with the same BLS calendar SHA-256.
+
 Network execution status:
 
 `NOT_YET_AUTHORIZED`
+
+Current gate is a separate explicit OWNER decision whether to authorize one controlled execute-run.
 
 Information boundary remains:
 
