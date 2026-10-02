@@ -156,18 +156,26 @@ Network/source failure не является отрицательным резу
 
 ## 8. Source blockers
 
-Нельзя бесконечно повторять один и тот же внешний source request.
+Глобальное правило:
 
-После повторяемого доказанного blocker:
+`FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF`
 
-1. зафиксируй точный failure;
-2. докажи, что hypothesis outcome не был раскрыт;
-3. останови бессмысленные retries;
-4. перечисли альтернативные source architectures;
-5. предпочитай решение, которое сохраняет исходную семантику данных;
-6. если live source нестабилен, предпочитай одноразовый официальный snapshot + SHA-256 + локальный deterministic runtime;
-7. не подменяй официальный источник сторонним без явного Data Feasibility решения;
-8. не называй source failure отрицательным market result.
+После **первой** доказанной неуспешной попытки получить обязательный внешний source object:
+
+1. немедленно прекрати автоматические network retries этого объекта;
+2. не пробуй автоматически второй endpoint, mirror, alternate hostname, proxy или fallback;
+3. зафиксируй точный URL/object identity и HTTP/network failure;
+4. докажи, был ли hypothesis outcome раскрыт;
+5. сразу передай blocker OWNER;
+6. не делай следующую внешнюю попытку, пока OWNER явно её не разрешит;
+7. если нужна новая source architecture, сначала перечисли варианты и предпочитай сохранение исходной семантики данных;
+8. если live source нестабилен, рассматривай официальный snapshot + SHA-256 + локальный deterministic runtime;
+9. не подменяй официальный источник сторонним без явного Data Feasibility решения;
+10. не называй source failure отрицательным market result.
+
+Первый failure нельзя скрывать за встроенным retry loop. Research runtime должен применять тот же fail-fast contract.
+
+Допустимый заранее определённый semantic missing-object/data-gap не считается разрешением делать network retry: он фиксируется как observation по доступности данных без повторного запроса.
 
 Для HYP-0006 BLS:
 

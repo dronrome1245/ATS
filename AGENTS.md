@@ -236,6 +236,30 @@ Canonical policy: `governance/program/LOCAL_CI_GATE.md`. Full gate включа�
 
 Не заставлять OWNER вручную копировать цепочки local-CI команд, если launcher может выполнить их сам. Shareable reports: `AGENT_PREFLIGHT_REPORT.txt`, `CURRENT_TASK_DIAG_REPORT.txt`, `CURRENT_TASK_REPORT.txt`.
 
+## 17A. First-failure handoff для внешних источников
+
+Для любого внешнего source request действует правило:
+
+`FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF`
+
+После **первой** доказанной неуспешной попытки получить обязательный внешний source object агент обязан:
+
+1. немедленно прекратить автоматические network retries этого объекта;
+2. не пробовать второй endpoint, mirror, alternate hostname, proxy, provider fallback или иной сетевой маршрут автоматически;
+3. зафиксировать точный URL/object identity, HTTP/network error и момент failure;
+4. подтвердить, был ли hypothesis outcome раскрыт;
+5. сразу передать blocker OWNER и остановить текущий source-acquisition gate.
+
+Новая попытка разрешена только после того, как OWNER увидел первый failure и явно разрешил ещё одну попытку либо отдельное изменение source architecture.
+
+Исключения:
+
+- чтение уже существующего локального cache/snapshot не является новым внешним source request;
+- ожидаемый semantic missing-object response, заранее определённый protocol как допустимый data gap, не превращается в network retry; он фиксируется как data availability observation;
+- Local CI/preflight retries после исправления собственного кода не относятся к внешнему source request.
+
+Нельзя скрывать первый source failure за внутренними retry loops. Runtime-код для research source acquisition должен реализовывать тот же fail-fast contract.
+
 ## 18. Принцип безопасности
 
 При unknown state, broken reconciliation, corrupted data, unavailable protection layer или risk-limit violation система должна прекращать создание нового риска и формировать diagnostic event. Действия с уже открытыми позициями задаются отдельным live protocol.
