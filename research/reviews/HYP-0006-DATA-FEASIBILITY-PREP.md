@@ -194,6 +194,14 @@ Controlled tool:
 
 `tools/hyp0006_dukascopy_controlled_download.py`
 
+Offline/default invocation:
+
+`uv run --frozen python -m tools.hyp0006_dukascopy_controlled_download`
+
+A later network execution, only after separate explicit OWNER authorization, uses:
+
+`uv run --frozen python -m tools.hyp0006_dukascopy_controlled_download --execute --owner-authorized`
+
 Its contract is:
 
 1. default mode is offline inventory only and performs zero network requests;
