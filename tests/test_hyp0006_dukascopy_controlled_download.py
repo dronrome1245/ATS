@@ -13,7 +13,11 @@ import tools.hyp0006_data_feasibility as feasibility
 def write_calendar(path: Path, release_time: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=feasibility.BLS_CALENDAR_FIELDS, lineterminator="\n")
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=feasibility.BLS_CALENDAR_FIELDS,
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerow(
             {
@@ -53,7 +57,10 @@ def test_inventory_uses_frozen_required_hours_and_canonical_base(tmp_path: Path)
         "2010-01-15T14:00:00Z",
         "2010-01-15T15:00:00Z",
     ]
-    assert all(item.source_url.startswith(downloader.CANONICAL_BASE + "/EURUSD/") for item in inventory)
+    assert all(
+        item.source_url.startswith(downloader.CANONICAL_BASE + "/EURUSD/")
+        for item in inventory
+    )
 
 
 def test_controlled_download_stops_after_first_external_failure(
