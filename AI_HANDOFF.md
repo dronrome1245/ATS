@@ -204,48 +204,44 @@ Information boundary:
 
 ## Next gate
 
-Current agent branch:
+The controlled downloader passed exact-head preflight, was squash-merged, and is present on exact
+`main` commit:
 
-`agent/rf027-dukascopy-controlled-downloader`
+`a638e49108e05e9618208ca577c6ebd0c74aa4e1`
 
-Current task remains:
+Exact-main offline dry-run completed with:
 
-`ATS2-RF-027`
+`DRY_RUN_READY`
 
-OWNER authorized preparation of a controlled Dukascopy preload tool on 2026-10-02.
+Observed dry-run values:
 
-Tool:
+- calendar SHA-256:
+  `646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9`;
+- CPI events: `217`;
+- required unique BI5 objects: `1085`;
+- existing local objects: `37`;
+- missing objects: `1048`;
+- network requests: `0`.
 
-`tools/hyp0006_dukascopy_controlled_download.py`
+Information boundary:
 
-Preparation authorization does **not** authorize network execution.
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
-Network execution status:
+Network execution status remains:
 
 `NOT_YET_AUTHORIZED`
 
-Current gate: exact-head preflight of the controlled downloader branch.
+Current gate: separate explicit OWNER decision whether to authorize one controlled execute-run using:
 
-The downloader contract is:
+`uv run --frozen python -m tools.hyp0006_dukascopy_controlled_download --execute --owner-authorized`
 
-- offline inventory by default;
-- execute mode requires `--execute --owner-authorized`;
-- exact observed calendar SHA-256, 217 events and 1085 unique required objects must match before
-  network access;
-- only `datafeed.dukascopy.com` is used;
-- existing local files are not overwritten;
-- new BI5 content is source-integrity checked before atomic promotion;
-- first HTTP/network/access failure stops execution immediately;
-- no retry, alternate endpoint, mirror, proxy or provider fallback;
-- no HYP-0006 outcome fields are computed.
-
-After exact-head PASS GPT merges the branch. A later execute-run requires a separate explicit OWNER
-authorization. If execution stops on a source failure, report that first blocker and do not retry.
+If authorized, the run must stop on the first HTTP/network/access failure and hand that blocker to
+OWNER without retry, alternate endpoint, mirror, proxy or provider fallback.
 
 Only after the controlled preload is complete enough for RF-027 and exact-main
 `ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS`:
 
 `ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`
 
-will freeze the exact admissible source/data rules and numeric anchor tolerances before any market
-reveal.
+may begin.
+
