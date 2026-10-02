@@ -113,6 +113,16 @@ The latest exact-main RF-027 task check stopped before source preparation becaus
 file lacked the required `ATS2-RF-027` marker. The governance synchronization correction is staged
 on `agent/rf027-governance-marker-sync`.
 
+The latest exact-main RF-027 run subsequently passed governance and full Local CI, built the
+local BLS CPI calendar with `217` events and calendar SHA-256
+`646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9`, then stopped on
+Dukascopy tick acquisition for `2004-03-17T12:00:00Z` with HTTP 503.
+
+This is `TECHNICAL_SOURCE_ACCESS_FAILURE`, not a HYP-0006 result. No geometry CSV or final RF-027
+result JSON was emitted. Immediate retry is prohibited; the same frozen RF-027 may be retried once
+only after source recovery is separately confirmed and OWNER authorizes the retry. Persistent 503
+requires a Data Feasibility source-architecture decision preserving Dukascopy/tick semantics.
+
 Information boundary remains:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
