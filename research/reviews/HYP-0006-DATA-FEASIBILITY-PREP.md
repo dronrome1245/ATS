@@ -154,10 +154,20 @@ Quote source remains:
 
 `DUKASCOPY_HOURLY_TICK_BI5`
 
-Candidate endpoints:
+Candidate endpoints recorded for architecture review:
 
 1. `https://datafeed.dukascopy.com/datafeed`
 2. `https://www.dukascopy.com/datafeed`
+
+Runtime fail-fast rule:
+
+`FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF`
+
+Normal RF-027 execution may issue only the first external request for a required tick object. If that request returns an HTTP/network/access failure, execution stops immediately and reports the blocker to OWNER.
+
+The second candidate endpoint is **not** an automatic fallback. It may be tried only in a later OWNER-authorized attempt or explicit source-architecture decision.
+
+No automatic retry loop, alternate hostname fallback, mirror or provider substitution is permitted after the first external failure.
 
 Object path:
 
