@@ -126,22 +126,37 @@ Timestamp semantics:
 
 The calendar is hashed before any EUR/USD outcome is computed.
 
-## OWNER input status
+## Current RF-027 source status
 
-The one-time official BLS snapshot intake has now been completed locally.
+The one-time official BLS snapshot intake is complete locally.
 
 Canonical local bundle:
 
 - years: `2003..2021`;
 - count: `19`;
 - path: `data/raw/bls/hyp0006/schedules/YYYY.html`;
-- content preserved during normalization;
-- extra 2022–2025 pages moved outside the canonical schedule directory without deletion.
+- content preserved during filename normalization.
 
-Latest exact-main task check stopped before source preparation because `01_СТАТУС_ПРОЕКТА.md`
-did not contain the required `ATS2-RF-027` marker.
+The latest exact-main RF-027 run passed governance and full Local CI, then:
 
-That is a governance synchronization failure, not a HYP-0006 result.
+- produced the local BLS CPI calendar;
+- found `217` CPI events;
+- produced BLS calendar SHA-256
+  `646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9`;
+- stopped on Dukascopy tick acquisition for
+  `2004-03-17T12:00:00Z`;
+- last proven source error: `HTTP 503`;
+- created no geometry CSV and no final RF-027 result JSON.
+
+This is:
+
+`TECHNICAL_SOURCE_ACCESS_FAILURE`
+
+It is not a HYP-0006 result.
+
+Retry discipline:
+
+`NO_IMMEDIATE_RETRY_WAIT_SOURCE_RECOVERY_AND_OWNER_AUTHORIZATION`
 
 ## EUR/USD source geometry
 
@@ -170,16 +185,23 @@ Information boundary:
 
 Current corrective Git branch:
 
-`agent/rf027-governance-marker-sync`
+`agent/rf027-dukascopy-source-blocker`
 
 Current task remains:
 
 `ATS2-RF-027`
 
-Next gate: exact-head preflight of the governance synchronization correction.
+Next gate: exact-head preflight of governance synchronization for the Dukascopy source blocker.
 
-After exact-head PASS, GPT merges the correction. OWNER then reruns exact-main
-`ATS_TASK_CHECK.bat` with the already prepared 19-file BLS snapshot bundle.
+After exact-head PASS, GPT merges the correction.
+
+Do **not** immediately rerun the full RF-027 launcher. One controlled retry of the same frozen RF-027
+is allowed only after separate evidence that the Dukascopy source has recovered and OWNER authorizes
+that retry.
+
+If HTTP 503 repeats persistently, stop retries and open a Data Feasibility source-architecture
+decision that preserves Dukascopy/tick semantics. Do not substitute a third-party event or quote
+source automatically.
 
 Only after exact-main RF-027 preparation PASS:
 
