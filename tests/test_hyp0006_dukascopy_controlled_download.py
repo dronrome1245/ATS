@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-import tools.hyp0006_dukascopy_controlled_download as downloader
 import tools.hyp0006_data_feasibility as feasibility
+import tools.hyp0006_dukascopy_controlled_download as downloader
 
 
 def write_calendar(path: Path, release_time: str) -> None:
@@ -136,7 +136,7 @@ def test_execute_requires_explicit_owner_authorization(
     inventory = [
         downloader.InventoryRow(
             hour_start="2010-01-15T13:00:00Z",
-            source_url="https://datafeed.dukascopy.com/datafeed/EURUSD/2010/00/15/13h_ticks.bi5",
+            source_url=(\n                "https://datafeed.dukascopy.com/datafeed/EURUSD/2010/00/15/13h_ticks.bi5"\n            ),
             local_path="data/raw/example.bi5",
             exists=False,
         )
