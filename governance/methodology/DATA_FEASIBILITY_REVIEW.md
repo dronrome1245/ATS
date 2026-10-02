@@ -76,6 +76,29 @@ For a real review, `FEASIBLE` requires evidence that the needed source actually 
 
 If access is plausible but not yet verified, the review may be `CONDITIONAL` or `PARK` depending on whether the uncertainty blocks the next cheap test.
 
+
+### First external source failure
+
+For research source acquisition the repository-wide policy is:
+
+`FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF`
+
+After the first proven HTTP/network/access failure for a required external source object, ATS must stop automatic retries and hand the blocker to OWNER immediately.
+
+The same execution must not automatically try:
+
+- the same URL again;
+- an alternate hostname or endpoint;
+- a mirror;
+- a proxy;
+- another provider or third-party fallback.
+
+A new external attempt requires explicit OWNER authorization after the first failure has been reported.
+
+A protocol-defined semantic missing object or legitimate data gap may be recorded as an availability observation, but it does not authorize repeated network requests.
+
+This rule is operational and does not convert a source-access failure into evidence for or against the Hypothesis.
+
 ## 5. Coverage
 
 Coverage is evaluated against the concrete Hypothesis, not against a universal number of years or observations.
