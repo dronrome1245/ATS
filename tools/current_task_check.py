@@ -238,7 +238,7 @@ def check_rf027_contract() -> bool:
             'rf027_offline_architecture_merged_commit: "79a01623c3fef4deb3757e4d2940b8cd16b9bff3"',
             'rf027_latest_exact_main_blocker: "DUKASCOPY_HTTP_503_2004_03_17T12_00_00Z"',
             'strategy_5_bls_snapshot_intake_status: "CANONICAL_19_READY_LOCAL"',
-            'strategy_5_bls_calendar_observed_event_count: 217',
+            "strategy_5_bls_calendar_observed_event_count: 217",
             'strategy_5_bls_calendar_observed_sha256: "646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9"',
             'strategy_5_dukascopy_failed_hour: "2004-03-17T12:00:00Z"',
             "strategy_5_dukascopy_http_status: 503",
