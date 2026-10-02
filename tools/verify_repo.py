@@ -54,6 +54,7 @@ FORMAT_PATHS = (
     "tools/hyp0004_proto01.py",
     "tools/hyp0005_data_feasibility.py",
     "tools/hyp0006_data_feasibility.py",
+    "tools/hyp0006_dukascopy_controlled_download.py",
     "src",
     "tests",
 )
