@@ -7,7 +7,7 @@ import argparse
 import csv
 import json
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -227,6 +227,8 @@ def write_reports(report: dict[str, Any]) -> None:
         f"Required unique objects: {report['required_object_count']}",
         f"Existing before run: {report['existing_before']}",
         f"Missing before run: {report['missing_before']}",
+        f"Existing after run: {report.get('existing_after', '')}",
+        f"Missing after run: {report.get('missing_after', '')}",
         f"Network requests: {report['network_requests']}",
         f"Downloaded: {report['downloaded_count']}",
         f"Semantic missing objects: {report['semantic_missing_count']}",
@@ -249,6 +251,7 @@ def run(*, execute: bool, owner_authorized: bool) -> tuple[int, dict[str, Any]]:
         "schema_version": "hyp0006-dukascopy-controlled-preload-1",
         "task_id": TASK_ID,
         "substage": SUBSTAGE,
+        "git_commit": feasibility.git_head(),
         "source_policy": SOURCE_POLICY,
         "canonical_base": CANONICAL_BASE,
         "calendar_sha256": calendar_sha256,
@@ -269,16 +272,25 @@ def run(*, execute: bool, owner_authorized: bool) -> tuple[int, dict[str, Any]]:
 
     if not execute:
         result["status"] = "DRY_RUN_READY"
+        result["existing_after"] = existing_before
+        result["missing_after"] = missing_before
         write_reports(result)
         return 0, result
 
     if not owner_authorized:
         result["status"] = "OWNER_AUTHORIZATION_REQUIRED"
         result["failure"] = "execute mode requires --owner-authorized"
+        result["existing_after"] = existing_before
+        result["missing_after"] = missing_before
         write_reports(result)
         return 23, result
 
     result.update(controlled_download(inventory))
+    existing_after = sum(
+        resolve_local_path(item, feasibility.RAW_DUKASCOPY_ROOT).is_file() for item in inventory
+    )
+    result["existing_after"] = existing_after
+    result["missing_after"] = len(inventory) - existing_after
     write_reports(result)
     return (0 if result["status"] == "COMPLETE" else 24), result
 
