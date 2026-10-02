@@ -12,12 +12,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from tools import hyp0006_data_feasibility as feasibility
+
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from tools import hyp0006_data_feasibility as feasibility  # noqa: E402
-
 TASK_ID = "ATS2-RF-027"
 SUBSTAGE = "DUKASCOPY_CONTROLLED_PRELOAD"
 INFORMATION_BOUNDARY = "NO_HYPOTHESIS_OUTCOME_COMPUTED"
