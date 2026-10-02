@@ -169,6 +169,57 @@ The second candidate endpoint is **not** an automatic fallback. It may be tried 
 
 No automatic retry loop, alternate hostname fallback, mirror or provider substitution is permitted after the first external failure.
 
+## OWNER-authorized controlled Dukascopy preload
+
+The latest offline inventory was derived from the locally generated BLS calendar with SHA-256:
+
+`646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9`
+
+Observed inventory:
+
+- CPI events: `217`;
+- required unique hourly BI5 objects: `1085`;
+- locally existing at inventory time: `37`;
+- missing at inventory time: `1048`;
+- duplicate required hours: `0`;
+- first missing hour after the inventory: `2004-03-17T13:00:00Z`.
+
+These counts are source-acquisition observations only. They do not freeze the later RF-028 data
+admission decision and they do not evaluate the HYP-0006 primary claim.
+
+OWNER authorized **preparation of a controlled downloader** on 2026-10-02. This authorization does
+not authorize network execution.
+
+Controlled tool:
+
+`tools/hyp0006_dukascopy_controlled_download.py`
+
+Its contract is:
+
+1. default mode is offline inventory only and performs zero network requests;
+2. execute mode requires both `--execute` and `--owner-authorized`;
+3. inventory must match the observed BLS calendar SHA-256, 217 CPI events and 1085 unique required
+   hourly objects before any network request;
+4. only `https://datafeed.dukascopy.com/datafeed` is used in one execution;
+5. existing local BI5 objects are never overwritten;
+6. every newly downloaded object is decoded and source-integrity checked before atomic promotion
+   from a temporary file;
+7. HTTP/network/access failure stops the run immediately under
+   `FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF`;
+8. there is no retry, second endpoint, mirror, proxy or provider fallback;
+9. protocol-defined 404/410 missing objects are recorded as source-availability observations and
+   are not retried;
+10. the tool may write only acquisition/inventory metadata and may not compute returns, the primary
+    HYP-0006 inequality or P&L.
+
+Network execution status:
+
+`NOT_YET_AUTHORIZED`
+
+Information boundary:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
 Object path:
 
 `EURUSD/{YEAR}/{ZERO_BASED_MONTH}/{DAY}/{HOUR}h_ticks.bi5`
