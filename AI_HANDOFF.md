@@ -154,9 +154,11 @@ This is:
 
 It is not a HYP-0006 result.
 
-Retry discipline:
+Repository-wide source discipline:
 
-`NO_IMMEDIATE_RETRY_WAIT_SOURCE_RECOVERY_AND_OWNER_AUTHORIZATION`
+`FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF`
+
+After the first proven external HTTP/network/access failure, automatic retries, alternate endpoints and fallbacks stop immediately. A new external attempt requires explicit OWNER authorization after that first failure is reported.
 
 ## EUR/USD source geometry
 
