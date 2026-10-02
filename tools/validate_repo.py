@@ -388,6 +388,8 @@ def configure() -> None:
         "strategy_5_data_feasibility_test",
         "strategy_5_bls_snapshot_manifest",
         "strategy_5_bls_snapshot_intake",
+        "strategy_5_dukascopy_controlled_downloader",
+        "strategy_5_dukascopy_controlled_downloader_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -2062,6 +2064,7 @@ def configure() -> None:
         "HYP-0005 outcome computed by RF-027: NO",
         "HYP-0006 outcome computed by RF-027: NO",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
