@@ -58,8 +58,7 @@ def test_inventory_uses_frozen_required_hours_and_canonical_base(tmp_path: Path)
         "2010-01-15T15:00:00Z",
     ]
     assert all(
-        item.source_url.startswith(downloader.CANONICAL_BASE + "/EURUSD/")
-        for item in inventory
+        item.source_url.startswith(downloader.CANONICAL_BASE + "/EURUSD/") for item in inventory
     )
 
 
