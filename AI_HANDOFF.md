@@ -204,6 +204,10 @@ Information boundary:
 
 ## Next gate
 
+Current task:
+
+`ATS2-RF-027`
+
 The controlled downloader passed exact-head preflight, was squash-merged, and is present on exact
 `main` commit:
 
