@@ -136,9 +136,7 @@ def test_execute_requires_explicit_owner_authorization(
     inventory = [
         downloader.InventoryRow(
             hour_start="2010-01-15T13:00:00Z",
-            source_url=(
-                "https://datafeed.dukascopy.com/datafeed/EURUSD/2010/00/15/13h_ticks.bi5"
-            ),
+            source_url="https://datafeed.dukascopy.com/datafeed/EURUSD/2010/00/15/13h_ticks.bi5",
             local_path="data/raw/example.bi5",
             exists=False,
         )
