@@ -107,6 +107,8 @@ HYP0006_DATA_FEASIBILITY = "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
 HYP0006_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
 HYP0006_DATA_FEASIBILITY_TOOL = "tools/hyp0006_data_feasibility.py"
 HYP0006_DATA_FEASIBILITY_TEST = "tests/test_hyp0006_data_feasibility.py"
+HYP0006_CONTROLLED_DOWNLOAD_TOOL = "tools/hyp0006_dukascopy_controlled_download.py"
+HYP0006_CONTROLLED_DOWNLOAD_TEST = "tests/test_hyp0006_dukascopy_controlled_download.py"
 HYP0006_BLS_SNAPSHOT_MANIFEST = "data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
 HYP0006_BLS_SNAPSHOT_INTAKE = "research/reviews/HYP-0006-BLS-SNAPSHOT-INTAKE.md"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
@@ -305,6 +307,8 @@ def configure() -> None:
         HYP0006_DATA_FEASIBILITY_PREP,
         HYP0006_DATA_FEASIBILITY_TOOL,
         HYP0006_DATA_FEASIBILITY_TEST,
+        HYP0006_CONTROLLED_DOWNLOAD_TOOL,
+        HYP0006_CONTROLLED_DOWNLOAD_TEST,
         HYP0006_BLS_SNAPSHOT_MANIFEST,
         HYP0006_BLS_SNAPSHOT_INTAKE,
         HYP0002_DATA_FEASIBILITY_TOOL,
@@ -1279,6 +1283,9 @@ def configure() -> None:
         "`PROHIBITED`",
         "DUKASCOPY_HOURLY_TICK_BI5",
         "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
+        "OWNER-authorized controlled Dukascopy preload",
+        "1085",
+        "NOT_YET_AUTHORIZED",
         "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
         "READY_FOR_DATA_FEASIBILITY_FREEZE",
         "UNRESOLVED_OFFICIAL_EVENT_TIMES",
@@ -1330,6 +1337,29 @@ def configure() -> None:
         "test_event_geometry_uses_timestamps_only_and_requires_strict_pre_release",
         "test_geometry_output_schema_contains_no_price_or_outcome_fields",
         "test_preparation_decision_is_non_market_geometry_gate",
+    )
+    core.CONTENT_MARKERS[HYP0006_CONTROLLED_DOWNLOAD_TOOL] = (
+        'TASK_ID = "ATS2-RF-027"',
+        'SUBSTAGE = "DUKASCOPY_CONTROLLED_PRELOAD"',
+        'SOURCE_POLICY = "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"',
+        'CANONICAL_BASE = "https://datafeed.dukascopy.com/datafeed"',
+        "AUTHORIZED_CALENDAR_SHA256",
+        "AUTHORIZED_EVENT_COUNT = 217",
+        "AUTHORIZED_REQUIRED_OBJECT_COUNT = 1085",
+        "DRY_RUN_READY",
+        "OWNER_AUTHORIZATION_REQUIRED",
+        "SOURCE_BLOCKED",
+        "semantic_missing_count",
+        '"outcome_metrics_computed": False',
+        '"primary_claim_evaluated": False',
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+    )
+    core.CONTENT_MARKERS[HYP0006_CONTROLLED_DOWNLOAD_TEST] = (
+        "test_inventory_uses_frozen_required_hours_and_canonical_base",
+        "test_controlled_download_stops_after_first_external_failure",
+        "test_controlled_download_does_not_overwrite_existing_file",
+        "test_execute_requires_explicit_owner_authorization",
+        "test_dry_run_never_starts_controlled_download",
     )
     core.CONTENT_MARKERS[HYP0006_BLS_SNAPSHOT_MANIFEST] = (
         "year,source_url,snapshot_relative_path",
@@ -2052,6 +2082,7 @@ def configure() -> None:
         "tools/hyp0004_proto01.py",
         "tools/hyp0005_data_feasibility.py",
         "tools/hyp0006_data_feasibility.py",
+        "tools/hyp0006_dukascopy_controlled_download.py",
     )
     core.CONTENT_MARKERS["governance/methodology/DATA_FEASIBILITY_REVIEW.md"] = (
         "Data Feasibility Review",
@@ -2092,6 +2123,9 @@ def configure() -> None:
         "HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt",
         "HYP0006_DATA_FEASIBILITY_PREP.json",
         "HYP0006_DATA_FEASIBILITY_PREP_REPORT.txt",
+        "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD.json",
+        "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_REPORT.txt",
+        "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_INVENTORY.csv",
         "reports/local_ci/*.lnk",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
@@ -2601,8 +2635,8 @@ def main() -> int:
         'strategy_5_data_feasibility_prep_decision: "PENDING_SOURCE_RECOVERY_NO_OUTCOME"',
         'rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"',
         'rf027_second_failed_exact_main_commit: "2ce019bb51b0e45e900c0555ed44be5a3433e23a"',
-        'strategy_5_source_access_blocker: "BLS_HTTP_403_AUTOMATED_RETRIEVAL"',
-        'strategy_5_source_access_correction: "FROZEN_LOCAL_BLS_SNAPSHOT_BUNDLE"',
+        'strategy_5_source_access_blocker: "DUKASCOPY_HTTP_503_2004_03_17T12_00_00Z"',
+        'strategy_5_source_access_correction: "CONTROLLED_LOCAL_DUKASCOPY_PRELOAD_PREPARATION_AUTHORIZED"',
         'strategy_5_required_protected_hyp0005_source_requests: 0',
         'strategy_5_bls_runtime_network_mode: "PROHIBITED"',
         'strategy_5_bls_snapshot_years: "2003..2021"',
@@ -2616,6 +2650,13 @@ def main() -> int:
         "strategy_5_dukascopy_http_status: 503",
         'strategy_5_external_source_failure_policy: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"',
         'strategy_5_dukascopy_retry_rule: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF_REQUIRES_OWNER_AUTHORIZATION"',
+        'rf027_first_failure_policy_merged_commit: "367976fa7510d0fe8c3662d5b33a9889fc824c94"',
+        "strategy_5_dukascopy_inventory_required_object_count: 1085",
+        "strategy_5_dukascopy_inventory_existing_object_count: 37",
+        "strategy_5_dukascopy_inventory_missing_object_count: 1048",
+        'strategy_5_dukascopy_controlled_downloader_status: "PREPARATION_AUTHORIZED_STAGED"',
+        'strategy_5_dukascopy_controlled_downloader_branch: "agent/rf027-dukascopy-controlled-downloader"',
+        'strategy_5_dukascopy_controlled_execution_status: "NOT_YET_AUTHORIZED"',
         'strategy_5_geometry_output_status: "NOT_CREATED_SOURCE_BLOCKED"',
         'strategy_5_bls_calendar_candidate: "data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"',
         'active_idea_id: "IDEA-0004"',
