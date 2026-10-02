@@ -2064,7 +2064,7 @@ def configure() -> None:
         "HYP-0005 outcome computed by RF-027: NO",
         "HYP-0006 outcome computed by RF-027: NO",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-        "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD",
+        "hyp0006_dukascopy_controlled_download.py",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
