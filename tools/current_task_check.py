@@ -281,11 +281,13 @@ def check_rf027_contract() -> bool:
             "strategy_5_dukascopy_inventory_required_object_count: 1085",
             "strategy_5_dukascopy_inventory_existing_object_count: 37",
             "strategy_5_dukascopy_inventory_missing_object_count: 1048",
-            'strategy_5_dukascopy_controlled_downloader_status: "DRY_RUN_READY_AWAITING_EXECUTE_AUTHORIZATION"',
+            "strategy_5_dukascopy_controlled_downloader_status: "
+            '"DRY_RUN_READY_AWAITING_EXECUTE_AUTHORIZATION"',
             'strategy_5_dukascopy_controlled_downloader_branch: "MERGED_TO_MAIN"',
             'strategy_5_dukascopy_controlled_execution_status: "NOT_YET_AUTHORIZED"',
             'rf027_controlled_downloader_merged_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"',
-            'rf027_controlled_downloader_dry_run_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"',
+            "rf027_controlled_downloader_dry_run_commit: "
+            '"a638e49108e05e9618208ca577c6ebd0c74aa4e1"',
             'rf027_controlled_downloader_dry_run_status: "DRY_RUN_READY"',
             "rf027_controlled_downloader_dry_run_event_count: 217",
             "rf027_controlled_downloader_dry_run_required_object_count: 1085",
