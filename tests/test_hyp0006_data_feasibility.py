@@ -39,6 +39,33 @@ def test_live_bls_network_access_is_prohibited(
     assert called is False
 
 
+def test_external_source_failure_hands_off_after_first_attempt(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    calls: list[str] = []
+
+    def fail_once(url: str, timeout: int = 30) -> tuple[bytes, dict[str, str]]:
+        del timeout
+        calls.append(url)
+        raise feasibility.PreparationError(f"HTTP 503 while fetching {url}")
+
+    monkeypatch.setattr(feasibility, "fetch_bytes", fail_once)
+
+    with pytest.raises(
+        feasibility.PreparationError,
+        match="FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF",
+    ):
+        feasibility.cached_or_fetch_any(
+            ("https://primary.example/object.bi5", "https://secondary.example/object.bi5"),
+            tmp_path / "object.bi5",
+            "Dukascopy EURUSD test object",
+            missing_ok=True,
+        )
+
+    assert calls == ["https://primary.example/object.bi5"]
+
+
 def test_snapshot_manifest_requires_exact_2003_2021_contract(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
