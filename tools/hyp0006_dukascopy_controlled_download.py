@@ -26,8 +26,12 @@ AUTHORIZED_CALENDAR_SHA256 = (
 AUTHORIZED_EVENT_COUNT = 217
 AUTHORIZED_REQUIRED_OBJECT_COUNT = 1085
 
-REPORT_JSON = (\n    ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD.json"\n)
-REPORT_TEXT = (\n    ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_REPORT.txt"\n)
+REPORT_JSON = (
+    ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD.json"
+)
+REPORT_TEXT = (
+    ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_REPORT.txt"
+)
 INVENTORY_CSV = (
     ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_INVENTORY.csv"
 )
@@ -213,7 +217,10 @@ def controlled_download(
 
 def write_reports(report: dict[str, Any]) -> None:
     REPORT_JSON.parent.mkdir(parents=True, exist_ok=True)
-    REPORT_JSON.write_text(\n        json.dumps(report, indent=2, sort_keys=True) + "\n",\n        encoding="utf-8",\n    )
+    REPORT_JSON.write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
 
     lines = [
         "HYP-0006 Dukascopy controlled preload",
