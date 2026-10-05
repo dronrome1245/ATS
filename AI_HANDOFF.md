@@ -334,8 +334,20 @@ Tool:
 
 `tools/hyp0006_dukascopy_browser_batch_250.py`
 
-Current gate: exact-head preflight of the batch-250 implementation. Do not run the batch before the
-branch passes preflight and is merged to exact `main`.
+The batch-250 implementation passed exact-head preflight and was squash-merged to `main` at:
+
+`94e7a91ec96986dd940f2a13575c9ee436b1a354`
+
+Current gate: synchronize local exact `main`, run the zero-network batch-250 dry-run manifest, then
+execute the one authorized bounded 250-object browser batch exactly once.
+
+Dry-run command:
+
+`uv run --frozen python -m tools.hyp0006_dukascopy_browser_batch_250`
+
+Exact execution command after manifest review:
+
+`uv run --frozen python -m tools.hyp0006_dukascopy_browser_batch_250 --execute-browser --owner-authorized-250`
 
 Information boundary:
 
