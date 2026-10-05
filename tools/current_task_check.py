@@ -245,6 +245,9 @@ def check_rf027_contract() -> bool:
             "AUTHORIZED_REQUIRED_OBJECT_COUNT = 1085",
             "AUTHORIZED_CALENDAR_SHA256",
             "OWNER_AUTHORIZATION_REQUIRED",
+            "OWNER_AUTHORIZATION_CONSUMED",
+            "ACTIVE_AUTHORIZATION_MARKER",
+            "canonical_authorization_is_active",
             "DRY_RUN_READY",
             "SOURCE_BLOCKED",
             '"outcome_metrics_computed": False',
@@ -259,6 +262,7 @@ def check_rf027_contract() -> bool:
             "test_controlled_download_stops_after_first_external_failure",
             "test_controlled_download_does_not_overwrite_existing_file",
             "test_execute_requires_explicit_owner_authorization",
+            "test_execute_rejects_consumed_canonical_authorization",
             "test_dry_run_never_starts_controlled_download",
         ),
     )
