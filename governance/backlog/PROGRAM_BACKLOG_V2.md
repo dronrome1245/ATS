@@ -227,8 +227,20 @@ Pilot tool:
 The browser-pilot implementation passed exact-head preflight and was squash-merged to `main` at
 `52b2f9c0755a4efbda49c86c96ace1763a3d47cf`.
 
-Current gate is exact-main dry-run followed by exactly one OWNER-authorized bounded 50-object
-browser-pilot execution.
+The exact-main bounded browser pilot ran once on
+`c7a10c8bcd84ca4754db92af4c63f39c02101543` and returned
+`50` selected / `50` promoted / `0` skipped with
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+
+Pilot status:
+
+`PASS_50_OF_50_AUTHORIZATION_CONSUMED`
+
+Expected post-pilot inventory is `87 / 1085` canonical objects with `998` missing, pending a
+zero-network recount.
+
+Current gate is offline inventory confirmation. Any new browser/source batch requires a new explicit
+OWNER authorization.
 
 Information boundary remains:
 
