@@ -157,11 +157,13 @@ Dry-run status:
 Observed values remained `217` events / `1085` required BI5 objects / `37` existing /
 `1048` missing / `0` network requests, with the same BLS calendar SHA-256.
 
+OWNER explicitly authorized one controlled execute-run on 2026-10-05.
+
 Network execution status:
 
-`NOT_YET_AUTHORIZED`
+`AUTHORIZED_ONCE_BY_OWNER_2026_10_05`
 
-Current gate is a separate explicit OWNER decision whether to authorize one controlled execute-run.
+Current gate is exactly one controlled execute-run. The authorization is consumed by that run regardless of PASS/FAIL; another run requires a new explicit OWNER authorization.
 
 Information boundary remains:
 
