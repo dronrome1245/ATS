@@ -1359,6 +1359,9 @@ def configure() -> None:
         "AUTHORIZED_REQUIRED_OBJECT_COUNT = 1085",
         "DRY_RUN_READY",
         "OWNER_AUTHORIZATION_REQUIRED",
+        "OWNER_AUTHORIZATION_CONSUMED",
+        "ACTIVE_AUTHORIZATION_MARKER",
+        "canonical_authorization_is_active",
         "SOURCE_BLOCKED",
         "semantic_missing_count",
         '"outcome_metrics_computed": False',
@@ -1370,6 +1373,7 @@ def configure() -> None:
         "test_controlled_download_stops_after_first_external_failure",
         "test_controlled_download_does_not_overwrite_existing_file",
         "test_execute_requires_explicit_owner_authorization",
+        "test_execute_rejects_consumed_canonical_authorization",
         "test_dry_run_never_starts_controlled_download",
     )
     core.CONTENT_MARKERS[HYP0006_BLS_SNAPSHOT_MANIFEST] = (
