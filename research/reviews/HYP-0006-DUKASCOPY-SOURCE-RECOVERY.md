@@ -232,6 +232,10 @@ The one-shot batch-250 authorization is consumed. The same batch must not be rer
 
 Detailed local batch-250 evidence review subsequently passed for all `250 / 250` rows:
 
+Evidence review status:
+
+`FULL_JSON_MANIFEST_REVIEW_PASS`
+
 - JSON top-level contract: `PASS`;
 - per-row validation: `PASS`;
 - manifest-vs-JSON identity: `PASS`;
