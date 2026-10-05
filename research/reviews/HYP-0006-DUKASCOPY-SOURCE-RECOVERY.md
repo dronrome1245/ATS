@@ -161,9 +161,27 @@ The pilot contract is:
 The measurable failure criterion is absence of a valid expected BI5 download within the wait window;
 the tool does not infer browser DOM/network state.
 
-Pilot execution status before exact-main execution:
+Exact-main pilot execution:
 
-`NOT_YET_EXECUTED`
+- git commit: `c7a10c8bcd84ca4754db92af4c63f39c02101543`;
+- objects selected: `50`;
+- objects promoted after BI5 integrity validation: `50`;
+- objects skipped after two attempts: `0`;
+- maximum attempts per object: `2`;
+- hypothesis outcome computed: `NO`.
+
+Pilot result:
+
+`PASS_50_OF_50_AUTHORIZATION_CONSUMED`
+
+The one-shot browser-pilot authorization is consumed. The same pilot must not be rerun.
+
+Based on the previously observed `37 / 1085` canonical inventory and 50 newly promoted previously
+missing objects, the deterministic expected post-pilot inventory is `87` existing / `998`
+missing. This count must be confirmed by a zero-network local inventory before any next external
+batch is authorized.
+
+Any further browser-assisted external acquisition requires a new explicit OWNER authorization.
 
 Information boundary:
 

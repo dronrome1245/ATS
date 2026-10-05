@@ -95,6 +95,10 @@ Current patterns include:
 - `reports/local_ci/HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD.json` — RF-027 controlled Dukascopy preload machine report;
 - `reports/local_ci/HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_REPORT.txt` — RF-027 controlled preload shareable summary;
 - `reports/local_ci/HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_INVENTORY.csv` — deterministic 1,085-object local/network inventory with no price or outcome fields;
+- `reports/local_ci/HYP0006_DUKASCOPY_BROWSER_PILOT_50.json` — bounded 50-object browser-pilot machine report;
+- `reports/local_ci/HYP0006_DUKASCOPY_BROWSER_PILOT_50_REPORT.txt` — bounded browser-pilot shareable summary;
+- `reports/local_ci/HYP0006_DUKASCOPY_BROWSER_PILOT_50_MANIFEST.csv` — deterministic selected-object dry-run manifest;
+- `reports/local_ci/HYP0006_DUKASCOPY_BROWSER_PILOT_50_CONSUMED.json` — local one-shot authorization-consumption sentinel;
 - `reports/local_ci/*.lnk` — disposable Windows Explorer shortcuts.
 
 The rules are deliberately directory-scoped and filename-scoped so unrelated untracked files still make the full clean-tree gate fail.
