@@ -320,6 +320,8 @@ def configure() -> None:
         HYP0006_BROWSER_PILOT_TEST,
         HYP0006_BROWSER_BATCH_250_TOOL,
         HYP0006_BROWSER_BATCH_250_TEST,
+        HYP0006_BROWSER_REMAINING_748_TOOL,
+        HYP0006_BROWSER_REMAINING_748_TEST,
         HYP0006_BLS_SNAPSHOT_MANIFEST,
         HYP0006_BLS_SNAPSHOT_INTAKE,
         HYP0006_DUKASCOPY_SOURCE_RECOVERY,
@@ -407,6 +409,8 @@ def configure() -> None:
         "strategy_5_dukascopy_browser_pilot_test",
         "strategy_5_dukascopy_browser_batch_250",
         "strategy_5_dukascopy_browser_batch_250_test",
+        "strategy_5_dukascopy_browser_remaining_748",
+        "strategy_5_dukascopy_browser_remaining_748_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -2218,6 +2222,9 @@ def configure() -> None:
         "tools/hyp0005_data_feasibility.py",
         "tools/hyp0006_data_feasibility.py",
         "tools/hyp0006_dukascopy_controlled_download.py",
+        "tools/hyp0006_dukascopy_browser_pilot.py",
+        "tools/hyp0006_dukascopy_browser_batch_250.py",
+        "tools/hyp0006_dukascopy_browser_remaining_748.py",
     )
     core.CONTENT_MARKERS["governance/methodology/DATA_FEASIBILITY_REVIEW.md"] = (
         "Data Feasibility Review",
