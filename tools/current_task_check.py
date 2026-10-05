@@ -284,7 +284,8 @@ def check_rf027_contract() -> bool:
             "strategy_5_dukascopy_controlled_downloader_status: "
             '"DRY_RUN_READY_AWAITING_EXECUTE_AUTHORIZATION"',
             'strategy_5_dukascopy_controlled_downloader_branch: "MERGED_TO_MAIN"',
-            'strategy_5_dukascopy_controlled_execution_status: "AUTHORIZED_ONCE_BY_OWNER_2026_10_05"',
+            "strategy_5_dukascopy_controlled_execution_status: "
+            '"AUTHORIZED_ONCE_BY_OWNER_2026_10_05"',
             "strategy_5_dukascopy_controlled_execution_authorization_count: 1",
             "strategy_5_dukascopy_controlled_execution_authorized_command:",
             'rf027_controlled_downloader_merged_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"',
