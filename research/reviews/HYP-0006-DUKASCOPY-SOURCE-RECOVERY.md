@@ -190,7 +190,38 @@ Inventory status:
 
 `CONFIRMED_ZERO_NETWORK`
 
-Any further browser-assisted external acquisition requires a new explicit OWNER authorization.
+OWNER subsequently authorized one next bounded browser-assisted acquisition batch on 2026-10-05:
+
+`OWNER_AUTHORIZED_BROWSER_BATCH_250_2026_10_05`
+
+Frozen batch-250 contract:
+
+1. select the first `250` currently missing objects from the deterministic RF-027 inventory;
+2. use only the same canonical `https://datafeed.dukascopy.com/datafeed` URL family;
+3. maximum browser-open attempts per object: `2`;
+4. after the second unsuccessful attempt, record `SKIPPED_AFTER_2_ATTEMPTS` and continue;
+5. no alternate hostname, mirror, proxy, provider or third-party fallback;
+6. never overwrite an existing canonical local BI5;
+7. validate BI5 integrity before byte-preserving promotion;
+8. write a distinct consumed sentinel before the first browser-open;
+9. write source-acquisition metadata and hashes only;
+10. do not compute HYP-0006 returns, the primary inequality or P&L.
+
+Tool:
+
+`tools/hyp0006_dukascopy_browser_batch_250.py`
+
+Synthetic tests:
+
+`tests/test_hyp0006_dukascopy_browser_batch_250.py`
+
+Execution status before exact-main execution:
+
+`NOT_YET_EXECUTED`
+
+Information boundary:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
 Information boundary:
 
