@@ -76,7 +76,7 @@ Backlog превращает Program WBS в исполнимую очередь 
 61. `ATS2-RF-024` — HYP-0005 confirmatory Data Feasibility freeze — `BLOCKED` pending RF-023 exact-main preparation result.
 62. `ATS2-RF-025` — Parallel Strategy #5 Idea Intake + HYP-0006 formation — `DONE / PASS`.
 63. `ATS2-RF-026` — HYP-0006 Data Feasibility — `DONE / PASS`.
-64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation with frozen local BLS schedule snapshots — `READY`.
+64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation with frozen local BLS + Dukascopy snapshots — `SOURCE-BLOCKED`.
 65. `ATS2-RF-028` — HYP-0006 pre-reveal data/tolerance freeze — `BLOCKED` pending RF-027 exact-main preparation result.
 
 Program-level current next task — `ATS2-RF-027`.
@@ -159,11 +159,40 @@ Observed values remained `217` events / `1085` required BI5 objects / `37` exist
 
 OWNER explicitly authorized one controlled execute-run on 2026-10-05.
 
-Network execution status:
+Historical authorization:
 
 `AUTHORIZED_ONCE_BY_OWNER_2026_10_05`
 
-Current gate is exactly one controlled execute-run. The authorization is consumed by that run regardless of PASS/FAIL; another run requires a new explicit OWNER authorization.
+The exact-main run on
+`f3151d8915b61d1a08e79cf27133764201475e65`
+made exactly one canonical request, downloaded zero objects and stopped on HTTP 503 for
+`2004-03-17T13:00:00Z`.
+
+Controlled execution status:
+
+`SOURCE_BLOCKED_AUTHORIZATION_CONSUMED`
+
+Observed inventory remained `37` existing / `1048` missing after the run.
+
+No retry or automatic alternate endpoint is authorized.
+
+RF-027 now stages the preferred same-source recovery architecture:
+
+`FROZEN_LOCAL_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`
+
+Normal RF-027 live Dukascopy network mode becomes:
+
+`PROHIBITED`
+
+Missing local BI5 inputs are classified:
+
+`OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`
+
+Recovery review:
+
+`research/reviews/HYP-0006-DUKASCOPY-SOURCE-RECOVERY.md`
+
+This preserves `DUKASCOPY_HOURLY_TICK_BI5` semantics and does not compute a HYP-0006 outcome.
 
 Information boundary remains:
 
@@ -284,7 +313,7 @@ RF-023 is structurally `READY` but execution is temporarily blocked by external 
 | `ATS2-RF-024` | `WBS-RF.2` | P1 | BLOCKED | RF-023 exact-main preparation result | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest/schema when permitted | Canonicalize the exact RF-023 machine result and freeze the Data Feasibility decision/dataset identity; do not compute HYP-0005 primary outcome |
 | `ATS2-RF-025` | `WBS-RF.2` | P1 | DONE / PASS | RF-022 PASS; retained `S4-FAM-02` sourcing provenance; RF-023 may remain externally blocked | `research/ideas/IDEA-0005.md` + `research/hypotheses/HYP-0006.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `9b0a6c8898a7ebf9b03167a871ad02af96ca2807` registered IDEA-0005/HYP-0006 as two Material Research Attempts while preserving HYP-0005 and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-026` | `WBS-RF.2` | P1 | DONE / PASS | RF-025 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `5e0ff9e4481e5dc28c14a73adcf32433715973a3` recorded `CONDITIONAL` feasibility, frozen the development interval and source/timing constraints, and retained `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
-| `ATS2-RF-027` | `WBS-RF.2` | P1 | READY | RF-026 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md` + `tools/hyp0006_data_feasibility.py` + synthetic tests + local machine result | Machine-verify the full BLS CPI archive denominator, official release-time conversion, annual-schedule cross-check, bounded Dukascopy EUR/USD tick coverage, quote integrity and timestamp-only anchor geometry; prohibit prices/returns/P&L in the derived geometry dataset and retain zero HYP-0005 protected requests |
+| `ATS2-RF-027` | `WBS-RF.2` | P1 | SOURCE-BLOCKED | RF-026 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md` + `tools/hyp0006_data_feasibility.py` + synthetic tests + local machine result | Machine-verify the full BLS CPI archive denominator, official release-time conversion, annual-schedule cross-check, bounded Dukascopy EUR/USD tick coverage, quote integrity and timestamp-only anchor geometry; prohibit prices/returns/P&L in the derived geometry dataset and retain zero HYP-0005 protected requests |
 | `ATS2-RF-028` | `WBS-RF.2` | P1 | BLOCKED | RF-027 exact-main preparation result | canonical RF-027 result + frozen HYP-0006 development dataset/tolerance contract | Freeze exact event/source identities, eligible-event denominator, numeric anchor tolerances and dataset hashes before any HYP-0006 outcome calculation |
 
 ## 8. Следующий шаг
