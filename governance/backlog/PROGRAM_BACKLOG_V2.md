@@ -203,6 +203,29 @@ normal RF-027 must remain offline and hand off
 
 This preserves `DUKASCOPY_HOURLY_TICK_BI5` semantics and does not compute a HYP-0006 outcome.
 
+A bounded manual browser probe subsequently produced three supplied canonical BI5 files; all three
+passed independent raw BI5 integrity checks.
+
+OWNER then authorized one bounded browser-assisted intake pilot:
+
+`OWNER_AUTHORIZED_BROWSER_PILOT_50_2026_10_05`
+
+Frozen pilot scope:
+
+- first `50` currently missing deterministic RF-027 BI5 objects;
+- canonical Dukascopy URL only;
+- at most `2` attempts per object;
+- `SKIPPED_AFTER_2_ATTEMPTS` after the second unsuccessful attempt;
+- no alternate hostname/mirror/proxy/provider fallback;
+- one-shot execution;
+- no HYP-0006 outcome calculation.
+
+Pilot tool:
+
+`tools/hyp0006_dukascopy_browser_pilot.py`
+
+Current gate is exact-head preflight of the browser-pilot implementation before any pilot execution.
+
 Information boundary remains:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
