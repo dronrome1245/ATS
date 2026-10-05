@@ -129,7 +129,7 @@ model:
   strategy_5_dukascopy_controlled_downloader_test: "tests/test_hyp0006_dukascopy_controlled_download.py"
 
 current:
-  focus: "RF-027 controlled Dukascopy preload preparation: BLS calendar remains 217 events / SHA-256 646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9; offline inventory requires 1085 hourly BI5 objects, 37 existed and 1048 were missing; downloader preparation is OWNER-authorized but network execution is not yet authorized; no HYP-0005 or HYP-0006 outcome has been computed"
+  focus: "RF-027 controlled Dukascopy preload dry-run passed on exact main a638e49108e05e9618208ca577c6ebd0c74aa4e1: calendar SHA-256 646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9, 217 CPI events, 1085 required BI5 objects, 37 existing, 1048 missing, 0 network requests; execute-run awaits separate OWNER authorization; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-026"
   last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
@@ -619,9 +619,17 @@ research_factory:
   strategy_5_dukascopy_inventory_duplicate_hour_count: 0
   strategy_5_dukascopy_inventory_first_missing_hour: "2004-03-17T13:00:00Z"
   strategy_5_dukascopy_previous_failed_hour_local_status: "FILE_EXISTS_NOT_YET_DECODE_VALIDATED"
-  strategy_5_dukascopy_controlled_downloader_status: "PREPARATION_AUTHORIZED_STAGED"
-  strategy_5_dukascopy_controlled_downloader_branch: "agent/rf027-dukascopy-controlled-downloader"
+  strategy_5_dukascopy_controlled_downloader_status: "DRY_RUN_READY_AWAITING_EXECUTE_AUTHORIZATION"
+  strategy_5_dukascopy_controlled_downloader_branch: "MERGED_TO_MAIN"
   strategy_5_dukascopy_controlled_execution_status: "NOT_YET_AUTHORIZED"
+  rf027_controlled_downloader_merged_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"
+  rf027_controlled_downloader_dry_run_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"
+  rf027_controlled_downloader_dry_run_status: "DRY_RUN_READY"
+  rf027_controlled_downloader_dry_run_event_count: 217
+  rf027_controlled_downloader_dry_run_required_object_count: 1085
+  rf027_controlled_downloader_dry_run_existing_object_count: 37
+  rf027_controlled_downloader_dry_run_missing_object_count: 1048
+  rf027_controlled_downloader_dry_run_network_requests: 0
   strategy_5_geometry_output_status: "NOT_CREATED_SOURCE_BLOCKED"
   strategy_5_bls_calendar_candidate: "data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"
   active_idea_id: "IDEA-0004"
