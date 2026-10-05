@@ -302,11 +302,22 @@ Pilot status:
 
 `PASS_50_OF_50_AUTHORIZATION_CONSUMED`
 
-Expected post-pilot canonical inventory is `87 / 1085`, with `998` still missing, pending a
-zero-network inventory recount.
+The zero-network post-pilot inventory recount confirmed:
 
-Current gate: exact-main offline inventory confirmation only. No further browser/source acquisition
-is authorized until OWNER explicitly authorizes a new bounded batch.
+- required canonical BI5 objects: `1085`;
+- existing: `87`;
+- missing: `998`;
+- network requests: `0`;
+- downloaded: `0`;
+- semantic missing: `0`;
+- hypothesis outcome computed: `NO`.
+
+Post-pilot inventory status:
+
+`CONFIRMED_ZERO_NETWORK`
+
+Current gate: source-intake continuation decision only. No further browser/source acquisition is
+authorized until OWNER explicitly authorizes a new bounded batch.
 
 Information boundary:
 
