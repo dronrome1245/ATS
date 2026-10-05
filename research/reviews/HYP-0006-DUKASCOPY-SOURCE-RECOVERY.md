@@ -267,6 +267,10 @@ remaining objects:
 
 `OWNER_AUTHORIZED_REMAINING_748_2026_10_05`
 
+Inventory rule:
+
+`REQUIRE_EXACTLY_748_CURRENT_MISSING`
+
 Frozen remaining-748 contract:
 
 1. the deterministic inventory must report exactly `748` current missing objects or execution blocks;
