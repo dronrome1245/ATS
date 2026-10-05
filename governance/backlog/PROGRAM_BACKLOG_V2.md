@@ -192,6 +192,15 @@ Recovery review:
 
 `research/reviews/HYP-0006-DUKASCOPY-SOURCE-RECOVERY.md`
 
+The source-blocker/offline-runtime correction passed exact-head preflight and was squash-merged to
+`main` at:
+
+`953b405a63f8077411c817965f96cb9e3aee5d29`
+
+Current gate is exact-main `.\ATS_TASK_CHECK.bat`. With the local BI5 bundle still incomplete,
+normal RF-027 must remain offline and hand off
+`OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`.
+
 This preserves `DUKASCOPY_HOURLY_TICK_BI5` semantics and does not compute a HYP-0006 outcome.
 
 Information boundary remains:
