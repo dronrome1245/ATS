@@ -73,6 +73,10 @@ Preferred recovery architecture:
 The research runtime must consume only local frozen raw BI5 objects and must not automatically fetch
 a missing Dukascopy object.
 
+Missing required local objects are classified exactly as:
+
+`OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`
+
 This preserves the original source semantics because accepted source files remain the exact
 Dukascopy hourly `.bi5` objects expected by the frozen RF-027 geometry contract.
 
