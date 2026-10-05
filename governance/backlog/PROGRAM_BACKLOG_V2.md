@@ -260,7 +260,11 @@ Batch tool:
 
 `tools/hyp0006_dukascopy_browser_batch_250.py`
 
-Current gate is exact-head preflight of the batch-250 implementation before any execution.
+The batch-250 implementation passed exact-head preflight and was squash-merged to `main` at
+`94e7a91ec96986dd940f2a13575c9ee436b1a354`.
+
+Current gate is exact-main zero-network dry-run manifest review followed by exactly one
+OWNER-authorized bounded 250-object browser execution.
 
 Information boundary remains:
 
