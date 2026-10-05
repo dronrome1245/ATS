@@ -272,11 +272,26 @@ Batch status:
 
 `PASS_250_OF_250_AUTHORIZATION_CONSUMED`
 
-Expected post-batch inventory is `337 / 1085` present with `748` missing, pending a zero-network
-recount.
+Detailed batch-250 JSON/manifest evidence review passed for all `250 / 250` rows. All objects
+were completed on the first browser-open attempt (`250` attempts=1 / `0` attempts=2), with
+record-count range `341..8535`.
 
-Current gate is detailed batch-250 JSON review followed by zero-network inventory confirmation. Any
-new browser/source batch requires new explicit OWNER authorization.
+Evidence hashes:
+
+- JSON:
+  `36e1301d551a69990ca707e7bf33da1ce07e5e88b1e7dc23a379a66b814e6b2c`;
+- manifest:
+  `9aa6d7646c809f7a8fb2caaf421f13553ec30ba26dee5d8d991464e1e6cad2e1`.
+
+A zero-network recount confirmed `337 / 1085` canonical objects present and `748` missing, with
+`0` network requests, `0` downloaded and `0` semantic missing.
+
+Post-batch inventory status:
+
+`CONFIRMED_ZERO_NETWORK`
+
+Current gate is the next source-recovery decision. Any new browser/source batch requires new
+explicit OWNER authorization.
 
 Information boundary remains:
 
