@@ -287,15 +287,26 @@ The browser-pilot implementation passed exact-head preflight and was squash-merg
 
 `52b2f9c0755a4efbda49c86c96ace1763a3d47cf`
 
-Current gate: synchronize local exact `main` to that commit, verify the pilot dry-run inventory,
-then execute the one authorized bounded 50-object browser pilot exactly once.
+The one authorized exact-main browser-pilot was executed on:
 
-Exact execution command:
+`c7a10c8bcd84ca4754db92af4c63f39c02101543`
 
-`uv run --frozen python -m tools.hyp0006_dukascopy_browser_pilot --execute-browser --owner-authorized-50`
+Result:
 
-The pilot must use only the canonical Dukascopy URLs, maximum two attempts per selected object, and
-must not be rerun after the local consumed sentinel is created.
+- objects selected: `50`;
+- objects promoted: `50`;
+- objects skipped after two attempts: `0`;
+- hypothesis outcome computed: `NO`.
+
+Pilot status:
+
+`PASS_50_OF_50_AUTHORIZATION_CONSUMED`
+
+Expected post-pilot canonical inventory is `87 / 1085`, with `998` still missing, pending a
+zero-network inventory recount.
+
+Current gate: exact-main offline inventory confirmation only. No further browser/source acquisition
+is authorized until OWNER explicitly authorizes a new bounded batch.
 
 Information boundary:
 
