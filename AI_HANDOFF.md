@@ -231,16 +231,17 @@ Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
-Network execution status remains:
+OWNER explicitly authorized one controlled execute-run on 2026-10-05.
 
-`NOT_YET_AUTHORIZED`
+Network execution status:
 
-Current gate: separate explicit OWNER decision whether to authorize one controlled execute-run using:
+`AUTHORIZED_ONCE_BY_OWNER_2026_10_05`
+
+Current gate: run exactly one controlled execute-run using:
 
 `uv run --frozen python -m tools.hyp0006_dukascopy_controlled_download --execute --owner-authorized`
 
-If authorized, the run must stop on the first HTTP/network/access failure and hand that blocker to
-OWNER without retry, alternate endpoint, mirror, proxy or provider fallback.
+The run must stop on the first HTTP/network/access failure and hand that blocker to OWNER without retry, alternate endpoint, mirror, proxy or provider fallback. The one-shot authorization is consumed by this run whether it completes or stops on a blocker; another execute-run requires a new explicit OWNER authorization.
 
 Only after the controlled preload is complete enough for RF-027 and exact-main
 `ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS`:
