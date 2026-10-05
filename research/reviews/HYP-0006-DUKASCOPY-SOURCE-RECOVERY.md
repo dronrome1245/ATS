@@ -230,8 +230,37 @@ Batch result:
 
 The one-shot batch-250 authorization is consumed. The same batch must not be rerun.
 
-Arithmetic expected post-batch inventory is `337` existing / `748` missing, pending a
-zero-network inventory recount.
+Detailed local batch-250 evidence review subsequently passed for all `250 / 250` rows:
+
+Evidence review status:
+
+`FULL_JSON_MANIFEST_REVIEW_PASS`
+
+- JSON top-level contract: `PASS`;
+- per-row validation: `PASS`;
+- manifest-vs-JSON identity: `PASS`;
+- attempts=1: `250`;
+- attempts=2: `0`;
+- minimum record count: `341`;
+- maximum record count: `8535`;
+- JSON SHA-256:
+  `36e1301d551a69990ca707e7bf33da1ce07e5e88b1e7dc23a379a66b814e6b2c`;
+- manifest SHA-256:
+  `9aa6d7646c809f7a8fb2caaf421f13553ec30ba26dee5d8d991464e1e6cad2e1`.
+
+The subsequent zero-network inventory recount confirmed:
+
+- required unique canonical BI5 objects: `1085`;
+- existing: `337`;
+- missing: `748`;
+- network requests: `0`;
+- downloaded: `0`;
+- semantic missing: `0`;
+- hypothesis outcome computed: `NO`.
+
+Post-batch inventory status:
+
+`CONFIRMED_ZERO_NETWORK`
 
 No further browser/source acquisition is authorized without a new explicit OWNER authorization.
 
@@ -291,13 +320,11 @@ the frozen `DUKASCOPY_HOURLY_TICK_BI5` source contract.
 
 ## Current gate
 
-Review the detailed local batch-250 JSON for per-object attempts, status, SHA-256 and record counts,
-then perform a zero-network RF-027 inventory recount.
+The batch-250 evidence review and zero-network recount are complete.
 
-The recount must not start any external acquisition. The expected arithmetic state is `337 / 1085`
-present and `748` missing, but only the zero-network recount may confirm those counts.
-
-No further browser/source batch is authorized without a new explicit OWNER authorization.
+Current action is a source-recovery decision only. No further browser/source batch is authorized
+without a new explicit OWNER authorization. The frozen source identity and all research rules remain
+unchanged.
 
 Only after an approved frozen local BI5 bundle is complete enough for RF-027 and exact-main
 `ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS` may

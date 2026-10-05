@@ -345,8 +345,27 @@ Execution status:
 
 `PASS_250_OF_250_AUTHORIZATION_CONSUMED`
 
-Expected post-batch inventory: `337 / 1085` present, `748` missing, pending a zero-network
-inventory recount.
+Detailed JSON/manifest evidence review status:
+
+`FULL_JSON_MANIFEST_REVIEW_PASS`
+
+Observed evidence:
+
+- rows checked: `250 / 250`;
+- attempts=1: `250`;
+- attempts=2: `0`;
+- record-count range: `341..8535`;
+- JSON SHA-256:
+  `36e1301d551a69990ca707e7bf33da1ce07e5e88b1e7dc23a379a66b814e6b2c`;
+- manifest SHA-256:
+  `9aa6d7646c809f7a8fb2caaf421f13553ec30ba26dee5d8d991464e1e6cad2e1`.
+
+Zero-network recount confirmed `337 / 1085` present and `748` missing, with `0` network
+requests, `0` downloaded and `0` semantic missing.
+
+Post-batch inventory status:
+
+`CONFIRMED_ZERO_NETWORK`
 
 Information boundary:
 
