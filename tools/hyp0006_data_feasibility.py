@@ -936,8 +936,7 @@ def load_local_tick_hour(hour_start: datetime) -> tuple[TickObject, list[datetim
     destination = tick_raw_path(hour_start)
     if not destination.is_file():
         raise OwnerInputRequiredError(
-            "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE: "
-            f"missing {iso_z(hour_start)}"
+            f"OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE: missing {iso_z(hour_start)}"
         )
     source_url = tick_source_url(DUKASCOPY_BASES[0], hour_start)
     return decode_tick_object(destination, hour_start, source_url)
