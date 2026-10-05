@@ -130,6 +130,8 @@ model:
   strategy_5_dukascopy_controlled_downloader_test: "tests/test_hyp0006_dukascopy_controlled_download.py"
   strategy_5_dukascopy_browser_pilot: "tools/hyp0006_dukascopy_browser_pilot.py"
   strategy_5_dukascopy_browser_pilot_test: "tests/test_hyp0006_dukascopy_browser_pilot.py"
+  strategy_5_dukascopy_browser_batch_250: "tools/hyp0006_dukascopy_browser_batch_250.py"
+  strategy_5_dukascopy_browser_batch_250_test: "tests/test_hyp0006_dukascopy_browser_batch_250.py"
 
 current:
   focus: "RF-027 post-pilot inventory is confirmed at 87 of 1085 canonical BI5 objects present and 998 missing; OWNER explicitly authorized one bounded next browser batch of 250 missing objects with the same canonical-source, max-two-attempts and no-fallback rules; no HYP-0005 or HYP-0006 outcome has been computed"
