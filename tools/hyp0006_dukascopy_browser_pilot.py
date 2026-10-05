@@ -90,20 +90,27 @@ def candidate_prefix(hour_start: datetime) -> str:
     return f"{hour_start.hour:02d}h_ticks"
 
 
-def current_download_candidates(downloads_dir: Path, hour_start: datetime) -> set[Path]:
+def current_download_snapshot(
+    downloads_dir: Path,
+    hour_start: datetime,
+) -> dict[Path, tuple[int, int]]:
     prefix = candidate_prefix(hour_start)
-    return {
-        path
-        for path in downloads_dir.glob(f"{prefix}*.bi5")
-        if path.is_file()
-    }
+    snapshot: dict[Path, tuple[int, int]] = {}
+    for path in downloads_dir.glob(f"{prefix}*.bi5"):
+        try:
+            stat = path.stat()
+        except OSError:
+            continue
+        if path.is_file():
+            snapshot[path] = (stat.st_size, stat.st_mtime_ns)
+    return snapshot
 
 
 def find_new_valid_download(
     *,
     downloads_dir: Path,
     item: controlled.InventoryRow,
-    before: set[Path],
+    before: dict[Path, tuple[int, int]],
     wait_seconds: int,
     sleep_fn: Callable[[float], None] = time.sleep,
 ) -> tuple[Path, feasibility.TickObject] | None:
@@ -112,12 +119,14 @@ def find_new_valid_download(
     seen_sizes: dict[Path, tuple[int, int]] = {}
 
     while time.monotonic() < deadline:
-        candidates = current_download_candidates(downloads_dir, hour_start) - before
-        for path in sorted(candidates, key=lambda p: p.stat().st_mtime_ns):
-            try:
-                size = path.stat().st_size
-            except OSError:
-                continue
+        current = current_download_snapshot(downloads_dir, hour_start)
+        candidates = [
+            path
+            for path, fingerprint in current.items()
+            if path not in before or before[path] != fingerprint
+        ]
+        for path in sorted(candidates, key=lambda p: current[p][1]):
+            size = current[path][0]
             previous_size, stable_polls = seen_sizes.get(path, (-1, 0))
             stable_polls = stable_polls + 1 if size == previous_size and size > 0 else 0
             seen_sizes[path] = (size, stable_polls)
@@ -214,7 +223,7 @@ def run_pilot(
 
         for attempt in range(1, MAX_ATTEMPTS_PER_OBJECT + 1):
             attempts = attempt
-            before = current_download_candidates(downloads_dir, hour_start)
+            before = current_download_snapshot(downloads_dir, hour_start)
             opened = opener(item.source_url)
             if not opened:
                 failure = f"browser_open_returned_false_attempt_{attempt}"
