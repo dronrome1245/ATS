@@ -34,10 +34,7 @@ def test_pilot_inventory_selects_first_50_missing(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     start = datetime(2010, 1, 1, tzinfo=UTC)
-    rows = [
-        inventory_row(start + timedelta(hours=index), exists=index < 3)
-        for index in range(60)
-    ]
+    rows = [inventory_row(start + timedelta(hours=index), exists=index < 3) for index in range(60)]
     monkeypatch.setattr(
         controlled,
         "build_inventory",
