@@ -310,6 +310,37 @@ Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
+## Authorized bounded browser batch 250
+
+After the 50-object pilot passed `50/50` and a zero-network recount confirmed
+`87 / 1085` canonical BI5 objects present with `998` missing, OWNER authorized one next bounded
+browser-assisted batch:
+
+`OWNER_AUTHORIZED_BROWSER_BATCH_250_2026_10_05`
+
+Frozen before execution:
+
+- first `250` current missing RF-027 BI5 objects;
+- canonical Dukascopy URL only;
+- maximum `2` attempts per object;
+- `SKIPPED_AFTER_2_ATTEMPTS` after the second unsuccessful attempt;
+- no alternate endpoint/provider fallback;
+- validate before promotion;
+- separate one-shot consumed sentinel;
+- no returns, primary inequality or P&L.
+
+Tool:
+
+`tools/hyp0006_dukascopy_browser_batch_250.py`
+
+Execution status:
+
+`NOT_YET_EXECUTED`
+
+Information boundary:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
 Object path:
 
 `EURUSD/{YEAR}/{ZERO_BASED_MONTH}/{DAY}/{HOUR}h_ticks.bi5`
