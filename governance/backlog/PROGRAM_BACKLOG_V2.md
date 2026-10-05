@@ -243,8 +243,24 @@ Post-pilot inventory status:
 
 `CONFIRMED_ZERO_NETWORK`
 
-Current gate is the next bounded source-intake decision. Any new browser/source batch requires a new
-explicit OWNER authorization.
+OWNER explicitly authorized one next bounded browser-assisted batch of `250` currently missing
+canonical BI5 objects.
+
+Frozen batch-250 scope:
+
+- first `250` current missing deterministic RF-027 objects;
+- canonical Dukascopy source only;
+- at most `2` attempts per object;
+- `SKIPPED_AFTER_2_ATTEMPTS` after the second unsuccessful attempt;
+- no alternate hostname/mirror/proxy/provider fallback;
+- one-shot execution;
+- no HYP-0006 outcome calculation.
+
+Batch tool:
+
+`tools/hyp0006_dukascopy_browser_batch_250.py`
+
+Current gate is exact-head preflight of the batch-250 implementation before any execution.
 
 Information boundary remains:
 
