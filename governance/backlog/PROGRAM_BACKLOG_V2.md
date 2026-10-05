@@ -109,7 +109,7 @@ OWNER snapshot intake is complete locally: all 19 canonical files for 2003–202
 `data/raw/bls/hyp0006/schedules/YYYY.html`, with content preserved during filename normalization.
 Extra 2022–2025 pages are retained outside the canonical schedule directory.
 
-The latest exact-main RF-027 run passed governance and full Local CI, built the local BLS CPI
+An earlier exact-main RF-027 source-preparation run passed governance and full Local CI, built the local BLS CPI
 calendar with `217` events and calendar SHA-256
 `646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9`, then stopped on
 Dukascopy tick acquisition for `2004-03-17T12:00:00Z` with HTTP 503.
