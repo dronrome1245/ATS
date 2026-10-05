@@ -181,6 +181,8 @@ def check_rf027_contract() -> bool:
             "tools/hyp0006_dukascopy_browser_pilot.py",
             "OWNER_AUTHORIZED_BROWSER_BATCH_250_2026_10_05",
             "tools/hyp0006_dukascopy_browser_batch_250.py",
+            "PASS_250_OF_250_AUTHORIZATION_CONSUMED",
+            "438bc59aa6f2cc81a762914f111017f75a2e46b2",
             "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
             "BLS_ANNUAL_SCHEDULE_US_EASTERN",
             "DUKASCOPY_HOURLY_TICK_BI5",
@@ -433,6 +435,9 @@ def check_rf027_contract() -> bool:
             "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE",
             "SOURCE_BLOCKED_AUTHORIZATION_CONSUMED",
             "1085",
+            "PASS_250_OF_250_AUTHORIZATION_CONSUMED",
+            "337",
+            "748",
             "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         ),
     )
