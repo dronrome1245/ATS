@@ -30,6 +30,10 @@ REPORT_TEXT = ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_CONTROLLED_DOWN
 INVENTORY_CSV = (
     ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_INVENTORY.csv"
 )
+STATE_PATH = ROOT / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
+ACTIVE_AUTHORIZATION_MARKER = (
+    'strategy_5_dukascopy_controlled_execution_status: "AUTHORIZED_ONCE_BY_OWNER_2026_10_05"'
+)
 
 
 class ControlledDownloadError(RuntimeError):
@@ -238,6 +242,12 @@ def write_reports(report: dict[str, Any]) -> None:
     REPORT_TEXT.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def canonical_authorization_is_active(state_path: Path = STATE_PATH) -> bool:
+    if not state_path.is_file():
+        return False
+    return ACTIVE_AUTHORIZATION_MARKER in state_path.read_text(encoding="utf-8")
+
+
 def run(*, execute: bool, owner_authorized: bool) -> tuple[int, dict[str, Any]]:
     inventory, calendar_sha256, event_count = build_inventory()
     write_inventory_csv(inventory)
@@ -277,6 +287,16 @@ def run(*, execute: bool, owner_authorized: bool) -> tuple[int, dict[str, Any]]:
     if not owner_authorized:
         result["status"] = "OWNER_AUTHORIZATION_REQUIRED"
         result["failure"] = "execute mode requires --owner-authorized"
+        result["existing_after"] = existing_before
+        result["missing_after"] = missing_before
+        write_reports(result)
+        return 23, result
+
+    if not canonical_authorization_is_active():
+        result["status"] = "OWNER_AUTHORIZATION_CONSUMED"
+        result["failure"] = (
+            "canonical state does not contain an active one-shot execute authorization"
+        )
         result["existing_after"] = existing_before
         result["missing_after"] = missing_before
         write_reports(result)

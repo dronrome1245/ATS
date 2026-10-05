@@ -44,6 +44,7 @@ SOURCE_SYMBOL = "EURUSD"
 PRICE_DIVISOR = 100_000
 USER_AGENT = "ATS-Research/1.0"
 EXTERNAL_SOURCE_FAILURE_POLICY = "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"
+DUKASCOPY_NORMAL_RUNTIME_NETWORK_MODE = "PROHIBITED"
 
 RAW_BLS_ROOT = ROOT / "data" / "raw" / "bls" / "hyp0006"
 RAW_DUKASCOPY_ROOT = ROOT / "data" / "raw" / "dukascopy" / "hyp0006" / SOURCE_SYMBOL
@@ -143,7 +144,7 @@ class PreparationError(RuntimeError):
 
 
 class OwnerInputRequiredError(PreparationError):
-    """Raised when the one-time local BLS snapshot bundle is incomplete."""
+    """Raised when a required frozen local source snapshot bundle is incomplete."""
 
 
 @dataclass(frozen=True)
@@ -907,19 +908,38 @@ def decode_tick_object(
     return metadata, times
 
 
-def download_tick_hour(hour_start: datetime) -> tuple[TickObject, list[datetime]] | None:
+def required_tick_inventory(candidates: list[dict[str, Any]]) -> tuple[datetime, ...]:
+    required: set[datetime] = set()
+    for candidate in candidates:
+        release_utc = candidate["release_time_utc"]
+        if not isinstance(release_utc, datetime):
+            raise PreparationError("invalid frozen BLS calendar event timestamp")
+        required.update(required_tick_hours(release_utc))
+    return tuple(sorted(required))
+
+
+def require_local_dukascopy_snapshot(
+    candidates: list[dict[str, Any]],
+) -> tuple[datetime, ...]:
+    required = required_tick_inventory(candidates)
+    missing = [hour_start for hour_start in required if not tick_raw_path(hour_start).is_file()]
+    if missing:
+        raise OwnerInputRequiredError(
+            "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE: "
+            f"{len(missing)} missing of {len(required)} required; "
+            f"first_missing={iso_z(missing[0])}"
+        )
+    return required
+
+
+def load_local_tick_hour(hour_start: datetime) -> tuple[TickObject, list[datetime]]:
     destination = tick_raw_path(hour_start)
-    urls = tuple(tick_source_url(base, hour_start) for base in DUKASCOPY_BASES)
-    downloaded = cached_or_fetch_any(
-        urls,
-        destination,
-        f"Dukascopy {SOURCE_SYMBOL} {iso_z(hour_start)}",
-        missing_ok=True,
-    )
-    if downloaded is None:
-        return None
-    path, headers = downloaded
-    return decode_tick_object(path, hour_start, headers["source_url"])
+    if not destination.is_file():
+        raise OwnerInputRequiredError(
+            f"OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE: missing {iso_z(hour_start)}"
+        )
+    source_url = tick_source_url(DUKASCOPY_BASES[0], hour_start)
+    return decode_tick_object(destination, hour_start, source_url)
 
 
 def gap_ms(later: datetime, earlier: datetime) -> int:
@@ -1058,9 +1078,10 @@ def prepare() -> dict[str, Any]:
 
     bls_calendar_sha256 = write_bls_calendar_csv(candidates, schedule_by_year)
     bls_snapshot_sha256 = bls_snapshot_bundle_hash(source_by_year)
+    frozen_required_hours = require_local_dukascopy_snapshot(candidates)
 
     event_records: list[EventRecord] = []
-    requested_hours: set[datetime] = set()
+    requested_hours: set[datetime] = set(frozen_required_hours)
     missing_hour_count_total = 0
     protected_source_requests = 0
     same_time_cluster_count = 0
@@ -1097,15 +1118,10 @@ def prepare() -> dict[str, Any]:
                 protected_source_requests += 1
                 raise PreparationError("HYP-0005 protected source request attempted")
             if hour_start not in tick_cache:
-                tick_cache[hour_start] = download_tick_hour(hour_start)
-                if tick_cache[hour_start] is not None:
-                    metadata, _times = tick_cache[hour_start]
-                    tick_objects.append(metadata)
+                tick_cache[hour_start] = load_local_tick_hour(hour_start)
+                metadata, _times = tick_cache[hour_start]
+                tick_objects.append(metadata)
             downloaded_tick = tick_cache[hour_start]
-            if downloaded_tick is None:
-                missing_count += 1
-                missing_hour_count_total += 1
-                continue
             _metadata, times = downloaded_tick
             event_times.extend(times)
 

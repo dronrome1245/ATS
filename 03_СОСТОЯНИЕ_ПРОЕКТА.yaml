@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-10-02"
+  updated_on: "2026-10-05"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -125,11 +125,12 @@ model:
   strategy_5_data_feasibility_test: "tests/test_hyp0006_data_feasibility.py"
   strategy_5_bls_snapshot_manifest: "data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
   strategy_5_bls_snapshot_intake: "research/reviews/HYP-0006-BLS-SNAPSHOT-INTAKE.md"
+  strategy_5_dukascopy_source_recovery: "research/reviews/HYP-0006-DUKASCOPY-SOURCE-RECOVERY.md"
   strategy_5_dukascopy_controlled_downloader: "tools/hyp0006_dukascopy_controlled_download.py"
   strategy_5_dukascopy_controlled_downloader_test: "tests/test_hyp0006_dukascopy_controlled_download.py"
 
 current:
-  focus: "RF-027 controlled Dukascopy preload dry-run passed on exact main a638e49108e05e9618208ca577c6ebd0c74aa4e1: calendar SHA-256 646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9, 217 CPI events, 1085 required BI5 objects, 37 existing, 1048 missing, 0 network requests; one controlled execute-run is OWNER-authorized; no HYP-0005 or HYP-0006 outcome has been computed"
+  focus: "RF-027 controlled Dukascopy execute-run on exact main f3151d8915b61d1a08e79cf27133764201475e65 made exactly 1 canonical network request and stopped on HTTP 503 for 2004-03-17T13:00:00Z; 0 objects downloaded, 37 existing, 1048 missing; one-shot authorization consumed; normal RF-027 Dukascopy runtime is now offline-only pending a frozen local BI5 snapshot bundle; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-026"
   last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
@@ -591,14 +592,14 @@ research_factory:
   strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"
   strategy_5_prototype_authorized: false
   rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"
-  strategy_5_data_feasibility_prep_status: "RF027_EXACT_MAIN_DUKASCOPY_SOURCE_BLOCKED"
+  strategy_5_data_feasibility_prep_status: "RF027_CONTROLLED_EXECUTE_SOURCE_BLOCKED"
   strategy_5_data_feasibility_prep_decision: "PENDING_SOURCE_RECOVERY_NO_OUTCOME"
   rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"
   rf027_second_failed_exact_main_commit: "2ce019bb51b0e45e900c0555ed44be5a3433e23a"
   rf027_offline_architecture_merged_commit: "79a01623c3fef4deb3757e4d2940b8cd16b9bff3"
-  rf027_latest_exact_main_blocker: "DUKASCOPY_HTTP_503_2004_03_17T12_00_00Z"
-  strategy_5_source_access_blocker: "DUKASCOPY_HTTP_503_2004_03_17T12_00_00Z"
-  strategy_5_source_access_correction: "CONTROLLED_LOCAL_DUKASCOPY_PRELOAD_PREPARATION_AUTHORIZED"
+  rf027_latest_exact_main_blocker: "DUKASCOPY_HTTP_503_2004_03_17T13_00_00Z"
+  strategy_5_source_access_blocker: "DUKASCOPY_HTTP_503_2004_03_17T13_00_00Z"
+  strategy_5_source_access_correction: "FROZEN_LOCAL_DUKASCOPY_BI5_SNAPSHOT_ARCHITECTURE_REQUIRED"
   strategy_5_bls_source_access_correction: "FROZEN_LOCAL_BLS_SNAPSHOT_BUNDLE"
   strategy_5_required_protected_hyp0005_source_requests: 0
   strategy_5_bls_runtime_network_mode: "PROHIBITED"
@@ -607,7 +608,7 @@ research_factory:
   strategy_5_bls_snapshot_intake_status: "CANONICAL_19_READY_LOCAL"
   strategy_5_bls_calendar_observed_event_count: 217
   strategy_5_bls_calendar_observed_sha256: "646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9"
-  strategy_5_dukascopy_failed_hour: "2004-03-17T12:00:00Z"
+  strategy_5_dukascopy_failed_hour: "2004-03-17T13:00:00Z"
   strategy_5_dukascopy_http_status: 503
   strategy_5_external_source_failure_policy: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"
   strategy_5_dukascopy_retry_rule: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF_REQUIRES_OWNER_AUTHORIZATION"
@@ -619,10 +620,18 @@ research_factory:
   strategy_5_dukascopy_inventory_duplicate_hour_count: 0
   strategy_5_dukascopy_inventory_first_missing_hour: "2004-03-17T13:00:00Z"
   strategy_5_dukascopy_previous_failed_hour_local_status: "FILE_EXISTS_NOT_YET_DECODE_VALIDATED"
-  strategy_5_dukascopy_controlled_downloader_status: "DRY_RUN_READY_AWAITING_EXECUTE_AUTHORIZATION"
+  strategy_5_dukascopy_controlled_downloader_status: "SOURCE_BLOCKED_AFTER_AUTHORIZED_EXECUTE"
   strategy_5_dukascopy_controlled_downloader_branch: "MERGED_TO_MAIN"
-  strategy_5_dukascopy_controlled_execution_status: "AUTHORIZED_ONCE_BY_OWNER_2026_10_05"
+  strategy_5_dukascopy_controlled_execution_status: "SOURCE_BLOCKED_AUTHORIZATION_CONSUMED"
   strategy_5_dukascopy_controlled_execution_authorization_count: 1
+  strategy_5_dukascopy_controlled_execution_authorization_record: "AUTHORIZED_ONCE_BY_OWNER_2026_10_05"
+  strategy_5_dukascopy_controlled_execution_commit: "f3151d8915b61d1a08e79cf27133764201475e65"
+  strategy_5_dukascopy_controlled_execution_network_requests: 1
+  strategy_5_dukascopy_controlled_execution_downloaded_count: 0
+  strategy_5_dukascopy_controlled_execution_existing_after: 37
+  strategy_5_dukascopy_controlled_execution_missing_after: 1048
+  strategy_5_dukascopy_normal_runtime_network_mode: "PROHIBITED"
+  strategy_5_dukascopy_snapshot_bundle_status: "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE"
   strategy_5_dukascopy_controlled_execution_authorized_command: "uv run --frozen python -m tools.hyp0006_dukascopy_controlled_download --execute --owner-authorized"
   rf027_controlled_downloader_merged_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"
   rf027_controlled_downloader_dry_run_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"

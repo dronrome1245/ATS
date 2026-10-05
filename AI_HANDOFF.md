@@ -137,7 +137,7 @@ Canonical local bundle:
 - path: `data/raw/bls/hyp0006/schedules/YYYY.html`;
 - content preserved during filename normalization.
 
-The latest exact-main RF-027 run passed governance and full Local CI, then:
+An earlier exact-main RF-027 source-preparation run passed governance and full Local CI, then:
 
 - produced the local BLS CPI calendar;
 - found `217` CPI events;
@@ -208,45 +208,64 @@ Current task:
 
 `ATS2-RF-027`
 
-The controlled downloader passed exact-head preflight, was squash-merged, and is present on exact
-`main` commit:
+The exact-main controlled Dukascopy execute-run was performed once on:
 
-`a638e49108e05e9618208ca577c6ebd0c74aa4e1`
+`f3151d8915b61d1a08e79cf27133764201475e65`
 
-Exact-main offline dry-run completed with:
-
-`DRY_RUN_READY`
-
-Observed dry-run values:
+Observed result:
 
 - calendar SHA-256:
   `646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9`;
 - CPI events: `217`;
 - required unique BI5 objects: `1085`;
-- existing local objects: `37`;
-- missing objects: `1048`;
-- network requests: `0`.
+- existing before/after: `37`;
+- missing before/after: `1048`;
+- network requests: `1`;
+- downloaded objects: `0`;
+- failed hour: `2004-03-17T13:00:00Z`;
+- failed canonical URL:
+  `https://datafeed.dukascopy.com/datafeed/EURUSD/2004/02/17/13h_ticks.bi5`;
+- failure: `HTTP 503`;
+- controlled status: `SOURCE_BLOCKED`.
+
+Historical OWNER authorization:
+
+`AUTHORIZED_ONCE_BY_OWNER_2026_10_05`
+
+Current execution status:
+
+`SOURCE_BLOCKED_AUTHORIZATION_CONSUMED`
+
+No retry or alternate endpoint is authorized.
+
+This is a technical source-access failure, not a HYP-0006 outcome.
+
+Normal RF-027 Dukascopy runtime is now:
+
+`PROHIBITED`
+
+for live network access. It must use:
+
+`FROZEN_LOCAL_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`
+
+Missing raw tick inputs are classified:
+
+`OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`
+
+Source-recovery review:
+
+`research/reviews/HYP-0006-DUKASCOPY-SOURCE-RECOVERY.md`
+
+Current gate: pass exact-head preflight for the source-blocker/offline-runtime correction. No new
+source acquisition is requested from OWNER yet.
 
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
-OWNER explicitly authorized one controlled execute-run on 2026-10-05.
-
-Network execution status:
-
-`AUTHORIZED_ONCE_BY_OWNER_2026_10_05`
-
-Current gate: run exactly one controlled execute-run using:
-
-`uv run --frozen python -m tools.hyp0006_dukascopy_controlled_download --execute --owner-authorized`
-
-The run must stop on the first HTTP/network/access failure and hand that blocker to OWNER without retry, alternate endpoint, mirror, proxy or provider fallback. The one-shot authorization is consumed by this run whether it completes or stops on a blocker; another execute-run requires a new explicit OWNER authorization.
-
-Only after the controlled preload is complete enough for RF-027 and exact-main
+Only after the frozen local BI5 bundle is complete enough for RF-027 and exact-main
 `ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS`:
 
 `ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`
 
 may begin.
-

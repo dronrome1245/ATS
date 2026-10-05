@@ -66,6 +66,35 @@ def test_external_source_failure_hands_off_after_first_attempt(
     assert calls == ["https://primary.example/object.bi5"]
 
 
+def test_normal_rf027_dukascopy_runtime_is_offline_only(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    called = False
+
+    def should_not_call(*_args: object, **_kwargs: object) -> object:
+        nonlocal called
+        called = True
+        raise AssertionError("normal RF-027 runtime must not access Dukascopy network")
+
+    monkeypatch.setattr(feasibility, "RAW_DUKASCOPY_ROOT", tmp_path)
+    monkeypatch.setattr(feasibility, "fetch_bytes", should_not_call)
+
+    candidates = [
+        {
+            "release_time_utc": datetime(2004, 3, 17, 13, 30, tzinfo=UTC),
+        }
+    ]
+
+    with pytest.raises(
+        feasibility.OwnerInputRequiredError,
+        match="OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE",
+    ):
+        feasibility.require_local_dukascopy_snapshot(candidates)
+
+    assert called is False
+
+
 def test_snapshot_manifest_requires_exact_2003_2021_contract(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
