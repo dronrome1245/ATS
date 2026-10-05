@@ -333,9 +333,20 @@ Tool:
 
 `tools/hyp0006_dukascopy_browser_batch_250.py`
 
+Exact-main execution:
+
+- git commit: `438bc59aa6f2cc81a762914f111017f75a2e46b2`;
+- selected: `250`;
+- promoted: `250`;
+- skipped after two attempts: `0`;
+- hypothesis outcome computed: `NO`.
+
 Execution status:
 
-`NOT_YET_EXECUTED`
+`PASS_250_OF_250_AUTHORIZATION_CONSUMED`
+
+Expected post-batch inventory: `337 / 1085` present, `748` missing, pending a zero-network
+inventory recount.
 
 Information boundary:
 
