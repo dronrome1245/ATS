@@ -316,8 +316,26 @@ Post-pilot inventory status:
 
 `CONFIRMED_ZERO_NETWORK`
 
-Current gate: source-intake continuation decision only. No further browser/source acquisition is
-authorized until OWNER explicitly authorizes a new bounded batch.
+OWNER explicitly authorized one next bounded browser-assisted batch of `250` currently missing
+canonical Dukascopy BI5 objects on 2026-10-05.
+
+Frozen batch-250 contract:
+
+- first `250` currently missing objects from the deterministic RF-027 inventory;
+- canonical Dukascopy URL only;
+- maximum `2` browser-open attempts per object;
+- after the second unsuccessful attempt: `SKIPPED_AFTER_2_ATTEMPTS`;
+- no alternate hostname, mirror, proxy or provider fallback;
+- validate before canonical promotion;
+- separate one-shot consumed sentinel;
+- no HYP-0006 outcome calculation.
+
+Tool:
+
+`tools/hyp0006_dukascopy_browser_batch_250.py`
+
+Current gate: exact-head preflight of the batch-250 implementation. Do not run the batch before the
+branch passes preflight and is merged to exact `main`.
 
 Information boundary:
 
