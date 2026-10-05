@@ -107,6 +107,68 @@ Existing valid local objects are not overwritten.
 The eventual complete source bundle receives a deterministic SHA-256 before any HYP-0006 outcome
 calculation.
 
+## Manual browser probe
+
+OWNER manually requested three canonical Dukascopy BI5 objects for:
+
+- `2004-03-17T13:00:00Z`;
+- `2004-03-17T14:00:00Z`;
+- `2004-03-17T15:00:00Z`.
+
+All three supplied raw files independently passed the frozen RF-027 BI5 integrity rules:
+
+- valid LZMA payload;
+- positive record count;
+- decoded length divisible by the 20-byte `>IIIff` record;
+- ordered millisecond offsets inside the hour;
+- finite positive BID/ASK;
+- `ASK >= BID`;
+- finite non-negative volumes.
+
+This is source-access/integrity evidence only and is not a HYP-0006 market result.
+
+## Bounded 50-object browser pilot
+
+OWNER authorized one bounded browser-assisted source-intake pilot on 2026-10-05:
+
+`OWNER_AUTHORIZED_BROWSER_PILOT_50_2026_10_05`
+
+Tool:
+
+`tools/hyp0006_dukascopy_browser_pilot.py`
+
+Synthetic tests:
+
+`tests/test_hyp0006_dukascopy_browser_pilot.py`
+
+The pilot contract is:
+
+1. select the first `50` currently missing objects from the deterministic frozen RF-027 inventory;
+2. use only the canonical `https://datafeed.dukascopy.com/datafeed` URL already frozen for each hour;
+3. open one local browser tab for the exact object URL;
+4. treat the attempt as successful only when a valid BI5 for that exact hour appears in the configured Downloads directory;
+5. if no valid BI5 appears within the configured wait window, open the same exact URL once more;
+6. after the second unsuccessful attempt, record `SKIPPED_AFTER_2_ATTEMPTS` and continue to the next frozen object;
+7. maximum attempts per object: `2`;
+8. maximum pilot objects: `50`;
+9. no alternate hostname, mirror, proxy, provider or third-party fallback;
+10. never overwrite an existing canonical local BI5;
+11. validate BI5 integrity before byte-preserving promotion into the canonical local path;
+12. create a local consumed sentinel before the first browser-open so the whole pilot cannot be accidentally rerun without a new OWNER authorization;
+13. write only source-acquisition metadata and hashes;
+14. do not compute HYP-0006 returns, the primary inequality or P&L.
+
+The measurable failure criterion is absence of a valid expected BI5 download within the wait window;
+the tool does not infer browser DOM/network state.
+
+Pilot execution status before exact-main execution:
+
+`NOT_YET_EXECUTED`
+
+Information boundary:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
 ## Acquisition architectures considered
 
 ### A. Frozen canonical BI5 snapshot bundle — preferred

@@ -261,16 +261,30 @@ The source-blocker/offline-runtime correction passed exact-head preflight and wa
 
 `953b405a63f8077411c817965f96cb9e3aee5d29`
 
-Current gate: synchronize local exact `main` to that commit and run the ordinary
-`.\ATS_TASK_CHECK.bat`.
+OWNER then performed a bounded manual browser probe using three canonical Dukascopy BI5 URLs. All
+three supplied files passed independent BI5 integrity checks; this was source-access evidence only.
 
-The expected RF-027 preparation behavior with the current incomplete local BI5 bundle is to stop
-offline with:
+OWNER explicitly authorized one bounded browser-assisted pilot on 2026-10-05:
 
-`OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`
+`OWNER_AUTHORIZED_BROWSER_PILOT_50_2026_10_05`
 
-No live Dukascopy request is permitted by normal RF-027 runtime, and no new external source
-acquisition is requested from OWNER at this gate.
+Frozen pilot limits:
+
+- first `50` currently missing frozen BI5 objects;
+- canonical Dukascopy URL only;
+- maximum `2` browser-open attempts per object;
+- after the second unsuccessful attempt: `SKIPPED_AFTER_2_ATTEMPTS`;
+- no alternate hostname, mirror, proxy or provider fallback;
+- validate before canonical promotion;
+- one-shot local consumed sentinel before the first browser-open;
+- no HYP-0006 outcome calculation.
+
+Tool:
+
+`tools/hyp0006_dukascopy_browser_pilot.py`
+
+Current gate: exact-head preflight for the browser-pilot implementation. Do not run the pilot before
+that branch passes preflight and is merged to exact `main`.
 
 Information boundary:
 

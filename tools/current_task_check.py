@@ -21,6 +21,8 @@ TOOL = Path("tools/hyp0006_data_feasibility.py")
 TEST = Path("tests/test_hyp0006_data_feasibility.py")
 CONTROLLED_DOWNLOAD_TOOL = Path("tools/hyp0006_dukascopy_controlled_download.py")
 CONTROLLED_DOWNLOAD_TEST = Path("tests/test_hyp0006_dukascopy_controlled_download.py")
+BROWSER_PILOT_TOOL = Path("tools/hyp0006_dukascopy_browser_pilot.py")
+BROWSER_PILOT_TEST = Path("tests/test_hyp0006_dukascopy_browser_pilot.py")
 STATE = Path("03_СОСТОЯНИЕ_ПРОЕКТА.yaml")
 BACKLOG = Path("governance/backlog/PROGRAM_BACKLOG_V2.md")
 HANDOFF = Path("AI_HANDOFF.md")
@@ -172,6 +174,9 @@ def check_rf027_contract() -> bool:
             "AUTHORIZED_ONCE_BY_OWNER_2026_10_05",
             "SOURCE_BLOCKED_AUTHORIZATION_CONSUMED",
             "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE",
+            "OWNER_AUTHORIZED_BROWSER_PILOT_50_2026_10_05",
+            "SKIPPED_AFTER_2_ATTEMPTS",
+            "tools/hyp0006_dukascopy_browser_pilot.py",
             "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
             "BLS_ANNUAL_SCHEDULE_US_EASTERN",
             "DUKASCOPY_HOURLY_TICK_BI5",
@@ -266,6 +271,33 @@ def check_rf027_contract() -> bool:
             "test_dry_run_never_starts_controlled_download",
         ),
     )
+    browser_pilot_tool_ok = require_markers(
+        BROWSER_PILOT_TOOL,
+        (
+            'TASK_ID = "ATS2-RF-027"',
+            'SUBSTAGE = "DUKASCOPY_BROWSER_PILOT_50"',
+            'SOURCE_IDENTITY = "DUKASCOPY_HOURLY_TICK_BI5"',
+            "PILOT_OBJECT_COUNT = 50",
+            "MAX_ATTEMPTS_PER_OBJECT = 2",
+            "OWNER_AUTHORIZED_BROWSER_PILOT_50_2026_10_05",
+            "SKIPPED_AFTER_2_ATTEMPTS",
+            "CONSUMED_SENTINEL",
+            "canonical_authorization_is_active",
+            "promote_valid_download",
+            '"outcome_metrics_computed": False',
+            '"primary_claim_evaluated": False',
+            "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        ),
+    )
+    browser_pilot_test_ok = require_markers(
+        BROWSER_PILOT_TEST,
+        (
+            "test_pilot_inventory_selects_first_50_missing",
+            "test_run_pilot_retries_once_then_skips",
+            "test_consumed_sentinel_blocks_before_browser",
+            "test_promote_valid_download_preserves_bytes_and_validates",
+        ),
+    )
     state_ok = require_markers(
         STATE,
         (
@@ -306,6 +338,14 @@ def check_rf027_contract() -> bool:
             "strategy_5_dukascopy_controlled_execution_missing_after: 1048",
             'strategy_5_dukascopy_normal_runtime_network_mode: "PROHIBITED"',
             'strategy_5_dukascopy_snapshot_bundle_status: "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE"',
+            'strategy_5_dukascopy_manual_browser_probe_status: "PASS_3_OF_3_VALID_BI5"',
+            'strategy_5_dukascopy_browser_pilot_status: "OWNER_AUTHORIZED_BROWSER_PILOT_50_2026_10_05"',
+            "strategy_5_dukascopy_browser_pilot_object_limit: 50",
+            "strategy_5_dukascopy_browser_pilot_max_attempts_per_object: 2",
+            'strategy_5_dukascopy_browser_pilot_source_mode: "CANONICAL_BROWSER_ASSISTED_DUKASCOPY_BI5"',
+            'strategy_5_dukascopy_browser_pilot_execution_status: "NOT_YET_EXECUTED"',
+            'strategy_5_dukascopy_browser_pilot_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"',
+            "strategy_5_dukascopy_browser_pilot_outcome_computed: false",
             "strategy_5_dukascopy_controlled_execution_authorized_command:",
             'rf027_controlled_downloader_merged_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"',
             "rf027_controlled_downloader_dry_run_commit: "
@@ -388,6 +428,9 @@ def check_rf027_contract() -> bool:
             "FROZEN_LOCAL_DUKASCOPY_BI5_SNAPSHOT_BUNDLE",
             "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE",
             "DUKASCOPY_HOURLY_TICK_BI5",
+            "OWNER_AUTHORIZED_BROWSER_PILOT_50_2026_10_05",
+            "SKIPPED_AFTER_2_ATTEMPTS",
+            "tools/hyp0006_dukascopy_browser_pilot.py",
             "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         ),
     )
@@ -399,6 +442,8 @@ def check_rf027_contract() -> bool:
             test_ok,
             controlled_tool_ok,
             controlled_test_ok,
+            browser_pilot_tool_ok,
+            browser_pilot_test_ok,
             state_ok,
             backlog_ok,
             docs_ok,
