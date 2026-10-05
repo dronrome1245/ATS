@@ -641,6 +641,7 @@ research_factory:
   strategy_5_dukascopy_browser_pilot_max_attempts_per_object: 2
   strategy_5_dukascopy_browser_pilot_source_mode: "CANONICAL_BROWSER_ASSISTED_DUKASCOPY_BI5"
   strategy_5_dukascopy_browser_pilot_execution_status: "NOT_YET_EXECUTED"
+  rf027_browser_pilot_merged_commit: "52b2f9c0755a4efbda49c86c96ace1763a3d47cf"
   strategy_5_dukascopy_browser_pilot_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
   strategy_5_dukascopy_browser_pilot_outcome_computed: false
   strategy_5_dukascopy_controlled_execution_authorized_command: "uv run --frozen python -m tools.hyp0006_dukascopy_controlled_download --execute --owner-authorized"
