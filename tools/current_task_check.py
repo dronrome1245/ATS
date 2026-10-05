@@ -26,6 +26,7 @@ BACKLOG = Path("governance/backlog/PROGRAM_BACKLOG_V2.md")
 HANDOFF = Path("AI_HANDOFF.md")
 NEXT_STEP = Path("02_СЛЕДУЮЩИЙ_ШАГ.md")
 STATUS = Path("01_СТАТУС_ПРОЕКТА.md")
+SOURCE_RECOVERY = Path("research/reviews/HYP-0006-DUKASCOPY-SOURCE-RECOVERY.md")
 
 LOCAL_RESULT = Path("reports/local_ci/HYP0006_DATA_FEASIBILITY_PREP.json")
 BLS_SNAPSHOT_MANIFEST = Path("data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv")
@@ -169,6 +170,8 @@ def check_rf027_contract() -> bool:
             "OWNER-authorized controlled Dukascopy preload",
             "1085",
             "AUTHORIZED_ONCE_BY_OWNER_2026_10_05",
+            "SOURCE_BLOCKED_AUTHORIZATION_CONSUMED",
+            "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE",
             "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
             "BLS_ANNUAL_SCHEDULE_US_EASTERN",
             "DUKASCOPY_HOURLY_TICK_BI5",
@@ -200,6 +203,9 @@ def check_rf027_contract() -> bool:
             "HYP0005_LEFT_START",
             "HYP0005_RIGHT_START",
             "required_tick_hours",
+            "DUKASCOPY_NORMAL_RUNTIME_NETWORK_MODE",
+            "require_local_dukascopy_snapshot",
+            "load_local_tick_hour",
             "decode_tick_object",
             "event_geometry",
             "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
@@ -214,6 +220,7 @@ def check_rf027_contract() -> bool:
         (
             "test_live_bls_network_access_is_prohibited",
             "test_external_source_failure_hands_off_after_first_attempt",
+            "test_normal_rf027_dukascopy_runtime_is_offline_only",
             "test_snapshot_manifest_requires_exact_2003_2021_contract",
             "test_missing_snapshot_bundle_is_owner_input_not_hypothesis_failure",
             "test_legacy_schedule_text_parses_cpi_and_same_time_release",
@@ -263,17 +270,17 @@ def check_rf027_contract() -> bool:
             'current_task: "ATS2-RF-027"',
             'next_task: "ATS2-RF-028"',
             'rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"',
-            'strategy_5_data_feasibility_prep_status: "RF027_EXACT_MAIN_DUKASCOPY_SOURCE_BLOCKED"',
+            'strategy_5_data_feasibility_prep_status: "RF027_CONTROLLED_EXECUTE_SOURCE_BLOCKED"',
             'strategy_5_data_feasibility_prep_decision: "PENDING_SOURCE_RECOVERY_NO_OUTCOME"',
             'strategy_5_bls_runtime_network_mode: "PROHIBITED"',
             'strategy_5_bls_snapshot_years: "2003..2021"',
             "strategy_5_bls_snapshot_canonical_count: 19",
             'rf027_offline_architecture_merged_commit: "79a01623c3fef4deb3757e4d2940b8cd16b9bff3"',
-            'rf027_latest_exact_main_blocker: "DUKASCOPY_HTTP_503_2004_03_17T12_00_00Z"',
+            'rf027_latest_exact_main_blocker: "DUKASCOPY_HTTP_503_2004_03_17T13_00_00Z"',
             'strategy_5_bls_snapshot_intake_status: "CANONICAL_19_READY_LOCAL"',
             "strategy_5_bls_calendar_observed_event_count: 217",
             'strategy_5_bls_calendar_observed_sha256: "646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9"',
-            'strategy_5_dukascopy_failed_hour: "2004-03-17T12:00:00Z"',
+            'strategy_5_dukascopy_failed_hour: "2004-03-17T13:00:00Z"',
             "strategy_5_dukascopy_http_status: 503",
             'strategy_5_external_source_failure_policy: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF"',
             'strategy_5_dukascopy_retry_rule: "FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF_REQUIRES_OWNER_AUTHORIZATION"',
@@ -282,11 +289,19 @@ def check_rf027_contract() -> bool:
             "strategy_5_dukascopy_inventory_existing_object_count: 37",
             "strategy_5_dukascopy_inventory_missing_object_count: 1048",
             "strategy_5_dukascopy_controlled_downloader_status: "
-            '"DRY_RUN_READY_AWAITING_EXECUTE_AUTHORIZATION"',
+            '"SOURCE_BLOCKED_AFTER_AUTHORIZED_EXECUTE"',
             'strategy_5_dukascopy_controlled_downloader_branch: "MERGED_TO_MAIN"',
             "strategy_5_dukascopy_controlled_execution_status: "
-            '"AUTHORIZED_ONCE_BY_OWNER_2026_10_05"',
+            '"SOURCE_BLOCKED_AUTHORIZATION_CONSUMED"',
             "strategy_5_dukascopy_controlled_execution_authorization_count: 1",
+            'strategy_5_dukascopy_controlled_execution_authorization_record: "AUTHORIZED_ONCE_BY_OWNER_2026_10_05"',
+            'strategy_5_dukascopy_controlled_execution_commit: "f3151d8915b61d1a08e79cf27133764201475e65"',
+            "strategy_5_dukascopy_controlled_execution_network_requests: 1",
+            "strategy_5_dukascopy_controlled_execution_downloaded_count: 0",
+            "strategy_5_dukascopy_controlled_execution_existing_after: 37",
+            "strategy_5_dukascopy_controlled_execution_missing_after: 1048",
+            'strategy_5_dukascopy_normal_runtime_network_mode: "PROHIBITED"',
+            'strategy_5_dukascopy_snapshot_bundle_status: "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE"',
             "strategy_5_dukascopy_controlled_execution_authorized_command:",
             'rf027_controlled_downloader_merged_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"',
             "rf027_controlled_downloader_dry_run_commit: "
@@ -374,6 +389,7 @@ def check_rf027_contract() -> bool:
             state_ok,
             backlog_ok,
             docs_ok,
+            source_recovery_ok,
             check_frozen_lineage(),
         )
     )
