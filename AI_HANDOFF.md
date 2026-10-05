@@ -137,7 +137,7 @@ Canonical local bundle:
 - path: `data/raw/bls/hyp0006/schedules/YYYY.html`;
 - content preserved during filename normalization.
 
-The latest exact-main RF-027 run passed governance and full Local CI, then:
+An earlier exact-main RF-027 source-preparation run passed governance and full Local CI, then:
 
 - produced the local BLS CPI calendar;
 - found `217` CPI events;
