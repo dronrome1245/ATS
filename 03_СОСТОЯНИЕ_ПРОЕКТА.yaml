@@ -664,6 +664,7 @@ research_factory:
   strategy_5_dukascopy_browser_batch_250_max_attempts_per_object: 2
   strategy_5_dukascopy_browser_batch_250_source_mode: "CANONICAL_BROWSER_ASSISTED_DUKASCOPY_BI5"
   strategy_5_dukascopy_browser_batch_250_execution_status: "NOT_YET_EXECUTED"
+  rf027_browser_batch_250_merged_commit: "94e7a91ec96986dd940f2a13575c9ee436b1a354"
   strategy_5_dukascopy_browser_batch_250_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
   strategy_5_dukascopy_browser_batch_250_outcome_computed: false
   strategy_5_dukascopy_browser_pilot_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
