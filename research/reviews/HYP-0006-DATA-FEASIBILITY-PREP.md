@@ -374,6 +374,10 @@ Authorization:
 
 `OWNER_AUTHORIZED_REMAINING_748_2026_10_05`
 
+Inventory rule:
+
+`REQUIRE_EXACTLY_748_CURRENT_MISSING`
+
 The remaining-748 runner must require exactly `748` current missing objects, use canonical
 Dukascopy only, permit at most `2` attempts per object, continue with
 `SKIPPED_AFTER_2_ATTEMPTS`, never overwrite an existing object, use no alternate provider/endpoint
