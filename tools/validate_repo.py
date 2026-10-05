@@ -1435,6 +1435,7 @@ def configure() -> None:
         "c7a10c8bcd84ca4754db92af4c63f39c02101543",
         "87",
         "998",
+        "CONFIRMED_ZERO_NETWORK",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
@@ -2752,6 +2753,14 @@ def main() -> int:
         "strategy_5_dukascopy_browser_pilot_expected_existing_after: 87",
         "strategy_5_dukascopy_browser_pilot_expected_missing_after: 998",
         'strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZATION_REQUIRED"',
+        'strategy_5_dukascopy_post_pilot_inventory_status: "CONFIRMED_ZERO_NETWORK"',
+        "strategy_5_dukascopy_post_pilot_inventory_required_object_count: 1085",
+        "strategy_5_dukascopy_post_pilot_inventory_existing_object_count: 87",
+        "strategy_5_dukascopy_post_pilot_inventory_missing_object_count: 998",
+        "strategy_5_dukascopy_post_pilot_inventory_network_requests: 0",
+        "strategy_5_dukascopy_post_pilot_inventory_downloaded_count: 0",
+        "strategy_5_dukascopy_post_pilot_inventory_semantic_missing_count: 0",
+        "strategy_5_dukascopy_post_pilot_inventory_outcome_computed: false",
         "strategy_5_dukascopy_controlled_execution_authorized_command:",
         'rf027_controlled_downloader_merged_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"',
         'rf027_controlled_downloader_dry_run_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"',
