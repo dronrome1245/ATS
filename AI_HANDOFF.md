@@ -256,8 +256,21 @@ Source-recovery review:
 
 `research/reviews/HYP-0006-DUKASCOPY-SOURCE-RECOVERY.md`
 
-Current gate: pass exact-head preflight for the source-blocker/offline-runtime correction. No new
-source acquisition is requested from OWNER yet.
+The source-blocker/offline-runtime correction passed exact-head preflight and was squash-merged to
+`main` at:
+
+`953b405a63f8077411c817965f96cb9e3aee5d29`
+
+Current gate: synchronize local exact `main` to that commit and run the ordinary
+`.\ATS_TASK_CHECK.bat`.
+
+The expected RF-027 preparation behavior with the current incomplete local BI5 bundle is to stop
+offline with:
+
+`OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`
+
+No live Dukascopy request is permitted by normal RF-027 runtime, and no new external source
+acquisition is requested from OWNER at this gate.
 
 Information boundary:
 
