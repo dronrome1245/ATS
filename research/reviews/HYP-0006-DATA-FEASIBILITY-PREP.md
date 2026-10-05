@@ -266,6 +266,50 @@ Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
+## Bounded browser-assisted source-intake pilot
+
+A manual browser probe established that three canonical Dukascopy BI5 files supplied by OWNER pass
+the frozen raw BI5 integrity rules.
+
+OWNER then authorized one bounded pilot:
+
+`OWNER_AUTHORIZED_BROWSER_PILOT_50_2026_10_05`
+
+Frozen pilot parameters before execution:
+
+- selected set: first `50` currently missing objects from the deterministic RF-027 inventory;
+- source URL family: canonical `https://datafeed.dukascopy.com/datafeed` only;
+- browser-open attempts per selected object: maximum `2`;
+- success criterion: a valid BI5 for the exact expected hour appears in the configured Downloads
+  directory and passes the existing RF-027 integrity decoder;
+- after the second unsuccessful attempt:
+  `SKIPPED_AFTER_2_ATTEMPTS`;
+- no alternate hostname, mirror, proxy or provider fallback;
+- no overwrite of an existing canonical local BI5;
+- byte-preserving promotion only after integrity validation;
+- one-shot local consumed sentinel is written before the first browser-open;
+- the pilot writes source-acquisition metadata/hashes only;
+- no returns, HYP-0006 primary inequality or P&L.
+
+Tool:
+
+`tools/hyp0006_dukascopy_browser_pilot.py`
+
+Synthetic tests:
+
+`tests/test_hyp0006_dukascopy_browser_pilot.py`
+
+The pilot does not attempt to infer browser DOM state. An attempt is operationally unsuccessful when
+no valid expected BI5 appears within the configured wait window.
+
+Pilot execution status before exact-main execution:
+
+`NOT_YET_EXECUTED`
+
+Information boundary:
+
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+
 Object path:
 
 `EURUSD/{YEAR}/{ZERO_BASED_MONTH}/{DAY}/{HOUR}h_ticks.bi5`
