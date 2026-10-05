@@ -290,8 +290,31 @@ Post-batch inventory status:
 
 `CONFIRMED_ZERO_NETWORK`
 
-Current gate is the next source-recovery decision. Any new browser/source batch requires new
-explicit OWNER authorization.
+OWNER explicitly authorized one next one-shot browser-assisted acquisition of all confirmed `748`
+remaining canonical BI5 objects.
+
+Frozen remaining-748 scope:
+
+- exactly all `748` current missing deterministic RF-027 objects;
+- execution blocks on any missing-count drift;
+- canonical Dukascopy only;
+- maximum `2` attempts per object;
+- `SKIPPED_AFTER_2_ATTEMPTS` after the second unsuccessful attempt;
+- no alternate hostname/mirror/proxy/provider fallback;
+- no overwrite; validate before promotion;
+- one-shot execution;
+- no HYP-0006 outcome calculation.
+
+Tool:
+
+`tools/hyp0006_dukascopy_browser_remaining_748.py`
+
+Status:
+
+`OWNER_AUTHORIZED_REMAINING_748_2026_10_05 / NOT_YET_EXECUTED`
+
+Current gate is exact-head implementation preflight, then merge and exact-main zero-network
+remaining-748 manifest review before the one authorized execution.
 
 Information boundary remains:
 
