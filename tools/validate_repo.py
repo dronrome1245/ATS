@@ -2188,6 +2188,10 @@ def configure() -> None:
         "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD.json",
         "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_REPORT.txt",
         "HYP0006_DUKASCOPY_CONTROLLED_DOWNLOAD_INVENTORY.csv",
+        "HYP0006_DUKASCOPY_BROWSER_PILOT_50.json",
+        "HYP0006_DUKASCOPY_BROWSER_PILOT_50_REPORT.txt",
+        "HYP0006_DUKASCOPY_BROWSER_PILOT_50_MANIFEST.csv",
+        "HYP0006_DUKASCOPY_BROWSER_PILOT_50_CONSUMED.json",
         "reports/local_ci/*.lnk",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
@@ -2384,6 +2388,10 @@ def validate_environment(repo: Path) -> int:
         "reports/local_ci/HYP0004_DEVELOPMENT_DATA_REPORT.txt",
         "reports/local_ci/HYP0004_PROTO01_RESULT.json",
         "reports/local_ci/HYP0004_PROTO01_RESULT_REPORT.txt",
+        "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_PILOT_50.json",
+        "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_PILOT_50_REPORT.txt",
+        "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_PILOT_50_MANIFEST.csv",
+        "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_PILOT_50_CONSUMED.json",
         "data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv*",
         "data/derived/HYP-0004-DEV-01-EURUSD-H1.csv*",
         "reports/local_ci/*.lnk",
