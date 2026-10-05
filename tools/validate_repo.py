@@ -1310,6 +1310,8 @@ def configure() -> None:
         "tools/hyp0006_dukascopy_browser_pilot.py",
         "OWNER_AUTHORIZED_BROWSER_BATCH_250_2026_10_05",
         "tools/hyp0006_dukascopy_browser_batch_250.py",
+        "PASS_250_OF_250_AUTHORIZATION_CONSUMED",
+        "438bc59aa6f2cc81a762914f111017f75a2e46b2",
         "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
         "READY_FOR_DATA_FEASIBILITY_FREEZE",
         "UNRESOLVED_OFFICIAL_EVENT_TIMES",
