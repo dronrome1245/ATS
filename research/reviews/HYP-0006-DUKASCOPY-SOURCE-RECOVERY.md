@@ -215,13 +215,25 @@ Synthetic tests:
 
 `tests/test_hyp0006_dukascopy_browser_batch_250.py`
 
-Execution status before exact-main execution:
+Exact-main batch-250 execution:
 
-`NOT_YET_EXECUTED`
+- git commit: `438bc59aa6f2cc81a762914f111017f75a2e46b2`;
+- objects selected: `250`;
+- objects promoted after BI5 integrity validation: `250`;
+- objects skipped after two attempts: `0`;
+- maximum attempts per object: `2`;
+- hypothesis outcome computed: `NO`.
 
-Information boundary:
+Batch result:
 
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+`PASS_250_OF_250_AUTHORIZATION_CONSUMED`
+
+The one-shot batch-250 authorization is consumed. The same batch must not be rerun.
+
+Arithmetic expected post-batch inventory is `337` existing / `748` missing, pending a
+zero-network inventory recount.
+
+No further browser/source acquisition is authorized without a new explicit OWNER authorization.
 
 Information boundary:
 
@@ -279,12 +291,13 @@ the frozen `DUKASCOPY_HOURLY_TICK_BI5` source contract.
 
 ## Current gate
 
-Prepare and validate the offline-only RF-027 architecture so that:
+Review the detailed local batch-250 JSON for per-object attempts, status, SHA-256 and record counts,
+then perform a zero-network RF-027 inventory recount.
 
-- normal RF-027 execution never performs live Dukascopy HTTP access;
-- missing BI5 files are classified as source input still required, not as a market result;
-- the controlled execute-run remains a historical acquisition record only;
-- no HYP-0006 outcome can be revealed while the source bundle is incomplete.
+The recount must not start any external acquisition. The expected arithmetic state is `337 / 1085`
+present and `748` missing, but only the zero-network recount may confirm those counts.
+
+No further browser/source batch is authorized without a new explicit OWNER authorization.
 
 Only after an approved frozen local BI5 bundle is complete enough for RF-027 and exact-main
 `ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS` may
