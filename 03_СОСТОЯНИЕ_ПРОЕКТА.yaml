@@ -632,6 +632,7 @@ research_factory:
   strategy_5_dukascopy_controlled_execution_missing_after: 1048
   strategy_5_dukascopy_normal_runtime_network_mode: "PROHIBITED"
   strategy_5_dukascopy_snapshot_bundle_status: "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE"
+  rf027_source_recovery_merged_commit: "953b405a63f8077411c817965f96cb9e3aee5d29"
   strategy_5_dukascopy_controlled_execution_authorized_command: "uv run --frozen python -m tools.hyp0006_dukascopy_controlled_download --execute --owner-authorized"
   rf027_controlled_downloader_merged_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"
   rf027_controlled_downloader_dry_run_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"
