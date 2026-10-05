@@ -156,6 +156,39 @@ def test_execute_requires_explicit_owner_authorization(
     assert report["network_requests"] == 0
 
 
+def test_execute_rejects_consumed_canonical_authorization(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    inventory = [
+        downloader.InventoryRow(
+            hour_start="2010-01-15T13:00:00Z",
+            source_url="https://datafeed.dukascopy.com/datafeed/EURUSD/2010/00/15/13h_ticks.bi5",
+            local_path="data/raw/example.bi5",
+            exists=False,
+        )
+    ]
+
+    monkeypatch.setattr(
+        downloader,
+        "build_inventory",
+        lambda: (inventory, downloader.AUTHORIZED_CALENDAR_SHA256, 217),
+    )
+    monkeypatch.setattr(downloader, "write_inventory_csv", lambda _inventory: None)
+    monkeypatch.setattr(downloader, "write_reports", lambda _report: None)
+    monkeypatch.setattr(downloader, "canonical_authorization_is_active", lambda: False)
+
+    def must_not_download(*_args: object, **_kwargs: object) -> object:
+        raise AssertionError("consumed authorization must block before network")
+
+    monkeypatch.setattr(downloader, "controlled_download", must_not_download)
+
+    return_code, report = downloader.run(execute=True, owner_authorized=True)
+
+    assert return_code == 23
+    assert report["status"] == "OWNER_AUTHORIZATION_CONSUMED"
+    assert report["network_requests"] == 0
+
+
 def test_dry_run_never_starts_controlled_download(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
