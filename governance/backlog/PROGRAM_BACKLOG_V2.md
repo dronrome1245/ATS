@@ -263,8 +263,20 @@ Batch tool:
 The batch-250 implementation passed exact-head preflight and was squash-merged to `main` at
 `94e7a91ec96986dd940f2a13575c9ee436b1a354`.
 
-Current gate is exact-main zero-network dry-run manifest review followed by exactly one
-OWNER-authorized bounded 250-object browser execution.
+The authorized exact-main batch-250 execution completed on
+`438bc59aa6f2cc81a762914f111017f75a2e46b2` with
+`250` selected / `250` promoted / `0` skipped and
+`NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+
+Batch status:
+
+`PASS_250_OF_250_AUTHORIZATION_CONSUMED`
+
+Expected post-batch inventory is `337 / 1085` present with `748` missing, pending a zero-network
+recount.
+
+Current gate is detailed batch-250 JSON review followed by zero-network inventory confirmation. Any
+new browser/source batch requires new explicit OWNER authorization.
 
 Information boundary remains:
 

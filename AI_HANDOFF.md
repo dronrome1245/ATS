@@ -338,16 +338,27 @@ The batch-250 implementation passed exact-head preflight and was squash-merged t
 
 `94e7a91ec96986dd940f2a13575c9ee436b1a354`
 
-Current gate: synchronize local exact `main`, run the zero-network batch-250 dry-run manifest, then
-execute the one authorized bounded 250-object browser batch exactly once.
+The authorized exact-main batch-250 execution completed on:
 
-Dry-run command:
+`438bc59aa6f2cc81a762914f111017f75a2e46b2`
 
-`uv run --frozen python -m tools.hyp0006_dukascopy_browser_batch_250`
+Result:
 
-Exact execution command after manifest review:
+- objects selected: `250`;
+- objects promoted: `250`;
+- objects skipped after two attempts: `0`;
+- hypothesis outcome computed: `NO`.
 
-`uv run --frozen python -m tools.hyp0006_dukascopy_browser_batch_250 --execute-browser --owner-authorized-250`
+Batch status:
+
+`PASS_250_OF_250_AUTHORIZATION_CONSUMED`
+
+The same batch must not be rerun. Arithmetic expected post-batch inventory is `337 / 1085`,
+with `748` missing, pending a zero-network recount.
+
+Current gate: review the local detailed batch-250 JSON, then run an exact-main zero-network
+inventory recount. No further browser/source batch is authorized until OWNER explicitly authorizes
+one.
 
 Information boundary:
 
