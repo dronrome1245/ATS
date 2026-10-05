@@ -222,7 +222,9 @@ Its contract is:
 
 Network execution status:
 
-`NOT_YET_AUTHORIZED`
+`AUTHORIZED_ONCE_BY_OWNER_2026_10_05`
+
+Authorization scope: exactly one controlled execute-run using the canonical command already frozen above. Any later execute-run requires a new explicit OWNER authorization.
 
 Information boundary:
 
