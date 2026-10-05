@@ -636,12 +636,19 @@ research_factory:
   strategy_5_dukascopy_snapshot_bundle_status: "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE"
   rf027_source_recovery_merged_commit: "953b405a63f8077411c817965f96cb9e3aee5d29"
   strategy_5_dukascopy_manual_browser_probe_status: "PASS_3_OF_3_VALID_BI5"
-  strategy_5_dukascopy_browser_pilot_status: "OWNER_AUTHORIZED_BROWSER_PILOT_50_2026_10_05"
+  strategy_5_dukascopy_browser_pilot_status: "PASS_50_OF_50_AUTHORIZATION_CONSUMED"
   strategy_5_dukascopy_browser_pilot_object_limit: 50
   strategy_5_dukascopy_browser_pilot_max_attempts_per_object: 2
   strategy_5_dukascopy_browser_pilot_source_mode: "CANONICAL_BROWSER_ASSISTED_DUKASCOPY_BI5"
-  strategy_5_dukascopy_browser_pilot_execution_status: "NOT_YET_EXECUTED"
+  strategy_5_dukascopy_browser_pilot_execution_status: "COMPLETE_50_OF_50"
   rf027_browser_pilot_merged_commit: "52b2f9c0755a4efbda49c86c96ace1763a3d47cf"
+  strategy_5_dukascopy_browser_pilot_execution_commit: "c7a10c8bcd84ca4754db92af4c63f39c02101543"
+  strategy_5_dukascopy_browser_pilot_selected_count: 50
+  strategy_5_dukascopy_browser_pilot_promoted_count: 50
+  strategy_5_dukascopy_browser_pilot_skipped_count: 0
+  strategy_5_dukascopy_browser_pilot_expected_existing_after: 87
+  strategy_5_dukascopy_browser_pilot_expected_missing_after: 998
+  strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZATION_REQUIRED"
   strategy_5_dukascopy_browser_pilot_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
   strategy_5_dukascopy_browser_pilot_outcome_computed: false
   strategy_5_dukascopy_controlled_execution_authorized_command: "uv run --frozen python -m tools.hyp0006_dukascopy_controlled_download --execute --owner-authorized"
