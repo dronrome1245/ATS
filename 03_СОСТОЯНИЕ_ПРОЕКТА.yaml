@@ -134,7 +134,7 @@ model:
   strategy_5_dukascopy_browser_batch_250_test: "tests/test_hyp0006_dukascopy_browser_batch_250.py"
 
 current:
-  focus: "RF-027 post-pilot inventory is confirmed at 87 of 1085 canonical BI5 objects present and 998 missing; OWNER explicitly authorized one bounded next browser batch of 250 missing objects with the same canonical-source, max-two-attempts and no-fallback rules; no HYP-0005 or HYP-0006 outcome has been computed"
+  focus: "RF-027 bounded browser batch 250 completed 250 of 250 promoted with 0 skipped on exact-main commit 438bc59aa6f2cc81a762914f111017f75a2e46b2; its one-shot authorization is consumed; expected local inventory is now 337 of 1085 present and 748 missing pending zero-network recount; no further external batch is authorized; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-026"
   last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
@@ -650,7 +650,7 @@ research_factory:
   strategy_5_dukascopy_browser_pilot_skipped_count: 0
   strategy_5_dukascopy_browser_pilot_expected_existing_after: 87
   strategy_5_dukascopy_browser_pilot_expected_missing_after: 998
-  strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZED_BROWSER_BATCH_250_2026_10_05"
+  strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZATION_REQUIRED"
   strategy_5_dukascopy_post_pilot_inventory_status: "CONFIRMED_ZERO_NETWORK"
   strategy_5_dukascopy_post_pilot_inventory_required_object_count: 1085
   strategy_5_dukascopy_post_pilot_inventory_existing_object_count: 87
@@ -659,12 +659,18 @@ research_factory:
   strategy_5_dukascopy_post_pilot_inventory_downloaded_count: 0
   strategy_5_dukascopy_post_pilot_inventory_semantic_missing_count: 0
   strategy_5_dukascopy_post_pilot_inventory_outcome_computed: false
-  strategy_5_dukascopy_browser_batch_250_status: "OWNER_AUTHORIZED_BROWSER_BATCH_250_2026_10_05"
+  strategy_5_dukascopy_browser_batch_250_status: "PASS_250_OF_250_AUTHORIZATION_CONSUMED"
   strategy_5_dukascopy_browser_batch_250_object_limit: 250
   strategy_5_dukascopy_browser_batch_250_max_attempts_per_object: 2
   strategy_5_dukascopy_browser_batch_250_source_mode: "CANONICAL_BROWSER_ASSISTED_DUKASCOPY_BI5"
-  strategy_5_dukascopy_browser_batch_250_execution_status: "NOT_YET_EXECUTED"
+  strategy_5_dukascopy_browser_batch_250_execution_status: "COMPLETE_250_OF_250"
   rf027_browser_batch_250_merged_commit: "94e7a91ec96986dd940f2a13575c9ee436b1a354"
+  strategy_5_dukascopy_browser_batch_250_execution_commit: "438bc59aa6f2cc81a762914f111017f75a2e46b2"
+  strategy_5_dukascopy_browser_batch_250_selected_count: 250
+  strategy_5_dukascopy_browser_batch_250_promoted_count: 250
+  strategy_5_dukascopy_browser_batch_250_skipped_count: 0
+  strategy_5_dukascopy_browser_batch_250_expected_existing_after: 337
+  strategy_5_dukascopy_browser_batch_250_expected_missing_after: 748
   strategy_5_dukascopy_browser_batch_250_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
   strategy_5_dukascopy_browser_batch_250_outcome_computed: false
   strategy_5_dukascopy_browser_pilot_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
