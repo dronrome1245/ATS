@@ -353,12 +353,34 @@ Batch status:
 
 `PASS_250_OF_250_AUTHORIZATION_CONSUMED`
 
-The same batch must not be rerun. Arithmetic expected post-batch inventory is `337 / 1085`,
-with `748` missing, pending a zero-network recount.
+The same batch must not be rerun.
 
-Current gate: review the local detailed batch-250 JSON, then run an exact-main zero-network
-inventory recount. No further browser/source batch is authorized until OWNER explicitly authorizes
-one.
+Detailed local evidence review passed for all `250 / 250` rows:
+
+- manifest-vs-JSON row identity: `PASS`;
+- attempts=1: `250`;
+- attempts=2: `0`;
+- record-count range: `341..8535`;
+- JSON SHA-256:
+  `36e1301d551a69990ca707e7bf33da1ce07e5e88b1e7dc23a379a66b814e6b2c`;
+- manifest SHA-256:
+  `9aa6d7646c809f7a8fb2caaf421f13553ec30ba26dee5d8d991464e1e6cad2e1`.
+
+A subsequent zero-network inventory recount confirmed:
+
+- required: `1085`;
+- existing: `337`;
+- missing: `748`;
+- network requests: `0`;
+- downloaded: `0`;
+- semantic missing: `0`.
+
+Post-batch inventory status:
+
+`CONFIRMED_ZERO_NETWORK`
+
+Current gate: next source-recovery decision only. No further browser/source batch is authorized until
+OWNER explicitly authorizes one.
 
 Information boundary:
 
