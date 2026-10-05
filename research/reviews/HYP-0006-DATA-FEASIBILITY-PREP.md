@@ -159,15 +159,24 @@ Candidate endpoints recorded for architecture review:
 1. `https://datafeed.dukascopy.com/datafeed`
 2. `https://www.dukascopy.com/datafeed`
 
-Runtime fail-fast rule:
+Runtime source-access rule:
 
 `FIRST_EXTERNAL_SOURCE_FAILURE_HANDOFF`
 
-Normal RF-027 execution may issue only the first external request for a required tick object. If that request returns an HTTP/network/access failure, execution stops immediately and reports the blocker to OWNER.
+After the controlled execute-run blocker recorded on 2026-10-05, normal RF-027 execution is
+offline-only for Dukascopy tick objects.
 
-The second candidate endpoint is **not** an automatic fallback. It may be tried only in a later OWNER-authorized attempt or explicit source-architecture decision.
+Normal RF-027 Dukascopy network mode:
 
-No automatic retry loop, alternate hostname fallback, mirror or provider substitution is permitted after the first external failure.
+`PROHIBITED`
+
+Missing local BI5 objects must stop the normal preparation path as:
+
+`OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`
+
+The second candidate endpoint is **not** an automatic fallback. A later external acquisition attempt,
+alternate hostname, official alternate interface, mirror, proxy or provider substitution requires a
+separate explicit source-architecture decision and any required OWNER authorization.
 
 ## OWNER-authorized controlled Dukascopy preload
 
@@ -220,11 +229,38 @@ Its contract is:
 10. the tool may write only acquisition/inventory metadata and may not compute returns, the primary
     HYP-0006 inequality or P&L.
 
-Network execution status:
+Historical network authorization:
 
 `AUTHORIZED_ONCE_BY_OWNER_2026_10_05`
 
-Authorization scope: exactly one controlled execute-run using the canonical command already frozen above. Any later execute-run requires a new explicit OWNER authorization.
+The exact authorized execute-run was consumed on exact-main commit
+`f3151d8915b61d1a08e79cf27133764201475e65`.
+
+Observed result:
+
+- status: `SOURCE_BLOCKED`;
+- network requests: `1`;
+- downloaded objects: `0`;
+- existing after run: `37`;
+- missing after run: `1048`;
+- failed hour: `2004-03-17T13:00:00Z`;
+- failed canonical URL:
+  `https://datafeed.dukascopy.com/datafeed/EURUSD/2004/02/17/13h_ticks.bi5`;
+- failure: `HTTP 503`.
+
+Current controlled-execution status:
+
+`SOURCE_BLOCKED_AUTHORIZATION_CONSUMED`
+
+Any later execute-run requires a new explicit OWNER authorization. No retry is currently authorized.
+
+Source-recovery architecture:
+
+`FROZEN_LOCAL_DUKASCOPY_BI5_SNAPSHOT_BUNDLE`
+
+Canonical recovery review:
+
+`research/reviews/HYP-0006-DUKASCOPY-SOURCE-RECOVERY.md`
 
 Information boundary:
 
