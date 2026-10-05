@@ -262,7 +262,36 @@ Post-batch inventory status:
 
 `CONFIRMED_ZERO_NETWORK`
 
-No further browser/source acquisition is authorized without a new explicit OWNER authorization.
+OWNER subsequently authorized exactly one browser-assisted acquisition of all `748` confirmed
+remaining objects:
+
+`OWNER_AUTHORIZED_REMAINING_748_2026_10_05`
+
+Frozen remaining-748 contract:
+
+1. the deterministic inventory must report exactly `748` current missing objects or execution blocks;
+2. select all of those `748` missing objects, not a subset;
+3. use only the canonical `https://datafeed.dukascopy.com/datafeed` URL family;
+4. maximum browser-open attempts per object: `2`;
+5. after the second unsuccessful attempt, record `SKIPPED_AFTER_2_ATTEMPTS` and continue;
+6. no alternate hostname, mirror, proxy, provider or third-party fallback;
+7. never overwrite an existing canonical local BI5;
+8. validate BI5 integrity before byte-preserving promotion;
+9. write a distinct consumed sentinel before the first browser-open;
+10. write source-acquisition metadata and hashes only;
+11. do not compute HYP-0006 returns, the primary inequality or P&L.
+
+Tool:
+
+`tools/hyp0006_dukascopy_browser_remaining_748.py`
+
+Synthetic tests:
+
+`tests/test_hyp0006_dukascopy_browser_remaining_748.py`
+
+Execution status:
+
+`NOT_YET_EXECUTED`
 
 Information boundary:
 
@@ -320,10 +349,12 @@ the frozen `DUKASCOPY_HOURLY_TICK_BI5` source contract.
 
 ## Current gate
 
-The batch-250 evidence review and zero-network recount are complete.
+The batch-250 evidence review and zero-network recount are complete, and OWNER has authorized one
+remaining-748 acquisition under the frozen contract above.
 
-Current action is a source-recovery decision only. No further browser/source batch is authorized
-without a new explicit OWNER authorization. The frozen source identity and all research rules remain
+Current action is implementation exact-head preflight. After merge, the next gate is an exact-main
+zero-network manifest proving the deterministic `748`-object selection. Browser execution must not
+start before that manifest review. The frozen source identity and all research rules remain
 unchanged.
 
 Only after an approved frozen local BI5 bundle is complete enough for RF-027 and exact-main
