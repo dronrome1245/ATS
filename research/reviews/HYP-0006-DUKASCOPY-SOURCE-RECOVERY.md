@@ -176,10 +176,19 @@ Pilot result:
 
 The one-shot browser-pilot authorization is consumed. The same pilot must not be rerun.
 
-Based on the previously observed `37 / 1085` canonical inventory and 50 newly promoted previously
-missing objects, the deterministic expected post-pilot inventory is `87` existing / `998`
-missing. This count must be confirmed by a zero-network local inventory before any next external
-batch is authorized.
+A subsequent zero-network controlled inventory recount confirmed the post-pilot local state:
+
+- required unique canonical BI5 objects: `1085`;
+- existing: `87`;
+- missing: `998`;
+- network requests: `0`;
+- downloaded: `0`;
+- semantic missing: `0`;
+- hypothesis outcome computed: `NO`.
+
+Inventory status:
+
+`CONFIRMED_ZERO_NETWORK`
 
 Any further browser-assisted external acquisition requires a new explicit OWNER authorization.
 
