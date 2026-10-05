@@ -224,7 +224,11 @@ Pilot tool:
 
 `tools/hyp0006_dukascopy_browser_pilot.py`
 
-Current gate is exact-head preflight of the browser-pilot implementation before any pilot execution.
+The browser-pilot implementation passed exact-head preflight and was squash-merged to `main` at
+`52b2f9c0755a4efbda49c86c96ace1763a3d47cf`.
+
+Current gate is exact-main dry-run followed by exactly one OWNER-authorized bounded 50-object
+browser-pilot execution.
 
 Information boundary remains:
 

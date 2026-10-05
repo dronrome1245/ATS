@@ -283,8 +283,19 @@ Tool:
 
 `tools/hyp0006_dukascopy_browser_pilot.py`
 
-Current gate: exact-head preflight for the browser-pilot implementation. Do not run the pilot before
-that branch passes preflight and is merged to exact `main`.
+The browser-pilot implementation passed exact-head preflight and was squash-merged to `main` at:
+
+`52b2f9c0755a4efbda49c86c96ace1763a3d47cf`
+
+Current gate: synchronize local exact `main` to that commit, verify the pilot dry-run inventory,
+then execute the one authorized bounded 50-object browser pilot exactly once.
+
+Exact execution command:
+
+`uv run --frozen python -m tools.hyp0006_dukascopy_browser_pilot --execute-browser --owner-authorized-50`
+
+The pilot must use only the canonical Dukascopy URLs, maximum two attempts per selected object, and
+must not be rerun after the local consumed sentinel is created.
 
 Information boundary:
 
