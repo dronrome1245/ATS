@@ -319,6 +319,10 @@ Result: `748` selected / `747` promoted / `1` skipped.
 
 Repeat execution is prohibited.
 
+Detailed evidence review status:
+
+`FULL_JSON_MANIFEST_REVIEW_PASS`
+
 Detailed evidence review passed for all `748 / 748` rows:
 
 - attempts=1: `746`;
