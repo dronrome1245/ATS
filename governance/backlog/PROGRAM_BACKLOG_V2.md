@@ -335,10 +335,20 @@ Detailed evidence review passed for all `748 / 748` rows:
 - final skipped failure: `no_valid_bi5_download_within_45s_attempt_2`;
 - skipped canonical file: `ABSENT`.
 
-Expected inventory remains `1084 / 1085` present and `1` missing until recount.
+OWNER supplied the final missing BI5 for `2011-11-16T11:00:00Z`. Frozen decoder validation passed;
+the byte-preserving canonical intake has SHA-256
+`391a35cff2d48ea3a62e4121cda94a244b5d793d49354080cd77c5696d172de7`
+and `6810` records.
 
-Current gate: zero-network inventory recount. Any new browser/source request requires a new explicit
-OWNER decision.
+Post-intake zero-network recount confirmed `1085 / 1085` required objects present and `0`
+missing, with `0` network requests, `0` downloaded and `0` semantic missing.
+
+Bundle status:
+
+`CONFIRMED_ZERO_NETWORK_COMPLETE`
+
+Current gate: exact-main `ATS_TASK_CHECK.bat` for RF-027. Any new browser/source request still
+requires a new explicit OWNER decision.
 Information boundary remains:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`

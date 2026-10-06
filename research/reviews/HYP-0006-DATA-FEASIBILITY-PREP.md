@@ -421,9 +421,34 @@ Observed evidence:
 - skipped canonical file: `ABSENT`;
 - consumed sentinel validation: `PASS`.
 
-Expected inventory remains `1084 / 1085` present and `1` missing until recount.
+OWNER supplied the final missing BI5 for `2011-11-16T11:00:00Z`.
 
-Current gate: zero-network inventory recount.
+Final manual intake evidence:
+
+- SHA-256:
+  `391a35cff2d48ea3a62e4121cda94a244b5d793d49354080cd77c5696d172de7`;
+- frozen decoder: `PASS`;
+- record count: `6810`;
+- destination existed before: `NO`;
+- byte-preserving canonical copy: `PASS`.
+
+Post-intake zero-network recount:
+
+- required objects: `1085`;
+- existing: `1085`;
+- missing: `0`;
+- network requests: `0`;
+- downloaded: `0`;
+- semantic missing: `0`;
+- HYP-0006 outcome computed: `NO`.
+
+Bundle status:
+
+`CONFIRMED_ZERO_NETWORK_COMPLETE`
+
+Bundle completeness: `1085 / 1085`.
+
+Current gate: exact-main RF-027 preparation via `ATS_TASK_CHECK.bat`.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`

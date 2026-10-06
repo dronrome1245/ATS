@@ -136,7 +136,7 @@ model:
   strategy_5_dukascopy_browser_remaining_748_test: "tests/test_hyp0006_dukascopy_browser_remaining_748.py"
 
 current:
-  focus: "RF-027 detailed remaining-748 evidence review passed for all 748 rows: 747 promoted, 1 skipped, attempts=1 for 746 rows and attempts=2 for 2 rows; skipped object is ordinal 159 at 2011-11-16T11:00:00Z with canonical file absent; authorization remains consumed and the current gate is zero-network inventory recount; no new source request is authorized; no HYP-0005 or HYP-0006 outcome has been computed"
+  focus: "RF-027 final missing BI5 was supplied by OWNER, independently decoder-validated and copied byte-for-byte into its canonical path; post-intake zero-network recount confirmed all 1085 of 1085 required Dukascopy BI5 objects present with 0 missing, 0 network requests and 0 downloaded; the frozen local source bundle is complete and the current gate is exact-main ATS_TASK_CHECK for RF-027; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-026"
   last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
@@ -598,8 +598,8 @@ research_factory:
   strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"
   strategy_5_prototype_authorized: false
   rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"
-  strategy_5_data_feasibility_prep_status: "RF027_CONTROLLED_EXECUTE_SOURCE_BLOCKED"
-  strategy_5_data_feasibility_prep_decision: "PENDING_SOURCE_RECOVERY_NO_OUTCOME"
+  strategy_5_data_feasibility_prep_status: "RF027_SOURCE_BUNDLE_COMPLETE_READY_FOR_EXACT_MAIN_PREPARATION"
+  strategy_5_data_feasibility_prep_decision: "PENDING_EXACT_MAIN_PREPARATION_NO_OUTCOME"
   rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"
   rf027_second_failed_exact_main_commit: "2ce019bb51b0e45e900c0555ed44be5a3433e23a"
   rf027_offline_architecture_merged_commit: "79a01623c3fef4deb3757e4d2940b8cd16b9bff3"
@@ -637,7 +637,7 @@ research_factory:
   strategy_5_dukascopy_controlled_execution_existing_after: 37
   strategy_5_dukascopy_controlled_execution_missing_after: 1048
   strategy_5_dukascopy_normal_runtime_network_mode: "PROHIBITED"
-  strategy_5_dukascopy_snapshot_bundle_status: "OWNER_INPUT_REQUIRED_DUKASCOPY_BI5_SNAPSHOT_BUNDLE"
+  strategy_5_dukascopy_snapshot_bundle_status: "COMPLETE_1085_OF_1085_ZERO_NETWORK_CONFIRMED"
   rf027_source_recovery_merged_commit: "953b405a63f8077411c817965f96cb9e3aee5d29"
   strategy_5_dukascopy_manual_browser_probe_status: "PASS_3_OF_3_VALID_BI5"
   strategy_5_dukascopy_browser_pilot_status: "PASS_50_OF_50_AUTHORIZATION_CONSUMED"
@@ -721,6 +721,23 @@ research_factory:
   strategy_5_dukascopy_browser_remaining_748_skipped_failure: "no_valid_bi5_download_within_45s_attempt_2"
   strategy_5_dukascopy_browser_remaining_748_skipped_file_status: "ABSENT"
   strategy_5_dukascopy_browser_remaining_748_consumed_sentinel_status: "VALIDATED_PASS"
+  strategy_5_dukascopy_final_manual_intake_status: "PASS_OWNER_SUPPLIED_VALIDATED"
+  strategy_5_dukascopy_final_manual_intake_hour: "2011-11-16T11:00:00Z"
+  strategy_5_dukascopy_final_manual_intake_source_url: "https://datafeed.dukascopy.com/datafeed/EURUSD/2011/10/16/11h_ticks.bi5"
+  strategy_5_dukascopy_final_manual_intake_local_path: "data/raw/dukascopy/hyp0006/EURUSD/2011/11/16/11h_ticks.bi5"
+  strategy_5_dukascopy_final_manual_intake_sha256: "391a35cff2d48ea3a62e4121cda94a244b5d793d49354080cd77c5696d172de7"
+  strategy_5_dukascopy_final_manual_intake_record_count: 6810
+  strategy_5_dukascopy_final_manual_intake_decoder_status: "PASS"
+  strategy_5_dukascopy_final_manual_intake_destination_existed_before: false
+  strategy_5_dukascopy_final_manual_intake_byte_preserving_copy_status: "PASS"
+  strategy_5_dukascopy_post_manual_intake_inventory_status: "CONFIRMED_ZERO_NETWORK_COMPLETE"
+  strategy_5_dukascopy_post_manual_intake_inventory_required_object_count: 1085
+  strategy_5_dukascopy_post_manual_intake_inventory_existing_object_count: 1085
+  strategy_5_dukascopy_post_manual_intake_inventory_missing_object_count: 0
+  strategy_5_dukascopy_post_manual_intake_inventory_network_requests: 0
+  strategy_5_dukascopy_post_manual_intake_inventory_downloaded_count: 0
+  strategy_5_dukascopy_post_manual_intake_inventory_semantic_missing_count: 0
+  strategy_5_dukascopy_post_manual_intake_inventory_outcome_computed: false
   strategy_5_dukascopy_browser_remaining_748_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
   strategy_5_dukascopy_browser_remaining_748_outcome_computed: false
   strategy_5_dukascopy_browser_batch_250_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
@@ -736,7 +753,7 @@ research_factory:
   rf027_controlled_downloader_dry_run_existing_object_count: 37
   rf027_controlled_downloader_dry_run_missing_object_count: 1048
   rf027_controlled_downloader_dry_run_network_requests: 0
-  strategy_5_geometry_output_status: "NOT_CREATED_SOURCE_BLOCKED"
+  strategy_5_geometry_output_status: "NOT_CREATED_READY_FOR_RF027_PREPARATION"
   strategy_5_bls_calendar_candidate: "data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"
   active_idea_id: "IDEA-0004"
   active_hypothesis_id: "HYP-0005"
