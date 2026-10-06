@@ -113,6 +113,8 @@ HYP0006_BROWSER_PILOT_TOOL = "tools/hyp0006_dukascopy_browser_pilot.py"
 HYP0006_BROWSER_PILOT_TEST = "tests/test_hyp0006_dukascopy_browser_pilot.py"
 HYP0006_BROWSER_BATCH_250_TOOL = "tools/hyp0006_dukascopy_browser_batch_250.py"
 HYP0006_BROWSER_BATCH_250_TEST = "tests/test_hyp0006_dukascopy_browser_batch_250.py"
+HYP0006_BROWSER_REMAINING_748_TOOL = "tools/hyp0006_dukascopy_browser_remaining_748.py"
+HYP0006_BROWSER_REMAINING_748_TEST = "tests/test_hyp0006_dukascopy_browser_remaining_748.py"
 HYP0006_BLS_SNAPSHOT_MANIFEST = "data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
 HYP0006_BLS_SNAPSHOT_INTAKE = "research/reviews/HYP-0006-BLS-SNAPSHOT-INTAKE.md"
 HYP0006_DUKASCOPY_SOURCE_RECOVERY = "research/reviews/HYP-0006-DUKASCOPY-SOURCE-RECOVERY.md"
@@ -318,6 +320,8 @@ def configure() -> None:
         HYP0006_BROWSER_PILOT_TEST,
         HYP0006_BROWSER_BATCH_250_TOOL,
         HYP0006_BROWSER_BATCH_250_TEST,
+        HYP0006_BROWSER_REMAINING_748_TOOL,
+        HYP0006_BROWSER_REMAINING_748_TEST,
         HYP0006_BLS_SNAPSHOT_MANIFEST,
         HYP0006_BLS_SNAPSHOT_INTAKE,
         HYP0006_DUKASCOPY_SOURCE_RECOVERY,
@@ -405,6 +409,8 @@ def configure() -> None:
         "strategy_5_dukascopy_browser_pilot_test",
         "strategy_5_dukascopy_browser_batch_250",
         "strategy_5_dukascopy_browser_batch_250_test",
+        "strategy_5_dukascopy_browser_remaining_748",
+        "strategy_5_dukascopy_browser_remaining_748_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -1311,6 +1317,8 @@ def configure() -> None:
         "OWNER_AUTHORIZED_BROWSER_BATCH_250_2026_10_05",
         "tools/hyp0006_dukascopy_browser_batch_250.py",
         "PASS_250_OF_250_AUTHORIZATION_CONSUMED",
+        "OWNER_AUTHORIZED_REMAINING_748_2026_10_05",
+        "tools/hyp0006_dukascopy_browser_remaining_748.py",
         "438bc59aa6f2cc81a762914f111017f75a2e46b2",
         "FULL_JSON_MANIFEST_REVIEW_PASS",
         "36e1301d551a69990ca707e7bf33da1ce07e5e88b1e7dc23a379a66b814e6b2c",
@@ -1439,6 +1447,28 @@ def configure() -> None:
         "test_run_batch_retries_once_then_skips",
         "test_consumed_sentinel_blocks_before_browser",
     )
+    core.CONTENT_MARKERS[HYP0006_BROWSER_REMAINING_748_TOOL] = (
+        'TASK_ID = "ATS2-RF-027"',
+        'SUBSTAGE = "DUKASCOPY_BROWSER_REMAINING_748"',
+        'SOURCE_IDENTITY = "DUKASCOPY_HOURLY_TICK_BI5"',
+        "REMAINING_OBJECT_COUNT = 748",
+        "MAX_ATTEMPTS_PER_OBJECT = 2",
+        "OWNER_AUTHORIZED_REMAINING_748_2026_10_05",
+        "inventory drift",
+        "SKIPPED_AFTER_2_ATTEMPTS",
+        "CONSUMED_SENTINEL",
+        "canonical_authorization_is_active",
+        "run_remaining",
+        '"outcome_metrics_computed": False',
+        '"primary_claim_evaluated": False',
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+    )
+    core.CONTENT_MARKERS[HYP0006_BROWSER_REMAINING_748_TEST] = (
+        "test_remaining_inventory_selects_exact_748_missing",
+        "test_remaining_inventory_blocks_on_count_drift",
+        "test_run_remaining_retries_once_then_skips",
+        "test_consumed_sentinel_blocks_before_browser",
+    )
     core.CONTENT_MARKERS[HYP0006_BLS_SNAPSHOT_MANIFEST] = (
         "year,source_url,snapshot_relative_path",
         "2003,https://www.bls.gov/schedule/2003/home.htm",
@@ -1479,6 +1509,9 @@ def configure() -> None:
         "36e1301d551a69990ca707e7bf33da1ce07e5e88b1e7dc23a379a66b814e6b2c",
         "9aa6d7646c809f7a8fb2caaf421f13553ec30ba26dee5d8d991464e1e6cad2e1",
         "CONFIRMED_ZERO_NETWORK",
+        "OWNER_AUTHORIZED_REMAINING_748_2026_10_05",
+        "tools/hyp0006_dukascopy_browser_remaining_748.py",
+        "REQUIRE_EXACTLY_748_CURRENT_MISSING",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
@@ -2189,6 +2222,7 @@ def configure() -> None:
         "tools/hyp0005_data_feasibility.py",
         "tools/hyp0006_data_feasibility.py",
         "tools/hyp0006_dukascopy_controlled_download.py",
+        "tools/hyp0006_dukascopy_browser_remaining_748.py",
     )
     core.CONTENT_MARKERS["governance/methodology/DATA_FEASIBILITY_REVIEW.md"] = (
         "Data Feasibility Review",
@@ -2240,6 +2274,10 @@ def configure() -> None:
         "HYP0006_DUKASCOPY_BROWSER_BATCH_250_REPORT.txt",
         "HYP0006_DUKASCOPY_BROWSER_BATCH_250_MANIFEST.csv",
         "HYP0006_DUKASCOPY_BROWSER_BATCH_250_CONSUMED.json",
+        "HYP0006_DUKASCOPY_BROWSER_REMAINING_748.json",
+        "HYP0006_DUKASCOPY_BROWSER_REMAINING_748_REPORT.txt",
+        "HYP0006_DUKASCOPY_BROWSER_REMAINING_748_MANIFEST.csv",
+        "HYP0006_DUKASCOPY_BROWSER_REMAINING_748_CONSUMED.json",
         "reports/local_ci/*.lnk",
     )
     core.CONTENT_MARKERS["governance/program/PROGRAM_WBS_V2.md"] = (
@@ -2444,6 +2482,10 @@ def validate_environment(repo: Path) -> int:
         "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_BATCH_250_REPORT.txt",
         "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_BATCH_250_MANIFEST.csv",
         "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_BATCH_250_CONSUMED.json",
+        "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_REMAINING_748.json",
+        "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_REMAINING_748_REPORT.txt",
+        "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_REMAINING_748_MANIFEST.csv",
+        "reports/local_ci/HYP0006_DUKASCOPY_BROWSER_REMAINING_748_CONSUMED.json",
         "data/derived/HYP-0003-DEV-01-G10EXUSD-H1.csv*",
         "data/derived/HYP-0004-DEV-01-EURUSD-H1.csv*",
         "reports/local_ci/*.lnk",
@@ -2803,7 +2845,7 @@ def main() -> int:
         "strategy_5_dukascopy_browser_pilot_skipped_count: 0",
         "strategy_5_dukascopy_browser_pilot_expected_existing_after: 87",
         "strategy_5_dukascopy_browser_pilot_expected_missing_after: 998",
-        'strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZATION_REQUIRED"',
+        'strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZED_REMAINING_748_2026_10_05"',
         'strategy_5_dukascopy_post_pilot_inventory_status: "CONFIRMED_ZERO_NETWORK"',
         "strategy_5_dukascopy_post_pilot_inventory_required_object_count: 1085",
         "strategy_5_dukascopy_post_pilot_inventory_existing_object_count: 87",
@@ -2840,6 +2882,14 @@ def main() -> int:
         "strategy_5_dukascopy_post_batch_250_inventory_downloaded_count: 0",
         "strategy_5_dukascopy_post_batch_250_inventory_semantic_missing_count: 0",
         "strategy_5_dukascopy_post_batch_250_inventory_outcome_computed: false",
+        'strategy_5_dukascopy_browser_remaining_748_status: "OWNER_AUTHORIZED_REMAINING_748_2026_10_05"',
+        "strategy_5_dukascopy_browser_remaining_748_object_count: 748",
+        "strategy_5_dukascopy_browser_remaining_748_max_attempts_per_object: 2",
+        'strategy_5_dukascopy_browser_remaining_748_source_mode: "CANONICAL_BROWSER_ASSISTED_DUKASCOPY_BI5"',
+        'strategy_5_dukascopy_browser_remaining_748_execution_status: "NOT_YET_EXECUTED"',
+        'strategy_5_dukascopy_browser_remaining_748_inventory_rule: "REQUIRE_EXACTLY_748_CURRENT_MISSING"',
+        'strategy_5_dukascopy_browser_remaining_748_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"',
+        "strategy_5_dukascopy_browser_remaining_748_outcome_computed: false",
         "strategy_5_dukascopy_controlled_execution_authorized_command:",
         'rf027_controlled_downloader_merged_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"',
         'rf027_controlled_downloader_dry_run_commit: "a638e49108e05e9618208ca577c6ebd0c74aa4e1"',

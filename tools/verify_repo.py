@@ -34,6 +34,7 @@ LINT_PATHS = (
     "tools/hyp0005_data_feasibility.py",
     "tools/hyp0006_data_feasibility.py",
     "tools/hyp0006_dukascopy_controlled_download.py",
+    "tools/hyp0006_dukascopy_browser_remaining_748.py",
     "src",
     "tests",
 )
@@ -55,6 +56,7 @@ FORMAT_PATHS = (
     "tools/hyp0005_data_feasibility.py",
     "tools/hyp0006_data_feasibility.py",
     "tools/hyp0006_dukascopy_controlled_download.py",
+    "tools/hyp0006_dukascopy_browser_remaining_748.py",
     "src",
     "tests",
 )

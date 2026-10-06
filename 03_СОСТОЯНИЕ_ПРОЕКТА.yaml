@@ -132,9 +132,11 @@ model:
   strategy_5_dukascopy_browser_pilot_test: "tests/test_hyp0006_dukascopy_browser_pilot.py"
   strategy_5_dukascopy_browser_batch_250: "tools/hyp0006_dukascopy_browser_batch_250.py"
   strategy_5_dukascopy_browser_batch_250_test: "tests/test_hyp0006_dukascopy_browser_batch_250.py"
+  strategy_5_dukascopy_browser_remaining_748: "tools/hyp0006_dukascopy_browser_remaining_748.py"
+  strategy_5_dukascopy_browser_remaining_748_test: "tests/test_hyp0006_dukascopy_browser_remaining_748.py"
 
 current:
-  focus: "RF-027 batch-250 detailed JSON/manifest evidence passed for all 250 objects and a zero-network recount confirmed 337 of 1085 canonical BI5 objects present with 748 missing; batch-250 authorization is consumed; no further external batch is authorized; no HYP-0005 or HYP-0006 outcome has been computed"
+  focus: "RF-027 zero-network recount confirmed 337 of 1085 canonical BI5 objects present with exactly 748 missing; OWNER explicitly authorized one one-shot browser-assisted acquisition of all 748 remaining objects under unchanged canonical-source, max-two-attempts and no-fallback rules; implementation is staged for preflight; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-026"
   last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
@@ -650,7 +652,7 @@ research_factory:
   strategy_5_dukascopy_browser_pilot_skipped_count: 0
   strategy_5_dukascopy_browser_pilot_expected_existing_after: 87
   strategy_5_dukascopy_browser_pilot_expected_missing_after: 998
-  strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZATION_REQUIRED"
+  strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZED_REMAINING_748_2026_10_05"
   strategy_5_dukascopy_post_pilot_inventory_status: "CONFIRMED_ZERO_NETWORK"
   strategy_5_dukascopy_post_pilot_inventory_required_object_count: 1085
   strategy_5_dukascopy_post_pilot_inventory_existing_object_count: 87
@@ -686,6 +688,14 @@ research_factory:
   strategy_5_dukascopy_post_batch_250_inventory_downloaded_count: 0
   strategy_5_dukascopy_post_batch_250_inventory_semantic_missing_count: 0
   strategy_5_dukascopy_post_batch_250_inventory_outcome_computed: false
+  strategy_5_dukascopy_browser_remaining_748_status: "OWNER_AUTHORIZED_REMAINING_748_2026_10_05"
+  strategy_5_dukascopy_browser_remaining_748_object_count: 748
+  strategy_5_dukascopy_browser_remaining_748_max_attempts_per_object: 2
+  strategy_5_dukascopy_browser_remaining_748_source_mode: "CANONICAL_BROWSER_ASSISTED_DUKASCOPY_BI5"
+  strategy_5_dukascopy_browser_remaining_748_execution_status: "NOT_YET_EXECUTED"
+  strategy_5_dukascopy_browser_remaining_748_inventory_rule: "REQUIRE_EXACTLY_748_CURRENT_MISSING"
+  strategy_5_dukascopy_browser_remaining_748_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
+  strategy_5_dukascopy_browser_remaining_748_outcome_computed: false
   strategy_5_dukascopy_browser_batch_250_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
   strategy_5_dukascopy_browser_batch_250_outcome_computed: false
   strategy_5_dukascopy_browser_pilot_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"

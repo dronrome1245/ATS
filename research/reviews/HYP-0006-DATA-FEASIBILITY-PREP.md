@@ -367,6 +367,30 @@ Post-batch inventory status:
 
 `CONFIRMED_ZERO_NETWORK`
 
+OWNER then authorized exactly one source-acquisition batch covering all `748` confirmed remaining
+canonical BI5 objects.
+
+Authorization:
+
+`OWNER_AUTHORIZED_REMAINING_748_2026_10_05`
+
+Inventory rule:
+
+`REQUIRE_EXACTLY_748_CURRENT_MISSING`
+
+The remaining-748 runner must require exactly `748` current missing objects, use canonical
+Dukascopy only, permit at most `2` attempts per object, continue with
+`SKIPPED_AFTER_2_ATTEMPTS`, never overwrite an existing object, use no alternate provider/endpoint
+fallback, consume its authorization before the first browser-open and compute no HYP-0006 outcome.
+
+Tool:
+
+`tools/hyp0006_dukascopy_browser_remaining_748.py`
+
+Execution status:
+
+`NOT_YET_EXECUTED`
+
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
