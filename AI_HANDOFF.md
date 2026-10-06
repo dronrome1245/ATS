@@ -459,6 +459,8 @@ Bundle status:
 
 `CONFIRMED_ZERO_NETWORK_COMPLETE`
 
+Bundle completeness: `1085 / 1085`.
+
 Current gate: exact-main `ATS_TASK_CHECK.bat` for RF-027. Any future source request remains
 OWNER-authorized-only.
 Information boundary:
