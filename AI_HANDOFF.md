@@ -319,6 +319,10 @@ Post-pilot inventory status:
 OWNER explicitly authorized one next bounded browser-assisted batch of `250` currently missing
 canonical Dukascopy BI5 objects on 2026-10-05.
 
+Authorization marker:
+
+`OWNER_AUTHORIZED_BROWSER_BATCH_250_2026_10_05`
+
 Frozen batch-250 contract:
 
 - first `250` currently missing objects from the deterministic RF-027 inventory;
