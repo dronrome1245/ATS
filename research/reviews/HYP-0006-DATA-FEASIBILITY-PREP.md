@@ -446,6 +446,8 @@ Bundle status:
 
 `CONFIRMED_ZERO_NETWORK_COMPLETE`
 
+Bundle completeness: `1085 / 1085`.
+
 Current gate: exact-main RF-027 preparation via `ATS_TASK_CHECK.bat`.
 Information boundary:
 
