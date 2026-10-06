@@ -398,10 +398,32 @@ Exact-main execution: `0131dd82d286814adaa76ff6e2524e0d000ca13c`.
 Result: `748` selected / `747` promoted / `1` skipped.
 Execution status: `PARTIAL_747_OF_748_AUTHORIZATION_CONSUMED`.
 
-Repeat execution is prohibited. Expected inventory is `1084 / 1085` present and `1` missing,
-pending detailed JSON review and zero-network recount.
+Repeat execution is prohibited.
 
-Current gate: detailed JSON review, then zero-network recount.
+Detailed evidence review status:
+
+`FULL_JSON_MANIFEST_REVIEW_PASS`
+
+Observed evidence:
+
+- rows checked: `748 / 748`;
+- attempts=1: `746`;
+- attempts=2: `2`;
+- promoted record-count range: `419..31693`;
+- promoted SHA-256 rows: `747`;
+- promoted unique SHA-256: `747`;
+- duplicate promoted SHA-256: `0`;
+- JSON SHA-256:
+  `ba4086fb57e71228e25c9c7ccd443a5bdea3549a9e190d2823b28a284d01c112`;
+- skipped ordinal: `159`;
+- skipped hour: `2011-11-16T11:00:00Z`;
+- skipped final failure: `no_valid_bi5_download_within_45s_attempt_2`;
+- skipped canonical file: `ABSENT`;
+- consumed sentinel validation: `PASS`.
+
+Expected inventory remains `1084 / 1085` present and `1` missing until recount.
+
+Current gate: zero-network inventory recount.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
