@@ -136,7 +136,7 @@ model:
   strategy_5_dukascopy_browser_remaining_748_test: "tests/test_hyp0006_dukascopy_browser_remaining_748.py"
 
 current:
-  focus: "RF-027 zero-network recount confirmed 337 of 1085 canonical BI5 objects present with exactly 748 missing; OWNER explicitly authorized one one-shot browser-assisted acquisition of all 748 remaining objects under unchanged canonical-source, max-two-attempts and no-fallback rules; implementation is staged for preflight; no HYP-0005 or HYP-0006 outcome has been computed"
+  focus: "RF-027 remaining-748 browser acquisition implementation passed exact-head preflight and was merged to main at a8f111ebefe1defa35c201a61253c4ba5c5174d4; authorization remains active, execution is NOT_YET_EXECUTED, and the current gate is an exact-main zero-network 748-object manifest review before the one authorized browser execution; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-026"
   last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
@@ -693,6 +693,7 @@ research_factory:
   strategy_5_dukascopy_browser_remaining_748_max_attempts_per_object: 2
   strategy_5_dukascopy_browser_remaining_748_source_mode: "CANONICAL_BROWSER_ASSISTED_DUKASCOPY_BI5"
   strategy_5_dukascopy_browser_remaining_748_execution_status: "NOT_YET_EXECUTED"
+  rf027_browser_remaining_748_merged_commit: "a8f111ebefe1defa35c201a61253c4ba5c5174d4"
   strategy_5_dukascopy_browser_remaining_748_inventory_rule: "REQUIRE_EXACTLY_748_CURRENT_MISSING"
   strategy_5_dukascopy_browser_remaining_748_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
   strategy_5_dukascopy_browser_remaining_748_outcome_computed: false
