@@ -293,6 +293,10 @@ Post-batch inventory status:
 OWNER explicitly authorized one next one-shot browser-assisted acquisition of all confirmed `748`
 remaining canonical BI5 objects.
 
+Authorization marker:
+
+`OWNER_AUTHORIZED_REMAINING_748_2026_10_05`
+
 Frozen remaining-748 scope:
 
 - exactly all `748` current missing deterministic RF-027 objects;
