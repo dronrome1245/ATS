@@ -136,7 +136,7 @@ model:
   strategy_5_dukascopy_browser_remaining_748_test: "tests/test_hyp0006_dukascopy_browser_remaining_748.py"
 
 current:
-  focus: "RF-027 one-shot remaining-748 acquisition executed once on exact-main 0131dd82d286814adaa76ff6e2524e0d000ca13c with 748 selected, 747 promoted and 1 skipped after two attempts; authorization is consumed; arithmetic expected local inventory is 1084 of 1085 present and 1 missing pending detailed JSON review and zero-network recount; no repeat is authorized; no HYP-0005 or HYP-0006 outcome has been computed"
+  focus: "RF-027 detailed remaining-748 evidence review passed for all 748 rows: 747 promoted, 1 skipped, attempts=1 for 746 rows and attempts=2 for 2 rows; skipped object is ordinal 159 at 2011-11-16T11:00:00Z with canonical file absent; authorization remains consumed and the current gate is zero-network inventory recount; no new source request is authorized; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-026"
   last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
@@ -704,6 +704,23 @@ research_factory:
   strategy_5_dukascopy_browser_remaining_748_skipped_count: 1
   strategy_5_dukascopy_browser_remaining_748_expected_existing_after: 1084
   strategy_5_dukascopy_browser_remaining_748_expected_missing_after: 1
+  strategy_5_dukascopy_browser_remaining_748_evidence_status: "FULL_JSON_MANIFEST_REVIEW_PASS"
+  strategy_5_dukascopy_browser_remaining_748_evidence_review_commit: "b4802ea909ff7c2436f43f817bf0160dbb67cffc"
+  strategy_5_dukascopy_browser_remaining_748_attempts_1_count: 746
+  strategy_5_dukascopy_browser_remaining_748_attempts_2_count: 2
+  strategy_5_dukascopy_browser_remaining_748_record_count_min: 419
+  strategy_5_dukascopy_browser_remaining_748_record_count_max: 31693
+  strategy_5_dukascopy_browser_remaining_748_promoted_sha256_count: 747
+  strategy_5_dukascopy_browser_remaining_748_promoted_sha256_unique_count: 747
+  strategy_5_dukascopy_browser_remaining_748_promoted_sha256_duplicate_count: 0
+  strategy_5_dukascopy_browser_remaining_748_json_sha256: "ba4086fb57e71228e25c9c7ccd443a5bdea3549a9e190d2823b28a284d01c112"
+  strategy_5_dukascopy_browser_remaining_748_skipped_ordinal: 159
+  strategy_5_dukascopy_browser_remaining_748_skipped_hour: "2011-11-16T11:00:00Z"
+  strategy_5_dukascopy_browser_remaining_748_skipped_source_url: "https://datafeed.dukascopy.com/datafeed/EURUSD/2011/10/16/11h_ticks.bi5"
+  strategy_5_dukascopy_browser_remaining_748_skipped_local_path: "data/raw/dukascopy/hyp0006/EURUSD/2011/11/16/11h_ticks.bi5"
+  strategy_5_dukascopy_browser_remaining_748_skipped_failure: "no_valid_bi5_download_within_45s_attempt_2"
+  strategy_5_dukascopy_browser_remaining_748_skipped_file_status: "ABSENT"
+  strategy_5_dukascopy_browser_remaining_748_consumed_sentinel_status: "VALIDATED_PASS"
   strategy_5_dukascopy_browser_remaining_748_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
   strategy_5_dukascopy_browser_remaining_748_outcome_computed: false
   strategy_5_dukascopy_browser_batch_250_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
