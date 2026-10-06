@@ -387,9 +387,16 @@ Tool:
 
 `tools/hyp0006_dukascopy_browser_remaining_748.py`
 
+Implementation merge:
+
+`a8f111ebefe1defa35c201a61253c4ba5c5174d4`
+
 Execution status:
 
 `NOT_YET_EXECUTED`
+
+Current gate: exact-main zero-network remaining-748 manifest review. Browser execution must not
+start before that manifest review.
 
 Information boundary:
 

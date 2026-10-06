@@ -313,8 +313,11 @@ Status:
 
 `OWNER_AUTHORIZED_REMAINING_748_2026_10_05 / NOT_YET_EXECUTED`
 
-Current gate is exact-head implementation preflight, then merge and exact-main zero-network
-remaining-748 manifest review before the one authorized execution.
+The remaining-748 implementation passed exact-head preflight and was squash-merged to `main` at
+`a8f111ebefe1defa35c201a61253c4ba5c5174d4`.
+
+Current gate is the exact-main zero-network remaining-748 manifest review before the one authorized
+execution. The existing OWNER authorization remains active.
 
 Information boundary remains:
 

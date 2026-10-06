@@ -407,9 +407,13 @@ Execution status:
 
 `NOT_YET_EXECUTED`
 
-Current gate: exact-head preflight of the implementation branch. After merge, run only the
-exact-main zero-network remaining-748 manifest; execute the authorized browser batch once only after
-manifest review.
+The remaining-748 implementation passed exact-head preflight and was squash-merged to `main` at:
+
+`a8f111ebefe1defa35c201a61253c4ba5c5174d4`
+
+Current gate: run only the exact-main zero-network remaining-748 manifest and review the deterministic
+748-object selection. Browser execution must not start before that manifest review. The existing
+OWNER authorization remains active and does not need to be reissued.
 
 Information boundary:
 
