@@ -293,10 +293,16 @@ Synthetic tests:
 
 `tests/test_hyp0006_dukascopy_browser_remaining_748.py`
 
-Execution status:
+Manifest status: `MANIFEST_REVIEW_PASS_748_OF_748`.
+Manifest SHA-256: `a0d35fef473552dce8776ecbd83bf16270ecbb9767333e0fda7cc512a8b7e0f4`.
 
-`NOT_YET_EXECUTED`
+Exact-main execution: `0131dd82d286814adaa76ff6e2524e0d000ca13c`.
+Result: `748` selected / `747` promoted / `1` skipped.
+Execution status: `PARTIAL_747_OF_748_AUTHORIZATION_CONSUMED`.
 
+The one-shot authorization is consumed and the same batch must not be rerun.
+Expected inventory is `1084 / 1085` present and `1` missing pending detailed JSON review and
+zero-network recount.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
