@@ -411,10 +411,29 @@ Exact-main execution: `0131dd82d286814adaa76ff6e2524e0d000ca13c`.
 Manifest SHA-256: `a0d35fef473552dce8776ecbd83bf16270ecbb9767333e0fda7cc512a8b7e0f4`.
 Result: `748` selected / `747` promoted / `1` skipped.
 
-Repeat execution is prohibited. Arithmetic expected inventory is `1084 / 1085` present and `1`
-missing pending detailed JSON review and zero-network recount.
+Repeat execution is prohibited.
 
-Current gate: detailed JSON review of all `748` rows, then zero-network recount.
+Detailed evidence review passed for all `748 / 748` rows:
+
+- attempts=1: `746`;
+- attempts=2: `2`;
+- promoted record-count range: `419..31693`;
+- promoted SHA-256: `747/747` unique;
+- JSON SHA-256:
+  `ba4086fb57e71228e25c9c7ccd443a5bdea3549a9e190d2823b28a284d01c112`;
+- skipped object: ordinal `159`, `2011-11-16T11:00:00Z`;
+- skipped URL:
+  `https://datafeed.dukascopy.com/datafeed/EURUSD/2011/10/16/11h_ticks.bi5`;
+- skipped canonical path:
+  `data/raw/dukascopy/hyp0006/EURUSD/2011/11/16/11h_ticks.bi5`;
+- final failure: `no_valid_bi5_download_within_45s_attempt_2`;
+- skipped canonical file: `ABSENT`;
+- consumed sentinel: `VALIDATED_PASS`.
+
+Arithmetic expected inventory remains `1084 / 1085` present and `1` missing until recount.
+
+Current gate: zero-network inventory recount. No new source authorization is required for that
+offline recount. Any new browser/source request remains OWNER-authorized-only.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
