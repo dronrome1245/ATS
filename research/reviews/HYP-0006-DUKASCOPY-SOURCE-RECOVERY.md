@@ -403,14 +403,15 @@ the frozen `DUKASCOPY_HOURLY_TICK_BI5` source contract.
 
 ## Current gate
 
-The detailed remaining-748 evidence review passed for all `748 / 748` rows. The one skipped object
-is proven as ordinal `159`, hour `2011-11-16T11:00:00Z`, with the canonical file absent.
+The final missing BI5 was supplied by OWNER, independently decoder-validated, and copied
+byte-for-byte into its canonical local path. The subsequent zero-network recount confirmed all
+`1085 / 1085` required canonical BI5 objects present with `0` missing.
 
-Current action: perform a zero-network inventory recount to confirm the expected `1084 / 1085`
-present and `1` missing state.
+Current action: run exact-main `ATS_TASK_CHECK.bat` for RF-027 so the offline preparation can
+produce and validate its geometry/preparation artifacts.
 
-No repeat execution or new source request is authorized. The frozen source identity and research
-rules remain unchanged.
+No repeat acquisition execution or new source request is authorized. The frozen source identity and
+research rules remain unchanged.
 
 Only after an approved frozen local BI5 bundle is complete enough for RF-027 and exact-main
 `ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS` may
