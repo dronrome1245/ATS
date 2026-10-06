@@ -301,8 +301,31 @@ Result: `748` selected / `747` promoted / `1` skipped.
 Execution status: `PARTIAL_747_OF_748_AUTHORIZATION_CONSUMED`.
 
 The one-shot authorization is consumed and the same batch must not be rerun.
-Expected inventory is `1084 / 1085` present and `1` missing pending detailed JSON review and
-zero-network recount.
+
+Detailed evidence review status:
+
+`FULL_JSON_MANIFEST_REVIEW_PASS`
+
+Observed evidence:
+
+- rows checked: `748 / 748`;
+- attempts=1: `746`;
+- attempts=2: `2`;
+- promoted record-count range: `419..31693`;
+- promoted SHA-256: `747 / 747` unique;
+- JSON SHA-256:
+  `ba4086fb57e71228e25c9c7ccd443a5bdea3549a9e190d2823b28a284d01c112`;
+- skipped ordinal: `159`;
+- skipped hour: `2011-11-16T11:00:00Z`;
+- skipped source URL:
+  `https://datafeed.dukascopy.com/datafeed/EURUSD/2011/10/16/11h_ticks.bi5`;
+- skipped canonical path:
+  `data/raw/dukascopy/hyp0006/EURUSD/2011/11/16/11h_ticks.bi5`;
+- final failure: `no_valid_bi5_download_within_45s_attempt_2`;
+- skipped canonical file: `ABSENT`;
+- consumed sentinel validation: `PASS`.
+
+Expected inventory remains `1084 / 1085` present and `1` missing until recount.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
@@ -359,11 +382,11 @@ the frozen `DUKASCOPY_HOURLY_TICK_BI5` source contract.
 
 ## Current gate
 
-The one authorized remaining-748 execution is complete with `747 / 748` promoted and `1` skipped.
-Its authorization is consumed.
+The detailed remaining-748 evidence review passed for all `748 / 748` rows. The one skipped object
+is proven as ordinal `159`, hour `2011-11-16T11:00:00Z`, with the canonical file absent.
 
-Current action: review all `748` detailed JSON rows, identify the skipped object and its failure
-metadata, then perform a zero-network inventory recount.
+Current action: perform a zero-network inventory recount to confirm the expected `1084 / 1085`
+present and `1` missing state.
 
 No repeat execution or new source request is authorized. The frozen source identity and research
 rules remain unchanged.
