@@ -26,10 +26,7 @@ def test_remaining_inventory_selects_exact_748_missing(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     start = datetime(2010, 1, 1, tzinfo=UTC)
-    rows = [
-        inventory_row(start + timedelta(hours=index), exists=index < 7)
-        for index in range(755)
-    ]
+    rows = [inventory_row(start + timedelta(hours=index), exists=index < 7) for index in range(755)]
     monkeypatch.setattr(
         controlled,
         "build_inventory",
