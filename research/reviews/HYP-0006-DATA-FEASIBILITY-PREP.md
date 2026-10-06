@@ -391,13 +391,17 @@ Implementation merge:
 
 `a8f111ebefe1defa35c201a61253c4ba5c5174d4`
 
-Execution status:
+Manifest status: `MANIFEST_REVIEW_PASS_748_OF_748`.
+Manifest SHA-256: `a0d35fef473552dce8776ecbd83bf16270ecbb9767333e0fda7cc512a8b7e0f4`.
 
-`NOT_YET_EXECUTED`
+Exact-main execution: `0131dd82d286814adaa76ff6e2524e0d000ca13c`.
+Result: `748` selected / `747` promoted / `1` skipped.
+Execution status: `PARTIAL_747_OF_748_AUTHORIZATION_CONSUMED`.
 
-Current gate: exact-main zero-network remaining-748 manifest review. Browser execution must not
-start before that manifest review.
+Repeat execution is prohibited. Expected inventory is `1084 / 1085` present and `1` missing,
+pending detailed JSON review and zero-network recount.
 
+Current gate: detailed JSON review, then zero-network recount.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`

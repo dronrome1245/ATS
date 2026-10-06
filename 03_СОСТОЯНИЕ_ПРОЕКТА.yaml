@@ -136,7 +136,7 @@ model:
   strategy_5_dukascopy_browser_remaining_748_test: "tests/test_hyp0006_dukascopy_browser_remaining_748.py"
 
 current:
-  focus: "RF-027 remaining-748 browser acquisition implementation passed exact-head preflight and was merged to main at a8f111ebefe1defa35c201a61253c4ba5c5174d4; authorization remains active, execution is NOT_YET_EXECUTED, and the current gate is an exact-main zero-network 748-object manifest review before the one authorized browser execution; no HYP-0005 or HYP-0006 outcome has been computed"
+  focus: "RF-027 one-shot remaining-748 acquisition executed once on exact-main 0131dd82d286814adaa76ff6e2524e0d000ca13c with 748 selected, 747 promoted and 1 skipped after two attempts; authorization is consumed; arithmetic expected local inventory is 1084 of 1085 present and 1 missing pending detailed JSON review and zero-network recount; no repeat is authorized; no HYP-0005 or HYP-0006 outcome has been computed"
   last_completed_task_id: "ATS2-RF-026"
   last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
@@ -652,7 +652,7 @@ research_factory:
   strategy_5_dukascopy_browser_pilot_skipped_count: 0
   strategy_5_dukascopy_browser_pilot_expected_existing_after: 87
   strategy_5_dukascopy_browser_pilot_expected_missing_after: 998
-  strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZED_REMAINING_748_2026_10_05"
+  strategy_5_dukascopy_next_external_batch_status: "OWNER_AUTHORIZATION_REQUIRED"
   strategy_5_dukascopy_post_pilot_inventory_status: "CONFIRMED_ZERO_NETWORK"
   strategy_5_dukascopy_post_pilot_inventory_required_object_count: 1085
   strategy_5_dukascopy_post_pilot_inventory_existing_object_count: 87
@@ -688,13 +688,22 @@ research_factory:
   strategy_5_dukascopy_post_batch_250_inventory_downloaded_count: 0
   strategy_5_dukascopy_post_batch_250_inventory_semantic_missing_count: 0
   strategy_5_dukascopy_post_batch_250_inventory_outcome_computed: false
-  strategy_5_dukascopy_browser_remaining_748_status: "OWNER_AUTHORIZED_REMAINING_748_2026_10_05"
+  strategy_5_dukascopy_browser_remaining_748_status: "PARTIAL_747_OF_748_AUTHORIZATION_CONSUMED"
+  strategy_5_dukascopy_browser_remaining_748_authorization_record: "OWNER_AUTHORIZED_REMAINING_748_2026_10_05"
   strategy_5_dukascopy_browser_remaining_748_object_count: 748
   strategy_5_dukascopy_browser_remaining_748_max_attempts_per_object: 2
   strategy_5_dukascopy_browser_remaining_748_source_mode: "CANONICAL_BROWSER_ASSISTED_DUKASCOPY_BI5"
-  strategy_5_dukascopy_browser_remaining_748_execution_status: "NOT_YET_EXECUTED"
+  strategy_5_dukascopy_browser_remaining_748_execution_status: "COMPLETE_747_PROMOTED_1_SKIPPED"
   rf027_browser_remaining_748_merged_commit: "a8f111ebefe1defa35c201a61253c4ba5c5174d4"
+  strategy_5_dukascopy_browser_remaining_748_execution_commit: "0131dd82d286814adaa76ff6e2524e0d000ca13c"
   strategy_5_dukascopy_browser_remaining_748_inventory_rule: "REQUIRE_EXACTLY_748_CURRENT_MISSING"
+  strategy_5_dukascopy_browser_remaining_748_manifest_status: "MANIFEST_REVIEW_PASS_748_OF_748"
+  strategy_5_dukascopy_browser_remaining_748_manifest_sha256: "a0d35fef473552dce8776ecbd83bf16270ecbb9767333e0fda7cc512a8b7e0f4"
+  strategy_5_dukascopy_browser_remaining_748_selected_count: 748
+  strategy_5_dukascopy_browser_remaining_748_promoted_count: 747
+  strategy_5_dukascopy_browser_remaining_748_skipped_count: 1
+  strategy_5_dukascopy_browser_remaining_748_expected_existing_after: 1084
+  strategy_5_dukascopy_browser_remaining_748_expected_missing_after: 1
   strategy_5_dukascopy_browser_remaining_748_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"
   strategy_5_dukascopy_browser_remaining_748_outcome_computed: false
   strategy_5_dukascopy_browser_batch_250_fallback_policy: "NO_ALTERNATE_HOSTNAME_MIRROR_PROXY_OR_PROVIDER"

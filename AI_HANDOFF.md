@@ -405,16 +405,16 @@ Authorization marker:
 
 Execution status:
 
-`NOT_YET_EXECUTED`
+`PARTIAL_747_OF_748_AUTHORIZATION_CONSUMED`
 
-The remaining-748 implementation passed exact-head preflight and was squash-merged to `main` at:
+Exact-main execution: `0131dd82d286814adaa76ff6e2524e0d000ca13c`.
+Manifest SHA-256: `a0d35fef473552dce8776ecbd83bf16270ecbb9767333e0fda7cc512a8b7e0f4`.
+Result: `748` selected / `747` promoted / `1` skipped.
 
-`a8f111ebefe1defa35c201a61253c4ba5c5174d4`
+Repeat execution is prohibited. Arithmetic expected inventory is `1084 / 1085` present and `1`
+missing pending detailed JSON review and zero-network recount.
 
-Current gate: run only the exact-main zero-network remaining-748 manifest and review the deterministic
-748-object selection. Browser execution must not start before that manifest review. The existing
-OWNER authorization remains active and does not need to be reissued.
-
+Current gate: detailed JSON review of all `748` rows, then zero-network recount.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
