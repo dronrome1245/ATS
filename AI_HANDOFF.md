@@ -434,10 +434,33 @@ Detailed evidence review passed for all `748 / 748` rows:
 - skipped canonical file: `ABSENT`;
 - consumed sentinel: `VALIDATED_PASS`.
 
-Arithmetic expected inventory remains `1084 / 1085` present and `1` missing until recount.
+OWNER supplied the final missing BI5 for `2011-11-16T11:00:00Z`. It was independently validated
+with the frozen RF-027 decoder and copied byte-for-byte into the canonical local path.
 
-Current gate: zero-network inventory recount. No new source authorization is required for that
-offline recount. Any new browser/source request remains OWNER-authorized-only.
+Final-object intake evidence:
+
+- SHA-256:
+  `391a35cff2d48ea3a62e4121cda94a244b5d793d49354080cd77c5696d172de7`;
+- decoder: `PASS`;
+- record count: `6810`;
+- destination existed before intake: `NO`;
+- destination hash after intake: identical.
+
+A post-intake zero-network recount confirmed:
+
+- required: `1085`;
+- existing: `1085`;
+- missing: `0`;
+- network requests: `0`;
+- downloaded: `0`;
+- semantic missing: `0`.
+
+Bundle status:
+
+`CONFIRMED_ZERO_NETWORK_COMPLETE`
+
+Current gate: exact-main `ATS_TASK_CHECK.bat` for RF-027. Any future source request remains
+OWNER-authorized-only.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
