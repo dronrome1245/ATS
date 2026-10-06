@@ -31,14 +31,11 @@ DEFAULT_WAIT_SECONDS = 45
 
 STATE_PATH = ROOT / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
 ACTIVE_AUTHORIZATION_MARKER = (
-    'strategy_5_dukascopy_browser_remaining_748_status: '
-    '"OWNER_AUTHORIZED_REMAINING_748_2026_10_05"'
+    'strategy_5_dukascopy_browser_remaining_748_status: "OWNER_AUTHORIZED_REMAINING_748_2026_10_05"'
 )
 
 REPORT_JSON = ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_BROWSER_REMAINING_748.json"
-REPORT_TEXT = (
-    ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_BROWSER_REMAINING_748_REPORT.txt"
-)
+REPORT_TEXT = ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_BROWSER_REMAINING_748_REPORT.txt"
 BATCH_MANIFEST_CSV = (
     ROOT / "reports" / "local_ci" / "HYP0006_DUKASCOPY_BROWSER_REMAINING_748_MANIFEST.csv"
 )
@@ -92,7 +89,9 @@ def run_remaining(
     opener: Callable[[str], bool] = browser.open_browser_tab,
 ) -> dict[str, object]:
     if not canonical_authorization_is_active():
-        raise BrowserRemainingError("remaining 748 browser authorization is not active in canonical state")
+        raise BrowserRemainingError(
+            "remaining 748 browser authorization is not active in canonical state"
+        )
     if CONSUMED_SENTINEL.exists():
         raise BrowserRemainingError("remaining 748 browser authorization has already been consumed")
     if not downloads_dir.is_dir():
@@ -211,10 +210,7 @@ def write_reports(report: dict[str, object]) -> None:
         f"Git commit: {report['git_commit']}",
         f"Objects selected: {report['objects_selected']}",
         f"Objects promoted: {report['objects_promoted']}",
-        (
-            "Objects skipped after two attempts: "
-            f"{report['objects_skipped_after_two_attempts']}"
-        ),
+        (f"Objects skipped after two attempts: {report['objects_skipped_after_two_attempts']}"),
         f"Max attempts/object: {report['max_attempts_per_object']}",
         "Hypothesis outcome computed: NO",
         f"Information boundary: {report['information_boundary']}",
