@@ -356,10 +356,13 @@ the frozen `DUKASCOPY_HOURLY_TICK_BI5` source contract.
 The batch-250 evidence review and zero-network recount are complete, and OWNER has authorized one
 remaining-748 acquisition under the frozen contract above.
 
-Current action is implementation exact-head preflight. After merge, the next gate is an exact-main
-zero-network manifest proving the deterministic `748`-object selection. Browser execution must not
-start before that manifest review. The frozen source identity and all research rules remain
-unchanged.
+The remaining-748 implementation passed exact-head preflight and was squash-merged to `main` at:
+
+`a8f111ebefe1defa35c201a61253c4ba5c5174d4`
+
+Current action is an exact-main zero-network manifest proving the deterministic `748`-object
+selection. Browser execution must not start before that manifest review. The frozen source identity,
+authorization and all research rules remain unchanged.
 
 Only after an approved frozen local BI5 bundle is complete enough for RF-027 and exact-main
 `ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS` may
