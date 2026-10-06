@@ -325,7 +325,28 @@ Observed evidence:
 - skipped canonical file: `ABSENT`;
 - consumed sentinel validation: `PASS`.
 
-Expected inventory remains `1084 / 1085` present and `1` missing until recount.
+OWNER subsequently supplied the final missing BI5 for `2011-11-16T11:00:00Z`.
+
+Final manual intake evidence:
+
+- canonical source URL:
+  `https://datafeed.dukascopy.com/datafeed/EURUSD/2011/10/16/11h_ticks.bi5`;
+- canonical local path:
+  `data/raw/dukascopy/hyp0006/EURUSD/2011/11/16/11h_ticks.bi5`;
+- SHA-256:
+  `391a35cff2d48ea3a62e4121cda94a244b5d793d49354080cd77c5696d172de7`;
+- frozen decoder: `PASS`;
+- record count: `6810`;
+- destination existed before intake: `NO`;
+- byte-preserving copy: `PASS`.
+
+A post-intake zero-network recount confirmed `1085 / 1085` required canonical BI5 objects present
+and `0` missing, with `0` network requests, `0` downloaded and `0` semantic missing.
+
+Bundle status:
+
+`CONFIRMED_ZERO_NETWORK_COMPLETE`
+
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
