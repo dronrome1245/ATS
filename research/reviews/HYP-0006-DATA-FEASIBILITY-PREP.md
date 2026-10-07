@@ -448,7 +448,45 @@ Bundle status:
 
 Bundle completeness: `1085 / 1085`.
 
-Current gate: exact-main RF-027 preparation via `ATS_TASK_CHECK.bat`.
+## Exact-main RF-027 completion
+
+Exact-main commit:
+
+`bbbdbd301b610dfc61316c9ff82015fb0e039a47`
+
+Completion gates:
+
+- `ATS CURRENT TASK CHECK: PASS`;
+- `ATS TASK LAUNCHER: PASS`;
+- Local CI: `PASS`;
+- preparation decision: `READY_FOR_DATA_FEASIBILITY_FREEZE`.
+
+Final preparation evidence:
+
+- BLS snapshots: `19`;
+- candidate/resolved CPI events: `217 / 217`;
+- complete timestamp-geometry events: `217 / 217`;
+- required/acquired BI5 objects: `1085 / 1085`;
+- missing BI5 objects: `0`;
+- protected HYP-0005 source requests: `0`;
+- BLS snapshot manifest SHA-256:
+  `3837c463b36914c2276e9985a8a70a8ead13ca0e4b16901a22cb4fd2dece6ee4`;
+- BLS snapshot bundle SHA-256:
+  `5306799d4c4196941d701e661df2fa4255682783b966e7bcfd69f702a1ead341`;
+- BLS calendar SHA-256:
+  `646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9`;
+- source bundle SHA-256:
+  `5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425`;
+- geometry CSV SHA-256:
+  `e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034`.
+
+RF-027 outcome metrics computed: `NO`.
+RF-027 primary claim evaluated: `NO`.
+
+Current gate:
+
+`ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`.
+
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
