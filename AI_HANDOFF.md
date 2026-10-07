@@ -213,6 +213,10 @@ Current task:
 
 `ATS2-RF-028`
 
+Current artifact:
+
+`research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md`
+
 Frozen RF-028 boundary limits before first reveal:
 
 - `t-60m` and `t+60m`: nearest tick within `30,000 ms`, ties to previous;
