@@ -442,7 +442,7 @@ research_factory:
     - "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
   current_task: "ATS2-RF-028"
   current_wbs: "WBS-RF.2"
-  next_task: "TBD_AFTER_RF028_PASS"
+  next_task: "UNASSIGNED_UNTIL_RF028_PASS"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
