@@ -129,6 +129,10 @@ If multiple raw Dukascopy records share the selected millisecond timestamp:
 
 BID and ASK must come from the same raw `>IIIff` tick record.
 
+Frozen pairing rule:
+
+`BID_AND_ASK_FROM_SAME_RAW_TICK_RECORD`
+
 No side mixing, interpolation, forward fill or synthetic spread repair is allowed.
 
 ## 5. Frozen event eligibility
