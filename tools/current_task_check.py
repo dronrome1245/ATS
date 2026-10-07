@@ -30,6 +30,8 @@ LOCAL_RESULT = Path("reports/local_ci/HYP0006_DATA_TOLERANCE_FREEZE.json")
 RF027_COMMIT = "bbbdbd301b610dfc61316c9ff82015fb0e039a47"
 EXPECTED_SOURCE_BUNDLE_SHA256 = "5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425"
 EXPECTED_GEOMETRY_SHA256 = "e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034"
+EXPECTED_BLS_MANIFEST_SHA256 = "3837c463b36914c2276e9985a8a70a8ead13ca0e4b16901a22cb4fd2dece6ee4"
+EXPECTED_BLS_BUNDLE_SHA256 = "5306799d4c4196941d701e661df2fa4255682783b966e7bcfd69f702a1ead341"
 EXPECTED_BLS_CALENDAR_SHA256 = "646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9"
 EXPECTED_EVENT_COUNT = 217
 BOUNDARY_MAX_ABS_GAP_MS = 30_000
@@ -239,6 +241,13 @@ def validate_result(payload: dict[str, Any], commit: str) -> bool:
         "dataset_id": "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001",
         "dataset_version": "1.0.0",
         "evidence_classification": "DEVELOPMENT_EXPLORATORY_ONLY",
+        "development_start": "2003-08-03T21:00:00Z",
+        "development_end_exclusive": "2021-09-01T00:00:00Z",
+        "event_inventory_source": "BLS_FROZEN_LOCAL_ANNUAL_SCHEDULE_SNAPSHOTS",
+        "event_time_source": "BLS_ANNUAL_SCHEDULE_US_EASTERN",
+        "quote_source": "DUKASCOPY_HOURLY_TICK_BI5",
+        "bls_snapshot_manifest_sha256": EXPECTED_BLS_MANIFEST_SHA256,
+        "bls_snapshot_bundle_sha256": EXPECTED_BLS_BUNDLE_SHA256,
         "bls_calendar_csv_sha256": EXPECTED_BLS_CALENDAR_SHA256,
         "source_bundle_sha256": EXPECTED_SOURCE_BUNDLE_SHA256,
         "geometry_csv_sha256": EXPECTED_GEOMETRY_SHA256,
@@ -281,9 +290,50 @@ def validate_result(payload: dict[str, Any], commit: str) -> bool:
     if not isinstance(eligible_ids, list) or len(eligible_ids) != eligible:
         print("[FAIL] RF-028 eligible_event_ids length mismatch", flush=True)
         passed = False
+        eligible_ids = []
     if not isinstance(ineligible_events, list) or len(ineligible_events) != ineligible:
         print("[FAIL] RF-028 ineligible_events length mismatch", flush=True)
         passed = False
+        ineligible_events = []
+
+    if len(set(eligible_ids)) != len(eligible_ids):
+        print("[FAIL] RF-028 duplicate eligible event IDs", flush=True)
+        passed = False
+
+    ineligible_ids = [
+        item.get("event_id")
+        for item in ineligible_events
+        if isinstance(item, dict) and isinstance(item.get("event_id"), str)
+    ]
+    if len(ineligible_ids) != len(ineligible_events):
+        print("[FAIL] RF-028 malformed ineligible event identity", flush=True)
+        passed = False
+    if len(set(ineligible_ids)) != len(ineligible_ids):
+        print("[FAIL] RF-028 duplicate ineligible event IDs", flush=True)
+        passed = False
+    if set(eligible_ids) & set(ineligible_ids):
+        print("[FAIL] RF-028 eligible/ineligible event overlap", flush=True)
+        passed = False
+    if len(set(eligible_ids) | set(ineligible_ids)) != EXPECTED_EVENT_COUNT:
+        print("[FAIL] RF-028 frozen event-ID denominator does not equal 217", flush=True)
+        passed = False
+
+    geometry_evaluations = payload.get("geometry_evaluations")
+    if not isinstance(geometry_evaluations, list) or len(geometry_evaluations) != EXPECTED_EVENT_COUNT:
+        print("[FAIL] RF-028 geometry_evaluations length mismatch", flush=True)
+        passed = False
+    else:
+        evaluation_ids = [
+            item.get("event_id")
+            for item in geometry_evaluations
+            if isinstance(item, dict) and isinstance(item.get("event_id"), str)
+        ]
+        if len(evaluation_ids) != EXPECTED_EVENT_COUNT or len(set(evaluation_ids)) != EXPECTED_EVENT_COUNT:
+            print("[FAIL] RF-028 geometry evaluation identities invalid", flush=True)
+            passed = False
+        elif set(evaluation_ids) != (set(eligible_ids) | set(ineligible_ids)):
+            print("[FAIL] RF-028 geometry evaluations do not match frozen denominator", flush=True)
+            passed = False
 
     for forbidden in (
         "pre_abs_60m_return",
