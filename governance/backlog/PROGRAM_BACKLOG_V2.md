@@ -76,10 +76,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 61. `ATS2-RF-024` — HYP-0005 confirmatory Data Feasibility freeze — `BLOCKED` pending RF-023 exact-main preparation result.
 62. `ATS2-RF-025` — Parallel Strategy #5 Idea Intake + HYP-0006 formation — `DONE / PASS`.
 63. `ATS2-RF-026` — HYP-0006 Data Feasibility — `DONE / PASS`.
-64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation with frozen local BLS + Dukascopy snapshots — `SOURCE-BLOCKED`.
-65. `ATS2-RF-028` — HYP-0006 pre-reveal data/tolerance freeze — `BLOCKED` pending RF-027 exact-main preparation result.
+64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation with frozen local BLS + Dukascopy snapshots — `DONE / PASS`.
+65. `ATS2-RF-028` — HYP-0006 pre-reveal data/tolerance freeze — `READY`.
 
-Program-level current next task — `ATS2-RF-027`.
+Program-level current next task — `ATS2-RF-028`.
 
 
 RF-027 source architecture is now frozen to local official BLS schedule snapshots rather than live
@@ -472,51 +472,57 @@ RF-023 is structurally `READY` but execution is temporarily blocked by external 
 | `ATS2-RF-024` | `WBS-RF.2` | P1 | BLOCKED | RF-023 exact-main preparation result | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest/schema when permitted | Canonicalize the exact RF-023 machine result and freeze the Data Feasibility decision/dataset identity; do not compute HYP-0005 primary outcome |
 | `ATS2-RF-025` | `WBS-RF.2` | P1 | DONE / PASS | RF-022 PASS; retained `S4-FAM-02` sourcing provenance; RF-023 may remain externally blocked | `research/ideas/IDEA-0005.md` + `research/hypotheses/HYP-0006.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `9b0a6c8898a7ebf9b03167a871ad02af96ca2807` registered IDEA-0005/HYP-0006 as two Material Research Attempts while preserving HYP-0005 and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-026` | `WBS-RF.2` | P1 | DONE / PASS | RF-025 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `5e0ff9e4481e5dc28c14a73adcf32433715973a3` recorded `CONDITIONAL` feasibility, frozen the development interval and source/timing constraints, and retained `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
-| `ATS2-RF-027` | `WBS-RF.2` | P1 | SOURCE-BLOCKED | RF-026 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md` + `tools/hyp0006_data_feasibility.py` + synthetic tests + local machine result | Machine-verify the full BLS CPI archive denominator, official release-time conversion, annual-schedule cross-check, bounded Dukascopy EUR/USD tick coverage, quote integrity and timestamp-only anchor geometry; prohibit prices/returns/P&L in the derived geometry dataset and retain zero HYP-0005 protected requests |
-| `ATS2-RF-028` | `WBS-RF.2` | P1 | BLOCKED | RF-027 exact-main preparation result | canonical RF-027 result + frozen HYP-0006 development dataset/tolerance contract | Freeze exact event/source identities, eligible-event denominator, numeric anchor tolerances and dataset hashes before any HYP-0006 outcome calculation |
+| `ATS2-RF-027` | `WBS-RF.2` | P1 | DONE / PASS | RF-026 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md` + `tools/hyp0006_data_feasibility.py` + synthetic tests + local machine result | Exact-main PASS on `bbbdbd301b610dfc61316c9ff82015fb0e039a47` returned `READY_FOR_DATA_FEASIBILITY_FREEZE`, `217/217` complete timestamp-geometry events, `1085/1085` required BI5 objects, zero protected HYP-0005 requests and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
+| `ATS2-RF-028` | `WBS-RF.2` | P1 | READY | RF-027 exact-main PASS | `research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md` + `tools/hyp0006_data_tolerance_freeze.py` + synthetic tests + local freeze result | Freeze exact event/source identities, mechanical eligible-event denominator, `30,000 ms` anchor-gap/staleness limits, deterministic tie-breaks and dataset hashes before any HYP-0006 outcome calculation |
 
 ## 8. Следующий шаг
 
 Current executable program-level task:
 
-`ATS2-RF-027 — HYP-0006 Data Feasibility preparation`.
+`ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`.
 
-RF-026 exact-main OWNER PASS:
+RF-027 exact-main PASS:
 
-`5e0ff9e4481e5dc28c14a73adcf32433715973a3`
+`bbbdbd301b610dfc61316c9ff82015fb0e039a47`
 
-RF-027 protocol:
+RF-027 decision:
 
-`research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md`
+`READY_FOR_DATA_FEASIBILITY_FREEZE`
+
+Observed pre-outcome evidence:
+
+- candidate/resolved/complete-geometry events: `217 / 217 / 217`;
+- required/acquired BI5 objects: `1085 / 1085`;
+- missing BI5 objects: `0`;
+- protected HYP-0005 source requests: `0`;
+- source bundle SHA-256:
+  `5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425`;
+- geometry CSV SHA-256:
+  `e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034`.
+
+RF-028 protocol:
+
+`research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md`
 
 Tool:
 
-`tools/hyp0006_data_feasibility.py`
+`tools/hyp0006_data_tolerance_freeze.py`
 
 Synthetic tests:
 
-`tests/test_hyp0006_data_feasibility.py`
+`tests/test_hyp0006_data_tolerance_freeze.py`
 
-RF-027 is a source/timestamp/geometry task only. It may machine-verify the full BLS CPI
-archive denominator, official publication-time conversion, annual-schedule cross-check, bounded
-Dukascopy EUR/USD tick coverage, BID/ASK integrity and anchor timestamp geometry.
+RF-028 freezes `30,000 ms` maximum absolute gap at the `t-60m` and `t+60m` anchors and
+`30,000 ms` maximum staleness for the last quote strictly before release. Nearest-anchor ties
+resolve to the previous timestamp; duplicate records at the selected millisecond resolve to the
+last raw record; BID and ASK must come from the same raw tick record.
 
-It may not calculate HYP-0006 pre/post returns, return distributions, the primary inequality or
-trading P&L.
+RF-028 may inspect only source identity and timestamp geometry. It may not calculate HYP-0006
+pre/post returns, return distributions, the primary inequality, directional returns or trading P&L.
 
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
-HYP-0005 remains separate with:
-
-`NO_CONFIRMATORY_OUTCOME_COMPUTED`
-
-and RF-027 must retain zero source requests into its frozen unseen segments.
-
-After RF-027 exact-main preparation result:
-
-`ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`
-
-will canonicalize the exact source/event identities, mechanical eligible-event denominator and
-numeric anchor tolerances before any reveal.
+The next task after RF-028 is intentionally not assigned until RF-028 exact-main PASS and the exact
+eligible denominator are reviewed; no new task ID is invented in advance.
