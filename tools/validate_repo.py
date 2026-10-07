@@ -118,6 +118,9 @@ HYP0006_BROWSER_REMAINING_748_TEST = "tests/test_hyp0006_dukascopy_browser_remai
 HYP0006_BLS_SNAPSHOT_MANIFEST = "data/reference/HYP-0006-BLS-SCHEDULE-SNAPSHOT-MANIFEST.csv"
 HYP0006_BLS_SNAPSHOT_INTAKE = "research/reviews/HYP-0006-BLS-SNAPSHOT-INTAKE.md"
 HYP0006_DUKASCOPY_SOURCE_RECOVERY = "research/reviews/HYP-0006-DUKASCOPY-SOURCE-RECOVERY.md"
+HYP0006_DATA_TOLERANCE_FREEZE = "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
+HYP0006_DATA_TOLERANCE_FREEZE_TOOL = "tools/hyp0006_data_tolerance_freeze.py"
+HYP0006_DATA_TOLERANCE_FREEZE_TEST = "tests/test_hyp0006_data_tolerance_freeze.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -325,6 +328,9 @@ def configure() -> None:
         HYP0006_BLS_SNAPSHOT_MANIFEST,
         HYP0006_BLS_SNAPSHOT_INTAKE,
         HYP0006_DUKASCOPY_SOURCE_RECOVERY,
+        HYP0006_DATA_TOLERANCE_FREEZE,
+        HYP0006_DATA_TOLERANCE_FREEZE_TOOL,
+        HYP0006_DATA_TOLERANCE_FREEZE_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -411,6 +417,9 @@ def configure() -> None:
         "strategy_5_dukascopy_browser_batch_250_test",
         "strategy_5_dukascopy_browser_remaining_748",
         "strategy_5_dukascopy_browser_remaining_748_test",
+        "strategy_5_data_tolerance_freeze",
+        "strategy_5_data_tolerance_freeze_tool",
+        "strategy_5_data_tolerance_freeze_test",
         "m1_exit_review",
         "m2_exit_review", "m3_exit_review", "m6_exit_review", "reference_strategy_1_selection", "reference_strategy_1_idea",
         "reference_strategy_1_hypothesis", "reference_strategy_1_data_feasibility",
@@ -1538,6 +1547,46 @@ def configure() -> None:
         "REQUIRE_EXACTLY_748_CURRENT_MISSING",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
     )
+    core.CONTENT_MARKERS[HYP0006_DATA_TOLERANCE_FREEZE] = (
+        "Task: `ATS2-RF-028`",
+        "15/22",
+        "bbbdbd301b610dfc61316c9ff82015fb0e039a47",
+        "READY_FOR_DATA_FEASIBILITY_FREEZE",
+        "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001@1.0.0",
+        "5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425",
+        "e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034",
+        "NEAREST_TO_T_MINUS_60M_WITHIN_30000MS_TIE_PREVIOUS",
+        "LAST_QUOTE_STRICTLY_BEFORE_RELEASE_MAX_STALENESS_30000MS",
+        "NEAREST_TO_T_PLUS_60M_WITHIN_30000MS_TIE_PREVIOUS",
+        "LAST_RAW_RECORD_AT_SELECTED_MILLISECOND",
+        "BID_AND_ASK_FROM_SAME_RAW_TICK_RECORD",
+        "EXCLUDE_EVENT_IF_ANY_REQUIRED_ANCHOR_FAILS_FROZEN_GAP_RULE",
+        "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
+        "FREEZE_DATA_AND_TOLERANCES",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+    )
+    core.CONTENT_MARKERS[HYP0006_DATA_TOLERANCE_FREEZE_TOOL] = (
+        'TASK_ID = "ATS2-RF-028"',
+        'RF027_COMMIT = "bbbdbd301b610dfc61316c9ff82015fb0e039a47"',
+        "BOUNDARY_MAX_ABS_GAP_MS = 30_000",
+        "PRE_RELEASE_MAX_STALENESS_MS = 30_000",
+        'BOUNDARY_TIE_BREAK = "PREVIOUS_ON_EQUAL_GAP"',
+        'DUPLICATE_TIMESTAMP_TIE_BREAK = "LAST_RAW_RECORD_AT_SELECTED_MILLISECOND"',
+        'PRE_RELEASE_RULE = "LAST_QUOTE_STRICTLY_BEFORE_RELEASE"',
+        'PRICE_PAIRING_RULE = "BID_AND_ASK_FROM_SAME_RAW_TICK_RECORD"',
+        "FREEZE_DATA_AND_TOLERANCES",
+        '"outcome_metrics_computed": False',
+        '"primary_claim_evaluated": False',
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+    )
+    core.CONTENT_MARKERS[HYP0006_DATA_TOLERANCE_FREEZE_TEST] = (
+        "test_numeric_tolerances_are_frozen_before_reveal",
+        "test_nearest_anchor_tie_break_prefers_previous",
+        "test_geometry_at_frozen_limits_is_eligible",
+        "test_geometry_above_any_frozen_limit_is_excluded",
+        "test_incomplete_or_missing_source_geometry_is_excluded",
+        "test_freeze_contract_contains_no_market_outcome_calculation",
+    )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
         "PROTO-01",
@@ -2210,21 +2259,23 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-027"',
-        'TASK_NAME = "HYP-0006 Data Feasibility preparation"',
+        'TASK_ID = "ATS2-RF-028"',
+        'TASK_NAME = "HYP-0006 pre-reveal data/tolerance freeze"',
         "HYP0006_DATA_FEASIBILITY_PREP.json",
+        "HYP0006_DATA_TOLERANCE_FREEZE.json",
         "HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv",
         "FROZEN_BLOBS",
-        "ALLOWED_DECISIONS",
-        "RF-027 frozen HYP-0005/HYP-0006 lineage",
-        "RF-027 frozen preparation contract",
-        "RF-027 machine preparation result",
-        "RF-027 HYP-0006 official-event and tick geometry preparation",
-        "full ATS Local CI before RF-027 source preparation",
-        "HYP-0005 outcome computed by RF-027: NO",
-        "HYP-0006 outcome computed by RF-027: NO",
+        "RF-028 frozen HYP-0005/HYP-0006 lineage",
+        "RF-028 pre-reveal freeze contract",
+        "RF-028 HYP-0006 pre-reveal data/tolerance freeze",
+        "full ATS Local CI before RF-028 freeze execution",
+        "HYP-0006 outcome computed by RF-028: NO",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-        "hyp0006_dukascopy_controlled_download.py",
+        "FREEZE_DATA_AND_TOLERANCES",
+        "EXPECTED_SOURCE_BUNDLE_SHA256",
+        "EXPECTED_GEOMETRY_SHA256",
+        "BOUNDARY_MAX_ABS_GAP_MS = 30_000",
+        "PRE_RELEASE_MAX_STALENESS_MS = 30_000",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -2245,6 +2296,7 @@ def configure() -> None:
         "tools/hyp0004_proto01.py",
         "tools/hyp0005_data_feasibility.py",
         "tools/hyp0006_data_feasibility.py",
+        "tools/hyp0006_data_tolerance_freeze.py",
         "tools/hyp0006_dukascopy_controlled_download.py",
         "tools/hyp0006_dukascopy_browser_remaining_748.py",
     )
@@ -2688,9 +2740,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-026"',
-        'current_task: "ATS2-RF-027"', 'current_ready_task: "ATS2-RF-027"',
-        'next_task: "ATS2-RF-028"',
+        'last_completed_task_id: "ATS2-RF-027"',
+        'current_task: "ATS2-RF-028"', 'current_ready_task: "ATS2-RF-028"',
+        'next_task: "UNASSIGNED_UNTIL_RF028_PASS"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 5',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2819,8 +2871,8 @@ def main() -> int:
         'strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"',
         'strategy_5_prototype_authorized: false',
         'rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"',
-        'strategy_5_data_feasibility_prep_status: "RF027_SOURCE_BUNDLE_COMPLETE_READY_FOR_EXACT_MAIN_PREPARATION"',
-        'strategy_5_data_feasibility_prep_decision: "PENDING_EXACT_MAIN_PREPARATION_NO_OUTCOME"',
+        'strategy_5_data_feasibility_prep_status: "RF027_EXACT_MAIN_PASS"',
+        'strategy_5_data_feasibility_prep_decision: "READY_FOR_DATA_FEASIBILITY_FREEZE"',
         'rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"',
         'rf027_second_failed_exact_main_commit: "2ce019bb51b0e45e900c0555ed44be5a3433e23a"',
         'strategy_5_source_access_blocker: "DUKASCOPY_HTTP_503_2004_03_17T13_00_00Z"',
@@ -2966,7 +3018,26 @@ def main() -> int:
         "rf027_controlled_downloader_dry_run_existing_object_count: 37",
         "rf027_controlled_downloader_dry_run_missing_object_count: 1048",
         "rf027_controlled_downloader_dry_run_network_requests: 0",
-        'strategy_5_geometry_output_status: "NOT_CREATED_READY_FOR_RF027_PREPARATION"',
+        'strategy_5_geometry_output_status: "RF027_CREATED_HASH_FROZEN"',
+        'rf027_verified_commit: "bbbdbd301b610dfc61316c9ff82015fb0e039a47"',
+        "strategy_5_rf027_candidate_event_count: 217",
+        "strategy_5_rf027_complete_timestamp_geometry_event_count: 217",
+        "strategy_5_rf027_required_tick_object_count: 1085",
+        "strategy_5_rf027_acquired_tick_object_count: 1085",
+        "strategy_5_rf027_missing_tick_object_count: 0",
+        "strategy_5_rf027_protected_hyp0005_source_requests: 0",
+        'strategy_5_rf027_source_bundle_sha256: "5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425"',
+        'strategy_5_rf027_geometry_csv_sha256: "e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034"',
+        'strategy_5_data_tolerance_freeze_status: "RF028_STAGED_PRE_REVEAL"',
+        'strategy_5_development_dataset_id: "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001"',
+        'strategy_5_development_dataset_version: "1.0.0"',
+        "strategy_5_anchor_boundary_max_abs_gap_ms: 30000",
+        "strategy_5_pre_release_max_staleness_ms: 30000",
+        'strategy_5_boundary_tie_break: "PREVIOUS_ON_EQUAL_GAP"',
+        'strategy_5_pre_release_rule: "LAST_QUOTE_STRICTLY_BEFORE_RELEASE"',
+        'strategy_5_duplicate_timestamp_tie_break: "LAST_RAW_RECORD_AT_SELECTED_MILLISECOND"',
+        'strategy_5_price_pairing_rule: "BID_AND_ASK_FROM_SAME_RAW_TICK_RECORD"',
+        'strategy_5_missing_data_policy: "EXCLUDE_EVENT_IF_ANY_REQUIRED_ANCHOR_FAILS_FROZEN_GAP_RULE"',
         'strategy_5_bls_calendar_candidate: "data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"',
         'active_idea_id: "IDEA-0004"',
         'active_hypothesis_id: "HYP-0005"',
@@ -3115,11 +3186,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-026") != "DONE / PASS":
         core.fail("RF-026 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-027") != "SOURCE-BLOCKED":
-        core.fail("RF-027 must be SOURCE-BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-027") != "DONE / PASS":
+        core.fail("RF-027 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-028") != "BLOCKED":
-        core.fail("RF-028 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-028") != "READY":
+        core.fail("RF-028 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

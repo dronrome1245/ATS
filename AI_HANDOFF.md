@@ -9,17 +9,22 @@
 - Strategy #2: `REJECTED_AT_R3`.
 - Strategy #3 / HYP-0003: `REJECTED_AT_R3`.
 - Strategy #4 / HYP-0005: active confirmatory line; RF-023 remains externally source-blocked.
-- Strategy #5 / HYP-0006: active Data Feasibility preparation.
+- Strategy #5 / HYP-0006: RF-027 exact-main PASS; RF-028 pre-reveal data/tolerance freeze active.
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
 ## Current executable stage
 
-`Research Factory → Strategy #5 → HYP-0006 → RF-027 Data Feasibility preparation`
+`Research Factory → Strategy #5 → HYP-0006 → RF-028 pre-reveal data/tolerance freeze`
 
-RF-027 verifies only official CPI event identity/timing and EUR/USD tick timestamp geometry.
+Research step: `15/22`.
 
-It does **not** compute a HYP-0006 market outcome.
+RF-027 exact-main PASS on `bbbdbd301b610dfc61316c9ff82015fb0e039a47` returned
+`READY_FOR_DATA_FEASIBILITY_FREEZE` with `217/217` complete timestamp-geometry events,
+`1085/1085` BI5 objects, zero missing and zero HYP-0005 protected requests.
+
+RF-028 freezes exact source/event identities, the mechanical eligible-event denominator and
+numeric anchor tolerances. It does **not** compute a HYP-0006 market outcome.
 
 Information boundary:
 
@@ -206,7 +211,18 @@ Information boundary:
 
 Current task:
 
-`ATS2-RF-027`
+`ATS2-RF-028`
+
+Current artifact:
+
+`research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md`
+
+Frozen RF-028 boundary limits before first reveal:
+
+- `t-60m` and `t+60m`: nearest tick within `30,000 ms`, ties to previous;
+- pre-release: last quote strictly before `t`, staleness <= `30,000 ms`;
+- duplicate selected millisecond: last raw record;
+- BID/ASK: same raw tick record.
 
 The exact-main controlled Dukascopy execute-run was performed once on:
 
@@ -465,15 +481,11 @@ Bundle status:
 
 Bundle completeness: `1085 / 1085`.
 
-Current gate: exact-main `ATS_TASK_CHECK.bat` for RF-027. Any future source request remains
-OWNER-authorized-only.
+Current gate: exact-head preflight for RF-028, then exact-main `ATS_TASK_CHECK.bat`.
+No source/network request is required or authorized by RF-028.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
-Only after the frozen local BI5 bundle is complete enough for RF-027 and exact-main
-`ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS`:
-
-`ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`
-
-may begin.
+RF-028 is now active. The task after RF-028 remains intentionally unregistered until RF-028
+exact-main PASS and the frozen eligible denominator are reviewed.
