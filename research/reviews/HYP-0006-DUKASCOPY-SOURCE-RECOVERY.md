@@ -401,18 +401,32 @@ A third-party provider is not an automatic source replacement.
 Using one would require an explicit Data Feasibility/source-identity decision and would no longer be
 the frozen `DUKASCOPY_HOURLY_TICK_BI5` source contract.
 
-## Current gate
+## Recovery closure and current gate
 
 The final missing BI5 was supplied by OWNER, independently decoder-validated, and copied
 byte-for-byte into its canonical local path. The subsequent zero-network recount confirmed all
 `1085 / 1085` required canonical BI5 objects present with `0` missing.
 
-Current action: run exact-main `ATS_TASK_CHECK.bat` for RF-027 so the offline preparation can
-produce and validate its geometry/preparation artifacts.
+RF-027 then completed exact-main on:
 
-No repeat acquisition execution or new source request is authorized. The frozen source identity and
-research rules remain unchanged.
+`bbbdbd301b610dfc61316c9ff82015fb0e039a47`
 
-Only after an approved frozen local BI5 bundle is complete enough for RF-027 and exact-main
-`ATS CURRENT TASK CHECK: PASS` plus `ATS TASK LAUNCHER: PASS` may
-`ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze` begin.
+with:
+
+- `ATS CURRENT TASK CHECK: PASS`;
+- `ATS TASK LAUNCHER: PASS`;
+- `READY_FOR_DATA_FEASIBILITY_FREEZE`;
+- `217 / 217` complete timestamp-geometry events;
+- zero HYP-0005 protected source requests;
+- source bundle SHA-256
+  `5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425`;
+- geometry CSV SHA-256
+  `e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034`;
+- `NO_HYPOTHESIS_OUTCOME_COMPUTED`.
+
+Source recovery is therefore complete for RF-027. No repeat acquisition execution or new source
+request is authorized by the current task.
+
+Current gate:
+
+`ATS2-RF-028 — HYP-0006 pre-reveal data/tolerance freeze`.
