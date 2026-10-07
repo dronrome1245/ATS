@@ -454,6 +454,8 @@ Exact-main commit:
 
 `bbbdbd301b610dfc61316c9ff82015fb0e039a47`
 
+Exact-main launcher used: `ATS_TASK_CHECK.bat`.
+
 Completion gates:
 
 - `ATS CURRENT TASK CHECK: PASS`;
