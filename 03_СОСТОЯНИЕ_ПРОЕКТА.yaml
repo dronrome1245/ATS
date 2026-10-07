@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-10-05"
+  updated_on: "2026-10-07"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -134,13 +134,16 @@ model:
   strategy_5_dukascopy_browser_batch_250_test: "tests/test_hyp0006_dukascopy_browser_batch_250.py"
   strategy_5_dukascopy_browser_remaining_748: "tools/hyp0006_dukascopy_browser_remaining_748.py"
   strategy_5_dukascopy_browser_remaining_748_test: "tests/test_hyp0006_dukascopy_browser_remaining_748.py"
+  strategy_5_data_tolerance_freeze: "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
+  strategy_5_data_tolerance_freeze_tool: "tools/hyp0006_data_tolerance_freeze.py"
+  strategy_5_data_tolerance_freeze_test: "tests/test_hyp0006_data_tolerance_freeze.py"
 
 current:
-  focus: "RF-027 final missing BI5 was supplied by OWNER, independently decoder-validated and copied byte-for-byte into its canonical path; post-intake zero-network recount confirmed all 1085 of 1085 required Dukascopy BI5 objects present with 0 missing, 0 network requests and 0 downloaded; the frozen local source bundle is complete and the current gate is exact-main ATS_TASK_CHECK for RF-027; no HYP-0005 or HYP-0006 outcome has been computed"
-  last_completed_task_id: "ATS2-RF-026"
-  last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
-  next_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
-  next_task_id: "ATS2-RF-027"
+  focus: "RF-027 exact-main PASS completed on bbbdbd301b610dfc61316c9ff82015fb0e039a47 with READY_FOR_DATA_FEASIBILITY_FREEZE, 217/217 complete timestamp-geometry events, 1085/1085 BI5 objects, zero HYP-0005 protected requests and no HYP-0006 outcome; current gate is RF-028 pre-reveal data/tolerance freeze under fixed 30000 ms anchor gap limits"
+  last_completed_task_id: "ATS2-RF-027"
+  last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
+  next_artifact: "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
+  next_task_id: "ATS2-RF-028"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -437,9 +440,9 @@ research_factory:
     - "research/ideas/IDEA-0005.md"
     - "research/hypotheses/HYP-0006.md"
     - "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
-  current_task: "ATS2-RF-027"
+  current_task: "ATS2-RF-028"
   current_wbs: "WBS-RF.2"
-  next_task: "ATS2-RF-028"
+  next_task: "TBD_AFTER_RF028_PASS"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -598,8 +601,8 @@ research_factory:
   strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"
   strategy_5_prototype_authorized: false
   rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"
-  strategy_5_data_feasibility_prep_status: "RF027_SOURCE_BUNDLE_COMPLETE_READY_FOR_EXACT_MAIN_PREPARATION"
-  strategy_5_data_feasibility_prep_decision: "PENDING_EXACT_MAIN_PREPARATION_NO_OUTCOME"
+  strategy_5_data_feasibility_prep_status: "RF027_EXACT_MAIN_PASS"
+  strategy_5_data_feasibility_prep_decision: "READY_FOR_DATA_FEASIBILITY_FREEZE"
   rf027_failed_exact_main_commit: "a4c6331949e9c71fc68eb1baa870d20a03518d48"
   rf027_second_failed_exact_main_commit: "2ce019bb51b0e45e900c0555ed44be5a3433e23a"
   rf027_offline_architecture_merged_commit: "79a01623c3fef4deb3757e4d2940b8cd16b9bff3"
@@ -753,7 +756,29 @@ research_factory:
   rf027_controlled_downloader_dry_run_existing_object_count: 37
   rf027_controlled_downloader_dry_run_missing_object_count: 1048
   rf027_controlled_downloader_dry_run_network_requests: 0
-  strategy_5_geometry_output_status: "NOT_CREATED_READY_FOR_RF027_PREPARATION"
+  strategy_5_geometry_output_status: "RF027_CREATED_HASH_FROZEN"
+  rf027_verified_commit: "bbbdbd301b610dfc61316c9ff82015fb0e039a47"
+  strategy_5_rf027_candidate_event_count: 217
+  strategy_5_rf027_complete_timestamp_geometry_event_count: 217
+  strategy_5_rf027_required_tick_object_count: 1085
+  strategy_5_rf027_acquired_tick_object_count: 1085
+  strategy_5_rf027_missing_tick_object_count: 0
+  strategy_5_rf027_protected_hyp0005_source_requests: 0
+  strategy_5_rf027_bls_snapshot_manifest_sha256: "3837c463b36914c2276e9985a8a70a8ead13ca0e4b16901a22cb4fd2dece6ee4"
+  strategy_5_rf027_bls_snapshot_bundle_sha256: "5306799d4c4196941d701e661df2fa4255682783b966e7bcfd69f702a1ead341"
+  strategy_5_rf027_bls_calendar_sha256: "646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9"
+  strategy_5_rf027_source_bundle_sha256: "5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425"
+  strategy_5_rf027_geometry_csv_sha256: "e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034"
+  strategy_5_data_tolerance_freeze_status: "RF028_STAGED_PRE_REVEAL"
+  strategy_5_development_dataset_id: "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001"
+  strategy_5_development_dataset_version: "1.0.0"
+  strategy_5_anchor_boundary_max_abs_gap_ms: 30000
+  strategy_5_pre_release_max_staleness_ms: 30000
+  strategy_5_boundary_tie_break: "PREVIOUS_ON_EQUAL_GAP"
+  strategy_5_pre_release_rule: "LAST_QUOTE_STRICTLY_BEFORE_RELEASE"
+  strategy_5_duplicate_timestamp_tie_break: "LAST_RAW_RECORD_AT_SELECTED_MILLISECOND"
+  strategy_5_price_pairing_rule: "BID_AND_ASK_FROM_SAME_RAW_TICK_RECORD"
+  strategy_5_missing_data_policy: "EXCLUDE_EVENT_IF_ANY_REQUIRED_ANCHOR_FAILS_FROZEN_GAP_RULE"
   strategy_5_bls_calendar_candidate: "data/derived/HYP-0006-BLS-CPI-CALENDAR-2003-2021.csv"
   active_idea_id: "IDEA-0004"
   active_hypothesis_id: "HYP-0005"
@@ -763,7 +788,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-027"
+  current_ready_task: "ATS2-RF-028"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
