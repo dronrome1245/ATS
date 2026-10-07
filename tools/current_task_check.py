@@ -269,7 +269,10 @@ def validate_result(payload: dict[str, Any], commit: str) -> bool:
     for key, expected in checks.items():
         actual = payload.get(key)
         if actual != expected:
-            print(f"[FAIL] RF-028 result mismatch for {key}: {actual!r} != {expected!r}", flush=True)
+            print(
+                f"[FAIL] RF-028 result mismatch for {key}: {actual!r} != {expected!r}",
+                flush=True,
+            )
             passed = False
 
     eligible = payload.get("eligible_event_count")
@@ -319,7 +322,10 @@ def validate_result(payload: dict[str, Any], commit: str) -> bool:
         passed = False
 
     geometry_evaluations = payload.get("geometry_evaluations")
-    if not isinstance(geometry_evaluations, list) or len(geometry_evaluations) != EXPECTED_EVENT_COUNT:
+    if (
+        not isinstance(geometry_evaluations, list)
+        or len(geometry_evaluations) != EXPECTED_EVENT_COUNT
+    ):
         print("[FAIL] RF-028 geometry_evaluations length mismatch", flush=True)
         passed = False
     else:
@@ -328,7 +334,10 @@ def validate_result(payload: dict[str, Any], commit: str) -> bool:
             for item in geometry_evaluations
             if isinstance(item, dict) and isinstance(item.get("event_id"), str)
         ]
-        if len(evaluation_ids) != EXPECTED_EVENT_COUNT or len(set(evaluation_ids)) != EXPECTED_EVENT_COUNT:
+        if (
+            len(evaluation_ids) != EXPECTED_EVENT_COUNT
+            or len(set(evaluation_ids)) != EXPECTED_EVENT_COUNT
+        ):
             print("[FAIL] RF-028 geometry evaluation identities invalid", flush=True)
             passed = False
         elif set(evaluation_ids) != (set(eligible_ids) | set(ineligible_ids)):
