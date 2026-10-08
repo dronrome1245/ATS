@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-10-07"
+  updated_on: "2026-10-08"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -137,13 +137,16 @@ model:
   strategy_5_data_tolerance_freeze: "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
   strategy_5_data_tolerance_freeze_tool: "tools/hyp0006_data_tolerance_freeze.py"
   strategy_5_data_tolerance_freeze_test: "tests/test_hyp0006_data_tolerance_freeze.py"
+  strategy_5_prototype: "research/reviews/HYP-0006-PROTOTYPE-01.md"
+  strategy_5_prototype_runner: "tools/hyp0006_proto01.py"
+  strategy_5_prototype_test: "tests/test_hyp0006_proto01.py"
 
 current:
-  focus: "RF-027 exact-main PASS completed on bbbdbd301b610dfc61316c9ff82015fb0e039a47 with READY_FOR_DATA_FEASIBILITY_FREEZE, 217/217 complete timestamp-geometry events, 1085/1085 BI5 objects, zero HYP-0005 protected requests and no HYP-0006 outcome; current gate is RF-028 pre-reveal data/tolerance freeze under fixed 30000 ms anchor gap limits"
-  last_completed_task_id: "ATS2-RF-027"
-  last_completed_artifact: "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
-  next_artifact: "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
-  next_task_id: "ATS2-RF-028"
+  focus: "RF-028 exact-main PASS on e7f05a0d237c4d78a8a0edb93710619e6ad2ba00 mechanically froze 216/217 eligible U.S. CPI events, 1 fixed exclusion, 30000 ms tolerances and exact source/geometry identities; active RF-029 stages HYP-0006 PROTO-01 runner/decision freeze without market outcome"
+  last_completed_task_id: "ATS2-RF-028"
+  last_completed_artifact: "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
+  next_artifact: "research/reviews/HYP-0006-PROTOTYPE-01.md"
+  next_task_id: "ATS2-RF-029"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -403,6 +406,8 @@ research_factory:
     - "ATS2-RF-022"
     - "ATS2-RF-025"
     - "ATS2-RF-026"
+    - "ATS2-RF-027"
+    - "ATS2-RF-028"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -440,9 +445,11 @@ research_factory:
     - "research/ideas/IDEA-0005.md"
     - "research/hypotheses/HYP-0006.md"
     - "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
-  current_task: "ATS2-RF-028"
+    - "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
+    - "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
+  current_task: "ATS2-RF-029"
   current_wbs: "WBS-RF.2"
-  next_task: "UNASSIGNED_UNTIL_RF028_PASS"
+  next_task: "UNASSIGNED_UNTIL_RF029_PASS"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -769,7 +776,18 @@ research_factory:
   strategy_5_rf027_bls_calendar_sha256: "646a1029779d5e5eca1e2c48322531dcdf55f7cc7fb0649113cfd387d553eaa9"
   strategy_5_rf027_source_bundle_sha256: "5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425"
   strategy_5_rf027_geometry_csv_sha256: "e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034"
-  strategy_5_data_tolerance_freeze_status: "RF028_STAGED_PRE_REVEAL"
+  strategy_5_data_tolerance_freeze_status: "RF028_EXACT_MAIN_PASS_FROZEN"
+  rf028_verified_commit: "e7f05a0d237c4d78a8a0edb93710619e6ad2ba00"
+  strategy_5_rf028_json_sha256: "1b575682b959070f4a0981b7cd13d70626f1e169d221d0c9fb2383fc679fd5fb"
+  strategy_5_rf028_freeze_decision: "FREEZE_DATA_AND_TOLERANCES"
+  strategy_5_rf028_candidate_event_count: 217
+  strategy_5_rf028_eligible_event_count: 216
+  strategy_5_rf028_ineligible_event_count: 1
+  strategy_5_rf028_ineligible_event_id: "BLS-CPI-20030815"
+  strategy_5_rf028_exclusion_reason: "POST_60_ANCHOR_GAP_EXCEEDS_30000MS"
+  strategy_5_prototype_id: "PROTO-01"
+  strategy_5_prototype_freeze_status: "RF029_STAGED_PRE_REVEAL"
+  strategy_5_prototype_runner_git_blob: "6afb870c035bc5ae76f773784a5fa3db15d680fd"
   strategy_5_development_dataset_id: "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001"
   strategy_5_development_dataset_version: "1.0.0"
   strategy_5_anchor_boundary_max_abs_gap_ms: 30000
@@ -788,7 +806,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-028"
+  current_ready_task: "ATS2-RF-029"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
