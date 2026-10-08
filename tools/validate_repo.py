@@ -1598,7 +1598,7 @@ def configure() -> None:
         "16/22",
         "216 + 1 = 217",
         "1b575682b959070f4a0981b7cd13d70626f1e169d221d0c9fb2383fc679fd5fb",
-        "a3ac99eeea0159050364da156194a4753c4f5966",
+        "6afb870c035bc5ae76f773784a5fa3db15d680fd",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
         "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
     )
@@ -3064,7 +3064,7 @@ def main() -> int:
         "strategy_5_rf028_eligible_event_count: 216",
         "strategy_5_rf028_ineligible_event_count: 1",
         'strategy_5_prototype_freeze_status: "RF029_STAGED_PRE_REVEAL"',
-        'strategy_5_prototype_runner_git_blob: "a3ac99eeea0159050364da156194a4753c4f5966"',
+        'strategy_5_prototype_runner_git_blob: "6afb870c035bc5ae76f773784a5fa3db15d680fd"',
         'strategy_5_development_dataset_id: "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001"',
         'strategy_5_development_dataset_version: "1.0.0"',
         "strategy_5_anchor_boundary_max_abs_gap_ms: 30000",
