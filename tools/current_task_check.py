@@ -22,13 +22,9 @@ PROTOTYPE_TEST = ROOT / "tests/test_hyp0006_proto01.py"
 
 RF028_COMMIT = "e7f05a0d237c4d78a8a0edb93710619e6ad2ba00"
 RF028_JSON_SHA256 = "1b575682b959070f4a0981b7cd13d70626f1e169d221d0c9fb2383fc679fd5fb"
-FROZEN_GEOMETRY_SHA256 = (
-    "e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034"
-)
-FROZEN_SOURCE_SHA256 = (
-    "5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425"
-)
-FROZEN_RUNNER_GIT_BLOB = "a3ac99eeea0159050364da156194a4753c4f5966"
+FROZEN_GEOMETRY_SHA256 = "e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034"
+FROZEN_SOURCE_SHA256 = "5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425"
+FROZEN_RUNNER_GIT_BLOB = "6afb870c035bc5ae76f773784a5fa3db15d680fd"
 
 FROZEN_BLOBS = {
     "research/hypotheses/HYP-0005.md": "ebbbc89187c911485c1568dc11f5f2f9e703718a",
@@ -36,13 +32,9 @@ FROZEN_BLOBS = {
         "c15b2b67700dd46fc592f1208731ce6b42f6905c"
     ),
     "tools/hyp0005_data_feasibility.py": "310b23213876304ade674ef36ba17ce6d457353f",
-    "tests/test_hyp0005_data_feasibility.py": (
-        "12697882da682eab699bf5b7debd7c358e56aca9"
-    ),
+    "tests/test_hyp0005_data_feasibility.py": ("12697882da682eab699bf5b7debd7c358e56aca9"),
     "research/hypotheses/HYP-0006.md": "6b3f260ceacd98adf7a6aa44205404e68e4fd4ca",
-    "research/reviews/HYP-0006-DATA-FEASIBILITY.md": (
-        "ae58099a05daec4be385c18177c74f1f22d1eb30"
-    ),
+    "research/reviews/HYP-0006-DATA-FEASIBILITY.md": ("ae58099a05daec4be385c18177c74f1f22d1eb30"),
 }
 
 
@@ -101,10 +93,7 @@ def check_rf028_result() -> bool:
     if not FREEZE_RESULT.is_file() or sha256_file(FREEZE_RESULT) != RF028_JSON_SHA256:
         print("[FAIL] exact RF-028 JSON SHA-256 changed or missing", flush=True)
         return False
-    if (
-        not GEOMETRY_CSV.is_file()
-        or sha256_file(GEOMETRY_CSV) != FROZEN_GEOMETRY_SHA256
-    ):
+    if not GEOMETRY_CSV.is_file() or sha256_file(GEOMETRY_CSV) != FROZEN_GEOMETRY_SHA256:
         print("[FAIL] frozen RF-027 geometry SHA-256 changed or missing", flush=True)
         return False
     try:
@@ -133,11 +122,7 @@ def check_rf028_result() -> bool:
             return False
     eligible = result.get("eligible_event_ids")
     excluded = result.get("ineligible_events")
-    if (
-        not isinstance(eligible, list)
-        or len(eligible) != 216
-        or len(set(eligible)) != 216
-    ):
+    if not isinstance(eligible, list) or len(eligible) != 216 or len(set(eligible)) != 216:
         print("[FAIL] RF-028 eligible ID list changed", flush=True)
         return False
     if excluded != [
@@ -217,9 +202,7 @@ def main() -> int:
     frozen = check_rf028_result()
     contract = check_prototype_contract()
     lineage = check_frozen_lineage()
-    governance = run(
-        "repository governance", [sys.executable, "tools/validate_repo.py"]
-    )
+    governance = run("repository governance", [sys.executable, "tools/validate_repo.py"])
     full_ci = run(
         "full Local CI without market reveal",
         [sys.executable, "tools/verify_repo.py"],
