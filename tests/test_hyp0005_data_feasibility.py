@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from pathlib import Path
+
+import pytest
 
 import tools.hyp0005_data_feasibility as prep
 
@@ -157,3 +160,83 @@ def test_derived_csv_contains_no_hypothesis_outcome_columns(tmp_path) -> None:
     assert "relative_spread" not in header
     assert "utc_bucket" in header
     assert "confirmatory_segment" in header
+
+
+def local_snapshot_paths(monkeypatch: pytest.MonkeyPatch, root: Path) -> None:
+    """Redirect only path constructors to synthetic files, never real protected data."""
+
+    def jetta(symbol: str, month: datetime, side: str) -> Path:
+        assert symbol == "EURUSD"
+        return root / f"{month:%Y-%m}" / f"{side}_candles_hour_1.json"
+
+    def bi5(symbol: str, month: datetime, side: str) -> Path:
+        assert symbol == "EURUSD"
+        return root / f"{month:%Y-%m}" / f"{side}_candles_hour_1.bi5"
+
+    monkeypatch.setattr(prep.source, "jetta_raw_path", jetta)
+    monkeypatch.setattr(prep.source, "raw_path", bi5)
+
+    def forbid_network(*args: object, **kwargs: object) -> None:
+        raise AssertionError("source access must remain offline")
+
+    monkeypatch.setattr(prep.source, "fetch_bytes", forbid_network)
+    monkeypatch.setattr(prep.source, "download_jetta_source_once", forbid_network)
+    monkeypatch.setattr(prep.source, "download_legacy_source_once", forbid_network)
+
+
+def test_rf023_offline_missing_september_fails_without_network(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    local_snapshot_paths(monkeypatch, tmp_path)
+    september = datetime(2026, 9, 1, tzinfo=UTC)
+    with pytest.raises(prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_LOCAL_SNAPSHOT"):
+        prep.download_source_pair_resilient(september)
+
+
+def test_rf023_offline_partial_pair_blocks_even_with_bi5_alternative(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    local_snapshot_paths(monkeypatch, tmp_path)
+    september = datetime(2026, 9, 1, tzinfo=UTC)
+    directory = tmp_path / "2026-09"
+    directory.mkdir()
+    (directory / "BID_candles_hour_1.json").write_bytes(b"synthetic-bid")
+    for side in ("BID", "ASK"):
+        (directory / f"{side}_candles_hour_1.bi5").write_bytes(b"synthetic")
+    with pytest.raises(prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_PARTIAL_PAIR"):
+        prep.download_source_pair_resilient(september)
+
+
+def test_rf023_offline_complete_bi5_pair_and_jetta_precedence(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    local_snapshot_paths(monkeypatch, tmp_path)
+    september = datetime(2026, 9, 1, tzinfo=UTC)
+    directory = tmp_path / "2026-09"
+    directory.mkdir()
+    for side in ("BID", "ASK"):
+        (directory / f"{side}_candles_hour_1.bi5").write_bytes(b"synthetic-bi5")
+    bi5_pair = prep.download_source_pair_once(september)
+    assert {v[1]["source_format"] for v in bi5_pair.values()} == {
+        prep.source.SOURCE_FORMAT_BI5
+    }
+    for side in ("BID", "ASK"):
+        (directory / f"{side}_candles_hour_1.json").write_bytes(b"synthetic-json")
+    jetta_pair = prep.download_source_pair_once(september)
+    assert {v[1]["source_format"] for v in jetta_pair.values()} == {
+        prep.source.SOURCE_FORMAT_JETTA_JSON
+    }
+    assert all(v[1]["source_url"] == "LOCAL_FROZEN_COPY" for v in jetta_pair.values())
+
+
+def test_rf023_offline_empty_object_fails_closed(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    local_snapshot_paths(monkeypatch, tmp_path)
+    september = datetime(2026, 9, 1, tzinfo=UTC)
+    directory = tmp_path / "2026-09"
+    directory.mkdir()
+    (directory / "BID_candles_hour_1.json").write_bytes(b"synthetic-bid")
+    (directory / "ASK_candles_hour_1.json").write_bytes(b"")
+    with pytest.raises(prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_EMPTY_OBJECT"):
+        prep.download_source_pair_resilient(september)
