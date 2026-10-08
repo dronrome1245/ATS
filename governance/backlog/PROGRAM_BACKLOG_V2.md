@@ -79,9 +79,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation with frozen local BLS + Dukascopy snapshots — `DONE / PASS`.
 65. `ATS2-RF-028` — HYP-0006 pre-reveal data/tolerance freeze — `DONE / PASS`.
 66. `ATS2-RF-029` — HYP-0006 PROTO-01 pre-reveal runner/decision freeze — `DONE / PASS`.
-67. `ATS2-RF-030` — HYP-0006 PROTO-01 first development reveal gate — `READY`.
+67. `ATS2-RF-030` — HYP-0006 PROTO-01 first development reveal gate — `DONE / PASS`.
+68. `ATS2-RF-031` — HYP-0006 reveal canonicalization and HYP-0007 confirmatory structural hypothesis formation — `READY`.
 
-Program-level current next task — `ATS2-RF-030`.
+Program-level current next task — `ATS2-RF-031`.
 
 
 RF-027 source architecture is now frozen to local official BLS schedule snapshots rather than live
@@ -477,70 +478,56 @@ RF-023 is structurally `READY` but execution is temporarily blocked by external 
 | `ATS2-RF-027` | `WBS-RF.2` | P1 | DONE / PASS | RF-026 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md` + `tools/hyp0006_data_feasibility.py` + synthetic tests + local machine result | Exact-main PASS on `bbbdbd301b610dfc61316c9ff82015fb0e039a47` returned `READY_FOR_DATA_FEASIBILITY_FREEZE`, `217/217` complete timestamp-geometry events, `1085/1085` required BI5 objects, zero protected HYP-0005 requests and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-028` | `WBS-RF.2` | P1 | DONE / PASS | RF-027 exact-main PASS | `research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md` + `tools/hyp0006_data_tolerance_freeze.py` + synthetic tests + local freeze result | Exact-main owner launcher PASS on `e7f05a0d237c4d78a8a0edb93710619e6ad2ba00` froze 216/217 eligible events, 1 gap-based exclusion, 30000 ms anchor tolerances and unchanged RF-027 hashes with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-029` | `WBS-RF.2` | P1 | DONE / PASS | RF-028 exact-main PASS | `research/reviews/HYP-0006-PROTOTYPE-01.md` + `tools/hyp0006_proto01.py` + synthetic tests + synchronized SoT/current-task gate | Exact-main PASS on `94df9ede91522f473872b25a6d8023fd64182878` froze the 216-event structural question, equations, source/anchor reconstruction, diagnostics, single median inequality, decision routing and runner blob `6afb870c035bc5ae76f773784a5fa3db15d680fd` with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
-| `ATS2-RF-030` | `WBS-RF.2` | P1 | READY | RF-029 exact-main PASS | `research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md` + one-shot `tools/current_task_check.py` + synthetic tests + synchronized SoT | On future exact `main`, require CLEAN, frozen runner/lineage and RF-027/RF-028 identities, full Local CI and SHA-256 of all 1085 BI5 objects before one unchanged runner invocation; validate and preserve 216 observations and the predeclared result whether positive or negative; an existing exact-commit artifact pair is validation-only and any partial/mismatched pair stops without rerun |
+| `ATS2-RF-030` | `WBS-RF.2` | P1 | DONE / PASS | RF-029 exact-main PASS | `research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md` + canonical local `HYP0006_PROTO01_RESULT.json` + shareable report | Exact-main OWNER launcher PASS on `d1135bb2486009ebb358bf4b508c06303ab77f74` verified 1085/1085 BI5 SHA-256, ran frozen runner once, preserved 216/217 event results and `ADVANCE_TO_ECONOMIC_SCREEN` under preregistered median inequality; JSON SHA-256 `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`; exploratory only, no trading/independent claim |
+| `ATS2-RF-031` | `WBS-RF.2` | P1 | READY | RF-030 exact-main PASS; OWNER approved new confirmatory structural Hypothesis preparation | `research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md` + `research/hypotheses/HYP-0007.md` + Source of Truth/current-task gate sync | Retain exact HYP-0006 reveal and confounding, register one new material Hypothesis under IDEA-0005 with an 8-gate prospective plan, no reuse of revealed/other-line consumed/protected data as independent, no HYP-0007 outcome or R4 |
 
 ## 8. Следующий шаг
 
 Current executable program-level task:
 
-`ATS2-RF-030 — HYP-0006 PROTO-01 first development reveal gate`.
+`ATS2-RF-031 — HYP-0006 revealed result review and HYP-0007 confirmatory structural formation`.
 
-RF-029 exact-main PASS:
+Research step: `18/22` (HYP-0006's 17/22 first-reveal gate is CLOSED).
 
-`94df9ede91522f473872b25a6d8023fd64182878`
+RF-030 first reveal exact-main PASS: `d1135bb2486009ebb358bf4b508c06303ab77f74`.
 
-Frozen runner Git blob:
+Retain canonical local `reports/local_ci/HYP0006_PROTO01_RESULT.json` unchanged:
+SHA-256 `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`.
 
-`6afb870c035bc5ae76f773784a5fa3db15d680fd`
+Full frozen 216-event result:
+`median_post_abs_60m_return = 0.0012930417305135888` and
+`median_pre_abs_60m_return = 0.0005589654536042321`.
+Single predeclared inequality PASS; `ADVANCE_TO_ECONOMIC_SCREEN`
+is exploratory only and mandates a **new** Hypothesis before R4.
 
-RF-028 exact-main PASS:
+Result-review artifact:
+`research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md`.
 
-`e7f05a0d237c4d78a8a0edb93710619e6ad2ba00`
+HYP-0006 revealed 216/216 coincident BLS Real Earnings labels; causal
+attribution to CPI alone is **not** established. Keep annual 2003, 2008,
+2011 counterexamples and all positive/negative events in the historical record.
 
-RF-028 decision:
+OWNER approved only formation/preparation of a **confirmatory structural**
+continuation on `2026-10-08`. Lineage review found the same
+`IDEA-0005` mechanism, `FX_SPOT_OTC/EURUSD`, scheduled CPI event class,
+pre/post 60-minute window, and non-directional median inequality.
+The next available Hypothesis ID is `HYP-0007`.
+This is a separate Material Research Attempt, not a renamed HYP-0006.
 
-`FREEZE_DATA_AND_TOLERANCES`
+`ПЛАН HYP-0007 (1/8...8/8)` is fixed in the new card:
+formation → independent-data feasibility → source rules freeze →
+source acquisition (no outcome) → dataset/runner freeze → one-shot confirmatory
+reveal → evidence review → stop or referral to a separate trading-Hypothesis path.
 
-216 / 217 events frozen eligible; 1 excluded due to post-60 timestamp gap (60047 ms).
+**No confirmatory dataset has been certified as independent.** HYP-0006
+development `[2003-08-03T21:00:00Z, 2021-09-01T00:00:00Z)` is consumed;
+HYP-0004 viewed EURUSD coverage through `2026-09-01T00:00:00Z`.
+HYP-0005 protected segments remain forbidden. Other ATS exposure must be
+audited before independent evidence can be claimed.
 
-Observed pre-outcome evidence:
-
-- candidate/resolved/complete-geometry events: `217 / 217 / 217`;
-- required/acquired BI5 objects: `1085 / 1085`;
-- missing BI5 objects: `0`;
-- protected HYP-0005 source requests: `0`;
-- source bundle SHA-256:
-  `5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425`;
-- geometry CSV SHA-256:
-  `e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034`.
-
-RF-028 protocol:
-
-`research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md`
-
-Tool:
-
-`tools/hyp0006_data_tolerance_freeze.py`
-
-Synthetic tests:
-
-`tests/test_hyp0006_data_tolerance_freeze.py`
-
-RF-028 freezes `30,000 ms` maximum absolute gap at the `t-60m` and `t+60m` anchors and
-`30,000 ms` maximum staleness for the last quote strictly before release. Nearest-anchor ties
-resolve to the previous timestamp; duplicate records at the selected millisecond resolve to the
-last raw record; BID and ASK must come from the same raw tick record.
-
-RF-028 may inspect only source identity and timestamp geometry. It may not calculate HYP-0006
-pre/post returns, return distributions, the primary inequality, directional returns or trading P&L.
-
-Information boundary:
-
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
-
-RF-029 exact-main has passed and the complete PROTO-01 contract is frozen before
-market inspection. RF-030 stages the separate one-shot exact-main first reveal
-without executing it on the agent branch. The checker must verify all 1085 local
-BI5 hashes before invocation, never rerun when exact-commit artifacts exist, and
-preserve either decision under the original rule. Do not assign a later Technical
-ID before the first result is retained and reviewed. No market result has been computed.
+Current boundary: `HYP0006_DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`;
+`HYP0007_NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+RF-031 is **not** done until exact-head agent preflight,
+GPT squash merge and OWNER exact-main launcher PASS.
+No further Technical ID, protected-data access, trading P&L,
+confirmatory reveal or R4 admission is authorized during RF-031.
