@@ -146,7 +146,7 @@ model:
 current:
   focus: "RF-030 exact-main PASS on d1135bb2486009ebb358bf4b508c06303ab77f74 revealed HYP-0006 PROTO-01 once with 216 event pairs and ADVANCE_TO_ECONOMIC_SCREEN as DEVELOPMENT_EXPLORATORY_ONLY; OWNER approved separately registered confirmatory structural Hypothesis formation; RF-031 governance sync and HYP-0007 registration active; HYP-0007 outcome not computed"
   last_completed_task_id: "ATS2-RF-030"
-  last_completed_artifact: "reports/local_ci/HYP0006_PROTO01_RESULT.json"
+  last_completed_artifact: "research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md"
   next_artifact: "research/hypotheses/HYP-0007.md"
   next_task_id: "ATS2-RF-031"
 
