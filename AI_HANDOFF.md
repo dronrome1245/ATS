@@ -9,22 +9,26 @@
 - Strategy #2: `REJECTED_AT_R3`.
 - Strategy #3 / HYP-0003: `REJECTED_AT_R3`.
 - Strategy #4 / HYP-0005: active confirmatory line; RF-023 remains externally source-blocked.
-- Strategy #5 / HYP-0006: RF-027 exact-main PASS; RF-028 pre-reveal data/tolerance freeze active.
+- Strategy #5 / HYP-0006: RF-028 exact-main PASS; RF-029 PROTO-01 pre-reveal freeze active.
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
 ## Current executable stage
 
-`Research Factory → Strategy #5 → HYP-0006 → RF-028 pre-reveal data/tolerance freeze`
+`Research Factory → Strategy #5 → HYP-0006 → RF-029 PROTO-01 pre-reveal freeze`
 
-Research step: `15/22`.
+Research step: `16/22`.
 
 RF-027 exact-main PASS on `bbbdbd301b610dfc61316c9ff82015fb0e039a47` returned
 `READY_FOR_DATA_FEASIBILITY_FREEZE` with `217/217` complete timestamp-geometry events,
 `1085/1085` BI5 objects, zero missing and zero HYP-0005 protected requests.
 
-RF-028 freezes exact source/event identities, the mechanical eligible-event denominator and
-numeric anchor tolerances. It does **not** compute a HYP-0006 market outcome.
+RF-028 exact-main `e7f05a0d237c4d78a8a0edb93710619e6ad2ba00` passed both completion gates.
+It froze `216/217` eligible CPI events with one fixed exclusion `BLS-CPI-20030815`
+(post-60 anchor gap `60047 ms` versus `30000 ms` cap). Local RF-028 JSON SHA-256:
+`1b575682b959070f4a0981b7cd13d70626f1e169d221d0c9fb2383fc679fd5fb`.
+RF-029 stages the exact PROTO-01 question, decision rule and runner before the
+first reveal. It does **not** compute a HYP-0006 market outcome.
 
 Information boundary:
 
@@ -57,7 +61,7 @@ Canonical completed artifact:
 
 Current next artifact:
 
-`research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md`
+`research/reviews/HYP-0006-PROTOTYPE-01.md`
 
 RF-026 closed exact-main PASS on:
 
@@ -211,9 +215,13 @@ Information boundary:
 
 Current task:
 
-`ATS2-RF-028`
+`ATS2-RF-029`
 
 Current artifact:
+
+`research/reviews/HYP-0006-PROTOTYPE-01.md`
+
+Last completed artifact:
 
 `research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md`
 
@@ -481,11 +489,13 @@ Bundle status:
 
 Bundle completeness: `1085 / 1085`.
 
-Current gate: exact-head preflight for RF-028, then exact-main `ATS_TASK_CHECK.bat`.
-No source/network request is required or authorized by RF-028.
+Current gate: exact-head agent preflight for RF-029 on the staged pre-reveal runner,
+then squash merge and exact-main `ATS_TASK_CHECK.bat` **without real market calculations**.
+RF-029 is research-protocol/infrastructure only; no BLS/Dukascopy network requests.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
-RF-028 is now active. The task after RF-028 remains intentionally unregistered until RF-028
-exact-main PASS and the frozen eligible denominator are reviewed.
+RF-028 is CLOSED by exact-main PASS. RF-029 is staged; the successor after RF-029
+is intentionally unassigned until exact-main prototype-freeze PASS. The first
+market reveal is forbidden before that gate.
