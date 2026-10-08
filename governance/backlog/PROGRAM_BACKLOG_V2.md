@@ -80,9 +80,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 65. `ATS2-RF-028` — HYP-0006 pre-reveal data/tolerance freeze — `DONE / PASS`.
 66. `ATS2-RF-029` — HYP-0006 PROTO-01 pre-reveal runner/decision freeze — `DONE / PASS`.
 67. `ATS2-RF-030` — HYP-0006 PROTO-01 first development reveal gate — `DONE / PASS`.
-68. `ATS2-RF-031` — HYP-0006 reveal canonicalization and HYP-0007 confirmatory structural hypothesis formation — `READY`.
+68. `ATS2-RF-031` — HYP-0006 reveal canonicalization and HYP-0007 confirmatory structural hypothesis formation — `DONE / PASS`.
+69. `ATS2-RF-032` — HYP-0005 RF-023 offline-only official snapshot source-input repair — `READY`.
 
-Program-level current next task — `ATS2-RF-031`.
+Program-level current next task — `ATS2-RF-032` (HYP-0005 priority; RF-023 remains source-input blocked).
 
 
 RF-027 source architecture is now frozen to local official BLS schedule snapshots rather than live
@@ -471,7 +472,7 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-022` | `WBS-RF.2` | P1 | DONE / PASS | RF-021 PASS | `research/hypotheses/HYP-0005.md` | Exact-main OWNER launcher PASS on `136b62b52922abc1556396377c6cd6fca88fba75` registered HYP-0005 with EURUSD/fixed UTC buckets/NEXT_1H/two primary inequalities and retained `NO_CONFIRMATORY_OUTCOME_COMPUTED` |
 | `ATS2-RF-023` | `WBS-RF.2` | P1 | READY | RF-022 PASS | `research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md` + `tools/hyp0005_data_feasibility.py` + synthetic tests + local machine result | Freeze a pre-result acquisition/preparation contract, acquire only the mechanically defined unseen EUR/USD segments, emit source/derived hashes and geometry, and prohibit spread/return outcome metrics or primary-claim evaluation |
 
-RF-023 is structurally `READY` but execution is temporarily blocked by external September 2026 source availability. The 28 September diagnostic showed Jetta September BID/ASK HTTP 400 `From time is too late` while August Jetta BID/ASK controls returned HTTP 200. This does not change the frozen periods and is not a HYP-0005 result.
+RF-023 remains structurally `READY` but research execution is `SOURCE_INPUT_REQUIRED_2026_09`. The 28 September 2026 official Jetta BID/ASK HTTP 400 `From time is too late` diagnostic and BI5 HTTP 503 were source failures, not HYP-0005 market outcomes. A subsequent 8 October offline file-only inventory found complete nonempty 2003-05..08 Jetta JSON BID/ASK pairs and a 2003-08 BI5 pair, but **no 2026-09 local JSON or BI5 BID/ASK**. No decoded price coherence or fresh official provider availability has been established. RF-032 repairs the technical source architecture without touching the frozen periods and leaves RF-023 incomplete.
 | `ATS2-RF-024` | `WBS-RF.2` | P1 | BLOCKED | RF-023 exact-main preparation result | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest/schema when permitted | Canonicalize the exact RF-023 machine result and freeze the Data Feasibility decision/dataset identity; do not compute HYP-0005 primary outcome |
 | `ATS2-RF-025` | `WBS-RF.2` | P1 | DONE / PASS | RF-022 PASS; retained `S4-FAM-02` sourcing provenance; RF-023 may remain externally blocked | `research/ideas/IDEA-0005.md` + `research/hypotheses/HYP-0006.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `9b0a6c8898a7ebf9b03167a871ad02af96ca2807` registered IDEA-0005/HYP-0006 as two Material Research Attempts while preserving HYP-0005 and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-026` | `WBS-RF.2` | P1 | DONE / PASS | RF-025 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `5e0ff9e4481e5dc28c14a73adcf32433715973a3` recorded `CONDITIONAL` feasibility, frozen the development interval and source/timing constraints, and retained `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
@@ -479,55 +480,52 @@ RF-023 is structurally `READY` but execution is temporarily blocked by external 
 | `ATS2-RF-028` | `WBS-RF.2` | P1 | DONE / PASS | RF-027 exact-main PASS | `research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md` + `tools/hyp0006_data_tolerance_freeze.py` + synthetic tests + local freeze result | Exact-main owner launcher PASS on `e7f05a0d237c4d78a8a0edb93710619e6ad2ba00` froze 216/217 eligible events, 1 gap-based exclusion, 30000 ms anchor tolerances and unchanged RF-027 hashes with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-029` | `WBS-RF.2` | P1 | DONE / PASS | RF-028 exact-main PASS | `research/reviews/HYP-0006-PROTOTYPE-01.md` + `tools/hyp0006_proto01.py` + synthetic tests + synchronized SoT/current-task gate | Exact-main PASS on `94df9ede91522f473872b25a6d8023fd64182878` froze the 216-event structural question, equations, source/anchor reconstruction, diagnostics, single median inequality, decision routing and runner blob `6afb870c035bc5ae76f773784a5fa3db15d680fd` with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-030` | `WBS-RF.2` | P1 | DONE / PASS | RF-029 exact-main PASS | `research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md` + canonical local `HYP0006_PROTO01_RESULT.json` + shareable report | Exact-main OWNER launcher PASS on `d1135bb2486009ebb358bf4b508c06303ab77f74` verified 1085/1085 BI5 SHA-256, ran frozen runner once, preserved 216/217 event results and `ADVANCE_TO_ECONOMIC_SCREEN` under preregistered median inequality; JSON SHA-256 `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`; exploratory only, no trading/independent claim |
-| `ATS2-RF-031` | `WBS-RF.2` | P1 | READY | RF-030 exact-main PASS; OWNER approved new confirmatory structural Hypothesis preparation | `research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md` + `research/hypotheses/HYP-0007.md` + Source of Truth/current-task gate sync | Retain exact HYP-0006 reveal and confounding, register one new material Hypothesis under IDEA-0005 with an 8-gate prospective plan, no reuse of revealed/other-line consumed/protected data as independent, no HYP-0007 outcome or R4 |
+| `ATS2-RF-031` | `WBS-RF.2` | P1 | DONE / PASS | RF-030 exact-main PASS; OWNER approved new confirmatory structural hypothesis preparation | `research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md` + `research/hypotheses/HYP-0007.md` + synchronized SoT | Exact-main OWNER launcher PASS on `1ff81954fa1918975a9d19ce94c3f8c926fecb96` retained exact HYP-0006 reveal SHA-256 `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9` and registered distinct HYP-0007 8-gate confirmatory structural plan without outcome or independent dataset |
+| `ATS2-RF-032` | `WBS-RF.2` | P1 | READY | RF-031 exact-main PASS; OWNER switched priority back to HYP-0005; RF-023 September 2026 official source BID/ASK missing | `research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md` + hardened local-only RF-023 source access + synthetic tests + Source of Truth/current-task checker | Technical source-access repair only: remove hidden HTTP retry/endpoint cycling, preserve frozen RF-023 source family/months/segments and all HYP-0005 protected prices, report SOURCE_INPUT_REQUIRED without accessing or calculating outcomes; separate official owner intake/authorization later |
 
 ## 8. Следующий шаг
 
-Current executable program-level task:
+Current program-level task: `ATS2-RF-032` — HYP-0005 / RF-023
+official snapshot offline source-input repair. This is a **technical
+substep** within HYP-0005 research gate `1/5`; it is not a new
+market experiment, Hypothesis ID or main research gate.
 
-`ATS2-RF-031 — HYP-0006 revealed result review and HYP-0007 confirmatory structural formation`.
+RF-031 closed at exact-main `1ff81954fa1918975a9d19ce94c3f8c926fecb96`
+with `ATS CURRENT TASK CHECK: PASS` and `ATS TASK LAUNCHER: PASS`.
+HYP-0007 confirmatory formation is complete (1/8), and its
+independent-source audit (2/8) is **paused**, not falsely advanced.
 
-Research step: `18/22` (HYP-0006's 17/22 first-reveal gate is CLOSED).
+On 2026-10-08 OWNER approved priority switch to `HYP-0005 / RF-023`.
+Offline inventory at same `main` confirms exactly **one still-missing
+source month**: `2026-09`, no local BID+ASK in Jetta JSON or BI5.
+Four 2003 source-month pairs exist as file-only observations;
+their decoded BID/ASK coherence is **NOT YET VALIDATED**.
 
-RF-030 first reveal exact-main PASS: `d1135bb2486009ebb358bf4b508c06303ab77f74`.
+The frozen confirmatory periods remain:
+- `[2003-05-04T21:00:00Z, 2003-08-03T21:00:00Z)`;
+- `[2026-09-01T00:00:00Z, 2026-09-26T00:00:00Z)`.
 
-Retain canonical local `reports/local_ci/HYP0006_PROTO01_RESULT.json` unchanged:
-SHA-256 `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`.
+Canonical official-source repair/intake:
+`research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md`.
 
-Full frozen 216-event result:
-`median_post_abs_60m_return = 0.0012930417305135888` and
-`median_pre_abs_60m_return = 0.0005589654536042321`.
-Single predeclared inequality PASS; `ADVANCE_TO_ECONOMIC_SCREEN`
-is exploratory only and mandates a **new** Hypothesis before R4.
+RF-032 will stage an offline-only local-source input architecture:
+**no Jetta/BI5 network retry, no endpoint cycling, no protected prices
+decoded, and no result calculation** during its exact-main technical
+gate. September official BID/ASK raw bytes must not be invented,
+replaced with a different period, or silently sourced elsewhere.
+An official owner browser/source action requires a **separate explicit
+source-access authorization** after protocol and exact paths are prepared.
 
-Result-review artifact:
-`research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md`.
+RF-023 `SOURCE_INPUT_REQUIRED_2026_09` persists until a pair is obtained
+and verified under the frozen source semantics. RF-024 remains BLOCKED
+until RF-023 exact-main machine preparation PASS.
 
-HYP-0006 revealed 216/216 coincident BLS Real Earnings labels; causal
-attribution to CPI alone is **not** established. Keep annual 2003, 2008,
-2011 counterexamples and all positive/negative events in the historical record.
+Current information boundaries:
+- HYP-0005 `NO_CONFIRMATORY_OUTCOME_COMPUTED`;
+- HYP-0006 `DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`;
+- HYP-0007 `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
 
-OWNER approved only formation/preparation of a **confirmatory structural**
-continuation on `2026-10-08`. Lineage review found the same
-`IDEA-0005` mechanism, `FX_SPOT_OTC/EURUSD`, scheduled CPI event class,
-pre/post 60-minute window, and non-directional median inequality.
-The next available Hypothesis ID is `HYP-0007`.
-This is a separate Material Research Attempt, not a renamed HYP-0006.
-
-`ПЛАН HYP-0007 (1/8...8/8)` is fixed in the new card:
-formation → independent-data feasibility → source rules freeze →
-source acquisition (no outcome) → dataset/runner freeze → one-shot confirmatory
-reveal → evidence review → stop or referral to a separate trading-Hypothesis path.
-
-**No confirmatory dataset has been certified as independent.** HYP-0006
-development `[2003-08-03T21:00:00Z, 2021-09-01T00:00:00Z)` is consumed;
-HYP-0004 viewed EURUSD coverage through `2026-09-01T00:00:00Z`.
-HYP-0005 protected segments remain forbidden. Other ATS exposure must be
-audited before independent evidence can be claimed.
-
-Current boundary: `HYP0006_DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`;
-`HYP0007_NO_CONFIRMATORY_OUTCOME_COMPUTED`.
-RF-031 is **not** done until exact-head agent preflight,
-GPT squash merge and OWNER exact-main launcher PASS.
-No further Technical ID, protected-data access, trading P&L,
-confirmatory reveal or R4 admission is authorized during RF-031.
+No next RF ID, R4, Candidate, trading P&L, research outcome or
+network source request is authorized by this task. RF-032 closes
+only after exact-head preflight, GPT squash merge and OWNER
+exact-main `.\\ATS_TASK_CHECK.bat` PASS.

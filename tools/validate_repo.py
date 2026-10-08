@@ -99,6 +99,7 @@ HYP0004_PROTOTYPE_TEST = "tests/test_hyp0004_proto01.py"
 HYP0004_PROTOTYPE_RESULT = "reports/research/HYP-0004-PROTOTYPE-01-result.json"
 HYP0005_HYPOTHESIS = "research/hypotheses/HYP-0005.md"
 HYP0005_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"
+HYP0005_OFFLINE_SOURCE_INTAKE = "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"
 HYP0005_DATA_FEASIBILITY_TOOL = "tools/hyp0005_data_feasibility.py"
 HYP0005_DATA_FEASIBILITY_TEST = "tests/test_hyp0005_data_feasibility.py"
 STRATEGY_5_IDEA = "research/ideas/IDEA-0005.md"
@@ -316,6 +317,7 @@ def configure() -> None:
         HYP0004_PROTOTYPE_RESULT,
         HYP0005_HYPOTHESIS,
         HYP0005_DATA_FEASIBILITY_PREP,
+        HYP0005_OFFLINE_SOURCE_INTAKE,
         HYP0005_DATA_FEASIBILITY_TOOL,
         HYP0005_DATA_FEASIBILITY_TEST,
         STRATEGY_5_IDEA,
@@ -1253,6 +1255,17 @@ def configure() -> None:
         "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY",
         "ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze",
     )
+    core.CONTENT_MARKERS[HYP0005_OFFLINE_SOURCE_INTAKE] = (
+        "Task: `ATS2-RF-032`",
+        "SOURCE_INPUT_REQUIRED_2026_09",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        "2026/09/BID_candles_hour_1.json",
+        "2026/09/ASK_candles_hour_1.json",
+        "2026/09/BID_candles_hour_1.bi5",
+        "2026/09/ASK_candles_hour_1.bi5",
+        "https://jetta.dukascopy.com/v1/candles/hour/EUR-USD/BID/2026/9",
+        "https://datafeed.dukascopy.com/datafeed/EURUSD/2026/08/BID_candles_hour_1.bi5",
+    )
     core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_TOOL] = (
         'TASK_ID = "ATS2-RF-023"',
         'HYPOTHESIS_ID = "HYP-0005"',
@@ -1266,6 +1279,11 @@ def configure() -> None:
         "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE",
         "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY",
         "HYP0005_DATA_FEASIBILITY_PREP.json",
+        "SOURCE_INPUT_REQUIRED_LOCAL_SNAPSHOT",
+        "SOURCE_INPUT_REQUIRED_PARTIAL_PAIR",
+        "LOCAL_FROZEN_COPY",
+        "source.jetta_raw_path",
+        "source.raw_path",
     )
     core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_TEST] = (
         "test_frozen_segments_do_not_overlap_consumed_project_interval",
@@ -1274,6 +1292,10 @@ def configure() -> None:
         "test_geometry_counts_each_segment_without_bridging_gap",
         "test_preparation_decision_requires_both_segments_and_primary_buckets",
         "test_derived_csv_contains_no_hypothesis_outcome_columns",
+        "test_rf023_offline_missing_september_fails_without_network",
+        "test_rf023_offline_partial_pair_blocks_even_with_bi5_alternative",
+        "test_rf023_offline_complete_bi5_pair_and_jetta_precedence",
+        "test_rf023_offline_empty_object_fails_closed",
     )
     core.CONTENT_MARKERS[STRATEGY_5_IDEA] = (
         "Idea ID: `IDEA-0005`",
@@ -1667,7 +1689,9 @@ def configure() -> None:
     core.CONTENT_MARKERS[CURRENT_TASK_CHECK_TEST] = (
         "test_saved_reveal_identity_rejects_drift",
         "test_hash_only_archive_function_preserves_exact_bytes",
-        "test_rf031_checker_never_executes_market_runner",
+        "test_rf032_checker_never_executes_market_runner",
+        "test_rf032_source_contract_is_offline_only",
+        "test_rf032_file_inventory_is_metadata_only",
         "NO_CONFIRMATORY_OUTCOME_COMPUTED",
     )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
@@ -2342,9 +2366,9 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-031"',
-        'TASK_NAME = "HYP-0006 reveal review and HYP-0007 confirmatory formation"',
-        "RF-031 exact-main and clean-tree",
+        'TASK_ID = "ATS2-RF-032"',
+        'TASK_NAME = "HYP-0005 official-source offline-only intake architecture"',
+        "RF-032 exact-main and clean-tree",
         "main differs from origin/main",
         "HYP0006_PROTO01_RESULT.json",
         "HYP0006_PROTO01_RESULT_REPORT.txt",
@@ -2356,6 +2380,8 @@ def configure() -> None:
         "saved HYP-0006 reveal JSON SHA-256 differs",
         "NO_CONFIRMATORY_OUTCOME_COMPUTED",
         "full ATS Local CI",
+        "RF-032 offline RF-023 source architecture",
+        "SOURCE_INPUT_REQUIRED_LOCAL_SNAPSHOT",
         "ATS CURRENT TASK CHECK:"
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -2820,12 +2846,12 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-030"',
-        'last_completed_artifact: "research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md"',
-        'next_artifact: "research/hypotheses/HYP-0007.md"',
-        'next_task_id: "ATS2-RF-031"',
-        'current_task: "ATS2-RF-031"', 'current_ready_task: "ATS2-RF-031"',
-        'next_task: "UNASSIGNED_UNTIL_RF031_EXACT_MAIN_PASS"',
+        'last_completed_task_id: "ATS2-RF-031"',
+        'last_completed_artifact: "research/hypotheses/HYP-0007.md"',
+        'next_artifact: "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"',
+        'next_task_id: "ATS2-RF-032"',
+        'current_task: "ATS2-RF-032"', 'current_ready_task: "ATS2-RF-032"',
+        'next_task: "RF023_REMAINS_SOURCE_INPUT_REQUIRED_AFTER_RF032"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 5',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2918,7 +2944,13 @@ def main() -> int:
         'strategy_4_confirmatory_dataset_selected: false',
         'strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
         'strategy_4_confirmatory_dataset_candidate_version: "1.0.0"',
-        'strategy_4_confirmatory_prep_status: "RF023_PROTOCOL_FROZEN_PENDING_OWNER_PREPARATION"',
+        'strategy_4_confirmatory_prep_status: "RF023_PROTOCOL_FROZEN_SOURCE_INPUT_REQUIRED_OFFLINE_REPAIR"',
+        'strategy_4_confirmatory_source_availability_status: "SOURCE_INPUT_REQUIRED_2026_09"',
+        'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
+        'strategy_4_confirmatory_source_manual_intake_authorized: false',
+        'strategy_4_confirmatory_source_network_retry_authorized: false',
+        'strategy_4_confirmatory_source_intake_document: "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"',
+        'rf031_verified_commit: "1ff81954fa1918975a9d19ce94c3f8c926fecb96"',
         'strategy_4_confirmatory_left_segment_start: "2003-05-04T21:00:00Z"',
         'strategy_4_confirmatory_left_segment_end_exclusive: "2003-08-03T21:00:00Z"',
         'strategy_4_confirmatory_right_segment_start: "2026-09-01T00:00:00Z"',
@@ -3305,8 +3337,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-030") != "DONE / PASS":
         core.fail("RF-030 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-031") != "READY":
-        core.fail("RF-031 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-031") != "DONE / PASS":
+        core.fail("RF-031 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-032") != "READY":
+        core.fail("RF-032 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")

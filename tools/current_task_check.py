@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RF-031 governance-only completion: preserve HYP-0006; register HYP-0007."""
+"""RF-032 technical HYP-0005 offline source-input repair (no market outcome)."""
 
 from __future__ import annotations
 
@@ -12,8 +12,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 
-TASK_ID = "ATS2-RF-031"
-TASK_NAME = "HYP-0006 reveal review and HYP-0007 confirmatory formation"
+TASK_ID = "ATS2-RF-032"
+TASK_NAME = "HYP-0005 official-source offline-only intake architecture"
 
 RF030_MAIN_COMMIT = "d1135bb2486009ebb358bf4b508c06303ab77f74"
 FROZEN_HYP0006_RUNNER_BLOB = "6afb870c035bc5ae76f773784a5fa3db15d680fd"
@@ -24,6 +24,9 @@ REVEAL_TEXT = ROOT / "reports/local_ci/HYP0006_PROTO01_RESULT_REPORT.txt"
 REVEAL_REVIEW = ROOT / "research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md"
 NEW_HYPOTHESIS = ROOT / "research/hypotheses/HYP-0007.md"
 STATE = ROOT / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
+SOURCE_INTAKE = ROOT / "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"
+RF023_SOURCE_TOOL = ROOT / "tools/hyp0005_data_feasibility.py"
+RF023_SNAPSHOT_ROOT = ROOT / "data/external/dukascopy/EURUSD/H1"
 
 FROZEN_BLOBS = {
     "tools/hyp0006_proto01.py": FROZEN_HYP0006_RUNNER_BLOB,
@@ -61,7 +64,7 @@ def git_output(*arguments: str) -> str:
 
 
 def check_exact_main_context() -> str:
-    print("\n== RF-031 exact-main and clean-tree ==", flush=True)
+    print("\n== RF-032 exact-main and clean-tree ==", flush=True)
     branch = git_output("branch", "--show-current")
     head = git_output("rev-parse", "HEAD")
     origin_main = git_output("rev-parse", "origin/main")
@@ -176,8 +179,8 @@ def check_new_confirmatory_hypothesis() -> None:
             "216",
         ),
         STATE: (
-            'last_completed_task_id: "ATS2-RF-030"',
-            'next_task_id: "ATS2-RF-031"',
+            'last_completed_task_id: "ATS2-RF-031"',
+            'next_task_id: "ATS2-RF-032"',
             'strategy_5_confirmatory_hypothesis_id: "HYP-0007"',
             'strategy_5_confirmatory_source_status: "INDEPENDENCE_NOT_YET_CERTIFIED"',
             "strategy_5_confirmatory_outcome_computed: false",
@@ -191,8 +194,102 @@ def check_new_confirmatory_hypothesis() -> None:
     print("HYP-0007 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
 
 
+def check_rf023_offline_source_architecture() -> None:
+    print("\n== RF-032 offline RF-023 source architecture ==", flush=True)
+    require(RF023_SOURCE_TOOL.is_file(), "frozen RF-023 source tool missing")
+    require(SOURCE_INTAKE.is_file(), "RF-032 intake instructions missing")
+    source_code = RF023_SOURCE_TOOL.read_text(encoding="utf-8")
+    intake = SOURCE_INTAKE.read_text(encoding="utf-8")
+    for marker in (
+        "SOURCE_INPUT_REQUIRED_LOCAL_SNAPSHOT",
+        "SOURCE_INPUT_REQUIRED_PARTIAL_PAIR",
+        "SOURCE_INPUT_REQUIRED_EMPTY_OBJECT",
+        "LOCAL_FROZEN_COPY",
+        "source.jetta_raw_path",
+        "source.raw_path",
+        "download_source_pair_resilient",
+    ):
+        require(marker in source_code, f"RF-023 offline source guard missing: {marker}")
+    for forbidden in (
+        "source.download_jetta_source_once",
+        "source.download_legacy_source_once",
+        "source.fetch_bytes(",
+        "time.sleep(",
+    ):
+        require(
+            forbidden not in source_code,
+            f"RF-023 network path remains: {forbidden}",
+        )
+    for marker in (
+        "ATS2-RF-032",
+        "SOURCE_INPUT_REQUIRED_2026_09",
+        "2026/09/BID_candles_hour_1.json",
+        "2026/09/ASK_candles_hour_1.json",
+        "https://jetta.dukascopy.com/v1/candles/hour/EUR-USD/",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+    ):
+        require(marker in intake, f"RF-032 intake contract marker absent: {marker}")
+    state = STATE.read_text(encoding="utf-8")
+    for marker in (
+        'strategy_4_confirmatory_source_availability_status: "SOURCE_INPUT_REQUIRED_2026_09"',
+        'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
+        "strategy_4_confirmatory_source_manual_intake_authorized: false",
+        "strategy_4_confirmatory_source_network_retry_authorized: false",
+        'next_task_id: "ATS2-RF-032"',
+    ):
+        require(marker in state, f"RF-032 state marker absent: {marker}")
+    print("[PASS] RF-023 source runtime is offline-only; no HTTP/retry", flush=True)
+
+
+def record_local_rf023_file_inventory() -> None:
+    """Nonblocking metadata audit; intentionally no price decode, no source network."""
+    print("\n== RF-032 frozen HYP-0005 file-only inventory ==", flush=True)
+    missing_months: list[str] = []
+    for year, month in ((2003, 5), (2003, 6), (2003, 7), (2003, 8), (2026, 9)):
+        directory = RF023_SNAPSHOT_ROOT / str(year) / f"{month:02d}"
+        complete_formats: list[str] = []
+        for extension in ("json", "bi5"):
+            pair_complete = True
+            for side in ("BID", "ASK"):
+                path = directory / f"{side}_candles_hour_1.{extension}"
+                if not path.is_file():
+                    pair_complete = False
+                    continue
+                size = path.stat().st_size
+                checksum = sha256_file(path) if size else "EMPTY"
+                print(
+                    f"{year}-{month:02d} {extension} {side}: bytes={size} sha256={checksum}",
+                    flush=True,
+                )
+                if size == 0:
+                    pair_complete = False
+            if pair_complete:
+                complete_formats.append(extension)
+        if not complete_formats:
+            missing_months.append(f"{year}-{month:02d}")
+        print(
+            f"[INFO] {year}-{month:02d} complete local file pairs: "
+            f"{','.join(complete_formats) if complete_formats else 'NONE'}",
+            flush=True,
+        )
+    if missing_months:
+        print(
+            "[INFO] SOURCE_INPUT_REQUIRED: "
+            + ",".join(missing_months)
+            + "; OFFLINE ARCHITECTURE PASS DOES NOT MEAN RESEARCH PASS",
+            flush=True,
+        )
+    else:
+        print(
+            "[INFO] ALL_LOCAL_FILE_PAIRS_PRESENT; "
+            "official provenance/decoded coherence still unverified",
+            flush=True,
+        )
+    print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
+
+
 def run_full_ci() -> None:
-    print("\n== RF-031 full ATS Local CI (no market runner) ==", flush=True)
+    print("\n== RF-032 full ATS Local CI (no market runner) ==", flush=True)
     completed = subprocess.run(
         [sys.executable, "tools/verify_repo.py"],
         cwd=ROOT,
@@ -206,7 +303,7 @@ def main() -> int:
     print("ATS CURRENT TASK CHECK", flush=True)
     print(f"Task: {TASK_ID} — {TASK_NAME}", flush=True)
     print(
-        "RF-031: governance / data-boundary only; NO market test or reveal.",
+        "RF-032: OFFLINE source/intake only; NO HTTP, protected price decode or reveal.",
         flush=True,
     )
     try:
@@ -214,6 +311,8 @@ def main() -> int:
         check_frozen_lineage()
         check_preserved_reveal_artifacts()
         check_new_confirmatory_hypothesis()
+        check_rf023_offline_source_architecture()
+        record_local_rf023_file_inventory()
         run_full_ci()
         require(check_exact_main_context() == commit, "main changed during full CI")
     except (
@@ -224,7 +323,10 @@ def main() -> int:
         json.JSONDecodeError,
         subprocess.CalledProcessError,
     ) as exc:
-        print(f"[FAIL] RF-031 governance/data-integrity blocker: {exc}", flush=True)
+        print(
+            f"[FAIL] RF-032 governance/source-architecture blocker: {exc}",
+            flush=True,
+        )
         print("HYP-0007 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
         print("ATS CURRENT TASK CHECK: FAIL", flush=True)
         return 1

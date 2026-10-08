@@ -1,4 +1,4 @@
-"""Synthetic RF-031 governance checks: archived result, no market execution."""
+"""Synthetic RF-032 offline intake checks; no market execution or network."""
 
 from __future__ import annotations
 
@@ -66,10 +66,30 @@ def test_hash_only_archive_function_preserves_exact_bytes(tmp_path: Path) -> Non
     assert check.sha256_file(archive) != hashlib.sha256(raw).hexdigest()
 
 
-def test_rf031_checker_never_executes_market_runner() -> None:
+def test_rf032_checker_never_executes_market_runner() -> None:
     source = inspect.getsource(check)
-    assert 'TASK_ID = "ATS2-RF-031"' in source
+    assert 'TASK_ID = "ATS2-RF-032"' in source
     assert "--execute-first-reveal" not in source
     assert "prepare_first_reveal(" not in source
     assert "verify_repo.py" in source
     assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in source
+
+
+def test_rf032_source_contract_is_offline_only() -> None:
+    check.check_rf023_offline_source_architecture()
+
+
+def test_rf032_file_inventory_is_metadata_only(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setattr(check, "RF023_SNAPSHOT_ROOT", tmp_path)
+    path = tmp_path / "2003" / "05"
+    path.mkdir(parents=True)
+    (path / "BID_candles_hour_1.json").write_bytes(b"synthetic")
+    (path / "ASK_candles_hour_1.json").write_bytes(b"synthetic")
+    check.record_local_rf023_file_inventory()
+    printed = capsys.readouterr().out
+    assert "2003-05 complete local file pairs: json" in printed
+    assert "2026-09 complete local file pairs: NONE" in printed
+    assert "SOURCE_INPUT_REQUIRED" in printed
+    assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in printed
