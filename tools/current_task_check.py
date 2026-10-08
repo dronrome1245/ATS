@@ -233,8 +233,8 @@ def check_rf023_offline_source_architecture() -> None:
     for marker in (
         'strategy_4_confirmatory_source_availability_status: "SOURCE_INPUT_REQUIRED_2026_09"',
         'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
-        'strategy_4_confirmatory_source_manual_intake_authorized: false',
-        'strategy_4_confirmatory_source_network_retry_authorized: false',
+        "strategy_4_confirmatory_source_manual_intake_authorized: false",
+        "strategy_4_confirmatory_source_network_retry_authorized: false",
         'next_task_id: "ATS2-RF-032"',
     ):
         require(marker in state, f"RF-032 state marker absent: {marker}")
@@ -258,8 +258,7 @@ def record_local_rf023_file_inventory() -> None:
                 size = path.stat().st_size
                 checksum = sha256_file(path) if size else "EMPTY"
                 print(
-                    f"{year}-{month:02d} {extension} {side}: bytes={size} "
-                    f"sha256={checksum}",
+                    f"{year}-{month:02d} {extension} {side}: bytes={size} sha256={checksum}",
                     flush=True,
                 )
                 if size == 0:
