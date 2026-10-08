@@ -787,7 +787,7 @@ research_factory:
   strategy_5_rf028_exclusion_reason: "POST_60_ANCHOR_GAP_EXCEEDS_30000MS"
   strategy_5_prototype_id: "PROTO-01"
   strategy_5_prototype_freeze_status: "RF029_STAGED_PRE_REVEAL"
-  strategy_5_prototype_runner_git_blob: "21bd7dbdca5b6fc83a12fe0b80f2d367f6c4f34a"
+  strategy_5_prototype_runner_git_blob: "a3ac99eeea0159050364da156194a4753c4f5966"
   strategy_5_development_dataset_id: "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001"
   strategy_5_development_dataset_version: "1.0.0"
   strategy_5_anchor_boundary_max_abs_gap_ms: 30000
