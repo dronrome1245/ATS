@@ -189,7 +189,9 @@ def test_rf023_offline_missing_september_fails_without_network(
 ) -> None:
     local_snapshot_paths(monkeypatch, tmp_path)
     september = datetime(2026, 9, 1, tzinfo=UTC)
-    with pytest.raises(prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_LOCAL_SNAPSHOT"):
+    with pytest.raises(
+        prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_LOCAL_SNAPSHOT"
+    ):
         prep.download_source_pair_resilient(september)
 
 
@@ -203,7 +205,9 @@ def test_rf023_offline_partial_pair_blocks_even_with_bi5_alternative(
     (directory / "BID_candles_hour_1.json").write_bytes(b"synthetic-bid")
     for side in ("BID", "ASK"):
         (directory / f"{side}_candles_hour_1.bi5").write_bytes(b"synthetic")
-    with pytest.raises(prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_PARTIAL_PAIR"):
+    with pytest.raises(
+        prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_PARTIAL_PAIR"
+    ):
         prep.download_source_pair_resilient(september)
 
 
@@ -238,5 +242,7 @@ def test_rf023_offline_empty_object_fails_closed(
     directory.mkdir()
     (directory / "BID_candles_hour_1.json").write_bytes(b"synthetic-bid")
     (directory / "ASK_candles_hour_1.json").write_bytes(b"")
-    with pytest.raises(prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_EMPTY_OBJECT"):
+    with pytest.raises(
+        prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_EMPTY_OBJECT"
+    ):
         prep.download_source_pair_resilient(september)
