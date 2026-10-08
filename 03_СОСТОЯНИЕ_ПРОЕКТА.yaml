@@ -140,13 +140,15 @@ model:
   strategy_5_prototype: "research/reviews/HYP-0006-PROTOTYPE-01.md"
   strategy_5_prototype_runner: "tools/hyp0006_proto01.py"
   strategy_5_prototype_test: "tests/test_hyp0006_proto01.py"
+  strategy_5_prototype_reveal_gate: "research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md"
+  strategy_5_prototype_reveal_checker_test: "tests/test_current_task_check.py"
 
 current:
-  focus: "RF-028 exact-main PASS on e7f05a0d237c4d78a8a0edb93710619e6ad2ba00 mechanically froze 216/217 eligible U.S. CPI events, 1 fixed exclusion, 30000 ms tolerances and exact source/geometry identities; active RF-029 stages HYP-0006 PROTO-01 runner/decision freeze without market outcome"
-  last_completed_task_id: "ATS2-RF-028"
-  last_completed_artifact: "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
-  next_artifact: "research/reviews/HYP-0006-PROTOTYPE-01.md"
-  next_task_id: "ATS2-RF-029"
+  focus: "RF-029 exact-main PASS on 94df9ede91522f473872b25a6d8023fd64182878 froze the HYP-0006 PROTO-01 question, 216-event denominator, calculations, diagnostics, decision rule and runner blob before market inspection; active RF-030 stages the separately gated one-shot exact-main first reveal without executing it"
+  last_completed_task_id: "ATS2-RF-029"
+  last_completed_artifact: "research/reviews/HYP-0006-PROTOTYPE-01.md"
+  next_artifact: "research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md"
+  next_task_id: "ATS2-RF-030"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -408,6 +410,7 @@ research_factory:
     - "ATS2-RF-026"
     - "ATS2-RF-027"
     - "ATS2-RF-028"
+    - "ATS2-RF-029"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -447,9 +450,12 @@ research_factory:
     - "research/reviews/HYP-0006-DATA-FEASIBILITY.md"
     - "research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md"
     - "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
-  current_task: "ATS2-RF-029"
+    - "research/reviews/HYP-0006-PROTOTYPE-01.md"
+    - "tools/hyp0006_proto01.py"
+    - "tests/test_hyp0006_proto01.py"
+  current_task: "ATS2-RF-030"
   current_wbs: "WBS-RF.2"
-  next_task: "UNASSIGNED_UNTIL_RF029_PASS"
+  next_task: "UNASSIGNED_UNTIL_RF030_REVEAL_REVIEW"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -606,7 +612,7 @@ research_factory:
   strategy_5_event_source_candidate: "BLS_OFFICIAL_CPI_RELEASE_SCHEDULE_AND_ARCHIVE"
   strategy_5_quote_source_candidate: "DUKASCOPY_EURUSD_TICK"
   strategy_5_same_time_cluster_policy: "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION"
-  strategy_5_prototype_authorized: false
+  strategy_5_prototype_authorized: true
   rf026_verified_commit: "5e0ff9e4481e5dc28c14a73adcf32433715973a3"
   strategy_5_data_feasibility_prep_status: "RF027_EXACT_MAIN_PASS"
   strategy_5_data_feasibility_prep_decision: "READY_FOR_DATA_FEASIBILITY_FREEZE"
@@ -786,7 +792,13 @@ research_factory:
   strategy_5_rf028_ineligible_event_id: "BLS-CPI-20030815"
   strategy_5_rf028_exclusion_reason: "POST_60_ANCHOR_GAP_EXCEEDS_30000MS"
   strategy_5_prototype_id: "PROTO-01"
-  strategy_5_prototype_freeze_status: "RF029_STAGED_PRE_REVEAL"
+  strategy_5_prototype_freeze_status: "RF029_EXACT_MAIN_PASS_FROZEN"
+  rf029_verified_commit: "94df9ede91522f473872b25a6d8023fd64182878"
+  strategy_5_prototype_reveal_status: "RF030_STAGED_REVEAL_NOT_EXECUTED"
+  strategy_5_prototype_reveal_execution_authorization: "EXACT_MAIN_RF030_TASK_LAUNCHER_ONLY_AFTER_AGENT_PREFLIGHT_AND_MERGE"
+  strategy_5_prototype_reveal_gate: "research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md"
+  strategy_5_prototype_reveal_result: "reports/local_ci/HYP0006_PROTO01_RESULT.json"
+  strategy_5_prototype_reveal_report: "reports/local_ci/HYP0006_PROTO01_RESULT_REPORT.txt"
   strategy_5_prototype_runner_git_blob: "6afb870c035bc5ae76f773784a5fa3db15d680fd"
   strategy_5_development_dataset_id: "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001"
   strategy_5_development_dataset_version: "1.0.0"
@@ -806,7 +818,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-029"
+  current_ready_task: "ATS2-RF-030"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
