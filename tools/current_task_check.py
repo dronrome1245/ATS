@@ -216,7 +216,10 @@ def check_rf023_offline_source_architecture() -> None:
         "source.fetch_bytes(",
         "time.sleep(",
     ):
-        require(forbidden not in source_code, f"RF-023 network path remains: {forbidden}")
+        require(
+            forbidden not in source_code,
+            f"RF-023 network path remains: {forbidden}",
+        )
     for marker in (
         "ATS2-RF-032",
         "SOURCE_INPUT_REQUIRED_2026_09",
@@ -321,7 +324,10 @@ def main() -> int:
         json.JSONDecodeError,
         subprocess.CalledProcessError,
     ) as exc:
-        print(f"[FAIL] RF-032 governance/source-architecture blocker: {exc}", flush=True)
+        print(
+            f"[FAIL] RF-032 governance/source-architecture blocker: {exc}",
+            flush=True,
+        )
         print("HYP-0007 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
         print("ATS CURRENT TASK CHECK: FAIL", flush=True)
         return 1
