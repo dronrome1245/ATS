@@ -78,9 +78,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 63. `ATS2-RF-026` — HYP-0006 Data Feasibility — `DONE / PASS`.
 64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation with frozen local BLS + Dukascopy snapshots — `DONE / PASS`.
 65. `ATS2-RF-028` — HYP-0006 pre-reveal data/tolerance freeze — `DONE / PASS`.
-66. `ATS2-RF-029` — HYP-0006 PROTO-01 pre-reveal runner/decision freeze — `READY`.
+66. `ATS2-RF-029` — HYP-0006 PROTO-01 pre-reveal runner/decision freeze — `DONE / PASS`.
+67. `ATS2-RF-030` — HYP-0006 PROTO-01 first development reveal gate — `READY`.
 
-Program-level current next task — `ATS2-RF-029`.
+Program-level current next task — `ATS2-RF-030`.
 
 
 RF-027 source architecture is now frozen to local official BLS schedule snapshots rather than live
@@ -475,13 +476,22 @@ RF-023 is structurally `READY` but execution is temporarily blocked by external 
 | `ATS2-RF-026` | `WBS-RF.2` | P1 | DONE / PASS | RF-025 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `5e0ff9e4481e5dc28c14a73adcf32433715973a3` recorded `CONDITIONAL` feasibility, frozen the development interval and source/timing constraints, and retained `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-027` | `WBS-RF.2` | P1 | DONE / PASS | RF-026 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md` + `tools/hyp0006_data_feasibility.py` + synthetic tests + local machine result | Exact-main PASS on `bbbdbd301b610dfc61316c9ff82015fb0e039a47` returned `READY_FOR_DATA_FEASIBILITY_FREEZE`, `217/217` complete timestamp-geometry events, `1085/1085` required BI5 objects, zero protected HYP-0005 requests and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-028` | `WBS-RF.2` | P1 | DONE / PASS | RF-027 exact-main PASS | `research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md` + `tools/hyp0006_data_tolerance_freeze.py` + synthetic tests + local freeze result | Exact-main owner launcher PASS on `e7f05a0d237c4d78a8a0edb93710619e6ad2ba00` froze 216/217 eligible events, 1 gap-based exclusion, 30000 ms anchor tolerances and unchanged RF-027 hashes with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
-| `ATS2-RF-029` | `WBS-RF.2` | P1 | READY | RF-028 exact-main PASS | `research/reviews/HYP-0006-PROTOTYPE-01.md` + `tools/hyp0006_proto01.py` + synthetic tests + synchronized SoT/current-task gate | Freeze 216-event first structural prototype equations, source/anchor reconstruction, all diagnostics and one primary median inequality; preserve prospective runner blob before separately gated first reveal, with zero HYP-0006 returns or P&L calculated during RF-029 |
+| `ATS2-RF-029` | `WBS-RF.2` | P1 | DONE / PASS | RF-028 exact-main PASS | `research/reviews/HYP-0006-PROTOTYPE-01.md` + `tools/hyp0006_proto01.py` + synthetic tests + synchronized SoT/current-task gate | Exact-main PASS on `94df9ede91522f473872b25a6d8023fd64182878` froze the 216-event structural question, equations, source/anchor reconstruction, diagnostics, single median inequality, decision routing and runner blob `6afb870c035bc5ae76f773784a5fa3db15d680fd` with `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
+| `ATS2-RF-030` | `WBS-RF.2` | P1 | READY | RF-029 exact-main PASS | `research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md` + one-shot `tools/current_task_check.py` + synthetic tests + synchronized SoT | On future exact `main`, require CLEAN, frozen runner/lineage and RF-027/RF-028 identities, full Local CI and SHA-256 of all 1085 BI5 objects before one unchanged runner invocation; validate and preserve 216 observations and the predeclared result whether positive or negative; an existing exact-commit artifact pair is validation-only and any partial/mismatched pair stops without rerun |
 
 ## 8. Следующий шаг
 
 Current executable program-level task:
 
-`ATS2-RF-029 — HYP-0006 PROTO-01 pre-reveal freeze`.
+`ATS2-RF-030 — HYP-0006 PROTO-01 first development reveal gate`.
+
+RF-029 exact-main PASS:
+
+`94df9ede91522f473872b25a6d8023fd64182878`
+
+Frozen runner Git blob:
+
+`6afb870c035bc5ae76f773784a5fa3db15d680fd`
 
 RF-028 exact-main PASS:
 
@@ -528,7 +538,9 @@ Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
-RF-028 exact-main has passed and the exact denominator has been reviewed before
-assignment of RF-029. RF-029 stages the prospective PROTO-01 runner and decision
-contract **without reveal**. Do not assign any post-RF-029 task ID or compute
-HYP-0006 returns before RF-029 exact-main PASS. No market result has been computed.
+RF-029 exact-main has passed and the complete PROTO-01 contract is frozen before
+market inspection. RF-030 stages the separate one-shot exact-main first reveal
+without executing it on the agent branch. The checker must verify all 1085 local
+BI5 hashes before invocation, never rerun when exact-commit artifacts exist, and
+preserve either decision under the original rule. Do not assign a later Technical
+ID before the first result is retained and reviewed. No market result has been computed.

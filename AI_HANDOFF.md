@@ -9,15 +9,15 @@
 - Strategy #2: `REJECTED_AT_R3`.
 - Strategy #3 / HYP-0003: `REJECTED_AT_R3`.
 - Strategy #4 / HYP-0005: active confirmatory line; RF-023 remains externally source-blocked.
-- Strategy #5 / HYP-0006: RF-028 exact-main PASS; RF-029 PROTO-01 pre-reveal freeze active.
+- Strategy #5 / HYP-0006: RF-029 exact-main PASS; RF-030 first-reveal gate staging active.
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
 ## Current executable stage
 
-`Research Factory → Strategy #5 → HYP-0006 → RF-029 PROTO-01 pre-reveal freeze`
+`Research Factory → Strategy #5 → HYP-0006 → RF-030 first PROTO-01 development reveal gate`
 
-Research step: `16/22`.
+Research step: `17/22`.
 
 RF-027 exact-main PASS on `bbbdbd301b610dfc61316c9ff82015fb0e039a47` returned
 `READY_FOR_DATA_FEASIBILITY_FREEZE` with `217/217` complete timestamp-geometry events,
@@ -27,8 +27,11 @@ RF-028 exact-main `e7f05a0d237c4d78a8a0edb93710619e6ad2ba00` passed both complet
 It froze `216/217` eligible CPI events with one fixed exclusion `BLS-CPI-20030815`
 (post-60 anchor gap `60047 ms` versus `30000 ms` cap). Local RF-028 JSON SHA-256:
 `1b575682b959070f4a0981b7cd13d70626f1e169d221d0c9fb2383fc679fd5fb`.
-RF-029 stages the exact PROTO-01 question, decision rule and runner before the
-first reveal. It does **not** compute a HYP-0006 market outcome.
+RF-029 passed exact-main on `94df9ede91522f473872b25a6d8023fd64182878` and froze the
+exact PROTO-01 question, 216-event denominator, calculations, diagnostics,
+decision rule and runner blob before the first reveal. RF-030 now stages only
+the separate one-shot exact-main reveal gate. This branch does **not** execute
+the runner or compute a HYP-0006 market outcome.
 
 Information boundary:
 
@@ -215,15 +218,15 @@ Information boundary:
 
 Current task:
 
-`ATS2-RF-029`
+`ATS2-RF-030`
 
 Current artifact:
 
-`research/reviews/HYP-0006-PROTOTYPE-01.md`
+`research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md`
 
 Last completed artifact:
 
-`research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md`
+`research/reviews/HYP-0006-PROTOTYPE-01.md`
 
 Frozen RF-028 boundary limits before first reveal:
 
@@ -489,13 +492,17 @@ Bundle status:
 
 Bundle completeness: `1085 / 1085`.
 
-Current gate: exact-head agent preflight for RF-029 on the staged pre-reveal runner,
-then squash merge and exact-main `ATS_TASK_CHECK.bat` **without real market calculations**.
-RF-029 is research-protocol/infrastructure only; no BLS/Dukascopy network requests.
+Current gate: review the RF-030 staging branch, then run exact-head
+`ATS_AGENT_PREFLIGHT.bat`. Only after exact-head PASS and squash merge may OWNER
+run exact-main `ATS_TASK_CHECK.bat` once. The checker must pass exact-main/CLEAN,
+runner blob, frozen lineage, RF-027/RF-028 identity, full Local CI and all
+`1085` local BI5 SHA-256 checks before it can invoke the unchanged runner with
+`--execute-first-reveal`. No BLS/Dukascopy network requests or downloader are allowed.
 Information boundary:
 
 `NO_HYPOTHESIS_OUTCOME_COMPUTED`
 
-RF-028 is CLOSED by exact-main PASS. RF-029 is staged; the successor after RF-029
-is intentionally unassigned until exact-main prototype-freeze PASS. The first
-market reveal is forbidden before that gate.
+RF-029 is CLOSED by exact-main PASS. RF-030 is staged and remains incomplete.
+No later Technical ID is assigned until the exact-main first result is preserved
+and reviewed, including a negative result. Existing exact-commit reveal artifacts
+must be validated without rerun; partial, stale or corrupt artifacts are a stop.
