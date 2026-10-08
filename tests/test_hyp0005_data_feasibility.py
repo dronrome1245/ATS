@@ -205,9 +205,7 @@ def test_rf023_offline_partial_pair_blocks_even_with_bi5_alternative(
     (directory / "BID_candles_hour_1.json").write_bytes(b"synthetic-bid")
     for side in ("BID", "ASK"):
         (directory / f"{side}_candles_hour_1.bi5").write_bytes(b"synthetic")
-    with pytest.raises(
-        prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_PARTIAL_PAIR"
-    ):
+    with pytest.raises(prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_PARTIAL_PAIR"):
         prep.download_source_pair_resilient(september)
 
 
@@ -221,9 +219,7 @@ def test_rf023_offline_complete_bi5_pair_and_jetta_precedence(
     for side in ("BID", "ASK"):
         (directory / f"{side}_candles_hour_1.bi5").write_bytes(b"synthetic-bi5")
     bi5_pair = prep.download_source_pair_once(september)
-    assert {v[1]["source_format"] for v in bi5_pair.values()} == {
-        prep.source.SOURCE_FORMAT_BI5
-    }
+    assert {v[1]["source_format"] for v in bi5_pair.values()} == {prep.source.SOURCE_FORMAT_BI5}
     for side in ("BID", "ASK"):
         (directory / f"{side}_candles_hour_1.json").write_bytes(b"synthetic-json")
     jetta_pair = prep.download_source_pair_once(september)
@@ -242,7 +238,5 @@ def test_rf023_offline_empty_object_fails_closed(
     directory.mkdir()
     (directory / "BID_candles_hour_1.json").write_bytes(b"synthetic-bid")
     (directory / "ASK_candles_hour_1.json").write_bytes(b"")
-    with pytest.raises(
-        prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_EMPTY_OBJECT"
-    ):
+    with pytest.raises(prep.ConfirmatoryDataPrepError, match="SOURCE_INPUT_REQUIRED_EMPTY_OBJECT"):
         prep.download_source_pair_resilient(september)
