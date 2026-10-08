@@ -27,15 +27,9 @@ STATE = ROOT / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
 
 FROZEN_BLOBS = {
     "tools/hyp0006_proto01.py": FROZEN_HYP0006_RUNNER_BLOB,
-    "research/reviews/HYP-0006-PROTOTYPE-01.md": (
-        "9f7bcd8480f66a37ea273cc7e158a56758b79b12"
-    ),
-    "research/hypotheses/HYP-0006.md": (
-        "6b3f260ceacd98adf7a6aa44205404e68e4fd4ca"
-    ),
-    "research/hypotheses/HYP-0005.md": (
-        "ebbbc89187c911485c1568dc11f5f2f9e703718a"
-    ),
+    "research/reviews/HYP-0006-PROTOTYPE-01.md": ("9f7bcd8480f66a37ea273cc7e158a56758b79b12"),
+    "research/hypotheses/HYP-0006.md": ("6b3f260ceacd98adf7a6aa44205404e68e4fd4ca"),
+    "research/hypotheses/HYP-0005.md": ("ebbbc89187c911485c1568dc11f5f2f9e703718a"),
 }
 
 
@@ -133,10 +127,7 @@ def check_saved_result_identity(result: dict[str, Any]) -> None:
         "216 saved event records required",
     )
     require(
-        all(
-            isinstance(row, dict) and isinstance(row.get("event_id"), str)
-            for row in rows
-        ),
+        all(isinstance(row, dict) and isinstance(row.get("event_id"), str) for row in rows),
         "saved HYP-0006 event identities malformed",
     )
     require(len({row["event_id"] for row in rows}) == 216, "duplicate saved event IDs")
@@ -189,7 +180,7 @@ def check_new_confirmatory_hypothesis() -> None:
             'next_task_id: "ATS2-RF-031"',
             'strategy_5_confirmatory_hypothesis_id: "HYP-0007"',
             'strategy_5_confirmatory_source_status: "INDEPENDENCE_NOT_YET_CERTIFIED"',
-            'strategy_5_confirmatory_outcome_computed: false',
+            "strategy_5_confirmatory_outcome_computed: false",
         ),
     }.items():
         require(path.is_file(), f"missing source-of-truth artifact: {path}")
