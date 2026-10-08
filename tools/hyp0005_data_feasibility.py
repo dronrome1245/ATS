@@ -129,7 +129,9 @@ def _download_pair_from_format(
     elif source_format == source.SOURCE_FORMAT_BI5:
         path_for_side = source.raw_path
     else:
-        raise ConfirmatoryDataPrepError(f"unknown frozen source format: {source_format}")
+        raise ConfirmatoryDataPrepError(
+            f"unknown frozen source format: {source_format}"
+        )
 
     paths = {
         side: path_for_side(SOURCE_SYMBOL, month, side)
@@ -148,7 +150,8 @@ def _download_pair_from_format(
     for side, path in paths.items():
         if path.stat().st_size <= 0:
             raise ConfirmatoryDataPrepError(
-                f"SOURCE_INPUT_REQUIRED_EMPTY_OBJECT: {month:%Y-%m} {source_format} {side}"
+                "SOURCE_INPUT_REQUIRED_EMPTY_OBJECT: "
+                f"{month:%Y-%m} {source_format} {side}"
             )
     return {
         side: (
