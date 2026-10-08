@@ -17,7 +17,6 @@ import math
 import statistics
 import struct
 import subprocess
-from collections import Counter
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -28,9 +27,15 @@ PROTO_ID = "PROTO-01"
 RF027_COMMIT = "bbbdbd301b610dfc61316c9ff82015fb0e039a47"
 RF028_COMMIT = "e7f05a0d237c4d78a8a0edb93710619e6ad2ba00"
 
-FROZEN_RF028_JSON_SHA256 = "1b575682b959070f4a0981b7cd13d70626f1e169d221d0c9fb2383fc679fd5fb"
-FROZEN_SOURCE_BUNDLE_SHA256 = "5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425"
-FROZEN_GEOMETRY_SHA256 = "e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034"
+FROZEN_RF028_JSON_SHA256 = (
+    "1b575682b959070f4a0981b7cd13d70626f1e169d221d0c9fb2383fc679fd5fb"
+)
+FROZEN_SOURCE_BUNDLE_SHA256 = (
+    "5865691103e464a86bcbb6ee9f3827aa27c68e372946fe248905ffddecb09425"
+)
+FROZEN_GEOMETRY_SHA256 = (
+    "e5830eecb920f810e44e324beb0b7691b8dc86ddfaf410d0da83877940b89034"
+)
 FROZEN_DATASET_ID = "DATA-BLS-DUKASCOPY-EURUSD-TICK-HYP0006-DEV-001"
 FROZEN_DATASET_VERSION = "1.0.0"
 FROZEN_CANDIDATE_COUNT = 217
@@ -99,7 +104,9 @@ def load_frozen_inputs() -> tuple[dict[str, Any], dict[str, Any]]:
         "duplicate_timestamp_tie_break": "LAST_RAW_RECORD_AT_SELECTED_MILLISECOND",
         "price_pairing_rule": "BID_AND_ASK_FROM_SAME_RAW_TICK_RECORD",
         "same_time_event_policy": "FLAG_ONLY_NO_PERFORMANCE_BASED_EXCLUSION",
-        "missing_data_policy": "EXCLUDE_EVENT_IF_ANY_REQUIRED_ANCHOR_FAILS_FROZEN_GAP_RULE",
+        "missing_data_policy": (
+            "EXCLUDE_EVENT_IF_ANY_REQUIRED_ANCHOR_FAILS_FROZEN_GAP_RULE"
+        ),
         "freeze_decision": "FREEZE_DATA_AND_TOLERANCES",
         "outcome_metrics_computed": False,
         "primary_claim_evaluated": False,
@@ -162,11 +169,16 @@ def parse_utc(timestamp: str) -> datetime:
 
 
 def required_hours(release: datetime) -> list[datetime]:
-    pre_hour = (release - timedelta(minutes=60)).replace(minute=0, second=0, microsecond=0)
-    post_hour = (release + timedelta(minutes=60)).replace(minute=0, second=0, microsecond=0)
+    pre_hour = (release - timedelta(minutes=60)).replace(
+        minute=0, second=0, microsecond=0
+    )
+    post_hour = (release + timedelta(minutes=60)).replace(
+        minute=0, second=0, microsecond=0
+    )
     first = pre_hour - timedelta(hours=1)
     last = post_hour + timedelta(hours=1)
-    return [first + timedelta(hours=index) for index in range(int((last - first).total_seconds() // 3600) + 1)]
+    count = int((last - first).total_seconds() // 3600) + 1
+    return [first + timedelta(hours=index) for index in range(count)]
 
 
 def tick_path(hour: datetime) -> Path:
@@ -184,7 +196,9 @@ def decode_quotes(path: Path, hour: datetime, identity: dict[str, Any]) -> list[
     if identity.get("relative_path") != expected_path:
         raise PrototypeError("frozen raw object path identity mismatch")
     if not path.is_file() or sha256_file(path) != identity.get("sha256"):
-        raise PrototypeError(f"frozen raw BI5 missing or hash mismatch: {expected_path}")
+        raise PrototypeError(
+            f"frozen raw BI5 missing or hash mismatch: {expected_path}"
+        )
     try:
         payload = lzma.decompress(path.read_bytes())
     except lzma.LZMAError as exc:
@@ -195,7 +209,9 @@ def decode_quotes(path: Path, hour: datetime, identity: dict[str, Any]) -> list[
     quotes: list[Quote] = []
     previous_ms = -1
     for offset in range(0, len(payload), TICK_RECORD.size):
-        ms, ask_raw, bid_raw, ask_vol, bid_vol = TICK_RECORD.unpack_from(payload, offset)
+        ms, ask_raw, bid_raw, ask_vol, bid_vol = TICK_RECORD.unpack_from(
+            payload, offset
+        )
         if not previous_ms <= ms < 3_600_000 or ask_raw < bid_raw or bid_raw <= 0:
             raise PrototypeError(f"invalid BI5 timestamp or BID/ASK: {expected_path}")
         if not all(math.isfinite(v) and v >= 0 for v in (ask_vol, bid_vol)):
@@ -214,9 +230,13 @@ def select_nearest(quotes: list[Quote], target: datetime) -> tuple[Quote, str, i
     after = bisect.bisect_left(timestamps, target)
     candidates: list[tuple[int, int, str]] = []
     if before >= 0:
-        candidates.append((round((target - timestamps[before]).total_seconds() * 1000), 0, "PREVIOUS"))
+        candidates.append(
+            (round((target - timestamps[before]).total_seconds() * 1000), 0, "PREVIOUS")
+        )
     if after < len(quotes):
-        candidates.append((round((timestamps[after] - target).total_seconds() * 1000), 1, "NEXT"))
+        candidates.append(
+            (round((timestamps[after] - target).total_seconds() * 1000), 1, "NEXT")
+        )
     if not candidates:
         raise PrototypeError("missing nearest tick")
     gap, _, side = min(candidates)
@@ -279,13 +299,19 @@ def one_event(
 
     pre60, pre_side, pre_gap = select_nearest(records, release - timedelta(minutes=60))
     before, before_gap = select_pre_release(records, release)
-    post60, post_side, post_gap = select_nearest(records, release + timedelta(minutes=60))
+    post60, post_side, post_gap = select_nearest(
+        records, release + timedelta(minutes=60)
+    )
     if (
-        (pre_side, pre_gap) != (geometry["pre60_selected_side"], geometry["pre60_selected_gap_ms"])
+        (pre_side, pre_gap)
+        != (geometry["pre60_selected_side"], geometry["pre60_selected_gap_ms"])
         or before_gap != geometry["pre_release_last_gap_ms"]
-        or (post_side, post_gap) != (geometry["post60_selected_side"], geometry["post60_selected_gap_ms"])
+        or (post_side, post_gap)
+        != (geometry["post60_selected_side"], geometry["post60_selected_gap_ms"])
     ):
-        raise PrototypeError(f"anchor differs from frozen RF-028 geometry: {event['event_id']}")
+        raise PrototypeError(
+            f"anchor differs from frozen RF-028 geometry: {event['event_id']}"
+        )
     diagnostic_quote = first_post_release(records, release)
     return {
         "event_id": event["event_id"],
@@ -303,7 +329,11 @@ def one_event(
 def primary_decision(pre_median: float, post_median: float) -> tuple[bool, str, str]:
     passed = post_median > pre_median
     if passed:
-        return True, "ADVANCE_TO_ECONOMIC_SCREEN", "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4"
+        return (
+            True,
+            "ADVANCE_TO_ECONOMIC_SCREEN",
+            "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
+        )
     return False, "REJECT", "STOP_HYP0006"
 
 
@@ -317,7 +347,11 @@ def prepare_first_reveal() -> dict[str, Any]:
 
     observations: list[dict[str, Any]] = []
     for event_id in rf028["eligible_event_ids"]:
-        if event_id not in events or event_id not in geometry or not geometry[event_id]["eligible"]:
+        if (
+            event_id not in events
+            or event_id not in geometry
+            or not geometry[event_id]["eligible"]
+        ):
             raise PrototypeError("event is not in the frozen eligible denominator")
         observations.append(one_event(events[event_id], geometry[event_id], identities))
     if len(observations) != FROZEN_ELIGIBLE_COUNT:
@@ -357,7 +391,11 @@ def prepare_first_reveal() -> dict[str, Any]:
         "hypothesis_id": HYPOTHESIS_ID,
         "prototype_id": PROTO_ID,
         "git_commit": subprocess.run(
-            ["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
         ).stdout.strip(),
         "rf028_git_commit": RF028_COMMIT,
         "rf028_json_sha256": FROZEN_RF028_JSON_SHA256,
@@ -409,7 +447,9 @@ def main() -> int:
         print(f"PROTO-01 SOURCE_OR_CONTRACT_BLOCKED: {exc}")
         return 1
     REVEAL_JSON.parent.mkdir(parents=True, exist_ok=True)
-    REVEAL_JSON.write_text(json.dumps(result, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+    REVEAL_JSON.write_text(
+        json.dumps(result, sort_keys=True, indent=2) + "\n", encoding="utf-8"
+    )
     lines = [
         "HYP-0006 PROTO-01 FIRST REVEAL",
         f"Decision: {result['prototype_decision']}",
