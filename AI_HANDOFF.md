@@ -9,33 +9,55 @@
 - Strategy #2: `REJECTED_AT_R3`.
 - Strategy #3 / HYP-0003: `REJECTED_AT_R3`.
 - Strategy #4 / HYP-0005: active confirmatory line; RF-023 remains externally source-blocked.
-- Strategy #5 / HYP-0006: RF-029 exact-main PASS; RF-030 first-reveal gate staging active.
+- Strategy #5 / HYP-0006: RF-030 exact-main first reveal PASS; HYP-0007 confirmatory formation active (RF-031).
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
 ## Current executable stage
 
-`Research Factory → Strategy #5 → HYP-0006 → RF-030 first PROTO-01 development reveal gate`
+`Research Factory → Strategy #5 → HYP-0006 revealed development review → HYP-0007 confirmatory Hypothesis formation`
 
-Research step: `17/22`.
+Research step: `18/22`. Technical task: `ATS2-RF-031`.
 
-RF-027 exact-main PASS on `bbbdbd301b610dfc61316c9ff82015fb0e039a47` returned
-`READY_FOR_DATA_FEASIBILITY_FREEZE` with `217/217` complete timestamp-geometry events,
-`1085/1085` BI5 objects, zero missing and zero HYP-0005 protected requests.
+RF-030 first development reveal completed **once** on exact `main`
+`d1135bb2486009ebb358bf4b508c06303ab77f74`
+with both local launcher completion gates PASS, 246 pytest tests PASS
+and the full 1085/1085 frozen BI5 SHA-256 integrity gate PASS.
+Frozen runner Git blob: `6afb870c035bc5ae76f773784a5fa3db15d680fd`.
 
-RF-028 exact-main `e7f05a0d237c4d78a8a0edb93710619e6ad2ba00` passed both completion gates.
-It froze `216/217` eligible CPI events with one fixed exclusion `BLS-CPI-20030815`
-(post-60 anchor gap `60047 ms` versus `30000 ms` cap). Local RF-028 JSON SHA-256:
-`1b575682b959070f4a0981b7cd13d70626f1e169d221d0c9fb2383fc679fd5fb`.
-RF-029 passed exact-main on `94df9ede91522f473872b25a6d8023fd64182878` and froze the
-exact PROTO-01 question, 216-event denominator, calculations, diagnostics,
-decision rule and runner blob before the first reveal. RF-030 now stages only
-the separate one-shot exact-main reveal gate. This branch does **not** execute
-the runner or compute a HYP-0006 market outcome.
+Preserved local HYP-0006 result JSON SHA-256:
+`484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`.
 
-Information boundary:
+HYP-0006 frozen primary inequality on 216 eligible events was TRUE:
+median pre `0.0005589654536042321`,
+median post `0.0012930417305135888`;
+`ADVANCE_TO_ECONOMIC_SCREEN` means **positive structural development
+evidence only**, not trading profitability, confirmatory evidence or R4.
+All 216 events shared same-time BLS Real Earnings flags.
+19 yearly groups: 16 positive, 2003/2008/2011 counterexamples.
 
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
+Canonical preserved review:
+`research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md`.
+
+RF-030 last completed tracked artifact:
+`research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md`.
+The frozen HYP-0006 runner and first result must NEVER be rerun or changed.
+
+OWNER on 2026-10-08 approved **new confirmatory structural Hypothesis
+formation**, not a confirmatory reveal or R4. Registered under existing
+`IDEA-0005` as `research/hypotheses/HYP-0007.md`, a distinct
+Material Research Attempt with a fixed 8-gate plan.
+
+Current information boundaries:
+
+- HYP-0006: `DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`.
+- HYP-0007: `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+- HYP-0005 protected source blocks: `NOT_TOUCHED`.
+- HYP-0007 independent dataset: `NOT_CERTIFIED_NOT_SELECTED`.
+
+RF-031 stages governance/review/Hypothesis formation **only**; no
+HYP-0007 market outcomes, source downloads, price calculations, protected
+data, trading P&L or capital decisions are authorized.
 
 ## HYP-0006 fixed research claim
 
@@ -64,7 +86,7 @@ Canonical completed artifact:
 
 Current next artifact:
 
-`research/reviews/HYP-0006-PROTOTYPE-01.md`
+`research/hypotheses/HYP-0007.md`
 
 RF-026 closed exact-main PASS on:
 
@@ -492,17 +514,15 @@ Bundle status:
 
 Bundle completeness: `1085 / 1085`.
 
-Current gate: review the RF-030 staging branch, then run exact-head
-`ATS_AGENT_PREFLIGHT.bat`. Only after exact-head PASS and squash merge may OWNER
-run exact-main `ATS_TASK_CHECK.bat` once. The checker must pass exact-main/CLEAN,
-runner blob, frozen lineage, RF-027/RF-028 identity, full Local CI and all
-`1085` local BI5 SHA-256 checks before it can invoke the unchanged runner with
-`--execute-first-reveal`. No BLS/Dukascopy network requests or downloader are allowed.
-Information boundary:
+Current gate: RF-031 exact-head agent preflight on the staged
+result-canonicalization and HYP-0007 formation branch. After GPT squash
+merge, OWNER runs `.\\ATS_TASK_CHECK.bat` on exact `main` to
+check governance, hashes and the frozen HYP-0007 proposal **without
+any market reveal**.
 
-`NO_HYPOTHESIS_OUTCOME_COMPUTED`
-
-RF-029 is CLOSED by exact-main PASS. RF-030 is staged and remains incomplete.
-No later Technical ID is assigned until the exact-main first result is preserved
-and reviewed, including a negative result. Existing exact-commit reveal artifacts
-must be validated without rerun; partial, stale or corrupt artifacts are a stop.
+The HYP-0006 development result is already consumed:
+`DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`.
+The HYP-0007 independent source is `NOT_CERTIFIED_NOT_SELECTED`;
+the HYP-0007 outcome is `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+No further Technical ID or data-acquisition gate is authorized before
+RF-031 exact-main PASS. HYP-0005 protected segments remain unaccessed.
