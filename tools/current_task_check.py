@@ -73,7 +73,10 @@ def check_exact_main_context() -> str:
     origin_main = git_output("rev-parse", "origin/main")
     require(branch == "main", f"expected main, got {branch}")
     require(head == origin_main, "main differs from origin/main")
-    require(not git_output("status", "--porcelain=v1", "-uall"), "working tree not clean")
+    require(
+        not git_output("status", "--porcelain=v1", "-uall"),
+        "working tree not clean",
+    )
     require(
         subprocess.run(
             ["git", "merge-base", "--is-ancestor", RF030_MAIN_COMMIT, head],
@@ -125,9 +128,15 @@ def check_saved_result_identity(result: dict[str, Any]) -> None:
     for key, value in required.items():
         require(result.get(key) == value, f"frozen HYP-0006 result drift: {key}")
     rows = result.get("event_observations")
-    require(isinstance(rows, list) and len(rows) == 216, "216 saved event records required")
     require(
-        all(isinstance(row, dict) and isinstance(row.get("event_id"), str) for row in rows),
+        isinstance(rows, list) and len(rows) == 216,
+        "216 saved event records required",
+    )
+    require(
+        all(
+            isinstance(row, dict) and isinstance(row.get("event_id"), str)
+            for row in rows
+        ),
         "saved HYP-0006 event identities malformed",
     )
     require(len({row["event_id"] for row in rows}) == 216, "duplicate saved event IDs")
@@ -205,7 +214,10 @@ def run_full_ci() -> None:
 def main() -> int:
     print("ATS CURRENT TASK CHECK", flush=True)
     print(f"Task: {TASK_ID} — {TASK_NAME}", flush=True)
-    print("RF-031: governance / data-boundary only; NO market test or reveal.", flush=True)
+    print(
+        "RF-031: governance / data-boundary only; NO market test or reveal.",
+        flush=True,
+    )
     try:
         commit = check_exact_main_context()
         check_frozen_lineage()
