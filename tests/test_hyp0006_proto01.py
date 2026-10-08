@@ -11,7 +11,9 @@ from tools import hyp0006_proto01 as proto
 
 
 def at(milliseconds: int) -> datetime:
-    return datetime(2020, 1, 14, 13, 30, tzinfo=UTC) + timedelta(milliseconds=milliseconds)
+    return datetime(2020, 1, 14, 13, 30, tzinfo=UTC) + timedelta(
+        milliseconds=milliseconds
+    )
 
 
 def test_rf028_denominator_and_hash_are_precommitted() -> None:
