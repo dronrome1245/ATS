@@ -121,6 +121,9 @@ HYP0006_DUKASCOPY_SOURCE_RECOVERY = "research/reviews/HYP-0006-DUKASCOPY-SOURCE-
 HYP0006_DATA_TOLERANCE_FREEZE = "research/reviews/HYP-0006-DATA-TOLERANCE-FREEZE.md"
 HYP0006_DATA_TOLERANCE_FREEZE_TOOL = "tools/hyp0006_data_tolerance_freeze.py"
 HYP0006_DATA_TOLERANCE_FREEZE_TEST = "tests/test_hyp0006_data_tolerance_freeze.py"
+HYP0006_PROTOTYPE = "research/reviews/HYP-0006-PROTOTYPE-01.md"
+HYP0006_PROTOTYPE_TOOL = "tools/hyp0006_proto01.py"
+HYP0006_PROTOTYPE_TEST = "tests/test_hyp0006_proto01.py"
 HYP0002_DATA_FEASIBILITY_TOOL = "tools/hyp0002_data_feasibility.py"
 M1_EXIT = "governance/program/M1_EXIT_REVIEW.md"
 M2_EXIT = "governance/program/M2_EXIT_REVIEW.md"
@@ -331,6 +334,9 @@ def configure() -> None:
         HYP0006_DATA_TOLERANCE_FREEZE,
         HYP0006_DATA_TOLERANCE_FREEZE_TOOL,
         HYP0006_DATA_TOLERANCE_FREEZE_TEST,
+        HYP0006_PROTOTYPE,
+        HYP0006_PROTOTYPE_TOOL,
+        HYP0006_PROTOTYPE_TEST,
         HYP0002_DATA_FEASIBILITY_TOOL,
         M1_EXIT, M2_EXIT, M3_EXIT, M6_EXIT, REFERENCE_STRATEGY_SELECTION, REFERENCE_STRATEGY_IDEA,
         REFERENCE_STRATEGY_HYPOTHESIS, REFERENCE_STRATEGY_DATA_FEASIBILITY,
@@ -1587,6 +1593,34 @@ def configure() -> None:
         "test_incomplete_or_missing_source_geometry_is_excluded",
         "test_freeze_contract_contains_no_market_outcome_calculation",
     )
+    core.CONTENT_MARKERS[HYP0006_PROTOTYPE] = (
+        "Task: `ATS2-RF-029`",
+        "16/22",
+        "216 + 1 = 217",
+        "1b575682b959070f4a0981b7cd13d70626f1e169d221d0c9fb2383fc679fd5fb",
+        "21bd7dbdca5b6fc83a12fe0b80f2d367f6c4f34a",
+        "NO_HYPOTHESIS_OUTCOME_COMPUTED",
+        "CREATE_NEW_CONFIRMATORY_OR_TRADING_HYPOTHESIS_BEFORE_R4",
+    )
+    core.CONTENT_MARKERS[HYP0006_PROTOTYPE_TOOL] = (
+        'HYPOTHESIS_ID = "HYP-0006"',
+        'PROTO_ID = "PROTO-01"',
+        "FROZEN_ELIGIBLE_COUNT = 216",
+        "FROZEN_RF028_JSON_SHA256",
+        "select_pre_release",
+        "select_nearest",
+        "first_post_release",
+        "primary_decision",
+        "REVEAL_BLOCKED_PRE_FREEZE",
+        "--execute-first-reveal",
+    )
+    core.CONTENT_MARKERS[HYP0006_PROTOTYPE_TEST] = (
+        "test_rf028_denominator_and_hash_are_precommitted",
+        "test_nearest_boundary_equal_gap_chooses_previous",
+        "test_duplicate_selected_timestamp_chooses_last_raw_bid_ask_pair",
+        "test_strict_pre_release_excludes_tick_at_release",
+        "test_import_is_pre_reveal_only_and_default_cli_is_blocked",
+    )
     core.CONTENT_MARKERS[HYP0003_PROTOTYPE_TOOL] = (
         "HYP-0003",
         "PROTO-01",
@@ -2259,23 +2293,19 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-028"',
-        'TASK_NAME = "HYP-0006 pre-reveal data/tolerance freeze"',
-        "HYP0006_DATA_FEASIBILITY_PREP.json",
+        'TASK_ID = "ATS2-RF-029"',
+        'TASK_NAME = "HYP-0006 PROTO-01 pre-reveal freeze"',
         "HYP0006_DATA_TOLERANCE_FREEZE.json",
         "HYP-0006-DEV-01-EURUSD-CPI-EVENTS.csv",
+        "HYP-0006-PROTOTYPE-01.md",
         "FROZEN_BLOBS",
-        "RF-028 frozen HYP-0005/HYP-0006 lineage",
-        "RF-028 pre-reveal freeze contract",
-        "RF-028 HYP-0006 pre-reveal data/tolerance freeze",
-        "full ATS Local CI before RF-028 freeze execution",
-        "HYP-0006 outcome computed by RF-028: NO",
+        "RF-028 frozen 216-event result identity",
+        "RF-029 PROTO-01 pre-reveal contract",
+        "full Local CI without market reveal",
+        "HYP-0006 outcome computed by RF-029: NO",
         "NO_HYPOTHESIS_OUTCOME_COMPUTED",
-        "FREEZE_DATA_AND_TOLERANCES",
-        "EXPECTED_SOURCE_BUNDLE_SHA256",
-        "EXPECTED_GEOMETRY_SHA256",
-        "BOUNDARY_MAX_ABS_GAP_MS = 30_000",
-        "PRE_RELEASE_MAX_STALENESS_MS = 30_000",
+        "RF028_JSON_SHA256",
+        "FROZEN_RUNNER_GIT_BLOB",
         "ATS CURRENT TASK CHECK:",
     )
     core.CONTENT_MARKERS["tools/run_and_tee.py"] = (
@@ -2740,9 +2770,9 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-027"',
-        'current_task: "ATS2-RF-028"', 'current_ready_task: "ATS2-RF-028"',
-        'next_task: "UNASSIGNED_UNTIL_RF028_PASS"',
+        'last_completed_task_id: "ATS2-RF-028"',
+        'current_task: "ATS2-RF-029"', 'current_ready_task: "ATS2-RF-029"',
+        'next_task: "UNASSIGNED_UNTIL_RF029_PASS"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 5',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -3189,8 +3219,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-027") != "DONE / PASS":
         core.fail("RF-027 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-028") != "READY":
-        core.fail("RF-028 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-028") != "DONE / PASS":
+        core.fail("RF-028 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-029") != "READY":
+        core.fail("RF-029 must be READY in Program Backlog")
         blocking += 1
     if not last_completed or not (repo / last_completed).exists():
         core.fail("canonical last_completed_artifact missing")
