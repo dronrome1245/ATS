@@ -8,56 +8,57 @@
 - Strategy #1: `REJECTED_AT_R3`.
 - Strategy #2: `REJECTED_AT_R3`.
 - Strategy #3 / HYP-0003: `REJECTED_AT_R3`.
-- Strategy #4 / HYP-0005: active confirmatory line; RF-023 remains externally source-blocked.
-- Strategy #5 / HYP-0006: RF-030 exact-main first reveal PASS; HYP-0007 confirmatory formation active (RF-031).
+- Strategy #4 / HYP-0005: **CURRENT PRIORITY**; RF-023 frozen confirmatory source input still missing 2026-09 BID/ASK, RF-032 offline-only source repair staged.
+- Strategy #5 / HYP-0006: RF-030 development reveal PASS, immutable exploratory result retained; HYP-0007 formation RF-031 exact-main PASS, independent data gate paused.
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
 ## Current executable stage
 
-`Research Factory → Strategy #5 → HYP-0006 revealed development review → HYP-0007 confirmatory Hypothesis formation`
+`Research Factory → Strategy #4 → HYP-0005 / RF-023 SOURCE_INPUT_REQUIRED → RF-032 offline repair`
 
-Research step: `18/22`. Technical task: `ATS2-RF-031`.
+Research status: HYP-0005 `1/5`, source-preparation gate **blocked**.
+RF-032 is technical repair `1.1/5`, **not** a new market research gate.
+Current Technical ID: `ATS2-RF-032`.
 
-RF-030 first development reveal completed **once** on exact `main`
-`d1135bb2486009ebb358bf4b508c06303ab77f74`
-with both local launcher completion gates PASS, 246 pytest tests PASS
-and the full 1085/1085 frozen BI5 SHA-256 integrity gate PASS.
-Frozen runner Git blob: `6afb870c035bc5ae76f773784a5fa3db15d680fd`.
+RF-031 exact-main PASS on `1ff81954fa1918975a9d19ce94c3f8c926fecb96`
+closed the HYP-0006 result review and registered confirmatory
+`HYP-0007` under `IDEA-0005` with fixed 8 gates. OWNER
+approved priority switch to **HYP-0005** on 2026-10-08.
+HYP-0007 gate 1/8 is closed and gate 2/8 is paused.
 
-Preserved local HYP-0006 result JSON SHA-256:
-`484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`.
+Frozen HYP-0005 periods and source family are unchanged.
+The 2026-09-28 diagnostic of official Jetta returned HTTP 400
+for September 2026 on both BID/ASK sides and BI5 HTTP 503.
+OWNER local-only inventory on 2026-10-08 found both BID/ASK
+Jetta JSON objects for each of 2003-05..08, and BI5 for
+2003-08, but **neither format for 2026-09**. The observed
+file pairs have not been decoded or source-coherence certified.
 
-HYP-0006 frozen primary inequality on 216 eligible events was TRUE:
-median pre `0.0005589654536042321`,
-median post `0.0012930417305135888`;
-`ADVANCE_TO_ECONOMIC_SCREEN` means **positive structural development
-evidence only**, not trading profitability, confirmatory evidence or R4.
-All 216 events shared same-time BLS Real Earnings flags.
-19 yearly groups: 16 positive, 2003/2008/2011 counterexamples.
+Canonical intake instructions and official URLs:
+`research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md`.
+Ordinary RF-023 execution is made strictly **offline-only**
+and fail-closed to avoid network retries or vendor/source
+substitution while frozen files are missing.
+No official September source availability or OWNER external
+acquisition authorization has been established.
 
-Canonical preserved review:
-`research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md`.
+**Do not run** RF-023 while the September pair is absent.
+RF-032 only stages a safe local cache/intake architecture,
+synthetic tests and governance; it does not download data,
+decode protected price rows, derive statistics, select
+confirmatory periods or execute a market/strategy outcome.
 
-RF-030 last completed tracked artifact:
-`research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md`.
-The frozen HYP-0006 runner and first result must NEVER be rerun or changed.
+Information boundaries:
 
-OWNER on 2026-10-08 approved **new confirmatory structural Hypothesis
-formation**, not a confirmatory reveal or R4. Registered under existing
-`IDEA-0005` as `research/hypotheses/HYP-0007.md`, a distinct
-Material Research Attempt with a fixed 8-gate plan.
-
-Current information boundaries:
-
-- HYP-0006: `DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`.
-- HYP-0007: `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
-- HYP-0005 protected source blocks: `NOT_TOUCHED`.
-- HYP-0007 independent dataset: `NOT_CERTIFIED_NOT_SELECTED`.
-
-RF-031 stages governance/review/Hypothesis formation **only**; no
-HYP-0007 market outcomes, source downloads, price calculations, protected
-data, trading P&L or capital decisions are authorized.
+- HYP-0005: `NO_CONFIRMATORY_OUTCOME_COMPUTED`;
+  research gate `SOURCE_INPUT_REQUIRED_2026_09`.
+- HYP-0006: `DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`,
+  original JSON SHA-256
+  `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`
+  retained without rerun.
+- HYP-0007: `NO_CONFIRMATORY_OUTCOME_COMPUTED`,
+  independent source `NOT_CERTIFIED_NOT_SELECTED`.
 
 ## HYP-0006 fixed research claim
 
@@ -86,7 +87,7 @@ Canonical completed artifact:
 
 Current next artifact:
 
-`research/hypotheses/HYP-0007.md`
+`research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md`
 
 RF-026 closed exact-main PASS on:
 
@@ -514,15 +515,16 @@ Bundle status:
 
 Bundle completeness: `1085 / 1085`.
 
-Current gate: RF-031 exact-head agent preflight on the staged
-result-canonicalization and HYP-0007 formation branch. After GPT squash
-merge, OWNER runs `.\\ATS_TASK_CHECK.bat` on exact `main` to
-check governance, hashes and the frozen HYP-0007 proposal **without
-any market reveal**.
+Current gate: preflight the RF-032 offline-source repair on
+`agent/rf032-hyp0005-offline-source-intake`. After OWNER exact-head
+`.\\ATS_AGENT_PREFLIGHT.bat` PASS, GPT may squash merge; OWNER
+then runs exact-main `.\\ATS_TASK_CHECK.bat` as the
+**technical source architecture** completion gate only.
 
-The HYP-0006 development result is already consumed:
-`DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`.
-The HYP-0007 independent source is `NOT_CERTIFIED_NOT_SELECTED`;
-the HYP-0007 outcome is `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
-No further Technical ID or data-acquisition gate is authorized before
-RF-031 exact-main PASS. HYP-0005 protected segments remain unaccessed.
+RF-032 PASS does not unblock RF-023 without a certified local
+2026-09 BID/ASK pair. Official manual snapshot intake requires
+separate OWNER authorization after reading the prepared URL/path
+instructions. A source failure is not hypothesis rejection.
+No HYP-0005 result, P&L, next Hypothesis ID, live decision,
+protected-data price inspection or HYP-0007 confirmatory
+source/reveal is authorized by this technical task.
