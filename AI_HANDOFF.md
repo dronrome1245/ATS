@@ -38,6 +38,9 @@ All 216 events shared same-time BLS Real Earnings flags.
 
 Canonical preserved review:
 `research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md`.
+
+RF-030 last completed tracked artifact:
+`research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md`.
 The frozen HYP-0006 runner and first result must NEVER be rerun or changed.
 
 OWNER on 2026-10-08 approved **new confirmatory structural Hypothesis
