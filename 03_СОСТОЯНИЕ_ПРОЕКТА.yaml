@@ -601,6 +601,7 @@ research_factory:
   strategy_4_confirmatory_research_gate_status: "SOURCE_INPUT_REQUIRED_2026_09"
   strategy_4_confirmatory_research_plan_current_major_step: 1
   strategy_4_confirmatory_research_plan_total_major_steps: 5
+  strategy_4_confirmatory_recovery_plan_provenance: "REMAINING_PLAN_DURING_RF023_RECOVERY_NOT_ORIGINAL_HYPOTHESIS_FORMATION_PLAN"
   strategy_4_confirmatory_owner_priority: "HYP0005_RESUMED_2026_10_08"
   strategy_5_confirmatory_owner_priority: "PAUSED_AFTER_FORMATION"
   strategy_4_confirmatory_left_segment_start: "2003-05-04T21:00:00Z"
