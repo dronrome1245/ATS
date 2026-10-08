@@ -8,7 +8,6 @@ import importlib
 import json
 import math
 import subprocess
-import time
 from collections import Counter
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -45,7 +44,6 @@ DERIVED_PATH = ROOT / "data/derived/HYP-0005-CONF-01-EURUSD-H1.csv"
 REPORT_JSON = ROOT / "reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP.json"
 REPORT_TEXT = ROOT / "reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt"
 
-DOWNLOAD_BATCH_BACKOFF_SECONDS = (5.0, 15.0, 30.0)
 BUCKETS = ("CORE_ACTIVE", "TRANSITION", "OFF_HOURS")
 FIELDNAMES = (
     "event_time",
@@ -125,76 +123,70 @@ def _download_pair_from_format(
     month: datetime,
     source_format: str,
 ) -> dict[str, tuple[Path, dict[str, str]]] | None:
+    """Resolve already-acquired official source bytes; never request the network."""
     if source_format == source.SOURCE_FORMAT_JETTA_JSON:
-        downloader = source.download_jetta_source_once
+        path_for_side = source.jetta_raw_path
     elif source_format == source.SOURCE_FORMAT_BI5:
-        downloader = source.download_legacy_source_once
+        path_for_side = source.raw_path
     else:
-        raise ConfirmatoryDataPrepError(f"unknown source format: {source_format}")
+        raise ConfirmatoryDataPrepError(f"unknown frozen source format: {source_format}")
 
-    result: dict[str, tuple[Path, dict[str, str]]] = {}
-    missing: list[str] = []
-    for side in ("BID", "ASK"):
-        downloaded = downloader(SOURCE_SYMBOL, month, side)
-        if downloaded is None:
-            missing.append(side)
-        else:
-            result[side] = downloaded
-
-    if not missing:
-        return result
-    if len(missing) == 2:
+    paths = {
+        side: path_for_side(SOURCE_SYMBOL, month, side)
+        for side in ("BID", "ASK")
+    }
+    present = {side: path.is_file() for side, path in paths.items()}
+    if not any(present.values()):
         return None
-    raise ConfirmatoryDataPrepError(
-        f"one-sided {source_format} source absence for {month:%Y-%m}: missing {missing[0]}"
-    )
+    if not all(present.values()):
+        missing = [side for side, is_present in present.items() if not is_present]
+        raise ConfirmatoryDataPrepError(
+            f"SOURCE_INPUT_REQUIRED_PARTIAL_PAIR: {month:%Y-%m} "
+            f"{source_format} missing {','.join(missing)}; no source fallback"
+        )
+
+    for side, path in paths.items():
+        if path.stat().st_size <= 0:
+            raise ConfirmatoryDataPrepError(
+                f"SOURCE_INPUT_REQUIRED_EMPTY_OBJECT: {month:%Y-%m} {source_format} {side}"
+            )
+    return {
+        side: (
+            path,
+            {
+                "source_url": "LOCAL_FROZEN_COPY",
+                "source_format": source_format,
+                "last_modified": "",
+                "etag": "",
+            },
+        )
+        for side, path in paths.items()
+    }
 
 
 def download_source_pair_once(
     month: datetime,
 ) -> dict[str, tuple[Path, dict[str, str]]]:
-    errors: list[str] = []
+    """Choose only a complete existing pair, retaining frozen Jetta/BI5 precedence."""
     for source_format in (
         source.SOURCE_FORMAT_JETTA_JSON,
         source.SOURCE_FORMAT_BI5,
     ):
-        try:
-            pair = _download_pair_from_format(month, source_format)
-        except source.DevelopmentDataPrepError as exc:
-            errors.append(f"{source_format}: {exc}")
-            continue
+        pair = _download_pair_from_format(month, source_format)
         if pair is not None:
             return pair
-
-    if errors:
-        raise ConfirmatoryDataPrepError(
-            f"coherent source pair unavailable for {month:%Y-%m}: " + " | ".join(errors)
-        )
-    raise ConfirmatoryDataPrepError(f"source pair absent for {month:%Y-%m}")
+    raise ConfirmatoryDataPrepError(
+        f"SOURCE_INPUT_REQUIRED_LOCAL_SNAPSHOT: EURUSD {month:%Y-%m} "
+        "requires one complete official same-format BID/ASK pair; "
+        "network requests and retries prohibited"
+    )
 
 
 def download_source_pair_resilient(
     month: datetime,
 ) -> dict[str, tuple[Path, dict[str, str]]]:
-    attempts = len(DOWNLOAD_BATCH_BACKOFF_SECONDS) + 1
-    last_error: Exception | None = None
-    for batch in range(attempts):
-        try:
-            return download_source_pair_once(month)
-        except (ConfirmatoryDataPrepError, source.DevelopmentDataPrepError) as exc:
-            last_error = exc
-            if batch == attempts - 1:
-                break
-            delay = DOWNLOAD_BATCH_BACKOFF_SECONDS[batch]
-            print(
-                f"[network] EURUSD {month:%Y-%m} coherent BID/ASK pair failed; "
-                f"retrying in {delay:.0f}s",
-                flush=True,
-            )
-            time.sleep(delay)
-    raise ConfirmatoryDataPrepError(
-        f"cannot acquire EURUSD {month:%Y-%m} after {attempts} batches: {last_error}"
-    )
+    """Legacy caller interface; deliberately zero retries and zero HTTP."""
+    return download_source_pair_once(month)
 
 
 def _validate_open_pair(
