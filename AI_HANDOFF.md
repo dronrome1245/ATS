@@ -23,7 +23,9 @@ Current Technical ID: `ATS2-RF-032`.
 
 RF-031 exact-main PASS on `1ff81954fa1918975a9d19ce94c3f8c926fecb96`
 closed the HYP-0006 result review and registered confirmatory
-`HYP-0007` under `IDEA-0005` with fixed 8 gates. OWNER
+`HYP-0007` under `IDEA-0005` with fixed 8 gates.
+Last completed tracked artifact: `research/hypotheses/HYP-0007.md`.
+OWNER
 approved priority switch to **HYP-0005** on 2026-10-08.
 HYP-0007 gate 1/8 is closed and gate 2/8 is paused.
 
