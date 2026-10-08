@@ -230,6 +230,8 @@ Canonical policy: `governance/program/LOCAL_CI_GATE.md`. Full gate включа�
 
 Для OWNER на Windows стандартный task-completion interface — стабильный корневой `ATS_TASK_CHECK.bat`. Не менять BAT под каждую задачу; task-specific проверки размещать в `tools/current_task_check.py` и обновлять этот Python-файл при смене текущего work package.
 
+При выдаче OWNER команд для Windows PowerShell локальные `.bat`-лаунчеры из корня репозитория всегда указывать с явным префиксом текущего каталога: писать `.\\ATS_TASK_CHECK.bat`, `.\\ATS_AGENT_PREFLIGHT.bat`, `.\\ATS_TASK_DIAG.bat`. Не давать в PowerShell инструкцию вида `ATS_TASK_CHECK.bat` без `.\\`, потому что PowerShell по умолчанию не ищет исполняемые файлы в текущем каталоге.
+
 Для удалённо написанных material/Python изменений обязательна промежуточная `agent/*` ветка. До merge в `main` OWNER запускает `ATS_AGENT_PREFLIGHT.bat`; только exact-agent-commit PASS разрешает squash/merge. После merge final completion всё равно требует `ATS_TASK_CHECK.bat` на exact `main` HEAD.
 
 Если первый failure находится в task-runtime/data stage и root cause ещё не доказан, production-код не менять по гипотезе. Сначала использовать `ATS_TASK_DIAG.bat` / `tools/current_task_diag.py` и получить targeted diagnostic evidence.
