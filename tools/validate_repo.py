@@ -3388,8 +3388,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-032") != "DONE / PASS":
         core.fail("RF-032 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-033") != "READY":
-        core.fail("RF-033 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-033") != "DONE / PASS":
+        core.fail("RF-033 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-034") != "READY":
+        core.fail("RF-034 must be READY in Program Backlog")
         blocking += 1
     if (
         "reports/local_ci/HYP0005_2026_09_SOURCE_INTAKE_PROVENANCE.json"
