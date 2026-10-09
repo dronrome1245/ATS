@@ -382,7 +382,7 @@ m6:
 research_factory:
   objective: "Continuously source and screen new strategy ideas until a future Candidate earns S05 PASS"
   status: IN_PROGRESS
-  current_strategy_sequence: 5
+  current_strategy_sequence: 4
   completed_tasks:
     - "ATS2-RF-001"
     - "ATS2-RF-002"
