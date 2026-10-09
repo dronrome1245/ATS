@@ -94,6 +94,7 @@ def test_rf032_file_inventory_is_metadata_only(
     assert "SOURCE_INPUT_REQUIRED" in printed
     assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in printed
 
+
 def test_rf033_local_intake_hash_and_narrow_ignore_gate(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -108,20 +109,13 @@ def test_rf033_local_intake_hash_and_narrow_ignore_gate(
     ignore.write_text(provenance + "\n", encoding="utf-8")
     evidence = tmp_path / "evidence.md"
     evidence.write_text(
-        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER\n"
-        + local_path
-        + " "
-        + checksum,
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER\n" + local_path + " " + checksum,
         encoding="utf-8",
     )
     monkeypatch.setattr(check, "ROOT", tmp_path)
     monkeypatch.setattr(check, "RF033_GITIGNORE", ignore)
     monkeypatch.setattr(check, "RF033_INTAKE_EVIDENCE", evidence)
-    monkeypatch.setattr(
-        check,
-        "RF033_EXPECTED_LOCAL_FILES",
-        {local_path: (len(data), checksum)},
-    )
+    monkeypatch.setattr(check, "RF033_EXPECTED_LOCAL_FILES", {local_path: (len(data), checksum)})
     monkeypatch.setattr(check, "git_output", lambda *args: provenance)
     check.check_local_source_intake_identity()
     source_file.write_bytes(data + b"x")
