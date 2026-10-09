@@ -82,9 +82,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 67. `ATS2-RF-030` — HYP-0006 PROTO-01 first development reveal gate — `DONE / PASS`.
 68. `ATS2-RF-031` — HYP-0006 reveal canonicalization and HYP-0007 confirmatory structural hypothesis formation — `DONE / PASS`.
 69. `ATS2-RF-032` — HYP-0005 RF-023 offline-only official snapshot source-input repair — `DONE / PASS`.
-70. `ATS2-RF-033` — HYP-0005 September 2026 provenance Git hygiene and file-only intake identity check — `READY`.
+70. `ATS2-RF-033` — HYP-0005 September 2026 provenance Git hygiene and file-only intake identity check — `DONE / PASS`.
+71. `ATS2-RF-034` — controlled offline RF-023 source/geometry preparation on frozen local BID/ASK — `READY`.
 
-Program-level current next task — `ATS2-RF-033` (technical source-intake Git blocker; RF-023 research preparation OPEN).
+Program-level current next task — `ATS2-RF-034` (HYP-0005 RF-023 research preparation, no hypothesis outcome).
 
 
 RF-027 source architecture is now frozen to local official BLS schedule snapshots rather than live
@@ -473,7 +474,7 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 | `ATS2-RF-022` | `WBS-RF.2` | P1 | DONE / PASS | RF-021 PASS | `research/hypotheses/HYP-0005.md` | Exact-main OWNER launcher PASS on `136b62b52922abc1556396377c6cd6fca88fba75` registered HYP-0005 with EURUSD/fixed UTC buckets/NEXT_1H/two primary inequalities and retained `NO_CONFIRMATORY_OUTCOME_COMPUTED` |
 | `ATS2-RF-023` | `WBS-RF.2` | P1 | READY | RF-022 PASS | `research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md` + `tools/hyp0005_data_feasibility.py` + synthetic tests + local machine result | Freeze a pre-result acquisition/preparation contract, acquire only the mechanically defined unseen EUR/USD segments, emit source/derived hashes and geometry, and prohibit spread/return outcome metrics or primary-claim evaluation |
 
-RF-023 remains structurally `READY` but its research gate is still OPEN. Historic 28 September 2026 Jetta/BI5 unavailability was a source failure, not a market outcome; 8 October inventory found no 2026-09 pair. OWNER subsequently provided original official-URL *user-attested* Jetta BID/ASK JSON files and reported successful byte-preserving local intake on 9 October; SHA-256 metadata is recorded in `research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md`. No independently verified provider origin, decoded semantic coherence or hypothesis outcome exists. RF-032 completed the offline-only architecture; RF-033 repairs the exact narrow ignored local provenance path and rechecks source hashes only. RF-023 remains not executed.
+RF-023 remains a separate OPEN research-preparation gate. Original 28 September Jetta/BI5 unavailability was an external source failure. OWNER 9 October manually provided original official-URL *user-attested* 2026-09 Jetta BID/ASK JSON and provenance; RF-033 exact-main PASS verified source/provenance hashes and Git ignore without decoding quotes. Confirmatory semantic/geometry analysis and Data Feasibility remain uncomputed. RF-034 is the authorized *offline one-shot exact-main RF-023 preparation* using the original frozen source set and rules; neither independent provider authenticity nor HYP-0005 market outcome is thereby established.
 | `ATS2-RF-024` | `WBS-RF.2` | P1 | BLOCKED | RF-023 exact-main preparation result | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` + confirmatory Dataset Manifest/schema when permitted | Canonicalize the exact RF-023 machine result and freeze the Data Feasibility decision/dataset identity; do not compute HYP-0005 primary outcome |
 | `ATS2-RF-025` | `WBS-RF.2` | P1 | DONE / PASS | RF-022 PASS; retained `S4-FAM-02` sourcing provenance; RF-023 may remain externally blocked | `research/ideas/IDEA-0005.md` + `research/hypotheses/HYP-0006.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `9b0a6c8898a7ebf9b03167a871ad02af96ca2807` registered IDEA-0005/HYP-0006 as two Material Research Attempts while preserving HYP-0005 and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-026` | `WBS-RF.2` | P1 | DONE / PASS | RF-025 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `5e0ff9e4481e5dc28c14a73adcf32433715973a3` recorded `CONDITIONAL` feasibility, frozen the development interval and source/timing constraints, and retained `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
@@ -483,44 +484,50 @@ RF-023 remains structurally `READY` but its research gate is still OPEN. Histori
 | `ATS2-RF-030` | `WBS-RF.2` | P1 | DONE / PASS | RF-029 exact-main PASS | `research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md` + canonical local `HYP0006_PROTO01_RESULT.json` + shareable report | Exact-main OWNER launcher PASS on `d1135bb2486009ebb358bf4b508c06303ab77f74` verified 1085/1085 BI5 SHA-256, ran frozen runner once, preserved 216/217 event results and `ADVANCE_TO_ECONOMIC_SCREEN` under preregistered median inequality; JSON SHA-256 `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`; exploratory only, no trading/independent claim |
 | `ATS2-RF-031` | `WBS-RF.2` | P1 | DONE / PASS | RF-030 exact-main PASS; OWNER approved new confirmatory structural hypothesis preparation | `research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md` + `research/hypotheses/HYP-0007.md` + synchronized SoT | Exact-main OWNER launcher PASS on `1ff81954fa1918975a9d19ce94c3f8c926fecb96` retained exact HYP-0006 reveal SHA-256 `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9` and registered distinct HYP-0007 8-gate confirmatory structural plan without outcome or independent dataset |
 | `ATS2-RF-032` | `WBS-RF.2` | P1 | DONE / PASS | RF-031 exact-main PASS; OWNER switched priority to HYP-0005 | `research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md` + offline-only RF-023 source tool + tests + tracked state | Exact-main OWNER launcher PASS on `8b7492f0f17a549f51a967a9bc9dfdbf2fdd0ce9` confirmed frozen HYP-0005 source architecture, no external network/market outcome and source-input requirement; a later 9 October OWNER file-only intake is separate technical evidence |
-| `ATS2-RF-033` | `WBS-RF.2` | P1 | READY | RF-032 exact-main PASS; OWNER completed local 2026-09 BID/ASK/provenance intake with exact file hashes; Git CLEAN blocked only by untracked local provenance | `.gitignore` exact local provenance path + `research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md` + canonical handoff + hash-only current-task gate | Narrowly ignore local provenance while keeping source bytes untouched, verify local SHA-256 and Git CLEAN; keep Jetta origin user-attested/semantics unverified, RF-023 preparation OPEN, no spreads/returns/primary inequality or R4 |
+| `ATS2-RF-033` | `WBS-RF.2` | P1 | DONE / PASS | RF-032 exact-main PASS and OWNER byte-preserving source intake | `.gitignore` narrow provenance ignore + `research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md` + tracked state | Exact-main OWNER launcher PASS on `5ea7a923c59c44d6b733f8c7c6db352fd846d434` verified all 10 local BID/ASK objects, exact 2026-09 provenance hash, Git CLEAN, 254 tests, and no hypothesis outcome |
+| `ATS2-RF-034` | `WBS-RF.2` | P1 | READY | RF-033 exact-main PASS; OWNER authorized offline RF-023 Data Feasibility preparation | `research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md` + frozen existing `tools/hyp0005_data_feasibility.py` + updated source-integrity/current-task checker + synthetic tests + local-only preparation results | After exact-head agent preflight and GPT merge, OWNER runs exact-main launcher: validate ten original hashes and frozen protocol, execute unchanged geometry-only RF-023 runner once, preserve CSV/report SHA-256 and both valid feasibility outcomes; never calculate spread/return/primary inequality or trading P&L, RF-024 stays blocked until research review |
 
 ## 8. Следующий шаг
 
-Current technical task: `ATS2-RF-033` — HYP-0005 / RF-023
-**local source provenance Git hygiene**. This remains research
-gate `1/5` without a new outcome.
+Current program-level technical task: `ATS2-RF-034`.
+Actual HYP-0005 research gate: `ATS2-RF-023`, 1/5 — **frozen
+Data Feasibility source/geometry preparation**.
+No new Hypothesis ID, material attempt or market test is created.
 
-RF-032 exact-main OWNER PASS:
-`8b7492f0f17a549f51a967a9bc9dfdbf2fdd0ce9`.
+RF-033 exact-main PASS: `5ea7a923c59c44d6b733f8c7c6db352fd846d434`.
+OWNER explicitly authorized offline RF-023 Data Feasibility preparation
+on 2026-10-09, with `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
 
-OWNER's 2026-10-09 controlled intake report:
-all three local final files present with original bytes and
-expected SHA-256; archive intake did **not** decode prices or
-produce a hypothesis result. The final sole Git blocker was
-`?? reports/local_ci/HYP0005_2026_09_SOURCE_INTAKE_PROVENANCE.json`.
-The existing `.gitignore` excludes market data and similar
-local-only reports but omitted this specific provenance path.
-Do not delete, overwrite, stage or commit the provenance JSON.
+Frozen provider/periods/timing/UTC buckets/geometry decision:
+`research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md`.
+Frozen offline source runner:
+`tools/hyp0005_data_feasibility.py`.
+Technical execution gate and ten expected source SHA-256:
+`research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md`.
 
-RF-033 stages one narrow `.gitignore` rule, a tracked
-source-intake evidence ledger with SHA-256, canonical state
-synchronization and a zero-network/no-decode exact-main
-metadata/hash checker. The local provenance remains ignored,
-but its file bytes remain present and independently hashable.
-
-Source provenance is still only:
+All five required EURUSD H1 Jetta JSON BID/ASK months are now present
+locally by OWNER's exact file-only hash report; September 2026
+provider attribution is
 `USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER`.
-Semantic BID/ASK coherence and RF-023 frozen 5-month
-timestamp/eligibility geometry are NOT validated.
-RF-023 remains research OPEN, RF-024 BLOCKED.
-No market outcome, spreads, returns, P&L or primary inequality.
+Actual source decode/BID-ASK semantic coherence and exact-next-hour
+eligibility **have not yet been evaluated**.
 
-OWNER exact-head `.\\ATS_AGENT_PREFLIGHT.bat` PASS
-required on the RF-033 agent branch; then GPT squash-merges;
-OWNER exact-main `.\\ATS_TASK_CHECK.bat` PASS closes
-**technical RF-033 only**.
+First stage: GPT stages agent PR; OWNER executes exact-head
+`.\\ATS_AGENT_PREFLIGHT.bat` with **no real RF-023 runner**;
+only after PASS GPT squash-merges.
+Second stage: OWNER executes exact-main `.\\ATS_TASK_CHECK.bat`
+**once**, which must check source/runner identity and execute the
+already-frozen RF-023 geometry-only runner once after Local CI.
+It must stop if any prior/partial output exists.
 
-Further HYP-0005 source preparation, HYP-0006/HYP-0007
-reruns, any independent evidence and R4 remain unauthorized
-during this technical gate.
+Allowed decisions:
+`READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE` or
+`INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY` — neither
+is a HYP-0005 market primary result. Record all outcomes of
+data feasibility honestly. Technical source/decode failure
+is not a rejected market hypothesis.
+
+Only after RF-023 exact-main PASS and result review may RF-024
+proceed to Data Feasibility freeze/PARK decision.
+No spreads, next-hour returns, medians, primary inequalities,
+P&L, R4 or HYP-0006/HYP-0007 reruns are permitted.
