@@ -400,6 +400,167 @@ def check_local_source_intake_identity() -> None:
     print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
 
 
+def check_rf034_frozen_source_hashes() -> None:
+    """Verify fixed official-URL user-attested snapshots, never decode quotes."""
+    print("\n== RF-034 ten frozen offline H1 BID/ASK source SHA-256 ==", flush=True)
+    require(
+        RF034_PREPARATION_PROTOCOL.is_file(),
+        "RF-034 offline preparation protocol missing",
+    )
+    for relative, (expected_size, expected_sha256) in RF034_SOURCE_HASHES.items():
+        path = RF023_SNAPSHOT_ROOT / relative
+        require(path.is_file(), f"missing frozen RF-023 source file: {relative}")
+        require(
+            path.stat().st_size == expected_size,
+            f"frozen RF-023 source size mismatch: {relative}",
+        )
+        require(
+            sha256_file(path) == expected_sha256,
+            f"frozen RF-023 source SHA-256 mismatch: {relative}",
+        )
+    print("[PASS] ten exact local source objects present and hash-matched", flush=True)
+
+
+def check_rf034_output_absence() -> None:
+    print("\n== RF-034 one-shot output absence gate ==", flush=True)
+    for path in (
+        RF034_RESULT_JSON,
+        RF034_RESULT_TEXT,
+        RF034_DERIVED_CSV,
+        RF034_DERIVED_PART,
+    ):
+        require(not path.exists(), f"RF-023 output already exists; no rerun: {path}")
+    print("[PASS] no previous RF-023 result or partial derived CSV", flush=True)
+
+
+def run_rf023_offline_once() -> None:
+    """Execute the already-frozen geometry-only script exactly once, no retries."""
+    print("\n== RF-034 authorized one-shot offline RF-023 execution ==", flush=True)
+    require(RF034_PREP_TOOL.is_file(), "frozen RF-023 runner missing")
+    check_rf034_output_absence()
+    completed = subprocess.run(
+        [sys.executable, "tools/hyp0005_data_feasibility.py"],
+        cwd=ROOT,
+        check=False,
+    )
+    require(
+        completed.returncode == 0,
+        "RF-023 offline preparation failed; retain evidence, STOP, no retry",
+    )
+    print("[PASS] frozen RF-023 geometry-only runner completed once", flush=True)
+
+
+def check_rf023_preparation_result(commit: str) -> None:
+    """Check stored data-feasibility evidence without recomputing market metrics."""
+    print("\n== RF-034 RF-023 preserved preparation result ==", flush=True)
+    for path in (RF034_RESULT_JSON, RF034_RESULT_TEXT, RF034_DERIVED_CSV):
+        require(path.is_file(), f"RF-023 expected output missing: {path}")
+    result_text = RF034_RESULT_JSON.read_text(encoding="utf-8")
+    require(
+        "relative_spread" not in result_text and "abs_next_1h_return" not in result_text,
+        "forbidden HYP-0005 outcome field in preparation report",
+    )
+    result = json.loads(result_text)
+    require(isinstance(result, dict), "RF-023 result must be a JSON object")
+    expected = {
+        "schema_version": "hyp0005-data-feasibility-prep-1",
+        "task_id": "ATS2-RF-023",
+        "hypothesis_id": "HYP-0005",
+        "git_commit": commit,
+        "confirmatory_dataset_id": "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001",
+        "confirmatory_dataset_version": "1.0.0",
+        "source_provider": "DUKASCOPY",
+        "source_symbol": "EURUSD",
+        "source_orientation": "DIRECT",
+        "source_month_count": 5,
+        "source_object_count": 10,
+        "boundary_availability_mode": "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "exact_tick_boundary_time_known": False,
+        "outcome_metrics_computed": False,
+        "primary_claim_evaluated": False,
+        "information_boundary": "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        "derived_csv_relative_path": "data/derived/HYP-0005-CONF-01-EURUSD-H1.csv",
+        "consumed_project_interval_start": "2003-08-03T21:00:00Z",
+        "consumed_project_interval_end_exclusive": "2026-09-01T00:00:00Z",
+    }
+    for key, value in expected.items():
+        require(result.get(key) == value, f"RF-023 frozen identity drift: {key}")
+    expected_segments = [
+        {
+            "segment_id": "LEFT_UNSEEN",
+            "start": "2003-05-04T21:00:00Z",
+            "end_exclusive": "2003-08-03T21:00:00Z",
+        },
+        {
+            "segment_id": "RIGHT_UNSEEN",
+            "start": "2026-09-01T00:00:00Z",
+            "end_exclusive": "2026-09-26T00:00:00Z",
+        },
+    ]
+    require(result.get("segments") == expected_segments, "RF-023 frozen segments drift")
+    sources = result.get("source_files")
+    require(isinstance(sources, list) and len(sources) == 10, "expected ten source records")
+    prefix = "data/external/dukascopy/EURUSD/H1/"
+    recorded: dict[str, str] = {}
+    for item in sources:
+        require(isinstance(item, dict), "malformed RF-023 source record")
+        relative = item.get("relative_path")
+        require(isinstance(relative, str), "RF-023 source path must be a string")
+        require(relative not in recorded, f"duplicate RF-023 source path: {relative}")
+        require(item.get("source_format") == "JETTA_JSON", "unexpected source format")
+        require(item.get("source_url") == "LOCAL_FROZEN_COPY", "network source detected")
+        recorded[relative] = item.get("sha256")
+    expected_paths = {
+        prefix + relative: digest
+        for relative, (_, digest) in RF034_SOURCE_HASHES.items()
+    }
+    require(recorded == expected_paths, "RF-023 source identity/hash mismatch")
+    csv_digest = result.get("derived_csv_sha256")
+    require(
+        isinstance(csv_digest, str) and len(csv_digest) == 64,
+        "RF-023 derived CSV SHA-256 malformed",
+    )
+    require(
+        sha256_file(RF034_DERIVED_CSV) == csv_digest,
+        "RF-023 derived CSV SHA-256 mismatch",
+    )
+    require(
+        isinstance(result.get("derived_row_count"), int)
+        and result["derived_row_count"] > 0,
+        "RF-023 empty/noninteger derived row count",
+    )
+    with RF034_DERIVED_CSV.open("r", encoding="utf-8") as handle:
+        columns = tuple(handle.readline().strip().split(","))
+    require(columns == RF034_EXPECTED_CSV_FIELDS, "RF-023 derived CSV schema drift")
+    geometry = result.get("geometry")
+    require(isinstance(geometry, dict), "RF-023 geometry missing")
+    for key in (
+        "eligible_rows_by_segment",
+        "eligible_rows_by_bucket",
+        "expected_market_hours_by_segment",
+        "missing_market_hours_by_segment",
+    ):
+        counts = geometry.get(key)
+        require(isinstance(counts, dict), f"RF-023 {key} missing")
+        require(
+            all(type(value) is int and value >= 0 for value in counts.values()),
+            f"RF-023 {key} contains invalid count",
+        )
+    decision = result.get("preparation_decision")
+    require(decision in RF034_ALLOWED_DECISIONS, "unknown RF-023 preparation decision")
+    report_text = RF034_RESULT_TEXT.read_text(encoding="utf-8")
+    for marker in (
+        f"Decision: {decision}",
+        "Outcome metrics computed: False",
+        "Primary claim evaluated: False",
+        "Information boundary: NO_CONFIRMATORY_OUTCOME_COMPUTED",
+    ):
+        require(marker in report_text, f"RF-023 report missing marker: {marker}")
+    print(f"[PASS] RF-023 preparation decision: {decision}", flush=True)
+    print(f"[PASS] derived SHA-256: {csv_digest}", flush=True)
+    print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
+
+
 def run_full_ci() -> None:
     print("\n== RF-034 full ATS Local CI (no market runner) ==", flush=True)
     completed = subprocess.run(
@@ -426,8 +587,14 @@ def main() -> int:
         check_rf023_offline_source_architecture()
         record_local_rf023_file_inventory()
         check_local_source_intake_identity()
+        check_rf034_frozen_source_hashes()
+        check_rf034_output_absence()
         run_full_ci()
         require(check_exact_main_context() == commit, "main changed during full CI")
+        run_rf023_offline_once()
+        check_rf023_preparation_result(commit)
+        check_rf034_frozen_source_hashes()
+        require(check_exact_main_context() == commit, "main changed during RF-023 preparation")
     except (
         TaskCheckError,
         FileNotFoundError,
