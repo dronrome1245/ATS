@@ -27,13 +27,9 @@ STATE = ROOT / "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
 SOURCE_INTAKE = ROOT / "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"
 RF023_SOURCE_TOOL = ROOT / "tools/hyp0005_data_feasibility.py"
 RF023_SNAPSHOT_ROOT = ROOT / "data/external/dukascopy/EURUSD/H1"
-RF033_INTAKE_EVIDENCE = (
-    ROOT / "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"
-)
+RF033_INTAKE_EVIDENCE = ROOT / "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"
 RF033_GITIGNORE = ROOT / ".gitignore"
-RF033_PROVENANCE_RELATIVE = (
-    "reports/local_ci/HYP0005_2026_09_SOURCE_INTAKE_PROVENANCE.json"
-)
+RF033_PROVENANCE_RELATIVE = "reports/local_ci/HYP0005_2026_09_SOURCE_INTAKE_PROVENANCE.json"
 RF033_EXPECTED_LOCAL_FILES = {
     "data/external/dukascopy/EURUSD/H1/2026/09/BID_candles_hour_1.json": (
         12724,
@@ -325,8 +321,7 @@ def check_local_source_intake_identity() -> None:
         "narrow local provenance .gitignore path absent",
     )
     require(
-        git_output("check-ignore", "--", RF033_PROVENANCE_RELATIVE)
-        == RF033_PROVENANCE_RELATIVE,
+        git_output("check-ignore", "--", RF033_PROVENANCE_RELATIVE) == RF033_PROVENANCE_RELATIVE,
         "provenance file not ignored by canonical Git rules",
     )
     expected_files = RF033_EXPECTED_LOCAL_FILES
