@@ -144,11 +144,11 @@ model:
   strategy_5_prototype_reveal_checker_test: "tests/test_current_task_check.py"
 
 current:
-  focus: "RF-031 exact-main PASS on 1ff81954fa1918975a9d19ce94c3f8c926fecb96 completed HYP-0007 formation; OWNER switched priority to HYP-0005 RF-023 source-blocked preparation; RF-032 technical offline-only source-input repair is staged, September 2026 BID/ASK official snapshots missing, no confirmatory outcome"
-  last_completed_task_id: "ATS2-RF-031"
-  last_completed_artifact: "research/hypotheses/HYP-0007.md"
-  next_artifact: "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"
-  next_task_id: "ATS2-RF-032"
+  focus: "RF-032 exact-main PASS on 8b7492f0f17a549f51a967a9bc9dfdbf2fdd0ce9 completed HYP-0005 offline-only source architecture; OWNER reported byte-verified local 2026-09 BID/ASK and provenance intake on 2026-10-09; RF-033 technical narrow provenance git-ignore and hash handoff; HYP-0005 RF-023 source semantic/geometry preparation not yet executed, no confirmatory outcome"
+  last_completed_task_id: "ATS2-RF-032"
+  last_completed_artifact: "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"
+  next_artifact: "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"
+  next_task_id: "ATS2-RF-033"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -382,7 +382,7 @@ m6:
 research_factory:
   objective: "Continuously source and screen new strategy ideas until a future Candidate earns S05 PASS"
   status: IN_PROGRESS
-  current_strategy_sequence: 5
+  current_strategy_sequence: 4
   completed_tasks:
     - "ATS2-RF-001"
     - "ATS2-RF-002"
@@ -413,6 +413,7 @@ research_factory:
     - "ATS2-RF-029"
     - "ATS2-RF-030"
     - "ATS2-RF-031"
+    - "ATS2-RF-032"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -460,9 +461,9 @@ research_factory:
     - "research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md"
     - "reports/local_ci/HYP0006_PROTO01_RESULT.json"
     - "reports/local_ci/HYP0006_PROTO01_RESULT_REPORT.txt"
-  current_task: "ATS2-RF-032"
+  current_task: "ATS2-RF-033"
   current_wbs: "WBS-RF.2"
-  next_task: "RF023_REMAINS_SOURCE_INPUT_REQUIRED_AFTER_RF032"
+  next_task: "RF023_REMAINS_OPEN_AFTER_RF033_FILE_ONLY"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -580,8 +581,8 @@ research_factory:
   strategy_4_confirmatory_dataset_selected: false
   strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"
   strategy_4_confirmatory_dataset_candidate_version: "1.0.0"
-  strategy_4_confirmatory_prep_status: "RF023_PROTOCOL_FROZEN_SOURCE_INPUT_REQUIRED_OFFLINE_REPAIR"
-  strategy_4_confirmatory_source_availability_status: "SOURCE_INPUT_REQUIRED_2026_09"
+  strategy_4_confirmatory_prep_status: "RF023_PROTOCOL_FROZEN_SOURCE_PAIR_PRESENT_FEASIBILITY_NOT_RUN"
+  strategy_4_confirmatory_source_availability_status: "LOCAL_2026_09_PAIR_RECEIVED_USER_ATTESTED"
   strategy_4_confirmatory_source_diagnostic_observed_on: "2026-09-28"
   strategy_4_confirmatory_source_diagnostic_jetta_2026_09: "HTTP_400_FROM_TIME_IS_TOO_LATE_BID_AND_ASK"
   strategy_4_confirmatory_source_diagnostic_jetta_2026_08_control: "HTTP_200_BID_AND_ASK"
@@ -590,15 +591,26 @@ research_factory:
   strategy_4_confirmatory_source_intake_document: "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"
   strategy_4_confirmatory_offline_intake_task_id: "ATS2-RF-032"
   strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"
-  strategy_4_confirmatory_file_inventory_observed_on: "2026-10-08"
+  strategy_4_confirmatory_file_inventory_observed_on: "2026-10-09"
   strategy_4_confirmatory_source_left_file_pairs_present: 4
-  strategy_4_confirmatory_source_right_pair_present: false
+  strategy_4_confirmatory_source_right_pair_present: true
   strategy_4_confirmatory_source_right_pair_semantic_coherence_verified: false
   strategy_4_confirmatory_official_september_availability_verified: false
-  strategy_4_confirmatory_source_manual_intake_authorized: false
+  strategy_4_confirmatory_source_manual_intake_authorized: true
   strategy_4_confirmatory_source_network_retry_authorized: false
-  strategy_4_confirmatory_source_input_missing_month: "2026-09"
-  strategy_4_confirmatory_research_gate_status: "SOURCE_INPUT_REQUIRED_2026_09"
+  rf032_verified_commit: "8b7492f0f17a549f51a967a9bc9dfdbf2fdd0ce9"
+  strategy_4_confirmatory_source_input_resolution: "2026_09_LOCAL_BID_ASK_FILE_PAIRS_PRESENT_USER_ATTESTED"
+  strategy_4_confirmatory_source_intake_observed_on: "2026-10-09"
+  strategy_4_confirmatory_source_intake_evidence: "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"
+  strategy_4_confirmatory_source_intake_git_hygiene_task_id: "ATS2-RF-033"
+  strategy_4_confirmatory_source_provenance_classification: "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER"
+  strategy_4_confirmatory_source_bid_2026_09_sha256: "4da5797f7abba1e015f137474a0116dcd35056ddbf5633200e65a40e5a259943"
+  strategy_4_confirmatory_source_ask_2026_09_sha256: "1672abce57189bf8519bdf7a806dcbd1e8152bc0d6f4ce06c9bb244289f10530"
+  strategy_4_confirmatory_source_local_provenance_sha256: "9f79cea766237a73992275d500217c1d91c3a8f5a4e2182cb1402e2a0d6fc410"
+  strategy_4_confirmatory_source_local_intake_bytes_verified_by_owner: true
+  strategy_4_confirmatory_source_local_intake_semantic_verified: false
+  strategy_4_confirmatory_source_input_missing_month: "NONE_AT_FILE_ONLY_LEVEL"
+  strategy_4_confirmatory_research_gate_status: "SOURCE_PAIR_RECEIVED_SEMANTIC_NOT_VALIDATED_RF023_OPEN"
   strategy_4_confirmatory_research_plan_current_major_step: 1
   strategy_4_confirmatory_research_plan_total_major_steps: 5
   strategy_4_confirmatory_recovery_plan_provenance: "REMAINING_PLAN_DURING_RF023_RECOVERY_NOT_ORIGINAL_HYPOTHESIS_FORMATION_PLAN"
@@ -866,7 +878,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-032"
+  current_ready_task: "ATS2-RF-033"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:

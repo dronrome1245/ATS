@@ -1,4 +1,4 @@
-"""Synthetic RF-032 offline intake checks; no market execution or network."""
+"""Synthetic RF-033 source-intake Git/byte-identity checks, no market execution."""
 
 from __future__ import annotations
 
@@ -66,9 +66,9 @@ def test_hash_only_archive_function_preserves_exact_bytes(tmp_path: Path) -> Non
     assert check.sha256_file(archive) != hashlib.sha256(raw).hexdigest()
 
 
-def test_rf032_checker_never_executes_market_runner() -> None:
+def test_rf033_checker_never_executes_market_runner() -> None:
     source = inspect.getsource(check)
-    assert 'TASK_ID = "ATS2-RF-032"' in source
+    assert 'TASK_ID = "ATS2-RF-033"' in source
     assert "--execute-first-reveal" not in source
     assert "prepare_first_reveal(" not in source
     assert "verify_repo.py" in source
@@ -93,3 +93,47 @@ def test_rf032_file_inventory_is_metadata_only(
     assert "2026-09 complete local file pairs: NONE" in printed
     assert "SOURCE_INPUT_REQUIRED" in printed
     assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in printed
+
+
+def test_rf033_local_intake_hash_and_narrow_ignore_gate(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Use only synthetic bytes, never decode/read HYP-0005 market quote content."""
+    local_path = "test_only_source.json"
+    data = b"synthetic-file-no-quotes"
+    source_file = tmp_path / local_path
+    source_file.write_bytes(data)
+    checksum = hashlib.sha256(data).hexdigest()
+    provenance = "reports/local_ci/HYP0005_2026_09_SOURCE_INTAKE_PROVENANCE.json"
+    ignore = tmp_path / ".gitignore"
+    ignore.write_text(provenance + "\n", encoding="utf-8")
+    evidence = tmp_path / "evidence.md"
+    evidence.write_text(
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER\n" + local_path + " " + checksum,
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(check, "ROOT", tmp_path)
+    monkeypatch.setattr(check, "RF033_GITIGNORE", ignore)
+    monkeypatch.setattr(check, "RF033_INTAKE_EVIDENCE", evidence)
+    monkeypatch.setattr(check, "RF033_EXPECTED_LOCAL_FILES", {local_path: (len(data), checksum)})
+    monkeypatch.setattr(check, "git_output", lambda *args: provenance)
+    check.check_local_source_intake_identity()
+    source_file.write_bytes(data + b"x")
+    with pytest.raises(check.TaskCheckError, match="local source byte-size drift"):
+        check.check_local_source_intake_identity()
+
+
+def test_rf033_rejects_unignored_provenance(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    evidence = tmp_path / "evidence.md"
+    evidence.write_text(
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER",
+        encoding="utf-8",
+    )
+    ignore = tmp_path / ".gitignore"
+    ignore.write_text("# unrelated\n", encoding="utf-8")
+    monkeypatch.setattr(check, "RF033_INTAKE_EVIDENCE", evidence)
+    monkeypatch.setattr(check, "RF033_GITIGNORE", ignore)
+    with pytest.raises(check.TaskCheckError, match="narrow local provenance"):
+        check.check_local_source_intake_identity()
