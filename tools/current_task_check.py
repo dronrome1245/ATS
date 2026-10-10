@@ -58,40 +58,56 @@ RF034_ALLOWED_DECISIONS = (
 )
 RF034_SOURCE_HASHES = {
     "2003/05/BID_candles_hour_1.json": (
-        12324, "16f689edd5643b906de2cdc6b6069ed62489241892506f5624c4104ccfef1293"
+        12324,
+        "16f689edd5643b906de2cdc6b6069ed62489241892506f5624c4104ccfef1293",
     ),
     "2003/05/ASK_candles_hour_1.json": (
-        12311, "ac766b0ebe86ddb7fd818617dea5efefae71150a6b295f051608bac0487e02a5"
+        12311,
+        "ac766b0ebe86ddb7fd818617dea5efefae71150a6b295f051608bac0487e02a5",
     ),
     "2003/06/BID_candles_hour_1.json": (
-        13040, "58d4dd1d34a74edfa66bfd22bf52cbc7000921a67559f5a91d2d97b3a2a5e7bc"
+        13040,
+        "58d4dd1d34a74edfa66bfd22bf52cbc7000921a67559f5a91d2d97b3a2a5e7bc",
     ),
     "2003/06/ASK_candles_hour_1.json": (
-        13016, "a4252590d4bc432e2d7d151771f0c8de72b94b3fde671a1333f1f724a2eee72b"
+        13016,
+        "a4252590d4bc432e2d7d151771f0c8de72b94b3fde671a1333f1f724a2eee72b",
     ),
     "2003/07/BID_candles_hour_1.json": (
-        14023, "69b14b1f6bcdf18fa43664529f75a740c2575079e2b769033f47277deef7c653"
+        14023,
+        "69b14b1f6bcdf18fa43664529f75a740c2575079e2b769033f47277deef7c653",
     ),
     "2003/07/ASK_candles_hour_1.json": (
-        14009, "2f18e66d24d9b9325c45e10944eb11a54a9a7557e2a8c3504c97f90e37781dee"
+        14009,
+        "2f18e66d24d9b9325c45e10944eb11a54a9a7557e2a8c3504c97f90e37781dee",
     ),
     "2003/08/BID_candles_hour_1.json": (
-        12763, "71c0ba7c4871e2431198acf84233d93d88375e63b63434617c825e595b602d7f"
+        12763,
+        "71c0ba7c4871e2431198acf84233d93d88375e63b63434617c825e595b602d7f",
     ),
     "2003/08/ASK_candles_hour_1.json": (
-        12740, "96ab42f94d729de73a3fd2aa296e01645a01f5fd70a3679b3bf520166b380da7"
+        12740,
+        "96ab42f94d729de73a3fd2aa296e01645a01f5fd70a3679b3bf520166b380da7",
     ),
     "2026/09/BID_candles_hour_1.json": (
-        12724, "4da5797f7abba1e015f137474a0116dcd35056ddbf5633200e65a40e5a259943"
+        12724,
+        "4da5797f7abba1e015f137474a0116dcd35056ddbf5633200e65a40e5a259943",
     ),
     "2026/09/ASK_candles_hour_1.json": (
-        12745, "1672abce57189bf8519bdf7a806dcbd1e8152bc0d6f4ce06c9bb244289f10530"
+        12745,
+        "1672abce57189bf8519bdf7a806dcbd1e8152bc0d6f4ce06c9bb244289f10530",
     ),
 }
 RF034_EXPECTED_CSV_FIELDS = (
-    "event_time", "availability_time", "source_bar_completion_time",
-    "sequence", "confirmatory_segment", "source_symbol",
-    "bid_open", "ask_open", "utc_bucket",
+    "event_time",
+    "availability_time",
+    "source_bar_completion_time",
+    "sequence",
+    "confirmatory_segment",
+    "source_symbol",
+    "bid_open",
+    "ask_open",
+    "utc_bucket",
 )
 
 FROZEN_BLOBS = {
@@ -99,9 +115,7 @@ FROZEN_BLOBS = {
     "research/reviews/HYP-0006-PROTOTYPE-01.md": ("9f7bcd8480f66a37ea273cc7e158a56758b79b12"),
     "research/hypotheses/HYP-0006.md": ("6b3f260ceacd98adf7a6aa44205404e68e4fd4ca"),
     "research/hypotheses/HYP-0005.md": ("ebbbc89187c911485c1568dc11f5f2f9e703718a"),
-    "tools/hyp0005_data_feasibility.py": (
-        "b8d72d858d5c2691de7dec9a709f6e4d7ccb2808"
-    ),
+    "tools/hyp0005_data_feasibility.py": ("b8d72d858d5c2691de7dec9a709f6e4d7ccb2808"),
     "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md": (
         "c15b2b67700dd46fc592f1208731ce6b42f6905c"
     ),
@@ -511,8 +525,7 @@ def check_rf023_preparation_result(commit: str) -> None:
         require(item.get("source_url") == "LOCAL_FROZEN_COPY", "network source detected")
         recorded[relative] = item.get("sha256")
     expected_paths = {
-        prefix + relative: digest
-        for relative, (_, digest) in RF034_SOURCE_HASHES.items()
+        prefix + relative: digest for relative, (_, digest) in RF034_SOURCE_HASHES.items()
     }
     require(recorded == expected_paths, "RF-023 source identity/hash mismatch")
     csv_digest = result.get("derived_csv_sha256")
@@ -525,8 +538,7 @@ def check_rf023_preparation_result(commit: str) -> None:
         "RF-023 derived CSV SHA-256 mismatch",
     )
     require(
-        isinstance(result.get("derived_row_count"), int)
-        and result["derived_row_count"] > 0,
+        isinstance(result.get("derived_row_count"), int) and result["derived_row_count"] > 0,
         "RF-023 empty/noninteger derived row count",
     )
     with RF034_DERIVED_CSV.open("r", encoding="utf-8") as handle:
