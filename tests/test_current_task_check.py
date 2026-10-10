@@ -71,7 +71,7 @@ def test_rf034_checker_executes_only_frozen_offline_preparation() -> None:
     assert 'TASK_ID = "ATS2-RF-034"' in source
     assert "--execute-first-reveal" not in source
     assert "prepare_first_reveal(" not in source
-    assert 'tools/hyp0005_data_feasibility.py' in source
+    assert "tools/hyp0005_data_feasibility.py" in source
     assert "run_rf023_offline_once" in source
     assert "check_rf034_output_absence" in source
     assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in source
