@@ -1,4 +1,4 @@
-"""Synthetic RF-034 offline data-preparation gates; no protected data access."""
+"""Synthetic RF-024 freeze gates; no HYP-0005 protected price access."""
 
 from __future__ import annotations
 
@@ -66,14 +66,16 @@ def test_hash_only_archive_function_preserves_exact_bytes(tmp_path: Path) -> Non
     assert check.sha256_file(archive) != hashlib.sha256(raw).hexdigest()
 
 
-def test_rf034_checker_executes_only_frozen_offline_preparation() -> None:
+def test_rf024_never_reexecutes_consumed_rf023_runner() -> None:
     source = inspect.getsource(check)
-    assert 'TASK_ID = "ATS2-RF-034"' in source
+    main_source = inspect.getsource(check.main)
+    assert 'TASK_ID = "ATS2-RF-024"' in source
     assert "--execute-first-reveal" not in source
     assert "prepare_first_reveal(" not in source
-    assert "tools/hyp0005_data_feasibility.py" in source
-    assert "run_rf023_offline_once" in source
-    assert "check_rf034_output_absence" in source
+    assert "def run_rf023_offline_once" not in source
+    assert "check_rf034_output_absence()" not in main_source
+    assert "check_rf024_preparation_identity()" in main_source
+    assert "check_rf024_manifest_and_review()" in main_source
     assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in source
 
 
@@ -261,3 +263,36 @@ def test_rf034_result_identity_uses_only_synthetic_geometry(
     json_path.write_text(json.dumps(result), encoding="utf-8")
     with pytest.raises(check.TaskCheckError, match="primary_claim_evaluated"):
         check.check_rf023_preparation_result("SYNTHETIC_COMMIT")
+
+
+def test_rf024_manifest_loads_with_prepared_identity_only() -> None:
+    """Only committed schema/manifest metadata is inspected; no quote rows."""
+    from ats.schemas.dataset_manifest import load_dataset_manifest
+
+    manifest = load_dataset_manifest(check.RF024_MANIFEST)
+    assert manifest.dataset_id == "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"
+    assert manifest.dataset_version == "1.0.0"
+    assert manifest.integrity.digest == check.RF024_CSV_SHA256
+    assert check.RF024_SOURCE_BUNDLE_SHA256 in manifest.source.snapshot_reference
+    assert check.RF024_RF023_JSON_SHA256 in manifest.source.snapshot_reference
+    assert "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER" in (
+        manifest.source.source_reference
+    )
+    assert manifest.ordering.keys == ("event_time",)
+    assert manifest.ordering.tie_break_keys == ("sequence",)
+    assert manifest.quality_policy.missing == "ALLOW_DECLARED_GAPS"
+
+
+def test_rf024_review_and_schema_are_pre_outcome_metadata() -> None:
+    import json
+
+    review = check.RF024_REVIEW.read_text(encoding="utf-8")
+    schema = json.loads(check.RF024_SCHEMA.read_text(encoding="utf-8"))
+    assert "Review decision: `CONDITIONAL`" in review
+    assert "STAGED_PENDING_EXACT_MAIN_PASS" in review
+    assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in review
+    assert schema["additionalProperties"] is False
+    assert set(schema["required"]) == set(check.RF034_EXPECTED_CSV_FIELDS)
+    assert set(schema["properties"]) == set(check.RF034_EXPECTED_CSV_FIELDS)
+    assert "relative_spread" not in schema["properties"]
+    assert "abs_next_1h_return" not in schema["properties"]
