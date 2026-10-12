@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HYP-0005 EURUSD H1 disjoint confirmatory bar-open BID/ASK rows",
+  "type": "object",
+  "required": [
+    "event_time",
+    "availability_time",
+    "source_bar_completion_time",
+    "sequence",
+    "confirmatory_segment",
+    "source_symbol",
+    "bid_open",
+    "ask_open",
+    "utc_bucket"
+  ],
+  "properties": {
+    "event_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC hour bar-open timestamp; must belong to exactly one predeclared confirmatory segment."
+    },
+    "availability_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "event_time under H1_OPEN_PROXY_AT_EVENT_TIME; exact first tick boundary time unknown."
+    },
+    "source_bar_completion_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "event_time plus exactly one hour (frozen preparation invariant)."
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Deterministic row sequence assigned after global event_time sorting."
+    },
+    "confirmatory_segment": {
+      "type": "string",
+      "enum": [
+        "LEFT_UNSEEN",
+        "RIGHT_UNSEEN"
+      ]
+    },
+    "source_symbol": {
+      "type": "string",
+      "const": "EURUSD"
+    },
+    "bid_open": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Finite BID open quote from frozen Jetta JSON; no spread/outcome is computed."
+    },
+    "ask_open": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Finite ASK open quote; frozen preparation requires ask_open >= bid_open."
+    },
+    "utc_bucket": {
+      "type": "string",
+      "enum": [
+        "CORE_ACTIVE",
+        "TRANSITION",
+        "OFF_HOURS"
+      ],
+      "description": "Fixed UTC 07-16 / 17-20 / 21-06 assignment, based only on event_time."
+    }
+  },
+  "additionalProperties": false,
+  "description": "Structural-only frozen-intent HYP-0005 preparation; values remain in ignored local CSV. Field-level semantic/timestamp/coherence rules and two disjoint periods are frozen in research/reviews/HYP-0005-DATA-FEASIBILITY.md. Does not contain or evaluate relative_spread, abs_next_1h_return, medians, inequality results or P&L."
+}
