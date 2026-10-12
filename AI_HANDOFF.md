@@ -8,73 +8,86 @@
 - Strategy #1: `REJECTED_AT_R3`.
 - Strategy #2: `REJECTED_AT_R3`.
 - Strategy #3 / HYP-0003: `REJECTED_AT_R3`.
-- Strategy #4 / HYP-0005: **CURRENT PRIORITY**; RF-033 exact-main PASS, 10 local EURUSD H1 Jetta source objects hash-verified; OWNER authorized offline RF-023 source/geometry preparation, RF-034 staged, no confirmatory outcome.
+- Strategy #4 / HYP-0005: **CURRENT PRIORITY**; RF-034 exact-main RF-023 preparation PASS, 2010 rows and 1991 eligible; RF-024 conditional dataset review/freeze STAGED; no confirmatory outcome.
 - Strategy #5 / HYP-0006: RF-030 development reveal PASS, immutable exploratory result retained; HYP-0007 formation RF-031 exact-main PASS, independent data gate paused.
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
 ## Current executable stage
 
-`Research Factory → HYP-0005 / RF-023 offline Data Feasibility preparation → RF-034 one-shot exact-main gate`
+`Research Factory → HYP-0005 → RF-024 conditional Data Feasibility dataset freeze`
 
-Research gate: HYP-0005 `1/5` (existing frozen RF-023 preparation).
-No research PASS until exact-main preparation result and full checks.
-Current Technical ID: `ATS2-RF-034`.
+HYP-0005 research plan step: **2/5**.
+Completed: 1/5 (RF-023 frozen source/geometry preparation).
+Current Technical ID: `ATS2-RF-024`.
+The RF-024 dataset is STAGED, **not yet frozen** until exact-main PASS.
 
-Prior technical task `ATS2-RF-033`: **EXACT-MAIN PASS** on
-`5ea7a923c59c44d6b733f8c7c6db352fd846d434`.
+RF-034 exact-main PASS on
+`14531698c87fd3a0d87e1ec54c6713f11b7cbb60` closed the
+technical offline source preparation and the original RF-023
+data/geometry research gate; 257 pytest, validator, Ruff,
+environment, ATS Local CI, CURRENT TASK and TASK LAUNCHER PASS.
+Frozen HYP-0005 prep runner ran ONCE; never rerun it.
+
 Last completed tracked artifact:
-`research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md`.
-Next tracked artifact:
 `research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md`.
 
-OWNER on 2026-10-09 expressly authorized offline RF-023 Data
-Feasibility preparation, **not** any HYP-0005 price/return/spread
-comparison, primary inequality or trading P&L calculation.
+Next tracked artifact:
+`research/reviews/HYP-0005-DATA-FEASIBILITY.md`.
 
-Original frozen `research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md`
-and `tools/hyp0005_data_feasibility.py` must stay unchanged.
-Source: EURUSD Dukascopy H1 synchronized BID+ASK Jetta JSON
-for 2003-05, 2003-06, 2003-07, 2003-08, 2026-09;
-ten exact raw hashes and the September provenance SHA-256 are
-recorded in `research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md`.
-All are locally available per OWNER file-only report. Source
-authenticity remains `USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER`.
-The BID/ASK quote-coherence and frozen timestamp/eligibility
-geometry have **not yet been evaluated**.
+Exact immutable RF-023 result files in ignored local paths:
+- `reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP.json`;
+  SHA-256 `d2eadd9a64da74ae79e2a0008426147953f24beb8c23f66557a721a7b8a65381`.
+- `reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt`;
+  SHA-256 `fe9f26d15a99294cff17d2f94f3f58dcd41bbb22ffde60bdaf815aedb93d4618`.
+- `data/derived/HYP-0005-CONF-01-EURUSD-H1.csv`;
+  SHA-256 `b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1`.
 
-Frozen HYP-0005 source intervals:
-- LEFT_UNSEEN `[2003-05-04T21:00:00Z, 2003-08-03T21:00:00Z)`;
-- RIGHT_UNSEEN `[2026-09-01T00:00:00Z, 2026-09-26T00:00:00Z)`;
-- consumed ATS EURUSD history
-  `[2003-08-03T21:00:00Z, 2026-09-01T00:00:00Z)`.
+Source bundle SHA-256:
+`65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2`.
+Predeclared five months, ten original Jetta EURUSD H1 BID/ASK
+objects, all hashes match. RF-023 prepared `2010` rows;
+`1991` exact-next-hour eligible, bucket counts
+CORE_ACTIVE `838`, OFF_HOURS `837`, TRANSITION `316`,
+eligible LEFT_UNSEEN `1542`, RIGHT_UNSEEN `449`.
+Three expected LEFT market hours absent, none on RIGHT.
+No gap fill, no cross-segment bridge or redefined UTC bucket.
 
-Current RF-034 is **not** another material attempt. It stages only
-the one-time offline execution wrapper / source hash gate. No
-RF-023 runner may execute on an agent branch. After exact-head
-`ATS AGENT PREFLIGHT: PASS`, GPT may squash merge and OWNER
-will run `.\\ATS_TASK_CHECK.bat` **once** on exact main,
-which first checks ten source SHA-256, frozen code/protocol,
-all previous result absence and full Local CI before permitting
-one RF-023 geometry-only runner invocation. Source/content failures
-STOP, no retry. Existing outputs must never be overwritten.
+Frozen HYP-0005 intervals:
+- LEFT `[2003-05-04T21:00:00Z, 2003-08-03T21:00:00Z)`;
+- RIGHT `[2026-09-01T00:00:00Z, 2026-09-26T00:00:00Z)`;
+- already-consumed EURUSD `[2003-08-03T21:00:00Z, 2026-09-01T00:00:00Z)`.
 
-Permitted preparation output:
-`reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP.json`,
-`reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt`,
-`data/derived/HYP-0005-CONF-01-EURUSD-H1.csv`.
-Data Feasibility decisions are
-`READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE` or
-`INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY`.
-Neither is HYP-0005 primary outcome. RF-024 must separately
-review and freeze/PARK the actual prepared dataset.
+RF-024 review decision: `CONDITIONAL`.
+Timings remain `H1_OPEN_PROXY_AT_EVENT_TIME` and
+`exact_tick_boundary_time_known=false`.
+The September 2026 snapshot's provider attribution remains
+`USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER`.
+The review records these as limitations; no profitable,
+live-executable or independently vendor-certified claim.
+
+Staged dataset ID/version:
+`DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0`.
+Staged manifest:
+`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml`.
+Staged row schema:
+`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json`.
+RF-024 exact-main gate only hashes existing local input/results
+and checks metadata/schema. It may never run RF-023 again,
+read protected market prices for outcomes, change data,
+calculate `relative_spread`, `abs_next_1h_return`,
+medians/primary inequalities, P&L or a new test.
+
+After OWNER exact-head agent preflight PASS, GPT squash merges;
+OWNER exact-main `.\\ATS_TASK_CHECK.bat` PASS formally
+freezes this CONDITIONAL dataset version.
+No confirmatory result is revealed under RF-024.
 
 Information boundaries:
 - HYP-0005: `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
 - HYP-0006: `DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`,
-  historical JSON SHA-256
-  `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`.
-- HYP-0007: `NO_CONFIRMATORY_OUTCOME_COMPUTED`, paused at gate 1/8.
+  original result preserved unchanged.
+- HYP-0007: `NO_CONFIRMATORY_OUTCOME_COMPUTED`, paused.
 
 ## HYP-0006 fixed research claim
 
@@ -103,7 +116,7 @@ Canonical completed artifact:
 
 Current next artifact:
 
-`research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md`
+`research/reviews/HYP-0005-DATA-FEASIBILITY.md`
 
 RF-026 closed exact-main PASS on:
 
@@ -531,19 +544,17 @@ Bundle status:
 
 Bundle completeness: `1085 / 1085`.
 
-Current gate: RF-034 `agent/rf034-hyp0005-offline-feasibility-prep-gate`
-exact-head preflight. OWNER runs only
-`.\\ATS_AGENT_PREFLIGHT.bat` on the agent branch,
-without source decoding/market preparation execution.
-GPT squash-merges only after full exact-head PASS.
+Current gate: RF-024 staged on
+`agent/rf024-hyp0005-data-feasibility-freeze`.
+The next allowed owner action is
+`.\\ATS_AGENT_PREFLIGHT.bat` on the exact agent HEAD.
+A full exact-head PASS permits GPT squash-merge.
+Then OWNER runs one exact-main `.\\ATS_TASK_CHECK.bat`;
+the RF-024 checker must never rerun the consumed RF-023 runner.
+The existing RF-023 JSON, report and derived CSV remain byte-identical.
 
-Then OWNER runs exact-main `.\\ATS_TASK_CHECK.bat` once.
-The checker executes the frozen RF-023 data/geometry-only
-preparation after exact source/provenance hashes and Local CI;
-preserves all local machine outputs and prevents rerun.
-This is NOT a HYP-0005 hypothesis reveal.
-
-RF-024 remains BLOCKED until RF-023 result is audited and
-canonical dataset identity is frozen. No independent exam,
-spread/return medians, P&L, HYP-0006/HYP-0007 reruns
-or capital decision is authorized.
+Only after RF-024 exact-main PASS may ATS mark the
+dataset formally frozen for a separately staged HYP-0005
+pre-reveal runner protocol (research step 3/5).
+Any future protected movement/spread comparison or result
+reveal requires a separately frozen one-shot gate.
