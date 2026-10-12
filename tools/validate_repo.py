@@ -3454,8 +3454,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-023") != "DONE / PASS":
         core.fail("RF-023 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-024") != "READY":
-        core.fail("RF-024 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-024") != "DONE / PASS":
+        core.fail("RF-024 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-035") != "READY":
+        core.fail("RF-035 must be READY in Program Backlog")
         blocking += 1
     if core.backlog_status(backlog, "ATS2-RF-025") != "DONE / PASS":
         core.fail("RF-025 must be DONE / PASS in Program Backlog")
