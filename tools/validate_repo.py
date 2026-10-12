@@ -106,6 +106,7 @@ HYP0005_DATA_FEASIBILITY_REVIEW = "research/reviews/HYP-0005-DATA-FEASIBILITY.md
 HYP0005_CONFIRMATORY_MANIFEST = "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml"
 HYP0005_CONFIRMATORY_SCHEMA = "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json"
 HYP0005_PROTO_RECORD = "research/reviews/HYP-0005-PROTOTYPE-01.md"
+HYP0005_PROTO_REVEAL_GATE = "research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md"
 HYP0005_PROTO_RUNNER = "tools/hyp0005_proto01.py"
 HYP0005_PROTO_TEST = "tests/test_hyp0005_proto01.py"
 HYP0005_DATA_FEASIBILITY_TOOL = "tools/hyp0005_data_feasibility.py"
@@ -332,6 +333,7 @@ def configure() -> None:
         HYP0005_CONFIRMATORY_MANIFEST,
         HYP0005_CONFIRMATORY_SCHEMA,
         HYP0005_PROTO_RECORD,
+        HYP0005_PROTO_REVEAL_GATE,
         HYP0005_PROTO_RUNNER,
         HYP0005_PROTO_TEST,
         HYP0005_DATA_FEASIBILITY_TOOL,
@@ -1271,6 +1273,21 @@ def configure() -> None:
         "NO_CONFIRMATORY_OUTCOME_COMPUTED",
         "814193997768605fe60607d66dfd755a9323f339",
     )
+    core.CONTENT_MARKERS[HYP0005_PROTO_REVEAL_GATE] = (
+        "ATS2-RF-036",
+        "4.1/5",
+        "STAGED_PREPARATION_ONLY_REVEAL_NOT_AUTHORIZED",
+        "9da36dba228d4fa55c3068a01cabc7f215aa7e02",
+        "814193997768605fe60607d66dfd755a9323f339",
+        "d7833785bee462c7b122479de22eae041329f42e24d38a1e7481ae4286aeff1b",
+        "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1",
+        "65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2",
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "CONFIRMATORY_STRUCTURAL_FAIL",
+        "HYP0005_PROTO01_FIRST_REVEAL_CONSUMED.json",
+        "FIRST_REVEAL: NOT_AUTHORIZED / NOT_EXECUTED",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+    )
     core.CONTENT_MARKERS[HYP0005_PROTO_RUNNER] = (
         'HYPOTHESIS_ID = "HYP-0005"',
         "EXPECTED_GEOMETRY",
@@ -1788,7 +1805,9 @@ def configure() -> None:
     core.CONTENT_MARKERS[CURRENT_TASK_CHECK_TEST] = (
         "test_saved_reveal_identity_rejects_drift",
         "test_hash_only_archive_function_preserves_exact_bytes",
-        "test_rf035_never_runs_consumed_prep_or_first_reveal",
+        "test_rf036_never_runs_consumed_prep_or_first_reveal",
+        "test_rf036_preparation_blocks_any_existing_synthetic_reveal_artifact",
+        "test_rf036_preparation_never_invokes_market_reveal",
         "test_rf035_runner_freeze_rejects_existing_synthetic_reveal",
         "test_rf024_manifest_loads_with_prepared_identity_only",
         "test_rf024_review_and_schema_are_pre_outcome_metadata",
@@ -2473,9 +2492,13 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-035"',
-        'TASK_NAME = "HYP-0005 confirmatory pre-reveal runner and decision freeze"',
-        "RF-035 exact-main and clean-tree",
+        'TASK_ID = "ATS2-RF-036"',
+        'TASK_NAME = "HYP-0005 first-confirmatory-reveal gate preparation only"',
+        "RF-036 exact-main and clean-tree",
+        "RF035_MAIN_COMMIT",
+        "RF036_GATE_DOC",
+        "RF036_CONSUMED_SENTINEL",
+        "check_rf036_gate_preparation",
         "main differs from origin/main",
         "HYP0006_PROTO01_RESULT.json",
         "HYP0006_PROTO01_RESULT_REPORT.txt",
@@ -2963,12 +2986,12 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-024"',
-        'last_completed_artifact: "research/reviews/HYP-0005-DATA-FEASIBILITY.md"',
-        'next_artifact: "research/reviews/HYP-0005-PROTOTYPE-01.md"',
-        'next_task_id: "ATS2-RF-035"',
-        'current_task: "ATS2-RF-035"', 'current_ready_task: "ATS2-RF-035"',
-        'next_task: "HYP0005_CONFIRMATORY_PROTO01_PRE_REVEAL_RUNNER_FREEZE"',
+        'last_completed_task_id: "ATS2-RF-035"',
+        'last_completed_artifact: "research/reviews/HYP-0005-PROTOTYPE-01.md"',
+        'next_artifact: "research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md"',
+        'next_task_id: "ATS2-RF-036"',
+        'current_task: "ATS2-RF-036"', 'current_ready_task: "ATS2-RF-036"',
+        'next_task: "HYP0005_CONFIRMATORY_FIRST_REVEAL_GATE_PREPARATION_ONLY"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -3055,14 +3078,21 @@ def main() -> int:
         'strategy_4_next_hypothesis_id: "HYP-0005"',
         'strategy_4_next_hypothesis_role: "CONFIRMATORY_STRUCTURAL_REPLICATION"',
         'strategy_4_confirmatory_hypothesis_id: "HYP-0005"',
-        'strategy_4_confirmatory_hypothesis_status: "READY_FOR_CONFIRMATORY_RUNNER_FREEZE"',
+        'strategy_4_confirmatory_hypothesis_status: "FIRST_REVEAL_GATE_PREPARATION_ONLY"',
         'strategy_4_confirmatory_parent_idea_id: "IDEA-0004"',
         'strategy_4_confirmatory_development_predecessor: "HYP-0004"',
         'strategy_4_confirmatory_dataset_selected: true',
         'strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
         'strategy_4_confirmatory_dataset_candidate_version: "1.0.0"',
         'strategy_4_confirmatory_prep_status: "RF023_PASS_RF024_CONDITIONAL_FREEZE_PASS"',
-        'strategy_4_confirmatory_research_gate_status: "RF024_CONDITIONAL_FROZEN_RF035_PRE_REVEAL_RUNNER_STAGED"',
+        'strategy_4_confirmatory_research_gate_status: "RF035_FROZEN_RF036_GATE4_PREPARATION_NO_REVEAL"',
+        'strategy_4_confirmatory_pre_reveal_status: "RF035_EXACT_MAIN_PASS_FROZEN"',
+        'strategy_4_confirmatory_reveal_gate_preparation: "RF036_STAGED_ONLY_NOT_CLOSED"',
+        'strategy_4_confirmatory_reveal_gate_execution_enabled: false',
+        'strategy_4_confirmatory_first_reveal_authorized: false',
+        'strategy_4_confirmatory_first_reveal_consumed: false',
+        'rf035_verified_commit: "9da36dba228d4fa55c3068a01cabc7f215aa7e02"',
+        'rf035_owner_report_sha256: "d7833785bee462c7b122479de22eae041329f42e24d38a1e7481ae4286aeff1b"',
         'strategy_4_confirmatory_offline_rf023_authorized: true',
         'strategy_4_confirmatory_preparation_result_exists: true',
         'strategy_4_confirmatory_offline_execution_task_id: "ATS2-RF-034"',
@@ -3071,7 +3101,7 @@ def main() -> int:
         'strategy_4_confirmatory_derived_row_count: 2010',
         'strategy_4_confirmatory_eligible_exact_next_hour_count: 1991',
         'rf024_verified_commit: "dd014ef6a1014edcfaa26f7d735478aee0cc94ef"',
-        'strategy_4_confirmatory_research_plan_current_major_step: 3',
+        'strategy_4_confirmatory_research_plan_current_major_step: 4',
         'strategy_4_confirmatory_frozen_dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
         'strategy_4_confirmatory_pre_reveal_runner: "tools/hyp0005_proto01.py"',
         'strategy_4_confirmatory_pre_reveal_runner_git_blob: "814193997768605fe60607d66dfd755a9323f339"',
@@ -3458,8 +3488,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-024") != "DONE / PASS":
         core.fail("RF-024 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-035") != "READY":
-        core.fail("RF-035 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-035") != "DONE / PASS":
+        core.fail("RF-035 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-036") != "READY":
+        core.fail("RF-036 must be READY in Program Backlog")
         blocking += 1
     if core.backlog_status(backlog, "ATS2-RF-025") != "DONE / PASS":
         core.fail("RF-025 must be DONE / PASS in Program Backlog")

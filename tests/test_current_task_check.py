@@ -1,4 +1,4 @@
-"""Synthetic RF-024 freeze gates; no HYP-0005 protected price access."""
+"""Synthetic RF-036 reveal-gate preparation; no HYP-0005 protected price access."""
 
 from __future__ import annotations
 
@@ -66,10 +66,10 @@ def test_hash_only_archive_function_preserves_exact_bytes(tmp_path: Path) -> Non
     assert check.sha256_file(archive) != hashlib.sha256(raw).hexdigest()
 
 
-def test_rf035_never_runs_consumed_prep_or_first_reveal() -> None:
+def test_rf036_never_runs_consumed_prep_or_first_reveal() -> None:
     source = inspect.getsource(check)
     main_source = inspect.getsource(check.main)
-    assert 'TASK_ID = "ATS2-RF-035"' in source
+    assert 'TASK_ID = "ATS2-RF-036"' in source
     assert "--execute-first-reveal" not in source
     assert "prepare_first_reveal(" not in source
     assert "def run_rf023_offline_once" not in source
@@ -77,6 +77,7 @@ def test_rf035_never_runs_consumed_prep_or_first_reveal() -> None:
     assert "check_rf024_preparation_identity()" in main_source
     assert "check_rf024_manifest_and_review()" in main_source
     assert "check_rf035_pre_reveal_runner_freeze()" in main_source
+    assert "check_rf036_gate_preparation()" in main_source
     assert "run_first_reveal_once(" not in main_source
     assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in source
 
@@ -314,3 +315,34 @@ def test_rf035_runner_freeze_rejects_existing_synthetic_reveal(
         (tmp_path / name).write_text("synthetic", encoding="utf-8")
     with pytest.raises(check.TaskCheckError, match="unexpected HYP-0005 confirmatory first reveal"):
         check.check_rf035_pre_reveal_runner_freeze()
+
+
+def test_rf036_preparation_blocks_any_existing_synthetic_reveal_artifact(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Never read or calculate prices: reject each reserved output path."""
+    result = tmp_path / "synthetic-result.json"
+    report = tmp_path / "synthetic-result.txt"
+    sentinel = tmp_path / "synthetic-consumed.json"
+    monkeypatch.setattr(check, "RF035_RESULT_JSON", result)
+    monkeypatch.setattr(check, "RF035_RESULT_TEXT", report)
+    monkeypatch.setattr(check, "RF036_CONSUMED_SENTINEL", sentinel)
+    # Real protocol/state are public prereveal metadata; no protected CSV is read.
+    check.check_rf036_gate_preparation()
+    for path in (result, report, sentinel):
+        path.write_bytes(b"synthetic-never-market-outcome")
+        with pytest.raises(check.TaskCheckError, match="reveal output exists"):
+            check.check_rf036_gate_preparation()
+        path.unlink()
+    check.check_rf036_gate_preparation()
+
+
+def test_rf036_preparation_never_invokes_market_reveal() -> None:
+    main_source = inspect.getsource(check.main)
+    assert "check_rf036_gate_preparation()" in main_source
+    assert "run_first_reveal_once(" not in main_source
+    assert "--execute-first-reveal" not in main_source
+    assert "observations_from_keys(" not in main_source
+    assert "evaluate_synthetic_or_revealed(" not in main_source
+    assert check.RF036_GATE_DOC.name == "HYP-0005-PROTOTYPE-01-REVEAL-GATE.md"
+    assert check.RF035_RUNNER_BLOB == "814193997768605fe60607d66dfd755a9323f339"
