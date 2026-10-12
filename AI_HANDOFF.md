@@ -8,63 +8,73 @@
 - Strategy #1: `REJECTED_AT_R3`.
 - Strategy #2: `REJECTED_AT_R3`.
 - Strategy #3 / HYP-0003: `REJECTED_AT_R3`.
-- Strategy #4 / HYP-0005: **CURRENT PRIORITY**; RF-032 exact-main PASS, OWNER locally received 2026-09 BID/ASK files, RF-033 narrow provenance Git-hygiene gate staged; RF-023 research preparation still OPEN.
+- Strategy #4 / HYP-0005: **CURRENT PRIORITY**; RF-033 exact-main PASS, 10 local EURUSD H1 Jetta source objects hash-verified; OWNER authorized offline RF-023 source/geometry preparation, RF-034 staged, no confirmatory outcome.
 - Strategy #5 / HYP-0006: RF-030 development reveal PASS, immutable exploratory result retained; HYP-0007 formation RF-031 exact-main PASS, independent data gate paused.
 - Candidate count: `0`.
 - Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
 
 ## Current executable stage
 
-`Research Factory → HYP-0005 → RF-023 file-only pair received → RF-033 provenance ignore repair`
+`Research Factory → HYP-0005 / RF-023 offline Data Feasibility preparation → RF-034 one-shot exact-main gate`
 
-Research stage: HYP-0005 `1/5` (frozen Data Feasibility preparation),
-**not yet PASS**. RF-033 is a technical source-intake/Git-hygiene substep
-within the same research stage, not new market evidence.
+Research gate: HYP-0005 `1/5` (existing frozen RF-023 preparation).
+No research PASS until exact-main preparation result and full checks.
+Current Technical ID: `ATS2-RF-034`.
 
-Current Technical ID: `ATS2-RF-033`.
-
-Last completed technical task: `ATS2-RF-032` exact-main PASS on
-`8b7492f0f17a549f51a967a9bc9dfdbf2fdd0ce9`.
+Prior technical task `ATS2-RF-033`: **EXACT-MAIN PASS** on
+`5ea7a923c59c44d6b733f8c7c6db352fd846d434`.
 Last completed tracked artifact:
-`research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md`.
-
-RF-031 HYP-0007 formation completed at exact-main
-`1ff81954fa1918975a9d19ce94c3f8c926fecb96`;
-HYP-0007 gate 2/8 remains paused. Frozen HYP-0006 reveal and
-its preserved SHA-256 remain unchanged.
-
-On 2026-10-09 OWNER reported byte-preserving intake of the
-official-URL **user-attested** 2026-09 Jetta JSON EURUSD H1
-BID and ASK snapshots plus a local provenance file.
-All three final files were owner-reported to have matching
-size/SHA-256; **no independent provider-origin audit or
-decoded BID/ASK semantic coherence** was performed.
-
-The sole new blocker is a clean-tree status line:
-`?? reports/local_ci/HYP0005_2026_09_SOURCE_INTAKE_PROVENANCE.json`.
-Git version control should ignore this **exact local-only path**,
-just as it already ignores `data/external/dukascopy/`.
-The provenance bytes must be preserved; do not stage, delete,
-modify or commit the local JSON.
-
-Canonical tracked evidence and next artifact:
 `research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md`.
-Its record states three expected hashes and preserves
-`USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER`.
-RF-033 exact-main gate is limited to Git hygiene, metadata/hash
-verification and full Local CI. No data decoding or HYP-0005
-outcome calculation is permitted.
+Next tracked artifact:
+`research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md`.
 
-HYP-0005 frozen source/segments unchanged:
-- `[2003-05-04T21:00:00Z, 2003-08-03T21:00:00Z)`;
-- `[2026-09-01T00:00:00Z, 2026-09-26T00:00:00Z)`.
-The next **research** gate is separately authorized offline
-RF-023 source/timestamp geometry preparation after RF-033.
+OWNER on 2026-10-09 expressly authorized offline RF-023 Data
+Feasibility preparation, **not** any HYP-0005 price/return/spread
+comparison, primary inequality or trading P&L calculation.
+
+Original frozen `research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md`
+and `tools/hyp0005_data_feasibility.py` must stay unchanged.
+Source: EURUSD Dukascopy H1 synchronized BID+ASK Jetta JSON
+for 2003-05, 2003-06, 2003-07, 2003-08, 2026-09;
+ten exact raw hashes and the September provenance SHA-256 are
+recorded in `research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md`.
+All are locally available per OWNER file-only report. Source
+authenticity remains `USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER`.
+The BID/ASK quote-coherence and frozen timestamp/eligibility
+geometry have **not yet been evaluated**.
+
+Frozen HYP-0005 source intervals:
+- LEFT_UNSEEN `[2003-05-04T21:00:00Z, 2003-08-03T21:00:00Z)`;
+- RIGHT_UNSEEN `[2026-09-01T00:00:00Z, 2026-09-26T00:00:00Z)`;
+- consumed ATS EURUSD history
+  `[2003-08-03T21:00:00Z, 2026-09-01T00:00:00Z)`.
+
+Current RF-034 is **not** another material attempt. It stages only
+the one-time offline execution wrapper / source hash gate. No
+RF-023 runner may execute on an agent branch. After exact-head
+`ATS AGENT PREFLIGHT: PASS`, GPT may squash merge and OWNER
+will run `.\\ATS_TASK_CHECK.bat` **once** on exact main,
+which first checks ten source SHA-256, frozen code/protocol,
+all previous result absence and full Local CI before permitting
+one RF-023 geometry-only runner invocation. Source/content failures
+STOP, no retry. Existing outputs must never be overwritten.
+
+Permitted preparation output:
+`reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP.json`,
+`reports/local_ci/HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt`,
+`data/derived/HYP-0005-CONF-01-EURUSD-H1.csv`.
+Data Feasibility decisions are
+`READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE` or
+`INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY`.
+Neither is HYP-0005 primary outcome. RF-024 must separately
+review and freeze/PARK the actual prepared dataset.
 
 Information boundaries:
 - HYP-0005: `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
-- HYP-0006: `DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`.
-- HYP-0007: `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+- HYP-0006: `DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`,
+  historical JSON SHA-256
+  `484575ceb2b6c12df651697d50559e70c7cba8a8f52fc4508d28943e8c5447e9`.
+- HYP-0007: `NO_CONFIRMATORY_OUTCOME_COMPUTED`, paused at gate 1/8.
 
 ## HYP-0006 fixed research claim
 
@@ -93,7 +103,7 @@ Canonical completed artifact:
 
 Current next artifact:
 
-`research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md`
+`research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md`
 
 RF-026 closed exact-main PASS on:
 
@@ -521,20 +531,19 @@ Bundle status:
 
 Bundle completeness: `1085 / 1085`.
 
-Current gate: stage/review RF-033 provenance-only `.gitignore`
-and canonical source-intake handoff. The `agent/*` branch
-must be checked on the exact HEAD by OWNER
-`.\\ATS_AGENT_PREFLIGHT.bat`, then GPT squash merges.
-OWNER `.\\ATS_TASK_CHECK.bat` exact-main PASS
-closes **only the technical RF-033** gate.
+Current gate: RF-034 `agent/rf034-hyp0005-offline-feasibility-prep-gate`
+exact-head preflight. OWNER runs only
+`.\\ATS_AGENT_PREFLIGHT.bat` on the agent branch,
+without source decoding/market preparation execution.
+GPT squash-merges only after full exact-head PASS.
 
-Checking out this agent branch should cause the existing
-local provenance JSON to become ignored and the working tree
-to become CLEAN without any deletion/copy or local
-`.git/info/exclude` edits.
+Then OWNER runs exact-main `.\\ATS_TASK_CHECK.bat` once.
+The checker executes the frozen RF-023 data/geometry-only
+preparation after exact source/provenance hashes and Local CI;
+preserves all local machine outputs and prevents rerun.
+This is NOT a HYP-0005 hypothesis reveal.
 
-The subsequent research gate is the frozen RF-023 local
-source preparation, strictly offline and without outcomes,
-on a separately approved task. No provider HTTP, no
-HYP-0005 performance result, no new Hypothesis ID or
-HYP-0006/HYP-0007 reruns are authorized by RF-033.
+RF-024 remains BLOCKED until RF-023 result is audited and
+canonical dataset identity is frozen. No independent exam,
+spread/return medians, P&L, HYP-0006/HYP-0007 reruns
+or capital decision is authorized.

@@ -101,6 +101,7 @@ HYP0005_HYPOTHESIS = "research/hypotheses/HYP-0005.md"
 HYP0005_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md"
 HYP0005_OFFLINE_SOURCE_INTAKE = "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"
 HYP0005_LOCAL_INTAKE_EVIDENCE = "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"
+HYP0005_RF023_OFFLINE_GATE = "research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md"
 HYP0005_DATA_FEASIBILITY_TOOL = "tools/hyp0005_data_feasibility.py"
 HYP0005_DATA_FEASIBILITY_TEST = "tests/test_hyp0005_data_feasibility.py"
 STRATEGY_5_IDEA = "research/ideas/IDEA-0005.md"
@@ -320,6 +321,7 @@ def configure() -> None:
         HYP0005_DATA_FEASIBILITY_PREP,
         HYP0005_OFFLINE_SOURCE_INTAKE,
         HYP0005_LOCAL_INTAKE_EVIDENCE,
+        HYP0005_RF023_OFFLINE_GATE,
         HYP0005_DATA_FEASIBILITY_TOOL,
         HYP0005_DATA_FEASIBILITY_TEST,
         STRATEGY_5_IDEA,
@@ -1244,6 +1246,18 @@ def configure() -> None:
         "ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze",
         "Direct R4 entry remains blocked",
     )
+    core.CONTENT_MARKERS[HYP0005_RF023_OFFLINE_GATE] = (
+        "ATS2-RF-034",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        "HYP0005_DATA_FEASIBILITY_PREP.json",
+        "HYP0005_DATA_FEASIBILITY_PREP_REPORT.txt",
+        "HYP-0005-CONF-01-EURUSD-H1.csv",
+        "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE",
+        "INSUFFICIENT_UNSEEN_CONFIRMATORY_GEOMETRY",
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER",
+        "b8d72d858d5c2691de7dec9a709f6e4d7ccb2808",
+        "c15b2b67700dd46fc592f1208731ce6b42f6905c",
+    )
     core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_PREP] = (
         "PREPARATION_PROTOCOL_FROZEN",
         "2003-05-04T21:00:00Z <= event_time < 2003-08-03T21:00:00Z",
@@ -1701,7 +1715,10 @@ def configure() -> None:
     core.CONTENT_MARKERS[CURRENT_TASK_CHECK_TEST] = (
         "test_saved_reveal_identity_rejects_drift",
         "test_hash_only_archive_function_preserves_exact_bytes",
-        "test_rf033_checker_never_executes_market_runner",
+        "test_rf034_checker_executes_only_frozen_offline_preparation",
+        "test_rf034_one_shot_refuses_any_existing_output",
+        "test_rf034_offline_source_hashes_accept_only_frozen_bytes",
+        "test_rf034_result_identity_uses_only_synthetic_geometry",
         "test_rf033_local_intake_hash_and_narrow_ignore_gate",
         "test_rf033_rejects_unignored_provenance",
         "test_rf032_source_contract_is_offline_only",
@@ -2380,9 +2397,9 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-033"',
-        'TASK_NAME = "HYP-0005 September local provenance Git hygiene"',
-        "RF-033 exact-main and clean-tree",
+        'TASK_ID = "ATS2-RF-034"',
+        'TASK_NAME = "HYP-0005 RF-023 frozen offline data feasibility preparation"',
+        "RF-034 exact-main and clean-tree",
         "main differs from origin/main",
         "HYP0006_PROTO01_RESULT.json",
         "HYP0006_PROTO01_RESULT_REPORT.txt",
@@ -2394,7 +2411,11 @@ def configure() -> None:
         "saved HYP-0006 reveal JSON SHA-256 differs",
         "NO_CONFIRMATORY_OUTCOME_COMPUTED",
         "full ATS Local CI",
-        "RF-033 inherited offline RF-023 source architecture",
+        "RF-034 frozen offline RF-023 source architecture",
+        "check_rf034_output_absence",
+        "RF034_SOURCE_HASHES",
+        "run_rf023_offline_once",
+        "check_rf023_preparation_result",
         "check_local_source_intake_identity",
         "RF033_PROVENANCE_RELATIVE",
         "SOURCE_INPUT_REQUIRED_LOCAL_SNAPSHOT",
@@ -2862,12 +2883,12 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-032"',
-        'last_completed_artifact: "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"',
-        'next_artifact: "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"',
-        'next_task_id: "ATS2-RF-033"',
-        'current_task: "ATS2-RF-033"', 'current_ready_task: "ATS2-RF-033"',
-        'next_task: "RF023_REMAINS_OPEN_AFTER_RF033_FILE_ONLY"',
+        'last_completed_task_id: "ATS2-RF-033"',
+        'last_completed_artifact: "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"',
+        'next_artifact: "research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md"',
+        'next_task_id: "ATS2-RF-034"',
+        'current_task: "ATS2-RF-034"', 'current_ready_task: "ATS2-RF-034"',
+        'next_task: "RF023_OFFLINE_PREPARATION_SINGLE_EXECUTE_GATE"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2960,7 +2981,11 @@ def main() -> int:
         'strategy_4_confirmatory_dataset_selected: false',
         'strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
         'strategy_4_confirmatory_dataset_candidate_version: "1.0.0"',
-        'strategy_4_confirmatory_prep_status: "RF023_PROTOCOL_FROZEN_SOURCE_PAIR_PRESENT_FEASIBILITY_NOT_RUN"',
+        'strategy_4_confirmatory_prep_status: "RF023_OFFLINE_PREPARATION_STAGED_NOT_EXECUTED"',
+        'strategy_4_confirmatory_research_gate_status: "RF023_OFFLINE_GEOMETRY_PREPARATION_AUTHORIZED_PENDING_EXACT_MAIN"',
+        'strategy_4_confirmatory_offline_rf023_authorized: true',
+        'strategy_4_confirmatory_preparation_result_exists: false',
+        'strategy_4_confirmatory_offline_execution_task_id: "ATS2-RF-034"',
         'strategy_4_confirmatory_source_availability_status: "LOCAL_2026_09_PAIR_RECEIVED_USER_ATTESTED"',
         'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
         'strategy_4_confirmatory_source_manual_intake_authorized: true',
@@ -3363,8 +3388,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-032") != "DONE / PASS":
         core.fail("RF-032 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-033") != "READY":
-        core.fail("RF-033 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-033") != "DONE / PASS":
+        core.fail("RF-033 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-034") != "READY":
+        core.fail("RF-034 must be READY in Program Backlog")
         blocking += 1
     if (
         "reports/local_ci/HYP0005_2026_09_SOURCE_INTAKE_PROVENANCE.json"
