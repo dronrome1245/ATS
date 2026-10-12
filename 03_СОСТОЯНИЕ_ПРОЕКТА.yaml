@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-10-08"
+  updated_on: "2026-10-12"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
