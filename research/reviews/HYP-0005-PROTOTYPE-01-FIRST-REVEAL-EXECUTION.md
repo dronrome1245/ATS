@@ -120,6 +120,7 @@ reports/local_ci/HYP0005_PROTO01_RESULT_REPORT.txt
 reports/local_ci/HYP0005_PROTO01_FIRST_REVEAL_RECEIPT.json
 
 The consumed marker is durable BEFORE any outcome computation.
+Consumption state: CONSUMED_BEFORE_OUTCOME (not a hypothesis result).
 Failure after marker creation consumes the authorization until
 independent technical review. No silent retry.
 
