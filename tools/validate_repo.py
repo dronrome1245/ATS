@@ -105,6 +105,9 @@ HYP0005_RF023_OFFLINE_GATE = "research/reviews/HYP-0005-RF023-OFFLINE-PREPARATIO
 HYP0005_DATA_FEASIBILITY_REVIEW = "research/reviews/HYP-0005-DATA-FEASIBILITY.md"
 HYP0005_CONFIRMATORY_MANIFEST = "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml"
 HYP0005_CONFIRMATORY_SCHEMA = "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json"
+HYP0005_PROTO_RECORD = "research/reviews/HYP-0005-PROTOTYPE-01.md"
+HYP0005_PROTO_RUNNER = "tools/hyp0005_proto01.py"
+HYP0005_PROTO_TEST = "tests/test_hyp0005_proto01.py"
 HYP0005_DATA_FEASIBILITY_TOOL = "tools/hyp0005_data_feasibility.py"
 HYP0005_DATA_FEASIBILITY_TEST = "tests/test_hyp0005_data_feasibility.py"
 STRATEGY_5_IDEA = "research/ideas/IDEA-0005.md"
@@ -328,6 +331,9 @@ def configure() -> None:
         HYP0005_DATA_FEASIBILITY_REVIEW,
         HYP0005_CONFIRMATORY_MANIFEST,
         HYP0005_CONFIRMATORY_SCHEMA,
+        HYP0005_PROTO_RECORD,
+        HYP0005_PROTO_RUNNER,
+        HYP0005_PROTO_TEST,
         HYP0005_DATA_FEASIBILITY_TOOL,
         HYP0005_DATA_FEASIBILITY_TEST,
         STRATEGY_5_IDEA,
@@ -1251,6 +1257,38 @@ def configure() -> None:
         "ATS2-RF-023 — HYP-0005 confirmatory Data Feasibility preparation",
         "ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze",
         "Direct R4 entry remains blocked",
+    )
+    core.CONTENT_MARKERS[HYP0005_PROTO_RECORD] = (
+        "ATS2-RF-035",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "CONFIRMATORY_STRUCTURAL_FAIL",
+        "BOTH_PRIMARY_INEQUALITIES_MET",
+        "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED",
+        "1991",
+        "838",
+        "837",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        "814193997768605fe60607d66dfd755a9323f339",
+    )
+    core.CONTENT_MARKERS[HYP0005_PROTO_RUNNER] = (
+        'HYPOTHESIS_ID = "HYP-0005"',
+        "EXPECTED_GEOMETRY",
+        "FROZEN_PARENT_RUNNER_BLOB",
+        "FROZEN_PREP_RUNNER_BLOB",
+        "def run_first_reveal_once(*, authorized: bool = False)",
+        "owner-attested",
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "CONFIRMATORY_STRUCTURAL_FAIL",
+        "REVIEW_CONFIRMATORY_STRUCTURAL_EVIDENCE_NO_DIRECT_R4",
+        "RETAIN_NEGATIVE_CONFIRMATORY_EVIDENCE_NO_RETUNING",
+        "return 2",
+    )
+    core.CONTENT_MARKERS[HYP0005_PROTO_TEST] = (
+        "test_default_cli_and_unapproved_reveal_are_blocked",
+        "test_synthetic_geometry_is_frozen_before_outcome_computation",
+        "test_exact_parent_formulas_and_two_independent_primary_booleans",
+        "test_no_positive_result_grants_trading_admission",
     )
     core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_REVIEW] = (
         "ATS2-RF-024",
