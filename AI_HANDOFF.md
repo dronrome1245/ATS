@@ -2,98 +2,122 @@
 
 ## Current program state
 
-- M0–M3: `COMPLETED / PASS`.
-- M4 reusable baseline complete; full M4.9/M4.10 awaits S05 PASS Candidate.
-- M6: `COMPLETED / PASS`.
-- Strategies #1–3: `REJECTED_AT_R3`.
-- Strategy #4: `IDEA-0004 / HYP-0005` **CURRENT PRIORITY**.
-- Strategy #5: HYP-0006 development structural reveal preserved
-  as `DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`; HYP-0007 confirmatory
-  data independence remains pending.
-- Candidate count: `0`.
-- Current lane: `RESEARCH_FACTORY_CONTINUOUS`.
+- M0–M3: COMPLETED / PASS.
+- M4 baseline reusable; M4.9/M4.10 await future S05 PASS Candidate.
+- M6: COMPLETED / PASS.
+- Strategies #1–3: REJECTED_AT_R3.
+- Strategy #4 / IDEA-0004 / HYP-0005: CURRENT PRIORITY.
+- Strategy #5 / HYP-0006: development reveal retained as
+  DEVELOPMENT_REVEALED_EXPLORATORY_ONLY.
+- HYP-0007: formation PASS, confirmatory independence paused.
+- Candidate count: 0.
+- Research Factory lane: RESEARCH_FACTORY_CONTINUOUS.
 
 ## Current executable stage
 
-`Research Factory → HYP-0005 → RF-036 gate 4/5 preparation ONLY`
+Research Factory → HYP-0005 → RF-037 first confirmatory
+reveal exact-main ONE-SHOT after full preflight.
 
-Research plan: `4/5` major step is OPEN and NOT REVEALED;
-technical substep `4.1/5` stages the authorization and
-pre-result verification protocol. Earlier 1/5 and 2/5 PASSED.
+HYP-0005 major research plan: step 4/5 ACTIVE,
+one original confirmatory structural reveal.
+Steps 1/5 RF-023 and 2/5 RF-024 PASS, 3/5 RF-035 PASS.
+RF-036 preparation technical substep 4.1/5 CLOSED exact-main.
+Step 5/5 result interpretation remains subsequent.
 
-Latest completed Technical ID: `ATS2-RF-035`.
-Its exact-main OWNER PASS:
-`9da36dba228d4fa55c3068a01cabc7f215aa7e02`.
-Verified 267 pytest PASS, validator, Ruff lint/format, full
-Local CI, exact CLEAN HEAD, frozen inputs, task and launcher PASS.
-OWNER report SHA-256:
-`d7833785bee462c7b122479de22eae041329f42e24d38a1e7481ae4286aeff1b`.
+Previous Technical ID: ATS2-RF-036, completed exact-main OWNER PASS
+at 1facc2604e701cc05b34118e8c3295070bfd9eaa.
+The complete local report passed validator, pinned Ruff lint/format,
+269 pytest, environment, full Local CI, frozen HYP-0005 source data,
+and CURRENT TASK CHECK / TASK LAUNCHER.
+RF-036 report SHA-256:
+48924993149cdd11ba489ab0dc2c22e14a551669a7bdd28d7b3f987442e97ee2.
+RF-036 did not compute a HYP-0005 result.
 
-Current Technical ID: `ATS2-RF-036`.
-OWNER approved **preparation only**, not a first reveal.
-New gate artifact:
-`research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md`.
+Current Technical ID: ATS2-RF-037.
+Existing lineage: IDEA-0004 / HYP-0005 / PROTO-01;
+no new Hypothesis or Material Research Attempt.
+
+OWNER authorized exactly ONE first reveal on 2026-10-12
+by responding to the RF-036 explicit authorization request.
+Authorization marker:
+OWNER_AUTHORIZED_HYP0005_FIRST_REVEAL_ONCE_2026_10_12
+
 Last completed tracked artifact:
-`research/reviews/HYP-0005-PROTOTYPE-01.md`.
-This remains the original HYP-0005 research attempt;
-no new Hypothesis/Idea or search over rules.
+research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md
+Next tracked artifact:
+research/reviews/HYP-0005-PROTOTYPE-01-FIRST-REVEAL-EXECUTION.md
+New one-shot gate tool:
+tools/hyp0005_first_reveal_gate.py
+New synthetic-only tests:
+tests/test_hyp0005_first_reveal_gate.py
 
-Data frozen by RF-024 on
-`dd014ef6a1014edcfaa26f7d735478aee0cc94ef`:
-`DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0`.
-Manifest:
-`data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml`.
-Source-bundle SHA-256:
-`65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2`.
-CSV:
-`data/derived/HYP-0005-CONF-01-EURUSD-H1.csv`;
-SHA-256:
-`b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1`.
-2010 rows, 1991 exact-next-hour eligible;
-CORE_ACTIVE 838 / OFF_HOURS 837 / TRANSITION 316;
-LEFT_UNSEEN 1542 / RIGHT_UNSEEN 449; three LEFT market-hour gaps.
-Frozen periods:
-LEFT `[2003-05-04T21:00:00Z, 2003-08-03T21:00:00Z)`;
-RIGHT `[2026-09-01T00:00:00Z, 2026-09-26T00:00:00Z)`.
-Original HYP-0004 development interval fully consumed,
-never eligible for HYP-0005.
+Exact frozen data:
+DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0,
+Data Feasibility CONDITIONAL, Dukascopy EURUSD H1 BID/ASK.
+Source bundle SHA-256:
+65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2
+Prepared CSV SHA-256:
+b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1
+RF-023 preparation JSON SHA-256:
+d2eadd9a64da74ae79e2a0008426147953f24beb8c23f66557a721a7b8a65381
+2010 prepared rows / 1991 exact-next-hour eligible,
+CORE_ACTIVE 838, OFF_HOURS 837, TRANSITION 316,
+LEFT_UNSEEN 1542 / RIGHT_UNSEEN 449,
+three missing LEFT market hours; no gap fills.
+LEFT [2003-05-04T21:00:00Z, 2003-08-03T21:00:00Z),
+RIGHT [2026-09-01T00:00:00Z, 2026-09-26T00:00:00Z).
+Original HYP-0004 development interval is consumed.
 
-Frozen runner:
-`tools/hyp0005_proto01.py`
-Git blob `814193997768605fe60607d66dfd755a9323f339`.
-Inherited arithmetic code Git blob
-`cbc9a46bf5e5296615f51c0ea564153968bc2a55`.
-Two frozen primary comparisons:
-`median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)`;
-`median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)`.
-TRANSITION and year slices diagnostic only, no tuning.
-The decision is structural, nondirectional, not trading P&L;
-a positive result creates no Candidate, R4 or independent status.
-Data semantics remain `CONDITIONAL / H1_OPEN_PROXY_AT_EVENT_TIME`,
-`exact_tick_boundary_time_known=false`.
-September vendor origin still
-`USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER`.
+Original frozen runner tools/hyp0005_proto01.py
+must remain EXACT Git blob
+814193997768605fe60607d66dfd755a9323f339.
+Original HYP-0004 arithmetic Git blob:
+cbc9a46bf5e5296615f51c0ea564153968bc2a55.
+Original source preparation code Git blob:
+b8d72d858d5c2691de7dec9a709f6e4d7ccb2808.
 
-RF-036 stages only protocol, state sync, synthetic tests and
-a no-reveal metadata-only current-task gate.
-Agent preflight and merged exact-main task checker must NOT
-call `run_first_reveal_once` or compute median/returns/spreads;
-first reveal needs a distinct future OWNER one-shot authorization,
-technical launch gate and result preservation.
-Direct frozen runner CLI exits 2.
+Two immutable original median inequalities:
+median(abs_next_1h_return | CORE_ACTIVE) > median(abs_next_1h_return | OFF_HOURS)
+median(relative_spread | CORE_ACTIVE) <= median(relative_spread | OFF_HOURS)
+Both true: CONFIRMATORY_STRUCTURAL_PASS; either false:
+CONFIRMATORY_STRUCTURAL_FAIL, retain all negative evidence.
+TRANSITION/year slices reporting only, never sample selection.
+
+Timing remains H1_OPEN_PROXY_AT_EVENT_TIME with
+exact_tick_boundary_time_known=false.
+September source provenance remains
+USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER.
+Positive structural result is NOT a trading strategy,
+P&L, economic proof, independent examination or R4 admission.
+
+RF-037 security and information boundary:
+- Agent preflight: validator/Ruff/synthetic tests only;
+  NEVER open protected prices or call market runner.
+- GPT squash-merges only on exact-head OWNER preflight PASS.
+- OWNER then runs .\ATS_TASK_CHECK.bat ONCE on exact clean main.
+- Checker verifies frozen source/data/code/geometry and full CI
+  BEFORE consumed marker and first outcome computation.
+- A flushed exclusive one-shot consumed marker precedes the
+  only call to frozen run_first_reveal_once(authorized=True).
+- A complete pair of JSON/TXT outputs and their receipt
+  may be verified hash-only afterward, never recomputed.
+- A consumed marker with partial/missing output means
+  TECHNICAL_BLOCKER with NO automatic retry.
+- The first reveal is approved, but NOT EXECUTED yet.
 
 Information boundaries:
-- HYP-0005: `NO_CONFIRMATORY_OUTCOME_COMPUTED`;
-- first reveal: `NOT_AUTHORIZED / NOT_EXECUTED`;
-- HYP-0006: `DEVELOPMENT_REVEALED_EXPLORATORY_ONLY`;
-- HYP-0007: `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+HYP-0005: NO_CONFIRMATORY_OUTCOME_COMPUTED.
+FIRST REVEAL: OWNER_AUTHORIZED_ONCE / NOT_EXECUTED.
+HYP-0006: DEVELOPMENT_REVEALED_EXPLORATORY_ONLY.
+HYP-0007: NO_CONFIRMATORY_OUTCOME_COMPUTED.
 
-OWNER next **after RF-036 PR is created**:
-run `.\\ATS_AGENT_PREFLIGHT.bat` at exact agent HEAD,
-send `reports/local_ci/AGENT_PREFLIGHT_REPORT.txt`.
-GPT squash-merges only after validated exact-head PASS;
-then OWNER runs `.\\ATS_TASK_CHECK.bat` on merged exact main.
-Those gates close preparation only and never reveal HYP-0005.
+OWNER next after PR creation: run .\ATS_AGENT_PREFLIGHT.bat
+on exact agent/rf037-hyp0005-authorized-one-shot-reveal HEAD
+and submit reports/local_ci/AGENT_PREFLIGHT_REPORT.txt.
+Do NOT run the standalone HYP-0005 runner.
+Actual first reveal occurs only after merge during
+OWNER exact-main .\ATS_TASK_CHECK.bat; submit the
+task report, original result JSON/TXT, consumed marker and receipt.
 
 ## HYP-0006 fixed research claim
 
@@ -122,7 +146,7 @@ Canonical completed artifact:
 
 Current next artifact:
 
-`research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md`
+research/reviews/HYP-0005-PROTOTYPE-01-FIRST-REVEAL-EXECUTION.md
 
 RF-026 closed exact-main PASS on:
 
@@ -550,12 +574,12 @@ Bundle status:
 
 Bundle completeness: `1085 / 1085`.
 
-Current gate: RF-036 `agent/rf036-hyp0005-first-reveal-gate-prep`
-exact-head OWNER preflight, synthetic and metadata-only, followed
-by GPT squash merge and exact-main task check. RF-035 was
-CLOSED exact-main OWNER PASS at
-`9da36dba228d4fa55c3068a01cabc7f215aa7e02`.
-No first confirmatory reveal authorization exists.
-No change to original HYP-0005 formulas, 2010-row data,
-1991 eligible observations, frozen code/hash or source
-provenance. `NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+Current gate: RF-037 agent/rf037-hyp0005-authorized-one-shot-reveal
+exact-head OWNER preflight, then GPT squash-merge and OWNER
+exact-main one-shot FIRST CONFIRMATORY REVEAL via ATS_TASK_CHECK.bat.
+RF-036 preparation PASSED exact-main
+1facc2604e701cc05b34118e8c3295070bfd9eaa.
+Explicit OWNER first reveal authorization has been granted ONCE,
+but has not been consumed or executed.
+No first HYP-0005 outcome yet.
+Original dataset, formulas, all source data and frozen runner unchanged.
