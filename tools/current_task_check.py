@@ -566,6 +566,86 @@ def check_rf023_preparation_result(commit: str) -> None:
     print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
 
 
+def check_rf024_preparation_identity() -> None:
+    """Verify already-created RF-023 bytes and geometry without recomputation."""
+    print("\n== RF-024 exact preserved RF-023 preparation identity ==", flush=True)
+    require(
+        sha256_file(RF034_RESULT_JSON) == RF024_RF023_JSON_SHA256,
+        "RF-023 preserved preparation JSON SHA-256 drift",
+    )
+    require(
+        sha256_file(RF034_RESULT_TEXT) == RF024_RF023_TEXT_SHA256,
+        "RF-023 preserved preparation text SHA-256 drift",
+    )
+    require(
+        sha256_file(RF034_DERIVED_CSV) == RF024_CSV_SHA256,
+        "RF-023 derived CSV SHA-256 drift",
+    )
+    require(not RF034_DERIVED_PART.exists(), "RF-023 orphaned derived .part exists")
+    check_rf023_preparation_result(RF034_MAIN_COMMIT)
+    result = json.loads(RF034_RESULT_JSON.read_text(encoding="utf-8"))
+    require(
+        result.get("preparation_decision") == "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE",
+        "RF-024 cannot freeze non-ready data feasibility geometry",
+    )
+    require(
+        result.get("source_bundle_sha256") == RF024_SOURCE_BUNDLE_SHA256,
+        "RF-023 source bundle SHA-256 drift",
+    )
+    require(result.get("derived_row_count") == 2010, "RF-023 prepared row count drift")
+    expected = {
+        "eligible_exact_next_hour_count": 1991,
+        "eligible_rows_by_bucket": {
+            "CORE_ACTIVE": 838,
+            "OFF_HOURS": 837,
+            "TRANSITION": 316,
+        },
+        "eligible_rows_by_segment": {
+            "LEFT_UNSEEN": 1542,
+            "RIGHT_UNSEEN": 449,
+        },
+        "expected_market_hours_by_segment": {
+            "LEFT_UNSEEN": 1560,
+            "RIGHT_UNSEEN": 453,
+        },
+        "total_rows_by_segment": {
+            "LEFT_UNSEEN": 1557,
+            "RIGHT_UNSEEN": 453,
+        },
+        "missing_market_hours_by_segment": {
+            "LEFT_UNSEEN": 3,
+            "RIGHT_UNSEEN": 0,
+        },
+        "ineligible_closed_market_next_hour_count": 16,
+        "ineligible_missing_expected_next_hour_count": 3,
+        "ineligible_segment_end_count": 0,
+    }
+    geometry = result.get("geometry")
+    require(isinstance(geometry, dict), "RF-023 geometry missing")
+    for key, value in expected.items():
+        require(geometry.get(key) == value, f"RF-023 frozen geometry drift: {key}")
+    source_rows = result.get("source_files")
+    require(isinstance(source_rows, list), "source metadata missing")
+    sorted_rows = sorted(
+        source_rows,
+        key=lambda item: (item["symbol"], item["month"], item["side"]),
+    )
+    bundle_payload = [
+        {
+            "symbol": item["symbol"],
+            "month": item["month"],
+            "side": item["side"],
+            "sha256": item["sha256"],
+        }
+        for item in sorted_rows
+    ]
+    digest = hashlib.sha256(
+        json.dumps(bundle_payload, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    require(digest == RF024_SOURCE_BUNDLE_SHA256, "reconstructed source bundle SHA-256 drift")
+    print("[PASS] RF-023 result, 2010 rows and 1991 eligible pairs preserved", flush=True)
+
+
 def run_full_ci() -> None:
     print("\n== RF-024 full ATS Local CI (NO RF-023 re-execution) ==", flush=True)
     completed = subprocess.run(
