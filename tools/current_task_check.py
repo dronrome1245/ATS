@@ -646,6 +646,89 @@ def check_rf024_preparation_identity() -> None:
     print("[PASS] RF-023 result, 2010 rows and 1991 eligible pairs preserved", flush=True)
 
 
+def check_rf024_manifest_and_review() -> None:
+    """Validate only tracked metadata/schema; never parse source quote rows."""
+    print("\n== RF-024 conditional manifest and row schema ==", flush=True)
+    for path in (RF024_REVIEW, RF024_MANIFEST, RF024_SCHEMA):
+        require(path.is_file(), f"missing RF-024 tracked freeze artifact: {path}")
+    from ats.schemas.dataset_manifest import load_dataset_manifest
+
+    manifest = load_dataset_manifest(RF024_MANIFEST)
+    require(
+        manifest.dataset_id == "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001",
+        "RF-024 manifest dataset identity mismatch",
+    )
+    require(manifest.dataset_version == "1.0.0", "RF-024 manifest version drift")
+    require(manifest.integrity.digest == RF024_CSV_SHA256, "RF-024 CSV digest drift")
+    require(
+        RF024_SOURCE_BUNDLE_SHA256 in manifest.source.snapshot_reference,
+        "RF-024 source bundle identity absent",
+    )
+    require(
+        RF024_RF023_JSON_SHA256 in manifest.source.snapshot_reference,
+        "RF-024 RF-023 result identity absent",
+    )
+    require(
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER"
+        in manifest.source.source_reference,
+        "RF-024 provider provenance overstated",
+    )
+    require(
+        manifest.storage.location == "data/derived/HYP-0005-CONF-01-EURUSD-H1.csv",
+        "RF-024 manifest storage path mismatch",
+    )
+    require(
+        manifest.storage.schema_reference
+        == "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json",
+        "RF-024 manifest schema reference mismatch",
+    )
+    require(
+        manifest.time_semantics.event_time_field == "event_time"
+        and manifest.time_semantics.availability_time_field == "availability_time"
+        and manifest.time_semantics.availability_mode == "EXPLICIT_FIELD",
+        "RF-024 boundary availability semantics drift",
+    )
+    require(
+        manifest.quality_policy.missing == "ALLOW_DECLARED_GAPS",
+        "RF-024 missing market hour handling drift",
+    )
+    require(
+        manifest.ordering.keys == ("event_time",)
+        and manifest.ordering.tie_break_keys == ("sequence",),
+        "RF-024 deterministic row ordering drift",
+    )
+    require(
+        len(manifest.known_limitations) >= 5,
+        "RF-024 conditional limitations must remain explicit",
+    )
+    schema = json.loads(RF024_SCHEMA.read_text(encoding="utf-8"))
+    require(isinstance(schema, dict), "RF-024 schema must be a JSON object")
+    columns = set(RF034_EXPECTED_CSV_FIELDS)
+    require(
+        set(schema.get("required", [])) == columns,
+        "RF-024 row schema required columns drift",
+    )
+    properties = schema.get("properties")
+    require(
+        isinstance(properties, dict) and set(properties) == columns,
+        "RF-024 row schema unexpected columns",
+    )
+    require(schema.get("additionalProperties") is False, "RF-024 row schema not closed")
+    review = RF024_REVIEW.read_text(encoding="utf-8")
+    for marker in (
+        "Review decision: `CONDITIONAL`",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        RF024_RF023_JSON_SHA256,
+        RF024_SOURCE_BUNDLE_SHA256,
+        RF024_CSV_SHA256,
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+    ):
+        require(marker in review, f"RF-024 review marker missing: {marker}")
+    print("[PASS] staged review/manifest/schema match immutable local dataset", flush=True)
+    print("Data Feasibility: CONDITIONAL / H1_OPEN_PROXY_AT_EVENT_TIME", flush=True)
+    print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
+
+
 def run_full_ci() -> None:
     print("\n== RF-024 full ATS Local CI (NO RF-023 re-execution) ==", flush=True)
     completed = subprocess.run(
