@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RF-034 frozen offline HYP-0005 RF-023 Data Feasibility preparation gate."""
+"""RF-024 HYP-0005 confirmatory dataset freeze without market outcome."""
 
 from __future__ import annotations
 
@@ -12,8 +12,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 
-TASK_ID = "ATS2-RF-034"
-TASK_NAME = "HYP-0005 RF-023 frozen offline data feasibility preparation"
+TASK_ID = "ATS2-RF-024"
+TASK_NAME = "HYP-0005 confirmatory Data Feasibility freeze"
 
 RF030_MAIN_COMMIT = "d1135bb2486009ebb358bf4b508c06303ab77f74"
 FROZEN_HYP0006_RUNNER_BLOB = "6afb870c035bc5ae76f773784a5fa3db15d680fd"
@@ -110,6 +110,16 @@ RF034_EXPECTED_CSV_FIELDS = (
     "utc_bucket",
 )
 
+
+RF034_MAIN_COMMIT = "14531698c87fd3a0d87e1ec54c6713f11b7cbb60"
+RF024_REVIEW = ROOT / "research/reviews/HYP-0005-DATA-FEASIBILITY.md"
+RF024_MANIFEST = ROOT / "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml"
+RF024_SCHEMA = ROOT / "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json"
+RF024_RF023_JSON_SHA256 = "d2eadd9a64da74ae79e2a0008426147953f24beb8c23f66557a721a7b8a65381"
+RF024_RF023_TEXT_SHA256 = "fe9f26d15a99294cff17d2f94f3f58dcd41bbb22ffde60bdaf815aedb93d4618"
+RF024_CSV_SHA256 = "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1"
+RF024_SOURCE_BUNDLE_SHA256 = "65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2"
+
 FROZEN_BLOBS = {
     "tools/hyp0006_proto01.py": FROZEN_HYP0006_RUNNER_BLOB,
     "research/reviews/HYP-0006-PROTOTYPE-01.md": ("9f7bcd8480f66a37ea273cc7e158a56758b79b12"),
@@ -150,7 +160,7 @@ def git_output(*arguments: str) -> str:
 
 
 def check_exact_main_context() -> str:
-    print("\n== RF-034 exact-main and clean-tree ==", flush=True)
+    print("\n== RF-024 exact-main and clean-tree ==", flush=True)
     branch = git_output("branch", "--show-current")
     head = git_output("rev-parse", "HEAD")
     origin_main = git_output("rev-parse", "origin/main")
@@ -265,8 +275,8 @@ def check_new_confirmatory_hypothesis() -> None:
             "216",
         ),
         STATE: (
-            'last_completed_task_id: "ATS2-RF-033"',
-            'next_task_id: "ATS2-RF-034"',
+            'last_completed_task_id: "ATS2-RF-034"',
+            'next_task_id: "ATS2-RF-024"',
             'strategy_5_confirmatory_hypothesis_id: "HYP-0007"',
             'strategy_5_confirmatory_source_status: "INDEPENDENCE_NOT_YET_CERTIFIED"',
             "strategy_5_confirmatory_outcome_computed: false",
@@ -321,7 +331,7 @@ def check_rf023_offline_source_architecture() -> None:
         'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
         "strategy_4_confirmatory_source_manual_intake_authorized: true",
         "strategy_4_confirmatory_source_network_retry_authorized: false",
-        'next_task_id: "ATS2-RF-034"',
+        'next_task_id: "ATS2-RF-024"',
     ):
         require(marker in state, f"RF-032 state marker absent: {marker}")
     print("[PASS] RF-023 source runtime is offline-only; no HTTP/retry", flush=True)
@@ -447,23 +457,6 @@ def check_rf034_output_absence() -> None:
     print("[PASS] no previous RF-023 result or partial derived CSV", flush=True)
 
 
-def run_rf023_offline_once() -> None:
-    """Execute the already-frozen geometry-only script exactly once, no retries."""
-    print("\n== RF-034 authorized one-shot offline RF-023 execution ==", flush=True)
-    require(RF034_PREP_TOOL.is_file(), "frozen RF-023 runner missing")
-    check_rf034_output_absence()
-    completed = subprocess.run(
-        [sys.executable, "tools/hyp0005_data_feasibility.py"],
-        cwd=ROOT,
-        check=False,
-    )
-    require(
-        completed.returncode == 0,
-        "RF-023 offline preparation failed; retain evidence, STOP, no retry",
-    )
-    print("[PASS] frozen RF-023 geometry-only runner completed once", flush=True)
-
-
 def check_rf023_preparation_result(commit: str) -> None:
     """Check stored data-feasibility evidence without recomputing market metrics."""
     print("\n== RF-034 RF-023 preserved preparation result ==", flush=True)
@@ -574,7 +567,7 @@ def check_rf023_preparation_result(commit: str) -> None:
 
 
 def run_full_ci() -> None:
-    print("\n== RF-034 full ATS Local CI (no market runner) ==", flush=True)
+    print("\n== RF-024 full ATS Local CI (NO RF-023 re-execution) ==", flush=True)
     completed = subprocess.run(
         [sys.executable, "tools/verify_repo.py"],
         cwd=ROOT,
@@ -588,7 +581,7 @@ def main() -> int:
     print("ATS CURRENT TASK CHECK", flush=True)
     print(f"Task: {TASK_ID} — {TASK_NAME}", flush=True)
     print(
-        "RF-034: frozen offline source/geometry preparation only; no market outcome.",
+        "RF-024: freeze existing RF-023 data identity only; do not rerun RF-023.",
         flush=True,
     )
     try:
@@ -616,7 +609,7 @@ def main() -> int:
         subprocess.CalledProcessError,
     ) as exc:
         print(
-            f"[FAIL] RF-034 offline preparation/source blocker: {exc}",
+            f"[FAIL] RF-024 dataset identity/source blocker: {exc}",
             flush=True,
         )
         print("HYP-0007 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
