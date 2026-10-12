@@ -974,6 +974,7 @@ def main() -> int:
         check_rf037_one_shot_authorization()
         require(check_exact_main_context() == commit, "main changed before first reveal")
 
+        sys.path.insert(0, str(ROOT))
         from tools import hyp0005_first_reveal_gate as reveal_gate
 
         already_consumed = reveal_gate.CONSUMED.exists()
