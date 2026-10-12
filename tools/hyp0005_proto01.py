@@ -114,7 +114,10 @@ def verify_frozen_files() -> dict[str, Any]:
         "tools/hyp0005_data_feasibility.py": FROZEN_PREP_RUNNER_BLOB,
         "research/hypotheses/HYP-0005.md": FROZEN_HYPOTHESIS_BLOB,
     }.items():
-        _require(_git("rev-parse", f"HEAD:{relative}") == expected, f"frozen blob drift: {relative}")
+        _require(
+            _git("rev-parse", f"HEAD:{relative}") == expected,
+            f"frozen blob drift: {relative}",
+        )
         _require(_git("hash-object", "--", relative) == expected, f"worktree drift: {relative}")
     _require(sha256_file(DATA_PATH) == CSV_SHA256, "confirmatory CSV SHA-256 mismatch")
     _require(
@@ -132,18 +135,31 @@ def verify_frozen_files() -> dict[str, Any]:
         "source bundle SHA missing from manifest",
     )
     _require(
-        manifest.get("storage", {}).get("location") == str(DATA_PATH.relative_to(ROOT)).replace("\\", "/"),
+        manifest.get("storage", {}).get("location")
+        == str(DATA_PATH.relative_to(ROOT)).replace("\\", "/"),
         "manifest CSV location drift",
     )
-    _require(manifest.get("time_semantics", {}).get("availability_mode") == "EXPLICIT_FIELD", "availability mode drift")
     _require(
-        any(TIMING_MODE in str(step) for step in manifest.get("transformation_lineage", {}).get("steps", [])),
+        manifest.get("time_semantics", {}).get("availability_mode") == "EXPLICIT_FIELD",
+        "availability mode drift",
+    )
+    _require(
+        any(
+            TIMING_MODE in str(step)
+            for step in manifest.get("transformation_lineage", {}).get("steps", [])
+        ),
         "H1 bar-open boundary proxy not declared",
     )
     prep_result = json.loads(PREPARATION_JSON.read_text(encoding="utf-8"))
-    _require(prep_result.get("git_commit") == "14531698c87fd3a0d87e1ec54c6713f11b7cbb60", "preparation commit drift")
+    _require(
+        prep_result.get("git_commit") == "14531698c87fd3a0d87e1ec54c6713f11b7cbb60",
+        "preparation commit drift",
+    )
     _require(prep_result.get("derived_csv_sha256") == CSV_SHA256, "prepared CSV digest drift")
-    _require(prep_result.get("source_bundle_sha256") == SOURCE_BUNDLE_SHA256, "source bundle identity drift")
+    _require(
+        prep_result.get("source_bundle_sha256") == SOURCE_BUNDLE_SHA256,
+        "source bundle identity drift",
+    )
     _require(prep_result.get("geometry") == EXPECTED_GEOMETRY, "frozen RF-023 geometry drift")
     _require(prep_result.get("derived_row_count") == EXPECTED_ROWS, "prepared row count drift")
     _require(
@@ -230,7 +246,10 @@ def frozen_geometry(rows: dict[tuple[str, datetime], Row]) -> list[tuple[str, da
     geometry = prep.geometry_summary(list(rows.values()))
     _require(geometry == EXPECTED_GEOMETRY, "confirmatory geometry drift")
     keys = frozen_eligible_keys(rows)
-    _require(len(keys) == EXPECTED_GEOMETRY["eligible_exact_next_hour_count"], "eligible count drift")
+    _require(
+        len(keys) == EXPECTED_GEOMETRY["eligible_exact_next_hour_count"],
+        "eligible count drift",
+    )
     return keys
 
 
@@ -344,11 +363,16 @@ def run_first_reveal_once(*, authorized: bool = False) -> dict[str, Any]:
         f"Decision: {result['decision']}",
         f"Reason: {result['decision_reason']}",
         f"Next action: {result['next_action']}",
-        f"Core median absolute next-hour return: {result['bucket_metrics']['CORE_ACTIVE']['median_abs_next_1h_return']}",
-        f"Off-hours median absolute next-hour return: {result['bucket_metrics']['OFF_HOURS']['median_abs_next_1h_return']}",
-        f"Core median relative spread: {result['bucket_metrics']['CORE_ACTIVE']['median_relative_spread']}",
-        f"Off-hours median relative spread: {result['bucket_metrics']['OFF_HOURS']['median_relative_spread']}",
-        f"Both predeclared inequalities pass: {result['primary']['both_primary_inequalities_pass']}",
+        "Core median absolute next-hour return: "
+        f"{result['bucket_metrics']['CORE_ACTIVE']['median_abs_next_1h_return']}",
+        "Off-hours median absolute next-hour return: "
+        f"{result['bucket_metrics']['OFF_HOURS']['median_abs_next_1h_return']}",
+        "Core median relative spread: "
+        f"{result['bucket_metrics']['CORE_ACTIVE']['median_relative_spread']}",
+        "Off-hours median relative spread: "
+        f"{result['bucket_metrics']['OFF_HOURS']['median_relative_spread']}",
+        "Both predeclared inequalities pass: "
+        f"{result['primary']['both_primary_inequalities_pass']}",
     ]
     with RESULT_TEXT.open("x", encoding="utf-8") as handle:
         handle.write("\n".join(summary) + "\n")
