@@ -858,7 +858,9 @@ def check_rf036_gate_preparation(*, require_absence: bool = True) -> None:
         require(marker in protocol, f"RF-036 reveal protocol missing marker: {marker}")
     if require_absence:
         for path in (RF035_RESULT_JSON, RF035_RESULT_TEXT, RF036_CONSUMED_SENTINEL):
-            require(not path.exists(), f"RF-036 preparation prohibited; reveal output exists: {path}")
+            require(
+                not path.exists(), f"RF-036 preparation prohibited; reveal output exists: {path}"
+            )
     state = STATE.read_text(encoding="utf-8")
     for marker in (
         'last_completed_task_id: "ATS2-RF-036"',
@@ -879,9 +881,7 @@ def check_rf036_gate_preparation(*, require_absence: bool = True) -> None:
 
 def check_rf037_one_shot_authorization() -> None:
     """Check OWNER authority and immutable source identities without price metrics."""
-    print(
-        "\n== RF-037 OWNER one-shot authorization and output protection ==", flush=True
-    )
+    print("\n== RF-037 OWNER one-shot authorization and output protection ==", flush=True)
     require(RF037_GATE_TOOL.is_file(), "RF-037 gate implementation missing")
     require(RF037_GATE_TEST.is_file(), "RF-037 synthetic gate tests missing")
     state = STATE.read_text(encoding="utf-8")
@@ -912,9 +912,7 @@ def check_rf037_one_shot_authorization() -> None:
         "FIRST_REVEAL_COMPLETED_ONCE",
         "No automatic retry",
     ):
-        require(
-            marker.lower() in source.lower(), f"RF-037 code marker missing: {marker}"
-        )
+        require(marker.lower() in source.lower(), f"RF-037 code marker missing: {marker}")
     for marker in (
         "test_rf037_synthetic_first_reveal_consumes_once_before_result",
         "test_rf037_consumed_failure_cannot_be_retried",
@@ -935,9 +933,7 @@ def check_rf037_one_shot_authorization() -> None:
             git_output("check-ignore", "--", relative) == relative,
             f"first reveal output is tracked: {relative}",
         )
-    print(
-        "[PASS] approved once, frozen runner, local receipt paths ignored", flush=True
-    )
+    print("[PASS] approved once, frozen runner, local receipt paths ignored", flush=True)
 
 
 def run_full_ci() -> None:
@@ -978,33 +974,21 @@ def main() -> int:
         check_rf035_pre_reveal_runner_freeze(require_absence=False)
         check_rf036_gate_preparation(require_absence=False)
         check_rf037_one_shot_authorization()
-        require(
-            check_exact_main_context() == commit, "main changed before first reveal"
-        )
+        require(check_exact_main_context() == commit, "main changed before first reveal")
 
         sys.path.insert(0, str(ROOT))
         from tools import hyp0005_first_reveal_gate as reveal_gate
 
         already_consumed = reveal_gate.CONSUMED.exists()
-        receipt = reveal_gate.execute_or_verify_once(
-            expected_commit=commit, authorized=True
-        )
+        receipt = reveal_gate.execute_or_verify_once(expected_commit=commit, authorized=True)
         print("\n== RF-037 canonical first-reveal artifacts ==", flush=True)
         run_status = "HASH_ONLY_VERIFICATION" if already_consumed else "EXECUTED_ONCE"
         print(f"First reveal: {run_status}", flush=True)
         print(f"HYP-0005 decision: {receipt['decision']}", flush=True)
-        print(
-            f"HYP-0005 result JSON SHA-256: {receipt['result_json_sha256']}", flush=True
-        )
-        print(
-            f"HYP-0005 result TXT SHA-256: {receipt['report_text_sha256']}", flush=True
-        )
-        print(
-            f"HYP-0005 receipt SHA-256: {sha256_file(reveal_gate.RECEIPT)}", flush=True
-        )
-        require(
-            check_exact_main_context() == commit, "main changed during frozen reveal"
-        )
+        print(f"HYP-0005 result JSON SHA-256: {receipt['result_json_sha256']}", flush=True)
+        print(f"HYP-0005 result TXT SHA-256: {receipt['report_text_sha256']}", flush=True)
+        print(f"HYP-0005 receipt SHA-256: {sha256_file(reveal_gate.RECEIPT)}", flush=True)
+        require(check_exact_main_context() == commit, "main changed during frozen reveal")
         check_frozen_lineage()
     except (
         TaskCheckError,
