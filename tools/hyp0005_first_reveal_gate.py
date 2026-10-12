@@ -145,9 +145,7 @@ def _check_new_result(result: dict[str, Any], expected_commit: str) -> tuple[str
         "incomplete frozen result pair",
     )
     saved = json.loads(RESULT_JSON.read_text(encoding="utf-8"))
-    require(
-        isinstance(saved, dict) and saved == result, "saved output differs from runner"
-    )
+    require(isinstance(saved, dict) and saved == result, "saved output differs from runner")
     for key, expected in {
         "schema_version": "hyp0005-confirmatory-proto01-result-1",
         "hypothesis_id": "HYP-0005",
@@ -215,22 +213,15 @@ def _check_new_result(result: dict[str, Any], expected_commit: str) -> tuple[str
     core = buckets["CORE_ACTIVE"]
     off = buckets["OFF_HOURS"]
     require(
-        movement
-        == (core["median_abs_next_1h_return"] > off["median_abs_next_1h_return"]),
+        movement == (core["median_abs_next_1h_return"] > off["median_abs_next_1h_return"]),
         "movement decision inconsistent with stored medians",
     )
     require(
         spread == (core["median_relative_spread"] <= off["median_relative_spread"]),
         "spread decision inconsistent with stored medians",
     )
-    decision = (
-        "CONFIRMATORY_STRUCTURAL_PASS" if both else "CONFIRMATORY_STRUCTURAL_FAIL"
-    )
-    reason = (
-        "BOTH_PRIMARY_INEQUALITIES_MET"
-        if both
-        else "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED"
-    )
+    decision = "CONFIRMATORY_STRUCTURAL_PASS" if both else "CONFIRMATORY_STRUCTURAL_FAIL"
+    reason = "BOTH_PRIMARY_INEQUALITIES_MET" if both else "ONE_OR_MORE_PRIMARY_INEQUALITIES_FAILED"
     action = (
         "REVIEW_CONFIRMATORY_STRUCTURAL_EVIDENCE_NO_DIRECT_R4"
         if both
@@ -259,12 +250,8 @@ def _check_new_result(result: dict[str, Any], expected_commit: str) -> tuple[str
 
 def _validate_saved_receipt(expected_commit: str) -> dict[str, Any]:
     """Already revealed: compare saved file hashes only; NEVER invoke runner again."""
-    require(
-        CONSUMED.is_file() and RECEIPT.is_file(), "consumed marker/receipt incomplete"
-    )
-    require(
-        RESULT_JSON.is_file() and RESULT_TEXT.is_file(), "saved result pair incomplete"
-    )
+    require(CONSUMED.is_file() and RECEIPT.is_file(), "consumed marker/receipt incomplete")
+    require(RESULT_JSON.is_file() and RESULT_TEXT.is_file(), "saved result pair incomplete")
     consumed = json.loads(CONSUMED.read_text(encoding="utf-8"))
     receipt = json.loads(RECEIPT.read_text(encoding="utf-8"))
     require(
@@ -276,9 +263,7 @@ def _validate_saved_receipt(expected_commit: str) -> dict[str, Any]:
             document.get("authorization") == AUTHORIZATION,
             "wrong one-shot authorization",
         )
-        require(
-            document.get("git_commit") == expected_commit, "wrong saved reveal commit"
-        )
+        require(document.get("git_commit") == expected_commit, "wrong saved reveal commit")
         require(
             document.get("runner_git_blob") == RUNNER_BLOB,
             "wrong saved runner identity",
@@ -287,9 +272,7 @@ def _validate_saved_receipt(expected_commit: str) -> dict[str, Any]:
             document.get("dataset_csv_sha256") == CSV_SHA256,
             "wrong saved dataset identity",
         )
-    require(
-        consumed.get("state") == "CONSUMED_BEFORE_OUTCOME", "invalid consumed state"
-    )
+    require(consumed.get("state") == "CONSUMED_BEFORE_OUTCOME", "invalid consumed state")
     require(
         receipt.get("status") == "FIRST_REVEAL_COMPLETED_ONCE",
         "invalid receipt status",
@@ -305,9 +288,7 @@ def _validate_saved_receipt(expected_commit: str) -> dict[str, Any]:
     return receipt
 
 
-def execute_or_verify_once(
-    *, expected_commit: str, authorized: bool = False
-) -> dict[str, Any]:
+def execute_or_verify_once(*, expected_commit: str, authorized: bool = False) -> dict[str, Any]:
     """One irreversible first reveal on approved exact main; hash-only on later calls."""
     require(authorized is True, "explicit OWNER first reveal authorization is required")
     _check_exact_main(expected_commit)
