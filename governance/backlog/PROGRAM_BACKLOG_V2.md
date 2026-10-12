@@ -84,9 +84,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 69. `ATS2-RF-032` — HYP-0005 RF-023 offline-only official snapshot source-input repair — `DONE / PASS`.
 70. `ATS2-RF-033` — HYP-0005 September 2026 provenance Git hygiene and file-only intake identity check — `DONE / PASS`.
 71. `ATS2-RF-034` — controlled offline RF-023 source/geometry preparation on frozen local BID/ASK — `DONE / PASS`.
-72. `ATS2-RF-035` — HYP-0005 confirmatory PROTO-01 pre-reveal runner/decision freeze — `READY`.
+72. `ATS2-RF-035` — HYP-0005 confirmatory PROTO-01 pre-reveal runner/decision freeze — `DONE / PASS`.
+73. `ATS2-RF-036` — HYP-0005 first confirmatory reveal gate preparation (authorization remains OFF) — `READY`.
 
-Program-level current next task — `ATS2-RF-035` (HYP-0005 pre-reveal confirmatory runner freeze; no protected market outcome).
+Program-level current next task — `ATS2-RF-036` (HYP-0005 first-reveal gate preparation only; first reveal not authorized).
 
 
 RF-027 source architecture is now frozen to local official BLS schedule snapshots rather than live
@@ -488,55 +489,47 @@ RF-023 exact-main preparation PASS is preserved as RF-034 on `14531698c87fd3a0d8
 | `ATS2-RF-032` | `WBS-RF.2` | P1 | DONE / PASS | RF-031 exact-main PASS; OWNER switched priority to HYP-0005 | `research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md` + offline-only RF-023 source tool + tests + tracked state | Exact-main OWNER launcher PASS on `8b7492f0f17a549f51a967a9bc9dfdbf2fdd0ce9` confirmed frozen HYP-0005 source architecture, no external network/market outcome and source-input requirement; a later 9 October OWNER file-only intake is separate technical evidence |
 | `ATS2-RF-033` | `WBS-RF.2` | P1 | DONE / PASS | RF-032 exact-main PASS and OWNER byte-preserving source intake | `.gitignore` narrow provenance ignore + `research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md` + tracked state | Exact-main OWNER launcher PASS on `5ea7a923c59c44d6b733f8c7c6db352fd846d434` verified all 10 local BID/ASK objects, exact 2026-09 provenance hash, Git CLEAN, 254 tests, and no hypothesis outcome |
 | `ATS2-RF-034` | `WBS-RF.2` | P1 | DONE / PASS | RF-033 exact-main PASS; OWNER authorized offline RF-023 preparation | `research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md` + original frozen data tool + source/result hash-only checker + exact-main 2010-row result | Exact-main `14531698c87fd3a0d87e1ec54c6713f11b7cbb60`, 257 pytest, Ruff/validator/local CI PASS; one-shot RF-023 runner produced 1991 exact-next-hour eligible, READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE, no hypothesis outcome or source HTTP |
-| `ATS2-RF-035` | `WBS-RF.2` | P1 | READY | RF-024 exact-main CONDITIONAL Data Feasibility freeze PASS, dataset SHA predeclared and no HYP-0005 outcome revealed | `research/reviews/HYP-0005-PROTOTYPE-01.md` + `tools/hyp0005_proto01.py` + synthetic-only tests + runner SHA + canonical state/current-task checker | Freeze exact two original median inequalities, inherited HYP-0004 formulas, 1991 eligible rows and all bucket/segment geometry, fixed PASS/FAIL decision routing, future one-shot file paths and source identity; direct CLI/reveal blocked, no market price outcomes at RF-035 |
+| `ATS2-RF-035` | `WBS-RF.2` | P1 | DONE / PASS | RF-024 exact-main CONDITIONAL Data Feasibility freeze PASS | `research/reviews/HYP-0005-PROTOTYPE-01.md` + unchanged frozen runner Git blob `814193997768605fe60607d66dfd755a9323f339` + synthetic tests | Exact-main OWNER PASS on `9da36dba228d4fa55c3068a01cabc7f215aa7e02`: 267 tests, Ruff, validator, full Local CI, retained 2010/1991 geometry and 10 source objects, no confirmatory outcome; report SHA-256 `d7833785bee462c7b122479de22eae041329f42e24d38a1e7481ae4286aeff1b` |
+| `ATS2-RF-036` | `WBS-RF.2` | P1 | READY | RF-035 exact-main OWNER PASS; OWNER explicitly authorized gate 4/5 preparation ONLY | `research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md` + synced state/backlog/status/handoff + no-reveal current-task guard + synthetic tests | Stage 4.1/5 technical preparation only. Agent preflight and merged exact-main task check MUST not execute reveal, change frozen rules, write outputs or compute outcome. Separate OWNER one-shot authorization and separate execution gate required before first reveal |
 
 ## 8. Следующий шаг
 
-Current research task: `ATS2-RF-035`.
-Existing Hypothesis: `IDEA-0004 / HYP-0005`.
-Research plan: **3/5**, pre-reveal confirmatory structural
-runner and fixed decision-rule freeze.
-No new hypothesis ID or material research attempt.
+Current technical task: `ATS2-RF-036` — first-reveal gate 4/5 **preparation only**.
+Current research major step: `4/5`, not yet executed or passed;
+this technical substep is `4.1/5`.
+Existing lineage: `IDEA-0004 / HYP-0005` (no new Idea/HYP/material attempt).
 
-RF-024 exact-main OWNER PASS on
-`dd014ef6a1014edcfaa26f7d735478aee0cc94ef`
-formally froze the **CONDITIONAL** dataset version
-`DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0`
-at CSV SHA-256
-`b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1`
-and source bundle SHA-256
-`65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2`.
-Prepared rows: 2010; eligible exact-next-hour:
-1991 (CORE_ACTIVE 838; OFF_HOURS 837; TRANSITION 316;
-LEFT_UNSEEN 1542, RIGHT_UNSEEN 449). All inherited
-periods, source/cleaning rules and 3 missing market hours
-remain unchanged. No first reveal occurred.
+Previous task `ATS2-RF-035` CLOSED on exact-main
+`9da36dba228d4fa55c3068a01cabc7f215aa7e02`.
+OWNER exact-main report confirmed 267 tests, validator,
+Ruff lint/format, clean HEAD, full Local CI,
+CURRENT TASK CHECK PASS and TASK LAUNCHER PASS.
+No protected HYP-0005 outcome was produced.
 
-Stage 3 runner/decision record:
-`research/reviews/HYP-0005-PROTOTYPE-01.md`.
-New frozen-intent runner:
-`tools/hyp0005_proto01.py`, source Git blob
-`814193997768605fe60607d66dfd755a9323f339`
-(to be confirmed again at exact-head preflight).
-Synthetic-only tests:
-`tests/test_hyp0005_proto01.py`.
+Frozen exact runner: `tools/hyp0005_proto01.py` Git blob
+`814193997768605fe60607d66dfd755a9323f339`.
+Data remain CONDITIONAL and byte-frozen:
+`DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0`;
+2010 rows, 1991 eligible, exactly the two original
+CORE_ACTIVE vs OFF_HOURS median inequalities and original
+negative/positive decisions. Source provenance remains owner-attested.
 
-The runner imports previously frozen HYP-0004 arithmetic and
-uses HYP-0005's original **two median inequalities only**,
-original UTC buckets, same-segment exact next hour,
-predeclared calendar-year diagnostics and fixed
-`CONFIRMATORY_STRUCTURAL_PASS / CONFIRMATORY_STRUCTURAL_FAIL`.
-Neither outcome promotes a strategy or authorizes R4/live use.
+RF-036 adds `research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md`,
+synchronizes source-of-truth and prepares a metadata-only
+current-task checker that verifies zero existing reveal artifacts.
+It never calls `run_first_reveal_once`, opens protected prices
+for outcome computation or starts a source request.
+The frozen runner direct CLI continues to refuse execution.
 
-OWNER runs `.\\ATS_AGENT_PREFLIGHT.bat` on exact RF-035 agent
-HEAD, GPT squash-merges only after full PASS, then OWNER
-runs `.\\ATS_TASK_CHECK.bat` on exact merged `main`.
-The stage-3 task checker verifies frozen source/data/code
-identities, retained RF-024 result and synthetic tests only;
-**it never runs the protected confirmatory first reveal**.
-A future stage 4/5 needs separate OWNER authorization.
+OWNER next: run `.\\ATS_AGENT_PREFLIGHT.bat` on the exact
+`agent/rf036-hyp0005-first-reveal-gate-prep` HEAD and send
+`reports/local_ci/AGENT_PREFLIGHT_REPORT.txt`.
+Only exact-head PASS authorizes GPT to squash-merge.
+Then exact-main `.\\ATS_TASK_CHECK.bat` closes RF-036 preparation.
+**First reveal still requires a separate future explicit OWNER authorization**,
+and a separately gated one-shot launch. Preparation does not advance
+the research gate 4/5 to PASS.
 
 `HYP-0005: NO_CONFIRMATORY_OUTCOME_COMPUTED`.
-No protected prices opened for result analysis;
-no source download; no HYP-0006/HYP-0007 reruns;
-no economic/profitability or independent-exam claim.
+`FIRST_REVEAL: NOT_AUTHORIZED / NOT_EXECUTED`.
+No trading-P&L, economic/validation or independent evidence.
