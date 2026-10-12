@@ -73,7 +73,7 @@ Backlog превращает Program WBS в исполнимую очередь 
 58. `ATS2-RF-021` — HYP-0004 PROTO-01 result canonicalization and routing — `DONE / PASS`.
 59. `ATS2-RF-022` — HYP-0005 confirmatory hypothesis formation — `DONE / PASS`.
 60. `ATS2-RF-023` — HYP-0005 confirmatory Data Feasibility preparation — `DONE / PASS`.
-61. `ATS2-RF-024` — HYP-0005 confirmatory Data Feasibility freeze — `READY` after RF-023 exact-main PASS; conditional freeze staged pending exact-main gate.
+61. `ATS2-RF-024` — HYP-0005 confirmatory Data Feasibility freeze — `DONE / PASS` (CONDITIONAL).
 62. `ATS2-RF-025` — Parallel Strategy #5 Idea Intake + HYP-0006 formation — `DONE / PASS`.
 63. `ATS2-RF-026` — HYP-0006 Data Feasibility — `DONE / PASS`.
 64. `ATS2-RF-027` — HYP-0006 Data Feasibility preparation with frozen local BLS + Dukascopy snapshots — `DONE / PASS`.
@@ -84,8 +84,9 @@ Backlog превращает Program WBS в исполнимую очередь 
 69. `ATS2-RF-032` — HYP-0005 RF-023 offline-only official snapshot source-input repair — `DONE / PASS`.
 70. `ATS2-RF-033` — HYP-0005 September 2026 provenance Git hygiene and file-only intake identity check — `DONE / PASS`.
 71. `ATS2-RF-034` — controlled offline RF-023 source/geometry preparation on frozen local BID/ASK — `DONE / PASS`.
+72. `ATS2-RF-035` — HYP-0005 confirmatory PROTO-01 pre-reveal runner/decision freeze — `READY`.
 
-Program-level current next task — `ATS2-RF-024` (HYP-0005 conditional confirmatory Data Feasibility dataset freeze; no hypothesis outcome).
+Program-level current next task — `ATS2-RF-035` (HYP-0005 pre-reveal confirmatory runner freeze; no protected market outcome).
 
 
 RF-027 source architecture is now frozen to local official BLS schedule snapshots rather than live
@@ -476,7 +477,7 @@ Carryover from ATS v1 remains governed by `legacy/v1/CARRYOVER.md`.
 
 RF-023 exact-main preparation PASS is preserved as RF-034 on `14531698c87fd3a0d87e1ec54c6713f11b7cbb60`: 2010 rows, 1991 eligible exact-next-hour, 10 source objects and 3 unfilled missing expected market hours. RF-024 now stages a CONDITIONAL data-feasibility review and exact dataset identity; **not frozen until RF-024 exact-main PASS**. No independent provider-byte certification, source replacement, HYP-0005 spread/return metrics, primary inequality or P&L has occurred.
 
-| `ATS2-RF-024` | `WBS-RF.2` | P1 | READY | RF-023 exact-main preparation PASS; RF-034 exact-main PASS | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` + versioned `data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml` + `.schema.json` + synchronized SoT/checker | Stage CONDITIONAL feasibility with H1_OPEN_PROXY_AT_EVENT_TIME limitation, two disjoint predeclared protected intervals, 10 original hashes, source bundle/2010 row CSV SHA-256, 1991 eligible geometry; dataset freeze only after exact-head/merge/exact-main PASS, no spread, next-hour return or primary inequality |
+| `ATS2-RF-024` | `WBS-RF.2` | P1 | DONE / PASS | RF-023 exact-main preparation PASS / RF-034 PASS | `research/reviews/HYP-0005-DATA-FEASIBILITY.md` + frozen `data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml` + `.schema.json` + canonical SoT | Exact-main OWNER launcher PASS on `dd014ef6a1014edcfaa26f7d735478aee0cc94ef`: 259 tests, preserved 10 BID/ASK source hashes, 2010 prepared rows and 1991 eligible exact-next-hour, CONDITIONAL H1_OPEN_PROXY_AT_EVENT_TIME freeze; hypothesis outcome not computed |
 | `ATS2-RF-025` | `WBS-RF.2` | P1 | DONE / PASS | RF-022 PASS; retained `S4-FAM-02` sourcing provenance; RF-023 may remain externally blocked | `research/ideas/IDEA-0005.md` + `research/hypotheses/HYP-0006.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `9b0a6c8898a7ebf9b03167a871ad02af96ca2807` registered IDEA-0005/HYP-0006 as two Material Research Attempts while preserving HYP-0005 and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-026` | `WBS-RF.2` | P1 | DONE / PASS | RF-025 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY.md` + synchronized state/backlog/handoff/current-task gate | Exact-main OWNER launcher PASS on `5e0ff9e4481e5dc28c14a73adcf32433715973a3` recorded `CONDITIONAL` feasibility, frozen the development interval and source/timing constraints, and retained `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
 | `ATS2-RF-027` | `WBS-RF.2` | P1 | DONE / PASS | RF-026 exact-main PASS | `research/reviews/HYP-0006-DATA-FEASIBILITY-PREP.md` + `tools/hyp0006_data_feasibility.py` + synthetic tests + local machine result | Exact-main PASS on `bbbdbd301b610dfc61316c9ff82015fb0e039a47` returned `READY_FOR_DATA_FEASIBILITY_FREEZE`, `217/217` complete timestamp-geometry events, `1085/1085` required BI5 objects, zero protected HYP-0005 requests and `NO_HYPOTHESIS_OUTCOME_COMPUTED` |
@@ -487,43 +488,55 @@ RF-023 exact-main preparation PASS is preserved as RF-034 on `14531698c87fd3a0d8
 | `ATS2-RF-032` | `WBS-RF.2` | P1 | DONE / PASS | RF-031 exact-main PASS; OWNER switched priority to HYP-0005 | `research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md` + offline-only RF-023 source tool + tests + tracked state | Exact-main OWNER launcher PASS on `8b7492f0f17a549f51a967a9bc9dfdbf2fdd0ce9` confirmed frozen HYP-0005 source architecture, no external network/market outcome and source-input requirement; a later 9 October OWNER file-only intake is separate technical evidence |
 | `ATS2-RF-033` | `WBS-RF.2` | P1 | DONE / PASS | RF-032 exact-main PASS and OWNER byte-preserving source intake | `.gitignore` narrow provenance ignore + `research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md` + tracked state | Exact-main OWNER launcher PASS on `5ea7a923c59c44d6b733f8c7c6db352fd846d434` verified all 10 local BID/ASK objects, exact 2026-09 provenance hash, Git CLEAN, 254 tests, and no hypothesis outcome |
 | `ATS2-RF-034` | `WBS-RF.2` | P1 | DONE / PASS | RF-033 exact-main PASS; OWNER authorized offline RF-023 preparation | `research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md` + original frozen data tool + source/result hash-only checker + exact-main 2010-row result | Exact-main `14531698c87fd3a0d87e1ec54c6713f11b7cbb60`, 257 pytest, Ruff/validator/local CI PASS; one-shot RF-023 runner produced 1991 exact-next-hour eligible, READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE, no hypothesis outcome or source HTTP |
+| `ATS2-RF-035` | `WBS-RF.2` | P1 | READY | RF-024 exact-main CONDITIONAL Data Feasibility freeze PASS, dataset SHA predeclared and no HYP-0005 outcome revealed | `research/reviews/HYP-0005-PROTOTYPE-01.md` + `tools/hyp0005_proto01.py` + synthetic-only tests + runner SHA + canonical state/current-task checker | Freeze exact two original median inequalities, inherited HYP-0004 formulas, 1991 eligible rows and all bucket/segment geometry, fixed PASS/FAIL decision routing, future one-shot file paths and source identity; direct CLI/reveal blocked, no market price outcomes at RF-035 |
 
 ## 8. Следующий шаг
 
-Current task: `ATS2-RF-024` — HYP-0005 confirmatory
-Data Feasibility review and conditional dataset freeze. This is
-research step **2/5** after RF-023 preparation exact-main PASS.
+Current research task: `ATS2-RF-035`.
+Existing Hypothesis: `IDEA-0004 / HYP-0005`.
+Research plan: **3/5**, pre-reveal confirmatory structural
+runner and fixed decision-rule freeze.
+No new hypothesis ID or material research attempt.
 
-RF-034 / RF-023 source geometry preparation:
-`14531698c87fd3a0d87e1ec54c6713f11b7cbb60`,
-2010 prepared rows, 1991 exact-next-hour eligible
-(838 CORE_ACTIVE, 837 OFF_HOURS, 316 TRANSITION);
-LEFT_UNSEEN 1542 eligible, RIGHT_UNSEEN 449 eligible;
-3 left expected-market-hour gaps and 0 right gaps.
-Precomputed source-bundle SHA-256:
+RF-024 exact-main OWNER PASS on
+`dd014ef6a1014edcfaa26f7d735478aee0cc94ef`
+formally froze the **CONDITIONAL** dataset version
+`DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0`
+at CSV SHA-256
+`b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1`
+and source bundle SHA-256
 `65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2`.
-Prepared CSV SHA-256:
-`b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1`.
+Prepared rows: 2010; eligible exact-next-hour:
+1991 (CORE_ACTIVE 838; OFF_HOURS 837; TRANSITION 316;
+LEFT_UNSEEN 1542, RIGHT_UNSEEN 449). All inherited
+periods, source/cleaning rules and 3 missing market hours
+remain unchanged. No first reveal occurred.
 
-Tracked review:
-`research/reviews/HYP-0005-DATA-FEASIBILITY.md`.
+Stage 3 runner/decision record:
+`research/reviews/HYP-0005-PROTOTYPE-01.md`.
+New frozen-intent runner:
+`tools/hyp0005_proto01.py`, source Git blob
+`814193997768605fe60607d66dfd755a9323f339`
+(to be confirmed again at exact-head preflight).
+Synthetic-only tests:
+`tests/test_hyp0005_proto01.py`.
 
-Staged dataset version:
-`DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0`.
-Manifest/schema under `data/manifests/`.
-Decision: `CONDITIONAL` due to
-`H1_OPEN_PROXY_AT_EVENT_TIME`, three unfilled gaps and
-`USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER`.
-Do not claim vendor or tick timing independently verified.
+The runner imports previously frozen HYP-0004 arithmetic and
+uses HYP-0005's original **two median inequalities only**,
+original UTC buckets, same-segment exact next hour,
+predeclared calendar-year diagnostics and fixed
+`CONFIRMATORY_STRUCTURAL_PASS / CONFIRMATORY_STRUCTURAL_FAIL`.
+Neither outcome promotes a strategy or authorizes R4/live use.
 
-Execution sequence: GPT stages agent branch/PR; OWNER
-`.\\ATS_AGENT_PREFLIGHT.bat` exact-head PASS; GPT squash merge;
-OWNER `.\\ATS_TASK_CHECK.bat` exact-main PASS.
-**Only then** RF-024 dataset identity is formally frozen.
-The RF-024 checker must verify old local RF-023 result
-hashes without rerunning RF-023, decoding quotes or
-calculating primary movement/spread inequalities.
+OWNER runs `.\\ATS_AGENT_PREFLIGHT.bat` on exact RF-035 agent
+HEAD, GPT squash-merges only after full PASS, then OWNER
+runs `.\\ATS_TASK_CHECK.bat` on exact merged `main`.
+The stage-3 task checker verifies frozen source/data/code
+identities, retained RF-024 result and synthetic tests only;
+**it never runs the protected confirmatory first reveal**.
+A future stage 4/5 needs separate OWNER authorization.
 
-Next research step **3/5** pre-reveal runner freeze
-is not yet authorized. HYP-0005 outcome:
-`NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+`HYP-0005: NO_CONFIRMATORY_OUTCOME_COMPUTED`.
+No protected prices opened for result analysis;
+no source download; no HYP-0006/HYP-0007 reruns;
+no economic/profitability or independent-exam claim.

@@ -66,16 +66,18 @@ def test_hash_only_archive_function_preserves_exact_bytes(tmp_path: Path) -> Non
     assert check.sha256_file(archive) != hashlib.sha256(raw).hexdigest()
 
 
-def test_rf024_never_reexecutes_consumed_rf023_runner() -> None:
+def test_rf035_never_runs_consumed_prep_or_first_reveal() -> None:
     source = inspect.getsource(check)
     main_source = inspect.getsource(check.main)
-    assert 'TASK_ID = "ATS2-RF-024"' in source
+    assert 'TASK_ID = "ATS2-RF-035"' in source
     assert "--execute-first-reveal" not in source
     assert "prepare_first_reveal(" not in source
     assert "def run_rf023_offline_once" not in source
     assert "check_rf034_output_absence()" not in main_source
     assert "check_rf024_preparation_identity()" in main_source
     assert "check_rf024_manifest_and_review()" in main_source
+    assert "check_rf035_pre_reveal_runner_freeze()" in main_source
+    assert "run_first_reveal_once(" not in main_source
     assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in source
 
 
@@ -296,3 +298,19 @@ def test_rf024_review_and_schema_are_pre_outcome_metadata() -> None:
     assert set(schema["properties"]) == set(check.RF034_EXPECTED_CSV_FIELDS)
     assert "relative_spread" not in schema["properties"]
     assert "abs_next_1h_return" not in schema["properties"]
+
+
+def test_rf035_runner_freeze_rejects_existing_synthetic_reveal(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    output = tmp_path / "synthetic-first-reveal.json"
+    output.write_bytes(b"synthetic-never-a-market-result")
+    monkeypatch.setattr(check, "RF035_PROTO_RECORD", tmp_path / "record.md")
+    monkeypatch.setattr(check, "RF035_RUNNER", tmp_path / "runner.py")
+    monkeypatch.setattr(check, "RF035_RUNNER_TEST", tmp_path / "test_runner.py")
+    monkeypatch.setattr(check, "RF035_RESULT_JSON", output)
+    monkeypatch.setattr(check, "RF035_RESULT_TEXT", tmp_path / "absent-result.txt")
+    for name in ("record.md", "runner.py", "test_runner.py"):
+        (tmp_path / name).write_text("synthetic", encoding="utf-8")
+    with pytest.raises(check.TaskCheckError, match="unexpected HYP-0005 confirmatory first reveal"):
+        check.check_rf035_pre_reveal_runner_freeze()

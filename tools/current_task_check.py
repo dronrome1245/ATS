@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RF-024 HYP-0005 confirmatory dataset freeze without market outcome."""
+"""RF-035 HYP-0005 first-reveal runner/protocol freeze without outcomes."""
 
 from __future__ import annotations
 
@@ -12,8 +12,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 
-TASK_ID = "ATS2-RF-024"
-TASK_NAME = "HYP-0005 confirmatory Data Feasibility freeze"
+TASK_ID = "ATS2-RF-035"
+TASK_NAME = "HYP-0005 confirmatory pre-reveal runner and decision freeze"
 
 RF030_MAIN_COMMIT = "d1135bb2486009ebb358bf4b508c06303ab77f74"
 FROZEN_HYP0006_RUNNER_BLOB = "6afb870c035bc5ae76f773784a5fa3db15d680fd"
@@ -120,11 +120,28 @@ RF024_RF023_TEXT_SHA256 = "fe9f26d15a99294cff17d2f94f3f58dcd41bbb22ffde60bdaf815
 RF024_CSV_SHA256 = "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1"
 RF024_SOURCE_BUNDLE_SHA256 = "65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2"
 
+RF035_PROTO_RECORD = ROOT / "research/reviews/HYP-0005-PROTOTYPE-01.md"
+RF035_RUNNER = ROOT / "tools/hyp0005_proto01.py"
+RF035_RUNNER_TEST = ROOT / "tests/test_hyp0005_proto01.py"
+RF035_RUNNER_BLOB = "814193997768605fe60607d66dfd755a9323f339"
+RF035_RESULT_JSON = ROOT / "reports/local_ci/HYP0005_PROTO01_RESULT.json"
+RF035_RESULT_TEXT = ROOT / "reports/local_ci/HYP0005_PROTO01_RESULT_REPORT.txt"
+RF024_FROZEN_MAIN = "dd014ef6a1014edcfaa26f7d735478aee0cc94ef"
+
 FROZEN_BLOBS = {
     "tools/hyp0006_proto01.py": FROZEN_HYP0006_RUNNER_BLOB,
     "research/reviews/HYP-0006-PROTOTYPE-01.md": ("9f7bcd8480f66a37ea273cc7e158a56758b79b12"),
     "research/hypotheses/HYP-0006.md": ("6b3f260ceacd98adf7a6aa44205404e68e4fd4ca"),
     "research/hypotheses/HYP-0005.md": ("ebbbc89187c911485c1568dc11f5f2f9e703718a"),
+    "tools/hyp0004_proto01.py": ("cbc9a46bf5e5296615f51c0ea564153968bc2a55"),
+    "tools/hyp0005_proto01.py": RF035_RUNNER_BLOB,
+    "research/reviews/HYP-0005-DATA-FEASIBILITY.md": ("adc77feb7473d15b1b185ef8e1a7cd9b1c066c92"),
+    "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml": (
+        "03dccee9c7f21fff77ade9347b9730b79d6c62c7"
+    ),
+    "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json": (
+        "a806fc993776904eabd6a1276d781e08b0112ebf"
+    ),
     "tools/hyp0005_data_feasibility.py": ("b8d72d858d5c2691de7dec9a709f6e4d7ccb2808"),
     "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP.md": (
         "c15b2b67700dd46fc592f1208731ce6b42f6905c"
@@ -160,7 +177,7 @@ def git_output(*arguments: str) -> str:
 
 
 def check_exact_main_context() -> str:
-    print("\n== RF-024 exact-main and clean-tree ==", flush=True)
+    print("\n== RF-035 exact-main and clean-tree ==", flush=True)
     branch = git_output("branch", "--show-current")
     head = git_output("rev-parse", "HEAD")
     origin_main = git_output("rev-parse", "origin/main")
@@ -275,8 +292,8 @@ def check_new_confirmatory_hypothesis() -> None:
             "216",
         ),
         STATE: (
-            'last_completed_task_id: "ATS2-RF-034"',
-            'next_task_id: "ATS2-RF-024"',
+            'last_completed_task_id: "ATS2-RF-024"',
+            'next_task_id: "ATS2-RF-035"',
             'strategy_5_confirmatory_hypothesis_id: "HYP-0007"',
             'strategy_5_confirmatory_source_status: "INDEPENDENCE_NOT_YET_CERTIFIED"',
             "strategy_5_confirmatory_outcome_computed: false",
@@ -331,7 +348,7 @@ def check_rf023_offline_source_architecture() -> None:
         'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
         "strategy_4_confirmatory_source_manual_intake_authorized: true",
         "strategy_4_confirmatory_source_network_retry_authorized: false",
-        'next_task_id: "ATS2-RF-024"',
+        'next_task_id: "ATS2-RF-035"',
     ):
         require(marker in state, f"RF-032 state marker absent: {marker}")
     print("[PASS] RF-023 source runtime is offline-only; no HTTP/retry", flush=True)
@@ -731,8 +748,65 @@ def check_rf024_manifest_and_review() -> None:
     print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
 
 
+def check_rf035_pre_reveal_runner_freeze() -> None:
+    """Freeze code and identity only. Never call the protected result function."""
+    print("\n== RF-035 first-reveal runner/protocol frozen identity ==", flush=True)
+    for path in (RF035_PROTO_RECORD, RF035_RUNNER, RF035_RUNNER_TEST):
+        require(path.is_file(), f"RF-035 required source file missing: {path}")
+    for path in (RF035_RESULT_JSON, RF035_RESULT_TEXT):
+        require(not path.exists(), f"unexpected HYP-0005 confirmatory first reveal: {path}")
+    record = RF035_PROTO_RECORD.read_text(encoding="utf-8")
+    for marker in (
+        "ATS2-RF-035",
+        RF035_RUNNER_BLOB,
+        RF024_FROZEN_MAIN,
+        RF024_CSV_SHA256,
+        RF024_SOURCE_BUNDLE_SHA256,
+        "median(abs_next_1h_return | CORE_ACTIVE)",
+        "median(relative_spread | CORE_ACTIVE)",
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "CONFIRMATORY_STRUCTURAL_FAIL",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+    ):
+        require(marker in record, f"RF-035 pre-reveal protocol marker missing: {marker}")
+    source_code = RF035_RUNNER.read_text(encoding="utf-8")
+    for marker in (
+        "def run_first_reveal_once(*, authorized: bool = False)",
+        "OWNER first-reveal authorization required",
+        "run_first_reveal_once",
+        "FROZEN_PARENT_RUNNER_BLOB",
+        "FROZEN_PREP_RUNNER_BLOB",
+        "EXPECTED_GEOMETRY",
+        "frozen_geometry",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "CONFIRMATORY_STRUCTURAL_FAIL",
+        "return 2",
+    ):
+        require(marker in source_code, f"RF-035 runner source marker missing: {marker}")
+    tests = RF035_RUNNER_TEST.read_text(encoding="utf-8")
+    for marker in (
+        "test_default_cli_and_unapproved_reveal_are_blocked",
+        "test_synthetic_geometry_is_frozen_before_outcome_computation",
+        "test_exact_parent_formulas_and_two_independent_primary_booleans",
+    ):
+        require(marker in tests, f"RF-035 synthetic contract test missing: {marker}")
+    state = STATE.read_text(encoding="utf-8")
+    for marker in (
+        'next_task_id: "ATS2-RF-035"',
+        "strategy_4_confirmatory_dataset_freeze_completed: true",
+        "strategy_4_confirmatory_first_reveal_authorized: false",
+        "strategy_4_confirmatory_outcome_computed: false",
+        f'strategy_4_confirmatory_pre_reveal_runner_git_blob: "{RF035_RUNNER_BLOB}"',
+    ):
+        require(marker in state, f"RF-035 research information boundary drift: {marker}")
+    print("[PASS] exact runner blob, frozen decision and zero reveal artifacts", flush=True)
+    print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
+
+
 def run_full_ci() -> None:
-    print("\n== RF-024 full ATS Local CI (NO RF-023 re-execution) ==", flush=True)
+    print("\n== RF-035 full ATS Local CI (NO confirmatory reveal) ==", flush=True)
     completed = subprocess.run(
         [sys.executable, "tools/verify_repo.py"],
         cwd=ROOT,
@@ -746,7 +820,7 @@ def main() -> int:
     print("ATS CURRENT TASK CHECK", flush=True)
     print(f"Task: {TASK_ID} — {TASK_NAME}", flush=True)
     print(
-        "RF-024: freeze existing RF-023 data identity only; do not rerun RF-023.",
+        "RF-035: freeze runner code only; protected first reveal prohibited.",
         flush=True,
     )
     try:
@@ -760,11 +834,13 @@ def main() -> int:
         check_rf034_frozen_source_hashes()
         check_rf024_preparation_identity()
         check_rf024_manifest_and_review()
+        check_rf035_pre_reveal_runner_freeze()
         run_full_ci()
         require(check_exact_main_context() == commit, "main changed during full CI")
         check_rf024_preparation_identity()
         check_rf034_frozen_source_hashes()
-        require(check_exact_main_context() == commit, "main changed during RF-024 freeze check")
+        check_rf035_pre_reveal_runner_freeze()
+        require(check_exact_main_context() == commit, "main changed during RF-035 freeze check")
     except (
         TaskCheckError,
         FileNotFoundError,
@@ -774,7 +850,7 @@ def main() -> int:
         subprocess.CalledProcessError,
     ) as exc:
         print(
-            f"[FAIL] RF-024 dataset identity/source blocker: {exc}",
+            f"[FAIL] RF-035 prototype freeze/data identity blocker: {exc}",
             flush=True,
         )
         print("HYP-0007 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)

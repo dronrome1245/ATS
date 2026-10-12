@@ -5,7 +5,7 @@ program:
   phase: RESEARCH_FACTORY_CONTINUOUS
   status: IN_PROGRESS
   initialized_on: "2026-09-11"
-  updated_on: "2026-10-08"
+  updated_on: "2026-10-12"
 
 governance:
   canonical_state_file: "03_СОСТОЯНИЕ_ПРОЕКТА.yaml"
@@ -144,11 +144,11 @@ model:
   strategy_5_prototype_reveal_checker_test: "tests/test_current_task_check.py"
 
 current:
-  focus: "RF-034 exact-main PASS on 14531698c87fd3a0d87e1ec54c6713f11b7cbb60 completed frozen RF-023 offline preparation with 2010 source rows, 1991 eligible and no HYP-0005 market outcome; RF-024 stages conditional Data Feasibility review and dataset manifest/schema, pending exact-main freeze PASS"
-  last_completed_task_id: "ATS2-RF-034"
-  last_completed_artifact: "research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md"
-  next_artifact: "research/reviews/HYP-0005-DATA-FEASIBILITY.md"
-  next_task_id: "ATS2-RF-024"
+  focus: "RF-024 exact-main PASS on dd014ef6a1014edcfaa26f7d735478aee0cc94ef froze CONDITIONAL HYP-0005 confirmatory dataset identity at 2010 rows and 1991 eligible; RF-035 stages only pre-reveal runner/protocol and synthetic checks, no protected price outcome or first reveal"
+  last_completed_task_id: "ATS2-RF-024"
+  last_completed_artifact: "research/reviews/HYP-0005-DATA-FEASIBILITY.md"
+  next_artifact: "research/reviews/HYP-0005-PROTOTYPE-01.md"
+  next_task_id: "ATS2-RF-035"
 
 milestones:
   M0_PROGRAM_REBASELINE: COMPLETED
@@ -417,6 +417,7 @@ research_factory:
     - "ATS2-RF-033"
     - "ATS2-RF-034"
     - "ATS2-RF-023"
+    - "ATS2-RF-024"
   completed_artifacts:
     - "governance/program/STRATEGY_3_SOURCING_REBASELINE.md"
     - "governance/program/STRATEGY_3_IDEA_SOURCING.md"
@@ -454,6 +455,9 @@ research_factory:
     - "research/hypotheses/HYP-0007.md"
     - "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"
     - "research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md"
+    - "research/reviews/HYP-0005-DATA-FEASIBILITY.md"
+    - "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml"
+    - "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json"
     - "research/reviews/HYP-0006-PROTOTYPE-01-RESULT-REVIEW.md"
     - "research/ideas/IDEA-0005.md"
     - "research/hypotheses/HYP-0006.md"
@@ -466,9 +470,9 @@ research_factory:
     - "research/reviews/HYP-0006-PROTOTYPE-01-REVEAL-GATE.md"
     - "reports/local_ci/HYP0006_PROTO01_RESULT.json"
     - "reports/local_ci/HYP0006_PROTO01_RESULT_REPORT.txt"
-  current_task: "ATS2-RF-024"
+  current_task: "ATS2-RF-035"
   current_wbs: "WBS-RF.2"
-  next_task: "RF024_DATA_FEASIBILITY_CONDITIONAL_FREEZE_PENDING_EXACT_MAIN"
+  next_task: "HYP0005_CONFIRMATORY_PROTO01_PRE_REVEAL_RUNNER_FREEZE"
   sourcing_families_reviewed: 4
   sourcing_families_shortlisted: 3
   selected_family: "S3-FAM-02"
@@ -580,13 +584,13 @@ research_factory:
   strategy_4_next_hypothesis_id: "HYP-0005"
   strategy_4_next_hypothesis_role: "CONFIRMATORY_STRUCTURAL_REPLICATION"
   strategy_4_confirmatory_hypothesis_id: "HYP-0005"
-  strategy_4_confirmatory_hypothesis_status: "READY_FOR_DATA_FEASIBILITY"
+  strategy_4_confirmatory_hypothesis_status: "READY_FOR_CONFIRMATORY_RUNNER_FREEZE"
   strategy_4_confirmatory_parent_idea_id: "IDEA-0004"
   strategy_4_confirmatory_development_predecessor: "HYP-0004"
-  strategy_4_confirmatory_dataset_selected: false
+  strategy_4_confirmatory_dataset_selected: true
   strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"
   strategy_4_confirmatory_dataset_candidate_version: "1.0.0"
-  strategy_4_confirmatory_prep_status: "RF023_PREPARATION_PASS_RF024_FREEZE_STAGED"
+  strategy_4_confirmatory_prep_status: "RF023_PASS_RF024_CONDITIONAL_FREEZE_PASS"
   strategy_4_confirmatory_source_availability_status: "LOCAL_2026_09_PAIR_RECEIVED_USER_ATTESTED"
   strategy_4_confirmatory_source_diagnostic_observed_on: "2026-09-28"
   strategy_4_confirmatory_source_diagnostic_jetta_2026_09: "HTTP_400_FROM_TIME_IS_TOO_LATE_BID_AND_ASK"
@@ -606,6 +610,21 @@ research_factory:
   rf032_verified_commit: "8b7492f0f17a549f51a967a9bc9dfdbf2fdd0ce9"
   rf033_verified_commit: "5ea7a923c59c44d6b733f8c7c6db352fd846d434"
   rf034_verified_commit: "14531698c87fd3a0d87e1ec54c6713f11b7cbb60"
+  rf024_verified_commit: "dd014ef6a1014edcfaa26f7d735478aee0cc94ef"
+  strategy_4_confirmatory_data_feasibility_decision: "CONDITIONAL"
+  strategy_4_confirmatory_frozen_dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"
+  strategy_4_confirmatory_frozen_dataset_version: "1.0.0"
+  strategy_4_confirmatory_frozen_boundary_availability_mode: "H1_OPEN_PROXY_AT_EVENT_TIME"
+  strategy_4_confirmatory_frozen_exact_tick_boundary_known: false
+  strategy_4_confirmatory_pre_reveal_protocol: "research/reviews/HYP-0005-PROTOTYPE-01.md"
+  strategy_4_confirmatory_pre_reveal_runner: "tools/hyp0005_proto01.py"
+  strategy_4_confirmatory_pre_reveal_test: "tests/test_hyp0005_proto01.py"
+  strategy_4_confirmatory_pre_reveal_runner_git_blob: "814193997768605fe60607d66dfd755a9323f339"
+  strategy_4_confirmatory_pre_reveal_status: "RF035_STAGED_PENDING_EXACT_MAIN"
+  strategy_4_confirmatory_first_reveal_authorized: false
+  strategy_4_confirmatory_first_reveal_consumed: false
+  strategy_4_confirmatory_hypothesis_result_status: "NOT_REVEALED"
+  strategy_4_confirmatory_no_direct_r4: true
   strategy_4_confirmatory_rf023_result_json_sha256: "d2eadd9a64da74ae79e2a0008426147953f24beb8c23f66557a721a7b8a65381"
   strategy_4_confirmatory_rf023_result_text_sha256: "fe9f26d15a99294cff17d2f94f3f58dcd41bbb22ffde60bdaf815aedb93d4618"
   strategy_4_confirmatory_source_bundle_sha256: "65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2"
@@ -620,11 +639,11 @@ research_factory:
   strategy_4_confirmatory_missing_market_hours_left: 3
   strategy_4_confirmatory_missing_market_hours_right: 0
   strategy_4_confirmatory_rf023_preparation_decision: "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE"
-  strategy_4_confirmatory_rf024_review_status: "CONDITIONAL_STAGED_PENDING_EXACT_MAIN"
+  strategy_4_confirmatory_rf024_review_status: "CONDITIONAL_FROZEN_EXACT_MAIN_PASS"
   strategy_4_confirmatory_dataset_manifest: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml"
   strategy_4_confirmatory_dataset_schema: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json"
   strategy_4_confirmatory_data_feasibility_review: "research/reviews/HYP-0005-DATA-FEASIBILITY.md"
-  strategy_4_confirmatory_dataset_freeze_completed: false
+  strategy_4_confirmatory_dataset_freeze_completed: true
   strategy_4_confirmatory_offline_rf023_authorized: true
   strategy_4_confirmatory_offline_rf023_authorized_on: "2026-10-09"
   strategy_4_confirmatory_offline_execution_task_id: "ATS2-RF-034"
@@ -643,10 +662,10 @@ research_factory:
   strategy_4_confirmatory_source_ask_2026_09_sha256: "1672abce57189bf8519bdf7a806dcbd1e8152bc0d6f4ce06c9bb244289f10530"
   strategy_4_confirmatory_source_local_provenance_sha256: "9f79cea766237a73992275d500217c1d91c3a8f5a4e2182cb1402e2a0d6fc410"
   strategy_4_confirmatory_source_local_intake_bytes_verified_by_owner: true
-  strategy_4_confirmatory_source_local_intake_semantic_verified: false
+  strategy_4_confirmatory_source_local_intake_semantic_verified: true
   strategy_4_confirmatory_source_input_missing_month: "NONE_AT_FILE_ONLY_LEVEL"
-  strategy_4_confirmatory_research_gate_status: "RF023_PASS_RF024_CONDITIONAL_FREEZE_STAGED_PENDING_EXACT_MAIN"
-  strategy_4_confirmatory_research_plan_current_major_step: 2
+  strategy_4_confirmatory_research_gate_status: "RF024_CONDITIONAL_FROZEN_RF035_PRE_REVEAL_RUNNER_STAGED"
+  strategy_4_confirmatory_research_plan_current_major_step: 3
   strategy_4_confirmatory_research_plan_total_major_steps: 5
   strategy_4_confirmatory_recovery_plan_provenance: "REMAINING_PLAN_DURING_RF023_RECOVERY_NOT_ORIGINAL_HYPOTHESIS_FORMATION_PLAN"
   strategy_4_confirmatory_owner_priority: "HYP0005_RESUMED_2026_10_08"
@@ -913,7 +932,7 @@ research_factory:
 
 backlog:
   canonical_file: "governance/backlog/PROGRAM_BACKLOG_V2.md"
-  current_ready_task: "ATS2-RF-024"
+  current_ready_task: "ATS2-RF-035"
   current_ready_wbs: "WBS-RF.2"
 
 handoff_policy:
