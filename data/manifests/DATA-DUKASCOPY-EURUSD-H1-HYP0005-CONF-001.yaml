@@ -1,0 +1,68 @@
+schema_version: "2.0"
+
+dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"
+dataset_version: "1.0.0"
+description: "Conditional frozen-intent EURUSD H1 BID/ASK bar-open proxy confirmatory source dataset for HYP-0005; two disjoint predeclared periods, 2010 rows, no market outcome columns."
+
+source:
+  source_reference: "Ten Dukascopy EURUSD H1 Jetta JSON local BID/ASK objects for 2003-05, 2003-06, 2003-07, 2003-08 and 2026-09; September source was USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER."
+  snapshot_reference: "source-bundle-sha256:65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2; rf023-json-sha256:d2eadd9a64da74ae79e2a0008426147953f24beb8c23f66557a721a7b8a65381; prepared-at-exact-main:14531698c87fd3a0d87e1ec54c6713f11b7cbb60"
+
+storage:
+  format: "CSV"
+  location: "data/derived/HYP-0005-CONF-01-EURUSD-H1.csv"
+  schema_reference: "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json"
+
+coverage:
+  start: "2003-05-04T21:00:00Z"
+  end: "2026-09-26T00:00:00Z"
+  scope: "Outer bounding interval only, NOT continuous 2003-2026: 1557 rows within LEFT_UNSEEN [2003-05-04T21:00:00Z,2003-08-03T21:00:00Z), 453 rows within RIGHT_UNSEEN [2026-09-01T00:00:00Z,2026-09-26T00:00:00Z); 1991 exact-next-hour eligible pairs (LEFT 1542, RIGHT 449), 3 unfilled left-side market-hour gaps. Inclusive manifest end is a bounding value, NOT an observed row or permission to include the exclusive HYP-0005 segment edge."
+
+time_semantics:
+  timezone: "UTC"
+  timestamp_representation: "RFC3339"
+  event_time_field: "event_time"
+  availability_time_field: "availability_time"
+  availability_mode: "EXPLICIT_FIELD"
+
+ordering:
+  keys:
+    - "event_time"
+  tie_break_keys:
+    - "sequence"
+  direction: "ASCENDING"
+
+quality_policy:
+  duplicates: "REJECT"
+  missing: "ALLOW_DECLARED_GAPS"
+  malformed: "REJECT"
+  out_of_order: "REJECT"
+
+transformation_lineage:
+  parent_datasets: []
+  preparation_reference: "tools/hyp0005_data_feasibility.py@14531698c87fd3a0d87e1ec54c6713f11b7cbb60; frozen-runner-blob:b8d72d858d5c2691de7dec9a709f6e4d7ccb2808; frozen-protocol-blob:c15b2b67700dd46fc592f1208731ce6b42f6905c"
+  steps:
+    - "Verify exactly ten paired local Jetta JSON source files, each uniquely identified by month, BID/ASK side, size and SHA-256, before decoding."
+    - "Decode each frozen complete BID/ASK month pair using the frozen Jetta source decoder; prohibit network and source-object/side mixing."
+    - "Retain only the frozen LEFT_UNSEEN and RIGHT_UNSEEN disjoint UTC timestamps, reject duplicate event times, closed market hours, malformed quotes and ask_open < bid_open."
+    - "Declare event_time as H1 bar open; availability_time = event_time under H1_OPEN_PROXY_AT_EVENT_TIME; source_bar_completion_time = event_time + 1 hour. Exact tick availability remains unknown."
+    - "Assign original fixed UTC buckets CORE_ACTIVE 07-16, TRANSITION 17-20, OFF_HOURS 21-06 from event_time only."
+    - "Preserve three missing expected market hours without fill or shifting; count exact next-hour continuity only within the same frozen segment and across open FX market hours."
+    - "Sort event_time and assign deterministic sequence, retain bid_open and ask_open as source fields; omit relative_spread, midpoint, abs_next_1h_return, medians, primary inequalities and P&L."
+    - "Preserve result JSON SHA-256 d2eadd9a64da74ae79e2a0008426147953f24beb8c23f66557a721a7b8a65381, source bundle SHA-256 65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2 and exact 2010-row CSV SHA-256 b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1."
+
+integrity:
+  algorithm: "SHA256"
+  digest: "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1"
+  reason: null
+
+known_limitations:
+  - "Freeze status is STAGED_PENDING_EXACT_MAIN_PASS until RF-024 exact-main OWNER gate passes; this metadata file alone does not freeze data."
+  - "Review decision CONDITIONAL: H1_OPEN_PROXY_AT_EVENT_TIME treats the first hourly bar opening quote as an unverified event-time availability proxy, not an exact market executable tick."
+  - "Exact tick boundary time known=false; trading costs, slippage, financing, realistic execution and P&L remain outside this structural confirmatory data claim."
+  - "Source authenticity of September 2026 remains USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER; local original byte hashes are proven but independent vendor HTTP/ETag evidence is not available."
+  - "Two frozen disjoint source intervals only; intermediate historical EURUSD data is consumed ATS research evidence, not a continuous confirmatory dataset."
+  - "3 missing expected market hours in LEFT_UNSEEN are retained as gaps; 16 next-hour market-closed and 3 next-hour missing starts are excluded from 1991 eligible same-segment pairs, with no interpolation."
+  - "No independently established broad FX-regime representativeness, cross-ATS data independence, provider corrections/revisions history or specific redistribution license."
+  - "Local raw sources and prepared CSV remain untracked/Git-ignored; this manifest and row schema record metadata only."
+  - "No HYP-0005 hypothesis outcome has been computed or revealed; no Candidate/Strategy Version, economic, validation, independent exam or live trading claims."
