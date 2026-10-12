@@ -750,6 +750,63 @@ def check_rf024_manifest_and_review() -> None:
     print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
 
 
+def check_rf035_pre_reveal_runner_freeze() -> None:
+    """Freeze code and identity only. Never call the protected result function."""
+    print("\n== RF-035 first-reveal runner/protocol frozen identity ==", flush=True)
+    for path in (RF035_PROTO_RECORD, RF035_RUNNER, RF035_RUNNER_TEST):
+        require(path.is_file(), f"RF-035 required source file missing: {path}")
+    for path in (RF035_RESULT_JSON, RF035_RESULT_TEXT):
+        require(not path.exists(), f"unexpected HYP-0005 confirmatory first reveal: {path}")
+    record = RF035_PROTO_RECORD.read_text(encoding="utf-8")
+    for marker in (
+        "ATS2-RF-035",
+        RF035_RUNNER_BLOB,
+        RF024_FROZEN_MAIN,
+        RF024_CSV_SHA256,
+        RF024_SOURCE_BUNDLE_SHA256,
+        "median(abs_next_1h_return | CORE_ACTIVE)",
+        "median(relative_spread | CORE_ACTIVE)",
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "CONFIRMATORY_STRUCTURAL_FAIL",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+    ):
+        require(marker in record, f"RF-035 pre-reveal protocol marker missing: {marker}")
+    source_code = RF035_RUNNER.read_text(encoding="utf-8")
+    for marker in (
+        "def run_first_reveal_once(*, authorized: bool = False)",
+        "OWNER first-reveal authorization required",
+        "run_first_reveal_once",
+        "FROZEN_PARENT_RUNNER_BLOB",
+        "FROZEN_PREP_RUNNER_BLOB",
+        "EXPECTED_GEOMETRY",
+        "frozen_geometry",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "CONFIRMATORY_STRUCTURAL_FAIL",
+        "return 2",
+    ):
+        require(marker in source_code, f"RF-035 runner source marker missing: {marker}")
+    tests = RF035_RUNNER_TEST.read_text(encoding="utf-8")
+    for marker in (
+        "test_default_cli_and_unapproved_reveal_are_blocked",
+        "test_synthetic_geometry_is_frozen_before_outcome_computation",
+        "test_exact_parent_formulas_and_two_independent_primary_booleans",
+    ):
+        require(marker in tests, f"RF-035 synthetic contract test missing: {marker}")
+    state = STATE.read_text(encoding="utf-8")
+    for marker in (
+        'next_task_id: "ATS2-RF-035"',
+        "strategy_4_confirmatory_dataset_freeze_completed: true",
+        "strategy_4_confirmatory_first_reveal_authorized: false",
+        "strategy_4_confirmatory_outcome_computed: false",
+        f'strategy_4_confirmatory_pre_reveal_runner_git_blob: "{RF035_RUNNER_BLOB}"',
+    ):
+        require(marker in state, f"RF-035 research information boundary drift: {marker}")
+    print("[PASS] exact runner blob, frozen decision and zero reveal artifacts", flush=True)
+    print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
+
+
 def run_full_ci() -> None:
     print("\n== RF-035 full ATS Local CI (NO confirmatory reveal) ==", flush=True)
     completed = subprocess.run(
@@ -779,11 +836,13 @@ def main() -> int:
         check_rf034_frozen_source_hashes()
         check_rf024_preparation_identity()
         check_rf024_manifest_and_review()
+        check_rf035_pre_reveal_runner_freeze()
         run_full_ci()
         require(check_exact_main_context() == commit, "main changed during full CI")
         check_rf024_preparation_identity()
         check_rf034_frozen_source_hashes()
-        require(check_exact_main_context() == commit, "main changed during RF-024 freeze check")
+        check_rf035_pre_reveal_runner_freeze()
+        require(check_exact_main_context() == commit, "main changed during RF-035 freeze check")
     except (
         TaskCheckError,
         FileNotFoundError,
