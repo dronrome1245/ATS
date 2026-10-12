@@ -102,6 +102,9 @@ HYP0005_DATA_FEASIBILITY_PREP = "research/reviews/HYP-0005-DATA-FEASIBILITY-PREP
 HYP0005_OFFLINE_SOURCE_INTAKE = "research/reviews/HYP-0005-OFFLINE-SOURCE-INTAKE.md"
 HYP0005_LOCAL_INTAKE_EVIDENCE = "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"
 HYP0005_RF023_OFFLINE_GATE = "research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md"
+HYP0005_DATA_FEASIBILITY_REVIEW = "research/reviews/HYP-0005-DATA-FEASIBILITY.md"
+HYP0005_CONFIRMATORY_MANIFEST = "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml"
+HYP0005_CONFIRMATORY_SCHEMA = "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json"
 HYP0005_DATA_FEASIBILITY_TOOL = "tools/hyp0005_data_feasibility.py"
 HYP0005_DATA_FEASIBILITY_TEST = "tests/test_hyp0005_data_feasibility.py"
 STRATEGY_5_IDEA = "research/ideas/IDEA-0005.md"
@@ -322,6 +325,9 @@ def configure() -> None:
         HYP0005_OFFLINE_SOURCE_INTAKE,
         HYP0005_LOCAL_INTAKE_EVIDENCE,
         HYP0005_RF023_OFFLINE_GATE,
+        HYP0005_DATA_FEASIBILITY_REVIEW,
+        HYP0005_CONFIRMATORY_MANIFEST,
+        HYP0005_CONFIRMATORY_SCHEMA,
         HYP0005_DATA_FEASIBILITY_TOOL,
         HYP0005_DATA_FEASIBILITY_TEST,
         STRATEGY_5_IDEA,
@@ -1246,6 +1252,34 @@ def configure() -> None:
         "ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze",
         "Direct R4 entry remains blocked",
     )
+    core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_REVIEW] = (
+        "ATS2-RF-024",
+        "CONDITIONAL",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        "1991",
+        "2010",
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER",
+        "65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2",
+        "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1",
+    )
+    core.CONTENT_MARKERS[HYP0005_CONFIRMATORY_MANIFEST] = (
+        'dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
+        'dataset_version: "1.0.0"',
+        "source-bundle-sha256:65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2",
+        "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER",
+    )
+    core.CONTENT_MARKERS[HYP0005_CONFIRMATORY_SCHEMA] = (
+        '"confirmatory_segment"',
+        '"source_bar_completion_time"',
+        '"bid_open"',
+        '"ask_open"',
+        '"utc_bucket"',
+        '"additionalProperties": false',
+    )
     core.CONTENT_MARKERS[HYP0005_RF023_OFFLINE_GATE] = (
         "ATS2-RF-034",
         "NO_CONFIRMATORY_OUTCOME_COMPUTED",
@@ -1715,7 +1749,9 @@ def configure() -> None:
     core.CONTENT_MARKERS[CURRENT_TASK_CHECK_TEST] = (
         "test_saved_reveal_identity_rejects_drift",
         "test_hash_only_archive_function_preserves_exact_bytes",
-        "test_rf034_checker_executes_only_frozen_offline_preparation",
+        "test_rf024_never_reexecutes_consumed_rf023_runner",
+        "test_rf024_manifest_loads_with_prepared_identity_only",
+        "test_rf024_review_and_schema_are_pre_outcome_metadata",
         "test_rf034_one_shot_refuses_any_existing_output",
         "test_rf034_offline_source_hashes_accept_only_frozen_bytes",
         "test_rf034_result_identity_uses_only_synthetic_geometry",
@@ -2397,9 +2433,9 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-034"',
-        'TASK_NAME = "HYP-0005 RF-023 frozen offline data feasibility preparation"',
-        "RF-034 exact-main and clean-tree",
+        'TASK_ID = "ATS2-RF-024"',
+        'TASK_NAME = "HYP-0005 confirmatory Data Feasibility freeze"',
+        "RF-024 exact-main and clean-tree",
         "main differs from origin/main",
         "HYP0006_PROTO01_RESULT.json",
         "HYP0006_PROTO01_RESULT_REPORT.txt",
@@ -2414,7 +2450,9 @@ def configure() -> None:
         "RF-034 frozen offline RF-023 source architecture",
         "check_rf034_output_absence",
         "RF034_SOURCE_HASHES",
-        "run_rf023_offline_once",
+        "check_rf024_preparation_identity",
+        "check_rf024_manifest_and_review",
+        "RF024_CSV_SHA256",
         "check_rf023_preparation_result",
         "check_local_source_intake_identity",
         "RF033_PROVENANCE_RELATIVE",
@@ -2883,12 +2921,12 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-033"',
-        'last_completed_artifact: "research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md"',
-        'next_artifact: "research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md"',
-        'next_task_id: "ATS2-RF-034"',
-        'current_task: "ATS2-RF-034"', 'current_ready_task: "ATS2-RF-034"',
-        'next_task: "RF023_OFFLINE_PREPARATION_SINGLE_EXECUTE_GATE"',
+        'last_completed_task_id: "ATS2-RF-034"',
+        'last_completed_artifact: "research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md"',
+        'next_artifact: "research/reviews/HYP-0005-DATA-FEASIBILITY.md"',
+        'next_task_id: "ATS2-RF-024"',
+        'current_task: "ATS2-RF-024"', 'current_ready_task: "ATS2-RF-024"',
+        'next_task: "RF024_DATA_FEASIBILITY_CONDITIONAL_FREEZE_PENDING_EXACT_MAIN"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -2981,11 +3019,17 @@ def main() -> int:
         'strategy_4_confirmatory_dataset_selected: false',
         'strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
         'strategy_4_confirmatory_dataset_candidate_version: "1.0.0"',
-        'strategy_4_confirmatory_prep_status: "RF023_OFFLINE_PREPARATION_STAGED_NOT_EXECUTED"',
-        'strategy_4_confirmatory_research_gate_status: "RF023_OFFLINE_GEOMETRY_PREPARATION_AUTHORIZED_PENDING_EXACT_MAIN"',
+        'strategy_4_confirmatory_prep_status: "RF023_PREPARATION_PASS_RF024_FREEZE_STAGED"',
+        'strategy_4_confirmatory_research_gate_status: "RF023_PASS_RF024_CONDITIONAL_FREEZE_STAGED_PENDING_EXACT_MAIN"',
         'strategy_4_confirmatory_offline_rf023_authorized: true',
-        'strategy_4_confirmatory_preparation_result_exists: false',
+        'strategy_4_confirmatory_preparation_result_exists: true',
         'strategy_4_confirmatory_offline_execution_task_id: "ATS2-RF-034"',
+        'rf034_verified_commit: "14531698c87fd3a0d87e1ec54c6713f11b7cbb60"',
+        'strategy_4_confirmatory_derived_csv_sha256: "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1"',
+        'strategy_4_confirmatory_derived_row_count: 2010',
+        'strategy_4_confirmatory_eligible_exact_next_hour_count: 1991',
+        'strategy_4_confirmatory_rf024_review_status: "CONDITIONAL_STAGED_PENDING_EXACT_MAIN"',
+        'strategy_4_confirmatory_dataset_freeze_completed: false',
         'strategy_4_confirmatory_source_availability_status: "LOCAL_2026_09_PAIR_RECEIVED_USER_ATTESTED"',
         'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
         'strategy_4_confirmatory_source_manual_intake_authorized: true',
@@ -3358,11 +3402,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-022") != "DONE / PASS":
         core.fail("RF-022 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-023") != "READY":
-        core.fail("RF-023 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-023") != "DONE / PASS":
+        core.fail("RF-023 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-024") != "BLOCKED":
-        core.fail("RF-024 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-024") != "READY":
+        core.fail("RF-024 must be READY in Program Backlog")
         blocking += 1
     if core.backlog_status(backlog, "ATS2-RF-025") != "DONE / PASS":
         core.fail("RF-025 must be DONE / PASS in Program Backlog")
@@ -3391,8 +3435,8 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-033") != "DONE / PASS":
         core.fail("RF-033 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-034") != "READY":
-        core.fail("RF-034 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-034") != "DONE / PASS":
+        core.fail("RF-034 must be DONE / PASS in Program Backlog")
         blocking += 1
     if (
         "reports/local_ci/HYP0005_2026_09_SOURCE_INTAKE_PROVENANCE.json"

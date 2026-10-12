@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RF-034 frozen offline HYP-0005 RF-023 Data Feasibility preparation gate."""
+"""RF-024 HYP-0005 confirmatory dataset freeze without market outcome."""
 
 from __future__ import annotations
 
@@ -12,8 +12,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 
-TASK_ID = "ATS2-RF-034"
-TASK_NAME = "HYP-0005 RF-023 frozen offline data feasibility preparation"
+TASK_ID = "ATS2-RF-024"
+TASK_NAME = "HYP-0005 confirmatory Data Feasibility freeze"
 
 RF030_MAIN_COMMIT = "d1135bb2486009ebb358bf4b508c06303ab77f74"
 FROZEN_HYP0006_RUNNER_BLOB = "6afb870c035bc5ae76f773784a5fa3db15d680fd"
@@ -110,6 +110,16 @@ RF034_EXPECTED_CSV_FIELDS = (
     "utc_bucket",
 )
 
+
+RF034_MAIN_COMMIT = "14531698c87fd3a0d87e1ec54c6713f11b7cbb60"
+RF024_REVIEW = ROOT / "research/reviews/HYP-0005-DATA-FEASIBILITY.md"
+RF024_MANIFEST = ROOT / "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml"
+RF024_SCHEMA = ROOT / "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json"
+RF024_RF023_JSON_SHA256 = "d2eadd9a64da74ae79e2a0008426147953f24beb8c23f66557a721a7b8a65381"
+RF024_RF023_TEXT_SHA256 = "fe9f26d15a99294cff17d2f94f3f58dcd41bbb22ffde60bdaf815aedb93d4618"
+RF024_CSV_SHA256 = "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1"
+RF024_SOURCE_BUNDLE_SHA256 = "65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2"
+
 FROZEN_BLOBS = {
     "tools/hyp0006_proto01.py": FROZEN_HYP0006_RUNNER_BLOB,
     "research/reviews/HYP-0006-PROTOTYPE-01.md": ("9f7bcd8480f66a37ea273cc7e158a56758b79b12"),
@@ -150,7 +160,7 @@ def git_output(*arguments: str) -> str:
 
 
 def check_exact_main_context() -> str:
-    print("\n== RF-034 exact-main and clean-tree ==", flush=True)
+    print("\n== RF-024 exact-main and clean-tree ==", flush=True)
     branch = git_output("branch", "--show-current")
     head = git_output("rev-parse", "HEAD")
     origin_main = git_output("rev-parse", "origin/main")
@@ -265,8 +275,8 @@ def check_new_confirmatory_hypothesis() -> None:
             "216",
         ),
         STATE: (
-            'last_completed_task_id: "ATS2-RF-033"',
-            'next_task_id: "ATS2-RF-034"',
+            'last_completed_task_id: "ATS2-RF-034"',
+            'next_task_id: "ATS2-RF-024"',
             'strategy_5_confirmatory_hypothesis_id: "HYP-0007"',
             'strategy_5_confirmatory_source_status: "INDEPENDENCE_NOT_YET_CERTIFIED"',
             "strategy_5_confirmatory_outcome_computed: false",
@@ -321,7 +331,7 @@ def check_rf023_offline_source_architecture() -> None:
         'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
         "strategy_4_confirmatory_source_manual_intake_authorized: true",
         "strategy_4_confirmatory_source_network_retry_authorized: false",
-        'next_task_id: "ATS2-RF-034"',
+        'next_task_id: "ATS2-RF-024"',
     ):
         require(marker in state, f"RF-032 state marker absent: {marker}")
     print("[PASS] RF-023 source runtime is offline-only; no HTTP/retry", flush=True)
@@ -368,7 +378,8 @@ def record_local_rf023_file_inventory() -> None:
     else:
         print(
             "[INFO] ALL_LOCAL_FILE_PAIRS_PRESENT; "
-            "official provenance/decoded coherence still unverified",
+            "official provider authenticity remains owner-attested; "
+            "decoded coherence is recorded in frozen RF-023 result",
             flush=True,
         )
     print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
@@ -445,23 +456,6 @@ def check_rf034_output_absence() -> None:
     ):
         require(not path.exists(), f"RF-023 output already exists; no rerun: {path}")
     print("[PASS] no previous RF-023 result or partial derived CSV", flush=True)
-
-
-def run_rf023_offline_once() -> None:
-    """Execute the already-frozen geometry-only script exactly once, no retries."""
-    print("\n== RF-034 authorized one-shot offline RF-023 execution ==", flush=True)
-    require(RF034_PREP_TOOL.is_file(), "frozen RF-023 runner missing")
-    check_rf034_output_absence()
-    completed = subprocess.run(
-        [sys.executable, "tools/hyp0005_data_feasibility.py"],
-        cwd=ROOT,
-        check=False,
-    )
-    require(
-        completed.returncode == 0,
-        "RF-023 offline preparation failed; retain evidence, STOP, no retry",
-    )
-    print("[PASS] frozen RF-023 geometry-only runner completed once", flush=True)
 
 
 def check_rf023_preparation_result(commit: str) -> None:
@@ -573,8 +567,172 @@ def check_rf023_preparation_result(commit: str) -> None:
     print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
 
 
+def check_rf024_preparation_identity() -> None:
+    """Verify already-created RF-023 bytes and geometry without recomputation."""
+    print("\n== RF-024 exact preserved RF-023 preparation identity ==", flush=True)
+    require(
+        sha256_file(RF034_RESULT_JSON) == RF024_RF023_JSON_SHA256,
+        "RF-023 preserved preparation JSON SHA-256 drift",
+    )
+    require(
+        sha256_file(RF034_RESULT_TEXT) == RF024_RF023_TEXT_SHA256,
+        "RF-023 preserved preparation text SHA-256 drift",
+    )
+    require(
+        sha256_file(RF034_DERIVED_CSV) == RF024_CSV_SHA256,
+        "RF-023 derived CSV SHA-256 drift",
+    )
+    require(not RF034_DERIVED_PART.exists(), "RF-023 orphaned derived .part exists")
+    check_rf023_preparation_result(RF034_MAIN_COMMIT)
+    result = json.loads(RF034_RESULT_JSON.read_text(encoding="utf-8"))
+    require(
+        result.get("preparation_decision") == "READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE",
+        "RF-024 cannot freeze non-ready data feasibility geometry",
+    )
+    require(
+        result.get("source_bundle_sha256") == RF024_SOURCE_BUNDLE_SHA256,
+        "RF-023 source bundle SHA-256 drift",
+    )
+    require(result.get("derived_row_count") == 2010, "RF-023 prepared row count drift")
+    expected = {
+        "eligible_exact_next_hour_count": 1991,
+        "eligible_rows_by_bucket": {
+            "CORE_ACTIVE": 838,
+            "OFF_HOURS": 837,
+            "TRANSITION": 316,
+        },
+        "eligible_rows_by_segment": {
+            "LEFT_UNSEEN": 1542,
+            "RIGHT_UNSEEN": 449,
+        },
+        "expected_market_hours_by_segment": {
+            "LEFT_UNSEEN": 1560,
+            "RIGHT_UNSEEN": 453,
+        },
+        "total_rows_by_segment": {
+            "LEFT_UNSEEN": 1557,
+            "RIGHT_UNSEEN": 453,
+        },
+        "missing_market_hours_by_segment": {
+            "LEFT_UNSEEN": 3,
+            "RIGHT_UNSEEN": 0,
+        },
+        "ineligible_closed_market_next_hour_count": 16,
+        "ineligible_missing_expected_next_hour_count": 3,
+        "ineligible_segment_end_count": 0,
+    }
+    geometry = result.get("geometry")
+    require(isinstance(geometry, dict), "RF-023 geometry missing")
+    for key, value in expected.items():
+        require(geometry.get(key) == value, f"RF-023 frozen geometry drift: {key}")
+    source_rows = result.get("source_files")
+    require(isinstance(source_rows, list), "source metadata missing")
+    sorted_rows = sorted(
+        source_rows,
+        key=lambda item: (item["symbol"], item["month"], item["side"]),
+    )
+    bundle_payload = [
+        {
+            "symbol": item["symbol"],
+            "month": item["month"],
+            "side": item["side"],
+            "sha256": item["sha256"],
+        }
+        for item in sorted_rows
+    ]
+    digest = hashlib.sha256(
+        json.dumps(bundle_payload, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    require(digest == RF024_SOURCE_BUNDLE_SHA256, "reconstructed source bundle SHA-256 drift")
+    print("[PASS] RF-023 result, 2010 rows and 1991 eligible pairs preserved", flush=True)
+
+
+def check_rf024_manifest_and_review() -> None:
+    """Validate only tracked metadata/schema; never parse source quote rows."""
+    print("\n== RF-024 conditional manifest and row schema ==", flush=True)
+    for path in (RF024_REVIEW, RF024_MANIFEST, RF024_SCHEMA):
+        require(path.is_file(), f"missing RF-024 tracked freeze artifact: {path}")
+    sys.path.insert(0, str(ROOT / "src"))
+    from ats.schemas.dataset_manifest import load_dataset_manifest
+
+    manifest = load_dataset_manifest(RF024_MANIFEST)
+    require(
+        manifest.dataset_id == "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001",
+        "RF-024 manifest dataset identity mismatch",
+    )
+    require(manifest.dataset_version == "1.0.0", "RF-024 manifest version drift")
+    require(manifest.integrity.digest == RF024_CSV_SHA256, "RF-024 CSV digest drift")
+    require(
+        RF024_SOURCE_BUNDLE_SHA256 in manifest.source.snapshot_reference,
+        "RF-024 source bundle identity absent",
+    )
+    require(
+        RF024_RF023_JSON_SHA256 in manifest.source.snapshot_reference,
+        "RF-024 RF-023 result identity absent",
+    )
+    require(
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER"
+        in manifest.source.source_reference,
+        "RF-024 provider provenance overstated",
+    )
+    require(
+        manifest.storage.location == "data/derived/HYP-0005-CONF-01-EURUSD-H1.csv",
+        "RF-024 manifest storage path mismatch",
+    )
+    require(
+        manifest.storage.schema_reference
+        == "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF.schema.json",
+        "RF-024 manifest schema reference mismatch",
+    )
+    require(
+        manifest.time_semantics.event_time_field == "event_time"
+        and manifest.time_semantics.availability_time_field == "availability_time"
+        and manifest.time_semantics.availability_mode == "EXPLICIT_FIELD",
+        "RF-024 boundary availability semantics drift",
+    )
+    require(
+        manifest.quality_policy.missing == "ALLOW_DECLARED_GAPS",
+        "RF-024 missing market hour handling drift",
+    )
+    require(
+        manifest.ordering.keys == ("event_time",)
+        and manifest.ordering.tie_break_keys == ("sequence",),
+        "RF-024 deterministic row ordering drift",
+    )
+    require(
+        len(manifest.known_limitations) >= 5,
+        "RF-024 conditional limitations must remain explicit",
+    )
+    schema = json.loads(RF024_SCHEMA.read_text(encoding="utf-8"))
+    require(isinstance(schema, dict), "RF-024 schema must be a JSON object")
+    columns = set(RF034_EXPECTED_CSV_FIELDS)
+    require(
+        set(schema.get("required", [])) == columns,
+        "RF-024 row schema required columns drift",
+    )
+    properties = schema.get("properties")
+    require(
+        isinstance(properties, dict) and set(properties) == columns,
+        "RF-024 row schema unexpected columns",
+    )
+    require(schema.get("additionalProperties") is False, "RF-024 row schema not closed")
+    review = RF024_REVIEW.read_text(encoding="utf-8")
+    for marker in (
+        "Review decision: `CONDITIONAL`",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        RF024_RF023_JSON_SHA256,
+        RF024_SOURCE_BUNDLE_SHA256,
+        RF024_CSV_SHA256,
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+    ):
+        require(marker in review, f"RF-024 review marker missing: {marker}")
+    print("[PASS] staged review/manifest/schema match immutable local dataset", flush=True)
+    print("Data Feasibility: CONDITIONAL / H1_OPEN_PROXY_AT_EVENT_TIME", flush=True)
+    print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
+
+
 def run_full_ci() -> None:
-    print("\n== RF-034 full ATS Local CI (no market runner) ==", flush=True)
+    print("\n== RF-024 full ATS Local CI (NO RF-023 re-execution) ==", flush=True)
     completed = subprocess.run(
         [sys.executable, "tools/verify_repo.py"],
         cwd=ROOT,
@@ -588,7 +746,7 @@ def main() -> int:
     print("ATS CURRENT TASK CHECK", flush=True)
     print(f"Task: {TASK_ID} — {TASK_NAME}", flush=True)
     print(
-        "RF-034: frozen offline source/geometry preparation only; no market outcome.",
+        "RF-024: freeze existing RF-023 data identity only; do not rerun RF-023.",
         flush=True,
     )
     try:
@@ -600,13 +758,13 @@ def main() -> int:
         record_local_rf023_file_inventory()
         check_local_source_intake_identity()
         check_rf034_frozen_source_hashes()
-        check_rf034_output_absence()
+        check_rf024_preparation_identity()
+        check_rf024_manifest_and_review()
         run_full_ci()
         require(check_exact_main_context() == commit, "main changed during full CI")
-        run_rf023_offline_once()
-        check_rf023_preparation_result(commit)
+        check_rf024_preparation_identity()
         check_rf034_frozen_source_hashes()
-        require(check_exact_main_context() == commit, "main changed during RF-023 preparation")
+        require(check_exact_main_context() == commit, "main changed during RF-024 freeze check")
     except (
         TaskCheckError,
         FileNotFoundError,
@@ -616,7 +774,7 @@ def main() -> int:
         subprocess.CalledProcessError,
     ) as exc:
         print(
-            f"[FAIL] RF-034 offline preparation/source blocker: {exc}",
+            f"[FAIL] RF-024 dataset identity/source blocker: {exc}",
             flush=True,
         )
         print("HYP-0007 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
