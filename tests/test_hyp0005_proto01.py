@@ -144,3 +144,30 @@ def test_no_positive_result_grants_trading_admission() -> None:
     result = proto.evaluate_synthetic_or_revealed(observations)
     assert result["decision"] == "CONFIRMATORY_STRUCTURAL_PASS"
     assert result["next_action"] == "REVIEW_CONFIRMATORY_STRUCTURAL_EVIDENCE_NO_DIRECT_R4"
+
+
+def test_movement_is_strict_and_spread_equality_is_permitted() -> None:
+    observations = [
+        {
+            "year": 2003,
+            "utc_bucket": "CORE_ACTIVE",
+            "abs_next_1h_return": 0.01,
+            "relative_spread": 0.001,
+        },
+        {
+            "year": 2026,
+            "utc_bucket": "OFF_HOURS",
+            "abs_next_1h_return": 0.01,
+            "relative_spread": 0.001,
+        },
+    ]
+    result = proto.evaluate_synthetic_or_revealed(observations)
+    assert result["primary"]["movement_inequality_pass"] is False
+    assert result["primary"]["spread_inequality_pass"] is True
+    assert result["decision"] == "CONFIRMATORY_STRUCTURAL_FAIL"
+
+    observations[0]["abs_next_1h_return"] = 0.02
+    result = proto.evaluate_synthetic_or_revealed(observations)
+    assert result["primary"]["movement_inequality_pass"] is True
+    assert result["primary"]["spread_inequality_pass"] is True
+    assert result["decision"] == "CONFIRMATORY_STRUCTURAL_PASS"
