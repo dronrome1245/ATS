@@ -651,6 +651,7 @@ def check_rf024_manifest_and_review() -> None:
     print("\n== RF-024 conditional manifest and row schema ==", flush=True)
     for path in (RF024_REVIEW, RF024_MANIFEST, RF024_SCHEMA):
         require(path.is_file(), f"missing RF-024 tracked freeze artifact: {path}")
+    sys.path.insert(0, str(ROOT / "src"))
     from ats.schemas.dataset_manifest import load_dataset_manifest
 
     manifest = load_dataset_manifest(RF024_MANIFEST)
@@ -756,13 +757,13 @@ def main() -> int:
         record_local_rf023_file_inventory()
         check_local_source_intake_identity()
         check_rf034_frozen_source_hashes()
-        check_rf034_output_absence()
+        check_rf024_preparation_identity()
+        check_rf024_manifest_and_review()
         run_full_ci()
         require(check_exact_main_context() == commit, "main changed during full CI")
-        run_rf023_offline_once()
-        check_rf023_preparation_result(commit)
+        check_rf024_preparation_identity()
         check_rf034_frozen_source_hashes()
-        require(check_exact_main_context() == commit, "main changed during RF-023 preparation")
+        require(check_exact_main_context() == commit, "main changed during RF-024 freeze check")
     except (
         TaskCheckError,
         FileNotFoundError,
