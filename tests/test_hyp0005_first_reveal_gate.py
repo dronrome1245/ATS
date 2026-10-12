@@ -19,7 +19,9 @@ def _fixture_result(commit: str, *, passes: bool) -> dict:
     movement = core_movement > 0.002
     spread = core_spread <= 0.0002
     both = movement and spread
-    decision = "CONFIRMATORY_STRUCTURAL_PASS" if both else "CONFIRMATORY_STRUCTURAL_FAIL"
+    decision = (
+        "CONFIRMATORY_STRUCTURAL_PASS" if both else "CONFIRMATORY_STRUCTURAL_FAIL"
+    )
     reason = (
         "BOTH_PRIMARY_INEQUALITIES_MET"
         if both
@@ -130,7 +132,9 @@ def test_rf037_synthetic_first_reveal_consumes_once_before_result(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, passes: bool
 ) -> None:
     _result, calls = _setup(tmp_path, monkeypatch, passes=passes)
-    receipt = gate.execute_or_verify_once(expected_commit=SYNTHETIC_COMMIT, authorized=True)
+    receipt = gate.execute_or_verify_once(
+        expected_commit=SYNTHETIC_COMMIT, authorized=True
+    )
     assert calls == ["SYNTHETIC_CALL"]
     assert receipt["status"] == "FIRST_REVEAL_COMPLETED_ONCE"
     assert receipt["authorization"] == gate.AUTHORIZATION
@@ -146,7 +150,9 @@ def test_rf037_synthetic_first_reveal_consumes_once_before_result(
         "_invoke_frozen_runner",
         lambda: pytest.fail("a saved first reveal must NEVER invoke market runner"),
     )
-    repeated = gate.execute_or_verify_once(expected_commit=SYNTHETIC_COMMIT, authorized=True)
+    repeated = gate.execute_or_verify_once(
+        expected_commit=SYNTHETIC_COMMIT, authorized=True
+    )
     assert repeated == receipt
     assert gate.RESULT_JSON.read_bytes() == original_json
     assert gate.RESULT_TEXT.read_bytes() == original_text
@@ -156,7 +162,9 @@ def test_rf037_unauthorized_first_reveal_is_blocked(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     _setup(tmp_path, monkeypatch)
-    with pytest.raises(gate.FirstRevealGateError, match="OWNER first reveal authorization"):
+    with pytest.raises(
+        gate.FirstRevealGateError, match="OWNER first reveal authorization"
+    ):
         gate.execute_or_verify_once(expected_commit=SYNTHETIC_COMMIT)
     assert not gate.CONSUMED.exists()
     assert not gate.RESULT_JSON.exists()
@@ -178,6 +186,7 @@ def test_rf037_consumed_failure_cannot_be_retried(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     _result, calls = _setup(tmp_path, monkeypatch)
+
     def synthetic_failure() -> dict:
         assert gate.CONSUMED.is_file()
         calls.append("SYNTHETIC_FAILURE")
@@ -189,7 +198,9 @@ def test_rf037_consumed_failure_cannot_be_retried(
     assert calls == ["SYNTHETIC_FAILURE"]
     assert gate.CONSUMED.is_file()
     assert not gate.RECEIPT.exists()
-    with pytest.raises(gate.FirstRevealGateError, match="consumed marker/receipt incomplete"):
+    with pytest.raises(
+        gate.FirstRevealGateError, match="consumed marker/receipt incomplete"
+    ):
         gate.execute_or_verify_once(expected_commit=SYNTHETIC_COMMIT, authorized=True)
     assert calls == ["SYNTHETIC_FAILURE"]
 
