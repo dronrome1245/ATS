@@ -205,7 +205,8 @@ def check_exact_main_context() -> str:
             ["git", "merge-base", "--is-ancestor", RF035_MAIN_COMMIT, head],
             cwd=ROOT,
             check=False,
-        ).returncode == 0,
+        ).returncode
+        == 0,
         "RF-035 frozen runner exact-main commit not an ancestor",
     )
     print(f"[PASS] exact main: {head}, clean tree", flush=True)
@@ -895,7 +896,9 @@ def main() -> int:
         check_rf034_frozen_source_hashes()
         check_rf035_pre_reveal_runner_freeze()
         check_rf036_gate_preparation()
-        require(check_exact_main_context() == commit, "main changed during RF-036 preparation check")
+        require(
+            check_exact_main_context() == commit, "main changed during RF-036 preparation check"
+        )
     except (
         TaskCheckError,
         FileNotFoundError,
