@@ -1,4 +1,4 @@
-"""Synthetic RF-036 reveal-gate preparation; no HYP-0005 protected price access."""
+"""Synthetic exact-main RF-037 gate tests; no protected price rows are opened."""
 
 from __future__ import annotations
 
@@ -66,20 +66,20 @@ def test_hash_only_archive_function_preserves_exact_bytes(tmp_path: Path) -> Non
     assert check.sha256_file(archive) != hashlib.sha256(raw).hexdigest()
 
 
-def test_rf036_never_runs_consumed_prep_or_first_reveal() -> None:
+def test_rf037_current_task_requires_gate_and_never_invokes_runner_directly() -> None:
     source = inspect.getsource(check)
     main_source = inspect.getsource(check.main)
-    assert 'TASK_ID = "ATS2-RF-036"' in source
+    assert 'TASK_ID = "ATS2-RF-037"' in source
     assert "--execute-first-reveal" not in source
-    assert "prepare_first_reveal(" not in source
     assert "def run_rf023_offline_once" not in source
     assert "check_rf034_output_absence()" not in main_source
     assert "check_rf024_preparation_identity()" in main_source
     assert "check_rf024_manifest_and_review()" in main_source
-    assert "check_rf035_pre_reveal_runner_freeze()" in main_source
-    assert "check_rf036_gate_preparation()" in main_source
+    assert "check_rf035_pre_reveal_runner_freeze(require_absence=False)" in main_source
+    assert "check_rf036_gate_preparation(require_absence=False)" in main_source
+    assert "check_rf037_one_shot_authorization()" in main_source
+    assert "execute_or_verify_once(expected_commit=commit, authorized=True)" in main_source
     assert "run_first_reveal_once(" not in main_source
-    assert "NO_CONFIRMATORY_OUTCOME_COMPUTED" in source
 
 
 def test_rf032_source_contract_is_offline_only() -> None:
@@ -337,9 +337,9 @@ def test_rf036_preparation_blocks_any_existing_synthetic_reveal_artifact(
     check.check_rf036_gate_preparation()
 
 
-def test_rf036_preparation_never_invokes_market_reveal() -> None:
+def test_rf037_preserves_rf036_gate_and_immutable_runner_blob() -> None:
     main_source = inspect.getsource(check.main)
-    assert "check_rf036_gate_preparation()" in main_source
+    assert "check_rf036_gate_preparation(require_absence=False)" in main_source
     assert "run_first_reveal_once(" not in main_source
     assert "--execute-first-reveal" not in main_source
     assert "observations_from_keys(" not in main_source
