@@ -378,7 +378,8 @@ def record_local_rf023_file_inventory() -> None:
     else:
         print(
             "[INFO] ALL_LOCAL_FILE_PAIRS_PRESENT; "
-            "official provider authenticity remains owner-attested; "\n            "decoded coherence is recorded in frozen RF-023 result",
+            "official provider authenticity remains owner-attested; "
+            "decoded coherence is recorded in frozen RF-023 result",
             flush=True,
         )
     print("HYP-0005 outcome: NO_CONFIRMATORY_OUTCOME_COMPUTED", flush=True)
