@@ -3402,11 +3402,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-022") != "DONE / PASS":
         core.fail("RF-022 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-023") != "READY":
-        core.fail("RF-023 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-023") != "DONE / PASS":
+        core.fail("RF-023 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-024") != "BLOCKED":
-        core.fail("RF-024 must be BLOCKED in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-024") != "READY":
+        core.fail("RF-024 must be READY in Program Backlog")
         blocking += 1
     if core.backlog_status(backlog, "ATS2-RF-025") != "DONE / PASS":
         core.fail("RF-025 must be DONE / PASS in Program Backlog")
@@ -3435,8 +3435,8 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-033") != "DONE / PASS":
         core.fail("RF-033 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-034") != "READY":
-        core.fail("RF-034 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-034") != "DONE / PASS":
+        core.fail("RF-034 must be DONE / PASS in Program Backlog")
         blocking += 1
     if (
         "reports/local_ci/HYP0005_2026_09_SOURCE_INTAKE_PROVENANCE.json"
