@@ -129,6 +129,9 @@ The future execution gate, still NOT authorized, must:
 2. Check exact runner Git blob in HEAD and worktree, all frozen
    manifest/source/preparation/CSV hashes and absence of all result
    and consumed-sentinel artifacts **before any price-value parsing**.
+   Reserved one-shot sentinel path:
+   `reports/local_ci/HYP0005_PROTO01_FIRST_REVEAL_CONSUMED.json`.
+   The sentinel must not be created by RF-036.
 3. Record a durable one-shot consumed sentinel before the first
    outcome computation; no silent replay after a partial failure.
 4. Invoke only unchanged `run_first_reveal_once(authorized=True)`,
