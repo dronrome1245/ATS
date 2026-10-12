@@ -78,7 +78,8 @@ def test_rf037_current_task_requires_gate_and_never_invokes_runner_directly() ->
     assert "check_rf035_pre_reveal_runner_freeze(require_absence=False)" in main_source
     assert "check_rf036_gate_preparation(require_absence=False)" in main_source
     assert "check_rf037_one_shot_authorization()" in main_source
-    assert "execute_or_verify_once(expected_commit=commit, authorized=True)" in main_source
+    assert "receipt = reveal_gate.execute_or_verify_once(" in main_source
+    assert "expected_commit=commit, authorized=True" in main_source
     assert "run_first_reveal_once(" not in main_source
 
 
