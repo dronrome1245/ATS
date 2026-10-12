@@ -33,7 +33,11 @@ RUNNER_RELATIVE = "tools/hyp0005_proto01.py"
 
 EXPECTED_GEOMETRY = {
     "eligible_exact_next_hour_count": 1991,
-    "eligible_rows_by_bucket": {"CORE_ACTIVE": 838, "OFF_HOURS": 837, "TRANSITION": 316},
+    "eligible_rows_by_bucket": {
+        "CORE_ACTIVE": 838,
+        "OFF_HOURS": 837,
+        "TRANSITION": 316,
+    },
     "eligible_rows_by_segment": {"LEFT_UNSEEN": 1542, "RIGHT_UNSEEN": 449},
     "expected_market_hours_by_segment": {"LEFT_UNSEEN": 1560, "RIGHT_UNSEEN": 453},
     "missing_market_hours_by_segment": {"LEFT_UNSEEN": 3, "RIGHT_UNSEEN": 0},
@@ -76,7 +80,10 @@ def _check_exact_main(expected_commit: str) -> None:
     require(_git("branch", "--show-current") == "main", "first reveal only on main")
     require(_git("rev-parse", "HEAD") == expected_commit, "exact main HEAD mismatch")
     require(_git("rev-parse", "origin/main") == expected_commit, "origin/main drift")
-    require(not _git("status", "--porcelain=v1", "-uall"), "non-clean first reveal worktree")
+    require(
+        not _git("status", "--porcelain=v1", "-uall"),
+        "non-clean first reveal worktree",
+    )
     require(
         subprocess.run(
             ["git", "merge-base", "--is-ancestor", RF036_MAIN_COMMIT, expected_commit],
@@ -86,7 +93,10 @@ def _check_exact_main(expected_commit: str) -> None:
         == 0,
         "RF-036 frozen gate not an ancestor",
     )
-    require(_git("rev-parse", f"HEAD:{RUNNER_RELATIVE}") == RUNNER_BLOB, "runner HEAD drift")
+    require(
+        _git("rev-parse", f"HEAD:{RUNNER_RELATIVE}") == RUNNER_BLOB,
+        "runner HEAD drift",
+    )
     require(
         _git("hash-object", "--", RUNNER_RELATIVE) == RUNNER_BLOB,
         "runner worktree drift",
@@ -130,9 +140,14 @@ def _write_new_json(path: Path, record: dict[str, Any]) -> None:
 
 def _check_new_result(result: dict[str, Any], expected_commit: str) -> tuple[str, bool]:
     """Check immutable output contract, not a new price calculation or revised rule."""
-    require(RESULT_JSON.is_file() and RESULT_TEXT.is_file(), "incomplete frozen result pair")
+    require(
+        RESULT_JSON.is_file() and RESULT_TEXT.is_file(),
+        "incomplete frozen result pair",
+    )
     saved = json.loads(RESULT_JSON.read_text(encoding="utf-8"))
-    require(isinstance(saved, dict) and saved == result, "saved output differs from runner")
+    require(
+        isinstance(saved, dict) and saved == result, "saved output differs from runner"
+    )
     for key, expected in {
         "schema_version": "hyp0005-confirmatory-proto01-result-1",
         "hypothesis_id": "HYP-0005",
@@ -145,7 +160,10 @@ def _check_new_result(result: dict[str, Any], expected_commit: str) -> tuple[str
     }.items():
         require(saved.get(key) == expected, f"frozen result identity mismatch: {key}")
     require(saved.get("geometry") == EXPECTED_GEOMETRY, "revealed geometry drift")
-    require(saved.get("run_context", {}).get("git_commit") == expected_commit, "reveal commit drift")
+    require(
+        saved.get("run_context", {}).get("git_commit") == expected_commit,
+        "reveal commit drift",
+    )
     dataset = saved.get("dataset")
     require(isinstance(dataset, dict), "missing result dataset")
     for key, expected in {
@@ -171,11 +189,17 @@ def _check_new_result(result: dict[str, Any], expected_commit: str) -> tuple[str
     require(both == (movement and spread), "inconsistent primary decision flags")
     buckets = saved.get("bucket_metrics")
     require(isinstance(buckets, dict), "missing bucket statistics")
-    require(set(buckets) == {"CORE_ACTIVE", "OFF_HOURS", "TRANSITION"}, "unexpected buckets")
+    require(
+        set(buckets) == {"CORE_ACTIVE", "OFF_HOURS", "TRANSITION"},
+        "unexpected buckets",
+    )
     for bucket, expected in EXPECTED_GEOMETRY["eligible_rows_by_bucket"].items():
         metrics = buckets[bucket]
         require(isinstance(metrics, dict), f"missing bucket metrics: {bucket}")
-        require(metrics.get("observation_count") == expected, f"bucket count drift: {bucket}")
+        require(
+            metrics.get("observation_count") == expected,
+            f"bucket count drift: {bucket}",
+        )
         for name in (
             "mean_abs_next_1h_return",
             "median_abs_next_1h_return",
@@ -191,14 +215,17 @@ def _check_new_result(result: dict[str, Any], expected_commit: str) -> tuple[str
     core = buckets["CORE_ACTIVE"]
     off = buckets["OFF_HOURS"]
     require(
-        movement == (core["median_abs_next_1h_return"] > off["median_abs_next_1h_return"]),
+        movement
+        == (core["median_abs_next_1h_return"] > off["median_abs_next_1h_return"]),
         "movement decision inconsistent with stored medians",
     )
     require(
         spread == (core["median_relative_spread"] <= off["median_relative_spread"]),
         "spread decision inconsistent with stored medians",
     )
-    decision = "CONFIRMATORY_STRUCTURAL_PASS" if both else "CONFIRMATORY_STRUCTURAL_FAIL"
+    decision = (
+        "CONFIRMATORY_STRUCTURAL_PASS" if both else "CONFIRMATORY_STRUCTURAL_FAIL"
+    )
     reason = (
         "BOTH_PRIMARY_INEQUALITIES_MET"
         if both
@@ -212,7 +239,10 @@ def _check_new_result(result: dict[str, Any], expected_commit: str) -> tuple[str
     require(saved.get("decision") == decision, "frozen decision route drift")
     require(saved.get("decision_reason") == reason, "frozen reason route drift")
     require(saved.get("next_action") == action, "frozen next action route drift")
-    require(isinstance(saved.get("calendar_year_diagnostics"), dict), "missing year diagnostics")
+    require(
+        isinstance(saved.get("calendar_year_diagnostics"), dict),
+        "missing year diagnostics",
+    )
     summary = RESULT_TEXT.read_text(encoding="utf-8")
     for marker in (
         "HYP-0005 CONFIRMATORY STRUCTURAL PROTO-01 REVEAL",
@@ -229,18 +259,38 @@ def _check_new_result(result: dict[str, Any], expected_commit: str) -> tuple[str
 
 def _validate_saved_receipt(expected_commit: str) -> dict[str, Any]:
     """Already revealed: compare saved file hashes only; NEVER invoke runner again."""
-    require(CONSUMED.is_file() and RECEIPT.is_file(), "consumed marker/receipt incomplete")
-    require(RESULT_JSON.is_file() and RESULT_TEXT.is_file(), "saved result pair incomplete")
+    require(
+        CONSUMED.is_file() and RECEIPT.is_file(), "consumed marker/receipt incomplete"
+    )
+    require(
+        RESULT_JSON.is_file() and RESULT_TEXT.is_file(), "saved result pair incomplete"
+    )
     consumed = json.loads(CONSUMED.read_text(encoding="utf-8"))
     receipt = json.loads(RECEIPT.read_text(encoding="utf-8"))
-    require(isinstance(consumed, dict) and isinstance(receipt, dict), "invalid saved gate receipt")
+    require(
+        isinstance(consumed, dict) and isinstance(receipt, dict),
+        "invalid saved gate receipt",
+    )
     for document in (consumed, receipt):
-        require(document.get("authorization") == AUTHORIZATION, "wrong one-shot authorization")
-        require(document.get("git_commit") == expected_commit, "wrong saved reveal commit")
-        require(document.get("runner_git_blob") == RUNNER_BLOB, "wrong saved runner identity")
-        require(document.get("dataset_csv_sha256") == CSV_SHA256, "wrong saved dataset identity")
-    require(consumed.get("state") == "CONSUMED_BEFORE_OUTCOME", "invalid consumed state")
-    require(receipt.get("status") == "FIRST_REVEAL_COMPLETED_ONCE", "invalid receipt status")
+        require(
+            document.get("authorization") == AUTHORIZATION, "wrong one-shot authorization"
+        )
+        require(
+            document.get("git_commit") == expected_commit, "wrong saved reveal commit"
+        )
+        require(
+            document.get("runner_git_blob") == RUNNER_BLOB, "wrong saved runner identity"
+        )
+        require(
+            document.get("dataset_csv_sha256") == CSV_SHA256, "wrong saved dataset identity"
+        )
+    require(
+        consumed.get("state") == "CONSUMED_BEFORE_OUTCOME", "invalid consumed state"
+    )
+    require(
+        receipt.get("status") == "FIRST_REVEAL_COMPLETED_ONCE",
+        "invalid receipt status",
+    )
     require(
         sha256_file(RESULT_JSON) == receipt.get("result_json_sha256"),
         "preserved result JSON SHA-256 mismatch",
@@ -252,7 +302,9 @@ def _validate_saved_receipt(expected_commit: str) -> dict[str, Any]:
     return receipt
 
 
-def execute_or_verify_once(*, expected_commit: str, authorized: bool = False) -> dict[str, Any]:
+def execute_or_verify_once(
+    *, expected_commit: str, authorized: bool = False
+) -> dict[str, Any]:
     """One irreversible first reveal on approved exact main; hash-only on later calls."""
     require(authorized is True, "explicit OWNER first reveal authorization is required")
     _check_exact_main(expected_commit)
