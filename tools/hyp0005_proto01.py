@@ -287,8 +287,21 @@ def evaluate_synthetic_or_revealed(observations: list[Observation]) -> dict[str,
     }
 
 
-def run_first_reveal_once() -> dict[str, Any]:
-    """Only a future exact-main, explicitly authorized reveal gate may call this."""
+def run_first_reveal_once(*, authorized: bool = False) -> dict[str, Any]:
+    """Requires an explicit future authorization and exact-main one-shot gate."""
+    _require(authorized is True, "OWNER first-reveal authorization required")
+    _require(_git("branch", "--show-current") == "main", "first reveal requires main")
+    head = _git("rev-parse", "HEAD")
+    _require(head == _git("rev-parse", "origin/main"), "main differs from origin/main")
+    _require(not _git("status", "--porcelain=v1", "-uall"), "first reveal requires clean tree")
+    _require(
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", RF024_MAIN_COMMIT, head],
+            cwd=ROOT,
+            check=False,
+        ).returncode == 0,
+        "RF-024 dataset freeze not an ancestor",
+    )
     _require(not RESULT_JSON.exists() and not RESULT_TEXT.exists(), "first reveal already exists")
     manifest = verify_frozen_files()
     rows = read_frozen_rows()
@@ -315,7 +328,7 @@ def run_first_reveal_once() -> dict[str, Any]:
                 "confirmatory_preparation_sha256": PREPARATION_SHA256,
             },
             "geometry": EXPECTED_GEOMETRY,
-            "run_context": {"git_commit": _git("rev-parse", "HEAD")},
+            "run_context": {"git_commit": head, "completed_at": datetime.now(UTC).isoformat()},
             "limitations": list(manifest.get("known_limitations", [])),
         }
     )
