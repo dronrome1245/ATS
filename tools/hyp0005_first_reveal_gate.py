@@ -273,16 +273,19 @@ def _validate_saved_receipt(expected_commit: str) -> dict[str, Any]:
     )
     for document in (consumed, receipt):
         require(
-            document.get("authorization") == AUTHORIZATION, "wrong one-shot authorization"
+            document.get("authorization") == AUTHORIZATION,
+            "wrong one-shot authorization",
         )
         require(
             document.get("git_commit") == expected_commit, "wrong saved reveal commit"
         )
         require(
-            document.get("runner_git_blob") == RUNNER_BLOB, "wrong saved runner identity"
+            document.get("runner_git_blob") == RUNNER_BLOB,
+            "wrong saved runner identity",
         )
         require(
-            document.get("dataset_csv_sha256") == CSV_SHA256, "wrong saved dataset identity"
+            document.get("dataset_csv_sha256") == CSV_SHA256,
+            "wrong saved dataset identity",
         )
     require(
         consumed.get("state") == "CONSUMED_BEFORE_OUTCOME", "invalid consumed state"
