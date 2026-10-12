@@ -1252,6 +1252,34 @@ def configure() -> None:
         "ATS2-RF-024 — HYP-0005 confirmatory Data Feasibility freeze",
         "Direct R4 entry remains blocked",
     )
+    core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_REVIEW] = (
+        "ATS2-RF-024",
+        "CONDITIONAL",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "NO_CONFIRMATORY_OUTCOME_COMPUTED",
+        "1991",
+        "2010",
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER",
+        "65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2",
+        "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1",
+    )
+    core.CONTENT_MARKERS[HYP0005_CONFIRMATORY_MANIFEST] = (
+        'dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
+        'dataset_version: "1.0.0"',
+        "source-bundle-sha256:65a782b3fcc05bd7868f17429f478cd9613bca11be4fd859ae0ed1096be7f5e2",
+        "b1091c4975665b2b0cd4f58627a10aceaab7aeff5076431abb6abc74c0a054c1",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER",
+    )
+    core.CONTENT_MARKERS[HYP0005_CONFIRMATORY_SCHEMA] = (
+        '"confirmatory_segment"',
+        '"source_bar_completion_time"',
+        '"bid_open"',
+        '"ask_open"',
+        '"utc_bucket"',
+        '"additionalProperties": false',
+    )
     core.CONTENT_MARKERS[HYP0005_RF023_OFFLINE_GATE] = (
         "ATS2-RF-034",
         "NO_CONFIRMATORY_OUTCOME_COMPUTED",
