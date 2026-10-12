@@ -85,9 +85,10 @@ Backlog превращает Program WBS в исполнимую очередь 
 70. `ATS2-RF-033` — HYP-0005 September 2026 provenance Git hygiene and file-only intake identity check — `DONE / PASS`.
 71. `ATS2-RF-034` — controlled offline RF-023 source/geometry preparation on frozen local BID/ASK — `DONE / PASS`.
 72. `ATS2-RF-035` — HYP-0005 confirmatory PROTO-01 pre-reveal runner/decision freeze — `DONE / PASS`.
-73. `ATS2-RF-036` — HYP-0005 first confirmatory reveal gate preparation (authorization remains OFF) — `READY`.
+73. `ATS2-RF-036` — HYP-0005 first confirmatory reveal gate preparation — `DONE / PASS`.
+74. `ATS2-RF-037` — HYP-0005 one authorized first confirmatory reveal on exact main — `READY`.
 
-Program-level current next task — `ATS2-RF-036` (HYP-0005 first-reveal gate preparation only; first reveal not authorized).
+Program-level current next task — `ATS2-RF-037` (HYP-0005 one OWNER-authorized first reveal; only after exact-head preflight + squash merge).
 
 
 RF-027 source architecture is now frozen to local official BLS schedule snapshots rather than live
@@ -490,46 +491,57 @@ RF-023 exact-main preparation PASS is preserved as RF-034 on `14531698c87fd3a0d8
 | `ATS2-RF-033` | `WBS-RF.2` | P1 | DONE / PASS | RF-032 exact-main PASS and OWNER byte-preserving source intake | `.gitignore` narrow provenance ignore + `research/reviews/HYP-0005-LOCAL-SOURCE-INTAKE-EVIDENCE.md` + tracked state | Exact-main OWNER launcher PASS on `5ea7a923c59c44d6b733f8c7c6db352fd846d434` verified all 10 local BID/ASK objects, exact 2026-09 provenance hash, Git CLEAN, 254 tests, and no hypothesis outcome |
 | `ATS2-RF-034` | `WBS-RF.2` | P1 | DONE / PASS | RF-033 exact-main PASS; OWNER authorized offline RF-023 preparation | `research/reviews/HYP-0005-RF023-OFFLINE-PREPARATION-GATE.md` + original frozen data tool + source/result hash-only checker + exact-main 2010-row result | Exact-main `14531698c87fd3a0d87e1ec54c6713f11b7cbb60`, 257 pytest, Ruff/validator/local CI PASS; one-shot RF-023 runner produced 1991 exact-next-hour eligible, READY_FOR_CONFIRMATORY_FEASIBILITY_FREEZE, no hypothesis outcome or source HTTP |
 | `ATS2-RF-035` | `WBS-RF.2` | P1 | DONE / PASS | RF-024 exact-main CONDITIONAL Data Feasibility freeze PASS | `research/reviews/HYP-0005-PROTOTYPE-01.md` + unchanged frozen runner Git blob `814193997768605fe60607d66dfd755a9323f339` + synthetic tests | Exact-main OWNER PASS on `9da36dba228d4fa55c3068a01cabc7f215aa7e02`: 267 tests, Ruff, validator, full Local CI, retained 2010/1991 geometry and 10 source objects, no confirmatory outcome; report SHA-256 `d7833785bee462c7b122479de22eae041329f42e24d38a1e7481ae4286aeff1b` |
-| `ATS2-RF-036` | `WBS-RF.2` | P1 | READY | RF-035 exact-main OWNER PASS; OWNER explicitly authorized gate 4/5 preparation ONLY | `research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md` + synced state/backlog/status/handoff + no-reveal current-task guard + synthetic tests | Stage 4.1/5 technical preparation only. Agent preflight and merged exact-main task check MUST not execute reveal, change frozen rules, write outputs or compute outcome. Separate OWNER one-shot authorization and separate execution gate required before first reveal |
+| `ATS2-RF-036` | `WBS-RF.2` | P1 | DONE / PASS | RF-035 exact-main OWNER PASS and prep-only authorization | `research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md` + synthetic checks/state and no-reveal gate | Exact-main OWNER report PASS on `1facc2604e701cc05b34118e8c3295070bfd9eaa`: 269 pytest, validator, pinned Ruff, full Local CI, `CURRENT TASK CHECK PASS` and `TASK LAUNCHER PASS`, HYP-0005 result absent; report SHA-256 `48924993149cdd11ba489ab0dc2c22e14a551669a7bdd28d7b3f987442e97ee2` |
+| `ATS2-RF-037` | `WBS-RF.2` | P1 | READY | RF-036 exact-main PASS; OWNER explicitly authorized ONE HYP-0005 confirmatory first reveal on 2026-10-12 | `research/reviews/HYP-0005-PROTOTYPE-01-FIRST-REVEAL-EXECUTION.md` + unchanged frozen original runner + `tools/hyp0005_first_reveal_gate.py` + synthetic tests + one-shot sentinel/receipt and synchronized source of truth | Exact-head agent PASS before merge; only exact-clean merged main `ATS_TASK_CHECK.bat` may compute first reveal exactly once after all source/data/code/CI checks; canonical result and negative evidence preserved; no retuning or automatic retry |
 
 ## 8. Следующий шаг
 
-Current technical task: `ATS2-RF-036` — first-reveal gate 4/5 **preparation only**.
-Current research major step: `4/5`, not yet executed or passed;
-this technical substep is `4.1/5`.
-Existing lineage: `IDEA-0004 / HYP-0005` (no new Idea/HYP/material attempt).
+Current Technical ID: ATS2-RF-037.
+Existing lineage: IDEA-0004 / HYP-0005 / PROTO-01;
+research major step 4/5, one first confirmatory reveal.
+No new Idea, HYP, Material Research Attempt or post-result rule search.
 
-Previous task `ATS2-RF-035` CLOSED on exact-main
-`9da36dba228d4fa55c3068a01cabc7f215aa7e02`.
-OWNER exact-main report confirmed 267 tests, validator,
-Ruff lint/format, clean HEAD, full Local CI,
-CURRENT TASK CHECK PASS and TASK LAUNCHER PASS.
-No protected HYP-0005 outcome was produced.
+RF-036 completed exact-main OWNER PASS on
+1facc2604e701cc05b34118e8c3295070bfd9eaa.
+The local task report SHA-256 was
+48924993149cdd11ba489ab0dc2c22e14a551669a7bdd28d7b3f987442e97ee2.
+The prior 4.1/5 preparation was technical only: no HYP-0005 outcome.
 
-Frozen exact runner: `tools/hyp0005_proto01.py` Git blob
-`814193997768605fe60607d66dfd755a9323f339`.
-Data remain CONDITIONAL and byte-frozen:
-`DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0`;
-2010 rows, 1991 eligible, exactly the two original
-CORE_ACTIVE vs OFF_HOURS median inequalities and original
-negative/positive decisions. Source provenance remains owner-attested.
+OWNER explicitly authorized ONE first HYP-0005 reveal
+on 2026-10-12. Single-use authorization marker:
+OWNER_AUTHORIZED_HYP0005_FIRST_REVEAL_ONCE_2026_10_12
 
-RF-036 adds `research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md`,
-synchronizes source-of-truth and prepares a metadata-only
-current-task checker that verifies zero existing reveal artifacts.
-It never calls `run_first_reveal_once`, opens protected prices
-for outcome computation or starts a source request.
-The frozen runner direct CLI continues to refuse execution.
+The frozen HYP-0005 runner tools/hyp0005_proto01.py
+remains Git blob 814193997768605fe60607d66dfd755a9323f339.
+Source dataset DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001@1.0.0
+remains CONDITIONAL and source/user-attested, 2010 prepared
+rows, 1991 eligible hourly starts, original fixed UTC buckets,
+two median inequalities and original positive/negative routing.
 
-OWNER next: run `.\\ATS_AGENT_PREFLIGHT.bat` on the exact
-`agent/rf036-hyp0005-first-reveal-gate-prep` HEAD and send
-`reports/local_ci/AGENT_PREFLIGHT_REPORT.txt`.
-Only exact-head PASS authorizes GPT to squash-merge.
-Then exact-main `.\\ATS_TASK_CHECK.bat` closes RF-036 preparation.
-**First reveal still requires a separate future explicit OWNER authorization**,
-and a separately gated one-shot launch. Preparation does not advance
-the research gate 4/5 to PASS.
+New technical execution protocol:
+research/reviews/HYP-0005-PROTOTYPE-01-FIRST-REVEAL-EXECUTION.md
+New gate tool:
+tools/hyp0005_first_reveal_gate.py
+New synthetic tests:
+tests/test_hyp0005_first_reveal_gate.py
 
-`HYP-0005: NO_CONFIRMATORY_OUTCOME_COMPUTED`.
-`FIRST_REVEAL: NOT_AUTHORIZED / NOT_EXECUTED`.
-No trading-P&L, economic/validation or independent evidence.
+OWNER first runs .\ATS_AGENT_PREFLIGHT.bat on the exact
+agent/rf037-hyp0005-authorized-one-shot-reveal HEAD.
+This gate must NEVER execute the frozen market runner.
+Only after exact-head PASS does GPT squash-merge.
+Then OWNER runs .\ATS_TASK_CHECK.bat on clean exact
+merged main, ONCE, which checks full CI and frozen
+identities before consuming a durable one-shot marker
+and executing original run_first_reveal_once(authorized=True).
+Result JSON/TXT and SHA-256 receipt are preserved; completed
+results can be checked hash-only but never recomputed.
+Partial/consumed failures are TECHNICAL_BLOCKER, not negative
+research findings; no silent replay.
+
+Before that exact-main invocation:
+HYP-0005: NO_CONFIRMATORY_OUTCOME_COMPUTED.
+FIRST REVEAL: AUTHORIZED_ONCE / NOT_EXECUTED.
+
+A positive structural test is not a proven trading Strategy,
+economic proof, independent evidence, live permission or capital approval.
+Step 5/5 review follows first reveal without post-result tuning.
