@@ -135,9 +135,7 @@ FROZEN_BLOBS = {
     "research/hypotheses/HYP-0005.md": ("ebbbc89187c911485c1568dc11f5f2f9e703718a"),
     "tools/hyp0004_proto01.py": ("cbc9a46bf5e5296615f51c0ea564153968bc2a55"),
     "tools/hyp0005_proto01.py": RF035_RUNNER_BLOB,
-    "research/reviews/HYP-0005-DATA-FEASIBILITY.md": (
-        "adc77feb7473d15b1b185ef8e1a7cd9b1c066c92"
-    ),
+    "research/reviews/HYP-0005-DATA-FEASIBILITY.md": ("adc77feb7473d15b1b185ef8e1a7cd9b1c066c92"),
     "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001.yaml": (
         "03dccee9c7f21fff77ade9347b9730b79d6c62c7"
     ),
