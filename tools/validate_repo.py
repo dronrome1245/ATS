@@ -1289,6 +1289,7 @@ def configure() -> None:
         "test_synthetic_geometry_is_frozen_before_outcome_computation",
         "test_exact_parent_formulas_and_two_independent_primary_booleans",
         "test_no_positive_result_grants_trading_admission",
+        "test_movement_is_strict_and_spread_equality_is_permitted",
     )
     core.CONTENT_MARKERS[HYP0005_DATA_FEASIBILITY_REVIEW] = (
         "ATS2-RF-024",
