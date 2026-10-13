@@ -1135,8 +1135,13 @@ def main() -> int:
         json.JSONDecodeError,
         subprocess.CalledProcessError,
     ) as exc:
-        print(f"[FAIL] RF-038 preserved first-reveal evidence blocker: {exc}", flush=True)
-        print("RF-038 may NOT rerun or reinterpret the original market experiment.", flush=True)
+        print(
+            f"[FAIL] RF-038 preserved first-reveal evidence blocker: {exc}", flush=True
+        )
+        print(
+            "RF-038 may NOT rerun or reinterpret the original market experiment.",
+            flush=True,
+        )
         print("ATS CURRENT TASK CHECK: FAIL", flush=True)
         return 1
     print("HYP-0005: CONFIRMATORY_STRUCTURAL_PASS / REVIEWED_NO_DIRECT_R4", flush=True)
