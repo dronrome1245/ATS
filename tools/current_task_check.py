@@ -954,7 +954,11 @@ def check_rf037_one_shot_authorization() -> None:
 
 def check_rf038_saved_reveal_archive() -> None:
     """Read the preserved result and receipt only. NEVER execute the market runner."""
-    print("\n== RF-038 saved HYP-0005 first reveal (HASH ONLY / NO RERUN) ==", flush=True)
+    print(
+        "\
+== RF-038 saved HYP-0005 first reveal (HASH ONLY / NO RERUN) ==",
+        flush=True,
+    )
     required_files = (
         (RF035_RESULT_JSON, RF038_RESULT_JSON_SHA256),
         (RF035_RESULT_TEXT, RF038_RESULT_TEXT_SHA256),
@@ -991,7 +995,10 @@ def check_rf038_saved_reveal_archive() -> None:
     for item in (consumed, receipt):
         require(item.get("git_commit") == RF037_MAIN_COMMIT, "saved exact-main drift")
         require(item.get("runner_git_blob") == RF035_RUNNER_BLOB, "saved runner drift")
-        require(item.get("dataset_csv_sha256") == RF024_CSV_SHA256, "saved dataset drift")
+        require(
+            item.get("dataset_csv_sha256") == RF024_CSV_SHA256,
+            "saved dataset drift",
+        )
     require(
         receipt.get("result_json_sha256") == RF038_RESULT_JSON_SHA256,
         "original receipt JSON hash mismatch",
