@@ -108,6 +108,7 @@ HYP0005_CONFIRMATORY_SCHEMA = "data/manifests/DATA-DUKASCOPY-EURUSD-H1-HYP0005-C
 HYP0005_PROTO_RECORD = "research/reviews/HYP-0005-PROTOTYPE-01.md"
 HYP0005_PROTO_REVEAL_GATE = "research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md"
 HYP0005_FIRST_EXECUTION = "research/reviews/HYP-0005-PROTOTYPE-01-FIRST-REVEAL-EXECUTION.md"
+HYP0005_RESULT_REVIEW = "research/reviews/HYP-0005-PROTOTYPE-01-RESULT-REVIEW.md"
 HYP0005_FIRST_GATE_TOOL = "tools/hyp0005_first_reveal_gate.py"
 HYP0005_FIRST_GATE_TEST = "tests/test_hyp0005_first_reveal_gate.py"
 HYP0005_PROTO_RUNNER = "tools/hyp0005_proto01.py"
@@ -338,6 +339,7 @@ def configure() -> None:
         HYP0005_PROTO_RECORD,
         HYP0005_PROTO_REVEAL_GATE,
         HYP0005_FIRST_EXECUTION,
+        HYP0005_RESULT_REVIEW,
         HYP0005_FIRST_GATE_TOOL,
         HYP0005_FIRST_GATE_TEST,
         HYP0005_PROTO_RUNNER,
@@ -1309,6 +1311,23 @@ def configure() -> None:
         "HYP0005_PROTO01_FIRST_REVEAL_RECEIPT.json",
         "HYP-0005: NO_CONFIRMATORY_OUTCOME_COMPUTED",
     )
+    core.CONTENT_MARKERS[HYP0005_RESULT_REVIEW] = (
+        "ATS2-RF-038",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "BOTH_PRIMARY_INEQUALITIES_MET",
+        "CONFIRMATORY_STRUCTURAL_NOT_INDEPENDENT_EXAM",
+        "NO_DIRECT_R4",
+        "EXPLORATORY_PROTOTYPE",
+        "f5fff726d8243d0434364d6bfcff60d4f1614bbe459de4d7494c40b229a46369",
+        "cba7f07eebef52b649d2a2b6a7edb1dc0b808c04080fe1ae0d71e6eab25f19dc",
+        "57daab4a0ae2834d338f77785d52ecd3383c026d5df1196648f0b19a86813af9",
+        "726ffc650a43982b49da998cd2d5ac6a5f33f816bbb0a39434998335296cf359",
+        "3a0f29606781c6fadabc3a141439752a60aa8e744760405a584ec005400ab6c1",
+        "USER_ATTESTED_NOT_INDEPENDENTLY_VERIFIED_AGAINST_PROVIDER",
+        "H1_OPEN_PROXY_AT_EVENT_TIME",
+        "CONSUMED",
+    )
     core.CONTENT_MARKERS[HYP0005_FIRST_GATE_TOOL] = (
         "OWNER_AUTHORIZED_HYP0005_FIRST_REVEAL_ONCE_2026_10_12",
         "RF036_MAIN_COMMIT",
@@ -1849,7 +1868,9 @@ def configure() -> None:
     core.CONTENT_MARKERS[CURRENT_TASK_CHECK_TEST] = (
         "test_saved_reveal_identity_rejects_drift",
         "test_hash_only_archive_function_preserves_exact_bytes",
-        "test_rf037_current_task_requires_gate_and_never_invokes_runner_directly",
+        "test_rf038_current_task_is_hash_only_and_never_reveals",
+        "test_rf038_absent_archive_rejected_before_any_outcome_access",
+        "test_rf038_archive_checker_is_read_only_by_static_contract",
         "test_rf036_preparation_blocks_any_existing_synthetic_reveal_artifact",
         "test_rf037_preserves_rf036_gate_and_immutable_runner_blob",
         "test_rf035_runner_freeze_rejects_existing_synthetic_reveal",
@@ -2536,9 +2557,14 @@ def configure() -> None:
         "ATS TASK DIAGNOSTIC: COMPLETE",
     )
     core.CONTENT_MARKERS["tools/current_task_check.py"] = (
-        'TASK_ID = "ATS2-RF-037"',
-        'TASK_NAME = "HYP-0005 controlled first confirmatory reveal once"',
-        "RF-037 exact-main and clean-tree",
+        'TASK_ID = "ATS2-RF-038"',
+        'TASK_NAME = "HYP-0005 saved confirmatory result review, hash-only"',
+        "RF-038 exact-main and clean-tree",
+        "RF037_MAIN_COMMIT",
+        "RF038_RESULT_REVIEW",
+        "RF038_RESULT_JSON_SHA256",
+        "RF038_RECEIPT_SHA256",
+        "check_rf038_saved_reveal_archive",
         "RF036_MAIN_COMMIT",
         "RF037_GATE_TOOL",
         "RF037_ONE_SHOT_AUTHORIZATION",
@@ -3035,12 +3061,12 @@ def main() -> int:
         'local_ci_gate: "governance/program/LOCAL_CI_GATE.md"',
         'local_ci_troubleshooting: "governance/program/LOCAL_CI_TROUBLESHOOTING.md"',
         'local_ci_failure_registry: "governance/program/LOCAL_CI_FAILURE_REGISTRY.md"',
-        'last_completed_task_id: "ATS2-RF-036"',
-        'last_completed_artifact: "research/reviews/HYP-0005-PROTOTYPE-01-REVEAL-GATE.md"',
-        'next_artifact: "research/reviews/HYP-0005-PROTOTYPE-01-FIRST-REVEAL-EXECUTION.md"',
-        'next_task_id: "ATS2-RF-037"',
-        'current_task: "ATS2-RF-037"', 'current_ready_task: "ATS2-RF-037"',
-        'next_task: "HYP0005_CONFIRMATORY_FIRST_REVEAL_EXACT_MAIN_ONE_SHOT"',
+        'last_completed_task_id: "ATS2-RF-037"',
+        'last_completed_artifact: "research/reviews/HYP-0005-PROTOTYPE-01-FIRST-REVEAL-EXECUTION.md"',
+        'next_artifact: "research/reviews/HYP-0005-PROTOTYPE-01-RESULT-REVIEW.md"',
+        'next_task_id: "ATS2-RF-038"',
+        'current_task: "ATS2-RF-038"', 'current_ready_task: "ATS2-RF-038"',
+        'next_task: "HYP0005_CONFIRMATORY_POST_REVEAL_RESULT_REVIEW"',
         'current_wbs: "WBS-RF.2"',
         'current_strategy_sequence: 4',
         'rf006_verified_commit: "acf197d5774116c7d9a8b742eab77c6ee3447214"',
@@ -3127,27 +3153,39 @@ def main() -> int:
         'strategy_4_next_hypothesis_id: "HYP-0005"',
         'strategy_4_next_hypothesis_role: "CONFIRMATORY_STRUCTURAL_REPLICATION"',
         'strategy_4_confirmatory_hypothesis_id: "HYP-0005"',
-        'strategy_4_confirmatory_hypothesis_status: "OWNER_AUTHORIZED_ONE_SHOT_REVEAL_PENDING"',
+        'strategy_4_confirmatory_hypothesis_status: "REVEALED_CONFIRMATORY_STRUCTURAL_PASS_REVIEW_STAGED"',
         'strategy_4_confirmatory_parent_idea_id: "IDEA-0004"',
         'strategy_4_confirmatory_development_predecessor: "HYP-0004"',
         'strategy_4_confirmatory_dataset_selected: true',
         'strategy_4_confirmatory_dataset_candidate_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
         'strategy_4_confirmatory_dataset_candidate_version: "1.0.0"',
         'strategy_4_confirmatory_prep_status: "RF023_PASS_RF024_CONDITIONAL_FREEZE_PASS"',
-        'strategy_4_confirmatory_research_gate_status: "RF036_PREPARATION_CLOSED_RF037_ONE_SHOT_APPROVED_NOT_EXECUTED"',
+        'strategy_4_confirmatory_research_gate_status: "RF037_FIRST_REVEAL_PASS_RF038_REVIEW_STAGED_NO_DIRECT_R4"',
         'strategy_4_confirmatory_pre_reveal_status: "RF035_EXACT_MAIN_PASS_FROZEN"',
         'strategy_4_confirmatory_reveal_gate_preparation: "RF036_EXACT_MAIN_PASS_CLOSED"',
         'strategy_4_confirmatory_first_reveal_execution_protocol: "research/reviews/HYP-0005-PROTOTYPE-01-FIRST-REVEAL-EXECUTION.md"',
         'strategy_4_confirmatory_first_reveal_gate_tool: "tools/hyp0005_first_reveal_gate.py"',
         'strategy_4_confirmatory_first_reveal_gate_test: "tests/test_hyp0005_first_reveal_gate.py"',
-        'strategy_4_confirmatory_first_reveal_execution_status: "RF037_STAGED_NOT_EXECUTED"',
+        'strategy_4_confirmatory_first_reveal_execution_status: "RF037_EXACT_MAIN_PASS_FIRST_REVEAL_EXECUTED_ONCE"',
+        'strategy_4_confirmatory_result_review: "research/reviews/HYP-0005-PROTOTYPE-01-RESULT-REVIEW.md"',
+        'strategy_4_confirmatory_result_review_status: "RF038_STAGED_PENDING_EXACT_MAIN_PASS"',
+        'rf037_verified_commit: "4388ac8aac732f7bd745a4466f8a9b524d543167"',
+        'rf037_owner_report_sha256: "f5fff726d8243d0434364d6bfcff60d4f1614bbe459de4d7494c40b229a46369"',
+        'strategy_4_confirmatory_result_json_sha256: "cba7f07eebef52b649d2a2b6a7edb1dc0b808c04080fe1ae0d71e6eab25f19dc"',
+        'strategy_4_confirmatory_result_text_sha256: "57daab4a0ae2834d338f77785d52ecd3383c026d5df1196648f0b19a86813af9"',
+        'strategy_4_confirmatory_consumed_sha256: "726ffc650a43982b49da998cd2d5ac6a5f33f816bbb0a39434998335296cf359"',
+        'strategy_4_confirmatory_receipt_sha256: "3a0f29606781c6fadabc3a141439752a60aa8e744760405a584ec005400ab6c1"',
+        'strategy_4_confirmatory_evidence_class: "CONFIRMATORY_STRUCTURAL_NOT_INDEPENDENT_EXAM"',
+        'strategy_4_confirmatory_decision: "CONFIRMATORY_STRUCTURAL_PASS"',
+        'strategy_4_confirmatory_decision_reason: "BOTH_PRIMARY_INEQUALITIES_MET"',
+        'strategy_4_confirmatory_primary_both_pass: true',,
         'rf036_verified_commit: "1facc2604e701cc05b34118e8c3295070bfd9eaa"',
         'rf036_owner_report_sha256: "48924993149cdd11ba489ab0dc2c22e14a551669a7bdd28d7b3f987442e97ee2"',
-        'strategy_4_confirmatory_reveal_gate_execution_enabled: true',
+        'strategy_4_confirmatory_reveal_gate_execution_enabled: false',
         'strategy_4_confirmatory_first_reveal_authorized: true',
         'strategy_4_confirmatory_first_reveal_authorization_record: "OWNER_AUTHORIZED_HYP0005_FIRST_REVEAL_ONCE_2026_10_12"',
         'strategy_4_confirmatory_first_reveal_run_mode: "ONE_SHOT_EXACT_MAIN_AFTER_AGENT_PREFLIGHT_PASS"',
-        'strategy_4_confirmatory_first_reveal_consumed: false',
+        'strategy_4_confirmatory_first_reveal_consumed: true',
         'rf035_verified_commit: "9da36dba228d4fa55c3068a01cabc7f215aa7e02"',
         'rf035_owner_report_sha256: "d7833785bee462c7b122479de22eae041329f42e24d38a1e7481ae4286aeff1b"',
         'strategy_4_confirmatory_offline_rf023_authorized: true',
@@ -3158,15 +3196,15 @@ def main() -> int:
         'strategy_4_confirmatory_derived_row_count: 2010',
         'strategy_4_confirmatory_eligible_exact_next_hour_count: 1991',
         'rf024_verified_commit: "dd014ef6a1014edcfaa26f7d735478aee0cc94ef"',
-        'strategy_4_confirmatory_research_plan_current_major_step: 4',
+        'strategy_4_confirmatory_research_plan_current_major_step: 5',
         'strategy_4_confirmatory_frozen_dataset_id: "DATA-DUKASCOPY-EURUSD-H1-HYP0005-CONF-001"',
         'strategy_4_confirmatory_pre_reveal_runner: "tools/hyp0005_proto01.py"',
         'strategy_4_confirmatory_pre_reveal_runner_git_blob: "814193997768605fe60607d66dfd755a9323f339"',
         'strategy_4_confirmatory_first_reveal_authorized: true',
         'strategy_4_confirmatory_first_reveal_authorization_record: "OWNER_AUTHORIZED_HYP0005_FIRST_REVEAL_ONCE_2026_10_12"',
         'strategy_4_confirmatory_first_reveal_run_mode: "ONE_SHOT_EXACT_MAIN_AFTER_AGENT_PREFLIGHT_PASS"',
-        'strategy_4_confirmatory_first_reveal_consumed: false',
-        'strategy_4_confirmatory_outcome_computed: false',
+        'strategy_4_confirmatory_first_reveal_consumed: true',
+        'strategy_4_confirmatory_outcome_computed: true',
         'strategy_4_confirmatory_rf024_review_status: "CONDITIONAL_FROZEN_EXACT_MAIN_PASS"',
         'strategy_4_confirmatory_dataset_freeze_completed: true',
         'strategy_4_confirmatory_source_availability_status: "LOCAL_2026_09_PAIR_RECEIVED_USER_ATTESTED"',
@@ -3185,7 +3223,7 @@ def main() -> int:
         'strategy_4_confirmatory_right_segment_end_exclusive: "2026-09-26T00:00:00Z"',
         'strategy_4_confirmatory_consumed_interval_start: "2003-08-03T21:00:00Z"',
         'strategy_4_confirmatory_consumed_interval_end_exclusive: "2026-09-01T00:00:00Z"',
-        'strategy_4_confirmatory_outcome_computed: false',
+        'strategy_4_confirmatory_outcome_computed: true',
         'strategy_4_direct_r4_allowed: false',
         'strategy_4_research_line_status: "DEVELOPMENT_PASS_CONFIRMATORY_HYPOTHESIS_FORMED"',
         'strategy_4_information_boundary: "NO_CONFIRMATORY_OUTCOME_COMPUTED"',
@@ -3553,8 +3591,11 @@ def main() -> int:
     if core.backlog_status(backlog, "ATS2-RF-036") != "DONE / PASS":
         core.fail("RF-036 must be DONE / PASS in Program Backlog")
         blocking += 1
-    if core.backlog_status(backlog, "ATS2-RF-037") != "READY":
-        core.fail("RF-037 must be READY in Program Backlog")
+    if core.backlog_status(backlog, "ATS2-RF-037") != "DONE / PASS":
+        core.fail("RF-037 must be DONE / PASS in Program Backlog")
+        blocking += 1
+    if core.backlog_status(backlog, "ATS2-RF-038") != "READY":
+        core.fail("RF-038 must be READY in Program Backlog")
         blocking += 1
     if core.backlog_status(backlog, "ATS2-RF-025") != "DONE / PASS":
         core.fail("RF-025 must be DONE / PASS in Program Backlog")
