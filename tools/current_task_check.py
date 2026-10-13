@@ -1091,7 +1091,7 @@ def run_full_ci() -> None:
 def main() -> int:
     print("ATS CURRENT TASK CHECK", flush=True)
     print(f"Task: {TASK_ID} — {TASK_NAME}", flush=True)
-    print("RF-037: one authorized reveal AFTER all full exact-main checks", flush=True)
+    print("RF-038: original first reveal is CONSUMED; HASH ONLY, NO RERUN", flush=True)
     try:
         commit = check_exact_main_context()
         check_frozen_lineage()
@@ -1105,52 +1105,33 @@ def main() -> int:
         check_rf024_manifest_and_review()
         check_rf035_pre_reveal_runner_freeze(require_absence=False)
         check_rf036_gate_preparation(require_absence=False)
-        check_rf037_one_shot_authorization()
+        check_rf038_saved_reveal_archive()
         run_full_ci()
         require(check_exact_main_context() == commit, "main changed during full CI")
         check_frozen_lineage()
         check_rf034_frozen_source_hashes()
         check_rf024_preparation_identity()
         check_rf024_manifest_and_review()
-        check_rf035_pre_reveal_runner_freeze(require_absence=False)
-        check_rf036_gate_preparation(require_absence=False)
-        check_rf037_one_shot_authorization()
-        require(check_exact_main_context() == commit, "main changed before first reveal")
-
-        sys.path.insert(0, str(ROOT))
-        from tools import hyp0005_first_reveal_gate as reveal_gate
-
-        already_consumed = reveal_gate.CONSUMED.exists()
-        receipt = reveal_gate.execute_or_verify_once(expected_commit=commit, authorized=True)
-        print("\n== RF-037 canonical first-reveal artifacts ==", flush=True)
-        run_status = "HASH_ONLY_VERIFICATION" if already_consumed else "EXECUTED_ONCE"
-        print(f"First reveal: {run_status}", flush=True)
-        print(f"HYP-0005 decision: {receipt['decision']}", flush=True)
-        print(f"HYP-0005 result JSON SHA-256: {receipt['result_json_sha256']}", flush=True)
-        print(f"HYP-0005 result TXT SHA-256: {receipt['report_text_sha256']}", flush=True)
-        print(f"HYP-0005 receipt SHA-256: {sha256_file(reveal_gate.RECEIPT)}", flush=True)
-        require(check_exact_main_context() == commit, "main changed during frozen reveal")
-        check_frozen_lineage()
+        check_rf038_saved_reveal_archive()
+        require(
+            check_exact_main_context() == commit, "main changed during RF-038 archive review"
+        )
     except (
         TaskCheckError,
         FileNotFoundError,
         OSError,
         ValueError,
-        KeyError,
         TypeError,
+        KeyError,
         json.JSONDecodeError,
         subprocess.CalledProcessError,
     ) as exc:
-        print(f"[FAIL] RF-037 technical or one-shot gate blocker: {exc}", flush=True)
-        print("This is NOT a negative HYP-0005 research result.", flush=True)
+        print(f"[FAIL] RF-038 preserved first-reveal evidence blocker: {exc}", flush=True)
+        print("RF-038 may NOT rerun or reinterpret the original market experiment.", flush=True)
         print("ATS CURRENT TASK CHECK: FAIL", flush=True)
         return 1
-    except Exception as exc:
-        print(f"[FAIL] RF-037 reveal gate execution failure: {exc}", flush=True)
-        print("Check consumed marker; DO NOT rerun a consumed reveal.", flush=True)
-        print("ATS CURRENT TASK CHECK: FAIL", flush=True)
-        return 1
-    print("HYP-0005: FIRST_CONFIRMATORY_REVEAL_PRESERVED", flush=True)
+    print("HYP-0005: CONFIRMATORY_STRUCTURAL_PASS / REVIEWED_NO_DIRECT_R4", flush=True)
+    print("FIRST_REVEAL: CONSUMED / PRESERVED_SHA256 / NO_RERUN", flush=True)
     print("ATS CURRENT TASK CHECK: PASS", flush=True)
     return 0
 
