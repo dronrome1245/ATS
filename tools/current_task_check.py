@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RF-037 authorized one-shot HYP-0005 confirmatory first reveal."""
+"""RF-038: audit preserved HYP-0005 first reveal, NEVER compute a new outcome."""
 
 from __future__ import annotations
 
@@ -12,8 +12,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 
-TASK_ID = "ATS2-RF-037"
-TASK_NAME = "HYP-0005 controlled first confirmatory reveal once"
+TASK_ID = "ATS2-RF-038"
+TASK_NAME = "HYP-0005 saved confirmatory result review, hash-only"
 
 RF030_MAIN_COMMIT = "d1135bb2486009ebb358bf4b508c06303ab77f74"
 FROZEN_HYP0006_RUNNER_BLOB = "6afb870c035bc5ae76f773784a5fa3db15d680fd"
@@ -136,6 +136,13 @@ RF037_GATE_TOOL = ROOT / "tools/hyp0005_first_reveal_gate.py"
 RF037_GATE_TEST = ROOT / "tests/test_hyp0005_first_reveal_gate.py"
 RF037_RESULT_RECEIPT = ROOT / "reports/local_ci/HYP0005_PROTO01_FIRST_REVEAL_RECEIPT.json"
 RF037_ONE_SHOT_AUTHORIZATION = "OWNER_AUTHORIZED_HYP0005_FIRST_REVEAL_ONCE_2026_10_12"
+RF037_MAIN_COMMIT = "4388ac8aac732f7bd745a4466f8a9b524d543167"
+RF038_RESULT_REVIEW = ROOT / "research/reviews/HYP-0005-PROTOTYPE-01-RESULT-REVIEW.md"
+RF038_OWNER_REPORT_SHA256 = "f5fff726d8243d0434364d6bfcff60d4f1614bbe459de4d7494c40b229a46369"
+RF038_RESULT_JSON_SHA256 = "cba7f07eebef52b649d2a2b6a7edb1dc0b808c04080fe1ae0d71e6eab25f19dc"
+RF038_RESULT_TEXT_SHA256 = "57daab4a0ae2834d338f77785d52ecd3383c026d5df1196648f0b19a86813af9"
+RF038_CONSUMED_SHA256 = "726ffc650a43982b49da998cd2d5ac6a5f33f816bbb0a39434998335296cf359"
+RF038_RECEIPT_SHA256 = "3a0f29606781c6fadabc3a141439752a60aa8e744760405a584ec005400ab6c1"
 
 FROZEN_BLOBS = {
     "tools/hyp0006_proto01.py": FROZEN_HYP0006_RUNNER_BLOB,
@@ -186,7 +193,7 @@ def git_output(*arguments: str) -> str:
 
 
 def check_exact_main_context() -> str:
-    print("\n== RF-037 exact-main and clean-tree ==", flush=True)
+    print("\n== RF-038 exact-main and clean-tree ==", flush=True)
     branch = git_output("branch", "--show-current")
     head = git_output("rev-parse", "HEAD")
     origin_main = git_output("rev-parse", "origin/main")
@@ -222,6 +229,15 @@ def check_exact_main_context() -> str:
         ).returncode
         == 0,
         "RF-036 first-reveal preparation not an ancestor",
+    )
+    require(
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", RF037_MAIN_COMMIT, head],
+            cwd=ROOT,
+            check=False,
+        ).returncode
+        == 0,
+        "RF-037 first reveal exact-main commit is not an ancestor",
     )
     print(f"[PASS] exact main: {head}, clean tree", flush=True)
     return head
@@ -319,8 +335,8 @@ def check_new_confirmatory_hypothesis() -> None:
             "216",
         ),
         STATE: (
-            'last_completed_task_id: "ATS2-RF-036"',
-            'next_task_id: "ATS2-RF-037"',
+            'last_completed_task_id: "ATS2-RF-037"',
+            'next_task_id: "ATS2-RF-038"',
             'strategy_5_confirmatory_hypothesis_id: "HYP-0007"',
             'strategy_5_confirmatory_source_status: "INDEPENDENCE_NOT_YET_CERTIFIED"',
             "strategy_5_confirmatory_outcome_computed: false",
@@ -375,7 +391,7 @@ def check_rf023_offline_source_architecture() -> None:
         'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
         "strategy_4_confirmatory_source_manual_intake_authorized: true",
         "strategy_4_confirmatory_source_network_retry_authorized: false",
-        'next_task_id: "ATS2-RF-037"',
+        'next_task_id: "ATS2-RF-038"',
     ):
         require(marker in state, f"RF-032 state marker absent: {marker}")
     print("[PASS] RF-023 source runtime is offline-only; no HTTP/retry", flush=True)
@@ -822,10 +838,10 @@ def check_rf035_pre_reveal_runner_freeze(*, require_absence: bool = True) -> Non
         require(marker in tests, f"RF-035 synthetic contract test missing: {marker}")
     state = STATE.read_text(encoding="utf-8")
     for marker in (
-        'next_task_id: "ATS2-RF-037"',
+        'next_task_id: "ATS2-RF-038"',
         "strategy_4_confirmatory_dataset_freeze_completed: true",
         "strategy_4_confirmatory_first_reveal_authorized: true",
-        "strategy_4_confirmatory_outcome_computed: false",
+        "strategy_4_confirmatory_outcome_computed: true",
         f'strategy_4_confirmatory_pre_reveal_runner_git_blob: "{RF035_RUNNER_BLOB}"',
     ):
         require(marker in state, f"RF-035 research information boundary drift: {marker}")
@@ -863,15 +879,15 @@ def check_rf036_gate_preparation(*, require_absence: bool = True) -> None:
             )
     state = STATE.read_text(encoding="utf-8")
     for marker in (
-        'last_completed_task_id: "ATS2-RF-036"',
-        'next_task_id: "ATS2-RF-037"',
+        'last_completed_task_id: "ATS2-RF-037"',
+        'next_task_id: "ATS2-RF-038"',
         'strategy_4_confirmatory_pre_reveal_status: "RF035_EXACT_MAIN_PASS_FROZEN"',
-        "strategy_4_confirmatory_research_plan_current_major_step: 4",
+        "strategy_4_confirmatory_research_plan_current_major_step: 5",
         'strategy_4_confirmatory_reveal_gate_preparation: "RF036_EXACT_MAIN_PASS_CLOSED"',
         "strategy_4_confirmatory_first_reveal_authorized: true",
-        "strategy_4_confirmatory_reveal_gate_execution_enabled: true",
-        "strategy_4_confirmatory_first_reveal_consumed: false",
-        "strategy_4_confirmatory_outcome_computed: false",
+        "strategy_4_confirmatory_reveal_gate_execution_enabled: false",
+        "strategy_4_confirmatory_first_reveal_consumed: true",
+        "strategy_4_confirmatory_outcome_computed: true",
     ):
         require(marker in state, f"RF-036 canonical information boundary drift: {marker}")
     print("[PASS] preserved RF-036 technical protocol", flush=True)
@@ -937,7 +953,7 @@ def check_rf037_one_shot_authorization() -> None:
 
 
 def run_full_ci() -> None:
-    print("\n== RF-037 full ATS Local CI (pre-reveal checks only) ==", flush=True)
+    print("\n== RF-038 full ATS Local CI (saved-archive checks only) ==", flush=True)
     completed = subprocess.run(
         [sys.executable, "tools/verify_repo.py"],
         cwd=ROOT,
