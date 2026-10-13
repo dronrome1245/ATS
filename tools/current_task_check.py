@@ -952,6 +952,131 @@ def check_rf037_one_shot_authorization() -> None:
     print("[PASS] approved once, frozen runner, local receipt paths ignored", flush=True)
 
 
+def check_rf038_saved_reveal_archive() -> None:
+    """Read the preserved result and receipt only. NEVER execute the market runner."""
+    print("\n== RF-038 saved HYP-0005 first reveal (HASH ONLY / NO RERUN) ==", flush=True)
+    required_files = (
+        (RF035_RESULT_JSON, RF038_RESULT_JSON_SHA256),
+        (RF035_RESULT_TEXT, RF038_RESULT_TEXT_SHA256),
+        (RF036_CONSUMED_SENTINEL, RF038_CONSUMED_SHA256),
+        (RF037_RESULT_RECEIPT, RF038_RECEIPT_SHA256),
+    )
+    for path, digest in required_files:
+        require(path.is_file(), f"original reveal artifact missing: {path}")
+        require(sha256_file(path) == digest, f"original reveal SHA-256 drift: {path}")
+
+    consumed = json.loads(RF036_CONSUMED_SENTINEL.read_text(encoding="utf-8"))
+    receipt = json.loads(RF037_RESULT_RECEIPT.read_text(encoding="utf-8"))
+    saved = json.loads(RF035_RESULT_JSON.read_text(encoding="utf-8"))
+    require(
+        all(isinstance(item, dict) for item in (consumed, receipt, saved)),
+        "original reveal archive must contain three JSON objects",
+    )
+    require(
+        consumed.get("state") == "CONSUMED_BEFORE_OUTCOME",
+        "original OWNER authorization consumption missing",
+    )
+    require(
+        receipt.get("status") == "FIRST_REVEAL_COMPLETED_ONCE",
+        "original one-shot completion receipt missing",
+    )
+    require(
+        consumed.get("authorization") == RF037_ONE_SHOT_AUTHORIZATION,
+        "original consumed authorization drift",
+    )
+    require(
+        receipt.get("authorization") == RF037_ONE_SHOT_AUTHORIZATION,
+        "original receipt authorization drift",
+    )
+    for item in (consumed, receipt):
+        require(item.get("git_commit") == RF037_MAIN_COMMIT, "saved exact-main drift")
+        require(item.get("runner_git_blob") == RF035_RUNNER_BLOB, "saved runner drift")
+        require(item.get("dataset_csv_sha256") == RF024_CSV_SHA256, "saved dataset drift")
+    require(
+        receipt.get("result_json_sha256") == RF038_RESULT_JSON_SHA256,
+        "original receipt JSON hash mismatch",
+    )
+    require(
+        receipt.get("report_text_sha256") == RF038_RESULT_TEXT_SHA256,
+        "original receipt text hash mismatch",
+    )
+    require(
+        receipt.get("source_bundle_sha256") == RF024_SOURCE_BUNDLE_SHA256,
+        "original receipt source bundle drift",
+    )
+    for key, value in {
+        "schema_version": "hyp0005-confirmatory-proto01-result-1",
+        "hypothesis_id": "HYP-0005",
+        "parent_idea_id": "IDEA-0004",
+        "prototype_id": "PROTO-01",
+        "evidence_class": "CONFIRMATORY_STRUCTURAL_NOT_INDEPENDENT_EXAM",
+        "decision": "CONFIRMATORY_STRUCTURAL_PASS",
+        "decision_reason": "BOTH_PRIMARY_INEQUALITIES_MET",
+        "next_action": "REVIEW_CONFIRMATORY_STRUCTURAL_EVIDENCE_NO_DIRECT_R4",
+        "outcome_metrics_computed": True,
+        "primary_claim_evaluated": True,
+    }.items():
+        require(saved.get(key) == value, f"frozen saved result metadata drift: {key}")
+    require(
+        saved.get("run_context", {}).get("git_commit") == RF037_MAIN_COMMIT,
+        "result exact main context drift",
+    )
+    require(
+        saved.get("geometry", {}).get("eligible_exact_next_hour_count") == 1991,
+        "saved original result eligible count drift",
+    )
+    require(
+        saved.get("primary") == {
+            "movement_inequality_pass": True,
+            "spread_inequality_pass": True,
+            "both_primary_inequalities_pass": True,
+        },
+        "saved original primary flags drift",
+    )
+    require(
+        receipt.get("decision") == saved.get("decision"),
+        "receipt original result decision drift",
+    )
+    require(
+        receipt.get("both_primary_inequalities_pass") is True,
+        "receipt original primary decision drift",
+    )
+
+    require(RF038_RESULT_REVIEW.is_file(), "RF-038 tracked review missing")
+    review = RF038_RESULT_REVIEW.read_text(encoding="utf-8")
+    for marker in (
+        "ATS2-RF-038",
+        RF037_MAIN_COMMIT,
+        RF038_OWNER_REPORT_SHA256,
+        RF038_RESULT_JSON_SHA256,
+        RF038_RESULT_TEXT_SHA256,
+        RF038_CONSUMED_SHA256,
+        RF038_RECEIPT_SHA256,
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "NO_DIRECT_R4",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "CONSUMED",
+    ):
+        require(marker in review, f"RF-038 tracked result review incomplete: {marker}")
+    state = STATE.read_text(encoding="utf-8")
+    for marker in (
+        'last_completed_task_id: "ATS2-RF-037"',
+        'next_task_id: "ATS2-RF-038"',
+        'rf037_verified_commit: "4388ac8aac732f7bd745a4466f8a9b524d543167"',
+        "strategy_4_confirmatory_first_reveal_consumed: true",
+        "strategy_4_confirmatory_outcome_computed: true",
+        "strategy_4_confirmatory_primary_claim_evaluated: true",
+        "strategy_4_confirmatory_research_plan_current_major_step: 5",
+        'strategy_4_confirmatory_decision: "CONFIRMATORY_STRUCTURAL_PASS"',
+        "strategy_4_confirmatory_reveal_gate_execution_enabled: false",
+        "strategy_5_hyp0005_protected_segments_consumed: true",
+    ):
+        require(marker in state, f"RF-038 current-state evidence drift: {marker}")
+    print("[PASS] four exact original artifacts and receipt SHA-256 preserved", flush=True)
+    print("HYP-0005 original decision: CONFIRMATORY_STRUCTURAL_PASS", flush=True)
+    print("HYP-0005 market outcome recomputed: NO", flush=True)
+
+
 def run_full_ci() -> None:
     print("\n== RF-038 full ATS Local CI (saved-archive checks only) ==", flush=True)
     completed = subprocess.run(
