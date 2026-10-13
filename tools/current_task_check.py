@@ -1078,7 +1078,9 @@ def check_rf038_saved_reveal_archive() -> None:
         "strategy_5_hyp0005_protected_segments_consumed: true",
     ):
         require(marker in state, f"RF-038 current-state evidence drift: {marker}")
-    print("[PASS] four exact original artifacts and receipt SHA-256 preserved", flush=True)
+    print(
+        "[PASS] four exact original artifacts and receipt SHA-256 preserved", flush=True
+    )
     print("HYP-0005 original decision: CONFIRMATORY_STRUCTURAL_PASS", flush=True)
     print("HYP-0005 market outcome recomputed: NO", flush=True)
 
@@ -1120,7 +1122,8 @@ def main() -> int:
         check_rf024_manifest_and_review()
         check_rf038_saved_reveal_archive()
         require(
-            check_exact_main_context() == commit, "main changed during RF-038 archive review"
+            check_exact_main_context() == commit,
+            "main changed during RF-038 archive review",
         )
     except (
         TaskCheckError,
