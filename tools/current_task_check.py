@@ -955,8 +955,7 @@ def check_rf037_one_shot_authorization() -> None:
 def check_rf038_saved_reveal_archive() -> None:
     """Read the preserved result and receipt only. NEVER execute the market runner."""
     print(
-        "\
-== RF-038 saved HYP-0005 first reveal (HASH ONLY / NO RERUN) ==",
+        "\n== RF-038 saved HYP-0005 first reveal (HASH ONLY / NO RERUN) =="
         flush=True,
     )
     required_files = (
