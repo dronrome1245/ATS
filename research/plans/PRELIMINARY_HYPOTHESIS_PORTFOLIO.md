@@ -1,39 +1,47 @@
 # ATS Preliminary Hypothesis Portfolio
 
-**Portfolio version:** `PH-PORTFOLIO-2026-10-DRAFT-01`  
-**Status:** `PORTFOLIO_DRAFT_NO_MARKET_TESTING`  
-**Purpose:** define the candidate research queue before any new Hypothesis is registered or tested.
+**Portfolio version:** `PH-PORTFOLIO-2026-10-V1`  
+**Status:** `PORTFOLIO_APPROVED_FORMATION_ONLY`  
+**OWNER decision:** `APPROVE_WITH_CHANGES` on `2026-10-14`  
+**Decision record:** `governance/decisions/RF039_PRELIMINARY_PORTFOLIO_APPROVAL.md`  
+**Purpose:** freeze the candidate research queue before any new Hypothesis is registered or tested.
 
 ## 1. Hard boundary
 
-This document contains **proposals**, not registered Hypotheses.
+This document contains approved **proposals**, not registered Hypotheses.
 
 No item below has an `HYP-xxxx` ID.
 
-Before OWNER approves this portfolio ATS must not:
+Portfolio approval authorizes only the next governance/research-definition steps:
 
-- run a market test for any item;
-- inspect a new protected/unseen block for any item;
-- tune horizons, thresholds or barriers from results;
-- promote any item to Candidate;
-- infer that inclusion in this list means the effect exists.
+`PH proposal → lineage / Idea decision → Hypothesis formation → Data Feasibility`
 
-After approval, each selected item still requires lineage/Idea decision, Hypothesis formation and Data Feasibility before quantitative testing.
+It does **not** by itself authorize:
 
-## 2. Proposed priority bands
+- a market test;
+- a backtest/signal test;
+- inspection of a new protected/unseen block;
+- tuning horizons, thresholds or barriers from results;
+- Candidate promotion;
+- inference that inclusion in this list means the effect exists.
 
-- `A` — first research queue; high expected information value relative to burden.
-- `B` — useful but more data/execution/selection burden.
-- `C` — retain only with explicit reason; substantial prior-selection or low incremental-value concern.
+Quantitative testing requires the selected PH item to complete lineage/Idea decision, Hypothesis formation and Data Feasibility under the applicable ATS protocol.
 
-Proposed default execution is sequential inside priority A unless independent data/workstreams make parallelism clearly cheaper without increasing leakage risk.
+## 2. Priority bands
+
+- `A` — active first research queue; high expected information value relative to burden.
+- `B` — conditionally approved second wave; useful but requires additional data/execution feasibility first.
+- `C` — parked; substantial post-selection or low incremental-value concern.
+
+Default execution is sequential within the approved order unless a documented cheaper independent workstream preserves information boundaries and does not increase leakage risk.
 
 ---
 
 ## PH-01 — CPI surprise directional EUR/USD response
 
-- Priority: `A`
-- Recommendation: `APPROVE_IF_POINT_IN_TIME_CONSENSUS_DATA_FEASIBLE`
+- Priority: `B`
+- Approval status: `CONDITIONALLY_APPROVED_SECOND_WAVE`
+- Gate: `POINT_IN_TIME_CONSENSUS_DATA_FEASIBLE`
 - Research purpose: `ALPHA_DISCOVERY`
 - Economic role: `ENTRY_SIGNAL`
 - Directional: `YES`
@@ -54,7 +62,7 @@ Proposed default execution is sequential inside priority A unless independent da
 ## PH-02 — Post-CPI early-move continuation versus reversal
 
 - Priority: `A`
-- Recommendation: `APPROVE`
+- Approval status: `APPROVED_FIRST_WAVE`
 - Research purpose: `ALPHA_DISCOVERY`
 - Economic role: `ENTRY_SIGNAL`
 - Directional: `YES`
@@ -75,7 +83,7 @@ Proposed default execution is sequential inside priority A unless independent da
 ## PH-03 — Active-session conditioned directional breakout
 
 - Priority: `A`
-- Recommendation: `APPROVE`
+- Approval status: `APPROVED_FIRST_WAVE`
 - Research purpose: `ALPHA_DISCOVERY`
 - Economic role: `ENTRY_SIGNAL` with `REGIME_FILTER`
 - Directional: `YES`
@@ -96,7 +104,7 @@ Proposed default execution is sequential inside priority A unless independent da
 ## PH-04 — Volatility-compression breakout continuation
 
 - Priority: `A`
-- Recommendation: `APPROVE`
+- Approval status: `APPROVED_FIRST_WAVE`
 - Research purpose: `ALPHA_DISCOVERY`
 - Economic role: `ENTRY_SIGNAL`
 - Directional: `YES`
@@ -117,7 +125,8 @@ Proposed default execution is sequential inside priority A unless independent da
 ## PH-05 — G10 time-series FX momentum
 
 - Priority: `B`
-- Recommendation: `APPROVE_AFTER_FINANCING_DATA_FEASIBILITY`
+- Approval status: `CONDITIONALLY_APPROVED_SECOND_WAVE`
+- Gate: `FINANCING_DATA_FEASIBLE`
 - Research purpose: `ALPHA_DISCOVERY`
 - Economic role: `ENTRY_SIGNAL`
 - Directional: `YES`
@@ -138,7 +147,8 @@ Proposed default execution is sequential inside priority A unless independent da
 ## PH-06 — Post-London-fix short-horizon reversal after extreme pre-fix move
 
 - Priority: `B`
-- Recommendation: `APPROVE_IF_EVENT/EXECUTION_SEMANTICS_FEASIBLE`
+- Approval status: `CONDITIONALLY_APPROVED_SECOND_WAVE`
+- Gate: `EVENT_AND_EXECUTION_SEMANTICS_FEASIBLE`
 - Research purpose: `ALPHA_DISCOVERY`
 - Economic role: `ENTRY_SIGNAL`
 - Directional: `YES`
@@ -159,7 +169,7 @@ Proposed default execution is sequential inside priority A unless independent da
 ## PH-07 — One-sided high-tail 24H reversal follow-up
 
 - Priority: `C`
-- Recommendation: `PARK_BY_DEFAULT`
+- Approval status: `PARKED_BY_OWNER`
 - Research purpose: `ALPHA_DISCOVERY`
 - Economic role: `ENTRY_SIGNAL`
 - Directional: `YES`
@@ -176,41 +186,62 @@ Proposed default execution is sequential inside priority A unless independent da
 - Negative decision consequence: close permanently.
 - Information value: `LOW-MEDIUM` after selection penalty.
 - Research burden: `MEDIUM` because genuinely fresh evidence is required.
+- Reactivation: requires a new explicit OWNER portfolio decision.
 
-## 3. Proposed approval set
+## 3. Frozen approval set
 
-Recommended initial OWNER decision:
+OWNER decision `APPROVE_WITH_CHANGES`:
 
-- approve for future formation: `PH-01`, `PH-02`, `PH-03`, `PH-04`;
-- approve conditionally / second wave: `PH-05`, `PH-06`;
-- park: `PH-07`.
+### First wave
 
-This recommendation is based on conceptual information value, lineage and expected data/execution burden only. No new market outcome was calculated to rank the proposals.
+- `PH-03`
+- `PH-04`
+- `PH-02`
 
-## 4. Proposed first execution order after approval
+### Conditional second wave
 
-Subject to Data Feasibility:
+- `PH-01` — only if point-in-time consensus data are feasible;
+- `PH-05` — only if financing/rollover treatment is feasible;
+- `PH-06` — only if event-time and execution semantics are feasible.
+
+### Parked
+
+- `PH-07`.
+
+The approval and ordering are based on conceptual information value, lineage and expected data/execution burden only. No new market outcome was calculated to rank these proposals.
+
+## 4. Frozen execution order
+
+Subject to each item's Data Feasibility and Research Value Gate:
 
 1. `PH-03` — high information value with reusable existing data infrastructure;
-2. `PH-04` — similar low/medium data burden and genuinely directional claim;
+2. `PH-04` — low/medium data burden and genuinely directional claim;
 3. `PH-02` — stronger event/execution burden but reuses CPI/tick infrastructure;
-4. `PH-01` — potentially high value, gated by honest point-in-time consensus availability;
+4. `PH-01` — high potential value but only after honest point-in-time consensus feasibility;
 5. `PH-05` — broader universe plus financing burden;
 6. `PH-06` — execution-sensitive microstructure research;
-7. `PH-07` — remains parked absent explicit OWNER reprioritization.
+7. `PH-07` — parked.
 
-Execution order is a portfolio decision, not evidence ranking.
+If an earlier item is blocked, rejected or parked, ATS may move to the next approved item without treating that workflow move as evidence about the later proposal.
 
 ## 5. OWNER approval record
 
-Current status:
+Decision:
 
-`NOT_APPROVED`
+`APPROVE_WITH_CHANGES`
 
-Allowed next decision:
+Decision date:
 
-- `APPROVE`
-- `APPROVE_WITH_CHANGES`
-- `REJECT_PORTFOLIO`
+`2026-10-14`
 
-Until one of these is recorded, no PH item may progress to quantitative testing.
+Decision authority:
+
+`OWNER`
+
+Canonical decision record:
+
+`governance/decisions/RF039_PRELIMINARY_PORTFOLIO_APPROVAL.md`
+
+The Portfolio Gate is therefore satisfied for the approved items, but **market testing remains unauthorized until the selected proposal completes lineage/Idea decision, Hypothesis formation and Data Feasibility**.
+
+The next new research object is `PH-03`; the next permitted substantive step is its lineage/Idea decision, not outcome computation.
