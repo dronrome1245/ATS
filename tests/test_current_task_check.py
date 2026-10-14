@@ -1,4 +1,4 @@
-"""Synthetic exact-main RF-037 gate tests; no protected price rows are opened."""
+"""Synthetic exact-main RF-038 archive tests; no protected price rows are opened."""
 
 from __future__ import annotations
 
@@ -66,22 +66,22 @@ def test_hash_only_archive_function_preserves_exact_bytes(tmp_path: Path) -> Non
     assert check.sha256_file(archive) != hashlib.sha256(raw).hexdigest()
 
 
-def test_rf037_current_task_requires_gate_and_never_invokes_runner_directly() -> None:
+def test_rf038_current_task_is_hash_only_and_never_reveals() -> None:
     source = inspect.getsource(check)
     main_source = inspect.getsource(check.main)
-    assert 'TASK_ID = "ATS2-RF-037"' in source
-    assert "--execute-first-reveal" not in source
-    assert "def run_rf023_offline_once" not in source
-    assert "check_rf034_output_absence()" not in main_source
+    assert 'TASK_ID = "ATS2-RF-038"' in source
+    assert "check_rf038_saved_reveal_archive()" in main_source
     assert "check_rf024_preparation_identity()" in main_source
     assert "check_rf024_manifest_and_review()" in main_source
     assert "check_rf035_pre_reveal_runner_freeze(require_absence=False)" in main_source
     assert "check_rf036_gate_preparation(require_absence=False)" in main_source
-    assert "check_rf037_one_shot_authorization()" in main_source
-    assert "receipt = reveal_gate.execute_or_verify_once(" in main_source
-    assert "expected_commit=commit, authorized=True)" in main_source
+    assert "check_rf037_one_shot_authorization()" not in main_source
+    assert "execute_or_verify_once(" not in main_source
     assert "run_first_reveal_once(" not in main_source
-
+    assert "_invoke_frozen_runner(" not in main_source
+    assert "read_frozen_rows(" not in main_source
+    assert "evaluate_synthetic_or_revealed(" not in main_source
+    assert "NO RERUN" in main_source
 
 def test_rf032_source_contract_is_offline_only() -> None:
     check.check_rf023_offline_source_architecture()
@@ -347,3 +347,24 @@ def test_rf037_preserves_rf036_gate_and_immutable_runner_blob() -> None:
     assert "evaluate_synthetic_or_revealed(" not in main_source
     assert check.RF036_GATE_DOC.name == "HYP-0005-PROTOTYPE-01-REVEAL-GATE.md"
     assert check.RF035_RUNNER_BLOB == "814193997768605fe60607d66dfd755a9323f339"
+
+
+def test_rf038_absent_archive_rejected_before_any_outcome_access(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Synthetic absent path only; no protected quote or new metric calculation."""
+    monkeypatch.setattr(check, "RF035_RESULT_JSON", tmp_path / "absent-result.json")
+    with pytest.raises(check.TaskCheckError, match="original reveal artifact missing"):
+        check.check_rf038_saved_reveal_archive()
+
+
+def test_rf038_archive_checker_is_read_only_by_static_contract() -> None:
+    source = inspect.getsource(check.check_rf038_saved_reveal_archive)
+    assert "sha256_file(" in source
+    assert "json.loads(" in source
+    assert "_invoke_frozen_runner(" not in source
+    assert "run_first_reveal_once(" not in source
+    assert "execute_or_verify_once(" not in source
+    assert "read_frozen_rows(" not in source
+    assert "observations_from_keys(" not in source
+    assert "evaluate_synthetic_or_revealed(" not in source

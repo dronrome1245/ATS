@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RF-037 authorized one-shot HYP-0005 confirmatory first reveal."""
+"""RF-038: audit preserved HYP-0005 first reveal, NEVER compute a new outcome."""
 
 from __future__ import annotations
 
@@ -12,8 +12,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 
-TASK_ID = "ATS2-RF-037"
-TASK_NAME = "HYP-0005 controlled first confirmatory reveal once"
+TASK_ID = "ATS2-RF-038"
+TASK_NAME = "HYP-0005 saved confirmatory result review, hash-only"
 
 RF030_MAIN_COMMIT = "d1135bb2486009ebb358bf4b508c06303ab77f74"
 FROZEN_HYP0006_RUNNER_BLOB = "6afb870c035bc5ae76f773784a5fa3db15d680fd"
@@ -136,6 +136,13 @@ RF037_GATE_TOOL = ROOT / "tools/hyp0005_first_reveal_gate.py"
 RF037_GATE_TEST = ROOT / "tests/test_hyp0005_first_reveal_gate.py"
 RF037_RESULT_RECEIPT = ROOT / "reports/local_ci/HYP0005_PROTO01_FIRST_REVEAL_RECEIPT.json"
 RF037_ONE_SHOT_AUTHORIZATION = "OWNER_AUTHORIZED_HYP0005_FIRST_REVEAL_ONCE_2026_10_12"
+RF037_MAIN_COMMIT = "4388ac8aac732f7bd745a4466f8a9b524d543167"
+RF038_RESULT_REVIEW = ROOT / "research/reviews/HYP-0005-PROTOTYPE-01-RESULT-REVIEW.md"
+RF038_OWNER_REPORT_SHA256 = "f5fff726d8243d0434364d6bfcff60d4f1614bbe459de4d7494c40b229a46369"
+RF038_RESULT_JSON_SHA256 = "cba7f07eebef52b649d2a2b6a7edb1dc0b808c04080fe1ae0d71e6eab25f19dc"
+RF038_RESULT_TEXT_SHA256 = "57daab4a0ae2834d338f77785d52ecd3383c026d5df1196648f0b19a86813af9"
+RF038_CONSUMED_SHA256 = "726ffc650a43982b49da998cd2d5ac6a5f33f816bbb0a39434998335296cf359"
+RF038_RECEIPT_SHA256 = "3a0f29606781c6fadabc3a141439752a60aa8e744760405a584ec005400ab6c1"
 
 FROZEN_BLOBS = {
     "tools/hyp0006_proto01.py": FROZEN_HYP0006_RUNNER_BLOB,
@@ -186,7 +193,7 @@ def git_output(*arguments: str) -> str:
 
 
 def check_exact_main_context() -> str:
-    print("\n== RF-037 exact-main and clean-tree ==", flush=True)
+    print("\n== RF-038 exact-main and clean-tree ==", flush=True)
     branch = git_output("branch", "--show-current")
     head = git_output("rev-parse", "HEAD")
     origin_main = git_output("rev-parse", "origin/main")
@@ -222,6 +229,15 @@ def check_exact_main_context() -> str:
         ).returncode
         == 0,
         "RF-036 first-reveal preparation not an ancestor",
+    )
+    require(
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", RF037_MAIN_COMMIT, head],
+            cwd=ROOT,
+            check=False,
+        ).returncode
+        == 0,
+        "RF-037 first reveal exact-main commit is not an ancestor",
     )
     print(f"[PASS] exact main: {head}, clean tree", flush=True)
     return head
@@ -319,8 +335,8 @@ def check_new_confirmatory_hypothesis() -> None:
             "216",
         ),
         STATE: (
-            'last_completed_task_id: "ATS2-RF-036"',
-            'next_task_id: "ATS2-RF-037"',
+            'last_completed_task_id: "ATS2-RF-037"',
+            'next_task_id: "ATS2-RF-038"',
             'strategy_5_confirmatory_hypothesis_id: "HYP-0007"',
             'strategy_5_confirmatory_source_status: "INDEPENDENCE_NOT_YET_CERTIFIED"',
             "strategy_5_confirmatory_outcome_computed: false",
@@ -375,7 +391,7 @@ def check_rf023_offline_source_architecture() -> None:
         'strategy_4_confirmatory_source_execution_mode: "OFFLINE_ONLY_NO_HTTP_NO_RETRY"',
         "strategy_4_confirmatory_source_manual_intake_authorized: true",
         "strategy_4_confirmatory_source_network_retry_authorized: false",
-        'next_task_id: "ATS2-RF-037"',
+        'next_task_id: "ATS2-RF-038"',
     ):
         require(marker in state, f"RF-032 state marker absent: {marker}")
     print("[PASS] RF-023 source runtime is offline-only; no HTTP/retry", flush=True)
@@ -822,10 +838,10 @@ def check_rf035_pre_reveal_runner_freeze(*, require_absence: bool = True) -> Non
         require(marker in tests, f"RF-035 synthetic contract test missing: {marker}")
     state = STATE.read_text(encoding="utf-8")
     for marker in (
-        'next_task_id: "ATS2-RF-037"',
+        'next_task_id: "ATS2-RF-038"',
         "strategy_4_confirmatory_dataset_freeze_completed: true",
         "strategy_4_confirmatory_first_reveal_authorized: true",
-        "strategy_4_confirmatory_outcome_computed: false",
+        "strategy_4_confirmatory_outcome_computed: true",
         f'strategy_4_confirmatory_pre_reveal_runner_git_blob: "{RF035_RUNNER_BLOB}"',
     ):
         require(marker in state, f"RF-035 research information boundary drift: {marker}")
@@ -863,15 +879,15 @@ def check_rf036_gate_preparation(*, require_absence: bool = True) -> None:
             )
     state = STATE.read_text(encoding="utf-8")
     for marker in (
-        'last_completed_task_id: "ATS2-RF-036"',
-        'next_task_id: "ATS2-RF-037"',
+        'last_completed_task_id: "ATS2-RF-037"',
+        'next_task_id: "ATS2-RF-038"',
         'strategy_4_confirmatory_pre_reveal_status: "RF035_EXACT_MAIN_PASS_FROZEN"',
-        "strategy_4_confirmatory_research_plan_current_major_step: 4",
+        "strategy_4_confirmatory_research_plan_current_major_step: 5",
         'strategy_4_confirmatory_reveal_gate_preparation: "RF036_EXACT_MAIN_PASS_CLOSED"',
         "strategy_4_confirmatory_first_reveal_authorized: true",
-        "strategy_4_confirmatory_reveal_gate_execution_enabled: true",
-        "strategy_4_confirmatory_first_reveal_consumed: false",
-        "strategy_4_confirmatory_outcome_computed: false",
+        "strategy_4_confirmatory_reveal_gate_execution_enabled: false",
+        "strategy_4_confirmatory_first_reveal_consumed: true",
+        "strategy_4_confirmatory_outcome_computed: true",
     ):
         require(marker in state, f"RF-036 canonical information boundary drift: {marker}")
     print("[PASS] preserved RF-036 technical protocol", flush=True)
@@ -936,8 +952,141 @@ def check_rf037_one_shot_authorization() -> None:
     print("[PASS] approved once, frozen runner, local receipt paths ignored", flush=True)
 
 
+def check_rf038_saved_reveal_archive() -> None:
+    """Read the preserved result and receipt only. NEVER execute the market runner."""
+    print(
+        "\n== RF-038 saved HYP-0005 first reveal (HASH ONLY / NO RERUN) ==",
+        flush=True,
+    )
+    required_files = (
+        (RF035_RESULT_JSON, RF038_RESULT_JSON_SHA256),
+        (RF035_RESULT_TEXT, RF038_RESULT_TEXT_SHA256),
+        (RF036_CONSUMED_SENTINEL, RF038_CONSUMED_SHA256),
+        (RF037_RESULT_RECEIPT, RF038_RECEIPT_SHA256),
+    )
+    for path, digest in required_files:
+        require(path.is_file(), f"original reveal artifact missing: {path}")
+        require(sha256_file(path) == digest, f"original reveal SHA-256 drift: {path}")
+
+    consumed = json.loads(RF036_CONSUMED_SENTINEL.read_text(encoding="utf-8"))
+    receipt = json.loads(RF037_RESULT_RECEIPT.read_text(encoding="utf-8"))
+    saved = json.loads(RF035_RESULT_JSON.read_text(encoding="utf-8"))
+    require(
+        all(isinstance(item, dict) for item in (consumed, receipt, saved)),
+        "original reveal archive must contain three JSON objects",
+    )
+    require(
+        consumed.get("state") == "CONSUMED_BEFORE_OUTCOME",
+        "original OWNER authorization consumption missing",
+    )
+    require(
+        receipt.get("status") == "FIRST_REVEAL_COMPLETED_ONCE",
+        "original one-shot completion receipt missing",
+    )
+    require(
+        consumed.get("authorization") == RF037_ONE_SHOT_AUTHORIZATION,
+        "original consumed authorization drift",
+    )
+    require(
+        receipt.get("authorization") == RF037_ONE_SHOT_AUTHORIZATION,
+        "original receipt authorization drift",
+    )
+    for item in (consumed, receipt):
+        require(item.get("git_commit") == RF037_MAIN_COMMIT, "saved exact-main drift")
+        require(item.get("runner_git_blob") == RF035_RUNNER_BLOB, "saved runner drift")
+        require(
+            item.get("dataset_csv_sha256") == RF024_CSV_SHA256,
+            "saved dataset drift",
+        )
+    require(
+        receipt.get("result_json_sha256") == RF038_RESULT_JSON_SHA256,
+        "original receipt JSON hash mismatch",
+    )
+    require(
+        receipt.get("report_text_sha256") == RF038_RESULT_TEXT_SHA256,
+        "original receipt text hash mismatch",
+    )
+    require(
+        receipt.get("source_bundle_sha256") == RF024_SOURCE_BUNDLE_SHA256,
+        "original receipt source bundle drift",
+    )
+    for key, value in {
+        "schema_version": "hyp0005-confirmatory-proto01-result-1",
+        "hypothesis_id": "HYP-0005",
+        "parent_idea_id": "IDEA-0004",
+        "prototype_id": "PROTO-01",
+        "evidence_class": "CONFIRMATORY_STRUCTURAL_NOT_INDEPENDENT_EXAM",
+        "decision": "CONFIRMATORY_STRUCTURAL_PASS",
+        "decision_reason": "BOTH_PRIMARY_INEQUALITIES_MET",
+        "next_action": "REVIEW_CONFIRMATORY_STRUCTURAL_EVIDENCE_NO_DIRECT_R4",
+        "outcome_metrics_computed": True,
+        "primary_claim_evaluated": True,
+    }.items():
+        require(saved.get(key) == value, f"frozen saved result metadata drift: {key}")
+    require(
+        saved.get("run_context", {}).get("git_commit") == RF037_MAIN_COMMIT,
+        "result exact main context drift",
+    )
+    require(
+        saved.get("geometry", {}).get("eligible_exact_next_hour_count") == 1991,
+        "saved original result eligible count drift",
+    )
+    require(
+        saved.get("primary") == {
+            "movement_inequality_pass": True,
+            "spread_inequality_pass": True,
+            "both_primary_inequalities_pass": True,
+        },
+        "saved original primary flags drift",
+    )
+    require(
+        receipt.get("decision") == saved.get("decision"),
+        "receipt original result decision drift",
+    )
+    require(
+        receipt.get("both_primary_inequalities_pass") is True,
+        "receipt original primary decision drift",
+    )
+
+    require(RF038_RESULT_REVIEW.is_file(), "RF-038 tracked review missing")
+    review = RF038_RESULT_REVIEW.read_text(encoding="utf-8")
+    for marker in (
+        "ATS2-RF-038",
+        RF037_MAIN_COMMIT,
+        RF038_OWNER_REPORT_SHA256,
+        RF038_RESULT_JSON_SHA256,
+        RF038_RESULT_TEXT_SHA256,
+        RF038_CONSUMED_SHA256,
+        RF038_RECEIPT_SHA256,
+        "CONFIRMATORY_STRUCTURAL_PASS",
+        "NO_DIRECT_R4",
+        "STAGED_PENDING_EXACT_MAIN_PASS",
+        "CONSUMED",
+    ):
+        require(marker in review, f"RF-038 tracked result review incomplete: {marker}")
+    state = STATE.read_text(encoding="utf-8")
+    for marker in (
+        'last_completed_task_id: "ATS2-RF-037"',
+        'next_task_id: "ATS2-RF-038"',
+        'rf037_verified_commit: "4388ac8aac732f7bd745a4466f8a9b524d543167"',
+        "strategy_4_confirmatory_first_reveal_consumed: true",
+        "strategy_4_confirmatory_outcome_computed: true",
+        "strategy_4_confirmatory_primary_claim_evaluated: true",
+        "strategy_4_confirmatory_research_plan_current_major_step: 5",
+        'strategy_4_confirmatory_decision: "CONFIRMATORY_STRUCTURAL_PASS"',
+        "strategy_4_confirmatory_reveal_gate_execution_enabled: false",
+        "strategy_5_hyp0005_protected_segments_consumed: true",
+    ):
+        require(marker in state, f"RF-038 current-state evidence drift: {marker}")
+    print(
+        "[PASS] four exact original artifacts and receipt SHA-256 preserved", flush=True
+    )
+    print("HYP-0005 original decision: CONFIRMATORY_STRUCTURAL_PASS", flush=True)
+    print("HYP-0005 market outcome recomputed: NO", flush=True)
+
+
 def run_full_ci() -> None:
-    print("\n== RF-037 full ATS Local CI (pre-reveal checks only) ==", flush=True)
+    print("\n== RF-038 full ATS Local CI (saved-archive checks only) ==", flush=True)
     completed = subprocess.run(
         [sys.executable, "tools/verify_repo.py"],
         cwd=ROOT,
@@ -950,7 +1099,7 @@ def run_full_ci() -> None:
 def main() -> int:
     print("ATS CURRENT TASK CHECK", flush=True)
     print(f"Task: {TASK_ID} — {TASK_NAME}", flush=True)
-    print("RF-037: one authorized reveal AFTER all full exact-main checks", flush=True)
+    print("RF-038: original first reveal is CONSUMED; HASH ONLY, NO RERUN", flush=True)
     try:
         commit = check_exact_main_context()
         check_frozen_lineage()
@@ -964,52 +1113,39 @@ def main() -> int:
         check_rf024_manifest_and_review()
         check_rf035_pre_reveal_runner_freeze(require_absence=False)
         check_rf036_gate_preparation(require_absence=False)
-        check_rf037_one_shot_authorization()
+        check_rf038_saved_reveal_archive()
         run_full_ci()
         require(check_exact_main_context() == commit, "main changed during full CI")
         check_frozen_lineage()
         check_rf034_frozen_source_hashes()
         check_rf024_preparation_identity()
         check_rf024_manifest_and_review()
-        check_rf035_pre_reveal_runner_freeze(require_absence=False)
-        check_rf036_gate_preparation(require_absence=False)
-        check_rf037_one_shot_authorization()
-        require(check_exact_main_context() == commit, "main changed before first reveal")
-
-        sys.path.insert(0, str(ROOT))
-        from tools import hyp0005_first_reveal_gate as reveal_gate
-
-        already_consumed = reveal_gate.CONSUMED.exists()
-        receipt = reveal_gate.execute_or_verify_once(expected_commit=commit, authorized=True)
-        print("\n== RF-037 canonical first-reveal artifacts ==", flush=True)
-        run_status = "HASH_ONLY_VERIFICATION" if already_consumed else "EXECUTED_ONCE"
-        print(f"First reveal: {run_status}", flush=True)
-        print(f"HYP-0005 decision: {receipt['decision']}", flush=True)
-        print(f"HYP-0005 result JSON SHA-256: {receipt['result_json_sha256']}", flush=True)
-        print(f"HYP-0005 result TXT SHA-256: {receipt['report_text_sha256']}", flush=True)
-        print(f"HYP-0005 receipt SHA-256: {sha256_file(reveal_gate.RECEIPT)}", flush=True)
-        require(check_exact_main_context() == commit, "main changed during frozen reveal")
-        check_frozen_lineage()
+        check_rf038_saved_reveal_archive()
+        require(
+            check_exact_main_context() == commit,
+            "main changed during RF-038 archive review",
+        )
     except (
         TaskCheckError,
         FileNotFoundError,
         OSError,
         ValueError,
-        KeyError,
         TypeError,
+        KeyError,
         json.JSONDecodeError,
         subprocess.CalledProcessError,
     ) as exc:
-        print(f"[FAIL] RF-037 technical or one-shot gate blocker: {exc}", flush=True)
-        print("This is NOT a negative HYP-0005 research result.", flush=True)
+        print(
+            f"[FAIL] RF-038 preserved first-reveal evidence blocker: {exc}", flush=True
+        )
+        print(
+            "RF-038 may NOT rerun or reinterpret the original market experiment.",
+            flush=True,
+        )
         print("ATS CURRENT TASK CHECK: FAIL", flush=True)
         return 1
-    except Exception as exc:
-        print(f"[FAIL] RF-037 reveal gate execution failure: {exc}", flush=True)
-        print("Check consumed marker; DO NOT rerun a consumed reveal.", flush=True)
-        print("ATS CURRENT TASK CHECK: FAIL", flush=True)
-        return 1
-    print("HYP-0005: FIRST_CONFIRMATORY_REVEAL_PRESERVED", flush=True)
+    print("HYP-0005: CONFIRMATORY_STRUCTURAL_PASS / REVIEWED_NO_DIRECT_R4", flush=True)
+    print("FIRST_REVEAL: CONSUMED / PRESERVED_SHA256 / NO_RERUN", flush=True)
     print("ATS CURRENT TASK CHECK: PASS", flush=True)
     return 0
 
